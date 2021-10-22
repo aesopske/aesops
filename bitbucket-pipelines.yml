@@ -1,0 +1,23 @@
+pipelines:
+    default:
+        - step:
+              image: node:12.18.3
+              caches:
+                  - node
+              script:
+                  - echo "install node dependancies and building"
+                  - npm install
+                  - cd web && npm install && cd ..
+    tags:
+        'v*':
+            - step:
+                  name: Prod deployment
+                  deployment: production
+                  script:
+                      - echo "deploying master branch to production"
+                      - pipe: atlassian/ssh-run:0.2.2
+                        variables:
+                            SSH_USER: $SSH_USER
+                            SERVER: $SSH_SERVER
+                            COMMAND: './deploy.sh master'
+                  trigger: automatic

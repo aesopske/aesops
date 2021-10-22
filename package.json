@@ -9,9 +9,30 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@badrap/bar-of-progress": "^0.1.2",
+    "@chakra-ui/react": "^1.6.8",
+    "@emotion/react": "^11.4.1",
+    "@emotion/styled": "^11.3.0",
+    "@fontsource/overpass-mono": "^4.5.0",
+    "@fontsource/poppins": "^4.5.0",
+    "axios": "^0.22.0",
+    "date-fns": "^2.25.0",
+    "disqus-react": "^1.1.2",
+    "framer-motion": "^4.1.17",
     "next": "11.1.2",
     "react": "17.0.2",
-    "react-dom": "17.0.2"
+    "react-dom": "17.0.2",
+    "react-icons": "^4.3.1",
+    "react-markdown": "^7.0.1",
+    "react-responsive": "^9.0.0-beta.4",
+    "react-reveal": "^1.2.2",
+    "react-syntax-highlighter": "^15.4.4",
+    "reading-time": "^1.5.0",
+    "rehype-raw": "^6.1.0",
+    "remark-gfm": "^3.0.0",
+    "sass": "^1.42.1",
+    "slugify": "^1.6.1",
+    "swr": "^1.0.1"
   },
   "devDependencies": {
     "eslint": "7.32.0",
