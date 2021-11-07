@@ -113,17 +113,17 @@ function Navbar() {
                                 <ThemeSwitcher />
                                 <Text
                                     as='a'
-                                    href={`${process.env.DASHBOARD_URL}/signin`}
+                                    href={`${process.env.DASHBOARD_URL}/auth/signin`}
                                     _hover={{ color: 'brand.muted' }}
                                     target='_blank'
                                     rel='noopener noreferer'
                                     width='100%'>
-                                    Sign In
+                                    Sign In &rarr;
                                 </Text>
 
                                 <Button
                                     as='a'
-                                    href={`${process.env.DASHBOARD_URL}/signup`}
+                                    href={`${process.env.DASHBOARD_URL}/auth/signup`}
                                     target='_blank'
                                     rel='noopener noreferer'
                                     fontSize='1rem'
