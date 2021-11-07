@@ -63,12 +63,8 @@ function DatasetDetail({ dataset }) {
                         alignItems='flex-start'
                         justifyContent='center'
                         borderRadius='10px'
-                        spacing='6'
-                        bgGradient={
-                            colorMode === 'light'
-                                ? 'linear-gradient(to-r, #fff, #fff0 )'
-                                : 'none'
-                        }>
+                        color='#fff'
+                        spacing='6'>
                         <Heading>{dataset.title}</Heading>
                         <UserAvatar
                             user={{

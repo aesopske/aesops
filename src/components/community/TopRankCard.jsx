@@ -49,8 +49,7 @@ function TopRankCard({ profile }) {
                     src={src}
                     size='2xl'
                     position='absolute'
-                    bg={colorMode === 'light' ? '#fff' : 'gray.600'}
-                    p='5px'
+                    bg={colorMode === 'light' ? 'gray.300' : 'gray.600'}
                     left='50%'
                     top='10%'
                     transform='translate(-50%,-10%)'>

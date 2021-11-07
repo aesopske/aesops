@@ -15,7 +15,7 @@ function MarkdownReader({ content }) {
             rehypePlugins={[rehypeRaw]}
             components={{
                 p: ({ node, children }) => {
-                    if (node.children[0].tagName === 'img') {
+                    if (node.tagName === 'img') {
                         const image = node.children[0]
                         return (
                             <Box my='1rem'>
@@ -24,6 +24,7 @@ function MarkdownReader({ content }) {
                                     alt={image.properties.alt}
                                     width='100%'
                                     height='auto'
+                                    placeholder='/images/placeholder.png'
                                 />
                             </Box>
                         )

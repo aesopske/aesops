@@ -13,7 +13,7 @@ import Link from 'next/link'
 function Offers() {
     const { colorMode } = useColorMode()
     return (
-        <Box height='auto' width='80%' mx='auto'>
+        <Box height='auto' width={['90%', '90%', '80%']} mx='auto'>
             <Box
                 height='auto'
                 width='100%'

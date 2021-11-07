@@ -4,7 +4,8 @@ function AppsBanner() {
     const { colorMode } = useColorMode()
     return (
         <Box
-            height='30vh'
+            height={['auto', 'auto', '30vh']}
+            width='100%'
             my='1rem'
             borderRadius='10px'
             bgImage={
@@ -17,27 +18,21 @@ function AppsBanner() {
             bgRepeat='no-repeat'>
             <Box
                 as={Stack}
-                position='absolute'
                 height='100%'
                 width='100%'
-                top='0'
-                left='0'
-                p='0 60px'
+                p={['20px', '20px', '20px', '0 60px']}
                 direction='column'
                 alignItems='flex-start'
                 justifyContent='center'
                 borderRadius='10px'
-                spacing='6'
-                bgGradient={
-                    colorMode === 'light'
-                        ? 'linear-gradient(to-r, #fff, #fff0 )'
-                        : 'none'
-                }>
+                color='#fff'
+                spacing='6'>
                 <Heading>Datasets</Heading>
-                <Text as='p' width='40%'>
-                    Lorem ipsum dolor sit amet, consectetur adipisicing elit.
-                    Aliquid quas eligendi dolores numquam sit molestiae itaque
-                    blanditiis voluptate nisi eius.
+                <Text as='p' width={['100%', '100%', '80%', '45%']}>
+                    We look for unique datasets from Kenya, or Africa that are
+                    largely under-represented in the data science community. We
+                    share datasets to help Kenyans develop their own solutions
+                    that fit unique problems.
                 </Text>
             </Box>
         </Box>

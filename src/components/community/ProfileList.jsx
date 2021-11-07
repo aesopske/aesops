@@ -6,12 +6,18 @@ function ProfileList({ profiles }) {
     return (
         <Box>
             <Grid
-                width={['90%', '', '', '80%', '100%']}
+                width={['90%', '90%', '90%', '80%', '100%']}
                 mx='auto'
                 gap='1rem'
                 mt={['2rem', '10rem']}
                 mb={['1rem', '5rem']}
-                templateColumns={['repeat(1,1fr)', 'repeat(4,1fr)']}>
+                templateColumns={[
+                    'repeat(1,1fr)',
+                    'repeat(1,1fr)',
+                    'repeat(2,1fr)',
+                    'repeat(3,1fr)',
+                    'repeat(4,1fr)',
+                ]}>
                 {profiles &&
                     profiles.map((profile) => (
                         <ProfileCard key={profile._id} profile={profile} />

@@ -9,15 +9,20 @@ import {
     Image,
     Stack,
     Text,
+    useColorMode,
 } from '@chakra-ui/react'
 import { useMediaQuery } from 'react-responsive'
 import NavbarMobile from './NavbarMobile'
 import ThemeSwitcher from './ThemeSwitcher'
+import { useRouter } from 'next/router'
 
 function Navbar() {
     const mobileScreen = useMediaQuery({
         query: '(max-width: 1024px)',
     })
+
+    const router = useRouter()
+    const { colorMode } = useColorMode()
 
     const nav = [
         {
@@ -83,8 +88,19 @@ function Navbar() {
                                         <Text
                                             as='span'
                                             fontSize='1rem'
-                                            cursor='pointer'
-                                            fontWeight='500'>
+                                            color={
+                                                router.asPath === item.path
+                                                    ? 'brand.primary'
+                                                    : colorMode === 'light'
+                                                    ? '#444'
+                                                    : 'gray.200'
+                                            }
+                                            fontWeight={
+                                                router.asPath === item.path
+                                                    ? '700'
+                                                    : '500'
+                                            }
+                                            cursor='pointer'>
                                             {item.label}
                                         </Text>
                                     </Link>
