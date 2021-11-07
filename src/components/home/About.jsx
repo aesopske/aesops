@@ -13,7 +13,12 @@ import Link from 'next/link'
 function About() {
     const { colorMode } = useColorMode()
     return (
-        <Box width='100%' height='auto' p='50px 0' my='5rem'>
+        <Box
+            width={['90%', '90%', '100%']}
+            mx='auto'
+            height='auto'
+            p='50px 0'
+            my='5rem'>
             <Box
                 as={Stack}
                 mx='auto'

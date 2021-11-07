@@ -15,7 +15,7 @@ function DatasetsFilter() {
             p='20px'
             bg={colorMode === 'light' ? '#fff' : 'gray.700'}
             borderRadius='10px'
-            height='40vh'>
+            height='auto'>
             <InputGroup>
                 <InputLeftElement mt='5px'>
                     <Icon as={FaSearch} />

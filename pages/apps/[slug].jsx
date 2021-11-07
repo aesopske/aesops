@@ -64,12 +64,8 @@ function AppDetail({ app }) {
                         alignItems='flex-start'
                         justifyContent='center'
                         borderRadius='10px'
-                        spacing='6'
-                        bgGradient={
-                            colorMode === 'light'
-                                ? 'linear-gradient(to-r, #fff, #fff0 )'
-                                : 'none'
-                        }>
+                        color='#fff'
+                        spacing='6'>
                         <Heading>{app.title}</Heading>
                         <UserAvatar
                             user={{

@@ -4,6 +4,7 @@ import {
     HStack,
     Heading,
     Badge,
+    Stack,
     Button,
 } from '@chakra-ui/react'
 import Link from 'next/link'
@@ -20,7 +21,11 @@ function DatasetsListItem({ dataset }) {
             alignItems='flex-start'
             justifyContent='space-between'
             borderRadius='10px'>
-            <HStack justifyContent='space-between' width='100%'>
+            <Stack
+                justifyContent='space-between'
+                width='100%'
+                spacing='3'
+                direction={['column', 'column', 'row']}>
                 <Link href={`/datasets/${dataset.slug}`} passHref>
                     <Heading size='md' cursor='pointer'>
                         {dataset.title}
@@ -38,7 +43,7 @@ function DatasetsListItem({ dataset }) {
                         # General
                     </Badge>
                 </HStack>
-            </HStack>
+            </Stack>
             <HStack
                 justifyContent='space-between'
                 alignItems='flex-end'

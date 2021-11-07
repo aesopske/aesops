@@ -25,9 +25,14 @@ function TopRank({ profiles }) {
             bgSize='cover'>
             <Grid
                 gap='3rem'
-                position={['relative', 'absolute']}
-                bottom={['', '-5rem']}
-                templateColumns={['repeat(1,1fr)', 'repeat(3,1fr)']}
+                position={['relative', 'relative', 'relative', 'absolute']}
+                bottom={['', '', '', '-5rem']}
+                templateColumns={[
+                    'repeat(1,1fr)',
+                    'repeat(1,1fr)',
+                    'repeat(2,1fr)',
+                    'repeat(3,1fr)',
+                ]}
                 width={['90%', '90%', '90%', '80%', '80%']}
                 mt={['2rem', '6rem']}
                 zIndex='60'

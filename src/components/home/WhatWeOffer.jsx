@@ -34,7 +34,12 @@ function WhatWeOffer() {
         },
     ]
     return (
-        <Box width='80%' mx='auto' height='auto' p='50px 0' my='5rem'>
+        <Box
+            width={['90%', '90%', '80%']}
+            mx='auto'
+            height='auto'
+            p={['0', '0', '50px 0']}
+            my={['0', '0', '5rem']}>
             <Box ml='1rem'>
                 <Heading size='xl' my='3rem'>
                     What we bring you

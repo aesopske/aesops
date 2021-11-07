@@ -1,5 +1,7 @@
+import TrackingProvider from './TrackingProvider'
+
 function ContextProvider({ children }) {
-    return <div>{children}</div>
+    return <TrackingProvider>{children}</TrackingProvider>
 }
 
 export default ContextProvider

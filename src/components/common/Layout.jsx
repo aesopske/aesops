@@ -2,10 +2,35 @@ import { Box } from '@chakra-ui/react'
 import Head from 'next/head'
 import Navbar from './Navbar'
 import Footer from './Footer'
+import { useEffect, useState } from 'react'
+import { useGa } from '@/src/context/TrackingProvider'
+import ScrollUp from './ScrollUp'
 
 function Layout({ children, title, keywords, description, url, imageurl }) {
+    const [scroll, setScroll] = useState(false)
+    const { pageView } = useGa()
+
+    const handleScrollChange = () => {
+        if (window.scrollY !== 0) {
+            setScroll(true)
+        } else {
+            setScroll(false)
+        }
+    }
+
+    useEffect(() => {
+        if (typeof window !== 'undefined') {
+            window.addEventListener('scroll', handleScrollChange)
+        }
+
+        return () => window.removeEventListener('scroll', handleScrollChange)
+    }, [])
+
+    useEffect(() => {
+        pageView()
+    }, [pageView])
     return (
-        <Box>
+        <Box width='100%'>
             <Head>
                 <title>{title}</title>
                 <meta title='description' content={description} />
@@ -27,8 +52,11 @@ function Layout({ children, title, keywords, description, url, imageurl }) {
                 <meta property='twitter:image' content={imageurl} />
             </Head>
             <Navbar />
-            <Box>{children}</Box>
+            <Box width='100%' height='auto'>
+                {children}
+            </Box>
             <Footer />
+            <ScrollUp scroll={scroll} />
         </Box>
     )
 }

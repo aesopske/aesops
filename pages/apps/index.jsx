@@ -8,13 +8,22 @@ import AppsList from '@/src/components/apps/AppsList'
 function Apps({ apps }) {
     return (
         <Layout title='Aesops | Apps'>
-            <Box width='80%' height='auto' mx='auto'>
+            <Box width={['90%', '90%', '80%']} height='auto' mx='auto'>
                 <AppsBanner />
-                <Grid gap='2rem' templateColumns='repeat(3,1fr)' my='2rem'>
+
+                <Grid
+                    gap='2rem'
+                    templateColumns={[
+                        'repeat(1,1fr)',
+                        'repeat(1,1fr)',
+                        'repeat(1,1fr)',
+                        'repeat(3,1fr)',
+                    ]}
+                    my='2rem'>
                     <GridItem colSpan='1'>
                         <AppsFilter />
                     </GridItem>
-                    <GridItem colSpan='2'>
+                    <GridItem colSpan={[1, 1, 1, 2]}>
                         <AppsList apps={apps} />
                     </GridItem>
                 </Grid>

@@ -1,19 +1,9 @@
 import React from 'react'
-import {
-    Avatar,
-    Text,
-    HStack,
-    Box,
-    Stack,
-    useColorMode,
-} from '@chakra-ui/react'
+import { Avatar, Text, HStack, Box, Stack } from '@chakra-ui/react'
 
 function UserAvatar({ user, size = 'md', align = 'flex-start' }) {
-    const { colorMode } = useColorMode()
     return (
-        <HStack
-            color={colorMode === 'light' ? '#555' : 'whiteAlpha.700'}
-            alignItems={align}>
+        <HStack alignItems={align}>
             <Avatar size={size} name={user?.name} src={user.photoURL} />
             <Box
                 as={Stack}

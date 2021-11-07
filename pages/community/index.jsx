@@ -7,7 +7,7 @@ import { Box } from '@chakra-ui/layout'
 function Community({ profiles, topranked }) {
     return (
         <Layout title='Aesops - Community'>
-            <Box width='80%' mx='auto'>
+            <Box width={['90%', '90%', '90%', '80%']} mx='auto'>
                 <TopRank profiles={topranked} />
                 <ProfileList profiles={profiles} />
             </Box>

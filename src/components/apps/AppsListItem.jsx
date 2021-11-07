@@ -5,6 +5,7 @@ import {
     Heading,
     Badge,
     Button,
+    Stack,
 } from '@chakra-ui/react'
 import Link from 'next/link'
 import UserAvatar from '../common/UserAvatar'
@@ -20,7 +21,11 @@ function AppsListItem({ app }) {
             alignItems='flex-start'
             justifyContent='space-between'
             borderRadius='10px'>
-            <HStack justifyContent='space-between' width='100%'>
+            <Stack
+                justifyContent='space-between'
+                width='100%'
+                spacing='3'
+                direction={['column', 'column', 'column', 'row']}>
                 <Link href={`/apps/${app.slug}`} passHref>
                     <Heading size='md' cursor='pointer'>
                         {app.title}
@@ -38,7 +43,7 @@ function AppsListItem({ app }) {
                         # General
                     </Badge>
                 </HStack>
-            </HStack>
+            </Stack>
             <HStack
                 justifyContent='space-between'
                 alignItems='flex-end'

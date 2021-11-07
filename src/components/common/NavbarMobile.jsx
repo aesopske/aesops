@@ -10,6 +10,7 @@ import {
     Text,
     Button,
     Stack,
+    useColorMode,
 } from '@chakra-ui/react'
 import { CgMenuRight } from 'react-icons/cg'
 import {
@@ -21,9 +22,11 @@ import {
 } from 'react-icons/fa'
 import { MdDashboard } from 'react-icons/md'
 import Link from 'next/link'
+import ThemeSwitcher from './ThemeSwitcher'
 
 function NavbarMobile() {
     const [isOpen, setIsOpen] = useState(false)
+    const { colorMode } = useColorMode()
 
     const toggle = () => {
         setIsOpen((prevState) => !prevState)
@@ -74,7 +77,7 @@ function NavbarMobile() {
             alignItems='center'
             shadow='lg'
             left='2.5%'
-            zIndex='30'>
+            zIndex='40'>
             {isOpen && (
                 <Stack
                     width='100%'
@@ -82,15 +85,16 @@ function NavbarMobile() {
                     justifyContent='space-between'
                     borderRadius='10px'
                     p='10px'
-                    bg='#fff'
-                    border='1px solid #eee'
+                    bg={colorMode === 'light' ? '#fff' : 'gray.700'}
+                    border='1px solid'
+                    borderColor={colorMode === 'light' ? '#fff' : 'gray.600'}
                     shadow='lg'
                     my='0.5rem'
+                    spacing='4'
                     alignItems='center'>
                     <Grid
                         my='1rem'
                         gap='1.5rem'
-                        p='10px'
                         templateColumns='repeat(3,1fr)'>
                         {navs.map((nav) => (
                             <Link
@@ -109,6 +113,16 @@ function NavbarMobile() {
                         ))}
                     </Grid>
 
+                    <HStack
+                        width='80%'
+                        mx='auto'
+                        justifyContent='space-between'>
+                        <Text _hover={{ color: 'brand.primary' }}>
+                            Sign in &rarr;
+                        </Text>
+                        <ThemeSwitcher hasText text='Switch Theme' />
+                    </HStack>
+
                     <Button
                         as='a'
                         href='https://aesops.co.ke/signin'
@@ -117,9 +131,9 @@ function NavbarMobile() {
                         _hover={{ bg: 'brand.primary' }}
                         height='3rem'
                         borderRadius='10px'
-                        width='90%'
+                        width='80%'
                         mx='auto'>
-                        Login
+                        Get started &rarr;
                     </Button>
                 </Stack>
             )}
@@ -127,8 +141,9 @@ function NavbarMobile() {
                 width='100%'
                 justifyContent='space-between'
                 alignItems='center'
-                bg='#fff'
-                border='1px solid #eee'
+                bg={colorMode === 'light' ? '#fff' : 'gray.700'}
+                border='1px solid'
+                borderColor={colorMode === 'light' ? '#fff' : 'gray.600'}
                 shadow='lg'
                 height='5rem'
                 borderRadius='10px'
