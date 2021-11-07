@@ -117,7 +117,12 @@ function NavbarMobile() {
                         width='80%'
                         mx='auto'
                         justifyContent='space-between'>
-                        <Text _hover={{ color: 'brand.primary' }}>
+                        <Text
+                            as='a'
+                            target='_blank'
+                            rel='noreferer noopener'
+                            href={`${process.env.DASHBOARD_URL}/auth/signin`}
+                            _hover={{ color: 'brand.primary' }}>
                             Sign in &rarr;
                         </Text>
                         <ThemeSwitcher hasText text='Switch Theme' />
@@ -125,11 +130,13 @@ function NavbarMobile() {
 
                     <Button
                         as='a'
-                        href='https://aesops.co.ke/signin'
+                        href={`${process.env.DASHBOARD_URL}/auth/signup`}
                         color='#fff'
                         bg='brand.primary'
                         _hover={{ bg: 'brand.primary' }}
                         height='3rem'
+                        target='_blank'
+                        rel='noreferer noopener'
                         borderRadius='10px'
                         width='80%'
                         mx='auto'>
