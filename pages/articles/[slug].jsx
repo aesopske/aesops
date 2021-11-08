@@ -6,8 +6,14 @@ import { useEffect, useState } from 'react'
 function Article({ article }) {
     const [byAuthor, setByAuthor] = useState([])
 
-    const defaultUrl =
-        'https://firebasestorage.googleapis.com/v0/b/aesops-ke.appspot.com/o/aesops-seo.png?alt=media&token=33e1fc5e-68cb-435f-9d1e-466bd0ad5dd6'
+    let defaultUrl
+
+    if (article?.image?.url) {
+        defaultUrl = article?.image?.url
+    } else {
+        defaultUrl =
+            'https://firebasestorage.googleapis.com/v0/b/aesops-ke.appspot.com/o/aesops-seo.png?alt=media&token=33e1fc5e-68cb-435f-9d1e-466bd0ad5dd6'
+    }
 
     useEffect(() => {
         if (typeof window !== 'undefined') {
