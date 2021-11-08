@@ -79,7 +79,7 @@ function Navbar() {
                         </Link>
 
                         <HStack spacing='8' width='auto'>
-                            <Box as={HStack} spacing='8'>
+                            <Box as={HStack} spacing='8' width='auto'>
                                 {nav.map((item) => (
                                     <Link
                                         key={item.label}
@@ -117,7 +117,7 @@ function Navbar() {
                                     _hover={{ color: 'brand.muted' }}
                                     target='_blank'
                                     rel='noopener noreferer'
-                                    width='100%'>
+                                    width='auto'>
                                     Sign In &rarr;
                                 </Text>
 
@@ -144,7 +144,7 @@ function Navbar() {
                                     height='3rem'
                                     borderRadius='10px'
                                     width='auto'
-                                    minWidth='50%'>
+                                    minWidth='40%'>
                                     Get started &rarr;
                                 </Button>
                             </HStack>
