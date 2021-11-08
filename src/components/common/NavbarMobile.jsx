@@ -66,9 +66,8 @@ function NavbarMobile() {
     ]
 
     return (
-        <Box
+        <Stack
             position='fixed'
-            as={Stack}
             height='auto'
             bottom='1.5rem'
             width='95%'
@@ -91,6 +90,7 @@ function NavbarMobile() {
                     shadow='lg'
                     my='0.5rem'
                     spacing='4'
+                    zIndex='30'
                     alignItems='center'>
                     <Grid
                         my='1rem'
@@ -154,6 +154,7 @@ function NavbarMobile() {
                 shadow='lg'
                 height='5rem'
                 borderRadius='10px'
+                zIndex='30'
                 p='10px'>
                 <Link href='/' passHref>
                     <HStack>
@@ -181,7 +182,7 @@ function NavbarMobile() {
                     onClick={toggle}
                 />
             </HStack>
-        </Box>
+        </Stack>
     )
 }
 
