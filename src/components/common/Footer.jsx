@@ -60,7 +60,7 @@ function Footer() {
         },
         {
             label: 'Facebook',
-            href: '/apps',
+            href: 'https://facebook.com/aesopske',
             icon: FaFacebook,
         },
     ]
