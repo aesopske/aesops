@@ -91,7 +91,7 @@ function Footer() {
                         alt='logo'
                         objectFit='contain'
                         width={['50%', '30%', '30%', '30%']}
-                        height={['70%', '30%', '30%', '40%']}
+                        height={['50%', '30%', '30%', '40%']}
                     />
                 </GridItem>
 

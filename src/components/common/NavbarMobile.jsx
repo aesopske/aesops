@@ -58,8 +58,8 @@ function NavbarMobile() {
             icon: MdDashboard,
         },
         {
-            label: 'About',
-            path: '/about',
+            label: 'Team',
+            path: '/team',
             icon: FaQuestionCircle,
         },
     ]
@@ -88,7 +88,7 @@ function NavbarMobile() {
                     borderColor={colorMode === 'light' ? '#fff' : 'gray.600'}
                     shadow='lg'
                     my='0.5rem'
-                    spacing='4'
+                    spacing='6'
                     zIndex='30'
                     alignItems='center'>
                     <Grid
