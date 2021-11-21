@@ -70,7 +70,7 @@ function Hero() {
                                 ]}>
                                 <Button
                                     as='a'
-                                    href={`${process.env.DASHBOARD_URL}/signup`}
+                                    href={`${process.env.DASHBOARD_URL}/auth/signup`}
                                     target='_blank'
                                     rel='noopener noreferer'
                                     bg={

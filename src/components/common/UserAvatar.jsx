@@ -13,9 +13,15 @@ function UserAvatar({ user, size = 'md', align = 'flex-start' }) {
                 <Text fontWeight='600' size='sm' textTransform='capitalize'>
                     {user?.name}
                 </Text>
-                <Text as='small' fontSize='.85rem'>
-                    {user?.date} &bull; {user?.read}
-                </Text>
+                {user?.read ? (
+                    <Text as='small' fontSize='.85rem'>
+                        {user?.date} &bull; {user?.read}
+                    </Text>
+                ) : (
+                    <Text as='small' fontSize='.85rem'>
+                        {user?.date}
+                    </Text>
+                )}
             </Box>
         </HStack>
     )
