@@ -4,6 +4,7 @@ import { fetchArticles } from './requests'
 
 export async function generateRssFeed() {
     const data = await fetchArticles()
+
     const posts = data.items
     const siteURL = process.env.SITE_URL
     const date = new Date()
@@ -30,31 +31,33 @@ export async function generateRssFeed() {
         author,
     })
 
-    posts.forEach((post) => {
-        const url = `${siteURL}/articles/${post?.slug}`
+    if (posts.length) {
+        posts.forEach((post) => {
+            const url = `${siteURL}/articles/${post?.slug}`
 
-        feed.addItem({
-            title: post?.title,
-            id: url,
-            link: url,
-            description: post?.summary,
-            content: post?.summary,
-            image: post?.image?.url,
-            author: [
-                {
-                    name: post?.author,
-                    link: `${siteURL}/community`,
-                },
-            ],
-            contributor: [
-                {
-                    name: post?.author,
-                    link: `${siteURL}/community`,
-                },
-            ],
-            date: new Date(post?.created),
+            feed.addItem({
+                title: post?.title,
+                id: url,
+                link: url,
+                description: post?.summary,
+                content: post?.summary,
+                image: post?.image?.url,
+                author: [
+                    {
+                        name: post?.author,
+                        link: `${siteURL}/community`,
+                    },
+                ],
+                contributor: [
+                    {
+                        name: post?.author,
+                        link: `${siteURL}/community`,
+                    },
+                ],
+                date: new Date(post?.created),
+            })
         })
-    })
+    }
 
     fs.mkdirSync('public/rss', { recursive: true })
     fs.writeFileSync('public/rss/feed.xml', feed.rss2())
