@@ -17,7 +17,7 @@ function Home() {
     )
 }
 
-export const getServerSideProps = async () => {
+export const getStaticProps = async () => {
     await generateRssFeed()
 
     return {
