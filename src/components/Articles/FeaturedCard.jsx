@@ -39,7 +39,11 @@ function FeaturedCard({ article }) {
                         <Image
                             src={article.image && article.image.url}
                             alt={article?.title}
-                            fallbackSrc='/images/placeholder.png'
+                            fallbackSrc={
+                                colorMode === 'light'
+                                    ? 'images/placeholderthumbnail.png'
+                                    : '/images/placeholderthumbnail-dark.png'
+                            }
                             borderRadius='10px'
                             objectFit='cover'
                             width='100%'

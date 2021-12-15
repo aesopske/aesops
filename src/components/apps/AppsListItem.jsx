@@ -59,7 +59,7 @@ function AppsListItem({ app }) {
                     as='a'
                     target='_blank'
                     rel='noopener noreferer'
-                    href={app.href}
+                    href={app.link}
                     fontSize='0.9rem'>
                     Go to link
                 </Button>
