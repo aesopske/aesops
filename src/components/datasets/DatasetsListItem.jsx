@@ -50,12 +50,17 @@ function DatasetsListItem({ dataset }) {
                 width='100%'>
                 <UserAvatar
                     user={{
-                        name: dataset.author,
-                        date: new Date(dataset.created).toDateString(),
+                        name: dataset?.author,
+                        date: new Date(dataset?.created).toDateString(),
                     }}
                 />
 
-                <Button as='a' href={dataset.href} fontSize='0.9rem'>
+                <Button
+                    as='a'
+                    target='_blank'
+                    rel='noopener noreferer'
+                    href={dataset?.link}
+                    fontSize='0.9rem'>
                     Go to link
                 </Button>
             </HStack>

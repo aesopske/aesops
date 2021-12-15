@@ -6,16 +6,15 @@ import {
     Text,
     AvatarBadge,
     Icon,
+    IconButton,
     Stack,
+    HStack,
+    Tooltip,
     useColorMode,
-    // useDisclosure,
-    Button,
 } from '@chakra-ui/react'
-import { FaCrown } from 'react-icons/fa'
-// import ProfileModal from '../ProfileModal'
+import { FaCrown, FaEnvelope } from 'react-icons/fa'
 
 function TopRankCard({ profile }) {
-    // const { isOpen, onClose, onOpen } = useDisclosure()
     const { colorMode } = useColorMode()
 
     const src =
@@ -25,14 +24,6 @@ function TopRankCard({ profile }) {
 
     return (
         <>
-            {/* {isOpen && (
-                <ProfileModal
-                    user={profile}
-                    isOpen={isOpen}
-                    onClose={onClose}
-                    featured
-                />
-            )} */}
             <Box
                 borderRadius='20px'
                 shadow='xl'
@@ -75,12 +66,7 @@ function TopRankCard({ profile }) {
                             textTransform='capitalize'>
                             {profile?.name}
                         </Heading>
-                        <Text
-                            as='p'
-                            textAlign='center'
-                            color={colorMode === 'light' ? '#555' : 'gray.300'}>
-                            {profile?.email}
-                        </Text>
+
                         <Text
                             as='p'
                             mt='.5rem'
@@ -90,16 +76,17 @@ function TopRankCard({ profile }) {
                             color={colorMode === 'light' ? '#555' : 'gray.400'}>
                             {profile?.occupation}
                         </Text>
-
-                        <Button
-                            my='1rem'
-                            fontSize='.9rem'
-                            fontWeight='500'
-                            colorScheme='gray'
-                            // onClick={onOpen}
-                            _focus={{ outline: 'none' }}>
-                            More details
-                        </Button>
+                        <Tooltip label='Send email' hasArrow placement='bottom'>
+                            <HStack>
+                                <IconButton
+                                    as='a'
+                                    href={`mailto:${profile.email}`}
+                                    rel='noopener noreferer'
+                                    target='_blank'
+                                    icon={<FaEnvelope />}
+                                />
+                            </HStack>
+                        </Tooltip>
                     </Box>
                 </Box>
             </Box>

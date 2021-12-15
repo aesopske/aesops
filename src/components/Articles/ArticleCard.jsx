@@ -52,7 +52,11 @@ function ArticlesCard({ article }) {
                     objectFit='cover'
                     width='100%'
                     height='100%'
-                    fallbackSrc='/images/placeholder.png'
+                    fallbackSrc={
+                        colorMode === 'light'
+                            ? 'images/placeholderthumbnail.png'
+                            : '/images/placeholderthumbnail-dark.png'
+                    }
                 />
             </Box>
             <GridItem

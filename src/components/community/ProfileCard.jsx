@@ -1,18 +1,18 @@
 import React from 'react'
-// import ProfileModal from '../ProfileModal'
 import {
     Box,
     Heading,
     Text,
-    Button,
+    IconButton,
+    Tooltip,
+    HStack,
     Avatar,
     Stack,
     useColorMode,
-    // useDisclosure,
 } from '@chakra-ui/react'
+import { FaEnvelope } from 'react-icons/fa'
 
 function ProfileCard({ profile }) {
-    // const { isOpen, onClose, onOpen } = useDisclosure()
     const { colorMode } = useColorMode()
 
     const src =
@@ -22,14 +22,6 @@ function ProfileCard({ profile }) {
 
     return (
         <React.Fragment>
-            {/* {isOpen && (
-                <ProfileModal
-                    user={profile}
-                    isOpen={isOpen}
-                    onClose={onClose}
-                />
-            )} */}
-
             <Box
                 borderRadius='20px'
                 border='1px solid'
@@ -79,12 +71,7 @@ function ProfileCard({ profile }) {
                             textTransform='capitalize'>
                             {profile?.name}
                         </Heading>
-                        <Text
-                            as='p'
-                            textAlign='center'
-                            color={colorMode === 'light' ? '#555' : 'gray.300'}>
-                            {profile?.email}
-                        </Text>
+
                         <Text
                             as='p'
                             mt='0.5rem'
@@ -95,15 +82,17 @@ function ProfileCard({ profile }) {
                             {profile?.occupation}
                         </Text>
 
-                        <Button
-                            mt='1rem'
-                            fontSize='.9rem'
-                            fontWeight='500'
-                            colorScheme='gray'
-                            // onClick={onOpen}
-                            _focus={{ outline: 'none' }}>
-                            More details
-                        </Button>
+                        <Tooltip label='Send email' hasArrow placement='bottom'>
+                            <HStack>
+                                <IconButton
+                                    as='a'
+                                    href={`mailto:${profile.email}`}
+                                    rel='noopener noreferer'
+                                    target='_blank'
+                                    icon={<FaEnvelope />}
+                                />
+                            </HStack>
+                        </Tooltip>
                     </Box>
                 </Box>
             </Box>
