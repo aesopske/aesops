@@ -1,0 +1,359 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+    <id>http://localhost:3000</id>
+    <title>Aesops blog</title>
+    <updated>2021-12-15T09:11:04.519Z</updated>
+    <generator>Feed for Node.js</generator>
+    <author>
+        <name>Aesops Author</name>
+        <uri>https://twitter.com/aesopske</uri>
+    </author>
+    <link rel="alternate" href="http://localhost:3000"/>
+    <link rel="self" href="http://localhost:3000/rss/atom.xml"/>
+    <icon>http://localhost:3000/favicon.ico</icon>
+    <rights>All rights reserved 2021, Aesops</rights>
+    <entry>
+        <title type="html"><![CDATA[Ensemble learning]]></title>
+        <id>http://localhost:3000/articles/ensemble-learning</id>
+        <link href="http://localhost:3000/articles/ensemble-learning"/>
+        <updated>2021-11-24T16:42:53.064Z</updated>
+        <summary type="html"><![CDATA[Most of us who are in the field of data have come across the word ensemble maybe once or twice or at least have heard of it. Imagine you are sick and you go to a doctor for diagnosis and they give you some bad news say that you have a terminal...]]></summary>
+        <content type="html"><![CDATA[Most of us who are in the field of data have come across the word ensemble maybe once or twice or at least have heard of it. Imagine you are sick and you go to a doctor for diagnosis and they give you some bad news say that you have a terminal...]]></content>
+        <author>
+            <name>john kamau</name>
+            <uri>http://localhost:3000/community</uri>
+        </author>
+        <contributor>
+            <name>john kamau</name>
+            <uri>http://localhost:3000/community</uri>
+        </contributor>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Imposter Syndrome while transitioning to Data Science]]></title>
+        <id>http://localhost:3000/articles/imposter-syndrome-while-transitioning-to-data-science</id>
+        <link href="http://localhost:3000/articles/imposter-syndrome-while-transitioning-to-data-science"/>
+        <updated>2021-10-05T07:05:12.374Z</updated>
+        <summary type="html"><![CDATA[Imposter syndrome (IS) is a collection of feelings of inadequacy that persist despite evident success. ‘Imposters’ suffer from self-doubt and a sense of intellectual fraudulence that override any feelings of success or external proof of their...]]></summary>
+        <content type="html"><![CDATA[Imposter syndrome (IS) is a collection of feelings of inadequacy that persist despite evident success. ‘Imposters’ suffer from self-doubt and a sense of intellectual fraudulence that override any feelings of success or external proof of their...]]></content>
+        <author>
+            <name>Lydia Gathoni</name>
+            <uri>http://localhost:3000/community</uri>
+        </author>
+        <contributor>
+            <name>Lydia Gathoni</name>
+            <uri>http://localhost:3000/community</uri>
+        </contributor>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Data Storytelling]]></title>
+        <id>http://localhost:3000/articles/data-storytelling</id>
+        <link href="http://localhost:3000/articles/data-storytelling"/>
+        <updated>2021-10-01T05:55:58.485Z</updated>
+        <summary type="html"><![CDATA[“Visualization gives you answers to questions you didn’t know you had.” – Ben Schneiderman]]></summary>
+        <content type="html"><![CDATA[“Visualization gives you answers to questions you didn’t know you had.” – Ben Schneiderman]]></content>
+        <author>
+            <name>john kamau</name>
+            <uri>http://localhost:3000/community</uri>
+        </author>
+        <contributor>
+            <name>john kamau</name>
+            <uri>http://localhost:3000/community</uri>
+        </contributor>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Plotting Maps in python]]></title>
+        <id>http://localhost:3000/articles/plotting-maps-in-python</id>
+        <link href="http://localhost:3000/articles/plotting-maps-in-python"/>
+        <updated>2021-08-11T15:09:13.792Z</updated>
+        <summary type="html"><![CDATA[A giant destroyed 3 countries the other day. He picked up Turkey, dipped it in Greece, and then fried it in Japan.(jokes4us)]]></summary>
+        <content type="html"><![CDATA[A giant destroyed 3 countries the other day. He picked up Turkey, dipped it in Greece, and then fried it in Japan.(jokes4us)]]></content>
+        <author>
+            <name>john kamau</name>
+            <uri>http://localhost:3000/community</uri>
+        </author>
+        <contributor>
+            <name>john kamau</name>
+            <uri>http://localhost:3000/community</uri>
+        </contributor>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Docker in Aesops]]></title>
+        <id>http://localhost:3000/articles/docker-in-aesops</id>
+        <link href="http://localhost:3000/articles/docker-in-aesops"/>
+        <updated>2021-08-11T08:01:18.454Z</updated>
+        <summary type="html"><![CDATA[Not sure if the meme says it all. But to my understanding, docker is a containerization system/platform. What do I mean by containerization? The best analogy that is given out there is, think of a ship carrying containers, docker in this case it...]]></summary>
+        <content type="html"><![CDATA[Not sure if the meme says it all. But to my understanding, docker is a containerization system/platform. What do I mean by containerization? The best analogy that is given out there is, think of a ship carrying containers, docker in this case it...]]></content>
+        <author>
+            <name>Newton Mbugua</name>
+            <uri>http://localhost:3000/community</uri>
+        </author>
+        <contributor>
+            <name>Newton Mbugua</name>
+            <uri>http://localhost:3000/community</uri>
+        </contributor>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Women in Technology in Kenya]]></title>
+        <id>http://localhost:3000/articles/women-in-technology-in-kenya</id>
+        <link href="http://localhost:3000/articles/women-in-technology-in-kenya"/>
+        <updated>2021-08-03T19:19:20.850Z</updated>
+        <summary type="html"><![CDATA[The technology field has gotten more attention in recent years as an essential component of today’s competitive global economy. Being a woman in technology is an added advantage considering the gender gap. With the number of women in the field...]]></summary>
+        <content type="html"><![CDATA[The technology field has gotten more attention in recent years as an essential component of today’s competitive global economy. Being a woman in technology is an added advantage considering the gender gap. With the number of women in the field...]]></content>
+        <author>
+            <name>Lydia Gathoni</name>
+            <uri>http://localhost:3000/community</uri>
+        </author>
+        <contributor>
+            <name>Lydia Gathoni</name>
+            <uri>http://localhost:3000/community</uri>
+        </contributor>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[If you want to enjoy something become strong]]></title>
+        <id>http://localhost:3000/articles/if-you-want-to-enjoy-something-become-strong</id>
+        <link href="http://localhost:3000/articles/if-you-want-to-enjoy-something-become-strong"/>
+        <updated>2021-08-01T13:58:17.314Z</updated>
+        <summary type="html"><![CDATA[IF YOU WANT TO ENJOY SOMETHING,]]></summary>
+        <content type="html"><![CDATA[IF YOU WANT TO ENJOY SOMETHING,]]></content>
+        <author>
+            <name>salem kamau</name>
+            <uri>http://localhost:3000/community</uri>
+        </author>
+        <contributor>
+            <name>salem kamau</name>
+            <uri>http://localhost:3000/community</uri>
+        </contributor>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[My python journey]]></title>
+        <id>http://localhost:3000/articles/my-python-journey</id>
+        <link href="http://localhost:3000/articles/my-python-journey"/>
+        <updated>2021-07-07T16:30:30.781Z</updated>
+        <summary type="html"><![CDATA[Python can simply be termed as a programming language whose core values, like in any other programming language, lies in expressing one’s thoughts through lines of code. It is broadly used in web development, science, and the data science world...]]></summary>
+        <content type="html"><![CDATA[Python can simply be termed as a programming language whose core values, like in any other programming language, lies in expressing one’s thoughts through lines of code. It is broadly used in web development, science, and the data science world...]]></content>
+        <author>
+            <name>Alex Gachiri</name>
+            <uri>http://localhost:3000/community</uri>
+        </author>
+        <contributor>
+            <name>Alex Gachiri</name>
+            <uri>http://localhost:3000/community</uri>
+        </contributor>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[High Oil Prices in Kenya 2021]]></title>
+        <id>http://localhost:3000/articles/high-oil-prices-in-kenya-2021</id>
+        <link href="http://localhost:3000/articles/high-oil-prices-in-kenya-2021"/>
+        <updated>2021-07-06T08:21:50.612Z</updated>
+        <summary type="html"><![CDATA[A century ago, petroleum - what we call oil - was just an obscure commodity; today it is almost as vital to human existence as water. ~ James Buchan]]></summary>
+        <content type="html"><![CDATA[A century ago, petroleum - what we call oil - was just an obscure commodity; today it is almost as vital to human existence as water. ~ James Buchan]]></content>
+        <author>
+            <name>john kamau</name>
+            <uri>http://localhost:3000/community</uri>
+        </author>
+        <contributor>
+            <name>john kamau</name>
+            <uri>http://localhost:3000/community</uri>
+        </contributor>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Get your model up and running]]></title>
+        <id>http://localhost:3000/articles/get-your-model-up-and-running</id>
+        <link href="http://localhost:3000/articles/get-your-model-up-and-running"/>
+        <updated>2021-06-27T20:20:05.968Z</updated>
+        <summary type="html"><![CDATA[Oftentimes a data scientist creates applications that run on data and give off some output. The problem is that these apps are mostly code and therefore a non-technical audience cannot interact with them. One solution to this is to create a user...]]></summary>
+        <content type="html"><![CDATA[Oftentimes a data scientist creates applications that run on data and give off some output. The problem is that these apps are mostly code and therefore a non-technical audience cannot interact with them. One solution to this is to create a user...]]></content>
+        <author>
+            <name>Newton Mbugua</name>
+            <uri>http://localhost:3000/community</uri>
+        </author>
+        <contributor>
+            <name>Newton Mbugua</name>
+            <uri>http://localhost:3000/community</uri>
+        </contributor>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Data Cleaning Introduction]]></title>
+        <id>http://localhost:3000/articles/data-cleaning-introduction</id>
+        <link href="http://localhost:3000/articles/data-cleaning-introduction"/>
+        <updated>2021-05-20T04:50:41.171Z</updated>
+        <summary type="html"><![CDATA[Data Cleaning ensures that the data is error free, consistent and ensures the data is accurate.&nbsp;
+Data&nbsp; Accuracy is the degree to which the data is close to the true values.
+&rdquo; and the answer is,&nbsp; &ldquo;Data Cleaning&rdquo; and quality monitoring.]]></summary>
+        <content type="html"><![CDATA[Data Cleaning ensures that the data is error free, consistent and ensures the data is accurate.&nbsp;
+Data&nbsp; Accuracy is the degree to which the data is close to the true values.
+&rdquo; and the answer is,&nbsp; &ldquo;Data Cleaning&rdquo; and quality monitoring.]]></content>
+        <author>
+            <name>KENNEDY NGANGA</name>
+            <uri>http://localhost:3000/community</uri>
+        </author>
+        <contributor>
+            <name>KENNEDY NGANGA</name>
+            <uri>http://localhost:3000/community</uri>
+        </contributor>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Kienyeji Farming: An analyst perspective]]></title>
+        <id>http://localhost:3000/articles/kienyeji-farming-an-analyst-perspective</id>
+        <link href="http://localhost:3000/articles/kienyeji-farming-an-analyst-perspective"/>
+        <updated>2021-05-10T15:44:13.561Z</updated>
+        <summary type="html"><![CDATA[Please note that for eggs you will incur similar costs for the four months but after that, you will expect returns and the profit will be the difference between sales and the costs.&nbsp;&nbsp;&nbsp;&nbsp;]]></summary>
+        <content type="html"><![CDATA[Please note that for eggs you will incur similar costs for the four months but after that, you will expect returns and the profit will be the difference between sales and the costs.&nbsp;&nbsp;&nbsp;&nbsp;]]></content>
+        <author>
+            <name>Alex Gachiri</name>
+            <uri>http://localhost:3000/community</uri>
+        </author>
+        <contributor>
+            <name>Alex Gachiri</name>
+            <uri>http://localhost:3000/community</uri>
+        </contributor>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Application of data tools in the fight against Covid19.]]></title>
+        <id>http://localhost:3000/articles/application-of-data-tools-in-the-fight-against-covid19</id>
+        <link href="http://localhost:3000/articles/application-of-data-tools-in-the-fight-against-covid19"/>
+        <updated>2021-04-30T06:36:48.055Z</updated>
+        <summary type="html"><![CDATA[The World food program came up with &ldquo;Hunger map live&rdquo; a map that uses data from satellites, Nasa, and other institutions to map areas prone to famine and to also predict areas that could have corona outbreaks ( Danish institute of international studies,2020).]]></summary>
+        <content type="html"><![CDATA[The World food program came up with &ldquo;Hunger map live&rdquo; a map that uses data from satellites, Nasa, and other institutions to map areas prone to famine and to also predict areas that could have corona outbreaks ( Danish institute of international studies,2020).]]></content>
+        <author>
+            <name>john kamau</name>
+            <uri>http://localhost:3000/community</uri>
+        </author>
+        <contributor>
+            <name>john kamau</name>
+            <uri>http://localhost:3000/community</uri>
+        </contributor>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Machine learning competitions as a tool for learning]]></title>
+        <id>http://localhost:3000/articles/machine-learning-competitions-as-a-tool-for-learning</id>
+        <link href="http://localhost:3000/articles/machine-learning-competitions-as-a-tool-for-learning"/>
+        <updated>2021-01-09T12:53:46.305Z</updated>
+        <summary type="html"><![CDATA[Technology has since grown in leaps and bounds to the current artificial intelligence application that we are seeing on many phones today.&nbsp; I have kept learning and improving my knowledge in this and other technologies and that&rsquo;s how I came across Python, the main programming tool that I use for data analysis and programming.]]></summary>
+        <content type="html"><![CDATA[Technology has since grown in leaps and bounds to the current artificial intelligence application that we are seeing on many phones today.&nbsp; I have kept learning and improving my knowledge in this and other technologies and that&rsquo;s how I came across Python, the main programming tool that I use for data analysis and programming.]]></content>
+        <author>
+            <name>KENNEDY NGANGA</name>
+            <uri>http://localhost:3000/community</uri>
+        </author>
+        <contributor>
+            <name>KENNEDY NGANGA</name>
+            <uri>http://localhost:3000/community</uri>
+        </contributor>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[visualizing classification models decision bounderies]]></title>
+        <id>http://localhost:3000/articles/visualizing-classification-models-decision-bounderies</id>
+        <link href="http://localhost:3000/articles/visualizing-classification-models-decision-bounderies"/>
+        <updated>2020-09-02T12:25:46.489Z</updated>
+        <summary type="html"><![CDATA[On this article, we shall use the Iris dataset to show a comparison of four models using decision boundaries, to see non-linear behaviour as well as see what choices each model makes on the data for classification.]]></summary>
+        <content type="html"><![CDATA[On this article, we shall use the Iris dataset to show a comparison of four models using decision boundaries, to see non-linear behaviour as well as see what choices each model makes on the data for classification.]]></content>
+        <author>
+            <name>john kamau</name>
+            <uri>http://localhost:3000/community</uri>
+        </author>
+        <contributor>
+            <name>john kamau</name>
+            <uri>http://localhost:3000/community</uri>
+        </contributor>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[hr churn report]]></title>
+        <id>http://localhost:3000/articles/hr-churn-report</id>
+        <link href="http://localhost:3000/articles/hr-churn-report"/>
+        <updated>2020-07-14T10:04:03.676Z</updated>
+        <summary type="html"><![CDATA[hr$left_pred&lt;-predict(logit_model,data=hr,type=&quot;response&quot;)
+Training dataset using a generalized linear model(glm) function and thereafter making my predictions on the test data based on the trained set.
+##Predicting test data based on trained model]]></summary>
+        <content type="html"><![CDATA[hr$left_pred&lt;-predict(logit_model,data=hr,type=&quot;response&quot;)
+Training dataset using a generalized linear model(glm) function and thereafter making my predictions on the test data based on the trained set.
+##Predicting test data based on trained model]]></content>
+        <author>
+            <name>Leo Langat Maina</name>
+            <uri>http://localhost:3000/community</uri>
+        </author>
+        <contributor>
+            <name>Leo Langat Maina</name>
+            <uri>http://localhost:3000/community</uri>
+        </contributor>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[are you still using matplotlib for your visualizations]]></title>
+        <id>http://localhost:3000/articles/are-you-still-using-matplotlib-for-your-visualizations</id>
+        <link href="http://localhost:3000/articles/are-you-still-using-matplotlib-for-your-visualizations"/>
+        <updated>2020-06-28T12:54:16.675Z</updated>
+        <summary type="html"><![CDATA[These are for quick plots of the data but this is not to say that they aren&#39;t powerful.&nbsp; The syntax is very similar to the one line style used in Seaborn and practically for most of the other libraries that we highlight in this article.]]></summary>
+        <content type="html"><![CDATA[These are for quick plots of the data but this is not to say that they aren&#39;t powerful.&nbsp; The syntax is very similar to the one line style used in Seaborn and practically for most of the other libraries that we highlight in this article.]]></content>
+        <author>
+            <name>john kamau</name>
+            <uri>http://localhost:3000/community</uri>
+        </author>
+        <contributor>
+            <name>john kamau</name>
+            <uri>http://localhost:3000/community</uri>
+        </contributor>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Jupyter notebooks in visual studio code]]></title>
+        <id>http://localhost:3000/articles/jupyter-notebooks-in-visual-studio-code</id>
+        <link href="http://localhost:3000/articles/jupyter-notebooks-in-visual-studio-code"/>
+        <updated>2020-06-02T10:24:25.598Z</updated>
+        <summary type="html"><![CDATA[“Sometimes it pays to stay in bed on Monday, rather than spending the rest of the week debugging Monday’s code.” – Dan Salomon]]></summary>
+        <content type="html"><![CDATA[“Sometimes it pays to stay in bed on Monday, rather than spending the rest of the week debugging Monday’s code.” – Dan Salomon]]></content>
+        <author>
+            <name>Newton Mbugua</name>
+            <uri>http://localhost:3000/community</uri>
+        </author>
+        <contributor>
+            <name>Newton Mbugua</name>
+            <uri>http://localhost:3000/community</uri>
+        </contributor>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[h2o library for machine learning]]></title>
+        <id>http://localhost:3000/articles/h2o-library-for-machine-learning</id>
+        <link href="http://localhost:3000/articles/h2o-library-for-machine-learning"/>
+        <updated>2020-05-07T00:00:00.000Z</updated>
+        <summary type="html"><![CDATA[After creating the machine learning models, you get results such as confusion matrix, RMSE, variable importance plot, and others so it&#39;s very easy to evaluate your model and fast.]]></summary>
+        <content type="html"><![CDATA[After creating the machine learning models, you get results such as confusion matrix, RMSE, variable importance plot, and others so it&#39;s very easy to evaluate your model and fast.]]></content>
+        <author>
+            <name>john kamau</name>
+            <uri>http://localhost:3000/community</uri>
+        </author>
+        <contributor>
+            <name>john kamau</name>
+            <uri>http://localhost:3000/community</uri>
+        </contributor>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[oil prices in kenya]]></title>
+        <id>http://localhost:3000/articles/oil-prices-in-kenya</id>
+        <link href="http://localhost:3000/articles/oil-prices-in-kenya"/>
+        <updated>2020-04-08T00:00:00.000Z</updated>
+        <summary type="html"><![CDATA[we can create an average variable that gets the average price for the kerosene,Ago(Diesel) and PMS(Super Petrol) so that we can approximate how much a litre of crude oil sells in Kenya.]]></summary>
+        <content type="html"><![CDATA[we can create an average variable that gets the average price for the kerosene,Ago(Diesel) and PMS(Super Petrol) so that we can approximate how much a litre of crude oil sells in Kenya.]]></content>
+        <author>
+            <name>john kamau</name>
+            <uri>http://localhost:3000/community</uri>
+        </author>
+        <contributor>
+            <name>john kamau</name>
+            <uri>http://localhost:3000/community</uri>
+        </contributor>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[my data science journey]]></title>
+        <id>http://localhost:3000/articles/my-data-science-journey</id>
+        <link href="http://localhost:3000/articles/my-data-science-journey"/>
+        <updated>2020-04-08T00:00:00.000Z</updated>
+        <summary type="html"><![CDATA[Honestly,&nbsp; I wasn&rsquo;t going to wait that long, I went back home, got online and applied to Moringa School, I received an answer and was scheduled for an interview two days later and I started my classes on 14th October 2019 (Full-Time) for the next 23 weeks.]]></summary>
+        <content type="html"><![CDATA[Honestly,&nbsp; I wasn&rsquo;t going to wait that long, I went back home, got online and applied to Moringa School, I received an answer and was scheduled for an interview two days later and I started my classes on 14th October 2019 (Full-Time) for the next 23 weeks.]]></content>
+        <author>
+            <name>Lydia Gathoni</name>
+            <uri>http://localhost:3000/community</uri>
+        </author>
+        <contributor>
+            <name>Lydia Gathoni</name>
+            <uri>http://localhost:3000/community</uri>
+        </contributor>
+    </entry>
+</feed>

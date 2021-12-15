@@ -1,0 +1,208 @@
+<?xml version="1.0" encoding="utf-8"?>
+<rss version="2.0" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:content="http://purl.org/rss/1.0/modules/content/">
+    <channel>
+        <title>Aesops blog</title>
+        <link>http://localhost:3000</link>
+        <description></description>
+        <lastBuildDate>Wed, 15 Dec 2021 09:11:04 GMT</lastBuildDate>
+        <docs>https://validator.w3.org/feed/docs/rss2.html</docs>
+        <generator>Feed for Node.js</generator>
+        <copyright>All rights reserved 2021, Aesops</copyright>
+        <item>
+            <title><![CDATA[Ensemble learning]]></title>
+            <link>http://localhost:3000/articles/ensemble-learning</link>
+            <guid>http://localhost:3000/articles/ensemble-learning</guid>
+            <pubDate>Wed, 24 Nov 2021 16:42:53 GMT</pubDate>
+            <description><![CDATA[Most of us who are in the field of data have come across the word ensemble maybe once or twice or at least have heard of it. Imagine you are sick and you go to a doctor for diagnosis and they give you some bad news say that you have a terminal...]]></description>
+            <content:encoded><![CDATA[Most of us who are in the field of data have come across the word ensemble maybe once or twice or at least have heard of it. Imagine you are sick and you go to a doctor for diagnosis and they give you some bad news say that you have a terminal...]]></content:encoded>
+            <enclosure url="https://firebasestorage.googleapis.com/v0/b/aesops-ke.appspot.com/o/Articles%2FExample-of-Combining-Decision-Boundaries-Using-an-Ensemble.png?alt=media&token=a558fc85-f0e8-42a4-b157-ecf48b011204" length="0" type="image/png"/>
+        </item>
+        <item>
+            <title><![CDATA[Imposter Syndrome while transitioning to Data Science]]></title>
+            <link>http://localhost:3000/articles/imposter-syndrome-while-transitioning-to-data-science</link>
+            <guid>http://localhost:3000/articles/imposter-syndrome-while-transitioning-to-data-science</guid>
+            <pubDate>Tue, 05 Oct 2021 07:05:12 GMT</pubDate>
+            <description><![CDATA[Imposter syndrome (IS) is a collection of feelings of inadequacy that persist despite evident success. ‘Imposters’ suffer from self-doubt and a sense of intellectual fraudulence that override any feelings of success or external proof of their...]]></description>
+            <content:encoded><![CDATA[Imposter syndrome (IS) is a collection of feelings of inadequacy that persist despite evident success. ‘Imposters’ suffer from self-doubt and a sense of intellectual fraudulence that override any feelings of success or external proof of their...]]></content:encoded>
+            <enclosure url="https://firebasestorage.googleapis.com/v0/b/aesops-ke.appspot.com/o/Articles%2FImposterSyndrome-OpenGraph.jpg?alt=media&token=c52dac48-1c47-47f3-926e-f7183206c4de" length="0" type="image/jpg"/>
+        </item>
+        <item>
+            <title><![CDATA[Data Storytelling]]></title>
+            <link>http://localhost:3000/articles/data-storytelling</link>
+            <guid>http://localhost:3000/articles/data-storytelling</guid>
+            <pubDate>Fri, 01 Oct 2021 05:55:58 GMT</pubDate>
+            <description><![CDATA[“Visualization gives you answers to questions you didn’t know you had.” – Ben Schneiderman]]></description>
+            <content:encoded><![CDATA[“Visualization gives you answers to questions you didn’t know you had.” – Ben Schneiderman]]></content:encoded>
+            <enclosure url="https://firebasestorage.googleapis.com/v0/b/aesops-ke.appspot.com/o/Articles%2FScreen-Shot-2020-01-28-at-10.13.28-AM.png?alt=media&token=692e3c4b-64a1-4c05-8a8f-fe269425ca1e" length="0" type="image/png"/>
+        </item>
+        <item>
+            <title><![CDATA[Plotting Maps in python]]></title>
+            <link>http://localhost:3000/articles/plotting-maps-in-python</link>
+            <guid>http://localhost:3000/articles/plotting-maps-in-python</guid>
+            <pubDate>Wed, 11 Aug 2021 15:09:13 GMT</pubDate>
+            <description><![CDATA[A giant destroyed 3 countries the other day. He picked up Turkey, dipped it in Greece, and then fried it in Japan.(jokes4us)]]></description>
+            <content:encoded><![CDATA[A giant destroyed 3 countries the other day. He picked up Turkey, dipped it in Greece, and then fried it in Japan.(jokes4us)]]></content:encoded>
+            <enclosure url="https://firebasestorage.googleapis.com/v0/b/aesops-ke.appspot.com/o/Articles%2Ffoodnighted.png?alt=media&token=b7ec3a17-6a4b-4e13-b471-8d4a6e34b739" length="0" type="image/png"/>
+        </item>
+        <item>
+            <title><![CDATA[Docker in Aesops]]></title>
+            <link>http://localhost:3000/articles/docker-in-aesops</link>
+            <guid>http://localhost:3000/articles/docker-in-aesops</guid>
+            <pubDate>Wed, 11 Aug 2021 08:01:18 GMT</pubDate>
+            <description><![CDATA[Not sure if the meme says it all. But to my understanding, docker is a containerization system/platform. What do I mean by containerization? The best analogy that is given out there is, think of a ship carrying containers, docker in this case it...]]></description>
+            <content:encoded><![CDATA[Not sure if the meme says it all. But to my understanding, docker is a containerization system/platform. What do I mean by containerization? The best analogy that is given out there is, think of a ship carrying containers, docker in this case it...]]></content:encoded>
+            <enclosure url="https://firebasestorage.googleapis.com/v0/b/aesops-ke.appspot.com/o/Articles%2Fpexels-matthis-volquardsen-2091159.jpg?alt=media&token=3e8cd29b-348e-469a-b9d0-365aad46eef4" length="0" type="image/jpg"/>
+        </item>
+        <item>
+            <title><![CDATA[Women in Technology in Kenya]]></title>
+            <link>http://localhost:3000/articles/women-in-technology-in-kenya</link>
+            <guid>http://localhost:3000/articles/women-in-technology-in-kenya</guid>
+            <pubDate>Tue, 03 Aug 2021 19:19:20 GMT</pubDate>
+            <description><![CDATA[The technology field has gotten more attention in recent years as an essential component of today’s competitive global economy. Being a woman in technology is an added advantage considering the gender gap. With the number of women in the field...]]></description>
+            <content:encoded><![CDATA[The technology field has gotten more attention in recent years as an essential component of today’s competitive global economy. Being a woman in technology is an added advantage considering the gender gap. With the number of women in the field...]]></content:encoded>
+            <enclosure url="https://firebasestorage.googleapis.com/v0/b/aesops-ke.appspot.com/o/Articles%2Fwit.jpg?alt=media&token=6205b707-289b-413d-b1af-d32b6dcfad1a" length="0" type="image/jpg"/>
+        </item>
+        <item>
+            <title><![CDATA[If you want to enjoy something become strong]]></title>
+            <link>http://localhost:3000/articles/if-you-want-to-enjoy-something-become-strong</link>
+            <guid>http://localhost:3000/articles/if-you-want-to-enjoy-something-become-strong</guid>
+            <pubDate>Sun, 01 Aug 2021 13:58:17 GMT</pubDate>
+            <description><![CDATA[IF YOU WANT TO ENJOY SOMETHING,]]></description>
+            <content:encoded><![CDATA[IF YOU WANT TO ENJOY SOMETHING,]]></content:encoded>
+            <enclosure url="https://firebasestorage.googleapis.com/v0/b/aesops-ke.appspot.com/o/Articles%2F6de068d1fa4da1125731ea18a8073dd7.jpg?alt=media&token=8bcf6b75-d851-48f7-85a6-373c35e7e947" length="0" type="image/jpg"/>
+        </item>
+        <item>
+            <title><![CDATA[My python journey]]></title>
+            <link>http://localhost:3000/articles/my-python-journey</link>
+            <guid>http://localhost:3000/articles/my-python-journey</guid>
+            <pubDate>Wed, 07 Jul 2021 16:30:30 GMT</pubDate>
+            <description><![CDATA[Python can simply be termed as a programming language whose core values, like in any other programming language, lies in expressing one’s thoughts through lines of code. It is broadly used in web development, science, and the data science world...]]></description>
+            <content:encoded><![CDATA[Python can simply be termed as a programming language whose core values, like in any other programming language, lies in expressing one’s thoughts through lines of code. It is broadly used in web development, science, and the data science world...]]></content:encoded>
+            <enclosure url="https://firebasestorage.googleapis.com/v0/b/aesops-ke.appspot.com/o/Articles%2Fjourney-of-man.jpg?alt=media&token=4ab09c54-d2f5-4575-9e43-9482e1794203" length="0" type="image/jpg"/>
+        </item>
+        <item>
+            <title><![CDATA[High Oil Prices in Kenya 2021]]></title>
+            <link>http://localhost:3000/articles/high-oil-prices-in-kenya-2021</link>
+            <guid>http://localhost:3000/articles/high-oil-prices-in-kenya-2021</guid>
+            <pubDate>Tue, 06 Jul 2021 08:21:50 GMT</pubDate>
+            <description><![CDATA[A century ago, petroleum - what we call oil - was just an obscure commodity; today it is almost as vital to human existence as water. ~ James Buchan]]></description>
+            <content:encoded><![CDATA[A century ago, petroleum - what we call oil - was just an obscure commodity; today it is almost as vital to human existence as water. ~ James Buchan]]></content:encoded>
+            <enclosure url="https://firebasestorage.googleapis.com/v0/b/aesops-ke.appspot.com/o/Articles%2Foil.jpg?alt=media&token=b7915ea0-a96f-41cc-99e7-ffd1e2f363b3" length="0" type="image/jpg"/>
+        </item>
+        <item>
+            <title><![CDATA[Get your model up and running]]></title>
+            <link>http://localhost:3000/articles/get-your-model-up-and-running</link>
+            <guid>http://localhost:3000/articles/get-your-model-up-and-running</guid>
+            <pubDate>Sun, 27 Jun 2021 20:20:05 GMT</pubDate>
+            <description><![CDATA[Oftentimes a data scientist creates applications that run on data and give off some output. The problem is that these apps are mostly code and therefore a non-technical audience cannot interact with them. One solution to this is to create a user...]]></description>
+            <content:encoded><![CDATA[Oftentimes a data scientist creates applications that run on data and give off some output. The problem is that these apps are mostly code and therefore a non-technical audience cannot interact with them. One solution to this is to create a user...]]></content:encoded>
+            <enclosure url="https://firebasestorage.googleapis.com/v0/b/aesops-f77f7.appspot.com/o/Articles%2Fpexels-kevin-ku-577585.jpg?alt=media&token=1cd79292-55e1-4fa5-8cf7-7a3bbe73a9cb" length="0" type="image/jpg"/>
+        </item>
+        <item>
+            <title><![CDATA[Data Cleaning Introduction]]></title>
+            <link>http://localhost:3000/articles/data-cleaning-introduction</link>
+            <guid>http://localhost:3000/articles/data-cleaning-introduction</guid>
+            <pubDate>Thu, 20 May 2021 04:50:41 GMT</pubDate>
+            <description><![CDATA[Data Cleaning ensures that the data is error free, consistent and ensures the data is accurate.&nbsp;
+Data&nbsp; Accuracy is the degree to which the data is close to the true values.
+&rdquo; and the answer is,&nbsp; &ldquo;Data Cleaning&rdquo; and quality monitoring.]]></description>
+            <content:encoded><![CDATA[Data Cleaning ensures that the data is error free, consistent and ensures the data is accurate.&nbsp;
+Data&nbsp; Accuracy is the degree to which the data is close to the true values.
+&rdquo; and the answer is,&nbsp; &ldquo;Data Cleaning&rdquo; and quality monitoring.]]></content:encoded>
+            <enclosure url="https://firebasestorage.googleapis.com/v0/b/aesops-ke.appspot.com/o/Articles%2Fdata%20cleaning.jpeg?alt=media&token=1ced15b4-687c-4b3f-ae89-e8d2fb0237d0" length="0" type="image/jpeg"/>
+        </item>
+        <item>
+            <title><![CDATA[Kienyeji Farming: An analyst perspective]]></title>
+            <link>http://localhost:3000/articles/kienyeji-farming-an-analyst-perspective</link>
+            <guid>http://localhost:3000/articles/kienyeji-farming-an-analyst-perspective</guid>
+            <pubDate>Mon, 10 May 2021 15:44:13 GMT</pubDate>
+            <description><![CDATA[Please note that for eggs you will incur similar costs for the four months but after that, you will expect returns and the profit will be the difference between sales and the costs.&nbsp;&nbsp;&nbsp;&nbsp;]]></description>
+            <content:encoded><![CDATA[Please note that for eggs you will incur similar costs for the four months but after that, you will expect returns and the profit will be the difference between sales and the costs.&nbsp;&nbsp;&nbsp;&nbsp;]]></content:encoded>
+            <enclosure url="https://firebasestorage.googleapis.com/v0/b/aesops-ke.appspot.com/o/Articles%2Fkienyeji-vs-kuroiler.gif?alt=media&token=d5c76c9d-49d4-4384-ab08-f84ec75276e5" length="0" type="image/gif"/>
+        </item>
+        <item>
+            <title><![CDATA[Application of data tools in the fight against Covid19.]]></title>
+            <link>http://localhost:3000/articles/application-of-data-tools-in-the-fight-against-covid19</link>
+            <guid>http://localhost:3000/articles/application-of-data-tools-in-the-fight-against-covid19</guid>
+            <pubDate>Fri, 30 Apr 2021 06:36:48 GMT</pubDate>
+            <description><![CDATA[The World food program came up with &ldquo;Hunger map live&rdquo; a map that uses data from satellites, Nasa, and other institutions to map areas prone to famine and to also predict areas that could have corona outbreaks ( Danish institute of international studies,2020).]]></description>
+            <content:encoded><![CDATA[The World food program came up with &ldquo;Hunger map live&rdquo; a map that uses data from satellites, Nasa, and other institutions to map areas prone to famine and to also predict areas that could have corona outbreaks ( Danish institute of international studies,2020).]]></content:encoded>
+            <enclosure url="https://firebasestorage.googleapis.com/v0/b/aesops-ke.appspot.com/o/Articles%2Fcoronavirus%20(1).jpg?alt=media&token=a9ee3c27-df7b-46c0-b2e2-a78eab70ecee" length="0" type="image/jpg"/>
+        </item>
+        <item>
+            <title><![CDATA[Machine learning competitions as a tool for learning]]></title>
+            <link>http://localhost:3000/articles/machine-learning-competitions-as-a-tool-for-learning</link>
+            <guid>http://localhost:3000/articles/machine-learning-competitions-as-a-tool-for-learning</guid>
+            <pubDate>Sat, 09 Jan 2021 12:53:46 GMT</pubDate>
+            <description><![CDATA[Technology has since grown in leaps and bounds to the current artificial intelligence application that we are seeing on many phones today.&nbsp; I have kept learning and improving my knowledge in this and other technologies and that&rsquo;s how I came across Python, the main programming tool that I use for data analysis and programming.]]></description>
+            <content:encoded><![CDATA[Technology has since grown in leaps and bounds to the current artificial intelligence application that we are seeing on many phones today.&nbsp; I have kept learning and improving my knowledge in this and other technologies and that&rsquo;s how I came across Python, the main programming tool that I use for data analysis and programming.]]></content:encoded>
+            <enclosure url="https://firebasestorage.googleapis.com/v0/b/aesops-ke.appspot.com/o/Articles%2Fnjauuuuuuuuuu.png?alt=media&token=3ae11b60-fe97-4de0-b76f-c750bde4472a" length="0" type="image/png"/>
+        </item>
+        <item>
+            <title><![CDATA[visualizing classification models decision bounderies]]></title>
+            <link>http://localhost:3000/articles/visualizing-classification-models-decision-bounderies</link>
+            <guid>http://localhost:3000/articles/visualizing-classification-models-decision-bounderies</guid>
+            <pubDate>Wed, 02 Sep 2020 12:25:46 GMT</pubDate>
+            <description><![CDATA[On this article, we shall use the Iris dataset to show a comparison of four models using decision boundaries, to see non-linear behaviour as well as see what choices each model makes on the data for classification.]]></description>
+            <content:encoded><![CDATA[On this article, we shall use the Iris dataset to show a comparison of four models using decision boundaries, to see non-linear behaviour as well as see what choices each model makes on the data for classification.]]></content:encoded>
+            <enclosure url="https://res.cloudinary.com/aesops/image/upload/v1599049670/aesops/shnbwdqwgcmlnnm6azl4.jpg" length="0" type="image/jpg"/>
+        </item>
+        <item>
+            <title><![CDATA[hr churn report]]></title>
+            <link>http://localhost:3000/articles/hr-churn-report</link>
+            <guid>http://localhost:3000/articles/hr-churn-report</guid>
+            <pubDate>Tue, 14 Jul 2020 10:04:03 GMT</pubDate>
+            <description><![CDATA[hr$left_pred&lt;-predict(logit_model,data=hr,type=&quot;response&quot;)
+Training dataset using a generalized linear model(glm) function and thereafter making my predictions on the test data based on the trained set.
+##Predicting test data based on trained model]]></description>
+            <content:encoded><![CDATA[hr$left_pred&lt;-predict(logit_model,data=hr,type=&quot;response&quot;)
+Training dataset using a generalized linear model(glm) function and thereafter making my predictions on the test data based on the trained set.
+##Predicting test data based on trained model]]></content:encoded>
+        </item>
+        <item>
+            <title><![CDATA[are you still using matplotlib for your visualizations]]></title>
+            <link>http://localhost:3000/articles/are-you-still-using-matplotlib-for-your-visualizations</link>
+            <guid>http://localhost:3000/articles/are-you-still-using-matplotlib-for-your-visualizations</guid>
+            <pubDate>Sun, 28 Jun 2020 12:54:16 GMT</pubDate>
+            <description><![CDATA[These are for quick plots of the data but this is not to say that they aren&#39;t powerful.&nbsp; The syntax is very similar to the one line style used in Seaborn and practically for most of the other libraries that we highlight in this article.]]></description>
+            <content:encoded><![CDATA[These are for quick plots of the data but this is not to say that they aren&#39;t powerful.&nbsp; The syntax is very similar to the one line style used in Seaborn and practically for most of the other libraries that we highlight in this article.]]></content:encoded>
+            <enclosure url="https://res.cloudinary.com/aesops/image/upload/v1593348841/aesops/qxng39gipfbgndsmdjdl.jpg" length="0" type="image/jpg"/>
+        </item>
+        <item>
+            <title><![CDATA[Jupyter notebooks in visual studio code]]></title>
+            <link>http://localhost:3000/articles/jupyter-notebooks-in-visual-studio-code</link>
+            <guid>http://localhost:3000/articles/jupyter-notebooks-in-visual-studio-code</guid>
+            <pubDate>Tue, 02 Jun 2020 10:24:25 GMT</pubDate>
+            <description><![CDATA[“Sometimes it pays to stay in bed on Monday, rather than spending the rest of the week debugging Monday’s code.” – Dan Salomon]]></description>
+            <content:encoded><![CDATA[“Sometimes it pays to stay in bed on Monday, rather than spending the rest of the week debugging Monday’s code.” – Dan Salomon]]></content:encoded>
+            <enclosure url="https://res.cloudinary.com/aesops/image/upload/v1591092308/aesops/pw13vyk074tgwkotlkc8.jpg" length="0" type="image/jpg"/>
+        </item>
+        <item>
+            <title><![CDATA[h2o library for machine learning]]></title>
+            <link>http://localhost:3000/articles/h2o-library-for-machine-learning</link>
+            <guid>http://localhost:3000/articles/h2o-library-for-machine-learning</guid>
+            <pubDate>Thu, 07 May 2020 00:00:00 GMT</pubDate>
+            <description><![CDATA[After creating the machine learning models, you get results such as confusion matrix, RMSE, variable importance plot, and others so it&#39;s very easy to evaluate your model and fast.]]></description>
+            <content:encoded><![CDATA[After creating the machine learning models, you get results such as confusion matrix, RMSE, variable importance plot, and others so it&#39;s very easy to evaluate your model and fast.]]></content:encoded>
+            <enclosure url="https://res.cloudinary.com/lostvane/image/upload/v1590410100/aesops/d6nsvagdhfpscs16nr9z.jpg" length="0" type="image/jpg"/>
+        </item>
+        <item>
+            <title><![CDATA[oil prices in kenya]]></title>
+            <link>http://localhost:3000/articles/oil-prices-in-kenya</link>
+            <guid>http://localhost:3000/articles/oil-prices-in-kenya</guid>
+            <pubDate>Wed, 08 Apr 2020 00:00:00 GMT</pubDate>
+            <description><![CDATA[we can create an average variable that gets the average price for the kerosene,Ago(Diesel) and PMS(Super Petrol) so that we can approximate how much a litre of crude oil sells in Kenya.]]></description>
+            <content:encoded><![CDATA[we can create an average variable that gets the average price for the kerosene,Ago(Diesel) and PMS(Super Petrol) so that we can approximate how much a litre of crude oil sells in Kenya.]]></content:encoded>
+            <enclosure url="https://res.cloudinary.com/aesops/image/upload/v1586414227/aesops/ymdr6tjau59kmcf9lgb8.jpg" length="0" type="image/jpg"/>
+        </item>
+        <item>
+            <title><![CDATA[my data science journey]]></title>
+            <link>http://localhost:3000/articles/my-data-science-journey</link>
+            <guid>http://localhost:3000/articles/my-data-science-journey</guid>
+            <pubDate>Wed, 08 Apr 2020 00:00:00 GMT</pubDate>
+            <description><![CDATA[Honestly,&nbsp; I wasn&rsquo;t going to wait that long, I went back home, got online and applied to Moringa School, I received an answer and was scheduled for an interview two days later and I started my classes on 14th October 2019 (Full-Time) for the next 23 weeks.]]></description>
+            <content:encoded><![CDATA[Honestly,&nbsp; I wasn&rsquo;t going to wait that long, I went back home, got online and applied to Moringa School, I received an answer and was scheduled for an interview two days later and I started my classes on 14th October 2019 (Full-Time) for the next 23 weeks.]]></content:encoded>
+            <enclosure url="https://res.cloudinary.com/aesops/image/upload/v1588793122/aesops/qilyh7cphim6utbrf9p4.png" length="0" type="image/png"/>
+        </item>
+    </channel>
+</rss>
