@@ -23,6 +23,7 @@ function Articles({ articles, featured, count }) {
 }
 
 export async function getServerSideProps() {
+    // generate our rss feed
     const data = await fetchArticles()
 
     const featuredArticles =

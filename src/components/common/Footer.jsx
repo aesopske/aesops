@@ -69,7 +69,7 @@ function Footer() {
             height='auto'
             p='40px 0'
             borderTop='1px solid'
-            borderColor={colorMode === 'light' ? '#eee' : 'gray.600'}>
+            borderColor={colorMode === 'light' ? '#eee' : 'gray.700'}>
             <Grid
                 width={['95%', '80%']}
                 height='100%'
@@ -143,7 +143,7 @@ function Footer() {
                             <Text
                                 as='a'
                                 fontSize='0.9rem'
-                                href='https://www.linkedin.com/company/aesops/'
+                                href={social.href}
                                 target='_blank'
                                 rel='noopener noreferrer'>
                                 {social.label}
@@ -155,19 +155,19 @@ function Footer() {
 
             <Divider
                 mx='auto'
-                my='3rem'
-                width={['90%', '90%', '80%', '70%', '30%']}
-                borderColor={colorMode === 'light' ? '#eee' : 'gray.600'}
+                mb='2rem'
+                width={['90%', '90%', '80%', '70%', '40%']}
+                borderColor={colorMode === 'light' ? '#eee' : 'gray.700'}
             />
 
             <Text
                 my='1rem'
                 as='p'
-                color='#444'
+                color={colorMode === 'light' ? 'gray.600' : 'gray.500'}
                 textTransform='uppercase'
                 textAlign='center'>
-                {new Date().getFullYear()} &copy; aesops.co.ke all rights
-                reserved
+                all rights reserved {new Date().getFullYear()} &copy;
+                aesops.co.ke
             </Text>
         </Box>
     )
