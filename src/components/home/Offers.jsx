@@ -50,7 +50,7 @@ function Offers() {
                         <Heading size='xl'>Datasets</Heading>
                         <Text
                             as='p'
-                            fontSize='1rem'
+                            fontSize={['1rem', '1rem', '1.1rem']}
                             my='2rem'
                             width={['100%', '100%', '90%', '100%']}>
                             We look for unique datasets from Kenya, or Africa
@@ -131,7 +131,7 @@ function Offers() {
                         <Text
                             as='p'
                             my='2rem'
-                            fontSize='1rem'
+                            fontSize={['1rem', '1rem', '1.1rem']}
                             color={
                                 colorMode === 'light'
                                     ? '#555'
@@ -200,7 +200,7 @@ function Offers() {
                         <Text
                             as='p'
                             my='2rem'
-                            fontSize='1rem'
+                            fontSize={['1rem', '1rem', '1.1rem']}
                             width={['100%', '100%', '90%', '100%']}>
                             Our eyes are the gateways to our very souls. We
                             appeal to the souls of our readers with beautiful
@@ -284,7 +284,7 @@ function Offers() {
                         <Text
                             as='p'
                             my='2rem'
-                            fontSize='1rem'
+                            fontSize={['1rem', '1rem', '1.1rem']}
                             color={
                                 colorMode === 'light'
                                     ? '#555'

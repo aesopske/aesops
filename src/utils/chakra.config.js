@@ -38,8 +38,8 @@ export const theme = extendTheme({
     colors,
     styles,
     fonts: {
-        heading: 'Poppins',
-        body: 'Poppins',
+        heading: 'PT Sans',
+        body: 'PT Sans',
         mono: 'Overpass Mono',
     },
 })

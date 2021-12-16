@@ -72,7 +72,10 @@ function WhatWeOffer() {
                                 bg='purple.100'
                                 color='brand.primary'
                             />
-                            <Text as='p' my='1rem' fontSize='1rem'>
+                            <Text
+                                as='p'
+                                my='1rem'
+                                fontSize={['1rem', '1rem', '1.1rem']}>
                                 {activity.description}
                             </Text>
                         </Box>

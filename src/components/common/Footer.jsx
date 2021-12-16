@@ -102,13 +102,13 @@ function Footer() {
                     color={colorMode === 'light' ? '#555' : 'whiteAlpha.700'}
                     p='0 20px'>
                     <Heading size='md' my='1rem'>
-                        Links
+                        Website Links
                     </Heading>
                     {links.map((link) => (
                         <Box my='0.5rem' key={link.label}>
                             <Link href={link.link} passHref>
                                 <Text
-                                    fontSize='0.9rem'
+                                    fontSize='1rem'
                                     my='.5rem'
                                     _hover={{ color: 'brand.muted' }}
                                     cursor='pointer'>
@@ -142,7 +142,7 @@ function Footer() {
                             />
                             <Text
                                 as='a'
-                                fontSize='0.9rem'
+                                fontSize='1rem'
                                 href={social.href}
                                 target='_blank'
                                 rel='noopener noreferrer'>

@@ -46,7 +46,7 @@ function ArticlesCard({ article }) {
                 minHeight='25vh'
                 passHref>
                 <Image
-                    borderRadius='10px'
+                    borderRadius='20px'
                     src={image?.url}
                     alt={title}
                     objectFit='cover'
@@ -75,7 +75,7 @@ function ArticlesCard({ article }) {
                         passHref>
                         <Heading
                             cursor='pointer'
-                            fontSize={['1.2rem', '1.3rem', '1.3rem']}
+                            fontSize={['1.2rem', '1.3rem', '1.5rem']}
                             mb='1rem'
                             textTransform='capitalize'>
                             {title}

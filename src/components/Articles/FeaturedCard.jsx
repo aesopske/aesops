@@ -35,7 +35,7 @@ function FeaturedCard({ article }) {
                     alignItems='flex-start'
                     height='100%'
                     cursor='pointer'>
-                    <Box height='25vh' width='100%'>
+                    <Box height='35vh' width='100%'>
                         <Image
                             src={article.image && article.image.url}
                             alt={article?.title}
@@ -44,7 +44,7 @@ function FeaturedCard({ article }) {
                                     ? 'images/placeholderthumbnail.png'
                                     : '/images/placeholderthumbnail-dark.png'
                             }
-                            borderRadius='10px'
+                            borderRadius='20px'
                             objectFit='cover'
                             width='100%'
                             height='100%'
@@ -58,7 +58,7 @@ function FeaturedCard({ article }) {
                                 '1.2rem',
                                 '1.2rem',
                                 '1.2rem',
-                                '1.3rem',
+                                '1.5rem',
                             ]}
                             textTransform='capitalize'
                             my='1rem'>
@@ -67,12 +67,13 @@ function FeaturedCard({ article }) {
                         <Text
                             as='p'
                             my='1rem'
+                            fontSize={['0.9rem', '', '', '', '', '1rem']}
                             color={
                                 colorMode === 'light'
                                     ? '#555'
                                     : 'whiteAlpha.700'
                             }
-                            noOfLines={[2, 2, 3, 3, 5]}>
+                            noOfLines={[2, 2, 3, 3, 3, 5]}>
                             <MarkdownReader content={article?.summary} />
                         </Text>
                     </Box>

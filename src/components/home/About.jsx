@@ -60,7 +60,7 @@ function About() {
                         width='100%'
                         as='p'
                         my='1.5rem'
-                        fontSize='1rem'
+                        fontSize={['1rem', '1rem', '1.1rem']}
                         color={colorMode === 'light' ? '#555' : '#f4f4f4'}>
                         We are a Kenyan data organization with the dream of
                         revolutionizing the Kenyan data sector. The dream
@@ -75,7 +75,7 @@ function About() {
                         width='100%'
                         as='p'
                         my='1.5rem'
-                        fontSize='1rem'
+                        fontSize={['1rem', '1rem', '1.1rem']}
                         color={colorMode === 'light' ? '#555' : '#f4f4f4'}>
                         We also share data-driven articles where we analyze the
                         state of the art technologies in Kenya and in the region

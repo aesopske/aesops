@@ -28,7 +28,11 @@ function AppsBanner() {
                 color='#fff'
                 spacing='6'>
                 <Heading>Datasets</Heading>
-                <Text as='p' width={['100%', '100%', '80%', '45%']}>
+                <Text
+                    as='p'
+                    fontSize='1.2rem'
+                    width={['100%', '100%', '80%', '45%']}
+                    color={colorMode === 'light' ? 'gray.100' : 'gray.400'}>
                     We look for unique datasets from Kenya, or Africa that are
                     largely under-represented in the data science community. We
                     share datasets to help Kenyans develop their own solutions
