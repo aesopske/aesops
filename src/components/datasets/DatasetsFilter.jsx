@@ -1,12 +1,5 @@
-import {
-    Box,
-    useColorMode,
-    InputGroup,
-    InputLeftElement,
-    Input,
-    Icon,
-} from '@chakra-ui/react'
-import { FaSearch } from 'react-icons/fa'
+import { Box, useColorMode } from '@chakra-ui/react'
+import Search from '../common/Search'
 
 function DatasetsFilter() {
     const { colorMode } = useColorMode()
@@ -15,14 +8,13 @@ function DatasetsFilter() {
             p='20px'
             bg={colorMode === 'light' ? '#fff' : 'gray.700'}
             borderRadius='10px'
-            height='auto'>
-            <InputGroup>
-                <InputLeftElement mt='5px'>
-                    <Icon as={FaSearch} />
-                </InputLeftElement>
-
-                <Input placeholder='search by title ...' height='3rem' />
-            </InputGroup>
+            height='auto'
+            minHeight='15vh'>
+            <Search
+                full
+                label='Search for dataset'
+                placeholder='search by title or category ...'
+            />
         </Box>
     )
 }

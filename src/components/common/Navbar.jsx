@@ -78,8 +78,13 @@ function Navbar() {
                             </HStack>
                         </Link>
 
-                        <HStack spacing='8' width='auto'>
-                            <Box as={HStack} spacing='8' width='auto'>
+                        <HStack
+                            spacing={['', '', '4', '5', '4', '6']}
+                            width='auto'>
+                            <Box
+                                as={HStack}
+                                spacing={['', '', '4', '5', '5', '6']}
+                                width='auto'>
                                 {nav.map((item) => (
                                     <Link
                                         key={item.label}
@@ -87,7 +92,14 @@ function Navbar() {
                                         passHref>
                                         <Text
                                             as='span'
-                                            fontSize='1rem'
+                                            fontSize={[
+                                                '',
+                                                '',
+                                                '',
+                                                '1rem',
+                                                '1rem',
+                                                '1.1rem',
+                                            ]}
                                             color={
                                                 router.asPath === item.path
                                                     ? 'brand.primary'
@@ -116,6 +128,14 @@ function Navbar() {
                                     href={`${process.env.DASHBOARD_URL}/auth/signin`}
                                     _hover={{ color: 'brand.muted' }}
                                     target='_blank'
+                                    fontSize={[
+                                        '',
+                                        '',
+                                        '',
+                                        '1rem',
+                                        '1rem',
+                                        '1.1rem',
+                                    ]}
                                     rel='noopener noreferer'
                                     width='auto'>
                                     Sign In &rarr;
@@ -126,7 +146,14 @@ function Navbar() {
                                     href={`${process.env.DASHBOARD_URL}/auth/signup`}
                                     target='_blank'
                                     rel='noopener noreferer'
-                                    fontSize='1rem'
+                                    fontSize={[
+                                        '',
+                                        '',
+                                        '',
+                                        '',
+                                        '0.9rem',
+                                        '1rem',
+                                    ]}
                                     fontWeight='500'
                                     color='#fff'
                                     bg='brand.primary'
@@ -141,7 +168,7 @@ function Navbar() {
                                         bg: 'brand.primary',
                                         outline: 'none',
                                     }}
-                                    height='3rem'
+                                    height={['', '', '', '', '2.5rem', '3rem']}
                                     borderRadius='10px'
                                     width='auto'
                                     minWidth='40%'>

@@ -48,9 +48,11 @@ function Hero() {
                             <Text
                                 as='p'
                                 fontSize={[
+                                    '1rem',
+                                    '1rem',
                                     '1.1rem',
-                                    '1.2rem',
-                                    '1.2rem',
+                                    '1.1rem',
+                                    '1.1rem',
                                     '1.2rem',
                                 ]}
                                 my='2rem'
