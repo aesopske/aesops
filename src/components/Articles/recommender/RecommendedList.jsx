@@ -27,7 +27,7 @@ function RecommendedList({ title }) {
                 Recommended articles
             </Heading>
             <Divider />
-            <Grid gap='1rem' templateColumns='repeat(1,1fr)' my='1rem'>
+            <Grid gap='0' templateColumns='repeat(1,1fr)' my='1rem'>
                 {recommended &&
                     recommended.map((item) => (
                         <RecommendedListItem key={item._id} item={item} />

@@ -15,7 +15,7 @@ function Hero() {
     const { colorMode } = useColorMode()
     return (
         <Box
-            width={['90%', '90%', '80%']}
+            width={['95%', '90%', '80%']}
             height={['auto', 'auto', 'auto', '100vh', '70vh']}
             bgImage={
                 colorMode === 'light'
@@ -130,7 +130,7 @@ function Hero() {
                 </Box>
 
                 <Fade bottom>
-                    <Box my={['2rem', '1rem', '1rem', '0']}>
+                    <Box my={['2rem', '1rem', '1rem', '0']} display={['none','none','block']}>
                         <Image
                             src='/images/aesops-nutshell.png'
                             alt='aesops'

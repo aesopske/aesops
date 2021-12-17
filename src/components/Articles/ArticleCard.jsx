@@ -12,12 +12,14 @@ import {
     GridItem,
     useColorMode,
     Stack,
+    HStack,
+    Badge,
 } from '@chakra-ui/react'
 import UserAvatar from '../common/UserAvatar'
 
 function ArticlesCard({ article }) {
     const { colorMode } = useColorMode()
-    const { title, image, author, created, body, summary, slug } = article
+    const { title, image, author, created, body, summary, slug, tags } = article
     const date = format(new Date(created), 'MMM dd')
     const { text } = readTime(body && body)
 
@@ -27,6 +29,8 @@ function ArticlesCard({ article }) {
         read: text,
         photoURL: article?.author_image,
     }
+
+   
 
     return (
         <Grid
@@ -68,6 +72,14 @@ function ArticlesCard({ article }) {
                 justifyContent='space-between'
                 p='10px 0'>
                 <Box>
+                    <HStack spacing='1' flexWrap='wrap' mb='1rem'>
+                        {tags &&
+                            tags.map((tag) => (
+                                <Badge key={tag} borderRadius='5px' p='5px'>
+                                    #{tag}
+                                </Badge>
+                            ))}
+                    </HStack>
                     <Link
                         href={{
                             pathname: `/articles/${slug}`,
@@ -81,6 +93,7 @@ function ArticlesCard({ article }) {
                             {title}
                         </Heading>
                     </Link>
+
                     <Text
                         as='p'
                         fontSize='1rem'

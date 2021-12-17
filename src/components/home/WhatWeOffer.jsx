@@ -14,22 +14,26 @@ function WhatWeOffer() {
     const activities = [
         {
             name: 'Collect',
-            description: 'Collect / Clean datasets',
+            description:
+                'Extract data,clean and transform it and finally prepare it to be used by you ',
             icon: <FaDatabase />,
         },
         {
             name: 'write',
-            description: 'Write about findings',
+            description:
+                'After the ETL process, we also perform our own analysis on the data and present our findings',
             icon: <FaFileAlt />,
         },
         {
             name: 'develop',
-            description: 'Develop apps that make use of our datasets',
+            description:
+                'Develop models, tools and apps that make use of our datasets',
             icon: <FaCode />,
         },
         {
             name: 'Share',
-            description: 'We share out findings, apps, datasets with the world',
+            description:
+                'We share our findings, apps, datasets and tools with the world',
             icon: <FaShareAlt />,
         },
     ]
@@ -40,7 +44,7 @@ function WhatWeOffer() {
             height='auto'
             p={['0', '0', '50px 0']}
             my={['0', '0', '5rem']}>
-            <Box ml='1rem'>
+            <Box>
                 <Heading size='xl' my='3rem'>
                     What we bring you
                 </Heading>
