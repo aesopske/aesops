@@ -8,8 +8,7 @@ function DatasetsFilter() {
             p='20px'
             bg={colorMode === 'light' ? '#fff' : 'gray.700'}
             borderRadius='10px'
-            height='auto'
-            minHeight='15vh'>
+            height={['20vh', '20vh', '20vh', '20vh', '17vh', '15vh']}>
             <Search
                 full
                 label='Search for dataset'

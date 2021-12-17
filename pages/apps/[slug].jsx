@@ -9,7 +9,7 @@ function AppDetail({ app }) {
     return (
         <Layout title={app.title} description={app?.description}>
             <Box
-                width={['90%', '90%', '90%', '80%']}
+                width={['95%', '90%', '90%', '80%']}
                 mx='auto'
                 height='auto'
                 minHeight='50vh'>

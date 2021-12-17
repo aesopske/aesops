@@ -10,8 +10,7 @@ function AppsFilter() {
             p='20px'
             bg={colorMode === 'light' ? '#fff' : 'gray.700'}
             borderRadius='10px'
-            height='auto'
-            minHeight='15vh'>
+            height={['20vh', '20vh', '20vh', '20vh', '17vh', '15vh']}>
             <Search
                 placeholder='search by title or category ...'
                 label='Search for app'

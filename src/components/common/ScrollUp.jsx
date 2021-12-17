@@ -19,18 +19,16 @@ function Backtop({ scroll }) {
                     <IconButton
                         borderRadius='10px'
                         height='50px'
-                        width='50px'
-                        bg='brand.primary'
-                        color='#fff'
-                        _hover={{ bg: 'brand.primary', color: '#fff' }}
+                        width='40px'
+                        bg='purple.100'
+                        color='brand.primary'
+                        _hover={{ bg: 'purple.200' }}
                         _focus={{
-                            bg: 'brand.primary',
-                            color: '#fff',
+                            bg: 'purple.100',
                             outline: 'none',
                         }}
                         _active={{
-                            bg: 'brand.primary',
-                            color: '#fff',
+                            bg: 'purple.100',
                             outline: 'none',
                         }}
                         icon={<FaArrowUp />}

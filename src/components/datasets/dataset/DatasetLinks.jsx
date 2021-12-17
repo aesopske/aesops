@@ -26,7 +26,7 @@ function DatasetLinks({ dataset }) {
                 <Icon as={RiArticleLine} fontSize='1.2rem' />
                 {dataset?.article ? (
                     <Link href={`/articles/${articleSlug}`} passHref>
-                        <Text cursor='pointer'>{dataset?.article} 🔗</Text>
+                        <Text cursor='pointer'>{dataset?.article} &rarr;</Text>
                     </Link>
                 ) : (
                     <Text cursor='pointer'>No Related article</Text>

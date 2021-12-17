@@ -33,6 +33,7 @@ function AppHeader({ app }) {
                         name: app?.author,
                         date: new Date(app?.created).toDateString(),
                     }}
+                    onSurface
                 />
             </Box>
         </Box>

@@ -48,8 +48,9 @@ function ProfileCard({ profile }) {
                     src={src}
                     size='lg'
                     position='absolute'
+                    borderRadius='20px'
                     left='50%'
-                    top={['15%', '15%', '15%', '15%', '25%']}
+                    top={['15%', '15%', '15%', '15%', '22%']}
                     transform='translate(-50%,-15%)'
                 />
                 <Box
@@ -89,6 +90,17 @@ function ProfileCard({ profile }) {
                                     href={`mailto:${profile.email}`}
                                     rel='noopener noreferer'
                                     target='_blank'
+                                    borderRadius='10px'
+                                    bg={
+                                        colorMode === 'light'
+                                            ? 'purple.100'
+                                            : 'gray.600'
+                                    }
+                                    color={
+                                        colorMode === 'light'
+                                            ? 'brand.primary'
+                                            : 'brand.muted'
+                                    }
                                     icon={<FaEnvelope />}
                                 />
                             </HStack>

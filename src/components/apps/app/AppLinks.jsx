@@ -24,21 +24,21 @@ function AppLinks({ app }) {
             borderRadius='10px'
             p='20px'
             bg={colorMode === 'light' ? '#fff' : 'gray.700'}>
-            <HStack>
+            <HStack alignItems='flex-start'>
                 <Icon as={RiArticleLine} fontSize='1.3rem' />
                 {app?.article ? (
                     <Link href={`/articles/${appSlug}`} passHref>
-                        <Text cursor='pointer'>{app?.article} 🔗</Text>
+                        <Text cursor='pointer'>{app?.article} &rarr;</Text>
                     </Link>
                 ) : (
                     <Text cursor='pointer'>No linked article</Text>
                 )}
             </HStack>
-            <HStack my='1rem'>
+            <HStack my='1rem' alignItems='flex-start'>
                 <Icon as={RiDatabase2Line} fontSize='1.3rem' />
                 {app?.dataset ? (
                     <Link href={`/datasets/${datasetSlug}`} passHref>
-                        <Text cursor='pointer'>{app?.dataset} 🔗</Text>
+                        <Text cursor='pointer'>{app?.dataset} &rarr;</Text>
                     </Link>
                 ) : (
                     <Text cursor='pointer'>No linked dataset</Text>

@@ -8,7 +8,7 @@ import AppsList from '@/src/components/apps/AppsList'
 function Apps({ apps }) {
     return (
         <Layout title='Aesops | Apps'>
-            <Box width={['90%', '90%', '80%']} height='auto' mx='auto'>
+            <Box width={['95%', '90%', '80%']} height='auto' mx='auto'>
                 <AppsBanner />
 
                 <Grid
