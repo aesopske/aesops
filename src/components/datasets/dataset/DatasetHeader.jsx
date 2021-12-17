@@ -33,6 +33,7 @@ function DatasetHeader({ dataset }) {
                         name: dataset?.author,
                         date: new Date(dataset?.created).toDateString(),
                     }}
+                    onSurface
                 />
             </Stack>
         </Box>

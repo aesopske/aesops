@@ -14,11 +14,11 @@ function About() {
     const { colorMode } = useColorMode()
     return (
         <Box
-            width={['90%', '90%', '100%']}
+            width={['95%', '90%', '100%']}
             mx='auto'
             height='auto'
-            p='50px 0'
-            my='5rem'>
+            p={['20px 0', '30px 0', '50px 0']}
+            my={['1rem', '1rem', '2rem', '3rem', '5rem']}>
             <Box
                 as={Stack}
                 mx='auto'
@@ -34,6 +34,7 @@ function About() {
                 alignItems='center'
                 justifyContent='space-between'>
                 <Box
+                    display={['none', 'none', 'block']}
                     width={['80%', '60%', '40%', '30%']}
                     height={['80%', '70%', '60%', '40%']}
                     flex='1'

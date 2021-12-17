@@ -30,7 +30,7 @@ function AppsBanner() {
                 <Heading>Datasets</Heading>
                 <Text
                     as='p'
-                    fontSize='1.2rem'
+                    fontSize='1.1rem'
                     width={['100%', '100%', '80%', '45%']}
                     color={colorMode === 'light' ? 'gray.100' : 'gray.400'}>
                     We look for unique datasets from Kenya, or Africa that are

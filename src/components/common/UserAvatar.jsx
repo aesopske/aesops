@@ -8,7 +8,12 @@ import {
     useColorMode,
 } from '@chakra-ui/react'
 
-function UserAvatar({ user, size = 'md', align = 'flex-start' }) {
+function UserAvatar({
+    user,
+    size = 'md',
+    align = 'flex-start',
+    onSurface = false,
+}) {
     const { colorMode } = useColorMode()
     return (
         <HStack alignItems={align}>
@@ -27,21 +32,39 @@ function UserAvatar({ user, size = 'md', align = 'flex-start' }) {
                     fontWeight='600'
                     size='sm'
                     textTransform='capitalize'
-                    color={colorMode === 'light' ? 'gray.600' : 'gray.400'}>
+                    color={
+                        colorMode === 'light'
+                            ? onSurface
+                                ? 'gray.100'
+                                : 'gray.600'
+                            : 'gray.400'
+                    }>
                     {user?.name}
                 </Text>
                 {user?.read ? (
                     <Text
                         as='small'
                         fontSize='.85rem'
-                        color={colorMode === 'light' ? 'gray.600' : 'gray.500'}>
+                        color={
+                            colorMode === 'light'
+                                ? onSurface
+                                    ? 'gray.100'
+                                    : 'gray.600'
+                                : 'gray.500'
+                        }>
                         {user?.date} &bull; {user?.read}
                     </Text>
                 ) : (
                     <Text
                         as='small'
                         fontSize='.85rem'
-                        color={colorMode === 'light' ? 'gray.500' : 'gray.500'}>
+                        color={
+                            colorMode === 'light'
+                                ? onSurface
+                                    ? 'gray.100'
+                                    : 'gray.600'
+                                : 'gray.500'
+                        }>
                         {user?.date}
                     </Text>
                 )}

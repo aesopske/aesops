@@ -13,7 +13,7 @@ import Link from 'next/link'
 function Offers() {
     const { colorMode } = useColorMode()
     return (
-        <Box height='auto' width={['90%', '90%', '80%']} mx='auto'>
+        <Box height='auto' width={['95%', '90%', '80%']} mx='auto'>
             <Box
                 height='auto'
                 width='100%'
@@ -45,7 +45,7 @@ function Offers() {
                     width={['90%', '90%', '90%', '90%']}
                     mx='auto'
                     zIndex='10'
-                    my='4rem'>
+                    my={['0', '0', '2rem', '4rem']}>
                     <Box flex='1' color='#fff' zIndex='20'>
                         <Heading size='xl'>Datasets</Heading>
                         <Text
@@ -82,6 +82,7 @@ function Offers() {
                         zIndex='20'
                         width={['80%', '60%', '40%']}
                         height={['80%', '70%', '60%']}
+                        display={['none', 'none', 'block']}
                         mt={['2rem', '2rem', '2rem', '0']}>
                         <Image
                             src='/svg/dataset.svg'
@@ -93,10 +94,15 @@ function Offers() {
                     </Box>
                 </Box>
             </Box>
-            <Box height='auto' width='100%' mx='auto' p='100px 0'>
+            <Box
+                height='auto'
+                width='100%'
+                mx='auto'
+                p={['20px 0', '20px 0', '30px 0', '100px 0']}>
                 <Box
                     as={Stack}
                     height='100%'
+                    spacing='8'
                     direction={[
                         'column-reverse',
                         'column-reverse',
@@ -107,11 +113,11 @@ function Offers() {
                     justifyContent='space-between'
                     width={['90%', '90%', '90%', '100%']}
                     mx='auto'
-                    my='4rem'>
+                    my={['0', '0', '2rem', '4rem']}>
                     <Box
                         flex='1'
-                        width={['80%', '60%', '40%']}
-                        height={['80%', '70%', '60%']}
+                        width={['100%', '60%', '40%']}
+                        height={['100%', '70%', '60%']}
                         mt={['2rem', '2rem', '2rem', '0']}>
                         <Image
                             bg={colorMode === 'light' ? '#fff' : 'gray.800'}
@@ -120,8 +126,8 @@ function Offers() {
                             borderRadius='20px'
                             src='/svg/projects.svg'
                             alt='projects'
-                            width='80%'
-                            height='90%'
+                            width={['100%', '100%', '80%']}
+                            height='100%'
                             objectFit='contain'
                         />
                     </Box>
@@ -167,7 +173,7 @@ function Offers() {
                 height='auto'
                 width='100%'
                 mx='auto'
-                p='100px 0'
+                p={['50px 0', '50px 0', '100px 0']}
                 bgImage="url('/images/project.jpg')"
                 bgAttachment='fixed'
                 bgSize='cover'
@@ -194,7 +200,7 @@ function Offers() {
                     width={['90%', '90%', '90%', '90%']}
                     mx='auto'
                     spacing='8'
-                    my='4rem'>
+                    my={['0', '0', '2rem', '4rem']}>
                     <Box flex='1' color='#fff' zIndex='20'>
                         <Heading size='xl'>Visuals and Code</Heading>
                         <Text
@@ -229,14 +235,16 @@ function Offers() {
                     </Box>
                     <Box
                         flex='1'
+                        as={Stack}
+                        display={['none', 'none', 'flex']}
                         zIndex='20'
-                        width={['80%', '60%', '40%']}
-                        height={['80%', '70%', '60%']}
-                        mt={['3rem', '2rem', '2rem', '0']}>
+                        alignItems='flex-end'
+                        width={['100%', '60%', '40%']}
+                        height={['100%', '70%', '60%']}>
                         <Image
                             src='/svg/visuals.svg'
                             alt='visuals'
-                            width='90%'
+                            width={['', '', '', '80%']}
                             height='100%'
                             objectFit='contain'
                         />
@@ -259,13 +267,14 @@ function Offers() {
                     ]}
                     alignItems='center'
                     justifyContent='space-between'
+                    spacing='8'
                     width={['90%', '90%', '90%', '100%']}
                     mx='auto'
                     my='4rem'>
                     <Box
                         flex='1'
-                        width={['80%', '60%', '40%']}
-                        height={['80%', '70%', '60%']}
+                        width={['100%', '60%', '40%']}
+                        height={['100%', '70%', '60%']}
                         mt={['2rem', '2rem', '2rem', '0']}>
                         <Image
                             p='30px'
@@ -274,7 +283,7 @@ function Offers() {
                             bg={colorMode === 'light' ? '#fff' : 'gray.800'}
                             src='/svg/ml.svg'
                             alt='machine learning'
-                            width='80%'
+                            width={['100%', '100%', '80%']}
                             height='100%'
                             objectFit='contain'
                         />

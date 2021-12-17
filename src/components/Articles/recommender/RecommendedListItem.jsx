@@ -3,9 +3,10 @@ import { format } from 'date-fns'
 import readTime from 'reading-time'
 import Link from 'next/link'
 import UserAvatar from '../../common/UserAvatar'
-import { Box, Heading, Image, Stack } from '@chakra-ui/react'
+import { Box, Heading, Image, Stack, useColorMode } from '@chakra-ui/react'
 
 function RecommendedListItem({ item }) {
+    const { colorMode } = useColorMode()
     const date = format(new Date(item?.created), 'MMM dd')
     const { text } = readTime(item?.body)
 
@@ -19,21 +20,25 @@ function RecommendedListItem({ item }) {
     return (
         <Box
             as={Stack}
-            direction={['column', 'column', 'column', 'row']}
+            direction='column'
             alignItems='flex-start'
             width='100%'
             justifyContent='flex-start'
             my='1rem'
             height='auto'
-            minHeight='12vh'>
+            minHeight='20vh'>
             {item?.image && (
                 <Image
                     src={item?.image.url}
                     alt={item?.title}
-                    width={['100%', '100px']}
-                    height='100%'
+                    width='100%'
+                    height={['auto', 'auto', '', '', '25vh', '20vh']}
                     borderRadius='10px'
-                    fallbackSrc='/images/placeholder.png'
+                    fallbackSrc={
+                        colorMode === 'light'
+                            ? '/images/placeholderthumbnail-dark.png'
+                            : '/images/placeholderthumbnail.png'
+                    }
                     objectFit='cover'
                 />
             )}

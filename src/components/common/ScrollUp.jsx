@@ -9,24 +9,26 @@ function Backtop({ scroll }) {
     }
 
     return (
-        <Box position='fixed' bottom='3rem' right='3rem'>
+        <Box
+            position='fixed'
+            bottom={['8rem', '', '', '3rem']}
+            right={['1rem', '', '', '3rem']}
+            zIndex='20'>
             {scroll === true ? (
                 <Tooltip label='Back to the top' hasArrow placement='bottom'>
                     <IconButton
                         borderRadius='10px'
                         height='50px'
-                        width='50px'
-                        bg='brand.primary'
-                        color='#fff'
-                        _hover={{ bg: 'brand.primary', color: '#fff' }}
+                        width='40px'
+                        bg='purple.100'
+                        color='brand.primary'
+                        _hover={{ bg: 'purple.200' }}
                         _focus={{
-                            bg: 'brand.primary',
-                            color: '#fff',
+                            bg: 'purple.100',
                             outline: 'none',
                         }}
                         _active={{
-                            bg: 'brand.primary',
-                            color: '#fff',
+                            bg: 'purple.100',
                             outline: 'none',
                         }}
                         icon={<FaArrowUp />}

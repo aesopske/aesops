@@ -30,7 +30,7 @@ function Layout({ children, title, keywords, description, url, imageurl }) {
         pageView()
     }, [pageView])
     return (
-        <Box width='100%'>
+        <Box width='100%' position='relative'>
             <Head>
                 <title>{title}</title>
                 <meta name='description' content={description} />

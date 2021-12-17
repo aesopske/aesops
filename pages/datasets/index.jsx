@@ -8,7 +8,7 @@ import DatasetList from '@/src/components/datasets/DatasetsList'
 function Datasets({ datasets }) {
     return (
         <Layout title='Aesops - Datasets'>
-            <Box width={['90%', '90%', '80%']} height='auto' mx='auto'>
+            <Box width={['95%', '90%', '80%']} height='auto' mx='auto'>
                 <DatasetBanner />
                 <Grid
                     gap='2rem'
