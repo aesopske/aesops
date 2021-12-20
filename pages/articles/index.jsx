@@ -5,8 +5,13 @@ import Layout from '@/src/components/common/Layout'
 import { fetchArticles } from '@/src/utils/requests'
 
 function Articles({ articles, featured, count }) {
+    const description =
+        'Share your stories about data, insights from our datasets and those shared by the community.'
     return (
-        <Layout title='Aesops - Articles'>
+        <Layout
+            title='Aesops - Articles'
+            url='https://aesops.co.ke/articles'
+            description={description}>
             <Box
                 mt={['0', '0', '0', '2rem', '2rem']}
                 width={['95%', '90%', '80%']}
