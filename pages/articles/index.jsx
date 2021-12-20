@@ -2,11 +2,12 @@ import { Box, Heading } from '@chakra-ui/react'
 import ArticleList from '@/src/components/Articles/ArticleList'
 import FeaturedList from '@/src/components/Articles/FeaturedList'
 import Layout from '@/src/components/common/Layout'
-import { fetchArticles } from '@/src/utils/requests'
+import { fetchArticles, fetchFeaturedArticles } from '@/src/utils/requests'
 
 function Articles({ articles, featured, count }) {
     const description =
         'Share your stories about data, insights from our datasets and those shared by the community.'
+
     return (
         <Layout
             title='Aesops - Articles'
@@ -30,9 +31,7 @@ function Articles({ articles, featured, count }) {
 export async function getServerSideProps() {
     // generate our rss feed
     const data = await fetchArticles()
-
-    const featuredArticles =
-        data.items && data.items.filter((item) => item.featured).splice(0, 4)
+    const featured = await fetchFeaturedArticles()
 
     if (!data) {
         return {
@@ -45,7 +44,7 @@ export async function getServerSideProps() {
 
     return {
         props: {
-            featured: featuredArticles,
+            featured: featured.items,
             articles: data.items,
             count: data.count,
         },

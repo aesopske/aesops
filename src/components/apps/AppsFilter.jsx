@@ -1,10 +1,8 @@
 import { Box, useColorMode } from '@chakra-ui/react'
 import Search from '../common/Search'
-import { useState } from 'react'
 
-function AppsFilter() {
+function AppsFilter({ searchTerm, setSearchTerm }) {
     const { colorMode } = useColorMode()
-    const [searchTerm, setSearchTerm] = useState('')
     return (
         <Box
             p='20px'

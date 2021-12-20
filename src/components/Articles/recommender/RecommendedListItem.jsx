@@ -25,15 +25,14 @@ function RecommendedListItem({ item }) {
             width='100%'
             justifyContent='flex-start'
             my='1rem'
-            height='auto'
-            minHeight='20vh'>
+            height='auto'>
             {item?.image && (
                 <Image
                     src={item?.image.url}
                     alt={item?.title}
                     width='100%'
-                    height={['auto', 'auto', '', '', '25vh', '20vh']}
-                    borderRadius='10px'
+                    height={['25vh', '25vh', '25vh', '25vh', '25vh', '20vh']}
+                    borderRadius='20px'
                     fallbackSrc={
                         colorMode === 'light'
                             ? '/images/placeholderthumbnail-dark.png'
@@ -47,7 +46,7 @@ function RecommendedListItem({ item }) {
                 ml={item?.image && '1rem'}
                 as={Stack}
                 alignItems='flex-start'
-                height='100%'
+                height='auto'
                 p='10px'
                 justifyContent='space-between'>
                 <Link href={{ pathname: `/articles/${item?.slug}` }} passHref>

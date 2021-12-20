@@ -4,7 +4,7 @@ import MoreByAuthorItem from './MoreByAuthorItem'
 
 function MoreByAuthor({ user, posts }) {
     return (
-        <Box mt='1rem'>
+        <Box>
             <VStack justifyContent='flex-start' alignItems='flex-start'>
                 <Heading size='md' fontWeight='800'>
                     More from {user.name}
