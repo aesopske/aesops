@@ -7,8 +7,9 @@ import {
     Input,
     Icon,
     InputLeftElement,
+    InputRightElement,
 } from '@chakra-ui/react'
-import { FaSearch } from 'react-icons/fa'
+import { FaSearch, FaTimes } from 'react-icons/fa'
 
 function Search({
     setTerm,
@@ -45,6 +46,20 @@ function Search({
                         onChange={(e) => setTerm(e.target.value)}
                         height='3.5rem'
                     />
+
+                    {term && (
+                        <InputRightElement
+                            fontSize='1rem'
+                            height='100%'
+                            cursor='pointer'
+                            onClick={() => setTerm('')}>
+                            <Icon
+                                as={FaTimes}
+                                fontSize='1.2rem'
+                                color='gray.500'
+                            />
+                        </InputRightElement>
+                    )}
                 </InputGroup>
             </FormControl>
         </Box>

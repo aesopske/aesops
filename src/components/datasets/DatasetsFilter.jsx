@@ -1,7 +1,7 @@
 import { Box, useColorMode } from '@chakra-ui/react'
 import Search from '../common/Search'
 
-function DatasetsFilter() {
+function DatasetsFilter({ searchTerm, setSearchTerm }) {
     const { colorMode } = useColorMode()
     return (
         <Box
@@ -13,6 +13,8 @@ function DatasetsFilter() {
                 full
                 label='Search for dataset'
                 placeholder='search by title or category ...'
+                setTerm={setSearchTerm}
+                term={searchTerm}
             />
         </Box>
     )

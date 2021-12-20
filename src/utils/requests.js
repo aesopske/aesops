@@ -20,8 +20,24 @@ function config() {
  */
 
 // fetch articles
-export async function fetchArticles() {
-    const { data = {} } = await axios.get(`${BASEURL}/articles`, config())
+export async function fetchArticles(term = '') {
+    try {
+        const { data = {} } = await axios.get(
+            `${BASEURL}/articles?keyword=${term}`,
+            config()
+        )
+        return data
+    } catch (error) {
+        // find a way to send errors to slack
+        return { items: [], count: 0 }
+    }
+}
+// fetch articles
+export async function fetchFeaturedArticles() {
+    const { data = {} } = await axios.get(
+        `${BASEURL}/articles/featured`,
+        config()
+    )
     return data
 }
 
@@ -58,9 +74,17 @@ export async function fetchMoreByAuthor(author) {
 */
 
 // fetch datasets
-export async function fetchDatasets() {
-    const { data = {} } = await axios.get(`${BASEURL}/datasets`, config())
-    return data
+export async function fetchDatasets(term = '') {
+    try {
+        const { data = {} } = await axios.get(
+            `${BASEURL}/datasets?keyword=${term}`,
+            config()
+        )
+        return data
+    } catch (error) {
+        // find a way to send errors to slack
+        return { items: [], count: 0 }
+    }
 }
 
 // fetch dataset
@@ -78,9 +102,17 @@ export async function fetchDataset(slug) {
 */
 
 // fetch apps
-export async function fetchApps() {
-    const { data = {} } = await axios.get(`${BASEURL}/apps`, config())
-    return data
+export async function fetchApps(term = '') {
+    try {
+        const { data = {} } = await axios.get(
+            `${BASEURL}/apps?keyword=${term}`,
+            config()
+        )
+        return data
+    } catch (error) {
+        // find a way to send errors to slack
+        return { items: [], count: 0 }
+    }
 }
 
 // fetch app
