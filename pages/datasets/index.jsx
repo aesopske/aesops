@@ -8,7 +8,7 @@ import { useState, useEffect } from 'react'
 import { useDebounce } from 'use-debounce'
 
 function Datasets({ datasets }) {
-    const [searchTerm, setSearchTerm] = useState([])
+    const [searchTerm, setSearchTerm] = useState('')
     const [filtered, setFiltered] = useState([])
 
     const [text] = useDebounce(searchTerm, 500)
