@@ -61,7 +61,7 @@ function NavbarMobile() {
         },
         {
             label: 'Trendsboard',
-            path: '/trendsboard',
+            path: '/trends',
             icon: MdGraphicEq,
         },
         {
