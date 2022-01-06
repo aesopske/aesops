@@ -22,6 +22,7 @@ function Apps({ apps }) {
         }
     }
 
+    // client side rendering
     useEffect(() => {
         if (typeof window !== 'undefined') {
             if (text) {
