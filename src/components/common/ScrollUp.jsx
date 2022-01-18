@@ -17,10 +17,11 @@ function Backtop({ scroll }) {
             {scroll === true ? (
                 <Tooltip label='Back to the top' hasArrow placement='bottom'>
                     <IconButton
-                        borderRadius='10px'
-                        height='50px'
+                        borderRadius='8px'
+                        height='40px'
                         width='40px'
                         bg='purple.100'
+                        fontSize='0.9rem'
                         color='brand.primary'
                         _hover={{ bg: 'purple.200' }}
                         _focus={{

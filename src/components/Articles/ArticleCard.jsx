@@ -30,8 +30,6 @@ function ArticlesCard({ article }) {
         photoURL: article?.author_image,
     }
 
-   
-
     return (
         <Grid
             gap='1rem'
@@ -47,6 +45,7 @@ function ArticlesCard({ article }) {
                 as={Link}
                 href={`/articles/${slug}`}
                 width='100%'
+                height='auto'
                 minHeight='25vh'
                 passHref>
                 <Image
@@ -55,7 +54,7 @@ function ArticlesCard({ article }) {
                     alt={title}
                     objectFit='cover'
                     width='100%'
-                    height='100%'
+                    height={['100%', '100%', '100%', '50%', '70%', '100%']}
                     fallbackSrc={
                         colorMode === 'light'
                             ? 'images/placeholderthumbnail.png'
