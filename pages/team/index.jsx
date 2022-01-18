@@ -20,7 +20,7 @@ function Team() {
                 <Box minHeight='100vh' width='100%'>
                     <Box
                         width='100%'
-                        height={['auto', 'auto', 'auto', '50vh', '30vh']}
+                        height={['auto', 'auto', 'auto', '35vh', '30vh']}
                         bgImage={
                             colorMode === 'light'
                                 ? '/images/background.png'
@@ -42,7 +42,7 @@ function Team() {
 
                         <Text
                             as='p'
-                            width={['100%', '100%', '80%', '45%']}
+                            width={['100%', '100%', '80%', '', '50%', '45%']}
                             color={
                                 colorMode === 'light' ? 'gray.100' : 'gray.400'
                             }

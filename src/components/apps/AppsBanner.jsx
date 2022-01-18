@@ -4,7 +4,7 @@ function AppsBanner() {
     const { colorMode } = useColorMode()
     return (
         <Box
-            height={['auto', 'auto', '30vh']}
+            height={['auto', 'auto', '35vh']}
             width='100%'
             my='1rem'
             borderRadius='10px'
@@ -30,7 +30,7 @@ function AppsBanner() {
                 <Heading>Applications</Heading>
                 <Text
                     as='p'
-                    width={['100%', '100%', '80%', '45%']}
+                    width={['100%', '100%', '80%', '', '50%', '45%']}
                     color={colorMode === 'light' ? 'gray.100' : 'gray.400'}
                     fontSize='1.1rem'>
                     Using the skills,information, data and datasets that we
