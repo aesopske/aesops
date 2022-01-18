@@ -1,4 +1,5 @@
 import * as fs from 'fs'
+import path from 'path'
 
 function Sitemap() {
     return null
@@ -10,8 +11,8 @@ export const getServerSideProps = async ({ res }) => {
 
     let files
 
-    if (!prod) {
-        files = fs.readdirSync('./')
+    if (prod) {
+        files = fs.readdirSync(path.join(__dirname))
     } else {
         files = fs.readdirSync('pages')
     }
@@ -24,10 +25,13 @@ export const getServerSideProps = async ({ res }) => {
                 '_document.js',
                 '404.js',
                 'sitemap.xml.js',
+                'rss.xml.js',
+                '_error.js',
+                '500.js',
             ].includes(staticPage)
         })
         .map((staticPagePath) => {
-            return `${BASE_URL}/${staticPagePath}`
+            return `${BASE_URL}/${staticPagePath.replace('.js', '')}`
         })
 
     const sitemap = `<?xml version="1.0" encoding="UTF-8"?>
