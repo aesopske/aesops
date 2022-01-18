@@ -6,9 +6,17 @@ function Sitemap() {
 
 export const getServerSideProps = async ({ res }) => {
     const BASE_URL = process.env.SITE_URL
+    const prod = process.env.NODE_ENV === 'production'
 
-    const staticPaths = fs
-        .readdirSync('pages')
+    let files
+
+    if (!prod) {
+        files = fs.readdirSync('./')
+    } else {
+        files = fs.readdirSync('pages')
+    }
+
+    const staticPaths = files
         .filter((staticPage) => {
             return ![
                 'api',
