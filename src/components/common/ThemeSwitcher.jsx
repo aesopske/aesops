@@ -9,7 +9,7 @@ function ThemeSwitcher({ hasText, text }) {
             <HStack onClick={toggleColorMode}>
                 <Icon
                     as={colorMode === 'light' ? FaMoon : FaSun}
-                    fontSize='1.2rem'
+                    fontSize='1rem'
                     cursor='pointer'
                 />
 

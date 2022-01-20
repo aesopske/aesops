@@ -21,12 +21,12 @@ function Navbar() {
 
     const nav = [
         {
-            label: 'Articles',
-            path: '/articles',
+            label: 'Fables',
+            path: '/fables',
         },
         {
-            label: 'Datasets',
-            path: '/datasets',
+            label: 'Data',
+            path: '/data',
         },
         {
             label: 'Apps',

@@ -9,7 +9,7 @@ function DatasetDetail({ dataset }) {
     return (
         <Layout title={dataset?.title} description={dataset?.description}>
             <Box
-                width={['95%', '90%', '90%', '80%']}
+                width={['90%', '90%', '90%', '80%']}
                 mx='auto'
                 height='auto'
                 minHeight='50vh'>

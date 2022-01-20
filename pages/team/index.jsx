@@ -20,7 +20,7 @@ function Team() {
                 <Box minHeight='100vh' width='100%'>
                     <Box
                         width='100%'
-                        height={['auto', 'auto', 'auto', '35vh', '30vh']}
+                        height={['auto', 'auto', 'auto','auto', '35vh', '30vh']}
                         bgImage={
                             colorMode === 'light'
                                 ? '/images/background.png'

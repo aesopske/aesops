@@ -24,16 +24,12 @@ function Footer() {
     const { colorMode } = useColorMode()
     const links = [
         {
-            label: 'Home',
-            link: '/',
+            label: 'Fables',
+            link: '/fables',
         },
         {
-            label: 'Articles',
-            link: '/articles',
-        },
-        {
-            label: 'Datasets',
-            link: '/datasets',
+            label: 'Data',
+            link: '/data',
         },
         {
             label: 'Apps',
@@ -46,6 +42,10 @@ function Footer() {
         {
             label: 'Trends',
             link: '/trends',
+        },
+        {
+            label: 'Team',
+            link: '/team',
         },
     ]
     const socials = [

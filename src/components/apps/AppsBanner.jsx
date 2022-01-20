@@ -4,7 +4,7 @@ function AppsBanner() {
     const { colorMode } = useColorMode()
     return (
         <Box
-            height={['auto', 'auto', '35vh']}
+            height={['auto', 'auto', 'auto', '40vh', '35vh']}
             width='100%'
             my='1rem'
             borderRadius='10px'
@@ -20,17 +20,17 @@ function AppsBanner() {
                 as={Stack}
                 height='100%'
                 width='100%'
-                p={['20px', '20px', '20px', '0 60px']}
+                p={['20px', '20px', '20px', '20px 60px']}
                 direction='column'
                 alignItems='flex-start'
                 justifyContent='center'
                 borderRadius='10px'
                 color='#fff'
                 spacing='6'>
-                <Heading>Applications</Heading>
+                <Heading>App Library</Heading>
                 <Text
                     as='p'
-                    width={['100%', '100%', '80%', '', '50%', '45%']}
+                    width={['100%', '100%', '80%', '', '60%', '45%']}
                     color={colorMode === 'light' ? 'gray.100' : 'gray.400'}
                     fontSize='1.1rem'>
                     Using the skills,information, data and datasets that we

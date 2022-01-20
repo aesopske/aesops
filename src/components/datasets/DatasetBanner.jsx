@@ -1,6 +1,6 @@
 import { Box, useColorMode, Stack, Heading, Text } from '@chakra-ui/react'
 
-function AppsBanner() {
+function DatasetBanner() {
     const { colorMode } = useColorMode()
     return (
         <Box
@@ -27,11 +27,11 @@ function AppsBanner() {
                 borderRadius='10px'
                 color='#fff'
                 spacing='6'>
-                <Heading>Datasets</Heading>
+                <Heading>Data</Heading>
                 <Text
                     as='p'
                     fontSize='1.1rem'
-                    width={['100%', '100%', '80%', '', '50%', '45%']}
+                    width={['100%', '100%', '80%', '', '60%', '45%']}
                     color={colorMode === 'light' ? 'gray.100' : 'gray.400'}>
                     We look for unique datasets from Kenya, or Africa that are
                     largely under-represented in the data science community. We
@@ -43,4 +43,4 @@ function AppsBanner() {
     )
 }
 
-export default AppsBanner
+export default DatasetBanner

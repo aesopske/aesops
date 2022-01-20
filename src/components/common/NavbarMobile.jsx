@@ -40,13 +40,13 @@ function NavbarMobile() {
 
     const navs = [
         {
-            label: 'Articles',
-            path: '/articles',
+            label: 'Fables',
+            path: '/fables',
             icon: MdArticle,
         },
         {
-            label: 'Datasets',
-            path: '/datasets',
+            label: 'Data',
+            path: '/data',
             icon: FaDatabase,
         },
         {
