@@ -121,7 +121,7 @@ function Hero() {
                                         borderRadius='10px'
                                         fontWeight='500'
                                         fontSize='1rem'>
-                                        View articles &rarr;
+                                        View fables &rarr;
                                     </Button>
                                 </Link>
                             </Box>
@@ -130,7 +130,9 @@ function Hero() {
                 </Box>
 
                 <Fade bottom>
-                    <Box my={['2rem', '1rem', '1rem', '0']} display={['none','none','block']}>
+                    <Box
+                        my={['2rem', '1rem', '1rem', '0']}
+                        display={['none', 'none', 'block']}>
                         <Image
                             src='/images/aesops-nutshell.png'
                             alt='aesops'

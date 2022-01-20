@@ -27,7 +27,7 @@ function AppLinks({ app }) {
             <HStack alignItems='flex-start'>
                 <Icon as={RiArticleLine} fontSize='1.3rem' />
                 {app?.article ? (
-                    <Link href={`/articles/${appSlug}`} passHref>
+                    <Link href={`/fables/${appSlug}`} passHref>
                         <Text cursor='pointer'>{app?.article} &rarr;</Text>
                     </Link>
                 ) : (

@@ -43,7 +43,7 @@ function ArticlesCard({ article }) {
             width='100%'>
             <Box
                 as={Link}
-                href={`/articles/${slug}`}
+                href={`/fables/${slug}`}
                 width='100%'
                 height='auto'
                 minHeight='25vh'
@@ -81,7 +81,7 @@ function ArticlesCard({ article }) {
                     </HStack>
                     <Link
                         href={{
-                            pathname: `/articles/${slug}`,
+                            pathname: `/fables/${slug}`,
                         }}
                         passHref>
                         <Heading

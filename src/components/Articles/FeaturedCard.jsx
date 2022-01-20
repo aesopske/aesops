@@ -28,7 +28,7 @@ function FeaturedCard({ article }) {
 
     return (
         <Box height='100%'>
-            <Link href={`/articles/${article?.slug}`} passHref>
+            <Link href={`/fables/${article?.slug}`} passHref>
                 <Stack
                     direction='column'
                     justifyContent='space-between'

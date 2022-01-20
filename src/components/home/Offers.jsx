@@ -321,7 +321,7 @@ function Offers() {
                                 _active={{ bg: 'brand.hover', outline: 'none' }}
                                 color='#fff'
                                 fontWeight='500'>
-                                View articles &rarr;
+                                View fables &rarr;
                             </Button>
                         </Link>
                     </Box>
