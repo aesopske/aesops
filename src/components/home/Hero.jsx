@@ -93,7 +93,7 @@ function Hero() {
                                     fontSize='1rem'>
                                     Join the community &rarr;
                                 </Button>
-                                <Link href='/articles' passHref>
+                                <Link href='/fables' passHref>
                                     <Button
                                         bg='transparent'
                                         color='#fff'

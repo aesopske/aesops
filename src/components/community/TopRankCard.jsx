@@ -13,6 +13,7 @@ import {
     useColorMode,
 } from '@chakra-ui/react'
 import { FaCrown, FaEnvelope } from 'react-icons/fa'
+import { BiDetail } from 'react-icons/bi'
 
 function TopRankCard({ profile }) {
     const { colorMode } = useColorMode()
@@ -50,6 +51,7 @@ function TopRankCard({ profile }) {
                 </Avatar>
                 <Box
                     height='auto'
+                    minHeight='20vh'
                     bg={colorMode === 'light' ? '#fff' : 'gray.700'}
                     p='20px'
                     borderRadius='0 0 20px 20px'>
@@ -76,17 +78,58 @@ function TopRankCard({ profile }) {
                             color={colorMode === 'light' ? '#555' : 'gray.400'}>
                             {profile?.occupation}
                         </Text>
-                        <Tooltip label='Send email' hasArrow placement='bottom'>
-                            <HStack>
+                        <HStack>
+                            <Tooltip
+                                label='Send email'
+                                hasArrow
+                                placement='bottom'>
                                 <IconButton
                                     as='a'
                                     href={`mailto:${profile.email}`}
                                     rel='noopener noreferer'
                                     target='_blank'
                                     icon={<FaEnvelope />}
+                                    borderRadius='8px'
+                                    height='40px'
+                                    width='20px'
+                                    bg={
+                                        colorMode === 'light'
+                                            ? 'purple.100'
+                                            : 'gray.600'
+                                    }
+                                    color={
+                                        colorMode === 'light'
+                                            ? 'brand.primary'
+                                            : 'brand.muted'
+                                    }
                                 />
-                            </HStack>
-                        </Tooltip>
+                            </Tooltip>
+                            <Tooltip
+                                label='Send email'
+                                hasArrow
+                                placement='bottom'>
+                                <IconButton
+                                    as='a'
+                                    href={`mailto:${profile.email}`}
+                                    rel='noopener noreferer'
+                                    target='_blank'
+                                    icon={<BiDetail />}
+                                    borderRadius='8px'
+                                    height='40px'
+                                    width='20px'
+                                    bg={
+                                        colorMode === 'light'
+                                            ? 'purple.100'
+                                            : 'gray.600'
+                                    }
+                                    color={
+                                        colorMode === 'light'
+                                            ? 'brand.primary'
+                                            : 'brand.muted'
+                                    }
+                                />
+                            </Tooltip>
+                        </HStack>
                     </Box>
                 </Box>
             </Box>

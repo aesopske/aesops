@@ -11,6 +11,7 @@ import {
     useColorMode,
 } from '@chakra-ui/react'
 import { FaEnvelope } from 'react-icons/fa'
+import { BiDetail } from 'react-icons/bi'
 
 function ProfileCard({ profile }) {
     const { colorMode } = useColorMode()
@@ -82,17 +83,58 @@ function ProfileCard({ profile }) {
                             {profile?.occupation}
                         </Text>
 
-                        <Tooltip label='Send email' hasArrow placement='bottom'>
-                            <HStack>
+                        <HStack>
+                            <Tooltip
+                                label='Send email'
+                                hasArrow
+                                placement='bottom'>
                                 <IconButton
                                     as='a'
                                     href={`mailto:${profile.email}`}
                                     rel='noopener noreferer'
                                     target='_blank'
+                                    borderRadius='8px'
+                                    height='40px'
+                                    width='20px'
+                                    bg={
+                                        colorMode === 'light'
+                                            ? 'purple.100'
+                                            : 'gray.600'
+                                    }
+                                    color={
+                                        colorMode === 'light'
+                                            ? 'brand.primary'
+                                            : 'brand.muted'
+                                    }
                                     icon={<FaEnvelope />}
                                 />
-                            </HStack>
-                        </Tooltip>
+                            </Tooltip>
+                            <Tooltip
+                                label='Send email'
+                                hasArrow
+                                placement='bottom'>
+                                <IconButton
+                                    as='a'
+                                    href={`mailto:${profile.email}`}
+                                    rel='noopener noreferer'
+                                    target='_blank'
+                                    icon={<BiDetail />}
+                                    borderRadius='8px'
+                                    height='40px'
+                                    width='20px'
+                                    bg={
+                                        colorMode === 'light'
+                                            ? 'purple.100'
+                                            : 'gray.600'
+                                    }
+                                    color={
+                                        colorMode === 'light'
+                                            ? 'brand.primary'
+                                            : 'brand.muted'
+                                    }
+                                />
+                            </Tooltip>
+                        </HStack>
                     </Box>
                 </Box>
             </Box>

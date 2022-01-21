@@ -31,7 +31,7 @@ function AppLinks({ app }) {
                         <Text cursor='pointer'>{app?.article} 🔗</Text>
                     </Link>
                 ) : (
-                    <Text cursor='pointer'>No linked article</Text>
+                    <Text cursor='pointer'>No linked fables</Text>
                 )}
             </HStack>
             <HStack my='1rem'>

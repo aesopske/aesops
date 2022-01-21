@@ -33,7 +33,7 @@ export async function generateRssFeed() {
 
     if (posts.length) {
         posts.forEach((post) => {
-            const url = `${siteURL}/articles/${post?.slug}`
+            const url = `${siteURL}/fables/${post?.slug}`
 
             feed.addItem({
                 title: post?.title,

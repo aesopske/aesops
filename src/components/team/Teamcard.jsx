@@ -35,10 +35,10 @@ function Teamcard({ profile }) {
             <Avatar
                 name={profile?.name}
                 src={profile?.image}
-                size='2xl'
+                size='xl'
                 position='absolute'
                 left='50%'
-                top={['15%', '15%', '15%', '15%', '16%']}
+                top={['13%', '13%', '', '13%', '13%']}
                 transform='translate(-50%,-15%)'
             />
             <Box
