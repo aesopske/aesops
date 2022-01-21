@@ -1,20 +1,32 @@
 import Layout from '@/src/components/common/Layout'
 import ProfileList from '@/src/components/community/ProfileList'
 import TopRank from '@/src/components/community/TopRank'
-import { fetchCommunity } from '@/src/utils/requests'
+import {
+    fetchApps,
+    fetchArticles,
+    fetchCommunity,
+    fetchDatasets,
+} from '@/src/utils/requests'
 import { Box } from '@chakra-ui/layout'
 
-function Community({ profiles, topranked }) {
+function Community({ profiles, topranked, posts, apps, datasets }) {
     const description =
         'Join our community, share your thoughts about data, share insights on a data, create apps, share datasets of your own and share articles with the rest of the community.'
+
+    const details = {
+        posts,
+        apps,
+        datasets,
+    }
+
     return (
         <Layout
             title='Aesops - Community'
             description={description}
             url='https://aesops.co.ke/community'>
             <Box width={['95%', '90%', '90%', '80%']} mx='auto'>
-                <TopRank profiles={topranked} />
-                <ProfileList profiles={profiles} />
+                <TopRank profiles={topranked} details={details} />
+                <ProfileList profiles={profiles} details={details} />
             </Box>
         </Layout>
     )
@@ -22,6 +34,9 @@ function Community({ profiles, topranked }) {
 
 export async function getServerSideProps() {
     const data = await fetchCommunity()
+    const postData = await fetchArticles()
+    const appData = await fetchApps()
+    const datasetData = await fetchDatasets()
 
     if (!data.items) {
         return {
@@ -32,6 +47,10 @@ export async function getServerSideProps() {
         }
     }
 
+    const posts = postData.items
+    const apps = appData.items
+    const datasets = datasetData.items
+
     const topProfiles = data.items && data.items.slice(0, 3)
     const profiles = data.items && data.items.slice(3, data.items.length)
 
@@ -39,6 +58,9 @@ export async function getServerSideProps() {
         props: {
             topranked: topProfiles,
             profiles,
+            posts,
+            apps,
+            datasets,
         },
     }
 }
@@ -46,6 +68,9 @@ export async function getServerSideProps() {
 Community.defaultProps = {
     profiles: [],
     topranked: [],
+    posts: [],
+    datasets: [],
+    apps: [],
 }
 
 export default Community

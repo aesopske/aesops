@@ -309,7 +309,7 @@ function Offers() {
                             demos and applications in machine learning that we
                             build and share.
                         </Text>
-                        <Link href='/articles' passHref>
+                        <Link href='/fables' passHref>
                             <Button
                                 height='3rem'
                                 width={['100%', '100%', '90%', 'auto']}

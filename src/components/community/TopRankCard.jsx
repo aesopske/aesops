@@ -11,12 +11,15 @@ import {
     HStack,
     Tooltip,
     useColorMode,
+    useDisclosure,
 } from '@chakra-ui/react'
 import { FaCrown, FaEnvelope } from 'react-icons/fa'
 import { BiDetail } from 'react-icons/bi'
+import ProfileDetails from './ProfileDetails'
 
-function TopRankCard({ profile }) {
+function TopRankCard({ profile, details }) {
     const { colorMode } = useColorMode()
+    const { isOpen, onClose, onOpen } = useDisclosure()
 
     const src =
         profile?.photourl && typeof profile?.photourl === 'object'
@@ -25,6 +28,12 @@ function TopRankCard({ profile }) {
 
     return (
         <>
+            <ProfileDetails
+                isOpen={isOpen}
+                onClose={onClose}
+                profile={profile}
+                details={details}
+            />
             <Box
                 borderRadius='20px'
                 shadow='xl'
@@ -81,15 +90,12 @@ function TopRankCard({ profile }) {
                         </Text>
                         <HStack>
                             <Tooltip
-                                label='Send email'
+                                label='Show details'
                                 hasArrow
                                 placement='bottom'>
                                 <IconButton
-                                    as='a'
-                                    href={`mailto:${profile.email}`}
-                                    rel='noopener noreferer'
-                                    target='_blank'
-                                    icon={<FaEnvelope />}
+                                    onClick={onOpen}
+                                    icon={<BiDetail />}
                                     borderRadius='8px'
                                     height='40px'
                                     width='20px'
@@ -106,7 +112,7 @@ function TopRankCard({ profile }) {
                                 />
                             </Tooltip>
                             <Tooltip
-                                label='Send email'
+                                label='Contact'
                                 hasArrow
                                 placement='bottom'>
                                 <IconButton
@@ -114,7 +120,7 @@ function TopRankCard({ profile }) {
                                     href={`mailto:${profile.email}`}
                                     rel='noopener noreferer'
                                     target='_blank'
-                                    icon={<BiDetail />}
+                                    icon={<FaEnvelope />}
                                     borderRadius='8px'
                                     height='40px'
                                     width='20px'

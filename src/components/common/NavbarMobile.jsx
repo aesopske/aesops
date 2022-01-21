@@ -45,8 +45,8 @@ function NavbarMobile() {
             icon: MdArticle,
         },
         {
-            label: 'Data',
-            path: '/data',
+            label: 'Datasets',
+            path: '/datasets',
             icon: FaDatabase,
         },
         {
