@@ -28,7 +28,9 @@ function TrackingProvider({ children }) {
     }
 
     useEffect(() => {
-        initGA()
+        if (typeof window !== 'undefined') {
+            initGA()
+        }
     }, [initGA])
 
     return (

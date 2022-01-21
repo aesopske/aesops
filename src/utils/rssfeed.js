@@ -1,11 +1,6 @@
-import fs from 'fs'
 import { Feed } from 'feed'
-import { fetchArticles } from './requests'
 
-export async function generateRssFeed() {
-    const data = await fetchArticles()
-
-    const posts = data.items
+export async function generateRssFeed(posts = []) {
     const siteURL = process.env.SITE_URL
     const date = new Date()
     const author = {
@@ -35,32 +30,28 @@ export async function generateRssFeed() {
         posts.forEach((post) => {
             const url = `${siteURL}/fables/${post?.slug}`
 
-            feed.addItem({
-                title: post?.title,
-                id: url,
-                link: url,
-                description: post?.summary,
-                content: post?.summary,
-                image: post?.image?.url,
-                author: [
-                    {
-                        name: post?.author,
-                        link: `${siteURL}/community`,
-                    },
-                ],
-                contributor: [
-                    {
-                        name: post?.author,
-                        link: `${siteURL}/community`,
-                    },
-                ],
-                date: new Date(post?.created),
-            })
+        feed.addItem({
+            title: post?.title,
+            id: url,
+            link: url,
+            description: post?.summary,
+            content: post?.summary,
+            image: post?.image?.url,
+            author: [
+                {
+                    name: post?.author,
+                    link: `${siteURL}/community`,
+                },
+            ],
+            contributor: [
+                {
+                    name: post?.author,
+                    link: `${siteURL}/community`,
+                },
+            ],
+            date: new Date(post?.created),
         })
-    }
+    })
 
-    fs.mkdirSync('public/rss', { recursive: true })
-    fs.writeFileSync('public/rss/feed.xml', feed.rss2())
-    fs.writeFileSync('public/rss/atom.xml', feed.atom1())
-    fs.writeFileSync('public/rss/json.xml', feed.json1())
+    return feed
 }

@@ -59,9 +59,10 @@ function ArticlePost({ article = {}, authorArticles = [] }) {
                         <Badge
                             mr='1rem'
                             key={index}
-                            fontSize='.9rem'
+                            fontSize='0.9rem'
                             p='5px'
                             fontWeight='500'
+                            borderRadius='5px'
                             textTransform='capitalize'>
                             # {tag}
                         </Badge>
@@ -82,10 +83,11 @@ function ArticlePost({ article = {}, authorArticles = [] }) {
                     templateColumns={[
                         'repeat(1,1fr)',
                         'repeat(1,1fr)',
+                        'repeat(2,1fr)',
                         'repeat(3,1fr)',
                         'repeat(3,1fr)',
                     ]}>
-                    <Box as={GridItem} colSpan={2}>
+                    <Box as={GridItem} colSpan={[1, 1, 2, 2, 2, 2]}>
                         <Box my='1rem'>
                             <Heading size='lg' my='1rem'>
                                 {article?.title}
@@ -95,12 +97,12 @@ function ArticlePost({ article = {}, authorArticles = [] }) {
 
                         <Box
                             width='100%'
-                            height={['30vh', '40vh', '50vh']}
+                            height={['40vh', '40vh', '50vh']}
                             my='2rem'>
                             <Image
                                 src={article.image?.url}
                                 alt='article'
-                                borderRadius='5px'
+                                borderRadius='20px'
                                 width='100%'
                                 height='100%'
                                 objectFit='cover'

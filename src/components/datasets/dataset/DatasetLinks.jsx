@@ -25,8 +25,8 @@ function DatasetLinks({ dataset }) {
             <HStack>
                 <Icon as={RiArticleLine} fontSize='1.2rem' />
                 {dataset?.article ? (
-                    <Link href={`/articles/${articleSlug}`} passHref>
-                        <Text cursor='pointer'>{dataset?.article} 🔗</Text>
+                    <Link href={`/fables/${articleSlug}`} passHref>
+                        <Text cursor='pointer'>{dataset?.article} &rarr;</Text>
                     </Link>
                 ) : (
                     <Text cursor='pointer'>No Related article</Text>

@@ -5,9 +5,14 @@ import { fetchCommunity } from '@/src/utils/requests'
 import { Box } from '@chakra-ui/layout'
 
 function Community({ profiles, topranked }) {
+    const description =
+        'Join our community, share your thoughts about data, share insights on a data, create apps, share datasets of your own and share articles with the rest of the community.'
     return (
-        <Layout title='Aesops - Community'>
-            <Box width={['90%', '90%', '90%', '80%']} mx='auto'>
+        <Layout
+            title='Aesops - Community'
+            description={description}
+            url='https://aesops.co.ke/community'>
+            <Box width={['95%', '90%', '90%', '80%']} mx='auto'>
                 <TopRank profiles={topranked} />
                 <ProfileList profiles={profiles} />
             </Box>

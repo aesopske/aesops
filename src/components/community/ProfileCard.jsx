@@ -49,8 +49,9 @@ function ProfileCard({ profile }) {
                     src={src}
                     size='lg'
                     position='absolute'
+                    borderRadius='20px'
                     left='50%'
-                    top={['15%', '15%', '15%', '15%', '25%']}
+                    top={['15%', '15%', '15%', '15%', '22%']}
                     transform='translate(-50%,-15%)'
                 />
                 <Box
@@ -93,9 +94,7 @@ function ProfileCard({ profile }) {
                                     href={`mailto:${profile.email}`}
                                     rel='noopener noreferer'
                                     target='_blank'
-                                    borderRadius='8px'
-                                    height='40px'
-                                    width='20px'
+                                    borderRadius='10px'
                                     bg={
                                         colorMode === 'light'
                                             ? 'purple.100'

@@ -4,13 +4,43 @@ import { Box, Grid, GridItem } from '@chakra-ui/react'
 import AppsBanner from '@/src/components/apps/AppsBanner'
 import AppsFilter from '@/src/components/apps/AppsFilter'
 import AppsList from '@/src/components/apps/AppsList'
+import { useDebounce } from 'use-debounce'
+import { useState, useEffect } from 'react'
 
 function Apps({ apps }) {
-    return (
-        <Layout title='Aesops | Apps'>
-            <Box width={['90%', '90%', '80%']} height='auto' mx='auto'>
-                <AppsBanner />
+    const [searchTerm, setSearchTerm] = useState('')
+    const [filtered, setFiltered] = useState([])
 
+    const [text] = useDebounce(searchTerm, 500)
+
+    const fetchFiltered = async (txt) => {
+        const data = await fetchApps(txt)
+        if (data.items) {
+            setFiltered(data.items)
+        } else {
+            setFiltered([])
+        }
+    }
+
+    // client side rendering
+    useEffect(() => {
+        if (typeof window !== 'undefined') {
+            if (text) {
+                // fetch filtered
+                fetchFiltered(text)
+            }
+        }
+    }, [text])
+
+    const description =
+        'Find applications and demos created by the community and Aesops members that utilize the data we have and bring to life ideas that we share through our stories.'
+    return (
+        <Layout
+            title='Aesops | Apps'
+            url='https://aesops.co.ke/apps'
+            description={description}>
+            <Box width={['95%', '90%', '80%']} height='auto' mx='auto'>
+                <AppsBanner />
                 <Grid
                     gap='2rem'
                     templateColumns={[
@@ -21,10 +51,17 @@ function Apps({ apps }) {
                     ]}
                     my='2rem'>
                     <GridItem colSpan='1'>
-                        <AppsFilter />
+                        <AppsFilter
+                            searchTerm={searchTerm}
+                            setSearchTerm={setSearchTerm}
+                        />
                     </GridItem>
                     <GridItem colSpan={[1, 1, 1, 2]}>
-                        <AppsList apps={apps} />
+                        {text ? (
+                            <AppsList apps={filtered} />
+                        ) : (
+                            <AppsList apps={apps} />
+                        )}
                     </GridItem>
                 </Grid>
             </Box>

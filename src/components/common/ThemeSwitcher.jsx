@@ -6,11 +6,10 @@ function ThemeSwitcher({ hasText, text }) {
     const { colorMode, toggleColorMode } = useColorMode()
     return (
         <Tooltip label='light or dark theme' placement='bottom' hasArrow>
-            <HStack>
+            <HStack onClick={toggleColorMode}>
                 <Icon
-                    onClick={toggleColorMode}
                     as={colorMode === 'light' ? FaMoon : FaSun}
-                    fontSize='1.2rem'
+                    fontSize='1rem'
                     cursor='pointer'
                 />
 

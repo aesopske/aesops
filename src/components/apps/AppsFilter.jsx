@@ -1,28 +1,21 @@
-import {
-    Box,
-    useColorMode,
-    InputGroup,
-    InputLeftElement,
-    Input,
-    Icon,
-} from '@chakra-ui/react'
-import { FaSearch } from 'react-icons/fa'
+import { Box, useColorMode } from '@chakra-ui/react'
+import Search from '../common/Search'
 
-function AppsFilter() {
+function AppsFilter({ searchTerm, setSearchTerm }) {
     const { colorMode } = useColorMode()
     return (
         <Box
             p='20px'
             bg={colorMode === 'light' ? '#fff' : 'gray.700'}
             borderRadius='10px'
-            height='auto'>
-            <InputGroup>
-                <InputLeftElement mt='5px'>
-                    <Icon as={FaSearch} />
-                </InputLeftElement>
-
-                <Input placeholder='search by title ...' height='3rem' />
-            </InputGroup>
+            height={['20vh', '20vh', '20vh', '20vh', '20vh', '15vh']}>
+            <Search
+                placeholder='search by title or category ...'
+                label='Search for app'
+                full
+                setTerm={setSearchTerm}
+                term={searchTerm}
+            />
         </Box>
     )
 }

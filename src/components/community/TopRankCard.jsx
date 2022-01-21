@@ -39,14 +39,15 @@ function TopRankCard({ profile }) {
                 <Avatar
                     name={profile?.name}
                     src={src}
-                    size='2xl'
+                    size='xl'
                     position='absolute'
                     bg={colorMode === 'light' ? 'gray.300' : 'gray.600'}
                     left='50%'
-                    top='10%'
+                    top='15%'
+                    borderRadius='20px'
                     transform='translate(-50%,-10%)'>
-                    <AvatarBadge boxSize='1.25em' bg='orange.300'>
-                        <Icon as={FaCrown} fontSize='1.2rem' color='#fff' />
+                    <AvatarBadge boxSize='1em' bg='orange.300'>
+                        <Icon as={FaCrown} fontSize='1rem' color='#fff' />
                     </AvatarBadge>
                 </Avatar>
                 <Box

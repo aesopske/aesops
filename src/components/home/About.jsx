@@ -14,11 +14,11 @@ function About() {
     const { colorMode } = useColorMode()
     return (
         <Box
-            width={['90%', '90%', '100%']}
+            width={['95%', '90%', '100%']}
             mx='auto'
             height='auto'
-            p='50px 0'
-            my='5rem'>
+            p={['20px 0', '30px 0', '50px 0']}
+            my={['1rem', '1rem', '2rem', '3rem', '5rem']}>
             <Box
                 as={Stack}
                 mx='auto'
@@ -34,6 +34,7 @@ function About() {
                 alignItems='center'
                 justifyContent='space-between'>
                 <Box
+                    display={['none', 'none', 'block']}
                     width={['80%', '60%', '40%', '30%']}
                     height={['80%', '70%', '60%', '40%']}
                     flex='1'
@@ -60,7 +61,7 @@ function About() {
                         width='100%'
                         as='p'
                         my='1.5rem'
-                        fontSize='1rem'
+                        fontSize={['1rem', '1rem', '1.1rem']}
                         color={colorMode === 'light' ? '#555' : '#f4f4f4'}>
                         We are a Kenyan data organization with the dream of
                         revolutionizing the Kenyan data sector. The dream
@@ -75,7 +76,7 @@ function About() {
                         width='100%'
                         as='p'
                         my='1.5rem'
-                        fontSize='1rem'
+                        fontSize={['1rem', '1rem', '1.1rem']}
                         color={colorMode === 'light' ? '#555' : '#f4f4f4'}>
                         We also share data-driven articles where we analyze the
                         state of the art technologies in Kenya and in the region

@@ -1,10 +1,14 @@
 import React from 'react'
 import MarkDown from 'react-markdown'
-// import { Prism as Syntaxhighlighter } from 'react-syntax-highlighter'
-// import { shadesOfPurple } from 'react-syntax-highlighter/dist/esm/styles/prism'
 import { Box, Image, Text, useColorMode } from '@chakra-ui/react'
 import rehypeRaw from 'rehype-raw'
 import gfm from 'remark-gfm'
+
+import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter'
+import {
+    duotoneSpace,
+    duotoneLight,
+} from 'react-syntax-highlighter/dist/cjs/styles/prism'
 
 function MarkdownReader({ content }) {
     const { colorMode } = useColorMode()
@@ -42,17 +46,21 @@ function MarkdownReader({ content }) {
                         </Text>
                     )
                 },
-
-                // code({ className, children }) {
-                //     const language = className.replace('language-', '')
-                //     return (
-                //         <Syntaxhighlighter
-                //             style={shadesOfPurple}
-                //             language={language}>
-                //             {children[0]}
-                //         </Syntaxhighlighter>
-                //     )
-                // },
+                code({ className, children }) {
+                    // Removing "language-" because React-Markdown already added "language-"
+                    const language = className.replace('language-', '')
+                    return (
+                        <SyntaxHighlighter
+                            style={
+                                colorMode === 'light'
+                                    ? duotoneLight
+                                    : duotoneSpace
+                            }
+                            language={language}>
+                            {children[0]}
+                        </SyntaxHighlighter>
+                    )
+                },
             }}>
             {content}
         </MarkDown>

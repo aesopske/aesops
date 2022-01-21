@@ -30,7 +30,7 @@ function Layout({ children, title, keywords, description, url, imageurl }) {
         pageView()
     }, [pageView])
     return (
-        <Box width='100%'>
+        <Box width='100%' position='relative'>
             <Head>
                 <title>{title}</title>
                 <meta name='description' content={description} />
@@ -45,6 +45,7 @@ function Layout({ children, title, keywords, description, url, imageurl }) {
                 <meta property='og:image' content={imageurl} />
 
                 {/* Twitter card */}
+
                 <meta property='twitter:card' content='summary_large_image' />
                 <meta property='twitter:url' content={url} />
                 <meta property='twitter:title' content={title} />
@@ -66,7 +67,7 @@ Layout.defaultProps = {
     description:
         'A data company, with a vision to be the best at providing all things data in Kenya and help come up with solutions to problems based on this data. By creating a network and community of datascientists, we are able to provide insight, information and data to solve problems, as welll as to enrich our audience with the knowledge of data.',
     keywords:
-        'Aesops, Aesopske, Aesops company, Aesop, Kenyan Data, data, kenya bureau of statistics, data from kenya, statistics, data science, zindi competitions, data analytics kenya, datasets, search kenya data, kaggle for kenya, like kaggle Kenya, like zindi, similar to kaggle',
+        'Aesops, Aesopske, Aesops ke, Aesops fables, Aesops company, Aesop, Kenyan Data, data, kenya bureau of statistics, data from kenya, statistics, data science, zindi competitions, data analytics kenya, datasets, search kenya data, kaggle for kenya, like kaggle Kenya, like zindi, similar to kaggle, Data consultancy, where to start in kenyan data',
     url: 'https://aesops.co.ke',
     imageurl:
         'https://firebasestorage.googleapis.com/v0/b/aesops-ke.appspot.com/o/aesops-seo.png?alt=media&token=33e1fc5e-68cb-435f-9d1e-466bd0ad5dd6',

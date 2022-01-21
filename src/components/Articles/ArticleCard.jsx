@@ -12,12 +12,14 @@ import {
     GridItem,
     useColorMode,
     Stack,
+    HStack,
+    Badge,
 } from '@chakra-ui/react'
 import UserAvatar from '../common/UserAvatar'
 
 function ArticlesCard({ article }) {
     const { colorMode } = useColorMode()
-    const { title, image, author, created, body, summary, slug } = article
+    const { title, image, author, created, body, summary, slug, tags } = article
     const date = format(new Date(created), 'MMM dd')
     const { text } = readTime(body && body)
 
@@ -41,17 +43,18 @@ function ArticlesCard({ article }) {
             width='100%'>
             <Box
                 as={Link}
-                href={`/articles/${slug}`}
+                href={`/fables/${slug}`}
                 width='100%'
+                height='auto'
                 minHeight='25vh'
                 passHref>
                 <Image
-                    borderRadius='10px'
+                    borderRadius='20px'
                     src={image?.url}
                     alt={title}
                     objectFit='cover'
                     width='100%'
-                    height='100%'
+                    height={['100%', '100%', '100%', '50%', '70%', '100%']}
                     fallbackSrc={
                         colorMode === 'light'
                             ? 'images/placeholderthumbnail.png'
@@ -68,19 +71,28 @@ function ArticlesCard({ article }) {
                 justifyContent='space-between'
                 p='10px 0'>
                 <Box>
+                    <HStack spacing='1' flexWrap='wrap' mb='1rem'>
+                        {tags &&
+                            tags.map((tag) => (
+                                <Badge key={tag} borderRadius='5px' p='5px'>
+                                    #{tag}
+                                </Badge>
+                            ))}
+                    </HStack>
                     <Link
                         href={{
-                            pathname: `/articles/${slug}`,
+                            pathname: `/fables/${slug}`,
                         }}
                         passHref>
                         <Heading
                             cursor='pointer'
-                            fontSize={['1.2rem', '1.3rem', '1.3rem']}
+                            fontSize={['1.2rem', '1.3rem', '1.5rem']}
                             mb='1rem'
                             textTransform='capitalize'>
                             {title}
                         </Heading>
                     </Link>
+
                     <Text
                         as='p'
                         fontSize='1rem'

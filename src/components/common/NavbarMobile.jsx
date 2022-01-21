@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useRef } from 'react'
 import {
     Grid,
     Heading,
@@ -10,36 +10,43 @@ import {
     Button,
     Stack,
     useColorMode,
+    useOutsideClick,
 } from '@chakra-ui/react'
 import { CgMenuRight } from 'react-icons/cg'
-import {
-    FaAppStoreIos,
-    FaDatabase,
-    FaFileAlt,
-    FaUsers,
-    FaQuestionCircle,
-} from 'react-icons/fa'
-import { MdDashboard } from 'react-icons/md'
+import { FaAppStoreIos, FaDatabase, FaUsers } from 'react-icons/fa'
+import { RiTeamFill } from 'react-icons/ri'
+import { MdGraphicEq, MdArticle } from 'react-icons/md'
 import Link from 'next/link'
 import ThemeSwitcher from './ThemeSwitcher'
+import { useRouter } from 'next/router'
 
 function NavbarMobile() {
+    const ref = useRef()
+    const router = useRouter()
     const [isOpen, setIsOpen] = useState(false)
     const { colorMode } = useColorMode()
 
     const toggle = () => {
         setIsOpen((prevState) => !prevState)
     }
+    const toggleOff = () => {
+        setIsOpen(false)
+    }
+
+    useOutsideClick({
+        ref: ref,
+        handler: () => toggleOff(),
+    })
 
     const navs = [
         {
-            label: 'Articles',
-            path: '/articles',
-            icon: FaFileAlt,
+            label: 'Fables',
+            path: '/fables',
+            icon: MdArticle,
         },
         {
-            label: 'Datasets',
-            path: '/datasets',
+            label: 'Data',
+            path: '/data',
             icon: FaDatabase,
         },
         {
@@ -54,28 +61,32 @@ function NavbarMobile() {
         },
         {
             label: 'Trendsboard',
-            path: '/trendsboard',
-            icon: MdDashboard,
+            path: '/trends',
+            icon: MdGraphicEq,
         },
         {
             label: 'Team',
             path: '/team',
-            icon: FaQuestionCircle,
+            icon: RiTeamFill,
         },
     ]
 
     return (
         <Stack
+            display={['flex', 'flex', 'flex', 'none']}
+            ref={ref}
             position='fixed'
             height='auto'
-            bottom='1.5rem'
             width='95%'
+            my='1rem'
             direction='column'
             justifyContent='space-between'
             alignItems='center'
-            shadow='lg'
+            shadow='base'
+            bottom='0rem'
             left='2.5%'
-            zIndex='40'>
+            zIndex='30'
+            mx='auto'>
             {isOpen && (
                 <Stack
                     width='100%'
@@ -89,7 +100,7 @@ function NavbarMobile() {
                     shadow='lg'
                     my='0.5rem'
                     spacing='6'
-                    zIndex='30'
+                    zIndex='40'
                     alignItems='center'>
                     <Grid
                         my='1rem'
@@ -104,6 +115,15 @@ function NavbarMobile() {
                                 <Stack
                                     direction='column'
                                     alignItems='center'
+                                    color={
+                                        router.asPath === nav.path
+                                            ? colorMode === 'dark'
+                                                ? 'brand.muted'
+                                                : 'brand.primary'
+                                            : colorMode === 'light'
+                                            ? '#444'
+                                            : 'gray.200'
+                                    }
                                     justifyContent='center'>
                                     <Icon as={nav.icon} fontSize='1.4rem' />
                                     <Text fontSize='0.9rem'>{nav.label}</Text>
@@ -121,7 +141,7 @@ function NavbarMobile() {
                             target='_blank'
                             rel='noreferer noopener'
                             href={`${process.env.DASHBOARD_URL}/auth/signin`}
-                            _hover={{ color: 'brand.primary' }}>
+                            _hover={{ color: 'brand.muted' }}>
                             Sign in &rarr;
                         </Text>
                         <ThemeSwitcher hasText text='Switch Theme' />
@@ -153,7 +173,6 @@ function NavbarMobile() {
                 shadow='lg'
                 height='5rem'
                 borderRadius='10px'
-                zIndex='30'
                 p='10px'>
                 <Link href='/' passHref>
                     <HStack>
@@ -164,7 +183,17 @@ function NavbarMobile() {
                             src='/svg/aesops-color-1.svg'
                             alt='logo'
                         />
-                        <Heading size='sm' color='#444'>
+                        <Heading
+                            size='md'
+                            color={
+                                router.asPath === '/'
+                                    ? colorMode === 'dark'
+                                        ? 'brand.muted'
+                                        : 'brand.primary'
+                                    : colorMode === 'dark'
+                                    ? 'gray.200'
+                                    : 'gray.700'
+                            }>
                             Aesops
                         </Heading>
                     </HStack>

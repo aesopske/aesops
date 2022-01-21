@@ -1,6 +1,12 @@
 import React from 'react'
 import Link from 'next/link'
-import { FaLinkedin, FaTwitter, FaFacebook, FaGithub } from 'react-icons/fa'
+import {
+    FaLinkedin,
+    FaTwitter,
+    FaFacebook,
+    FaGithub,
+    FaRss,
+} from 'react-icons/fa'
 import {
     Heading,
     Box,
@@ -18,16 +24,12 @@ function Footer() {
     const { colorMode } = useColorMode()
     const links = [
         {
-            label: 'Home',
-            link: '/',
+            label: 'Fables',
+            link: '/fables',
         },
         {
-            label: 'Articles',
-            link: '/articles',
-        },
-        {
-            label: 'Datasets',
-            link: '/datasets',
+            label: 'Data',
+            link: '/data',
         },
         {
             label: 'Apps',
@@ -40,6 +42,10 @@ function Footer() {
         {
             label: 'Trends',
             link: '/trends',
+        },
+        {
+            label: 'Team',
+            link: '/team',
         },
     ]
     const socials = [
@@ -62,6 +68,11 @@ function Footer() {
             label: 'Facebook',
             href: 'https://facebook.com/aesopske',
             icon: FaFacebook,
+        },
+        {
+            label: 'Rss Feed',
+            href: `${process.env.SITE_URL}/rss.xml`,
+            icon: FaRss,
         },
     ]
     return (
@@ -102,17 +113,17 @@ function Footer() {
                     color={colorMode === 'light' ? '#555' : 'whiteAlpha.700'}
                     p='0 20px'>
                     <Heading size='md' my='1rem'>
-                        Links
+                        Company Links
                     </Heading>
                     {links.map((link) => (
                         <Box my='0.5rem' key={link.label}>
                             <Link href={link.link} passHref>
                                 <Text
-                                    fontSize='0.9rem'
+                                    fontSize='1rem'
                                     my='.5rem'
                                     _hover={{ color: 'brand.muted' }}
                                     cursor='pointer'>
-                                    &rarr; {link.label}
+                                    {link.label}
                                 </Text>
                             </Link>
                         </Box>
@@ -132,17 +143,13 @@ function Footer() {
                     {socials.map((social) => (
                         <HStack
                             key={social.label}
-                            my='1rem'
+                            my='.5rem'
                             width='100%'
                             _hover={{ color: 'brand.muted' }}>
-                            <Icon
-                                as={social.icon}
-                                fontSize='1.2rem'
-                                mr='1rem'
-                            />
+                            <Icon as={social.icon} fontSize='1rem' />
                             <Text
                                 as='a'
-                                fontSize='0.9rem'
+                                fontSize='1rem'
                                 href={social.href}
                                 target='_blank'
                                 rel='noopener noreferrer'>
@@ -164,10 +171,12 @@ function Footer() {
                 my='1rem'
                 as='p'
                 color={colorMode === 'light' ? 'gray.600' : 'gray.500'}
-                textTransform='uppercase'
+                textTransform='capitalize'
                 textAlign='center'>
                 all rights reserved {new Date().getFullYear()} &copy;
-                aesops.co.ke
+                <Text as='a' ml='0.5rem' href={`${process.env.SITE_URL}`}>
+                    aesops
+                </Text>
             </Text>
         </Box>
     )

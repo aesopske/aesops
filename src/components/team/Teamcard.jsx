@@ -37,6 +37,7 @@ function Teamcard({ profile }) {
                 src={profile?.image}
                 size='xl'
                 position='absolute'
+                borderRadius='30px'
                 left='50%'
                 top={['13%', '13%', '', '13%', '13%']}
                 transform='translate(-50%,-15%)'
@@ -44,7 +45,7 @@ function Teamcard({ profile }) {
             <Box
                 height='auto'
                 bg={colorMode === 'light' ? '#fff' : 'gray.700'}
-                p='20px 10px'
+                p='20px'
                 my='1rem'
                 borderRadius='0 0 20px 20px'>
                 <Box
