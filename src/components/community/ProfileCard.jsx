@@ -9,11 +9,15 @@ import {
     Avatar,
     Stack,
     useColorMode,
+    useDisclosure,
 } from '@chakra-ui/react'
 import { FaEnvelope } from 'react-icons/fa'
+import { BiDetail } from 'react-icons/bi'
+import ProfileDetails from './ProfileDetails'
 
-function ProfileCard({ profile }) {
+function ProfileCard({ profile = {}, details = {} }) {
     const { colorMode } = useColorMode()
+    const { isOpen, onOpen, onClose } = useDisclosure()
 
     const src =
         profile?.photourl && typeof profile?.photourl === 'object'
@@ -22,6 +26,12 @@ function ProfileCard({ profile }) {
 
     return (
         <React.Fragment>
+            <ProfileDetails
+                isOpen={isOpen}
+                onClose={onClose}
+                profile={profile}
+                details={details}
+            />
             <Box
                 borderRadius='20px'
                 border='1px solid'
@@ -66,7 +76,7 @@ function ProfileCard({ profile }) {
                         justifyContent='flex-start'
                         alignItems='center'>
                         <Heading
-                            my='0.5rem'
+                            my='1.5rem'
                             fontSize='1.2rem'
                             textAlign='center'
                             textTransform='capitalize'>
@@ -83,14 +93,41 @@ function ProfileCard({ profile }) {
                             {profile?.occupation}
                         </Text>
 
-                        <Tooltip label='Send email' hasArrow placement='bottom'>
-                            <HStack>
+                        <HStack>
+                            <Tooltip
+                                label='Show details'
+                                hasArrow
+                                placement='bottom'>
+                                <IconButton
+                                    icon={<BiDetail />}
+                                    borderRadius='8px'
+                                    height='40px'
+                                    onClick={onOpen}
+                                    width='20px'
+                                    bg={
+                                        colorMode === 'light'
+                                            ? 'purple.100'
+                                            : 'gray.600'
+                                    }
+                                    color={
+                                        colorMode === 'light'
+                                            ? 'brand.primary'
+                                            : 'brand.muted'
+                                    }
+                                />
+                            </Tooltip>
+                            <Tooltip
+                                label='Contact'
+                                hasArrow
+                                placement='bottom'>
                                 <IconButton
                                     as='a'
                                     href={`mailto:${profile.email}`}
                                     rel='noopener noreferer'
                                     target='_blank'
-                                    borderRadius='10px'
+                                    borderRadius='8px'
+                                    height='40px'
+                                    width='20px'
                                     bg={
                                         colorMode === 'light'
                                             ? 'purple.100'
@@ -103,8 +140,8 @@ function ProfileCard({ profile }) {
                                     }
                                     icon={<FaEnvelope />}
                                 />
-                            </HStack>
-                        </Tooltip>
+                            </Tooltip>
+                        </HStack>
                     </Box>
                 </Box>
             </Box>

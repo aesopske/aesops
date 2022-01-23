@@ -27,7 +27,7 @@ function DatasetBanner() {
                 borderRadius='10px'
                 color='#fff'
                 spacing='6'>
-                <Heading>Data</Heading>
+                <Heading>Datasets</Heading>
                 <Text
                     as='p'
                     fontSize='1.1rem'

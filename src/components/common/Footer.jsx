@@ -28,8 +28,8 @@ function Footer() {
             link: '/fables',
         },
         {
-            label: 'Data',
-            link: '/data',
+            label: 'Datasets',
+            link: '/datasets',
         },
         {
             label: 'Apps',

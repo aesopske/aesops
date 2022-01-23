@@ -2,7 +2,7 @@ import { Box, Grid } from '@chakra-ui/layout'
 import Unavailable from '../common/Unavailable'
 import ProfileCard from './ProfileCard'
 
-function ProfileList({ profiles }) {
+function ProfileList({ profiles, details }) {
     return (
         <Box>
             <Grid
@@ -20,7 +20,11 @@ function ProfileList({ profiles }) {
                 ]}>
                 {profiles &&
                     profiles.map((profile) => (
-                        <ProfileCard key={profile._id} profile={profile} />
+                        <ProfileCard
+                            key={profile._id}
+                            profile={profile}
+                            details={details}
+                        />
                     ))}
             </Grid>
             {!profiles.length && (

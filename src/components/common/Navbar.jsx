@@ -25,8 +25,8 @@ function Navbar() {
             path: '/fables',
         },
         {
-            label: 'Data',
-            path: '/data',
+            label: 'Datasets',
+            path: '/datasets',
         },
         {
             label: 'Apps',
