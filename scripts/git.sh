@@ -1,20 +1,60 @@
+#!/usr/bin/env bash
+ACTION=$1
 
-echo "==== adding all untracked files to version control ===="
+function initial {
+    echo "=> staging files"
 
-git add .
+    git add .
 
-echo "===== commiting all files ====="
+    echo "=> commiting changes"
 
-echo what is the commit message ?
+    echo what is the commit message ?
 
-read message
+    read message
 
-git commit -m "$message"
+    git commit -m "$message"
 
-echo "==== pushing code to branch ====="
+    echo "=> changing to the main branch {git branch -M main}"
 
-echo what is the commit branch ?
+    git branch -M main
+  
+    echo "=> pushing to main branch"
 
-read branch
+    git push -u origin main
+}
 
-git push origin $branch
+function push {
+    echo "=> staging changes"
+
+    git add .
+
+    echo "=> commiting changes"
+
+    echo what is the commit message ?
+
+    read message
+
+    git commit -m "$message"
+
+    echo "=> pushing code to branch"
+
+    echo what is the commit branch ?
+
+    read branch
+
+    git push origin $branch
+}
+
+
+
+
+if [[ $ACTION == 'initial' ]]
+then
+    initial
+elif [[ $ACTION == 'push' ]]
+then
+    push
+else 
+    echo "Invalid action"
+    exit 113
+fi

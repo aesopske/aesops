@@ -18,7 +18,8 @@ function Modall({ onClose, isOpen, size = 'md', title, children }) {
             isOpen={isOpen}
             size={size}
             isCentered
-            motionPreset='scale'>
+            motionPreset='scale'
+            scrollBehavior='inside'>
             <ModalOverlay />
             <ModalContent p='20px' borderRadius='10px'>
                 <ModalCloseButton
