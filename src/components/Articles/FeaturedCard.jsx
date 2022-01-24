@@ -55,9 +55,10 @@ function FeaturedCard({ article }) {
                         <Heading
                             fontSize={[
                                 '1.2rem',
-                                '1.2rem',
-                                '1.2rem',
-                                '1.2rem',
+                                '1.3rem',
+                                '',
+                                '',
+                                '',
                                 '1.5rem',
                             ]}
                             textTransform='capitalize'
