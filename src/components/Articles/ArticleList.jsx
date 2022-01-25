@@ -35,7 +35,7 @@ function ArticleList({ articles }) {
                     placeholder='Search by title or tag ...'
                     setTerm={setSearchterm}
                     term={searchterm}
-                    label='Search Posts'
+                    label='Search Fables'
                 />
             </Box>
 

@@ -88,7 +88,7 @@ function Hero() {
                                     }}
                                     mr='1rem'
                                     my={['1rem', '1rem', '1rem', '0']}
-                                    height='3rem'
+                                    height='2.5rem'
                                     width={['100%', '100%', 'auto']}
                                     borderRadius='10px'
                                     fontWeight='500'
@@ -116,7 +116,7 @@ function Hero() {
                                         }}
                                         mr='1rem'
                                         my={['1rem', '1rem', '1rem', '0']}
-                                        height='3rem'
+                                        height='2.5rem'
                                         width={['100%', '100%', 'auto', 'auto']}
                                         borderRadius='10px'
                                         fontWeight='500'
