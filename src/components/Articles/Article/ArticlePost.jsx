@@ -76,7 +76,7 @@ function ArticlePost({ article = {}, authorArticles = [] }) {
             <Box
                 my='.5rem'
                 p='10px'
-                width={['100%', '100%', '90%', '80%', '70%']}
+                width={['100%', '100%', '90%', '80%', '80%', '', '70%']}
                 mx='auto'>
                 <Grid
                     gap='4rem'
@@ -86,10 +86,14 @@ function ArticlePost({ article = {}, authorArticles = [] }) {
                         'repeat(2,1fr)',
                         'repeat(3,1fr)',
                         'repeat(3,1fr)',
+                        'repeat(3,1fr)',
                     ]}>
-                    <Box as={GridItem} colSpan={[1, 1, 2, 2, 2, 2]}>
+                    <GridItem colSpan={[1, 1, 2, 2, 2, 2]}>
                         <Box my='1rem'>
-                            <Heading size='lg' my='1rem'>
+                            <Heading
+                                size='lg'
+                                my='1rem'
+                                textTransform='capitalize'>
                                 {article?.title}
                             </Heading>
                             <UserAvatar user={user} />
@@ -97,12 +101,12 @@ function ArticlePost({ article = {}, authorArticles = [] }) {
 
                         <Box
                             width='100%'
-                            height={['40vh', '40vh', '50vh']}
+                            height={['40vh', '', '', '', '50vh', '50vh']}
                             my='2rem'>
                             <Image
                                 src={article.image?.url}
                                 alt='article'
-                                borderRadius='20px'
+                                borderRadius='15px'
                                 width='100%'
                                 height='100%'
                                 objectFit='cover'
@@ -128,7 +132,7 @@ function ArticlePost({ article = {}, authorArticles = [] }) {
                                 config={config}
                             />
                         </Box>
-                    </Box>
+                    </GridItem>
                     <Box p={['0', '0', '0', '0 20px']}>
                         <Grid
                             gap='4'
