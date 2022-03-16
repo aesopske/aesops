@@ -8,6 +8,7 @@ import {
     Icon,
     InputLeftElement,
     InputRightElement,
+    useColorMode,
 } from '@chakra-ui/react'
 import { FaSearch, FaTimes } from 'react-icons/fa'
 
@@ -18,15 +19,18 @@ function Search({
     placeholder = 'search',
     full = false,
 }) {
+    const { colorMode } = useColorMode()
     return (
-        <Box height='auto'>
+        <Box height='auto' width='auto'>
             <FormControl
-                height='2.5rem'
-                width={full ? '100%' : ['100%', '100%', '90%', '40%', '40%']}>
+                height='3rem'
+                width={
+                    full ? '100%' : ['100%', '100%', '90%', '40%', '60%', '60%']
+                }>
                 <FormLabel fontWeight='600' fontSize='1.2rem' color='gray.500'>
                     {label}
                 </FormLabel>
-                <InputGroup height='2.5rem'>
+                <InputGroup height='3rem'>
                     <InputLeftElement fontSize='1rem' height='100%'>
                         <Icon
                             as={FaSearch}
@@ -36,15 +40,20 @@ function Search({
                     </InputLeftElement>
                     <Input
                         p='10px 50px'
-                        borderRadius='5px'
+                        borderRadius='10px'
                         value={term}
+                        width='100%'
                         color='gray.500'
+                        border='2px solid'
+                        borderColor={
+                            colorMode === 'light' ? 'gray.300' : 'gray.700'
+                        }
                         _focus={{
                             outlineColor: 'gray.500',
                         }}
                         placeholder={placeholder}
                         onChange={(e) => setTerm(e.target.value)}
-                        height='2.5rem'
+                        height='3rem'
                     />
 
                     {term && (

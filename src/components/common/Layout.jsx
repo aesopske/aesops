@@ -3,12 +3,10 @@ import Head from 'next/head'
 import Navbar from './Navbar'
 import Footer from './Footer'
 import { useEffect, useState } from 'react'
-import { useGa } from '@/src/context/TrackingProvider'
 import ScrollUp from './ScrollUp'
 
 function Layout({ children, title, keywords, description, url, imageurl }) {
     const [scroll, setScroll] = useState(false)
-    const { pageView } = useGa()
 
     const handleScrollChange = () => {
         if (window.scrollY !== 0) {
@@ -26,9 +24,6 @@ function Layout({ children, title, keywords, description, url, imageurl }) {
         return () => window.removeEventListener('scroll', handleScrollChange)
     }, [])
 
-    useEffect(() => {
-        pageView()
-    }, [pageView])
     return (
         <Box width='100%' position='relative'>
             <Head>

@@ -39,7 +39,7 @@ function ArticleList({ articles }) {
             ]}>
             <GridItem colSpan={[1, 1, 1, 2]}>
                 <Box height='auto' minHeight='70vh' my='1rem'>
-                    <Box my='1rem'>
+                    <Box mb='3rem'>
                         <Search
                             placeholder='Search by title or tag ...'
                             setTerm={setSearchterm}
@@ -48,7 +48,7 @@ function ArticleList({ articles }) {
                         />
                     </Box>
 
-                    <Box height='10vh'>
+                    <Box height='auto' my='4rem'>
                         {text && !filtered.length && (
                             <Text my='2rem'>
                                 😧 The post you are searching for does not exist
@@ -57,7 +57,7 @@ function ArticleList({ articles }) {
                     </Box>
 
                     {text ? (
-                        <Grid gap='1rem' templateColumns='repeat(1, 1fr)'>
+                        <Grid gap='2rem' templateColumns='repeat(1, 1fr)'>
                             {filtered &&
                                 filtered.map((article) => (
                                     <ArticleCard
@@ -67,7 +67,7 @@ function ArticleList({ articles }) {
                                 ))}
                         </Grid>
                     ) : (
-                        <Grid gap='1rem' templateColumns='repeat(1, 1fr)'>
+                        <Grid gap='2rem' templateColumns='repeat(1, 1fr)'>
                             {articles &&
                                 articles.map((article) => (
                                     <ArticleCard
@@ -79,7 +79,7 @@ function ArticleList({ articles }) {
                     )}
                 </Box>
             </GridItem>
-            <GridItem></GridItem>
+            <GridItem position='relative'></GridItem>
         </Grid>
     )
 }

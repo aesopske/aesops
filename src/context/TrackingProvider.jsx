@@ -1,5 +1,6 @@
 import React, { createContext, useCallback, useContext, useEffect } from 'react'
 import { initialize, set, pageview, event } from 'react-ga'
+import { Router } from 'next/router'
 
 const TrackingContext = createContext({})
 
@@ -32,6 +33,17 @@ function TrackingProvider({ children }) {
             initGA()
         }
     }, [initGA])
+
+    useEffect(() => {
+        const handleRouteChange = (url) => {
+            pageView(url)
+        }
+
+        Router.events.on('routeChangeComplete', handleRouteChange)
+        return () => {
+            Router.events.off('routeChangeComplete', handleRouteChange)
+        }
+    }, [pageView])
 
     return (
         <TrackingContext.Provider value={{ pageView, gaEvent }}>

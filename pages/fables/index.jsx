@@ -6,7 +6,7 @@ import { fetchArticles } from '@/src/utils/requests'
 
 function Articles({ articles, featured, count }) {
     return (
-        <Layout title='Aesops - Articles'>
+        <Layout title='Aesops - Fables'>
             <Box
                 mt={['0', '0', '0', '2rem', '2rem']}
                 width={['95%', '90%', '80%']}

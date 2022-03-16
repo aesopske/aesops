@@ -40,6 +40,7 @@ function ArticlesCard({ article }) {
                 'repeat(3, 1fr)',
             ]}
             my='1rem'
+            height='30vh'
             width='100%'>
             {image?.url && (
                 <Box
@@ -49,7 +50,7 @@ function ArticlesCard({ article }) {
                     height='auto'
                     passHref>
                     <Image
-                        borderRadius='20px'
+                        borderRadius='10px'
                         src={image?.url}
                         alt={title}
                         objectFit='cover'
@@ -87,11 +88,28 @@ function ArticlesCard({ article }) {
                         <Heading
                             cursor='pointer'
                             fontSize='lg'
-                            mb='1rem'
                             textTransform='capitalize'>
                             {title}
                         </Heading>
                     </Link>
+
+                    <Text
+                        as='p'
+                        fontSize='1rem'
+                        width='100%'
+                        my='1rem'
+                        color={
+                            colorMode === 'light'
+                                ? 'gray.200'
+                                : 'whiteAlpha.700'
+                        }
+                        noOfLines={[2, 2, 3]}>
+                        <MarkdownReader content={summary} />
+                    </Text>
+                </Box>
+
+                <HStack justifyContent='space-between' alignItems='center'>
+                    <UserAvatar user={user} />
                     <HStack spacing='1' flexWrap='wrap' mb='0.5rem'>
                         {tags &&
                             tags.map((tag) => (
@@ -106,21 +124,7 @@ function ArticlesCard({ article }) {
                                 </Badge>
                             ))}
                     </HStack>
-
-                    <Text
-                        as='p'
-                        fontSize='1rem'
-                        width='90%'
-                        my='1rem'
-                        color={
-                            colorMode === 'light' ? '#555' : 'whiteAlpha.700'
-                        }
-                        noOfLines={[2, 2, 3]}>
-                        <MarkdownReader content={summary} />
-                    </Text>
-                </Box>
-
-                <UserAvatar user={user} />
+                </HStack>
             </GridItem>
         </Grid>
     )
