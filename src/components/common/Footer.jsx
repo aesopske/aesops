@@ -79,8 +79,8 @@ function Footer() {
         <Box
             height='auto'
             p='40px 0'
-            borderTop='1px solid'
-            borderColor={colorMode === 'light' ? '#eee' : 'gray.700'}>
+            borderTop='3px solid'
+            borderColor={colorMode === 'light' ? 'gray.200' : 'gray.700'}>
             <Grid
                 width={['95%', '80%']}
                 height='100%'

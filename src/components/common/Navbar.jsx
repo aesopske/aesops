@@ -89,7 +89,7 @@ function Navbar() {
                     <HStack spacing={['', '', '2', '3', '4', '6']} width='auto'>
                         <Box
                             as={HStack}
-                            spacing={['', '', '2', '3', '5', '6']}
+                            spacing={['', '', '2', '3', '5']}
                             width='auto'>
                             {nav.map((item) => (
                                 <Link
@@ -98,14 +98,7 @@ function Navbar() {
                                     passHref>
                                     <Text
                                         as='span'
-                                        fontSize={[
-                                            '',
-                                            '',
-                                            '',
-                                            '0.9rem',
-                                            '1rem',
-                                            '1rem',
-                                        ]}
+                                        fontSize='md'
                                         color={
                                             router.asPath === item.path
                                                 ? colorMode === 'dark'
@@ -136,14 +129,7 @@ function Navbar() {
                                 href={`${process.env.DASHBOARD_URL}/auth/signin`}
                                 _hover={{ color: 'brand.muted' }}
                                 target='_blank'
-                                fontSize={[
-                                    '',
-                                    '',
-                                    '0.9rem',
-                                    '0.9rem',
-                                    '1rem',
-                                    '1rem',
-                                ]}
+                                fontSize='sm'
                                 rel='noopener noreferer'
                                 width='auto'>
                                 Sign In &rarr;

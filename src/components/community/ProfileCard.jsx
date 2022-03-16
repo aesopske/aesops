@@ -60,7 +60,7 @@ function ProfileCard({ profile = {}, details = {} }) {
                     position='absolute'
                     borderRadius='20px'
                     left='50%'
-                    top={['15%', '15%', '15%', '15%', '22%']}
+                    top={['15%', '15%', '15%', '15%', '15%', '22%']}
                     transform='translate(-50%,-15%)'
                 />
                 <Box
@@ -68,16 +68,15 @@ function ProfileCard({ profile = {}, details = {} }) {
                     bg={colorMode === 'light' ? '#fff' : 'gray.700'}
                     p='20px 10px'
                     borderRadius='0 0 20px 20px'>
-                    <Box
+                    <Stack
                         mt='1rem'
-                        as={Stack}
                         height='100%'
                         direction='column'
                         justifyContent='flex-start'
                         alignItems='center'>
                         <Heading
-                            my='1.5rem'
-                            fontSize='1.2rem'
+                            my='1rem'
+                            fontSize='lg'
                             textAlign='center'
                             textTransform='capitalize'>
                             {profile?.name}
@@ -85,8 +84,7 @@ function ProfileCard({ profile = {}, details = {} }) {
 
                         <Text
                             as='p'
-                            mt='0.5rem'
-                            mb='2rem'
+                            mb='1rem'
                             textAlign='center'
                             textTransform='capitalize'
                             color={colorMode === 'light' ? '#555' : 'gray.300'}>
@@ -142,7 +140,7 @@ function ProfileCard({ profile = {}, details = {} }) {
                                 />
                             </Tooltip>
                         </HStack>
-                    </Box>
+                    </Stack>
                 </Box>
             </Box>
         </React.Fragment>

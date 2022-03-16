@@ -41,27 +41,35 @@ function ArticlesCard({ article }) {
             ]}
             my='1rem'
             width='100%'>
-            <Box
-                as={Link}
-                href={`/fables/${slug}`}
-                width='100%'
-                height='auto'
-                minHeight='25vh'
-                passHref>
-                <Image
-                    borderRadius='20px'
-                    src={image?.url}
-                    alt={title}
-                    objectFit='cover'
+            {image?.url && (
+                <Box
+                    as={Link}
+                    href={`/fables/${slug}`}
                     width='100%'
-                    height={['100%', '100%', '100%', '50%', '70%', '100%']}
-                    fallbackSrc={
-                        colorMode === 'light'
-                            ? 'images/placeholderthumbnail.png'
-                            : '/images/placeholderthumbnail-dark.png'
-                    }
-                />
-            </Box>
+                    height='auto'
+                    passHref>
+                    <Image
+                        borderRadius='20px'
+                        src={image?.url}
+                        alt={title}
+                        objectFit='cover'
+                        width='100%'
+                        height={[
+                            '35vh',
+                            '40vh',
+                            '40vh',
+                            '30vh',
+                            '30vh',
+                            '35vh',
+                        ]}
+                        fallbackSrc={
+                            colorMode === 'light'
+                                ? 'images/placeholderthumbnail.png'
+                                : '/images/placeholderthumbnail-dark.png'
+                        }
+                    />
+                </Box>
+            )}
             <GridItem
                 as={Stack}
                 height='100%'
@@ -71,14 +79,6 @@ function ArticlesCard({ article }) {
                 justifyContent='space-between'
                 p='10px 0'>
                 <Box>
-                    <HStack spacing='1' flexWrap='wrap' mb='1rem'>
-                        {tags &&
-                            tags.map((tag) => (
-                                <Badge key={tag} borderRadius='5px' p='5px'>
-                                    #{tag}
-                                </Badge>
-                            ))}
-                    </HStack>
                     <Link
                         href={{
                             pathname: `/fables/${slug}`,
@@ -86,19 +86,26 @@ function ArticlesCard({ article }) {
                         passHref>
                         <Heading
                             cursor='pointer'
-                            fontSize={[
-                                '1.2rem',
-                                '1.3rem',
-                                '',
-                                '',
-                                '',
-                                '1.5rem',
-                            ]}
+                            fontSize='lg'
                             mb='1rem'
                             textTransform='capitalize'>
                             {title}
                         </Heading>
                     </Link>
+                    <HStack spacing='1' flexWrap='wrap' mb='0.5rem'>
+                        {tags &&
+                            tags.map((tag) => (
+                                <Badge
+                                    key={tag}
+                                    borderRadius='5px'
+                                    colorScheme='purple'
+                                    fontWeight='500'
+                                    p='5px'
+                                    textTransform='capitalize'>
+                                    {tag}
+                                </Badge>
+                            ))}
+                    </HStack>
 
                     <Text
                         as='p'
@@ -108,7 +115,7 @@ function ArticlesCard({ article }) {
                         color={
                             colorMode === 'light' ? '#555' : 'whiteAlpha.700'
                         }
-                        noOfLines={[2, 2, 3, 3, 4]}>
+                        noOfLines={[2, 2, 3]}>
                         <MarkdownReader content={summary} />
                     </Text>
                 </Box>

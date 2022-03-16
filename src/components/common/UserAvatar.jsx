@@ -1,16 +1,9 @@
 import React from 'react'
-import {
-    Avatar,
-    Text,
-    HStack,
-    Box,
-    Stack,
-    useColorMode,
-} from '@chakra-ui/react'
+import { Avatar, Text, HStack, useColorMode, VStack } from '@chakra-ui/react'
 
 function UserAvatar({
     user,
-    size = 'md',
+    size = 'sm',
     align = 'flex-start',
     onSurface = false,
 }) {
@@ -21,16 +14,16 @@ function UserAvatar({
                 size={size}
                 name={user?.name}
                 src={user.photoURL}
-                borderRadius='15px'
+                borderRadius='10px'
             />
-            <Box
-                as={Stack}
+            <VStack
                 direction='column'
                 alignItems='flex-start'
+                spacing='0'
                 justifyContent='space-between'>
                 <Text
                     fontWeight='600'
-                    size='sm'
+                    fontSize='sm'
                     textTransform='capitalize'
                     color={
                         colorMode === 'light'
@@ -44,7 +37,6 @@ function UserAvatar({
                 {user?.read ? (
                     <Text
                         as='small'
-                        fontSize='.85rem'
                         color={
                             colorMode === 'light'
                                 ? onSurface
@@ -68,7 +60,7 @@ function UserAvatar({
                         {user?.date}
                     </Text>
                 )}
-            </Box>
+            </VStack>
         </HStack>
     )
 }

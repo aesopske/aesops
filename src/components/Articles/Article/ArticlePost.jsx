@@ -61,10 +61,11 @@ function ArticlePost({ article = {}, authorArticles = [] }) {
                             key={index}
                             fontSize='0.9rem'
                             p='5px'
+                            colorScheme='purple'
                             fontWeight='500'
                             borderRadius='5px'
                             textTransform='capitalize'>
-                            # {tag}
+                            {tag}
                         </Badge>
                     ))}
             </Box>
@@ -79,7 +80,7 @@ function ArticlePost({ article = {}, authorArticles = [] }) {
                 width={['100%', '100%', '90%', '80%', '80%', '', '70%']}
                 mx='auto'>
                 <Grid
-                    gap='4rem'
+                    gap='3rem'
                     templateColumns={[
                         'repeat(1,1fr)',
                         'repeat(1,1fr)',
@@ -99,20 +100,29 @@ function ArticlePost({ article = {}, authorArticles = [] }) {
                             <UserAvatar user={user} />
                         </Box>
 
-                        <Box
-                            width='100%'
-                            height={['40vh', '', '', '', '50vh', '50vh']}
-                            my='2rem'>
-                            <Image
-                                src={article.image?.url}
-                                alt='article'
-                                borderRadius='15px'
+                        {article?.image && (
+                            <Box
                                 width='100%'
-                                height='100%'
-                                objectFit='cover'
-                                fallbackSrc='/images/placeholder.png'
-                            />
-                        </Box>
+                                height={[
+                                    '40vh',
+                                    '40vh',
+                                    '40vh',
+                                    '40vh',
+                                    '50vh',
+                                    '50vh',
+                                ]}
+                                my='2rem'>
+                                <Image
+                                    src={article.image?.url}
+                                    alt='article'
+                                    borderRadius='15px'
+                                    width='100%'
+                                    height='100%'
+                                    objectFit='cover'
+                                    fallbackSrc='/images/placeholder.png'
+                                />
+                            </Box>
+                        )}
 
                         <Tags />
                         <Text
@@ -133,7 +143,7 @@ function ArticlePost({ article = {}, authorArticles = [] }) {
                             />
                         </Box>
                     </GridItem>
-                    <Box p={['0', '0', '0', '0 20px']}>
+                    <Box>
                         <Grid
                             gap='4'
                             templateColumns='repeat(1,1fr)'
@@ -141,8 +151,8 @@ function ArticlePost({ article = {}, authorArticles = [] }) {
                             height='auto'
                             mt={['1rem', '2rem', '3rem', '5rem', '9.5rem']}>
                             <Share title={article?.title} />
-                            <RecommendedList title={article?.title} />
                             <MoreByAuthor user={user2} posts={authorArticles} />
+                            <RecommendedList title={article?.title} />
                         </Grid>
                     </Box>
                 </Grid>

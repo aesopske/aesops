@@ -2,12 +2,9 @@ import React, { useEffect, useState } from 'react'
 import { FaWhatsapp, FaTwitter, FaFacebook } from 'react-icons/fa'
 import {
     Box,
-    Divider,
-    Grid,
     Heading,
     HStack,
     IconButton,
-    Text,
     useColorMode,
 } from '@chakra-ui/react'
 
@@ -42,37 +39,31 @@ function Share({ title }) {
     ]
 
     return (
-        <Box height='auto' width='100%' mb='1rem'>
-            <Heading size='md'>Share with others</Heading>
-            <Divider my='1rem' />
-            <Grid gap='1rem' templateColumns='repeat(2,1fr)' p='0'>
-                {shares.map((share, index) => (
-                    <Box
-                        key={index}
+        <Box height='auto' width='100%'>
+            <Heading fontSize='md'>Share with others</Heading>
+            <HStack spacing='3' my='1rem'>
+                {shares.map((share) => (
+                    <IconButton
                         as='a'
-                        p='10px'
+                        key={share.label}
                         borderRadius='10px'
+                        target='_blank'
                         border='1px solid'
                         borderColor={
-                            colorMode === 'light' ? '#eee' : 'gray.700'
+                            colorMode === 'light' ? 'transparent' : 'gray.700'
                         }
+                        _hover={{
+                            borderColor: 'brand.primary',
+                        }}
                         href={share.href}
                         rel='noopener noreferrer'
                         transition='.3s ease'
-                        _hover={{ border: '1px solid #6f0dcc', shadow: 'md' }}
-                        target='_blank'>
-                        <HStack>
-                            <IconButton
-                                icon={share.icon}
-                                bg='purple.100'
-                                color='#6f0dcc'
-                                borderRadius='10px'
-                            />
-                            <Text fontSize='1rem'>{share.label}</Text>
-                        </HStack>
-                    </Box>
+                        icon={share.icon}
+                        bg='purple.100'
+                        color='brand.primary'
+                    />
                 ))}
-            </Grid>
+            </HStack>
         </Box>
     )
 }

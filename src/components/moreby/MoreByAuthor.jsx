@@ -6,7 +6,7 @@ function MoreByAuthor({ user, posts }) {
     return (
         <Box>
             <VStack justifyContent='flex-start' alignItems='flex-start'>
-                <Heading size='md' fontWeight='800'>
+                <Heading fontSize='md' fontWeight='800'>
                     More from {user.name}
                 </Heading>
             </VStack>

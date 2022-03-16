@@ -21,12 +21,12 @@ function Search({
     return (
         <Box height='auto'>
             <FormControl
-                height='3.5rem'
+                height='2.5rem'
                 width={full ? '100%' : ['100%', '100%', '90%', '40%', '40%']}>
                 <FormLabel fontWeight='600' fontSize='1.2rem' color='gray.500'>
                     {label}
                 </FormLabel>
-                <InputGroup height='3.5rem'>
+                <InputGroup height='2.5rem'>
                     <InputLeftElement fontSize='1rem' height='100%'>
                         <Icon
                             as={FaSearch}
@@ -36,7 +36,7 @@ function Search({
                     </InputLeftElement>
                     <Input
                         p='10px 50px'
-                        borderRadius='10px'
+                        borderRadius='5px'
                         value={term}
                         color='gray.500'
                         _focus={{
@@ -44,7 +44,7 @@ function Search({
                         }}
                         placeholder={placeholder}
                         onChange={(e) => setTerm(e.target.value)}
-                        height='3.5rem'
+                        height='2.5rem'
                     />
 
                     {term && (

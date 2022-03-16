@@ -12,7 +12,7 @@ function Articles({ articles, featured, count }) {
                 width={['95%', '90%', '80%']}
                 minHeight='50vh'
                 mx='auto'>
-                <Heading size='lg' my='2rem'>
+                <Heading fontSize='xl' my='2rem'>
                     Editor&apos;s Choice
                 </Heading>
                 <FeaturedList featured={featured} />
