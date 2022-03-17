@@ -112,7 +112,7 @@ function Footer() {
                     colSpan='1'
                     color={colorMode === 'light' ? '#555' : 'whiteAlpha.700'}
                     p='0 20px'>
-                    <Heading size='md' my='1rem'>
+                    <Heading fontSize='md' my='1rem'>
                         Company Links
                     </Heading>
                     {links.map((link) => (
@@ -136,7 +136,7 @@ function Footer() {
                     colSpan='1'
                     color={colorMode === 'light' ? '#555' : 'whiteAlpha.700'}
                     p='0 20px'>
-                    <Heading size='md' my='1rem'>
+                    <Heading fontSize='md' my='1rem'>
                         Connect with us
                     </Heading>
 

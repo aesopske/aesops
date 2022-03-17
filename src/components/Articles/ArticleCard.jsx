@@ -8,12 +8,11 @@ import {
     Text,
     Heading,
     Box,
-    Grid,
-    GridItem,
     useColorMode,
     Stack,
     HStack,
     Badge,
+    VStack,
 } from '@chakra-ui/react'
 import UserAvatar from '../common/UserAvatar'
 
@@ -31,52 +30,38 @@ function ArticlesCard({ article }) {
     }
 
     return (
-        <Grid
-            gap='1rem'
-            templateColumns={[
-                'repeat(1, 1fr)',
-                'repeat(1, 1fr)',
-                'repeat(2, 1fr)',
-                'repeat(3, 1fr)',
-            ]}
+        <Stack
             my='1rem'
-            height='30vh'
-            width='100%'>
-            {image?.url && (
-                <Box
-                    as={Link}
-                    href={`/fables/${slug}`}
-                    width='100%'
-                    height='auto'
-                    passHref>
+            height={['auto', 'auto', '', '', '30vh']}
+            width='100%'
+            spacing='5'
+            direction={['column', 'column', 'row-reverse', 'row-reverse']}>
+            <Box
+                width={['100%', '100%', '40%', '35%', '30%']}
+                height={['35vh', '40vh', '40vh', '30vh', '30vh', '35vh']}>
+                <Link href={`/fables/${slug}`} passHref>
                     <Image
                         borderRadius='10px'
                         src={image?.url}
                         alt={title}
                         objectFit='cover'
                         width='100%'
-                        height={[
-                            '35vh',
-                            '40vh',
-                            '40vh',
-                            '30vh',
-                            '30vh',
-                            '35vh',
-                        ]}
+                        height='100%'
                         fallbackSrc={
                             colorMode === 'light'
                                 ? 'images/placeholderthumbnail.png'
                                 : '/images/placeholderthumbnail-dark.png'
                         }
                     />
-                </Box>
-            )}
-            <GridItem
-                as={Stack}
+                </Link>
+            </Box>
+
+            <VStack
                 height='100%'
                 mx='1rem'
-                width='100%'
+                width={['100%', '100%', '60%', '65%', '70%']}
                 colSpan={[1, 1, 1, 2]}
+                alignItems='flex-start'
                 justifyContent='space-between'
                 p='10px 0'>
                 <Box>
@@ -108,7 +93,12 @@ function ArticlesCard({ article }) {
                     </Text>
                 </Box>
 
-                <HStack justifyContent='space-between' alignItems='center'>
+                <Stack
+                    justifyContent='space-between'
+                    alignItems={['flex-start', 'flex-start', '', '', 'center']}
+                    direction={['column', 'column', '', 'row', 'row']}
+                    spacing='3'
+                    width='100%'>
                     <UserAvatar user={user} />
                     <HStack spacing='1' flexWrap='wrap' mb='0.5rem'>
                         {tags &&
@@ -124,9 +114,9 @@ function ArticlesCard({ article }) {
                                 </Badge>
                             ))}
                     </HStack>
-                </HStack>
-            </GridItem>
-        </Grid>
+                </Stack>
+            </VStack>
+        </Stack>
     )
 }
 

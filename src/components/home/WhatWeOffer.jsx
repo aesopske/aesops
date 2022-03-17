@@ -45,8 +45,8 @@ function WhatWeOffer() {
             p={['0', '0', '50px 0']}
             my={['0', '0', '5rem']}>
             <Box>
-                <Heading size='xl' my='3rem'>
-                    What we bring you
+                <Heading fontSize='2xl' my='3rem'>
+                    What we offer
                 </Heading>
                 <Grid
                     gap='1rem'
@@ -63,8 +63,10 @@ function WhatWeOffer() {
                             height='auto'
                             minHeight='20vh'
                             p='30px'
+                            bg={colorMode === 'light' ? '#fff' : 'gray.700'}
                             borderRadius='10px'
                             border='2px solid'
+                            shadow='lg'
                             borderColor={
                                 colorMode === 'light' ? '#eee' : 'gray.700'
                             }>
