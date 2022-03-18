@@ -1,5 +1,12 @@
 import { useCookie } from '@/src/context/CookiePopupProvider'
-import { Box, Button, HStack, Text, useColorMode } from '@chakra-ui/react'
+import {
+    Box,
+    Button,
+    Heading,
+    HStack,
+    Text,
+    useColorMode,
+} from '@chakra-ui/react'
 import Link from 'next/link'
 import React from 'react'
 
@@ -12,7 +19,7 @@ function CookieBanner() {
             height='auto'
             width={['95%', '', '', '40%', '30%']}
             borderRadius='10px'
-            p='10px'
+            p='20px'
             border='2px solid'
             borderColor={colorMode === 'light' ? 'gray.400' : 'gray.600'}
             bg={colorMode === 'light' ? '#fff' : 'gray.700'}
@@ -21,11 +28,17 @@ function CookieBanner() {
             fontSize='sm'
             bottom={['7rem', '', '', '1rem', '2rem']}
             left={['2.5%', '', '', '1rem', '2rem']}>
+            <Heading fontSize='lg' my='1rem'>
+                We value privacy
+            </Heading>
             <Text>
-                We use cookies to improve your experience with us.
+                We use cookies to improve your browsing experience, and analyze
+                our traffic. By clicking &quot;Accept&quot; you give your
+                consent to our use of these cookies.
                 <Link href='/legal/privacy-policy' passHref>
                     <Text
                         cursor='pointer'
+                        textDecoration='underline'
                         color={
                             colorMode === 'light'
                                 ? 'brand.primary'
