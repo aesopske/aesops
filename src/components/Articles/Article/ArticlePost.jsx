@@ -91,13 +91,10 @@ function ArticlePost({ article = {}, authorArticles = [] }) {
                     ]}>
                     <GridItem colSpan={[1, 1, 2, 2, 2, 2]}>
                         <Box my='1rem'>
-                            <Heading
-                                size='lg'
-                                my='1rem'
-                                textTransform='capitalize'>
+                            <Heading fontSize='2xl' my='1rem'>
                                 {article?.title}
                             </Heading>
-                            <UserAvatar user={user} />
+                            <UserAvatar user={user} align='center' />
                         </Box>
 
                         {article?.image && (
