@@ -4,7 +4,7 @@
     margin: 0;
 }
 html {
-    font-size: 18px;
+    font-size: 17px;
 }
 html,
 body {
@@ -16,13 +16,12 @@ body {
 }
 
 body::-webkit-scrollbar {
-    width: 12px; /* width of the entire scrollbar */
+    width: 8px; /* width of the entire scrollbar */
     cursor: pointer;
 }
 
 body::-webkit-scrollbar-thumb {
-    background-color: #4a5568; /* color of the scroll thumb */
-    border-radius: 20px; /* roundness of the scroll thumb */
+    background-color: #a0a0a0; /* color of the scroll thumb */
 }
 
 // a {
@@ -178,6 +177,7 @@ $orange2: #f5a339;
 
 // paragram styles
 .paragraph {
+    // text-align: justify;
     img {
         object-fit: contain;
         width: auto;
@@ -193,8 +193,8 @@ $orange2: #f5a339;
     h1,
     h2,
     h3 {
-        margin: 1rem auto;
-        font-size: 1.2rem;
+        margin: 0.5rem auto;
+        // font-size: 1.2rem;
         font-weight: 600;
     }
 
@@ -205,7 +205,7 @@ $orange2: #f5a339;
     }
 
     pre {
-        border: 1px solid #2d3748;
+        border: 1px solid #323d50ad;
         font-family: 'Overpass Mono';
         padding: 10px;
         border-radius: 5px;
@@ -213,7 +213,7 @@ $orange2: #f5a339;
 
     blockquote {
         font-style: italic;
-        border-left: 5px solid #2d3748;
+        border-left: 5px solid #2d3748bb;
         padding: 0 10px;
     }
 }

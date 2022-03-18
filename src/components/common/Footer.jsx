@@ -18,6 +18,7 @@ import {
     GridItem,
     useColorMode,
     Grid,
+    VStack,
 } from '@chakra-ui/react'
 
 function Footer() {
@@ -75,12 +76,19 @@ function Footer() {
             icon: FaRss,
         },
     ]
+
+    const legal = [
+        {
+            label: 'Privacy Policy',
+            href: `${process.env.SITE_URL}/legal/privacy-policy`,
+        },
+    ]
     return (
         <Box
             height='auto'
             p='40px 0'
-            borderTop='1px solid'
-            borderColor={colorMode === 'light' ? '#eee' : 'gray.700'}>
+            borderTop='3px solid'
+            borderColor={colorMode === 'light' ? 'gray.200' : 'gray.700'}>
             <Grid
                 width={['95%', '80%']}
                 height='100%'
@@ -112,22 +120,26 @@ function Footer() {
                     colSpan='1'
                     color={colorMode === 'light' ? '#555' : 'whiteAlpha.700'}
                     p='0 20px'>
-                    <Heading size='md' my='1rem'>
+                    <Heading fontSize='md' my='1rem'>
                         Company Links
                     </Heading>
-                    {links.map((link) => (
-                        <Box my='0.5rem' key={link.label}>
-                            <Link href={link.link} passHref>
-                                <Text
-                                    fontSize='1rem'
-                                    my='.5rem'
-                                    _hover={{ color: 'brand.muted' }}
-                                    cursor='pointer'>
-                                    {link.label}
-                                </Text>
-                            </Link>
-                        </Box>
-                    ))}
+                    <VStack
+                        alignItems='flex-start'
+                        justify-content='flex-start'
+                        spacing='2'>
+                        {links.map((link) => (
+                            <Box key={link.label}>
+                                <Link href={link.link} passHref>
+                                    <Text
+                                        fontSize='sm'
+                                        _hover={{ color: 'brand.muted' }}
+                                        cursor='pointer'>
+                                        {link.label}
+                                    </Text>
+                                </Link>
+                            </Box>
+                        ))}
+                    </VStack>
                 </GridItem>
 
                 {/* socials */}
@@ -136,24 +148,52 @@ function Footer() {
                     colSpan='1'
                     color={colorMode === 'light' ? '#555' : 'whiteAlpha.700'}
                     p='0 20px'>
-                    <Heading size='md' my='1rem'>
+                    <Heading fontSize='md' my='1rem'>
                         Connect with us
                     </Heading>
+                    <VStack
+                        alignItems='flex-start'
+                        justify-content='flex-start'
+                        spacing='3'>
+                        {socials.map((social) => (
+                            <HStack
+                                key={social.label}
+                                width='100%'
+                                _hover={{ color: 'brand.muted' }}>
+                                <Icon as={social.icon} fontSize='1rem' />
+                                <Text
+                                    as='a'
+                                    fontSize='sm'
+                                    href={social.href}
+                                    target='_blank'
+                                    rel='noopener noreferrer'>
+                                    {social.label}
+                                </Text>
+                            </HStack>
+                        ))}
+                    </VStack>
+                </GridItem>
+                <GridItem
+                    colSpan='1'
+                    color={colorMode === 'light' ? '#555' : 'whiteAlpha.700'}
+                    p='0 20px'>
+                    <Heading fontSize='md' my='1rem'>
+                        Legal
+                    </Heading>
 
-                    {socials.map((social) => (
+                    {legal.map((leg) => (
                         <HStack
-                            key={social.label}
+                            key={leg.label}
                             my='.5rem'
                             width='100%'
                             _hover={{ color: 'brand.muted' }}>
-                            <Icon as={social.icon} fontSize='1rem' />
                             <Text
                                 as='a'
-                                fontSize='1rem'
-                                href={social.href}
+                                fontSize='sm'
+                                href={leg.href}
                                 target='_blank'
                                 rel='noopener noreferrer'>
-                                {social.label}
+                                {leg.label}
                             </Text>
                         </HStack>
                     ))}

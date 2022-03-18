@@ -27,7 +27,7 @@ const styles = {
     global: (props) => ({
         body: {
             color: mode('gray.800', 'whiteAlpha.900')(props),
-            bg: mode('gray.50', 'gray.800')(props),
+            bg: mode('gray.100', 'gray.800')(props),
         },
     }),
 }
@@ -38,7 +38,7 @@ export const theme = extendTheme({
     colors,
     styles,
     fonts: {
-        heading: 'PT Sans',
+        heading: 'Poppins',
         body: 'PT Sans',
         mono: 'Overpass Mono',
     },

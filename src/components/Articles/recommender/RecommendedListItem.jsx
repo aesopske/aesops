@@ -3,10 +3,9 @@ import { format } from 'date-fns'
 import readTime from 'reading-time'
 import Link from 'next/link'
 import UserAvatar from '../../common/UserAvatar'
-import { Box, Heading, Image, Stack, useColorMode } from '@chakra-ui/react'
+import { Badge, Box, Heading, Stack } from '@chakra-ui/react'
 
 function RecommendedListItem({ item }) {
-    const { colorMode } = useColorMode()
     const date = format(new Date(item?.created), 'MMM dd')
     const { text } = readTime(item?.body)
 
@@ -26,38 +25,37 @@ function RecommendedListItem({ item }) {
             justifyContent='flex-start'
             my='1rem'
             height='auto'>
-            {item?.image && (
-                <Image
-                    src={item?.image.url}
-                    alt={item?.title}
-                    width='100%'
-                    height={['25vh', '25vh', '25vh', '25vh', '25vh', '20vh']}
-                    borderRadius='20px'
-                    fallbackSrc={
-                        colorMode === 'light'
-                            ? '/images/placeholderthumbnail-dark.png'
-                            : '/images/placeholderthumbnail.png'
-                    }
-                    objectFit='cover'
-                />
-            )}
-
             <Box
-                ml={item?.image && '1rem'}
                 as={Stack}
                 alignItems='flex-start'
                 height='auto'
-                p='10px'
                 justifyContent='space-between'>
-                <Link href={{ pathname: `/articles/${item?.slug}` }} passHref>
+                <Link href={{ pathname: `/fables/${item?.slug}` }} passHref>
                     <Heading
-                        size='sm'
+                        fontSize='sm'
+                        textTransform='capitalize'
                         cursor='pointer'
                         fontWeight='600'
-                        my={['.5rem', '.5rem', '.5rem', '0']}>
+                        mb='0.5rem'>
                         {item?.title}
                     </Heading>
                 </Link>
+                <Box>
+                    {item?.tags &&
+                        item?.tags.map((tag, index) => (
+                            <Badge
+                                key={index}
+                                mb='5px'
+                                mr='5px'
+                                textTransform='capitalize'
+                                borderRadius='5px'
+                                p='5px'
+                                fontWeight='500'
+                                colorScheme='purple'>
+                                {tag}
+                            </Badge>
+                        ))}
+                </Box>
                 <UserAvatar user={user} size='sm' />
             </Box>
         </Box>

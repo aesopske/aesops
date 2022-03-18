@@ -50,7 +50,7 @@ function TopRankCard({ profile, details }) {
                     src={src}
                     size='xl'
                     position='absolute'
-                    bg={colorMode === 'light' ? 'gray.300' : 'gray.600'}
+                    // bg={colorMode === 'light' ? 'gray.300' : 'gray.600'}
                     left='50%'
                     top='15%'
                     borderRadius='20px'
@@ -73,7 +73,7 @@ function TopRankCard({ profile, details }) {
                         justifyContent='flex-start'
                         alignItems='center'>
                         <Heading
-                            fontSize='1.5rem'
+                            fontSize='lg'
                             textAlign='center'
                             textTransform='capitalize'>
                             {profile?.name}

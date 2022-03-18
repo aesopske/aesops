@@ -56,12 +56,12 @@ function About() {
                     />
                 </Box>
                 <Box flex='1' width={['100%', '100%', '80%', '60%']} ml='1rem'>
-                    <Heading size='xl'>Who are we?</Heading>
+                    <Heading fontSize='2xl'>Who are we?</Heading>
                     <Text
                         width='100%'
                         as='p'
                         my='1.5rem'
-                        fontSize={['1rem', '1rem', '', '', '', '1.1rem']}
+                        fontSize='md'
                         color={colorMode === 'light' ? '#555' : '#f4f4f4'}>
                         We are a Kenyan data organization with the dream of
                         revolutionizing the Kenyan data sector. The dream

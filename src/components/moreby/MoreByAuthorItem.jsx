@@ -6,10 +6,10 @@ function MoreByAuthorItem({ post }) {
     const { colorMode } = useColorMode()
     return (
         <Box mt='0.5rem'>
-            <Link href={`/articles/${post?.slug}`} passHref>
+            <Link href={`/fables/${post?.slug}`} passHref>
                 <Heading
                     my='1rem'
-                    fontSize='1rem'
+                    fontSize='sm'
                     fontWeight='600'
                     color={colorMode === 'light' ? '#444' : 'gray.400'}
                     cursor='pointer'>
@@ -23,12 +23,12 @@ function MoreByAuthorItem({ post }) {
                             key={index}
                             mb='5px'
                             mr='5px'
-                            colorScheme='gray'
+                            textTransform='capitalize'
                             borderRadius='5px'
                             p='5px'
-                            fontWeight='600'
-                            color='#777'>
-                            # {tag}
+                            fontWeight='500'
+                            colorScheme='purple'>
+                            {tag}
                         </Badge>
                     ))}
             </Box>

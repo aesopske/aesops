@@ -47,7 +47,7 @@ function Offers() {
                     zIndex='10'
                     my={['0', '0', '2rem', '4rem']}>
                     <Box flex='1' color='#fff' zIndex='20'>
-                        <Heading size='xl'>Datasets</Heading>
+                        <Heading fontSize='2xl'>Datasets</Heading>
                         <Text
                             as='p'
                             fontSize={['1rem', '1rem', '', '', '', '1.1rem']}
@@ -133,7 +133,7 @@ function Offers() {
                     </Box>
 
                     <Box flex='1'>
-                        <Heading size='xl'>Interesting Projects</Heading>
+                        <Heading fontSize='2xl'>Interesting Projects</Heading>
                         <Text
                             as='p'
                             my='2rem'
@@ -202,7 +202,7 @@ function Offers() {
                     spacing='8'
                     my={['0', '0', '2rem', '4rem']}>
                     <Box flex='1' color='#fff' zIndex='20'>
-                        <Heading size='xl'>Visuals and Code</Heading>
+                        <Heading fontSize='2xl'>Visuals and Code</Heading>
                         <Text
                             as='p'
                             my='2rem'
@@ -289,7 +289,7 @@ function Offers() {
                         />
                     </Box>
                     <Box flex='1'>
-                        <Heading size='xl'>Machine Learning</Heading>
+                        <Heading fontSize='2xl'>Machine Learning</Heading>
                         <Text
                             as='p'
                             my='2rem'

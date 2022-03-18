@@ -1,7 +1,12 @@
+import CookiePopupProvider from './CookiePopupProvider'
 import TrackingProvider from './TrackingProvider'
 
 function ContextProvider({ children }) {
-    return <TrackingProvider>{children}</TrackingProvider>
+    return (
+        <TrackingProvider>
+            <CookiePopupProvider>{children}</CookiePopupProvider>
+        </TrackingProvider>
+    )
 }
 
 export default ContextProvider

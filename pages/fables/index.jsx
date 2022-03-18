@@ -6,13 +6,13 @@ import { fetchArticles } from '@/src/utils/requests'
 
 function Articles({ articles, featured, count }) {
     return (
-        <Layout title='Aesops - Articles'>
+        <Layout title='Aesops - Fables'>
             <Box
                 mt={['0', '0', '0', '2rem', '2rem']}
                 width={['95%', '90%', '80%']}
                 minHeight='50vh'
                 mx='auto'>
-                <Heading size='lg' my='2rem'>
+                <Heading fontSize='xl' my='2rem'>
                     Editor&apos;s Choice
                 </Heading>
                 <FeaturedList featured={featured} />

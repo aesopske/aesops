@@ -8,12 +8,11 @@ import {
     Text,
     Heading,
     Box,
-    Grid,
-    GridItem,
     useColorMode,
     Stack,
     HStack,
     Badge,
+    VStack,
 } from '@chakra-ui/react'
 import UserAvatar from '../common/UserAvatar'
 
@@ -31,54 +30,41 @@ function ArticlesCard({ article }) {
     }
 
     return (
-        <Grid
-            gap='1rem'
-            templateColumns={[
-                'repeat(1, 1fr)',
-                'repeat(1, 1fr)',
-                'repeat(2, 1fr)',
-                'repeat(3, 1fr)',
-            ]}
+        <Stack
             my='1rem'
-            width='100%'>
+            height={['auto', 'auto', '', '', '30vh']}
+            width='100%'
+            spacing='5'
+            direction={['column', 'column', 'row-reverse', 'row-reverse']}>
             <Box
-                as={Link}
-                href={`/fables/${slug}`}
-                width='100%'
-                height='auto'
-                minHeight='25vh'
-                passHref>
-                <Image
-                    borderRadius='20px'
-                    src={image?.url}
-                    alt={title}
-                    objectFit='cover'
-                    width='100%'
-                    height={['100%', '100%', '100%', '50%', '70%', '100%']}
-                    fallbackSrc={
-                        colorMode === 'light'
-                            ? 'images/placeholderthumbnail.png'
-                            : '/images/placeholderthumbnail-dark.png'
-                    }
-                />
+                width={['100%', '100%', '40%', '35%', '30%']}
+                height={['35vh', '40vh', '40vh', '30vh', '30vh', '35vh']}>
+                <Link href={`/fables/${slug}`} passHref>
+                    <Image
+                        borderRadius='10px'
+                        src={image?.url}
+                        alt={title}
+                        objectFit='cover'
+                        width='100%'
+                        height='100%'
+                        fallbackSrc={
+                            colorMode === 'light'
+                                ? 'images/placeholderthumbnail.png'
+                                : '/images/placeholderthumbnail-dark.png'
+                        }
+                    />
+                </Link>
             </Box>
-            <GridItem
-                as={Stack}
+
+            <VStack
                 height='100%'
                 mx='1rem'
-                width='100%'
+                width={['100%', '100%', '60%', '65%', '70%']}
                 colSpan={[1, 1, 1, 2]}
+                alignItems='flex-start'
                 justifyContent='space-between'
                 p='10px 0'>
                 <Box>
-                    <HStack spacing='1' flexWrap='wrap' mb='1rem'>
-                        {tags &&
-                            tags.map((tag) => (
-                                <Badge key={tag} borderRadius='5px' p='5px'>
-                                    #{tag}
-                                </Badge>
-                            ))}
-                    </HStack>
                     <Link
                         href={{
                             pathname: `/fables/${slug}`,
@@ -86,15 +72,7 @@ function ArticlesCard({ article }) {
                         passHref>
                         <Heading
                             cursor='pointer'
-                            fontSize={[
-                                '1.2rem',
-                                '1.3rem',
-                                '',
-                                '',
-                                '',
-                                '1.5rem',
-                            ]}
-                            mb='1rem'
+                            fontSize='lg'
                             textTransform='capitalize'>
                             {title}
                         </Heading>
@@ -103,19 +81,42 @@ function ArticlesCard({ article }) {
                     <Text
                         as='p'
                         fontSize='1rem'
-                        width='90%'
+                        width='100%'
                         my='1rem'
                         color={
-                            colorMode === 'light' ? '#555' : 'whiteAlpha.700'
+                            colorMode === 'light'
+                                ? 'gray.200'
+                                : 'whiteAlpha.700'
                         }
-                        noOfLines={[2, 2, 3, 3, 4]}>
+                        noOfLines={[2, 2, 3]}>
                         <MarkdownReader content={summary} />
                     </Text>
                 </Box>
 
-                <UserAvatar user={user} />
-            </GridItem>
-        </Grid>
+                <Stack
+                    justifyContent='space-between'
+                    alignItems={['flex-start', 'flex-start', '', '', 'center']}
+                    direction={['column', 'column', '', 'row', 'row']}
+                    spacing='5'
+                    width='100%'>
+                    <UserAvatar user={user} align='center' />
+                    <HStack spacing='1' flexWrap='wrap' mb='0.5rem'>
+                        {tags &&
+                            tags.map((tag) => (
+                                <Badge
+                                    key={tag}
+                                    borderRadius='5px'
+                                    colorScheme='purple'
+                                    fontWeight='500'
+                                    p='5px'
+                                    textTransform='capitalize'>
+                                    {tag}
+                                </Badge>
+                            ))}
+                    </HStack>
+                </Stack>
+            </VStack>
+        </Stack>
     )
 }
 
