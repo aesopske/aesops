@@ -108,8 +108,7 @@ function ArticlePost({ article = {}, authorArticles = [] }) {
                                     '40vh',
                                     '40vh',
                                     '40vh',
-                                    '50vh',
-                                    '50vh',
+                                    '60vh',
                                 ]}
                                 my='2rem'>
                                 <Image
@@ -130,8 +129,11 @@ function ArticlePost({ article = {}, authorArticles = [] }) {
                             fontSize='1rem'
                             letterSpacing='wide'
                             lineHeight='9'
+                            textAlign='justify'
                             className='paragraph'
-                            color={colorMode === 'light' ? '#555' : 'gray.300'}
+                            color={
+                                colorMode === 'light' ? 'gray.400' : 'gray.300'
+                            }
                             my='1rem'>
                             <MarkdownReader content={article?.body} />
                         </Text>

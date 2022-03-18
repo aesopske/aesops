@@ -4,9 +4,12 @@ import Navbar from './Navbar'
 import Footer from './Footer'
 import { useEffect, useState } from 'react'
 import ScrollUp from './ScrollUp'
+import { useCookie } from '@/src/context/CookiePopupProvider'
+import CookieBanner from './CookieBanner'
 
 function Layout({ children, title, keywords, description, url, imageurl }) {
     const [scroll, setScroll] = useState(false)
+    const { showConsent } = useCookie()
 
     const handleScrollChange = () => {
         if (window.scrollY !== 0) {
@@ -49,6 +52,7 @@ function Layout({ children, title, keywords, description, url, imageurl }) {
             </Head>
             <Navbar />
             <Box width='100%' height='auto'>
+                {showConsent && <CookieBanner />}
                 {children}
             </Box>
             <Footer />

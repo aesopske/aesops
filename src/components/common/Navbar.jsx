@@ -52,6 +52,7 @@ function Navbar() {
             <Box
                 height='5rem'
                 width='100%'
+                position='sticky'
                 display={['none', 'none', 'none', 'block']}>
                 <Box
                     as={Stack}

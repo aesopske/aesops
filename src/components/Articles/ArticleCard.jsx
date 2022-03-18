@@ -97,9 +97,9 @@ function ArticlesCard({ article }) {
                     justifyContent='space-between'
                     alignItems={['flex-start', 'flex-start', '', '', 'center']}
                     direction={['column', 'column', '', 'row', 'row']}
-                    spacing='3'
+                    spacing='5'
                     width='100%'>
-                    <UserAvatar user={user} />
+                    <UserAvatar user={user} align='center' />
                     <HStack spacing='1' flexWrap='wrap' mb='0.5rem'>
                         {tags &&
                             tags.map((tag) => (

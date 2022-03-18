@@ -31,7 +31,7 @@ function RecommendedList({ title }) {
                     ))}
             </Grid>
             {!recommended.length && (
-                <Heading size='sm' fontWeight='400'>
+                <Heading fontSize='sm' fontWeight='400'>
                     😧 No recommended articles
                 </Heading>
             )}

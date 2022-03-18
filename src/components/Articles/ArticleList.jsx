@@ -31,6 +31,7 @@ function ArticleList({ articles }) {
     return (
         <Grid
             gap='2rem'
+            mb='5rem'
             templateColumns={[
                 'repeat(1,1fr)',
                 'repeat(1,1fr)',
@@ -79,7 +80,7 @@ function ArticleList({ articles }) {
                     )}
                 </Box>
             </GridItem>
-            <GridItem position='relative'></GridItem>
+            <GridItem></GridItem>
         </Grid>
     )
 }

@@ -61,18 +61,18 @@ function FeaturedCard({ article }) {
                         <Text
                             as='p'
                             my='1rem'
-                            fontSize={['0.9rem', '', '', '', '', '1rem']}
+                            fontSize='md'
                             color={
                                 colorMode === 'light'
-                                    ? '#555'
+                                    ? 'gray.300'
                                     : 'whiteAlpha.700'
                             }
-                            noOfLines={[2, 2, 3, 3, 3, 5]}>
+                            noOfLines='3'>
                             <MarkdownReader content={article?.summary} />
                         </Text>
                     </Box>
 
-                    <UserAvatar user={user} />
+                    <UserAvatar user={user} align='center' />
                 </Stack>
             </Link>
         </Box>
