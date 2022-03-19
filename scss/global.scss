@@ -177,7 +177,6 @@ $orange2: #f5a339;
 
 // paragram styles
 .paragraph {
-    // text-align: justify;
     img {
         object-fit: contain;
         width: auto;
@@ -194,8 +193,19 @@ $orange2: #f5a339;
     h2,
     h3 {
         margin: 0.5rem auto;
-        // font-size: 1.2rem;
-        font-weight: 600;
+        font-weight: 800;
+    }
+
+    h1 {
+        font-size: 1.4rem;
+    }
+
+    h2 {
+        font-size: 1.3rem;
+    }
+
+    h3 {
+        font-size: 1.2rem;
     }
 
     a {
