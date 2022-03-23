@@ -40,10 +40,6 @@ function Navbar() {
             label: 'Trends',
             path: '/trends',
         },
-        {
-            label: 'Team',
-            path: '/team',
-        },
     ]
 
     return (

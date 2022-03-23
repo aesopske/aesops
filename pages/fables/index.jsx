@@ -1,10 +1,10 @@
-import { Box, Heading } from '@chakra-ui/react'
+import { Box } from '@chakra-ui/react'
 import ArticleList from '@/src/components/Articles/ArticleList'
 import FeaturedList from '@/src/components/Articles/FeaturedList'
 import Layout from '@/src/components/common/Layout'
-import { fetchArticles } from '@/src/utils/requests'
+import { fetchArticles, fetchCategories } from '@/src/utils/requests'
 
-function Articles({ articles, featured, count }) {
+function Articles({ articles, featured, count, categories }) {
     return (
         <Layout title='Aesops - Fables'>
             <Box
@@ -12,19 +12,20 @@ function Articles({ articles, featured, count }) {
                 width={['95%', '90%', '80%']}
                 minHeight='50vh'
                 mx='auto'>
-                <Heading fontSize='xl' my='2rem'>
-                    Editor&apos;s Choice
-                </Heading>
-                <FeaturedList featured={featured} />
-                <ArticleList articles={articles} count={count} />
+                {featured.length > 0 && <FeaturedList featured={featured} />}
+                <ArticleList
+                    articles={articles}
+                    count={count}
+                    categories={categories}
+                />
             </Box>
         </Layout>
     )
 }
 
 export async function getServerSideProps() {
-    // generate our rss feed
     const data = await fetchArticles()
+    const resp = await fetchCategories(12)
 
     const featuredArticles =
         data.items && data.items.filter((item) => item.featured).splice(0, 4)
@@ -43,6 +44,7 @@ export async function getServerSideProps() {
             featured: featuredArticles,
             articles: data.items,
             count: data.count,
+            categories: resp.categories,
         },
     }
 }

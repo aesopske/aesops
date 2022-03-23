@@ -134,3 +134,9 @@ export async function fetchCommunity() {
     const { data = {} } = await axios.get(`${BASEURL}/users`, config())
     return data
 }
+
+// fetch categories
+export async function fetchCategories(limit = null) {
+    const { data = {} } = await axios.get(`${BASEURL}/category?limit=${limit}`)
+    return data
+}

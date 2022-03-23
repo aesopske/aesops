@@ -44,7 +44,7 @@ function FeaturedCard({ article }) {
                                     ? 'images/placeholderthumbnail.png'
                                     : '/images/placeholderthumbnail-dark.png'
                             }
-                            borderRadius='20px'
+                            borderRadius='10px'
                             objectFit='cover'
                             width='100%'
                             height='100%'

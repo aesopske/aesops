@@ -19,7 +19,7 @@ function Unavailable({ message, src }) {
                 objectFit='contain'
                 alt='Unavailable'
             />
-            <Text as='p' fontSize='1.2rem'>
+            <Text as='p' fontSize='lg'>
                 {message}
             </Text>
         </Box>
