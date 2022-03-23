@@ -102,7 +102,7 @@ function ArticlesCard({ article }) {
                     <UserAvatar user={user} align='center' />
                     <HStack spacing='1' flexWrap='wrap' mb='0.5rem'>
                         {tags &&
-                            tags.map((tag) => (
+                            tags.slice(0, 2).map((tag) => (
                                 <Badge
                                     key={tag}
                                     borderRadius='5px'

@@ -3,7 +3,6 @@ import MarkDown from 'react-markdown'
 import { Box, Image, Text, useColorMode } from '@chakra-ui/react'
 import rehypeRaw from 'rehype-raw'
 import gfm from 'remark-gfm'
-
 import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter'
 import {
     duotoneSpace,
@@ -38,9 +37,7 @@ function MarkdownReader({ content }) {
                         <Text
                             as='p'
                             color={
-                                colorMode === 'light'
-                                    ? '#555'
-                                    : 'whiteAlpha.700'
+                                colorMode === 'light' ? 'gray.900' : 'gray.300'
                             }>
                             {children}
                         </Text>
@@ -56,6 +53,17 @@ function MarkdownReader({ content }) {
                                     ? duotoneLight
                                     : duotoneSpace
                             }
+                            language={language}>
+                            {children[0]}
+                        </SyntaxHighlighter>
+                    )
+                },
+                pre({ className, children }) {
+                    // Removing "language-" because React-Markdown already added "language-"
+                    const language = className.replace('language-', '')
+                    return (
+                        <SyntaxHighlighter
+                            style={duotoneSpace}
                             language={language}>
                             {children[0]}
                         </SyntaxHighlighter>
