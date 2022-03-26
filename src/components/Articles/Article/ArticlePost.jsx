@@ -13,11 +13,15 @@ import {
     Image,
     GridItem,
     useColorMode,
+    HStack,
+    Stack,
 } from '@chakra-ui/react'
 import UserAvatar from '../../common/UserAvatar'
 import MoreByAuthor from '../../moreby/MoreByAuthor'
+import { useRouter } from 'next/router'
 
 function ArticlePost({ article = {}, authorArticles = [] }) {
+    const router = useRouter()
     const { colorMode } = useColorMode()
     const [read, setRead] = useState(null)
     const [config, setConfig] = useState({})
@@ -52,23 +56,34 @@ function ArticlePost({ article = {}, authorArticles = [] }) {
 
     const Tags = () => {
         return (
-            <Box>
-                {article.tags &&
-                    article.tags.length &&
-                    article.tags.map((tag, index) => (
+            <HStack flexWrap='wrap' gap='5px' alignItems='flex-start'>
+                {article?.tags &&
+                    article?.tags.map((tag, index) => (
                         <Badge
-                            mr='1rem'
                             key={index}
-                            fontSize='0.9rem'
-                            p='5px'
+                            fontSize='sm'
+                            cursor='pointer'
+                            onClick={() => {
+                                router.push(
+                                    {
+                                        pathname: '/fables',
+                                        query: { category: tag },
+                                    },
+                                    `/fables?category=${tag}`,
+                                    {
+                                        shallow: true,
+                                    }
+                                )
+                            }}
+                            p='5px 10px'
                             colorScheme='purple'
                             fontWeight='500'
-                            borderRadius='5px'
+                            borderRadius='full'
                             textTransform='capitalize'>
                             {tag}
                         </Badge>
                     ))}
-            </Box>
+            </HStack>
         )
     }
 
@@ -80,7 +95,7 @@ function ArticlePost({ article = {}, authorArticles = [] }) {
                 width={['100%', '100%', '90%', '80%', '80%', '', '70%']}
                 mx='auto'>
                 <Grid
-                    gap='3rem'
+                    gap='1rem'
                     templateColumns={[
                         'repeat(1,1fr)',
                         'repeat(1,1fr)',
@@ -142,18 +157,27 @@ function ArticlePost({ article = {}, authorArticles = [] }) {
                             />
                         </Box>
                     </GridItem>
-                    <Box>
-                        <Grid
-                            gap='4'
-                            templateColumns='repeat(1,1fr)'
+                    <GridItem colSpan={1} position='relative'>
+                        <Stack
+                            flexDir='column'
+                            position='sticky'
+                            top='1rem'
+                            left='0'
                             width='100%'
+                            alignItems='flex-start'
+                            justifyContent='flex-start'
                             height='auto'
-                            mt={['1rem', '2rem', '3rem', '5rem', '9.5rem']}>
+                            spacing='3'
+                            mt={['1rem', '2rem', '3rem', '5rem', '8rem']}>
                             <Share title={article?.title} />
-                            <MoreByAuthor user={user2} posts={authorArticles} />
+                            <MoreByAuthor
+                                user={user2}
+                                posts={authorArticles}
+                                current={article}
+                            />
                             <RecommendedList title={article?.title} />
-                        </Grid>
-                    </Box>
+                        </Stack>
+                    </GridItem>
                 </Grid>
             </Box>
         </>

@@ -5,26 +5,22 @@ import { Router } from 'next/router'
 const TrackingContext = createContext({})
 
 function TrackingProvider({ children }) {
-    let trackingId
-
-    const isDev = process.env.NODE_ENV === 'development'
-
-    if (isDev) {
-        trackingId = ''
-    } else {
-        trackingId = process.env.trackingId
-    }
-
     const initGA = useCallback(() => {
-        initialize(trackingId)
-    }, [trackingId])
+        const trackingId = process.env.GA_TRACKING_ID
+        initialize(trackingId, {
+            gaOptions: {
+                debug: process.env.NODE_ENV === 'development',
+                siteSpeedSampleRate: 100,
+            },
+        })
+    }, [])
 
     const pageView = useCallback((location = window.location.href) => {
         set(location)
         pageview(location)
     }, [])
 
-    function gaEvent(category, action, label) {
+    function gaEvent(category = '', action = '', label = '') {
         event({ category, action, label })
     }
 

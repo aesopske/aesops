@@ -14,9 +14,11 @@ import {
 import NavbarMobile from './NavbarMobile'
 import ThemeSwitcher from './ThemeSwitcher'
 import { useRouter } from 'next/router'
+import { useGa } from '@/src/context/TrackingProvider'
 
 function Navbar() {
     const router = useRouter()
+    const { gaEvent } = useGa()
     const { colorMode } = useColorMode()
 
     const nav = [
@@ -126,7 +128,14 @@ function Navbar() {
                                 href={`${process.env.DASHBOARD_URL}/auth/signin`}
                                 _hover={{ color: 'brand.muted' }}
                                 target='_blank'
-                                fontSize='sm'
+                                fontSize='md'
+                                onClick={() => {
+                                    gaEvent({
+                                        category: 'Auth',
+                                        action: 'Clicked sign in',
+                                        label: 'signin',
+                                    })
+                                }}
                                 rel='noopener noreferer'
                                 width='auto'>
                                 Sign In &rarr;
@@ -137,9 +146,16 @@ function Navbar() {
                                 href={`${process.env.DASHBOARD_URL}/auth/signup`}
                                 target='_blank'
                                 rel='noopener noreferer'
-                                fontSize={['', '', '', '', '0.9rem', '1rem']}
+                                fontSize='md'
                                 fontWeight='500'
                                 color='#fff'
+                                onClick={() => {
+                                    gaEvent({
+                                        category: 'Auth',
+                                        action: 'Clicked sign up',
+                                        label: 'signup',
+                                    })
+                                }}
                                 bg='brand.primary'
                                 _hover={{
                                     bg: 'brand.primary',

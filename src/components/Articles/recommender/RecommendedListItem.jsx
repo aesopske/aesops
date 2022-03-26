@@ -3,9 +3,10 @@ import { format } from 'date-fns'
 import readTime from 'reading-time'
 import Link from 'next/link'
 import UserAvatar from '../../common/UserAvatar'
-import { Badge, Box, Heading, Stack } from '@chakra-ui/react'
+import { Box, Heading, Stack, useColorMode } from '@chakra-ui/react'
 
 function RecommendedListItem({ item }) {
+    const { colorMode } = useColorMode()
     const date = format(new Date(item?.created), 'MMM dd')
     const { text } = readTime(item?.body)
 
@@ -23,41 +24,25 @@ function RecommendedListItem({ item }) {
             alignItems='flex-start'
             width='100%'
             justifyContent='flex-start'
-            my='1rem'
             height='auto'>
-            <Box
-                as={Stack}
+            <Stack
+                dir='column'
                 alignItems='flex-start'
                 height='auto'
+                spacing='1'
                 justifyContent='space-between'>
                 <Link href={{ pathname: `/fables/${item?.slug}` }} passHref>
                     <Heading
-                        fontSize='sm'
+                        fontSize='md'
                         textTransform='capitalize'
                         cursor='pointer'
-                        fontWeight='600'
-                        mb='0.5rem'>
+                        color={colorMode === 'light' ? 'gray.600' : 'gray.300'}
+                        fontWeight='medium'>
                         {item?.title}
                     </Heading>
                 </Link>
-                <Box>
-                    {item?.tags &&
-                        item?.tags.map((tag, index) => (
-                            <Badge
-                                key={index}
-                                mb='5px'
-                                mr='5px'
-                                textTransform='capitalize'
-                                borderRadius='5px'
-                                p='5px'
-                                fontWeight='500'
-                                colorScheme='purple'>
-                                {tag}
-                            </Badge>
-                        ))}
-                </Box>
                 <UserAvatar user={user} size='sm' />
-            </Box>
+            </Stack>
         </Box>
     )
 }

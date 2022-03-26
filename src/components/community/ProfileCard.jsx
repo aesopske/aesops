@@ -95,11 +95,15 @@ function ProfileCard({ profile = {}, details = {} }) {
                             <Tooltip
                                 label='Show details'
                                 hasArrow
+                                closeOnClick
+                                closeOnMouseDown
                                 placement='bottom'>
                                 <IconButton
                                     icon={<BiDetail />}
                                     borderRadius='8px'
                                     height='40px'
+                                    _active={{ outline: 'none' }}
+                                    _focus={{ outline: 'none' }}
                                     onClick={onOpen}
                                     width='20px'
                                     bg={
@@ -117,11 +121,15 @@ function ProfileCard({ profile = {}, details = {} }) {
                             <Tooltip
                                 label='Contact'
                                 hasArrow
+                                closeOnClick
+                                closeOnMouseDown
                                 placement='bottom'>
                                 <IconButton
                                     as='a'
                                     href={`mailto:${profile.email}`}
                                     rel='noopener noreferer'
+                                    _active={{ outline: 'none' }}
+                                    _focus={{ outline: 'none' }}
                                     target='_blank'
                                     borderRadius='8px'
                                     height='40px'

@@ -25,7 +25,9 @@ function Modall({ onClose, isOpen, size = 'md', title, children }) {
                 <ModalCloseButton
                     top='1rem'
                     right='1rem'
-                    bg={colorMode === 'light' ? 'gray.100' : 'gray.600'}
+                    _active={{ outline: 'none' }}
+                    _focus={{ outline: 'none' }}
+                    bg={colorMode === 'light' ? 'gray.200' : 'gray.600'}
                 />
                 <ModalHeader mt='1rem' fontWeight='800' fontSize='1.5rem'>
                     {title}

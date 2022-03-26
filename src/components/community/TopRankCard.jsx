@@ -50,7 +50,6 @@ function TopRankCard({ profile, details }) {
                     src={src}
                     size='xl'
                     position='absolute'
-                    // bg={colorMode === 'light' ? 'gray.300' : 'gray.600'}
                     left='50%'
                     top='15%'
                     borderRadius='20px'
@@ -92,9 +91,13 @@ function TopRankCard({ profile, details }) {
                             <Tooltip
                                 label='Show details'
                                 hasArrow
+                                closeOnMouseDown
+                                closeOnClick
                                 placement='bottom'>
                                 <IconButton
                                     onClick={onOpen}
+                                    _active={{ outline: 'none' }}
+                                    _focus={{ outline: 'none' }}
                                     icon={<BiDetail />}
                                     borderRadius='8px'
                                     height='40px'
@@ -114,12 +117,16 @@ function TopRankCard({ profile, details }) {
                             <Tooltip
                                 label='Contact'
                                 hasArrow
+                                closeOnMouseDown
+                                closeOnClick
                                 placement='bottom'>
                                 <IconButton
                                     as='a'
                                     href={`mailto:${profile.email}`}
                                     rel='noopener noreferer'
                                     target='_blank'
+                                    _active={{ outline: 'none' }}
+                                    _focus={{ outline: 'none' }}
                                     icon={<FaEnvelope />}
                                     borderRadius='8px'
                                     height='40px'

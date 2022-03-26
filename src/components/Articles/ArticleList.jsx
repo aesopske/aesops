@@ -8,6 +8,7 @@ import {
     IconButton,
     Stack,
     Text,
+    useColorMode,
 } from '@chakra-ui/react'
 import Search from '../common/Search'
 import ArticleCard from './ArticleCard'
@@ -15,12 +16,14 @@ import { useEffect, useState, useCallback } from 'react'
 import { useDebounce } from 'use-debounce'
 import { fetchArticles } from '@/src/utils/requests'
 import Unavailable from '../common/Unavailable'
-import Link from 'next/link'
 import { useRouter } from 'next/router'
 import { FaTimes } from 'react-icons/fa'
+import { useGa } from '@/src/context/TrackingProvider'
 
 function ArticleList({ articles, categories }) {
     const router = useRouter()
+    const { gaEvent } = useGa()
+    const { colorMode } = useColorMode()
     const [searchterm, setSearchterm] = useState('')
     const [filtered, setFiltered] = useState([])
     const [text] = useDebounce(searchterm, 500)
@@ -91,19 +94,31 @@ function ArticleList({ articles, categories }) {
                     <HStack
                         width='100%'
                         justifyContent='space-between'
+                        alignItems='flex-start'
                         my='1rem'>
-                        <Heading fontSize='lg' color='gray.500'>
-                            Results for {query}
+                        <Heading
+                            fontSize='lg'
+                            color='gray.500'
+                            fontWeight='medium'>
+                            {filtered && filtered.length} result
+                            {filtered.length > 1 && 's'} for {query}
                         </Heading>
 
-                        <Link href={`${process.env.SITE_URL}/fables`} passHref>
-                            <IconButton
-                                _focus={{ outline: 'none' }}
-                                _active={{ outline: 'none' }}
-                                bg='gray.300'
-                                icon={<FaTimes />}
-                            />
-                        </Link>
+                        <IconButton
+                            onClick={() => {
+                                router.push(
+                                    {
+                                        pathname: '/fables',
+                                    },
+                                    `${process.env.SITE_URL}/fables`,
+                                    { shallow: true }
+                                )
+                            }}
+                            _focus={{ outline: 'none' }}
+                            _active={{ outline: 'none' }}
+                            bg={colorMode === 'light' ? 'gray.300' : 'gray.700'}
+                            icon={<FaTimes />}
+                        />
                     </HStack>
                 )}
 
@@ -163,29 +178,35 @@ function ArticleList({ articles, categories }) {
                 <Box
                     minHeight='15vh'
                     borderRadius='10px'
-                    bg='white'
+                    bg={colorMode === 'light' ? 'white' : 'gray.700'}
                     mt={['1rem', '2rem', '3rem', '3rem', '6rem']}
                     top={['0', '0', '1rem']}
                     left='0'
                     zIndex='50'
                     p='20px'
                     position='sticky'>
-                    <Heading fontSize='sm'>Filter by category</Heading>
-                    <Divider my='0.5rem' />
+                    <Heading fontSize='md'>Filter by category</Heading>
+                    <Divider my='1rem' />
                     <HStack flexWrap='wrap' gap='10px' spacing='0'>
                         <Badge
                             p='10px'
+                            fontWeight='400'
                             colorScheme={
                                 router.asPath === '/fables' ? 'purple' : 'gray'
                             }
                             textTransform='capitalize'
                             cursor='pointer'
+                            onClick={() => {
+                                router.push(
+                                    {
+                                        pathname: '/fables',
+                                    },
+                                    `${process.env.SITE_URL}/fables`,
+                                    { shallow: true }
+                                )
+                            }}
                             borderRadius='full'>
-                            <Link
-                                href={`${process.env.SITE_URL}/fables`}
-                                passHref>
-                                <Text>All Fables</Text>
-                            </Link>
+                            <Text>All Fables</Text>
                         </Badge>
 
                         {categories &&
@@ -193,19 +214,34 @@ function ArticleList({ articles, categories }) {
                                 <Badge
                                     key={category?.id}
                                     p='10px'
+                                    fontWeight='500'
+                                    fontSize='0.8rem'
                                     cursor='pointer'
                                     colorScheme={
                                         query === category?.name
                                             ? 'purple'
                                             : 'gray'
                                     }
+                                    onClick={() => {
+                                        gaEvent(
+                                            'Fables',
+                                            'Filter by category',
+                                            category?.name
+                                        )
+                                        router.push(
+                                            {
+                                                pathname: '/fables',
+                                                query: {
+                                                    category: category?.name,
+                                                },
+                                            },
+                                            `/fables?category=${category?.name}`,
+                                            { shallow: true }
+                                        )
+                                    }}
                                     textTransform='capitalize'
                                     borderRadius='full'>
-                                    <Link
-                                        href={`${process.env.SITE_URL}/fables?category=${category?.name}`}
-                                        passHref>
-                                        <Text>{category?.name}</Text>
-                                    </Link>
+                                    <Text>{category?.name}</Text>
                                 </Badge>
                             ))}
                     </HStack>

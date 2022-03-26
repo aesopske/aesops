@@ -32,7 +32,7 @@ function UserAvatar({
                                 : 'gray.600'
                             : 'gray.400'
                     }>
-                    {user?.name}
+                    {user?.name.toLowerCase()}
                 </Text>
                 {user?.read ? (
                     <Text

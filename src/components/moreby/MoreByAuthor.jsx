@@ -1,24 +1,44 @@
 import React from 'react'
-import { Box, Heading, VStack, Grid, Text } from '@chakra-ui/react'
+import {
+    Box,
+    Heading,
+    Grid,
+    Text,
+    useColorMode,
+    Divider,
+    Center,
+} from '@chakra-ui/react'
 import MoreByAuthorItem from './MoreByAuthorItem'
 
-function MoreByAuthor({ user, posts }) {
+function MoreByAuthor({ user, posts, current }) {
+    const { colorMode } = useColorMode()
+    const filtered = posts && posts.filter((post) => post?._id !== current?._id)
     return (
-        <Box>
-            <VStack justifyContent='flex-start' alignItems='flex-start'>
-                <Heading fontSize='md' fontWeight='800'>
-                    More from {user.name}
-                </Heading>
-            </VStack>
-            <Box height='auto' minHeight='20vh'>
+        <Box
+            bg={colorMode === 'light' ? 'gray.50' : 'gray.700'}
+            p='10px'
+            width='100%'
+            borderRadius='10px'>
+            <Heading fontSize='md' fontWeight='semibold'>
+                More from {user?.name}
+            </Heading>
+            <Divider my='0.5rem' />
+            <Box height='auto'>
                 <Grid>
-                    {posts &&
-                        posts.map((post) => (
+                    {filtered &&
+                        filtered.map((post) => (
                             <MoreByAuthorItem key={post._id} post={post} />
                         ))}
                 </Grid>
-                {!posts.length && (
-                    <Text mt='2rem'>😧 No more articles from author</Text>
+                {!filtered.length && (
+                    <Center flexDirection='column' height='100%'>
+                        <Text fontSize='sm' fontWeight='400'>
+                            😧
+                        </Text>
+                        <Text mt='1rem' fontSize='sm'>
+                            Can&apos;t find more fables by {user?.name}
+                        </Text>
+                    </Center>
                 )}
             </Box>
         </Box>

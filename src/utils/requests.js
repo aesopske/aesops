@@ -1,19 +1,7 @@
 /**
     @description module with functions to make requests to the server
 */
-import axios from 'axios'
-
-const BASEURL = `${process.env.BASE_URL}/api/v1`
-
-function config() {
-    const config = {
-        headers: {
-            'Content-type': 'application/json',
-        },
-    }
-
-    return config
-}
+import invoke from './axios.config'
 
 /**
  * @description Articles actions
@@ -21,50 +9,35 @@ function config() {
 
 // fetch articles
 export async function fetchArticles(term = '') {
-    try {
-        const { data = {} } = await axios.get(
-            `${BASEURL}/articles?keyword=${term}`,
-            config()
-        )
-        return data
-    } catch (error) {
-        // find a way to send errors to slack
-        return { items: [], count: 0 }
-    }
+    const { data = {} } = await invoke('GET', `articles?keyword=${term}`)
+    return data
 }
 // fetch articles
 export async function fetchFeaturedArticles() {
-    const { data = {} } = await axios.get(
-        `${BASEURL}/articles/featured`,
-        config()
-    )
+    const { data = {} } = await invoke('GET', `articles/featured`)
     return data
 }
 
 // fetch article
 export async function fetchArticle(slug) {
-    const { data = {} } = await axios.get(
-        `${BASEURL}/articles/title/${slug}`,
-        config()
-    )
-
+    const { data = {} } = await invoke('GET', `articles/title/${slug}`)
     return data
 }
 
 // fetch recommended articles
 export async function fetchRecommended(title) {
-    const { data = {} } = await axios.get(
-        `${BASEURL}/articles/recommendations/${title}`,
-        config()
+    const { data = {} } = await invoke(
+        'GET',
+        `articles/recommendations/${title}`
     )
     return data
 }
 
 // fetch more articles by author
 export async function fetchMoreByAuthor(author) {
-    const { data = {} } = await axios.get(
-        `${BASEURL}/articles/author/${author}?limit=4&page=1`,
-        config()
+    const { data = {} } = await invoke(
+        'GET',
+        `articles/moreby/${author}?limit=4&page=1`
     )
     return data
 }
@@ -75,25 +48,13 @@ export async function fetchMoreByAuthor(author) {
 
 // fetch datasets
 export async function fetchDatasets(term = '') {
-    try {
-        const { data = {} } = await axios.get(
-            `${BASEURL}/datasets?keyword=${term}`,
-            config()
-        )
-        return data
-    } catch (error) {
-        // find a way to send errors to slack
-        return { items: [], count: 0 }
-    }
+    const { data = {} } = await invoke('GET', `datasets?keyword=${term}`)
+    return data
 }
 
 // fetch dataset
 export async function fetchDataset(slug) {
-    const { data = {} } = await axios.get(
-        `${BASEURL}/datasets/dataset/${slug}`,
-        config()
-    )
-
+    const { data = {} } = await invoke('GET', `datasets/dataset/${slug}`)
     return data
 }
 
@@ -103,25 +64,13 @@ export async function fetchDataset(slug) {
 
 // fetch apps
 export async function fetchApps(term = '') {
-    try {
-        const { data = {} } = await axios.get(
-            `${BASEURL}/apps?keyword=${term}`,
-            config()
-        )
-        return data
-    } catch (error) {
-        // find a way to send errors to slack
-        return { items: [], count: 0 }
-    }
+    const { data = {} } = await invoke('GET', `apps?keyword=${term}`)
+    return data
 }
 
 // fetch app
 export async function fetchApp(slug) {
-    const { data = {} } = await axios.get(
-        `${BASEURL}/apps/app/${slug}`,
-        config()
-    )
-
+    const { data = {} } = await invoke('GET', `apps/app/${slug}`)
     return data
 }
 
@@ -131,12 +80,12 @@ export async function fetchApp(slug) {
 
 // fetch community
 export async function fetchCommunity() {
-    const { data = {} } = await axios.get(`${BASEURL}/users`, config())
+    const { data = {} } = await invoke('GET', `users`)
     return data
 }
 
 // fetch categories
 export async function fetchCategories(limit = null) {
-    const { data = {} } = await axios.get(`${BASEURL}/category?limit=${limit}`)
+    const { data = {} } = await invoke('GET', `category?limit=${limit}`)
     return data
 }

@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { FaWhatsapp, FaTwitter, FaFacebook } from 'react-icons/fa'
 import {
     Box,
+    Divider,
     Heading,
     HStack,
     IconButton,
@@ -39,8 +40,16 @@ function Share({ title }) {
     ]
 
     return (
-        <Box height='auto' width='100%'>
+        <Box
+            height='auto'
+            width='100%'
+            bg={colorMode === 'light' ? 'gray.50' : 'gray.700'}
+            p='10px'
+            borderRadius='10px'>
             <Heading fontSize='md'>Share with others</Heading>
+
+            <Divider my='0.5rem' />
+            
             <HStack spacing='3' my='1rem'>
                 {shares.map((share) => (
                     <IconButton
