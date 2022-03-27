@@ -1,6 +1,7 @@
 import '../scss/global.scss'
 import { ChakraProvider, CSSReset } from '@chakra-ui/react'
 import { theme } from '../src/utils/chakra.config'
+import '@fontsource/pt-sans/400.css'
 import '@fontsource/fira-sans/400.css'
 import '@fontsource/fira-sans/800.css'
 import '@fontsource/fira-mono/400.css'

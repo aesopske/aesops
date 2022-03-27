@@ -144,7 +144,7 @@ function ArticlePost({ article = {}, authorArticles = [] }) {
                             textAlign='justify'
                             className='paragraph'
                             color={
-                                colorMode === 'light' ? 'gray.700' : 'gray.300'
+                                colorMode === 'light' ? 'gray.600' : 'gray.300'
                             }
                             my='1rem'>
                             <MarkdownReader content={article?.body} />

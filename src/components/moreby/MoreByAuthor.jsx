@@ -16,7 +16,7 @@ function MoreByAuthor({ user, posts, current }) {
     return (
         <Box
             bg={colorMode === 'light' ? 'gray.50' : 'gray.700'}
-            p='10px'
+            p='20px'
             width='100%'
             borderRadius='10px'>
             <Heading fontSize='md' fontWeight='semibold'>
@@ -24,7 +24,7 @@ function MoreByAuthor({ user, posts, current }) {
             </Heading>
             <Divider my='0.5rem' />
             <Box height='auto'>
-                <Grid>
+                <Grid gap='1rem'>
                     {filtered &&
                         filtered.map((post) => (
                             <MoreByAuthorItem key={post._id} post={post} />

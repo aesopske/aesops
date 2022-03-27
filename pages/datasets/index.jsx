@@ -66,7 +66,9 @@ function Datasets({ datasets }) {
 export async function getServerSideProps() {
     const data = await fetchDatasets()
 
-    if (!data) {
+    console.log({ data })
+
+    if (!data.items) {
         return {
             redirect: {
                 destination: '/',

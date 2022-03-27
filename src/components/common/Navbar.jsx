@@ -51,6 +51,8 @@ function Navbar() {
                 height='5rem'
                 width='100%'
                 position='sticky'
+                bg={colorMode === 'light' ? 'gray.100' : 'gray.800'}
+                zIndex='60'
                 display={['none', 'none', 'none', 'block']}>
                 <Box
                     as={Stack}

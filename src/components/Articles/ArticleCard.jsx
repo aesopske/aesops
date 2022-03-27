@@ -89,14 +89,11 @@ function ArticlesCard({ article }) {
 
                     <Text
                         as='p'
-                        fontSize='1rem'
+                        fontSize='md'
+                        fontWeight='light'
                         width='100%'
                         my='1rem'
-                        color={
-                            colorMode === 'light'
-                                ? 'gray.200'
-                                : 'whiteAlpha.700'
-                        }
+                        color={colorMode === 'light' ? 'gray.200' : 'gray.300'}
                         noOfLines={[2, 2, 3]}>
                         <MarkdownReader content={article?.summary} />
                     </Text>

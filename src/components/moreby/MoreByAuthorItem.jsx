@@ -11,14 +11,19 @@ function MoreByAuthorItem({ post }) {
             <Link href={`/fables/${post?.slug}`} passHref>
                 <Heading
                     mb='0.5rem'
-                    fontSize='md'
+                    fontSize='sm'
+                    textTransform='capitalize'
                     fontWeight='medium'
                     color={colorMode === 'light' ? 'gray.600' : 'gray.300'}
                     cursor='pointer'>
                     {post?.title}
                 </Heading>
             </Link>
-            <HStack gap='5px' alignItems='flex-start' flexWrap='wrap'>
+            <HStack
+                gap='5px'
+                spacing='1'
+                alignItems='flex-start'
+                flexWrap='wrap'>
                 {post?.tags &&
                     post?.tags.slice(0, 2).map((tag, index) => (
                         <Badge

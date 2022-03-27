@@ -39,7 +39,7 @@ export const theme = extendTheme({
     styles,
     fonts: {
         heading: 'Fira Sans',
-        body: 'Fira Sans',
+        body: 'PT Sans',
         mono: 'Fira Mono',
     },
 })

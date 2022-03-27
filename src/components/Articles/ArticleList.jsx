@@ -215,7 +215,6 @@ function ArticleList({ articles, categories }) {
                                     key={category?.id}
                                     p='10px'
                                     fontWeight='500'
-                                    fontSize='0.8rem'
                                     cursor='pointer'
                                     colorScheme={
                                         query === category?.name
