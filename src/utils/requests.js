@@ -1,42 +1,34 @@
-/**
-    @description module with functions to make requests to the server
-*/
 import axios from 'axios'
 
-const BASEURL = `${process.env.BASE_URL}/api/v1`
-
-function config() {
-    const config = {
-        headers: {
-            'Content-type': 'application/json',
-        },
-    }
-
-    return config
+const baseUrl = `${process.env.BASE_URL}/api/v1`
+const config = {
+    headers: {
+        Accept: 'application/json',
+        'Content-type': 'application/json',
+        'same-site': 'Secure',
+    },
 }
-
-/**
- * @description Articles actions
- */
 
 // fetch articles
 export async function fetchArticles(term = '') {
     try {
-        const { data = {} } = await axios.get(
-            `${BASEURL}/articles?keyword=${term}`,
-            config()
-        )
+        let url
+        if (term) {
+            url = `/articles?keyword=${term}`
+        } else {
+            url = '/articles'
+        }
+        const { data = {} } = await axios.get(`${baseUrl}/${url}`, config)
         return data
     } catch (error) {
-        // find a way to send errors to slack
-        return { items: [], count: 0 }
+        return { count: [], articles: [] }
     }
 }
 // fetch articles
 export async function fetchFeaturedArticles() {
     const { data = {} } = await axios.get(
-        `${BASEURL}/articles/featured`,
-        config()
+        `${baseUrl}/articles/featured`,
+        config
     )
     return data
 }
@@ -44,27 +36,26 @@ export async function fetchFeaturedArticles() {
 // fetch article
 export async function fetchArticle(slug) {
     const { data = {} } = await axios.get(
-        `${BASEURL}/articles/title/${slug}`,
-        config()
+        `${baseUrl}/articles/title/${slug}`,
+        config
     )
-
     return data
 }
 
 // fetch recommended articles
 export async function fetchRecommended(title) {
     const { data = {} } = await axios.get(
-        `${BASEURL}/articles/recommendations/${title}`,
-        config()
+        `${baseUrl}/articles/recommendations/${title}`,
+        config
     )
     return data
 }
 
 // fetch more articles by author
-export async function fetchMoreByAuthor(author) {
+export async function fetchMoreByAuthor(author = '') {
     const { data = {} } = await axios.get(
-        `${BASEURL}/articles/author/${author}?limit=4&page=1`,
-        config()
+        `${baseUrl}/articles/moreby/${author}?limit=4&page=1`,
+        config
     )
     return data
 }
@@ -76,24 +67,26 @@ export async function fetchMoreByAuthor(author) {
 // fetch datasets
 export async function fetchDatasets(term = '') {
     try {
-        const { data = {} } = await axios.get(
-            `${BASEURL}/datasets?keyword=${term}`,
-            config()
-        )
+        let url
+        if (term) {
+            url = `/datasets?keyword=${term}`
+        } else {
+            url = '/datasets'
+        }
+
+        const { data = {} } = await axios.get(`${baseUrl}/${url}`, config)
         return data
     } catch (error) {
-        // find a way to send errors to slack
-        return { items: [], count: 0 }
+        return { count: [], datasets: [] }
     }
 }
 
 // fetch dataset
 export async function fetchDataset(slug) {
     const { data = {} } = await axios.get(
-        `${BASEURL}/datasets/dataset/${slug}`,
-        config()
+        `${baseUrl}/datasets/dataset/${slug}`,
+        config
     )
-
     return data
 }
 
@@ -103,25 +96,21 @@ export async function fetchDataset(slug) {
 
 // fetch apps
 export async function fetchApps(term = '') {
-    try {
-        const { data = {} } = await axios.get(
-            `${BASEURL}/apps?keyword=${term}`,
-            config()
-        )
-        return data
-    } catch (error) {
-        // find a way to send errors to slack
-        return { items: [], count: 0 }
+    let url
+    if (term) {
+        url = `/apps?keyword=${term}`
+    } else {
+        url = '/apps'
     }
+
+    const { data = {} } = await axios.get(`${baseUrl}/${url}`, config)
+
+    return data
 }
 
 // fetch app
 export async function fetchApp(slug) {
-    const { data = {} } = await axios.get(
-        `${BASEURL}/apps/app/${slug}`,
-        config()
-    )
-
+    const { data = {} } = await axios.get(`${baseUrl}/apps/app/${slug}`, config)
     return data
 }
 
@@ -131,12 +120,23 @@ export async function fetchApp(slug) {
 
 // fetch community
 export async function fetchCommunity() {
-    const { data = {} } = await axios.get(`${BASEURL}/users`, config())
+    const { data = {} } = await axios.get(`${baseUrl}/users`, config)
     return data
 }
 
 // fetch categories
 export async function fetchCategories(limit = null) {
-    const { data = {} } = await axios.get(`${BASEURL}/category?limit=${limit}`)
-    return data
+    try {
+        let url
+        if (limit) {
+            url = `/category?limit=${limit}`
+        } else {
+            url = '/category'
+        }
+        const { data = {} } = await axios.get(`${baseUrl}/${url}`, config)
+
+        return data
+    } catch (error) {
+        return { categories: [] }
+    }
 }

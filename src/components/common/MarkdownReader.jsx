@@ -37,7 +37,7 @@ function MarkdownReader({ content }) {
                         <Text
                             as='p'
                             color={
-                                colorMode === 'light' ? 'gray.900' : 'gray.300'
+                                colorMode === 'light' ? 'gray.700' : 'gray.300'
                             }>
                             {children}
                         </Text>

@@ -12,8 +12,10 @@ import {
 import readTime from 'reading-time'
 import MarkdownReader from '../common/MarkdownReader'
 import UserAvatar from '../common/UserAvatar'
+import { useGa } from '@/src/context/TrackingProvider'
 
 function FeaturedCard({ article }) {
+    const { gaEvent } = useGa()
     const { colorMode } = useColorMode()
     const { text } = readTime(article?.body)
 
@@ -31,6 +33,13 @@ function FeaturedCard({ article }) {
             <Link href={`/fables/${article?.slug}`} passHref>
                 <Stack
                     direction='column'
+                    onClick={() => {
+                        gaEvent(
+                            'Article',
+                            'Clicked Featured Article',
+                            article?.title
+                        )
+                    }}
                     justifyContent='space-between'
                     alignItems='flex-start'
                     height='100%'

@@ -15,15 +15,17 @@ import {
     VStack,
 } from '@chakra-ui/react'
 import UserAvatar from '../common/UserAvatar'
+import { useGa } from '@/src/context/TrackingProvider'
 
 function ArticlesCard({ article }) {
+    const { gaEvent } = useGa()
     const { colorMode } = useColorMode()
-    const { title, image, author, created, body, summary, slug, tags } = article
-    const date = format(new Date(created), 'MMM dd')
-    const { text } = readTime(body && body)
+
+    const date = format(new Date(article?.created), 'MMM dd')
+    const { text } = readTime(article?.body)
 
     const user = {
-        name: author,
+        name: article?.author,
         date,
         read: text,
         photoURL: article?.author_image,
@@ -39,11 +41,11 @@ function ArticlesCard({ article }) {
             <Box
                 width={['100%', '100%', '40%', '35%', '30%']}
                 height={['35vh', '40vh', '40vh', '30vh', '30vh', '35vh']}>
-                <Link href={`/fables/${slug}`} passHref>
+                <Link href={`/fables/${article?.slug}`} passHref>
                     <Image
                         borderRadius='10px'
-                        src={image?.url}
-                        alt={title}
+                        src={article?.image?.url}
+                        alt={article?.title}
                         objectFit='cover'
                         width='100%'
                         height='100%'
@@ -67,29 +69,33 @@ function ArticlesCard({ article }) {
                 <Box>
                     <Link
                         href={{
-                            pathname: `/fables/${slug}`,
+                            pathname: `/fables/${article?.slug}`,
                         }}
                         passHref>
                         <Heading
                             cursor='pointer'
                             fontSize='lg'
+                            onClick={() => {
+                                gaEvent(
+                                    'Fables',
+                                    'clicked on title',
+                                    article?.title
+                                )
+                            }}
                             textTransform='capitalize'>
-                            {title}
+                            {article?.title}
                         </Heading>
                     </Link>
 
                     <Text
                         as='p'
-                        fontSize='1rem'
+                        fontSize='md'
+                        fontWeight='light'
                         width='100%'
                         my='1rem'
-                        color={
-                            colorMode === 'light'
-                                ? 'gray.200'
-                                : 'whiteAlpha.700'
-                        }
+                        color={colorMode === 'light' ? 'gray.200' : 'gray.300'}
                         noOfLines={[2, 2, 3]}>
-                        <MarkdownReader content={summary} />
+                        <MarkdownReader content={article?.summary} />
                     </Text>
                 </Box>
 
@@ -101,8 +107,8 @@ function ArticlesCard({ article }) {
                     width='100%'>
                     <UserAvatar user={user} align='center' />
                     <HStack spacing='1' flexWrap='wrap' mb='0.5rem'>
-                        {tags &&
-                            tags.slice(0, 2).map((tag) => (
+                        {article?.tags &&
+                            article?.tags.slice(0, 2).map((tag) => (
                                 <Badge
                                     key={tag}
                                     borderRadius='5px'

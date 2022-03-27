@@ -30,7 +30,7 @@ export async function getServerSideProps() {
     const featuredArticles =
         data.items && data.items.filter((item) => item.featured).splice(0, 4)
 
-    if (!data) {
+    if (!data.items.length) {
         return {
             redirect: {
                 destination: '/',

@@ -1,37 +1,54 @@
 import React from 'react'
-import { Badge, Box, Heading, useColorMode } from '@chakra-ui/react'
+import { Badge, Box, Heading, HStack, useColorMode } from '@chakra-ui/react'
 import Link from 'next/link'
+import { useRouter } from 'next/router'
 
 function MoreByAuthorItem({ post }) {
+    const router = useRouter()
     const { colorMode } = useColorMode()
     return (
-        <Box mt='0.5rem'>
+        <Box>
             <Link href={`/fables/${post?.slug}`} passHref>
                 <Heading
-                    my='1rem'
+                    mb='0.5rem'
                     fontSize='sm'
-                    fontWeight='600'
-                    color={colorMode === 'light' ? '#444' : 'gray.400'}
+                    textTransform='capitalize'
+                    fontWeight='medium'
+                    color={colorMode === 'light' ? 'gray.600' : 'gray.300'}
                     cursor='pointer'>
                     {post?.title}
                 </Heading>
             </Link>
-            <Box>
+            <HStack
+                gap='5px'
+                spacing='1'
+                alignItems='flex-start'
+                flexWrap='wrap'>
                 {post?.tags &&
-                    post?.tags.map((tag, index) => (
+                    post?.tags.slice(0, 2).map((tag, index) => (
                         <Badge
                             key={index}
-                            mb='5px'
-                            mr='5px'
                             textTransform='capitalize'
-                            borderRadius='5px'
+                            borderRadius='full'
+                            onClick={() => {
+                                router.push(
+                                    {
+                                        pathname: '/fables',
+                                        query: { category: tag },
+                                    },
+                                    `/fables?category=${tag}`,
+                                    {
+                                        shallow: true,
+                                    }
+                                )
+                            }}
                             p='5px'
                             fontWeight='500'
                             colorScheme='purple'>
                             {tag}
                         </Badge>
                     ))}
-            </Box>
+            </HStack>
         </Box>
     )
 }

@@ -10,9 +10,11 @@ import {
     Button,
     useColorMode,
 } from '@chakra-ui/react'
+import { useGa } from '@/src/context/TrackingProvider'
 
 function Hero() {
     const { colorMode } = useColorMode()
+    const { gaEvent } = useGa()
     return (
         <Box
             width={['95%', '90%', '80%']}
@@ -45,18 +47,7 @@ function Hero() {
                             <Heading as='h1' size='2xl' color='#fff'>
                                 We tell stories with data as our medium
                             </Heading>
-                            <Text
-                                as='p'
-                                fontSize={[
-                                    '1rem',
-                                    '1rem',
-                                    '1.1rem',
-                                    '1.1rem',
-                                    '1.1rem',
-                                    '1.2rem',
-                                ]}
-                                my='2rem'
-                                color='#fff'>
+                            <Text as='p' fontSize='lg' my='2rem' color='#fff'>
                                 Understand better what is happening around you
                                 both interestingly and qualitatively.
                             </Text>
@@ -74,6 +65,13 @@ function Hero() {
                                     as='a'
                                     href={`${process.env.DASHBOARD_URL}/auth/signup`}
                                     target='_blank'
+                                    onClick={() => {
+                                        gaEvent({
+                                            category: 'Home',
+                                            action: 'Clicked sign up',
+                                            label: 'signup',
+                                        })
+                                    }}
                                     rel='noopener noreferer'
                                     bg={
                                         colorMode === 'light'
@@ -98,6 +96,13 @@ function Hero() {
                                 <Link href='/fables' passHref>
                                     <Button
                                         bg='transparent'
+                                        onClick={() => {
+                                            gaEvent({
+                                                category: 'Home',
+                                                action: 'Clicked show fables',
+                                                label: 'show fables',
+                                            })
+                                        }}
                                         color='#fff'
                                         border='2px solid'
                                         borderColor={
