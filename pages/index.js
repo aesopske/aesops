@@ -6,7 +6,7 @@ import WhatWeOffer from '@/src/components/home/WhatWeOffer'
 
 function Home() {
     return (
-        <Layout>
+        <Layout title='Aesops | Home'>
             <Hero />
             <WhatWeOffer />
             <About />

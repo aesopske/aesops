@@ -21,9 +21,9 @@ function CookieBanner() {
             borderRadius='10px'
             p='20px'
             border='2px solid'
-            borderColor={colorMode === 'light' ? 'gray.400' : 'gray.600'}
+            borderColor={colorMode === 'light' ? 'gray.300' : 'gray.700'}
             bg={colorMode === 'light' ? '#fff' : 'gray.700'}
-            shadow='xl'
+            shadow='2xl'
             zIndex='50'
             fontSize='sm'
             bottom={['7rem', '', '', '1rem', '2rem']}
