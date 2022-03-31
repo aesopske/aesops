@@ -53,7 +53,7 @@ function Navbar() {
                 position='sticky'
                 bg={colorMode === 'light' ? 'gray.100' : 'gray.800'}
                 zIndex='60'
-                display={['none', 'none', 'none', 'block']}>
+                display={['none', 'none', 'block', 'block']}>
                 <Box
                     as={Stack}
                     direction='row'

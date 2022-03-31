@@ -73,7 +73,7 @@ function NavbarMobile() {
 
     return (
         <Stack
-            display={['flex', 'flex', 'flex', 'none']}
+            display={['flex', 'flex', 'none', 'none']}
             ref={ref}
             position='fixed'
             height='auto'

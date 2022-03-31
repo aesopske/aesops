@@ -1,13 +1,13 @@
 import React, { createContext, useCallback, useContext, useEffect } from 'react'
-import { initialize, set, pageview, event } from 'react-ga'
 import { Router } from 'next/router'
+import GA4 from 'react-ga4'
 
 const TrackingContext = createContext({})
 
 function TrackingProvider({ children }) {
     const initGA = useCallback(() => {
         const trackingId = process.env.GA_TRACKING_ID
-        initialize(trackingId, {
+        GA4.initialize(trackingId, {
             gaOptions: {
                 debug: process.env.NODE_ENV === 'development',
                 siteSpeedSampleRate: 100,
@@ -16,12 +16,19 @@ function TrackingProvider({ children }) {
     }, [])
 
     const pageView = useCallback((location = window.location.href) => {
-        set(location)
-        pageview(location)
+        GA4.set({ page: location })
+        GA4.send({
+            hitType: 'pageview',
+            page: location,
+        })
     }, [])
 
     function gaEvent(category = '', action = '', label = '') {
-        event({ category, action, label })
+        GA4.event({
+            category,
+            action,
+            label,
+        })
     }
 
     useEffect(() => {
@@ -30,16 +37,22 @@ function TrackingProvider({ children }) {
         }
     }, [initGA])
 
+    const handleRouteChange = useCallback(
+        (url) => {
+            if (GA4.isInitialized) {
+                pageView(url)
+            }
+        },
+        [pageView]
+    )
     useEffect(() => {
-        const handleRouteChange = (url) => {
-            pageView(url)
+        if (typeof window !== 'undefined') {
+            Router.events.on('routeChangeComplete', handleRouteChange)
+            return () => {
+                Router.events.off('routeChangeComplete', handleRouteChange)
+            }
         }
-
-        Router.events.on('routeChangeComplete', handleRouteChange)
-        return () => {
-            Router.events.off('routeChangeComplete', handleRouteChange)
-        }
-    }, [pageView])
+    }, [handleRouteChange])
 
     return (
         <TrackingContext.Provider value={{ pageView, gaEvent }}>
