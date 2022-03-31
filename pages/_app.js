@@ -8,6 +8,7 @@ import '@fontsource/fira-mono/400.css'
 import ContextProvider from '../src/context/ContextProvider'
 import ProgressBar from '@badrap/bar-of-progress'
 import Router from 'next/router'
+import Script from 'next/script'
 
 const progress = new ProgressBar({
     size: 5,
@@ -25,6 +26,24 @@ function MyApp({ Component, pageProps }) {
         <ChakraProvider theme={theme}>
             <CSSReset />
             <ContextProvider>
+                <Script
+                    strategy='afterInteractive'
+                    src={`https://www.googletagmanager.com/gtag/js?id=${process.env.GA_TRACKING_ID}`}
+                />
+                <Script
+                    id='gtm'
+                    strategy='afterInteractive'
+                    dangerouslySetInnerHTML={{
+                        __html: `
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments);}
+            gtag('js', new Date());
+            gtag('config', '${process.env.GA_TRACKING_ID}', {
+              page_path: window.location.pathname,
+            });
+          `,
+                    }}
+                />
                 <Component {...pageProps} />
             </ContextProvider>
         </ChakraProvider>

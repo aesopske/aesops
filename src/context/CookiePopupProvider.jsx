@@ -33,7 +33,7 @@ function CookiePopupProvider({ children }) {
 
     return (
         <CookieContext.Provider
-            value={{ showConsent, consent, setCookieConsent }}>
+            value={{ showConsent, consent, setCookieConsent, setShowConsent }}>
             {children}
         </CookieContext.Provider>
     )
