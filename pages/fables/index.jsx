@@ -2,7 +2,12 @@ import { Box } from '@chakra-ui/react'
 import ArticleList from '@/src/components/Articles/ArticleList'
 import FeaturedList from '@/src/components/Articles/FeaturedList'
 import Layout from '@/src/components/common/Layout'
-import { fetchArticles, fetchCategories } from '@/src/utils/requests'
+import {
+    fetchArticles,
+    fetchCategories,
+    fetchFeaturedArticles,
+} from '@/src/utils/requests'
+import Promise from 'promise'
 
 function Articles({ articles, featured, count, categories }) {
     return (
@@ -23,14 +28,14 @@ function Articles({ articles, featured, count, categories }) {
     )
 }
 
-export async function getServerSideProps() {
-    const data = await fetchArticles()
-    const resp = await fetchCategories(12)
+export async function getStaticProps() {
+    const [featured, articles, categories] = await Promise.all([
+        fetchFeaturedArticles(),
+        fetchArticles({ limit: 0 }),
+        fetchCategories(12),
+    ])
 
-    const featuredArticles =
-        data.items && data.items.filter((item) => item.featured).splice(0, 4)
-
-    if (!data.items.length) {
+    if (!articles.items.length) {
         return {
             redirect: {
                 destination: '/',
@@ -41,10 +46,10 @@ export async function getServerSideProps() {
 
     return {
         props: {
-            featured: featuredArticles,
-            articles: data.items,
-            count: data.count,
-            categories: resp.categories,
+            featured: featured.items,
+            articles: articles.items,
+            count: articles.count,
+            categories: categories.categories,
         },
     }
 }

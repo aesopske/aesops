@@ -11,7 +11,6 @@ import {
     Text,
     useColorMode,
 } from '@chakra-ui/react'
-import NavbarMobile from './NavbarMobile'
 import ThemeSwitcher from './ThemeSwitcher'
 import { useRouter } from 'next/router'
 import { useGa } from '@/src/context/TrackingProvider'
@@ -46,7 +45,6 @@ function Navbar() {
 
     return (
         <>
-            <NavbarMobile />
             <Box
                 height='5rem'
                 width='100%'

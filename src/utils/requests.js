@@ -10,15 +10,15 @@ const config = {
 }
 
 // fetch articles
-export async function fetchArticles(term = '') {
+export async function fetchArticles(params = {}) {
     try {
-        let url
-        if (term) {
-            url = `/articles?keyword=${term}`
-        } else {
-            url = '/articles'
-        }
+        const search = new URLSearchParams({
+            ...params,
+        })
+        const query = search.toString()
+        const url = `articles?${query}`
         const { data = {} } = await axios.get(`${baseUrl}/${url}`, config)
+
         return data
     } catch (error) {
         return { count: [], articles: [] }

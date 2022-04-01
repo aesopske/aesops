@@ -75,17 +75,16 @@ function NavbarMobile() {
         <Stack
             display={['flex', 'flex', 'none', 'none']}
             ref={ref}
-            position='fixed'
+            position='sticky'
             height='auto'
             width='95%'
-            my='1rem'
+            borderRadius='10px'
             direction='column'
             justifyContent='space-between'
             alignItems='center'
-            shadow='base'
-            bottom='0rem'
+            bottom='1rem'
             left='2.5%'
-            zIndex='30'
+            zIndex='100'
             mx='auto'>
             {isOpen && (
                 <Stack
@@ -102,10 +101,7 @@ function NavbarMobile() {
                     spacing='6'
                     zIndex='40'
                     alignItems='center'>
-                    <Grid
-                        my='1rem'
-                        gap='1.5rem'
-                        templateColumns='repeat(3,1fr)'>
+                    <Grid my='1rem' gap='1rem' templateColumns='repeat(3,1fr)'>
                         {navs.map((nav) => (
                             <Link
                                 className='navitem'

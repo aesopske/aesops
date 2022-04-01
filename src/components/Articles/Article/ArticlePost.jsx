@@ -106,7 +106,10 @@ function ArticlePost({ article = {}, authorArticles = [] }) {
                     ]}>
                     <GridItem colSpan={[1, 1, 2, 2, 2, 2]}>
                         <Box my='1rem'>
-                            <Heading fontSize='2xl' my='1rem'>
+                            <Heading
+                                fontSize='2xl'
+                                my='1rem'
+                                textTransform='capitalize'>
                                 {article?.title}
                             </Heading>
                             <UserAvatar user={user} align='center' />

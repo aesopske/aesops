@@ -6,6 +6,7 @@ import { useEffect, useState } from 'react'
 import ScrollUp from './ScrollUp'
 import { useCookie } from '@/src/context/CookiePopupProvider'
 import CookieBanner from './CookieBanner'
+import NavbarMobile from './NavbarMobile'
 
 function Layout({ children, title, keywords, description, url, imageurl }) {
     const [scroll, setScroll] = useState(false)
@@ -56,6 +57,7 @@ function Layout({ children, title, keywords, description, url, imageurl }) {
                 {children}
             </Box>
             <Footer />
+            <NavbarMobile />
             <ScrollUp scroll={scroll} />
         </Box>
     )
