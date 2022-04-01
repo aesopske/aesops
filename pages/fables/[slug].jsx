@@ -1,10 +1,6 @@
 import Layout from '@/src/components/common/Layout'
 import ArticlePost from '@/src/components/Articles/Article/ArticlePost'
-import {
-    fetchArticle,
-    fetchArticles,
-    fetchMoreByAuthor,
-} from '@/src/utils/requests'
+import { fetchArticle, fetchMoreByAuthor } from '@/src/utils/requests'
 import { useEffect, useState } from 'react'
 
 function Article({ article }) {
@@ -46,7 +42,7 @@ function Article({ article }) {
     )
 }
 
-export async function getStaticProps(ctx) {
+export async function getServerSideProps(ctx) {
     try {
         const { slug } = ctx.params
         const article = await fetchArticle(slug)
@@ -72,20 +68,6 @@ export async function getStaticProps(ctx) {
                 article: {},
             },
         }
-    }
-}
-
-export async function getStaticPaths() {
-    const articles = await fetchArticles()
-    const paths = articles.items.map((article) => ({
-        params: {
-            slug: article.slug,
-        },
-    }))
-
-    return {
-        paths,
-        fallback: false,
     }
 }
 

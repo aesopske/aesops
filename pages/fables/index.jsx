@@ -28,7 +28,7 @@ function Articles({ articles, featured, count, categories }) {
     )
 }
 
-export async function getStaticProps() {
+export async function getServerSideProps() {
     const [featured, articles, categories] = await Promise.all([
         fetchFeaturedArticles(),
         fetchArticles({ limit: 0 }),
