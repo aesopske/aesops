@@ -13,7 +13,7 @@ function DatasetsList({ datasets }) {
 
             {!datasets.length && (
                 <Unavailable
-                    message='No published apps'
+                    message='No published datasets found'
                     src='/images/unavailable.svg'
                 />
             )}

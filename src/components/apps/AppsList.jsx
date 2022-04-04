@@ -13,7 +13,7 @@ function AppsList({ apps }) {
 
             {!apps.length && (
                 <Unavailable
-                    message='No published apps'
+                    message='No published apps found'
                     src='/images/unavailable.svg'
                 />
             )}

@@ -188,7 +188,7 @@ function ArticleList({ articles }) {
 
                 {!articles.length && (
                     <Unavailable
-                        message='😧 No published fables available'
+                        message='😧 No published fables found'
                         src='/images/unavailable.svg'
                     />
                 )}
