@@ -21,6 +21,7 @@
     "disqus-react": "^1.1.2",
     "feed": "^4.2.2",
     "framer-motion": "^4.1.17",
+    "ga-4-react": "^0.1.281",
     "gray-matter": "^4.0.3",
     "js-cookie": "^3.0.1",
     "moment": "^2.29.1",
