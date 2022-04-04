@@ -5,23 +5,14 @@ import GA4 from 'react-ga4'
 const TrackingContext = createContext({})
 
 function TrackingProvider({ children }) {
-    const isDev = process.env.NODE_ENV === 'development'
-    let trackingId
-
-    if (isDev) {
-        trackingId = ''
-    } else {
-        trackingId = process.env.GA_TRACKING_ID
-    }
-
-    const initGA = useCallback(() => {
-        GA4.initialize(trackingId, {
+    const initGA = () => {
+        GA4.initialize(process.env.GA_TRACKING_ID, {
             gaOptions: {
                 debug: process.env.NODE_ENV === 'development',
                 siteSpeedSampleRate: 100,
             },
         })
-    }, [trackingId])
+    }
 
     const pageView = useCallback((location = window.location.href) => {
         GA4.set({ page: location })
@@ -43,7 +34,7 @@ function TrackingProvider({ children }) {
         if (typeof window !== 'undefined') {
             initGA()
         }
-    }, [initGA])
+    }, [])
 
     const handleRouteChange = useCallback(
         (url) => {
