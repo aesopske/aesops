@@ -1,11 +1,11 @@
 import CookiePopupProvider from './CookiePopupProvider'
-import TrackingProvider from './TrackingProvider'
+// import TrackingProvider from './TrackingProvider'
 
 function ContextProvider({ children }) {
     return (
-        <TrackingProvider>
-            <CookiePopupProvider>{children}</CookiePopupProvider>
-        </TrackingProvider>
+        // <TrackingProvider>
+        // </TrackingProvider>
+        <CookiePopupProvider>{children}</CookiePopupProvider>
     )
 }
 

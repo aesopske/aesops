@@ -23,7 +23,8 @@ function CookiePopupProvider({ children }) {
 
     useEffect(() => {
         if (typeof window !== 'undefined') {
-            const cookieConsent = sessionStorage.getItem('CookieConsent')
+            const cookieConsent = sessionStorage.getItem('cookieConsent')
+
             if (cookieConsent) {
                 setConsent(cookieConsent)
             }

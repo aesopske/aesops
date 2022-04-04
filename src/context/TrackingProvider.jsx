@@ -8,7 +8,7 @@ function TrackingProvider({ children }) {
     const trackingId = process.env.GA_TRACKING_ID
 
     const initGA = useCallback(() => {
-        if (!GA4.isInitialized && process.env.NODE_ENV === 'production') {
+        if (!GA4.isInitialized) {
             GA4.initialize(trackingId, {
                 gaOptions: {
                     debug: !process.env.NODE_ENV === 'production',
