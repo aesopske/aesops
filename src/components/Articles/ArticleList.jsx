@@ -14,29 +14,44 @@ import Search from '../common/Search'
 import ArticleCard from './ArticleCard'
 import { useEffect, useState, useCallback } from 'react'
 import { useDebounce } from 'use-debounce'
-import { fetchArticles } from '@/src/utils/requests'
+import { fetchArticles, fetchCategories } from '@/src/utils/requests'
 import Unavailable from '../common/Unavailable'
 import { useRouter } from 'next/router'
 import { FaTimes } from 'react-icons/fa'
 import { useGa } from '@/src/context/TrackingProvider'
+import ArticleLoader from './ArticleLoader'
 
-function ArticleList({ articles, categories }) {
+function ArticleList({ articles }) {
     const router = useRouter()
     const { gaEvent } = useGa()
     const { colorMode } = useColorMode()
     const [searchterm, setSearchterm] = useState('')
     const [filtered, setFiltered] = useState([])
+    const [loading, setLoading] = useState(false)
     const [text] = useDebounce(searchterm, 500)
+    const [categories, setCategories] = useState([])
 
     const { category: query } = router.query
 
     const fetchFiltered = useCallback(async (txt) => {
-        const data = await fetchArticles(txt)
-
-        if (data.items) {
+        try {
+            setLoading(true)
+            const data = await fetchArticles({ keyword: txt })
             setFiltered(data.items)
-        } else {
+            setLoading(false)
+        } catch (error) {
+            setLoading(false)
             setFiltered([])
+        }
+    }, [])
+
+    const getCategories = useCallback(async () => {
+        const data = await fetchCategories({ limit: 12 })
+
+        if (data.categories) {
+            setCategories(data.categories)
+        } else {
+            setCategories([])
         }
     }, [])
 
@@ -55,6 +70,12 @@ function ArticleList({ articles, categories }) {
             }
         }
     }, [query, fetchFiltered])
+
+    useEffect(() => {
+        if (typeof window !== 'undefined') {
+            getCategories()
+        }
+    }, [getCategories])
 
     return (
         <Stack
@@ -122,7 +143,7 @@ function ArticleList({ articles, categories }) {
                     </HStack>
                 )}
 
-                {query && !filtered.length && (
+                {query && !filtered.length && !loading && (
                     <Box height='auto' minHeight='40vh' my='2rem'>
                         <Unavailable
                             message='😧 No posts available for that filter'
@@ -130,6 +151,8 @@ function ArticleList({ articles, categories }) {
                         />
                     </Box>
                 )}
+
+                {loading && <ArticleLoader />}
 
                 {text ? (
                     <Grid gap='2rem' templateColumns='repeat(1, 1fr)'>

@@ -14,7 +14,7 @@ function Datasets({ datasets }) {
     const [text] = useDebounce(searchTerm, 500)
 
     const fetchFiltered = async (txt) => {
-        const data = await fetchDatasets(txt)
+        const data = await fetchDatasets({ keyword: txt })
         if (data.items) {
             setFiltered(data.items)
         } else {
@@ -63,8 +63,8 @@ function Datasets({ datasets }) {
     )
 }
 
-export async function getServerSideProps() {
-    const data = await fetchDatasets()
+export async function getStaticProps() {
+    const data = await fetchDatasets({ limit: 100, page: 1 })
 
     if (!data.items) {
         return {
@@ -79,6 +79,8 @@ export async function getServerSideProps() {
         props: {
             datasets: data.items,
         },
+
+        revalidate: 10,
     }
 }
 

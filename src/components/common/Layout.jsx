@@ -6,10 +6,12 @@ import { useEffect, useState } from 'react'
 import ScrollUp from './ScrollUp'
 import { useCookie } from '@/src/context/CookiePopupProvider'
 import CookieBanner from './CookieBanner'
+import NavbarMobile from './NavbarMobile'
+import Script from 'next/script'
 
 function Layout({ children, title, keywords, description, url, imageurl }) {
     const [scroll, setScroll] = useState(false)
-    const { showConsent } = useCookie()
+    const { showCookieBanner } = useCookie()
 
     const handleScrollChange = () => {
         if (window.scrollY !== 0) {
@@ -50,12 +52,31 @@ function Layout({ children, title, keywords, description, url, imageurl }) {
                 <meta property='twitter:description' content={description} />
                 <meta property='twitter:image' content={imageurl} />
             </Head>
+            <Script
+                strategy='afterInteractive'
+                src={`https://www.googletagmanager.com/gtag/js?id=${process.env.GA_TRACKING_ID}`}
+            />
+            <Script
+                id='gtm'
+                strategy='afterInteractive'
+                dangerouslySetInnerHTML={{
+                    __html: `
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments);}
+            gtag('js', new Date());
+            gtag('config', '${process.env.GA_TRACKING_ID}', {
+              page_path: window.location.pathname,
+            });
+          `,
+                }}
+            />
             <Navbar />
             <Box width='100%' height='auto'>
-                {showConsent && <CookieBanner />}
+                {showCookieBanner && <CookieBanner />}
                 {children}
             </Box>
             <Footer />
+            <NavbarMobile />
             <ScrollUp scroll={scroll} />
         </Box>
     )

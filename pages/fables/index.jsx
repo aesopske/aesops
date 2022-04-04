@@ -2,9 +2,10 @@ import { Box } from '@chakra-ui/react'
 import ArticleList from '@/src/components/Articles/ArticleList'
 import FeaturedList from '@/src/components/Articles/FeaturedList'
 import Layout from '@/src/components/common/Layout'
-import { fetchArticles, fetchCategories } from '@/src/utils/requests'
+import { fetchArticles, fetchFeaturedArticles } from '@/src/utils/requests'
+import Promise from 'promise'
 
-function Articles({ articles, featured, count, categories }) {
+function Articles({ articles, featured, count }) {
     return (
         <Layout title='Aesops - Fables'>
             <Box
@@ -13,24 +14,19 @@ function Articles({ articles, featured, count, categories }) {
                 minHeight='50vh'
                 mx='auto'>
                 {featured.length > 0 && <FeaturedList featured={featured} />}
-                <ArticleList
-                    articles={articles}
-                    count={count}
-                    categories={categories}
-                />
+                <ArticleList articles={articles} count={count} />
             </Box>
         </Layout>
     )
 }
 
-export async function getServerSideProps() {
-    const data = await fetchArticles()
-    const resp = await fetchCategories(12)
+export async function getStaticProps() {
+    const [featured, articles] = await Promise.all([
+        fetchFeaturedArticles(),
+        fetchArticles({ limit: 20, page: 1 }),
+    ])
 
-    const featuredArticles =
-        data.items && data.items.filter((item) => item.featured).splice(0, 4)
-
-    if (!data.items.length) {
+    if (!articles.items.length) {
         return {
             redirect: {
                 destination: '/',
@@ -41,11 +37,11 @@ export async function getServerSideProps() {
 
     return {
         props: {
-            featured: featuredArticles,
-            articles: data.items,
-            count: data.count,
-            categories: resp.categories,
+            featured: featured.items,
+            articles: articles.items,
+            count: articles.count,
         },
+        revalidate: 10,
     }
 }
 

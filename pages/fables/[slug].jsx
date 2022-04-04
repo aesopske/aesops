@@ -1,6 +1,10 @@
 import Layout from '@/src/components/common/Layout'
 import ArticlePost from '@/src/components/Articles/Article/ArticlePost'
-import { fetchArticle, fetchMoreByAuthor } from '@/src/utils/requests'
+import {
+    fetchArticle,
+    fetchArticles,
+    fetchMoreByAuthor,
+} from '@/src/utils/requests'
 import { useEffect, useState } from 'react'
 
 function Article({ article }) {
@@ -42,52 +46,38 @@ function Article({ article }) {
     )
 }
 
-export async function getServerSideProps(ctx) {
-    try {
-        const { slug } = ctx.params
-        const article = await fetchArticle(slug)
+export async function getStaticProps(ctx) {
+    const { slug } = ctx.params
+    const article = await fetchArticle(slug)
 
-        if (!article) {
-            return {
-                redirect: {
-                    destination: '/articles',
-                    persistant: false,
-                },
-            }
-        }
-
-        // const title = article.item.title
-        // const authorEmail = article.item.author_email
-
-        // let recommendations = []
-        // let authorArticles = []
-
-        // if (title) {
-        //     const data = await fetchRecommended(title)
-        //     recommendations = data.items
-        // }
-
-        // if (authorEmail) {
-        //     const data = await fetchMoreByAuthor(authorEmail)
-        //     authorArticles = data.items
-        // }
-
+    if (!article) {
         return {
-            props: {
-                article: article.item,
-                // recommendations,
-                // authorArticles,
+            redirect: {
+                destination: '/fables',
+                persistant: false,
             },
         }
-    } catch (error) {
-        return {
-            props: {
-                error: true,
-                article: {},
-                recommendations: [],
-                authorArticles: [],
+    }
+
+    return {
+        props: {
+            article: article.item,
+        },
+
+        revalidate: 10,
+    }
+}
+
+export async function getStaticPaths() {
+    const articles = await fetchArticles({ limit: 100 })
+
+    return {
+        paths: articles.items.map((article) => ({
+            params: {
+                slug: article.slug,
             },
-        }
+        })),
+        fallback: 'blocking',
     }
 }
 
