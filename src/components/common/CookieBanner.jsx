@@ -13,6 +13,11 @@ import React from 'react'
 function CookieBanner() {
     const { colorMode } = useColorMode()
     const { setCookieConsent } = useCookie()
+
+    const cookieToSessionStorage = () => {
+        const consentToken = `Agreed:${Math.random().toString(36).substring(4)}`
+        setCookieConsent(consentToken)
+    }
     return (
         <Box
             position='fixed'
@@ -56,12 +61,7 @@ function CookieBanner() {
                     fontWeight='400'
                     _focus={{ outline: 'none' }}
                     _active={{ outline: 'none' }}
-                    onClick={() => {
-                        const consentToken = `Agreed:${Math.random()
-                            .toString(36)
-                            .substring(4)}`
-                        setCookieConsent(consentToken)
-                    }}>
+                    onClick={cookieToSessionStorage}>
                     Accept
                 </Button>
             </HStack>

@@ -8,7 +8,6 @@ import '@fontsource/fira-mono/400.css'
 import ContextProvider from '../src/context/ContextProvider'
 import ProgressBar from '@badrap/bar-of-progress'
 import Router from 'next/router'
-import Script from 'next/script'
 
 const progress = new ProgressBar({
     size: 3,

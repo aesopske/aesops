@@ -11,7 +11,7 @@ import Script from 'next/script'
 
 function Layout({ children, title, keywords, description, url, imageurl }) {
     const [scroll, setScroll] = useState(false)
-    const { showConsent } = useCookie()
+    const { showCookieBanner } = useCookie()
 
     const handleScrollChange = () => {
         if (window.scrollY !== 0) {
@@ -72,7 +72,7 @@ function Layout({ children, title, keywords, description, url, imageurl }) {
             />
             <Navbar />
             <Box width='100%' height='auto'>
-                {showConsent && <CookieBanner />}
+                {showCookieBanner && <CookieBanner />}
                 {children}
             </Box>
             <Footer />
