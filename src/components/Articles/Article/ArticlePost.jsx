@@ -95,7 +95,7 @@ function ArticlePost({ article = {}, authorArticles = [] }) {
                 width={['100%', '100%', '90%', '80%', '80%', '', '70%']}
                 mx='auto'>
                 <Grid
-                    gap='1rem'
+                    gap='2rem'
                     templateColumns={[
                         'repeat(1,1fr)',
                         'repeat(1,1fr)',
