@@ -7,7 +7,7 @@ function CookiePopupProvider({ children }) {
     const [showCookieBanner, setShowCookieBanner] = useState(false)
 
     const setCookieConsent = (consent) => {
-        sessionStorage.setItem('cookieConsent', consent)
+        localStorage.setItem('cookieConsent', consent)
         setConsent(consent)
     }
 
@@ -23,7 +23,7 @@ function CookiePopupProvider({ children }) {
 
     useEffect(() => {
         if (typeof window !== 'undefined') {
-            const cookieConsent = sessionStorage.getItem('cookieConsent')
+            const cookieConsent = localStorage.getItem('cookieConsent')
 
             if (cookieConsent) {
                 setConsent(cookieConsent)
