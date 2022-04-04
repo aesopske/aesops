@@ -46,11 +46,9 @@ function TrackingProvider({ children }) {
         [pageView]
     )
     useEffect(() => {
-        if (typeof window !== 'undefined') {
-            Router.events.on('routeChangeComplete', handleRouteChange)
-            return () => {
-                Router.events.off('routeChangeComplete', handleRouteChange)
-            }
+        Router.events.on('routeChangeComplete', handleRouteChange)
+        return () => {
+            Router.events.off('routeChangeComplete', handleRouteChange)
         }
     }, [handleRouteChange])
 
