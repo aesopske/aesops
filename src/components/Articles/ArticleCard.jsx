@@ -111,7 +111,7 @@ function ArticlesCard({ article }) {
                             article?.tags.slice(0, 2).map((tag) => (
                                 <Badge
                                     key={tag}
-                                    borderRadius='5px'
+                                    borderRadius='full'
                                     colorScheme='purple'
                                     fontWeight='500'
                                     p='5px'

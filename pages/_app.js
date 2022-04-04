@@ -11,7 +11,7 @@ import Router from 'next/router'
 import Script from 'next/script'
 
 const progress = new ProgressBar({
-    size: 5,
+    size: 3,
     color: '#6f0dcc',
     className: 'progress-bar',
     delay: 50,

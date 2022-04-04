@@ -14,7 +14,7 @@ function Apps({ apps }) {
     const [text] = useDebounce(searchTerm, 500)
 
     const fetchFiltered = async (txt) => {
-        const data = await fetchApps(txt)
+        const data = await fetchApps({ keyword: txt })
         if (data.items) {
             setFiltered(data.items)
         } else {
@@ -69,8 +69,8 @@ function Apps({ apps }) {
     )
 }
 
-export async function getServerSideProps() {
-    const data = await fetchApps()
+export async function getStaticProps() {
+    const data = await fetchApps({ limit: 100, page: 1 })
 
     if (!data) {
         return {
@@ -85,6 +85,8 @@ export async function getServerSideProps() {
         props: {
             apps: data.items,
         },
+
+        revalidate: 10,
     }
 }
 

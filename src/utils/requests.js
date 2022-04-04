@@ -65,14 +65,13 @@ export async function fetchMoreByAuthor(author = '') {
 */
 
 // fetch datasets
-export async function fetchDatasets(term = '') {
+export async function fetchDatasets(params = {}) {
     try {
-        let url
-        if (term) {
-            url = `/datasets?keyword=${term}`
-        } else {
-            url = '/datasets'
-        }
+        const search = new URLSearchParams({
+            ...params,
+        })
+        const query = search.toString()
+        const url = `datasets?${query}`
 
         const { data = {} } = await axios.get(`${baseUrl}/${url}`, config)
         return data
@@ -95,17 +94,17 @@ export async function fetchDataset(slug) {
 */
 
 // fetch apps
-export async function fetchApps(term = '') {
-    let url
-    if (term) {
-        url = `/apps?keyword=${term}`
-    } else {
-        url = '/apps'
+export async function fetchApps(params = {}) {
+    try {
+        const search = new URLSearchParams({ ...params })
+        const query = search.toString()
+
+        const url = `apps?${query}`
+        const { data = {} } = await axios.get(`${baseUrl}/${url}`, config)
+        return data
+    } catch (error) {
+        return { apps: [] }
     }
-
-    const { data = {} } = await axios.get(`${baseUrl}/${url}`, config)
-
-    return data
 }
 
 // fetch app
@@ -119,22 +118,27 @@ export async function fetchApp(slug) {
 */
 
 // fetch community
-export async function fetchCommunity() {
-    const { data = {} } = await axios.get(`${baseUrl}/users`, config)
-    return data
+export async function fetchCommunity(params = {}) {
+    try {
+        const search = new URLSearchParams({ ...params })
+        const query = search.toString()
+
+        const url = `users?${query}`
+        const { data = {} } = await axios.get(`${baseUrl}/${url}`, config)
+        return data
+    } catch (error) {
+        return { users: [] }
+    }
 }
 
 // fetch categories
-export async function fetchCategories(limit = null) {
+export async function fetchCategories(params = {}) {
     try {
-        let url
-        if (limit) {
-            url = `/category?limit=${limit}`
-        } else {
-            url = '/category'
-        }
-        const { data = {} } = await axios.get(`${baseUrl}/${url}`, config)
+        const search = new URLSearchParams({ ...params })
+        const query = search.toString()
 
+        const url = `category?${query}`
+        const { data = {} } = await axios.get(`${baseUrl}/${url}`, config)
         return data
     } catch (error) {
         return { categories: [] }

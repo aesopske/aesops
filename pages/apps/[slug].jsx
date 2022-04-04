@@ -1,5 +1,5 @@
 import Layout from '@/src/components/common/Layout'
-import { fetchApp } from '@/src/utils/requests'
+import { fetchApp, fetchApps } from '@/src/utils/requests'
 import { Box, Grid, GridItem } from '@chakra-ui/react'
 import AppHeader from '@/src/components/apps/app/AppHeader'
 import AppLinks from '@/src/components/apps/app/AppLinks'
@@ -35,7 +35,7 @@ function AppDetail({ app }) {
     )
 }
 
-export async function getServerSideProps(ctx) {
+export async function getStaticProps(ctx) {
     const { slug } = ctx.params
     const data = await fetchApp(slug)
 
@@ -52,6 +52,21 @@ export async function getServerSideProps(ctx) {
         props: {
             app: data.item,
         },
+
+        revalidate: 10,
+    }
+}
+
+export async function getStaticPaths() {
+    const data = await fetchApps({ limit: 100, page: 1 })
+
+    return {
+        paths: data.items.map((item) => ({
+            params: {
+                slug: item.slug,
+            },
+        })),
+        fallback: 'blocking',
     }
 }
 

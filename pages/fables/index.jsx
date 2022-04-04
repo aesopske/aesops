@@ -2,14 +2,10 @@ import { Box } from '@chakra-ui/react'
 import ArticleList from '@/src/components/Articles/ArticleList'
 import FeaturedList from '@/src/components/Articles/FeaturedList'
 import Layout from '@/src/components/common/Layout'
-import {
-    fetchArticles,
-    fetchCategories,
-    fetchFeaturedArticles,
-} from '@/src/utils/requests'
+import { fetchArticles, fetchFeaturedArticles } from '@/src/utils/requests'
 import Promise from 'promise'
 
-function Articles({ articles, featured, count, categories }) {
+function Articles({ articles, featured, count }) {
     return (
         <Layout title='Aesops - Fables'>
             <Box
@@ -18,21 +14,16 @@ function Articles({ articles, featured, count, categories }) {
                 minHeight='50vh'
                 mx='auto'>
                 {featured.length > 0 && <FeaturedList featured={featured} />}
-                <ArticleList
-                    articles={articles}
-                    count={count}
-                    categories={categories}
-                />
+                <ArticleList articles={articles} count={count} />
             </Box>
         </Layout>
     )
 }
 
-export async function getServerSideProps() {
-    const [featured, articles, categories] = await Promise.all([
+export async function getStaticProps() {
+    const [featured, articles] = await Promise.all([
         fetchFeaturedArticles(),
-        fetchArticles({ limit: 0 }),
-        fetchCategories(12),
+        fetchArticles({ limit: 20, page: 1 }),
     ])
 
     if (!articles.items.length) {
@@ -49,8 +40,8 @@ export async function getServerSideProps() {
             featured: featured.items,
             articles: articles.items,
             count: articles.count,
-            categories: categories.categories,
         },
+        revalidate: 10,
     }
 }
 
