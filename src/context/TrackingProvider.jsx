@@ -25,11 +25,12 @@ function TrackingProvider({ children }) {
         })
     }, [])
 
-    function gaEvent(category = '', action = '', label = '') {
+    function gaEvent(category = '', action = '', label = '', value = '') {
         GA4.event({
             category,
             action,
             label,
+            value,
         })
     }
 
