@@ -13,7 +13,7 @@ function CookiePopupProvider({ children }) {
 
     useEffect(() => {
         if (typeof window !== 'undefined') {
-            if (consent) {
+            if (!consent) {
                 setShowCookieBanner(false)
             } else {
                 setShowCookieBanner(true)
