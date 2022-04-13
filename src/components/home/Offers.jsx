@@ -309,7 +309,7 @@ function Offers() {
                             demos and applications in machine learning that we
                             build and share.
                         </Text>
-                        <Link href='/fables' passHref>
+                        <Link href='/articles' passHref>
                             <Button
                                 height='2.5rem'
                                 width={['100%', '100%', '90%', 'auto']}
@@ -321,7 +321,7 @@ function Offers() {
                                 _active={{ bg: 'brand.hover', outline: 'none' }}
                                 color='#fff'
                                 fontWeight='500'>
-                                View fables &rarr;
+                                View articles &rarr;
                             </Button>
                         </Link>
                     </Box>

@@ -31,7 +31,7 @@ function RecommendedListItem({ item }) {
                 height='auto'
                 spacing='1'
                 justifyContent='space-between'>
-                <Link href={{ pathname: `/fables/${item?.slug}` }} passHref>
+                <Link href={{ pathname: `/articles/${item?.slug}` }} passHref>
                     <Heading
                         fontSize='sm'
                         mb='0.5rem'

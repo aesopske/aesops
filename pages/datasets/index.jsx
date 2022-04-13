@@ -1,13 +1,14 @@
 import { useState, useEffect } from 'react'
 import Layout from '@/src/components/common/Layout'
 import { fetchDatasets } from '@/src/utils/requests'
-import { Box, Grid, GridItem } from '@chakra-ui/react'
-import DatasetBanner from '@/src/components/datasets/DatasetBanner'
+import { Box, Grid, GridItem, Text, useColorMode } from '@chakra-ui/react'
 import DatasetFilter from '@/src/components/datasets/DatasetsFilter'
 import DatasetList from '@/src/components/datasets/DatasetsList'
 import { useDebounce } from 'use-debounce'
+import PageBanner from '@/src/components/common/PageBanner'
 
 function Datasets({ datasets }) {
+    const { colorMode } = useColorMode()
     const [searchTerm, setSearchTerm] = useState('')
     const [filtered, setFiltered] = useState([])
 
@@ -34,7 +35,18 @@ function Datasets({ datasets }) {
     return (
         <Layout title='Aesops - Datasets'>
             <Box width={['90%', '90%', '80%']} height='auto' mx='auto'>
-                <DatasetBanner />
+                <PageBanner heading='Datasets'>
+                    <Text
+                        as='p'
+                        fontSize='1.1rem'
+                        width={['100%', '100%', '80%', '', '60%', '45%']}
+                        color={colorMode === 'light' ? 'gray.100' : 'gray.400'}>
+                        We look for unique datasets from Kenya, or Africa that
+                        are largely under-represented in the data science
+                        community. We share datasets to help Kenyans develop
+                        their own solutions that fit unique problems.
+                    </Text>
+                </PageBanner>
                 <Grid
                     gap='2rem'
                     templateColumns={[

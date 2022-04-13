@@ -69,7 +69,7 @@ function ArticlesCard({ article }) {
                 <Box>
                     <Link
                         href={{
-                            pathname: `/fables/${article?.slug}`,
+                            pathname: `/articles/${article?.slug}`,
                         }}
                         passHref>
                         <Heading
@@ -77,8 +77,8 @@ function ArticlesCard({ article }) {
                             fontSize='lg'
                             onClick={() => {
                                 gaEvent(
-                                    'Fables',
-                                    'clicked on title',
+                                    'Articles',
+                                    'clicked on Article Title',
                                     article?.title
                                 )
                             }}

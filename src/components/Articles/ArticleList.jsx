@@ -129,9 +129,9 @@ function ArticleList({ articles }) {
                             onClick={() => {
                                 router.push(
                                     {
-                                        pathname: '/fables',
+                                        pathname: '/articles',
                                     },
-                                    `${process.env.SITE_URL}/fables`,
+                                    `${process.env.SITE_URL}/articles`,
                                     { shallow: true }
                                 )
                             }}
@@ -222,9 +222,9 @@ function ArticleList({ articles }) {
                             onClick={() => {
                                 router.push(
                                     {
-                                        pathname: '/fables',
+                                        pathname: '/articles',
                                     },
-                                    `${process.env.SITE_URL}/fables`,
+                                    `${process.env.SITE_URL}/articles`,
                                     { shallow: true }
                                 )
                             }}
@@ -252,12 +252,12 @@ function ArticleList({ articles }) {
                                         )
                                         router.push(
                                             {
-                                                pathname: '/fables',
+                                                pathname: '/articles',
                                                 query: {
                                                     category: category?.name,
                                                 },
                                             },
-                                            `/fables?category=${category?.name}`,
+                                            `/articles?category=${category?.name}`,
                                             { shallow: true }
                                         )
                                     }}
