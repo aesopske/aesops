@@ -93,14 +93,14 @@ function Hero() {
                                     fontSize='1rem'>
                                     Join the community &rarr;
                                 </Button>
-                                <Link href='/fables' passHref>
+                                <Link href='/articles' passHref>
                                     <Button
                                         bg='transparent'
                                         onClick={() => {
                                             gaEvent({
                                                 category: 'Home',
-                                                action: 'Clicked show fables',
-                                                label: 'show fables',
+                                                action: 'Clicked show articles',
+                                                label: 'show articles',
                                             })
                                         }}
                                         color='#fff'

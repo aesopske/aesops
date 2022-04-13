@@ -1,6 +1,6 @@
 import { Box, useColorMode, Stack, Heading, Text } from '@chakra-ui/react'
 
-function AppsBanner() {
+function PageBanner({ heading, children }) {
     const { colorMode } = useColorMode()
     return (
         <Box
@@ -26,21 +26,26 @@ function AppsBanner() {
                 justifyContent='center'
                 borderRadius='10px'
                 color='#fff'
-                spacing='6'>
-                <Heading>App Library</Heading>
-                <Text
-                    as='p'
-                    width={['100%', '100%', '80%', '', '60%', '45%']}
-                    color={colorMode === 'light' ? 'gray.100' : 'gray.400'}
-                    fontSize='1.1rem'>
-                    Using the skills,information, data and datasets that we
-                    prepare and share, we also want to understand how real life
-                    applications would work with these data. Here we share real
-                    apps and proof of concepts that utilize these resources.
-                </Text>
+                spacing='3'>
+                <Heading>{heading}</Heading>
+                <Box width='100%' height='auto'>
+                    {children}
+                </Box>
             </Box>
         </Box>
     )
 }
 
-export default AppsBanner
+PageBanner.defaultProps = {
+    heading: 'Banner Title',
+    children: (
+        <Text as='p'>
+            Lorem ipsum dolor sit amet consectetur adipisicing elit. Distinctio
+            totam dicta beatae natus voluptas ea veniam aut. Tempora odit eius
+            quis ab mollitia nisi nesciunt, perspiciatis iste similique eos
+            dolor!
+        </Text>
+    ),
+}
+
+export default PageBanner

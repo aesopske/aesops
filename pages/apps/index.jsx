@@ -1,13 +1,14 @@
 import Layout from '@/src/components/common/Layout'
 import { fetchApps } from '@/src/utils/requests'
-import { Box, Grid, GridItem } from '@chakra-ui/react'
-import AppsBanner from '@/src/components/apps/AppsBanner'
+import { Box, Grid, GridItem, Text, useColorMode } from '@chakra-ui/react'
 import AppsFilter from '@/src/components/apps/AppsFilter'
 import AppsList from '@/src/components/apps/AppsList'
 import { useDebounce } from 'use-debounce'
 import { useState, useEffect } from 'react'
+import PageBanner from '@/src/components/common/PageBanner'
 
 function Apps({ apps }) {
+    const { colorMode } = useColorMode()
     const [searchTerm, setSearchTerm] = useState('')
     const [filtered, setFiltered] = useState([])
 
@@ -40,7 +41,19 @@ function Apps({ apps }) {
             url='https://aesops.co.ke/apps'
             description={description}>
             <Box width={['95%', '90%', '80%']} height='auto' mx='auto'>
-                <AppsBanner />
+                <PageBanner heading='App Library'>
+                    <Text
+                        as='p'
+                        width={['100%', '100%', '80%', '', '60%', '45%']}
+                        color={colorMode === 'light' ? 'gray.100' : 'gray.400'}
+                        fontSize='1.1rem'>
+                        Using the skills,information, data and datasets that we
+                        prepare and share, we also want to understand how real
+                        life applications would work with these data. Here we
+                        share real apps and proof of concepts that utilize these
+                        resources.
+                    </Text>
+                </PageBanner>
                 <Grid
                     gap='2rem'
                     templateColumns={[

@@ -22,8 +22,8 @@ function Navbar() {
 
     const nav = [
         {
-            label: 'Fables',
-            path: '/fables',
+            label: 'Articles',
+            path: '/articles',
         },
         {
             label: 'Datasets',

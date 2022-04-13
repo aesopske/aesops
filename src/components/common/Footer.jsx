@@ -25,8 +25,8 @@ function Footer() {
     const { colorMode } = useColorMode()
     const links = [
         {
-            label: 'Fables',
-            link: '/fables',
+            label: 'Articles',
+            link: '/articles',
         },
         {
             label: 'Datasets',

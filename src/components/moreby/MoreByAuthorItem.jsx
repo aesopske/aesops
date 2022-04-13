@@ -8,7 +8,7 @@ function MoreByAuthorItem({ post }) {
     const { colorMode } = useColorMode()
     return (
         <Box>
-            <Link href={`/fables/${post?.slug}`} passHref>
+            <Link href={`/articles/${post?.slug}`} passHref>
                 <Heading
                     mb='0.5rem'
                     fontSize='sm'
@@ -33,10 +33,10 @@ function MoreByAuthorItem({ post }) {
                             onClick={() => {
                                 router.push(
                                     {
-                                        pathname: '/fables',
+                                        pathname: '/articles',
                                         query: { category: tag },
                                     },
-                                    `/fables?category=${tag}`,
+                                    `/articles?category=${tag}`,
                                     {
                                         shallow: true,
                                     }

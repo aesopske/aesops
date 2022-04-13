@@ -25,19 +25,19 @@ function NotFound() {
                         src='/svg/notfound.svg'
                         alt='not found'
                         objectFit='contain'
-                        height='50%'
-                        width='50%'
+                        height='30%'
+                        width='20%'
                     />
 
-                    <VStack spacing='8'>
-                        <Heading size='4xl'>404 Not Found!!</Heading>
-                        <Text mb='1rem' fontSize='1.2rem'>
+                    <VStack spacing='4'>
+                        <Heading size='3xl'>404 Not Found!!</Heading>
+                        <Text fontSize='lg'>
                             Could not find the page you were looking for
                         </Text>
 
                         <Link href='/' passHref>
                             <Button
-                                height='3rem'
+                                height='2.5rem'
                                 bg='brand.primary'
                                 _hover={{ bg: 'brand.hover' }}
                                 _focus={{

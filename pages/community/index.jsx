@@ -8,6 +8,7 @@ import {
     fetchDatasets,
 } from '@/src/utils/requests'
 import { Box } from '@chakra-ui/layout'
+import Promise from 'promise'
 
 function Community({ profiles, topranked, posts, apps, datasets }) {
     const description =
@@ -32,11 +33,18 @@ function Community({ profiles, topranked, posts, apps, datasets }) {
     )
 }
 
-export async function getServerSideProps() {
-    const data = await fetchCommunity()
-    const postData = await fetchArticles()
-    const appData = await fetchApps()
-    const datasetData = await fetchDatasets()
+export async function getStaticProps() {
+    // const data = await fetchCommunity()
+    // const postData = await fetchArticles()
+    // const appData = await fetchApps()
+    // const datasetData = await fetchDatasets()
+
+    const [data, postData, appData, datasetData] = await Promise.all([
+        fetchCommunity(),
+        fetchArticles(),
+        fetchApps(),
+        fetchDatasets(),
+    ])
 
     if (!data.items) {
         return {
@@ -62,6 +70,7 @@ export async function getServerSideProps() {
             apps,
             datasets,
         },
+        revalidate: 10,
     }
 }
 
