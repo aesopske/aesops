@@ -33,7 +33,7 @@ function Trends() {
                     <Box
                         as='iframe'
                         title='The tax burden in Kenya Oil market'
-                        ariaLabel='Interactive line chart'
+                        aria-label='Interactive line chart'
                         id='datawrapper-chart-mgbmZ'
                         src='https://datawrapper.dwcdn.net/mgbmZ/1/'
                         scrolling='no'
