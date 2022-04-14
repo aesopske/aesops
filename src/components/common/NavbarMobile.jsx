@@ -40,8 +40,8 @@ function NavbarMobile() {
 
     const navs = [
         {
-            label: 'Fables',
-            path: '/fables',
+            label: 'Articles',
+            path: '/articles',
             icon: MdArticle,
         },
         {
