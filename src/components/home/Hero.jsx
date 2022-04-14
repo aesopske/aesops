@@ -126,7 +126,7 @@ function Hero() {
                                         borderRadius='10px'
                                         fontWeight='500'
                                         fontSize='1rem'>
-                                        View fables &rarr;
+                                        View articles &rarr;
                                     </Button>
                                 </Link>
                             </Box>
