@@ -43,7 +43,7 @@ function MarkdownReader({ content }) {
                         </Text>
                     )
                 },
-                code({ className, children }) {
+                code: ({ className, children }) => {
                     // Removing "language-" because React-Markdown already added "language-"
                     const language = className.replace('language-', '')
                     return (
@@ -58,7 +58,7 @@ function MarkdownReader({ content }) {
                         </SyntaxHighlighter>
                     )
                 },
-                pre({ className, children }) {
+                pre: ({ className, children }) => {
                     // Removing "language-" because React-Markdown already added "language-"
                     const language = className.replace('language-', '')
                     return (

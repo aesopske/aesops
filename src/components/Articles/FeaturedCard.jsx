@@ -30,7 +30,7 @@ function FeaturedCard({ article }) {
 
     return (
         <Box height='100%'>
-            <Link href={`/fables/${article?.slug}`} passHref>
+            <Link href={`/articles/${article?.slug}`} passHref>
                 <Stack
                     direction='column'
                     onClick={() => {
