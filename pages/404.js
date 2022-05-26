@@ -11,9 +11,9 @@ import {
 } from '@chakra-ui/react'
 import Layout from '@/src/components/common/Layout'
 
-function NotFound() {
+function NotFound({ cookieConsent }) {
     return (
-        <Layout title='404 - Not found'>
+        <Layout title='404 - Not found' cookieConsent={cookieConsent}>
             <Box
                 as={HStack}
                 alignItems='center'
@@ -58,6 +58,15 @@ function NotFound() {
             </Box>
         </Layout>
     )
+}
+
+export async function getStaticProps(ctx) {
+    const cookieConsent = ctx.req ? ctx.req.cookies.cookieConsent : null
+    return {
+        props: {
+            cookieConsent,
+        },
+    }
 }
 
 export default NotFound

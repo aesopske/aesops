@@ -12,14 +12,14 @@ function UserPosts({ posts = [] }) {
     const { colorMode } = useColorMode()
     return (
         <Box>
-            <Heading size='md'>Fables : {posts.length}</Heading>
+            <Heading size='md'>Articles : {posts.length}</Heading>
             <Box>
                 <UnorderedList mt='0.5rem'>
                     {posts &&
                         posts.map((post) => (
                             <Link
                                 key={post._id}
-                                href={`/fables/${post?.slug}`}
+                                href={`/articles/${post?.slug}`}
                                 passHref>
                                 <ListItem
                                     _hover={{

@@ -7,7 +7,7 @@ import { useDebounce } from 'use-debounce'
 import { useState, useEffect } from 'react'
 import PageBanner from '@/src/components/common/PageBanner'
 
-function Apps({ apps }) {
+function Apps({ apps, cookieConsent }) {
     const { colorMode } = useColorMode()
     const [searchTerm, setSearchTerm] = useState('')
     const [filtered, setFiltered] = useState([])
@@ -39,7 +39,8 @@ function Apps({ apps }) {
         <Layout
             title='Aesops | Apps'
             url='https://aesops.co.ke/apps'
-            description={description}>
+            description={description}
+            cookieConsent={cookieConsent}>
             <Box width={['95%', '90%', '80%']} height='auto' mx='auto'>
                 <PageBanner heading='App Library'>
                     <Text
@@ -82,7 +83,8 @@ function Apps({ apps }) {
     )
 }
 
-export async function getStaticProps() {
+export async function getStaticProps(ctx) {
+    const cookieConsent = ctx.req ? ctx.req.cookies.cookieConsent : null
     const data = await fetchApps({ limit: 100, page: 1 })
 
     if (!data) {
@@ -97,6 +99,7 @@ export async function getStaticProps() {
     return {
         props: {
             apps: data.items,
+            cookieConsent,
         },
 
         revalidate: 10,

@@ -4,13 +4,36 @@ import { Box, Image, Text, useColorMode } from '@chakra-ui/react'
 import rehypeRaw from 'rehype-raw'
 import gfm from 'remark-gfm'
 import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter'
-import {
-    duotoneSpace,
-    duotoneLight,
-} from 'react-syntax-highlighter/dist/cjs/styles/prism'
+import { duotoneSpace } from 'react-syntax-highlighter/dist/cjs/styles/prism'
 
 function MarkdownReader({ content }) {
     const { colorMode } = useColorMode()
+    const pythonSyntax = [
+        'def',
+        'list',
+        'range',
+        'for i in range(10):',
+        'Flask',
+        'requests',
+        '__name__',
+        '__main__',
+        'if __name__ == "__main__":',
+        'Blueprint',
+        '@app.route',
+    ]
+
+    const jsSyntax = [
+        'React',
+        'ReactDOM',
+        'ReactDOMServer',
+        'document',
+        'window',
+        'function',
+        'const',
+        'let',
+        'var',
+    ]
+
     return (
         <MarkDown
             className='paragraph'
@@ -43,24 +66,23 @@ function MarkdownReader({ content }) {
                         </Text>
                     )
                 },
-                code: ({ className, children }) => {
-                    // Removing "language-" because React-Markdown already added "language-"
-                    const language = className.replace('language-', '')
-                    return (
-                        <SyntaxHighlighter
-                            style={
-                                colorMode === 'light'
-                                    ? duotoneLight
-                                    : duotoneSpace
-                            }
-                            language={language}>
-                            {children[0]}
-                        </SyntaxHighlighter>
-                    )
-                },
-                pre: ({ className, children }) => {
-                    // Removing "language-" because React-Markdown already added "language-"
-                    const language = className.replace('language-', '')
+                code: ({ children }) => {
+                    let language = 'bash'
+
+                    if (
+                        jsSyntax.some((syntax) => children[0].includes(syntax))
+                    ) {
+                        language = 'javascript'
+                    }
+
+                    if (
+                        pythonSyntax.some((syntax) =>
+                            children[0].includes(syntax)
+                        )
+                    ) {
+                        language = 'python'
+                    }
+
                     return (
                         <SyntaxHighlighter
                             style={duotoneSpace}

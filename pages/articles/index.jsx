@@ -4,17 +4,23 @@ import FeaturedList from '@/src/components/Articles/FeaturedList'
 import Layout from '@/src/components/common/Layout'
 import { fetchArticles, fetchFeaturedArticles } from '@/src/utils/requests'
 import Promise from 'promise'
+import { ErrorBoundary } from 'react-error-boundary'
+import ErrorHandler from '@/src/components/common/ErrorHandler'
 
-function Articles({ articles, featured, count }) {
+function Articles({ articles, featured, count, cookieConsent }) {
     return (
-        <Layout title='Aesops - Fables'>
+        <Layout title='Aesops - Fables' cookieConsent={cookieConsent}>
             <Box
                 mt={['0', '0', '0', '2rem', '2rem']}
                 width={['95%', '90%', '80%']}
                 minHeight='50vh'
                 mx='auto'>
-                {featured.length > 0 && <FeaturedList featured={featured} />}
-                <ArticleList articles={articles} count={count} />
+                <ErrorBoundary FallbackComponent={ErrorHandler}>
+                    {featured.length > 0 && (
+                        <FeaturedList featured={featured} />
+                    )}
+                    <ArticleList articles={articles} count={count} />
+                </ErrorBoundary>
             </Box>
         </Layout>
     )

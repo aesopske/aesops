@@ -1,4 +1,4 @@
-import CookiePopupProvider from './CookiePopupProvider'
+import CookiePopupProvider from './CookieProvider'
 import TrackingProvider from './TrackingProvider'
 
 function ContextProvider({ children }) {

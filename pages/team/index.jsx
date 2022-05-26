@@ -3,14 +3,17 @@ import Teamcard from '@/src/components/team/Teamcard'
 import { Box, Heading, Grid, useColorMode, Text } from '@chakra-ui/react'
 import { profiles } from '@/src/utils/team'
 
-function Team() {
+function Team({ cookieConsent }) {
     const { colorMode } = useColorMode()
 
     const description =
         'Meet the brilliant minds behind Aesops. Investing and growing a platform and community with data experts to make share data and findings.'
 
     return (
-        <Layout title='Aesops - team' description={description}>
+        <Layout
+            title='Aesops - team'
+            description={description}
+            cookieConsent={cookieConsent}>
             <Box
                 height='auto'
                 minHeight='50vh'
@@ -20,7 +23,14 @@ function Team() {
                 <Box minHeight='100vh' width='100%'>
                     <Box
                         width='100%'
-                        height={['auto', 'auto', 'auto','auto', '35vh', '30vh']}
+                        height={[
+                            'auto',
+                            'auto',
+                            'auto',
+                            'auto',
+                            '35vh',
+                            '30vh',
+                        ]}
                         bgImage={
                             colorMode === 'light'
                                 ? '/images/background.png'
@@ -87,6 +97,13 @@ function Team() {
             </Box>
         </Layout>
     )
+}
+
+Team.getInitialProps = async (ctx) => {
+    const cookieConsent = ctx.req ? ctx.req.cookies.cookieConsent : null
+    return {
+        cookieConsent,
+    }
 }
 
 export default Team
