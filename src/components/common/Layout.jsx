@@ -4,10 +4,12 @@ import Navbar from './Navbar'
 import Footer from './Footer'
 import { useEffect, useState } from 'react'
 import ScrollUp from './ScrollUp'
-import { useCookie } from '@/src/context/CookiePopupProvider'
+import { useCookie } from '@/src/context/CookieProvider'
 import CookieBanner from './CookieBanner'
 import NavbarMobile from './NavbarMobile'
 import Script from 'next/script'
+import { ErrorBoundary } from 'react-error-boundary'
+import ErrorHandler from './ErrorHandler'
 
 function Layout({ children, title, keywords, description, url, imageurl }) {
     const [scroll, setScroll] = useState(false)
@@ -71,12 +73,14 @@ function Layout({ children, title, keywords, description, url, imageurl }) {
                 }}
             />
             <Navbar />
+            <NavbarMobile />
             <Box width='100%' height='auto'>
                 {showCookieBanner && <CookieBanner />}
-                {children}
+                <ErrorBoundary FallbackComponent={ErrorHandler}>
+                    {children}
+                </ErrorBoundary>
             </Box>
             <Footer />
-            <NavbarMobile />
             <ScrollUp scroll={scroll} />
         </Box>
     )

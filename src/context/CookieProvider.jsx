@@ -1,35 +1,26 @@
-import React, { createContext, useState, useEffect, useContext } from 'react'
+import React, { createContext, useState, useContext, useEffect } from 'react'
+import Cookies from 'js-cookie'
 
 const CookieContext = createContext({})
 
-function CookiePopupProvider({ children }) {
+function CookieProvider({ children }) {
     const [consent, setConsent] = useState(null)
     const [showCookieBanner, setShowCookieBanner] = useState(false)
 
     const setCookieConsent = (consent) => {
-        localStorage.setItem('cookieConsent', consent)
+        Cookies.set('cookieConsent', consent)
         setConsent(consent)
+        setShowCookieBanner(false)
     }
 
+    const cookieConsent = Cookies.get('cookieConsent')
     useEffect(() => {
-        if (typeof window !== 'undefined') {
-            if (consent) {
-                setShowCookieBanner(false)
-            } else {
+        if (!cookieConsent) {
+            setTimeout(() => {
                 setShowCookieBanner(true)
-            }
+            }, 3000)
         }
-    }, [consent])
-
-    useEffect(() => {
-        if (typeof window !== 'undefined') {
-            const cookieConsent = localStorage.getItem('cookieConsent')
-
-            if (cookieConsent) {
-                setConsent(cookieConsent)
-            }
-        }
-    }, [])
+    }, [cookieConsent])
 
     return (
         <CookieContext.Provider
@@ -46,4 +37,4 @@ function CookiePopupProvider({ children }) {
 
 export const useCookie = () => useContext(CookieContext)
 
-export default CookiePopupProvider
+export default CookieProvider

@@ -7,7 +7,7 @@ import {
 } from '@/src/utils/requests'
 import { useEffect, useState } from 'react'
 
-function Article({ article }) {
+function Article({ article, cookieConsent }) {
     const [byAuthor, setByAuthor] = useState([])
 
     let defaultUrl
@@ -26,7 +26,6 @@ function Article({ article }) {
                     const moreFromAuthor = await fetchMoreByAuthor(
                         article.author_email
                     )
-
                     setByAuthor(moreFromAuthor.items)
                 }
 
@@ -40,20 +39,22 @@ function Article({ article }) {
             title={article?.title}
             description={article?.summary}
             imageurl={defaultUrl}
-            url={`https://aesops.co.ke/articles/${article?.slug}`}>
+            url={`https://aesops.co.ke/articles/${article?.slug}`}
+            cookieConsent={cookieConsent}>
             <ArticlePost article={article} authorArticles={byAuthor} />
         </Layout>
     )
 }
 
 export async function getStaticProps(ctx) {
+    const cookieConsent = ctx.req ? ctx.req.cookies.cookieConsent : null
     const { slug } = ctx.params
     const article = await fetchArticle(slug)
 
     if (!article) {
         return {
             redirect: {
-                destination: '/fables',
+                destination: '/articles',
                 persistant: false,
             },
         }
@@ -62,6 +63,7 @@ export async function getStaticProps(ctx) {
     return {
         props: {
             article: article.item,
+            cookieConsent,
         },
 
         revalidate: 10,

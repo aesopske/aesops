@@ -5,9 +5,12 @@ import DatasetHeader from '@/src/components/datasets/dataset/DatasetHeader'
 import DatasetLinks from '@/src/components/datasets/dataset/DatasetLinks'
 import DatasetDescription from '@/src/components/datasets/dataset/DatasetDescription'
 
-function DatasetDetail({ dataset }) {
+function DatasetDetail({ dataset, cookieConsent }) {
     return (
-        <Layout title={dataset?.title} description={dataset?.description}>
+        <Layout
+            title={dataset?.title}
+            description={dataset?.description}
+            cookieConsent={cookieConsent}>
             <Box
                 width={['90%', '90%', '90%', '80%']}
                 mx='auto'
@@ -36,6 +39,7 @@ function DatasetDetail({ dataset }) {
 }
 
 export async function getStaticProps(ctx) {
+    const cookieConsent = ctx.req ? ctx.req.cookies.cookieConsent : null
     const { slug } = ctx.params
     const data = await fetchDataset(slug)
 
@@ -51,6 +55,7 @@ export async function getStaticProps(ctx) {
     return {
         props: {
             dataset: data.item,
+            cookieConsent,
         },
     }
 }

@@ -215,7 +215,9 @@ function ArticleList({ articles }) {
                             p='10px'
                             fontWeight='400'
                             colorScheme={
-                                router.asPath === '/fables' ? 'purple' : 'gray'
+                                router.asPath === '/articles'
+                                    ? 'purple'
+                                    : 'gray'
                             }
                             textTransform='capitalize'
                             cursor='pointer'
@@ -229,7 +231,7 @@ function ArticleList({ articles }) {
                                 )
                             }}
                             borderRadius='full'>
-                            <Text>All Fables</Text>
+                            <Text>All Articles</Text>
                         </Badge>
 
                         {categories &&

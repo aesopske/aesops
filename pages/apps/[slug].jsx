@@ -5,9 +5,12 @@ import AppHeader from '@/src/components/apps/app/AppHeader'
 import AppLinks from '@/src/components/apps/app/AppLinks'
 import AppDescription from '@/src/components/apps/app/AppDescription'
 
-function AppDetail({ app }) {
+function AppDetail({ app, cookieConsent }) {
     return (
-        <Layout title={app.title} description={app?.description}>
+        <Layout
+            title={app.title}
+            description={app?.description}
+            cookieConsent={cookieConsent}>
             <Box
                 width={['95%', '90%', '90%', '80%']}
                 mx='auto'
@@ -36,6 +39,7 @@ function AppDetail({ app }) {
 }
 
 export async function getStaticProps(ctx) {
+    const cookieConsent = ctx.req ? ctx.req.cookies.cookieConsent : null
     const { slug } = ctx.params
     const data = await fetchApp(slug)
 
@@ -51,6 +55,7 @@ export async function getStaticProps(ctx) {
     return {
         props: {
             app: data.item,
+            cookieConsent,
         },
 
         revalidate: 10,

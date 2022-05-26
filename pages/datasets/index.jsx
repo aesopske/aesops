@@ -7,7 +7,7 @@ import DatasetList from '@/src/components/datasets/DatasetsList'
 import { useDebounce } from 'use-debounce'
 import PageBanner from '@/src/components/common/PageBanner'
 
-function Datasets({ datasets }) {
+function Datasets({ datasets, cookieConsent }) {
     const { colorMode } = useColorMode()
     const [searchTerm, setSearchTerm] = useState('')
     const [filtered, setFiltered] = useState([])
@@ -33,7 +33,7 @@ function Datasets({ datasets }) {
         }
     }, [text])
     return (
-        <Layout title='Aesops - Datasets'>
+        <Layout title='Aesops - Datasets' cookieConsent={cookieConsent}>
             <Box width={['90%', '90%', '80%']} height='auto' mx='auto'>
                 <PageBanner heading='Datasets'>
                     <Text
@@ -75,7 +75,8 @@ function Datasets({ datasets }) {
     )
 }
 
-export async function getStaticProps() {
+export async function getStaticProps(ctx) {
+    const cookieConsent = ctx.req ? ctx.req.cookies.cookieConsent : null
     const data = await fetchDatasets({ limit: 100, page: 1 })
 
     if (!data.items) {
@@ -90,6 +91,7 @@ export async function getStaticProps() {
     return {
         props: {
             datasets: data.items,
+            cookieConsent,
         },
 
         revalidate: 10,
