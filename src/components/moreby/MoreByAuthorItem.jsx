@@ -13,7 +13,7 @@ function MoreByAuthorItem({ post }) {
                     mb='0.5rem'
                     fontSize='sm'
                     textTransform='capitalize'
-                    fontWeight='medium'
+                    fontWeight='semibold'
                     color={colorMode === 'light' ? 'gray.600' : 'gray.300'}
                     cursor='pointer'>
                     {post?.title}

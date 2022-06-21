@@ -82,7 +82,7 @@ function NavbarMobile() {
             direction='column'
             justifyContent='space-between'
             alignItems='center'
-            bottom='1rem'
+            bottom='0'
             left='2.5%'
             zIndex='100'
             mx='auto'>

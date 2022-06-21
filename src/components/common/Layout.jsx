@@ -73,7 +73,6 @@ function Layout({ children, title, keywords, description, url, imageurl }) {
                 }}
             />
             <Navbar />
-            <NavbarMobile />
             <Box width='100%' height='auto'>
                 {showCookieBanner && <CookieBanner />}
                 <ErrorBoundary FallbackComponent={ErrorHandler}>
@@ -82,6 +81,7 @@ function Layout({ children, title, keywords, description, url, imageurl }) {
             </Box>
             <Footer />
             <ScrollUp scroll={scroll} />
+            <NavbarMobile />
         </Box>
     )
 }

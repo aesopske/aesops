@@ -21,7 +21,7 @@ function Hero() {
     return (
         <ErrorBoundary FallbackComponent={ErrorHandler}>
             <Box
-                width={['95%', '90%', '80%']}
+                width={['100%', '90%', '80%']}
                 height={['auto', 'auto', 'auto', '100vh', '70vh']}
                 bgImage={
                     colorMode === 'light'
@@ -31,8 +31,8 @@ function Hero() {
                 bgRepeat='no-repeat'
                 p='10px'
                 mx='auto'
-                borderRadius='20px'
-                my='1rem'
+                borderRadius={['0', '5px', '20px']}
+                my={['0', '0', '1rem']}
                 bgPosition='center'
                 bgSize='cover'>
                 <Box

@@ -9,7 +9,7 @@ function Backtop({ scroll }) {
     return (
         <Box
             position='fixed'
-            bottom={['8rem', '', '', '3rem']}
+            bottom={['6rem', '', '', '3rem']}
             right={['1rem', '', '', '3rem']}
             zIndex='20'>
             {scroll === true ? (

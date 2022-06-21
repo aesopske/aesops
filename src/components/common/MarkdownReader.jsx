@@ -59,6 +59,7 @@ function MarkdownReader({ content }) {
                     return (
                         <Text
                             as='p'
+                            width='100%'
                             color={
                                 colorMode === 'light' ? 'gray.700' : 'gray.300'
                             }>
@@ -66,29 +67,33 @@ function MarkdownReader({ content }) {
                         </Text>
                     )
                 },
-                code: ({ children }) => {
+                code: (props) => {
                     let language = 'bash'
 
                     if (
-                        jsSyntax.some((syntax) => children[0].includes(syntax))
+                        jsSyntax.some((syntax) =>
+                            props.children[0].includes(syntax)
+                        )
                     ) {
                         language = 'javascript'
                     }
 
                     if (
                         pythonSyntax.some((syntax) =>
-                            children[0].includes(syntax)
+                            props.children[0].includes(syntax)
                         )
                     ) {
                         language = 'python'
                     }
 
                     return (
-                        <SyntaxHighlighter
-                            style={duotoneSpace}
-                            language={language}>
-                            {children[0]}
-                        </SyntaxHighlighter>
+                        <Box>
+                            <SyntaxHighlighter
+                                style={duotoneSpace}
+                                language={language}>
+                                {props.children[0]}
+                            </SyntaxHighlighter>
+                        </Box>
                     )
                 },
             }}>

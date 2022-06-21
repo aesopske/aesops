@@ -38,7 +38,7 @@ function RecommendedListItem({ item }) {
                         textTransform='capitalize'
                         cursor='pointer'
                         color={colorMode === 'light' ? 'gray.600' : 'gray.300'}
-                        fontWeight='medium'>
+                        fontWeight='semibold'>
                         {item?.title}
                     </Heading>
                 </Link>
