@@ -6,20 +6,20 @@ function DatasetsHero() {
     return (
         <Box
             height='auto'
-            width={['100%', '90%', '80%']}
+            width='100%'
             mx='auto'
             bgImage="url('/images/charts.jpg')"
             position='relative'
             bgAttachment='fixed'
             bgRepeat='no-repeat'
             bgSize='cover'
-            p='50px 0'
-            borderRadius={['0', '5px', '20px']}
+            p={['50px 20px', '50px 0', '50px 0']}
+            borderRadius='0'
             my='2rem'>
             <Box
                 bgGradient='linear(to-r,#804fadcc, #700dccc0 )'
                 position='absolute'
-                borderRadius={['0', '5px', '20px']}
+                borderRadius='0'
                 top='0'
                 left='0'
                 zIndex='0'
@@ -32,15 +32,17 @@ function DatasetsHero() {
                 direction={['column', 'column', 'column', 'row']}
                 alignItems='center'
                 justifyContent='space-between'
-                width={['90%', '90%', '90%', '90%']}
+                width={['100%', '90%', '80%', '', '75%']}
                 mx='auto'
                 zIndex='10'
                 my={['0', '0', '2rem', '4rem']}>
                 <Box flex='1' color='#fff' zIndex='20'>
-                    <Heading fontSize='2xl'>Datasets</Heading>
+                    <Heading fontSize={['2xl', '', '', '', '3xl', '4xl']}>
+                        Datasets
+                    </Heading>
                     <Text
                         as='p'
-                        fontSize={['1rem', '1rem', '', '', '', '1.1rem']}
+                        fontSize={['lg', '', '', '', '', 'xl']}
                         my='2rem'
                         width={['100%', '100%', '90%', '100%']}>
                         We look for unique datasets from Kenya, or Africa that
@@ -52,7 +54,7 @@ function DatasetsHero() {
                     </Text>
                     <Link href='/datasets' passHref>
                         <Button
-                            height='2.5rem'
+                            height={['2.5rem', '2.5rem', '2.5rem', '3rem']}
                             width={['100%', '100%', '90%', 'auto']}
                             borderRadius='10px'
                             fontSize='1rem'

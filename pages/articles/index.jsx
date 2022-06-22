@@ -7,12 +7,12 @@ import Promise from 'promise'
 import { ErrorBoundary } from 'react-error-boundary'
 import ErrorHandler from '@/src/components/common/ErrorHandler'
 
-function Articles({ articles, featured, count, cookieConsent }) {
+function Articles({ articles, featured, count }) {
     return (
-        <Layout title='Aesops - Fables' cookieConsent={cookieConsent}>
+        <Layout title='Aesops - Articles'>
             <Box
                 mt={['0', '0', '0', '2rem', '2rem']}
-                width={['95%', '90%', '80%']}
+                width={['95%', '90%', '80%', '', '75%']}
                 minHeight='50vh'
                 mx='auto'>
                 <ErrorBoundary FallbackComponent={ErrorHandler}>
@@ -26,17 +26,18 @@ function Articles({ articles, featured, count, cookieConsent }) {
     )
 }
 
-export async function getStaticProps() {
+export async function getServerSideProps() {
     const [featured, articles] = await Promise.all([
         fetchFeaturedArticles(),
         fetchArticles({ limit: 20, page: 1 }),
     ])
 
-    if (!articles.items.length) {
+    if (!articles && !featured) {
         return {
-            redirect: {
-                destination: '/',
-                persistent: false,
+            props: {
+                articles: [],
+                featured: [],
+                count: 0,
             },
         }
     }
@@ -47,7 +48,6 @@ export async function getStaticProps() {
             articles: articles.items,
             count: articles.count,
         },
-        revalidate: 10,
     }
 }
 

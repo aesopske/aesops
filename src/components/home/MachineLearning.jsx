@@ -15,7 +15,7 @@ function MachineLearning() {
     return (
         <Box
             height={['auto', 'auto', 'auto', '70vh']}
-            width={['100%', '90%', '80%']}
+            width={['100%', '90%', '80%', '', '75%']}
             mx='auto'
             my='2rem'>
             <Box
@@ -40,8 +40,7 @@ function MachineLearning() {
                     mt={['2rem', '2rem', '2rem', '0']}>
                     <Image
                         p='30px'
-                        borderRadius='20px'
-                        shadow='2xl'
+                        borderRadius='10px'
                         bg={colorMode === 'light' ? '#fff' : 'gray.800'}
                         src='/svg/ml.svg'
                         alt='machine learning'
@@ -51,11 +50,13 @@ function MachineLearning() {
                     />
                 </Box>
                 <Box flex='1'>
-                    <Heading fontSize='2xl'>Machine Learning</Heading>
+                    <Heading fontSize={['2xl', '', '', '', '3xl', '4xl']}>
+                        Machine Learning
+                    </Heading>
                     <Text
                         as='p'
                         my='2rem'
-                        fontSize={['1rem', '1rem', '', '', '', '1.1rem']}
+                        fontSize={['lg', '', '', '', '', 'xl']}
                         color={
                             colorMode === 'light' ? '#555' : 'whiteAlpha.800'
                         }
@@ -70,7 +71,7 @@ function MachineLearning() {
                     </Text>
                     <Link href='/articles' passHref>
                         <Button
-                            height='2.5rem'
+                            height={['2.5rem', '2.5rem', '2.5rem', '3rem']}
                             width={['100%', '100%', '90%', 'auto']}
                             borderRadius='10px'
                             fontSize='1rem'

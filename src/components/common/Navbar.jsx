@@ -59,7 +59,7 @@ function Navbar() {
                 alignItems='center'
                 justifyContent='space-between'
                 height='100%'
-                width='80%'
+                width={['80%', '80%', '80%', '80%', '75%']}
                 mx='auto'>
                 <Link href='/' passHref>
                     <HStack width='auto' cursor='pointer'>
@@ -95,7 +95,7 @@ function Navbar() {
                             <Link key={item.label} href={item.path} passHref>
                                 <Text
                                     as='span'
-                                    fontSize='md'
+                                    fontSize={['md', 'md', 'md', 'md', 'lg']}
                                     color={
                                         router.asPath === item.path
                                             ? colorMode === 'dark'
@@ -126,7 +126,7 @@ function Navbar() {
                             href={`${process.env.DASHBOARD_URL}/auth/signin`}
                             _hover={{ color: 'brand.muted' }}
                             target='_blank'
-                            fontSize='md'
+                            fontSize={['md', 'md', 'md', 'md', 'lg']}
                             onClick={() => {
                                 gaEvent({
                                     category: 'Auth',
@@ -144,7 +144,7 @@ function Navbar() {
                             href={`${process.env.DASHBOARD_URL}/auth/signup`}
                             target='_blank'
                             rel='noopener noreferer'
-                            fontSize='md'
+                            fontSize={['md', 'md', 'md', 'md', 'lg']}
                             fontWeight='500'
                             color='#fff'
                             onClick={() => {
@@ -166,7 +166,7 @@ function Navbar() {
                                 bg: 'brand.primary',
                                 outline: 'none',
                             }}
-                            height={['', '', '2.5rem']}
+                            height={['', '', '2.5rem', '2.5rem', '3rem']}
                             borderRadius='10px'
                             width='auto'
                             minWidth='40%'>

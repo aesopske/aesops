@@ -41,13 +41,15 @@ function Apps({ apps, cookieConsent }) {
             url='https://aesops.co.ke/apps'
             description={description}
             cookieConsent={cookieConsent}>
-            <Box width={['95%', '90%', '80%']} height='auto' mx='auto'>
+            <Box
+                width={['90%', '90%', '80%', '', '75%']}
+                height='auto'
+                mx='auto'>
                 <PageBanner heading='App Library'>
                     <Text
                         as='p'
                         width={['100%', '100%', '80%', '', '60%', '45%']}
-                        color={colorMode === 'light' ? 'gray.100' : 'gray.400'}
-                        fontSize='1.1rem'>
+                        color={colorMode === 'light' ? 'gray.100' : 'gray.400'} fontSize={['md','','','','lg',]}>
                         Using the skills,information, data and datasets that we
                         prepare and share, we also want to understand how real
                         life applications would work with these data. Here we

@@ -19,7 +19,7 @@ function MoreByAuthor({ user, posts, current }) {
             p='20px'
             width='100%'
             borderRadius='10px'>
-            <Heading fontSize='md' fontWeight='semibold'>
+            <Heading fontSize={['lg', '', '', '', 'xl']} fontWeight='semibold'>
                 More from {user?.name}
             </Heading>
             <Divider my='0.5rem' />
@@ -35,7 +35,7 @@ function MoreByAuthor({ user, posts, current }) {
                         <Text fontSize='sm' fontWeight='400'>
                             😧
                         </Text>
-                        <Text mt='1rem' fontSize='sm'>
+                        <Text mt='1rem' fontSize='md'>
                             Can&apos;t find more fables by {user?.name}
                         </Text>
                     </Center>

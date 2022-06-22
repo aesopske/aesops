@@ -1,14 +1,13 @@
 import {
-    Badge,
     Box,
-    Divider,
     Grid,
     Heading,
     HStack,
     IconButton,
     Stack,
-    Text,
     useColorMode,
+    useMediaQuery,
+    useDisclosure,
 } from '@chakra-ui/react'
 import Search from '../common/Search'
 import ArticleCard from './ArticleCard'
@@ -18,12 +17,16 @@ import { fetchArticles, fetchCategories } from '@/src/utils/requests'
 import Unavailable from '../common/Unavailable'
 import { useRouter } from 'next/router'
 import { FaTimes } from 'react-icons/fa'
-import { useGa } from '@/src/context/TrackingProvider'
 import ArticleLoader from './ArticleLoader'
+import FilterByCategory from './FilterByCategory'
+import { MdFilterList } from 'react-icons/md'
+import { AnimatePresence, motion } from 'framer-motion'
 
 function ArticleList({ articles }) {
     const router = useRouter()
-    const { gaEvent } = useGa()
+    const { onToggle, isOpen } = useDisclosure()
+    const [isTabletAndUp] = useMediaQuery('(min-width: 768px)')
+
     const { colorMode } = useColorMode()
     const [searchterm, setSearchterm] = useState('')
     const [filtered, setFiltered] = useState([])
@@ -93,14 +96,50 @@ function ArticleList({ articles }) {
                 my='1rem'
                 position='relative'
                 width={['100%', '', '', '70%']}>
-                <Box mb='3rem'>
+                <HStack
+                    mb='1rem'
+                    width='100%'
+                    justifyContent='space-between'
+                    alignItems='center'>
                     <Search
                         placeholder='Search by title or tag ...'
                         setTerm={setSearchterm}
                         term={searchterm}
-                        label='Search Fables'
+                        label={isTabletAndUp ? 'Search Fables' : ''}
+                        full={isTabletAndUp}
                     />
-                </Box>
+                    <IconButton
+                        onClick={onToggle}
+                        display={['flex', 'flex', 'flex', 'none']}
+                        icon={<MdFilterList />}
+                        aria-label='Filter by category'
+                        bg='transparent'
+                        border='2px solid'
+                        borderRadius='10px'
+                        borderColor={
+                            colorMode === 'light' ? 'gray.300' : 'gray.700'
+                        }
+                        variant='outline'
+                        size='lg'
+                        fontSize='xl'
+                    />
+                </HStack>
+
+                <AnimatePresence>
+                    {isOpen && (
+                        <Box
+                            as={motion.div}
+                            initial={{ y: -50, opacity: 0 }}
+                            animate={{ y: 0, opacity: 1 }}
+                            transition={{ duration: 0.2 }}
+                            exit={{ y: 50, opacity: 0 }}>
+                            <FilterByCategory
+                                categories={categories}
+                                query={query}
+                            />
+                        </Box>
+                    )}
+                </AnimatePresence>
 
                 <Box height='auto' my='4rem'>
                     {text && !filtered.length && (
@@ -196,80 +235,10 @@ function ArticleList({ articles }) {
 
             <Box
                 position='relative'
+                display={['none', 'none', 'none', 'block']}
                 width={['100%', '', '', '30%']}
                 p={['10px 0', '10px 0', '20px 0']}>
-                <Box
-                    minHeight='15vh'
-                    borderRadius='10px'
-                    bg={colorMode === 'light' ? 'white' : 'gray.700'}
-                    mt={['1rem', '2rem', '3rem', '3rem', '6rem']}
-                    top={['0', '0', '1rem']}
-                    left='0'
-                    zIndex='50'
-                    p='20px'
-                    position='sticky'>
-                    <Heading fontSize='md'>Filter by category</Heading>
-                    <Divider my='1rem' />
-                    <HStack flexWrap='wrap' gap='10px' spacing='0'>
-                        <Badge
-                            p='10px'
-                            fontWeight='400'
-                            colorScheme={
-                                router.asPath === '/articles'
-                                    ? 'purple'
-                                    : 'gray'
-                            }
-                            textTransform='capitalize'
-                            cursor='pointer'
-                            onClick={() => {
-                                router.push(
-                                    {
-                                        pathname: '/articles',
-                                    },
-                                    `${process.env.SITE_URL}/articles`,
-                                    { shallow: true }
-                                )
-                            }}
-                            borderRadius='full'>
-                            <Text>All Articles</Text>
-                        </Badge>
-
-                        {categories &&
-                            categories.map((category) => (
-                                <Badge
-                                    key={category?.id}
-                                    p='10px'
-                                    fontWeight='500'
-                                    cursor='pointer'
-                                    colorScheme={
-                                        query === category?.name
-                                            ? 'purple'
-                                            : 'gray'
-                                    }
-                                    onClick={() => {
-                                        gaEvent(
-                                            'Fables',
-                                            'Filter by category',
-                                            category?.name
-                                        )
-                                        router.push(
-                                            {
-                                                pathname: '/articles',
-                                                query: {
-                                                    category: category?.name,
-                                                },
-                                            },
-                                            `/articles?category=${category?.name}`,
-                                            { shallow: true }
-                                        )
-                                    }}
-                                    textTransform='capitalize'
-                                    borderRadius='full'>
-                                    <Text>{category?.name}</Text>
-                                </Badge>
-                            ))}
-                    </HStack>
-                </Box>
+                <FilterByCategory categories={categories} query={query} />
             </Box>
         </Stack>
     )

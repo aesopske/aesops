@@ -34,7 +34,10 @@ function Datasets({ datasets, cookieConsent }) {
     }, [text])
     return (
         <Layout title='Aesops - Datasets' cookieConsent={cookieConsent}>
-            <Box width={['90%', '90%', '80%']} height='auto' mx='auto'>
+            <Box
+                width={['90%', '90%', '80%', '', '75%']}
+                height='auto'
+                mx='auto'>
                 <PageBanner heading='Datasets'>
                     <Text
                         as='p'

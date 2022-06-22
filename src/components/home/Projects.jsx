@@ -15,7 +15,7 @@ function Projects() {
     return (
         <Box
             height='auto'
-            width={['100%', '90%', '80%']}
+            width={['100%', '90%', '80%', '', '75%']}
             mx='auto'
             p={['20px 0', '20px 0', '30px 0', '100px 0']}>
             <Box
@@ -40,9 +40,8 @@ function Projects() {
                     mt={['2rem', '2rem', '2rem', '0']}>
                     <Image
                         bg={colorMode === 'light' ? '#fff' : 'gray.800'}
-                        shadow='2xl'
                         p='30px'
-                        borderRadius='20px'
+                        borderRadius='10px'
                         src='/svg/projects.svg'
                         alt='projects'
                         width={['100%', '100%', '80%']}
@@ -52,11 +51,13 @@ function Projects() {
                 </Box>
 
                 <Box flex='1'>
-                    <Heading fontSize='2xl'>Interesting Projects</Heading>
+                    <Heading fontSize={['2xl', '', '', '', '3xl', '4xl']}>
+                        Interesting Projects
+                    </Heading>
                     <Text
                         as='p'
                         my='2rem'
-                        fontSize={['1rem', '1rem', '', '', '', '1.1rem']}
+                        fontSize={['lg', '', '', '', '', 'xl']}
                         color={
                             colorMode === 'light' ? '#555' : 'whiteAlpha.800'
                         }
@@ -69,7 +70,7 @@ function Projects() {
                     </Text>
                     <Link href='/apps' passHref>
                         <Button
-                            height='2.5rem'
+                            height={['2.5rem', '2.5rem', '2.5rem', '3rem']}
                             width={['100%', '100%', '90%', 'auto']}
                             borderRadius='10px'
                             fontSize='1rem'

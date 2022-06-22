@@ -8,10 +8,8 @@ import {
     Box,
     Heading,
     Text,
-    Grid,
     Badge,
     Image,
-    GridItem,
     useColorMode,
     HStack,
     Stack,
@@ -91,13 +89,13 @@ function ArticlePost({ article = {}, authorArticles = [] }) {
         <Box
             my='.5rem'
             p='10px'
-            width={['100%', '100%', '90%', '80%']}
+            width={['100%', '100%', '90%', '80%', '75%']}
             mx='auto'>
             <Stack direction={['column', 'column', 'row', 'row']} spacing='8'>
                 <Box width={['100%', '', '', '60%']}>
                     <Box my='1rem'>
                         <Heading
-                            fontSize='2xl'
+                            fontSize='4xl'
                             my='1rem'
                             textTransform='capitalize'>
                             {article?.title}
@@ -125,9 +123,10 @@ function ArticlePost({ article = {}, authorArticles = [] }) {
                     <Tags />
                     <Text
                         a='p'
-                        fontSize='md'
+                        fontSize='lg'
                         lineHeight='1.7'
                         textAlign='justify'
+                        p={['10px', '10px', '0', '0', '0']}
                         className='paragraph'
                         color={colorMode === 'light' ? 'gray.600' : 'gray.300'}
                         my='1rem'>

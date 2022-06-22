@@ -15,8 +15,8 @@ function Backtop({ scroll }) {
             {scroll === true ? (
                 <IconButton
                     borderRadius='10px'
-                    height='40px'
-                    width='40px'
+                    height='45px'
+                    width='45px'
                     bg='brand.primary'
                     fontSize='0.9rem'
                     color='gray.100'

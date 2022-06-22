@@ -14,7 +14,7 @@ import MarkdownReader from '../common/MarkdownReader'
 import UserAvatar from '../common/UserAvatar'
 import { useGa } from '@/src/context/TrackingProvider'
 
-function FeaturedCard({ article }) {
+function FeaturedCard({ article, isMobile }) {
     const { gaEvent } = useGa()
     const { colorMode } = useColorMode()
     const { text } = readTime(article?.body)
@@ -29,7 +29,7 @@ function FeaturedCard({ article }) {
     }
 
     return (
-        <Box height='100%'>
+        <Box height='100%' minWidth={isMobile && ['100%', '80%', '50%']}>
             <Link href={`/articles/${article?.slug}`} passHref>
                 <Stack
                     direction='column'
@@ -60,17 +60,14 @@ function FeaturedCard({ article }) {
                         />
                     </Box>
 
+                    <Heading fontSize='xl'  my='1rem'>
+                        {article?.title}
+                    </Heading>
                     <Box>
-                        <Heading
-                            fontSize='xl'
-                            textTransform='capitalize'
-                            my='1rem'>
-                            {article?.title}
-                        </Heading>
                         <Text
                             as='p'
                             my='1rem'
-                            fontSize='md'
+                            fontSize={['md', '', '', 'lg', 'lg']}
                             color={
                                 colorMode === 'light'
                                     ? 'gray.300'
