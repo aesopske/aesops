@@ -26,7 +26,6 @@ function ArticleList({ articles }) {
     const router = useRouter()
     const { onToggle, isOpen } = useDisclosure()
     const [isTabletAndUp] = useMediaQuery('(min-width: 768px)')
-
     const { colorMode } = useColorMode()
     const [searchterm, setSearchterm] = useState('')
     const [filtered, setFiltered] = useState([])
@@ -82,7 +81,7 @@ function ArticleList({ articles }) {
 
     return (
         <Stack
-            gap='2rem'
+            gap='1rem'
             spacing={['2', '2', '3', '8']}
             flexDir={[
                 'column-reverse',
@@ -98,6 +97,7 @@ function ArticleList({ articles }) {
                 width={['100%', '', '', '70%']}>
                 <HStack
                     mb='1rem'
+                    height={'auto'}
                     width='100%'
                     justifyContent='space-between'
                     alignItems='center'>

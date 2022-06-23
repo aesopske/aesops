@@ -2,7 +2,6 @@ import React from 'react'
 import {
     Box,
     FormControl,
-    FormLabel,
     InputGroup,
     Input,
     Icon,
@@ -12,30 +11,21 @@ import {
 } from '@chakra-ui/react'
 import { FaSearch, FaTimes } from 'react-icons/fa'
 
-function Search({
-    setTerm,
-    term,
-    label,
-    placeholder = 'search',
-    full = false,
-}) {
+function Search({ setTerm, term, placeholder, full }) {
     const { colorMode } = useColorMode()
     return (
         <Box height='auto' width='auto'>
             <FormControl
                 height='3rem'
                 width={
-                    full ? '100%' : ['100%', '100%', '90%', '40%', '60%', '60%']
+                    full ? '100%' : ['100%', '100%', '90%', '60%', '60%', '60%']
                 }>
-                <FormLabel fontWeight='600' fontSize='1.2rem' color='gray.500'>
-                    {label}
-                </FormLabel>
-                <InputGroup height='3rem'>
+                <InputGroup height='3rem' width='100%'>
                     <InputLeftElement fontSize='1rem' height='100%'>
                         <Icon
                             as={FaSearch}
                             fontSize='1.2rem'
-                            color='gray.500'
+                            color='gray.400'
                         />
                     </InputLeftElement>
                     <Input
@@ -73,6 +63,13 @@ function Search({
             </FormControl>
         </Box>
     )
+}
+
+Search.defaultProps = {
+    setTerm: () => {},
+    term: '',
+    placeholder: 'search',
+    full: false,
 }
 
 export default Search

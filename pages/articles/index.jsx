@@ -26,10 +26,10 @@ function Articles({ articles, featured, count }) {
     )
 }
 
-export async function getServerSideProps() {
+export async function getStaticProps() {
     const [featured, articles] = await Promise.all([
         fetchFeaturedArticles(),
-        fetchArticles({ limit: 20, page: 1 }),
+        fetchArticles({ limit: 50, page: 1 }),
     ])
 
     if (!articles && !featured) {
@@ -48,6 +48,7 @@ export async function getServerSideProps() {
             articles: articles.items,
             count: articles.count,
         },
+        revalidate: 60 * (60 * 2), // 2 hours
     }
 }
 

@@ -33,10 +33,9 @@ function ArticlesCard({ article }) {
 
     return (
         <Stack
-            my='1rem'
             height={['auto', 'auto', '', '', '30vh', '25vh']}
             width='100%'
-            spacing='5'
+            spacing='3'
             direction={['column', 'column', 'row-reverse', 'row-reverse']}>
             {article?.image?.url && (
                 <Box
@@ -61,13 +60,11 @@ function ArticlesCard({ article }) {
             )}
 
             <VStack
-                height='100%'
-                mx='1rem'
-                width={['100%', '100%', '60%', '65%', '70%']}
-                colSpan={[1, 1, 1, 2]}
+                spacing='3'
+                height='auto'
                 alignItems='flex-start'
                 justifyContent='space-between'
-                p='10px 0'>
+                width={['100%', '100%', '60%', '65%', '70%']}>
                 <Box>
                     <Link
                         href={{
@@ -76,7 +73,7 @@ function ArticlesCard({ article }) {
                         passHref>
                         <Heading
                             cursor='pointer'
-                            fontSize={['lg', '', '', '', 'xl']}
+                            fontSize={['xl', 'xl', '2xl', '2xl', '2xl']}
                             onClick={() => {
                                 gaEvent(
                                     'Articles',
@@ -116,7 +113,8 @@ function ArticlesCard({ article }) {
                                     borderRadius='full'
                                     colorScheme='purple'
                                     fontWeight='500'
-                                    p='5px'
+                                    p='10px'
+                                    fontSize={['sm', '', '', '', 'md']}
                                     textTransform='capitalize'>
                                     {tag}
                                 </Badge>
