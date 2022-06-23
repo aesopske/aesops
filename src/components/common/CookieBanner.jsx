@@ -9,6 +9,7 @@ import {
 } from '@chakra-ui/react'
 import Link from 'next/link'
 import React from 'react'
+import { motion } from 'framer-motion'
 
 function CookieBanner() {
     const { colorMode } = useColorMode()
