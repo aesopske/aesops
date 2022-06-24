@@ -1,7 +1,10 @@
 import Layout from '@/src/components/common/Layout'
 import About from '@/src/components/home/About'
+import DatasetsHero from '@/src/components/home/DatasetsHero'
 import Hero from '@/src/components/home/Hero'
-import Offers from '@/src/components/home/Offers'
+import MachineLearning from '@/src/components/home/MachineLearning'
+import Projects from '@/src/components/home/Projects'
+import VisualCode from '@/src/components/home/VisualCode'
 import WhatWeOffer from '@/src/components/home/WhatWeOffer'
 
 function Home({ cookieConsent }) {
@@ -10,7 +13,10 @@ function Home({ cookieConsent }) {
             <Hero />
             <WhatWeOffer />
             <About />
-            <Offers />
+            <DatasetsHero />
+            <Projects />
+            <VisualCode />
+            <MachineLearning />
         </Layout>
     )
 }

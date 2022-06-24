@@ -7,7 +7,7 @@ import DatasetList from '@/src/components/datasets/DatasetsList'
 import { useDebounce } from 'use-debounce'
 import PageBanner from '@/src/components/common/PageBanner'
 
-function Datasets({ datasets, cookieConsent }) {
+function Datasets({ datasets }) {
     const { colorMode } = useColorMode()
     const [searchTerm, setSearchTerm] = useState('')
     const [filtered, setFiltered] = useState([])
@@ -33,12 +33,15 @@ function Datasets({ datasets, cookieConsent }) {
         }
     }, [text])
     return (
-        <Layout title='Aesops - Datasets' cookieConsent={cookieConsent}>
-            <Box width={['90%', '90%', '80%']} height='auto' mx='auto'>
+        <Layout title='Aesops - Datasets'>
+            <Box
+                width={['90%', '90%', '80%', '', '75%']}
+                height='auto'
+                mx='auto'>
                 <PageBanner heading='Datasets'>
                     <Text
                         as='p'
-                        fontSize='1.1rem'
+                        fontSize='lg'
                         width={['100%', '100%', '80%', '', '60%', '45%']}
                         color={colorMode === 'light' ? 'gray.100' : 'gray.400'}>
                         We look for unique datasets from Kenya, or Africa that
@@ -75,15 +78,13 @@ function Datasets({ datasets, cookieConsent }) {
     )
 }
 
-export async function getStaticProps(ctx) {
-    const cookieConsent = ctx.req ? ctx.req.cookies.cookieConsent : null
+export async function getStaticProps() {
     const data = await fetchDatasets({ limit: 100, page: 1 })
 
     if (!data.items) {
         return {
-            redirect: {
-                destination: '/',
-                persistent: false,
+            props: {
+                datasets: [],
             },
         }
     }
@@ -91,10 +92,9 @@ export async function getStaticProps(ctx) {
     return {
         props: {
             datasets: data.items,
-            cookieConsent,
         },
 
-        revalidate: 10,
+        revalidate: 60 * (60 * 2),
     }
 }
 

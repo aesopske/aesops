@@ -1,6 +1,6 @@
 import React from 'react'
 import MarkDown from 'react-markdown'
-import { Box, Image, Text, useColorMode } from '@chakra-ui/react'
+import { Box, Heading, Image, Text, useColorMode } from '@chakra-ui/react'
 import rehypeRaw from 'rehype-raw'
 import gfm from 'remark-gfm'
 import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter'
@@ -59,6 +59,7 @@ function MarkdownReader({ content }) {
                     return (
                         <Text
                             as='p'
+                            width='100%'
                             color={
                                 colorMode === 'light' ? 'gray.700' : 'gray.300'
                             }>
@@ -66,31 +67,89 @@ function MarkdownReader({ content }) {
                         </Text>
                     )
                 },
-                code: ({ children }) => {
+                code: (props) => {
                     let language = 'bash'
 
                     if (
-                        jsSyntax.some((syntax) => children[0].includes(syntax))
+                        jsSyntax.some((syntax) =>
+                            props.children[0]?.includes(syntax)
+                        )
                     ) {
                         language = 'javascript'
                     }
 
                     if (
                         pythonSyntax.some((syntax) =>
-                            children[0].includes(syntax)
+                            props.children[0]?.includes(syntax)
                         )
                     ) {
                         language = 'python'
                     }
 
                     return (
-                        <SyntaxHighlighter
-                            style={duotoneSpace}
-                            language={language}>
-                            {children[0]}
-                        </SyntaxHighlighter>
+                        <Box>
+                            <SyntaxHighlighter
+                                style={duotoneSpace}
+                                language={language}>
+                                {props.children[0]}
+                            </SyntaxHighlighter>
+                        </Box>
                     )
                 },
+                h1: (props) => (
+                    <Heading
+                        as='h1'
+                        fontSize='3xl'
+                        my='1rem'
+                        color={colorMode === 'light' ? 'gray.600' : 'gray.300'}>
+                        {props.children}
+                    </Heading>
+                ),
+                h2: (props) => (
+                    <Heading
+                        as='h2'
+                        fontSize='2xl'
+                        my='1rem'
+                        color={colorMode === 'light' ? 'gray.600' : 'gray.300'}>
+                        {props.children}
+                    </Heading>
+                ),
+                h3: (props) => (
+                    <Heading
+                        as='h3'
+                        fontSize='xl'
+                        my='1rem'
+                        color={colorMode === 'light' ? 'gray.600' : 'gray.300'}>
+                        {props.children}
+                    </Heading>
+                ),
+                h4: (props) => (
+                    <Heading
+                        as='h4'
+                        fontSize='lg'
+                        my='1rem'
+                        color={colorMode === 'light' ? 'gray.600' : 'gray.300'}>
+                        {props.children}
+                    </Heading>
+                ),
+                h5: (props) => (
+                    <Heading
+                        as='h5'
+                        fontSize='md'
+                        my='1rem'
+                        color={colorMode === 'light' ? 'gray.600' : 'gray.300'}>
+                        {props.children}
+                    </Heading>
+                ),
+                h6: (props) => (
+                    <Heading
+                        as='h6'
+                        fontSize='md'
+                        my='1rem'
+                        color={colorMode === 'light' ? 'gray.600' : 'gray.300'}>
+                        {props.children}
+                    </Heading>
+                ),
             }}>
             {content}
         </MarkDown>

@@ -55,7 +55,7 @@ export async function getStaticProps(ctx) {
         return {
             redirect: {
                 destination: '/articles',
-                persistant: false,
+                permanent: true,
             },
         }
     }
@@ -66,7 +66,7 @@ export async function getStaticProps(ctx) {
             cookieConsent,
         },
 
-        revalidate: 10,
+        revalidate: 10 * 60,
     }
 }
 

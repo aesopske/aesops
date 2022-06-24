@@ -46,7 +46,9 @@ function Share({ title }) {
             bg={colorMode === 'light' ? 'gray.50' : 'gray.700'}
             p='20px'
             borderRadius='10px'>
-            <Heading fontSize='md'>Share with others</Heading>
+            <Heading fontSize={['lg', '', '', '', 'xl']}>
+                Share with others
+            </Heading>
 
             <Divider my='0.5rem' />
 

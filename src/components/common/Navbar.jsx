@@ -51,6 +51,8 @@ function Navbar() {
             top='0'
             left='0'
             bg={colorMode === 'light' ? 'gray.100' : 'gray.800'}
+            borderBottom={colorMode === 'light' ? '1px solid' : '1px solid'}
+            borderColor={colorMode === 'light' ? 'gray.300' : 'gray.800'}
             zIndex='60'
             display={['none', 'none', 'block', 'block']}>
             <Box
@@ -59,7 +61,7 @@ function Navbar() {
                 alignItems='center'
                 justifyContent='space-between'
                 height='100%'
-                width='80%'
+                width={['90%', '90%', '90%', '80%', '', '75%']}
                 mx='auto'>
                 <Link href='/' passHref>
                     <HStack width='auto' cursor='pointer'>
@@ -67,8 +69,13 @@ function Navbar() {
                             width='60px'
                             height='50px'
                             objectFit='contain'
-                            src='/svg/aesops-color-1.svg'
-                            alt='logo'
+                            src={
+                                colorMode === 'light'
+                                    ? '/images/aesops-logo.png'
+                                    : '/images/aesops-logo-muted.png'
+                            }
+                            alt='Aesops Logo'
+                            aria-label='Aesops Logo'
                         />
                         <Heading
                             size='md'
@@ -95,7 +102,7 @@ function Navbar() {
                             <Link key={item.label} href={item.path} passHref>
                                 <Text
                                     as='span'
-                                    fontSize='md'
+                                    fontSize={['md', 'md', 'md', 'md', 'lg']}
                                     color={
                                         router.asPath === item.path
                                             ? colorMode === 'dark'
@@ -126,7 +133,7 @@ function Navbar() {
                             href={`${process.env.DASHBOARD_URL}/auth/signin`}
                             _hover={{ color: 'brand.muted' }}
                             target='_blank'
-                            fontSize='md'
+                            fontSize={['md', 'md', 'md', 'md', 'lg']}
                             onClick={() => {
                                 gaEvent({
                                     category: 'Auth',
@@ -136,7 +143,7 @@ function Navbar() {
                             }}
                             rel='noopener noreferer'
                             width='auto'>
-                            Sign In &rarr;
+                            Sign In
                         </Text>
 
                         <Button
@@ -144,7 +151,7 @@ function Navbar() {
                             href={`${process.env.DASHBOARD_URL}/auth/signup`}
                             target='_blank'
                             rel='noopener noreferer'
-                            fontSize='md'
+                            fontSize={['md', 'md', 'md', 'md', 'lg']}
                             fontWeight='500'
                             color='#fff'
                             onClick={() => {
@@ -154,19 +161,30 @@ function Navbar() {
                                     label: 'signup',
                                 })
                             }}
-                            bg='brand.primary'
+                            bg={
+                                colorMode === 'light'
+                                    ? 'brand.primary'
+                                    : 'brand.muted'
+                            }
                             _hover={{
-                                bg: 'brand.primary',
+                                bg:
+                                    colorMode === 'light'
+                                        ? 'brand.primary'
+                                        : 'brand.hover',
                             }}
                             _focus={{
-                                bg: 'brand.primary',
-                                outline: 'none',
+                                bg:
+                                    colorMode === 'light'
+                                        ? 'brand.primary'
+                                        : 'brand.muted',
                             }}
                             _active={{
-                                bg: 'brand.primary',
-                                outline: 'none',
+                                bg:
+                                    colorMode === 'light'
+                                        ? 'brand.primary'
+                                        : 'brand.muted',
                             }}
-                            height={['', '', '2.5rem']}
+                            height={['', '', '2.5rem', '2.5rem', '3rem']}
                             borderRadius='10px'
                             width='auto'
                             minWidth='40%'>

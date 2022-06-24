@@ -6,7 +6,7 @@ function ProfileList({ profiles, details }) {
     return (
         <Box>
             <Grid
-                width={['90%', '90%', '90%', '80%', '100%']}
+                width={['90%', '90%', '90%', '90%', '100%']}
                 mx='auto'
                 gap='1rem'
                 mt={['2rem', '10rem']}

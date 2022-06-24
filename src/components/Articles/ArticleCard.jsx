@@ -33,39 +33,38 @@ function ArticlesCard({ article }) {
 
     return (
         <Stack
-            my='1rem'
-            height={['auto', 'auto', '', '', '30vh']}
+            height={['auto', 'auto', '', '', '30vh', '25vh']}
             width='100%'
-            spacing='5'
+            spacing='3'
             direction={['column', 'column', 'row-reverse', 'row-reverse']}>
-            <Box
-                width={['100%', '100%', '40%', '35%', '30%']}
-                height={['35vh', '40vh', '40vh', '30vh', '30vh', '35vh']}>
-                <Link href={`/fables/${article?.slug}`} passHref>
-                    <Image
-                        borderRadius='10px'
-                        src={article?.image?.url}
-                        alt={article?.title}
-                        objectFit='cover'
-                        width='100%'
-                        height='100%'
-                        fallbackSrc={
-                            colorMode === 'light'
-                                ? 'images/placeholderthumbnail.png'
-                                : '/images/placeholderthumbnail-dark.png'
-                        }
-                    />
-                </Link>
-            </Box>
+            {article?.image?.url && (
+                <Box
+                    width={['100%', '100%', '40%', '35%', '30%']}
+                    height={['35vh', '40vh', '40vh', '30vh', '30vh', '25vh']}>
+                    <Link href={`/articles/${article?.slug}`} passHref>
+                        <Image
+                            borderRadius='10px'
+                            src={article?.image?.url}
+                            alt={article?.title}
+                            objectFit='cover'
+                            width='100%'
+                            height='100%'
+                            fallbackSrc={
+                                colorMode === 'light'
+                                    ? 'images/placeholderthumbnail.png'
+                                    : '/images/placeholderthumbnail-dark.png'
+                            }
+                        />
+                    </Link>
+                </Box>
+            )}
 
             <VStack
-                height='100%'
-                mx='1rem'
-                width={['100%', '100%', '60%', '65%', '70%']}
-                colSpan={[1, 1, 1, 2]}
+                spacing='3'
+                height='auto'
                 alignItems='flex-start'
                 justifyContent='space-between'
-                p='10px 0'>
+                width={['100%', '100%', '60%', '65%', '70%']}>
                 <Box>
                     <Link
                         href={{
@@ -74,7 +73,7 @@ function ArticlesCard({ article }) {
                         passHref>
                         <Heading
                             cursor='pointer'
-                            fontSize='lg'
+                            fontSize='2xl'
                             onClick={() => {
                                 gaEvent(
                                     'Articles',
@@ -89,11 +88,11 @@ function ArticlesCard({ article }) {
 
                     <Text
                         as='p'
-                        fontSize='md'
+                        fontSize='lg'
                         fontWeight='light'
                         width='100%'
                         my='1rem'
-                        color={colorMode === 'light' ? 'gray.200' : 'gray.300'}
+                        color={colorMode === 'light' ? 'gray.200' : 'gray.500'}
                         noOfLines={[2, 2, 3]}>
                         <MarkdownReader content={article?.summary} />
                     </Text>
@@ -101,8 +100,22 @@ function ArticlesCard({ article }) {
 
                 <Stack
                     justifyContent='space-between'
-                    alignItems={['flex-start', 'flex-start', '', '', 'center']}
-                    direction={['column', 'column', '', 'row', 'row']}
+                    alignItems={[
+                        'flex-start',
+                        'flex-start',
+                        '',
+                        '',
+                        'flex-start',
+                        'center',
+                    ]}
+                    direction={[
+                        'column',
+                        'column',
+                        'column',
+                        'column',
+                        'column',
+                        'row',
+                    ]}
                     spacing='5'
                     width='100%'>
                     <UserAvatar user={user} align='center' />
@@ -114,7 +127,8 @@ function ArticlesCard({ article }) {
                                     borderRadius='full'
                                     colorScheme='purple'
                                     fontWeight='500'
-                                    p='5px'
+                                    p='10px'
+                                    fontSize={['sm', '', '', '', 'md']}
                                     textTransform='capitalize'>
                                     {tag}
                                 </Badge>

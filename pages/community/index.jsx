@@ -41,23 +41,13 @@ function Community({
     )
 }
 
-export async function getStaticProps(ctx) {
-    const cookieConsent = ctx.req ? ctx.req.cookies.cookieConsent : null
+export async function getServerSideProps() {
     const [data, postData, appData, datasetData] = await Promise.all([
         fetchCommunity(),
         fetchArticles(),
         fetchApps(),
         fetchDatasets(),
     ])
-
-    if (!data.items) {
-        return {
-            redirect: {
-                destination: '/',
-                persistent: false,
-            },
-        }
-    }
 
     const posts = postData.items
     const apps = appData.items
@@ -68,14 +58,12 @@ export async function getStaticProps(ctx) {
 
     return {
         props: {
-            topranked: topProfiles,
-            profiles,
-            posts,
-            apps,
-            datasets,
-            cookieConsent,
+            topranked: topProfiles || [],
+            profiles: profiles || [],
+            posts: posts || [],
+            apps: apps || [],
+            datasets: datasets || [],
         },
-        revalidate: 10,
     }
 }
 

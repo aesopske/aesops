@@ -3,7 +3,7 @@ import {
     useColorMode,
     HStack,
     Heading,
-    Badge,
+    // Badge,
     Button,
     Stack,
 } from '@chakra-ui/react'
@@ -27,12 +27,12 @@ function AppsListItem({ app }) {
                 spacing='3'
                 direction={['column', 'column', 'column', 'row']}>
                 <Link href={`/apps/${app.slug}`} passHref>
-                    <Heading size='md' cursor='pointer'>
+                    <Heading fontSize='2xl' cursor='pointer'>
                         {app.title}
                     </Heading>
                 </Link>
 
-                <HStack>
+                {/* <HStack>
                     <Badge fontWeight='600' p='5px' borderRadius='5px'>
                         # Economy
                     </Badge>
@@ -42,7 +42,7 @@ function AppsListItem({ app }) {
                     <Badge fontWeight='600' p='5px' borderRadius='5px'>
                         # General
                     </Badge>
-                </HStack>
+                </HStack> */}
             </Stack>
             <HStack
                 justifyContent='space-between'

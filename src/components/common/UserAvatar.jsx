@@ -4,7 +4,7 @@ import { Avatar, Text, HStack, useColorMode, VStack } from '@chakra-ui/react'
 function UserAvatar({
     user,
     size = 'sm',
-    align = 'flex-start',
+    align = 'center',
     onSurface = false,
 }) {
     const { colorMode } = useColorMode()
@@ -23,7 +23,7 @@ function UserAvatar({
                 justifyContent='space-between'>
                 <Text
                     fontWeight='600'
-                    fontSize='sm'
+                    fontSize='md'
                     textTransform='capitalize'
                     color={
                         colorMode === 'light'
@@ -36,7 +36,7 @@ function UserAvatar({
                 </Text>
                 {user?.read ? (
                     <Text
-                        as='small'
+                        fontSize='md'
                         color={
                             colorMode === 'light'
                                 ? onSurface
@@ -48,8 +48,7 @@ function UserAvatar({
                     </Text>
                 ) : (
                     <Text
-                        as='small'
-                        fontSize='.85rem'
+                        fontSize={['sm', 'sm', 'sm', 'sm', 'md']}
                         color={
                             colorMode === 'light'
                                 ? onSurface

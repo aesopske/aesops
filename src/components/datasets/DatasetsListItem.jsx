@@ -3,7 +3,7 @@ import {
     useColorMode,
     HStack,
     Heading,
-    Badge,
+    // Badge,
     Stack,
     Button,
 } from '@chakra-ui/react'
@@ -27,12 +27,12 @@ function DatasetsListItem({ dataset }) {
                 spacing='3'
                 direction={['column', 'column', 'row']}>
                 <Link href={`/datasets/${dataset.slug}`} passHref>
-                    <Heading size='md' cursor='pointer'>
+                    <Heading fontSize='2xl' cursor='pointer'>
                         {dataset.title}
                     </Heading>
                 </Link>
 
-                <HStack>
+                {/* <HStack>
                     <Badge fontWeight='600' p='5px' borderRadius='5px'>
                         # Economy
                     </Badge>
@@ -42,7 +42,7 @@ function DatasetsListItem({ dataset }) {
                     <Badge fontWeight='600' p='5px' borderRadius='5px'>
                         # General
                     </Badge>
-                </HStack>
+                </HStack> */}
             </Stack>
             <HStack
                 justifyContent='space-between'

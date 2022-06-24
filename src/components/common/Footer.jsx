@@ -90,37 +90,48 @@ function Footer() {
             borderTop='3px solid'
             borderColor={colorMode === 'light' ? 'gray.200' : 'gray.700'}>
             <Grid
-                width={['95%', '80%']}
+                width={['95%', '80%', '80%', '80%', '75%']}
                 height='100%'
                 mx='auto'
                 p='20px 0'
                 gap='1rem'
                 templateColumns={[
-                    'repeat(1,1fr)',
-                    'repeat(1,1fr)',
+                    'repeat(2,1fr)',
+                    'repeat(2,1fr)',
                     'repeat(2,1fr)',
                     'repeat(3,1fr)',
                     'repeat(4,1fr)',
                 ]}>
                 {/* logo */}
 
-                <GridItem colSpan='1' height='auto' width='100%'>
-                    <Image
-                        src='/svg/aesops-color-1.svg'
-                        alt='logo'
-                        objectFit='contain'
-                        width={['50%', '30%', '30%', '30%']}
-                        height={['50%', '30%', '30%', '40%']}
-                    />
+                <GridItem
+                    colSpan='1'
+                    height='auto'
+                    width='100%'
+                    display={['none', 'none', 'none', 'block']}>
+                    <HStack spacing='5'>
+                        <Image
+                            src={
+                                colorMode === 'light'
+                                    ? '/images/aesops-logo.png'
+                                    : '/images/aesops-logo-muted.png'
+                            }
+                            alt='logo'
+                            objectFit='contain'
+                            width={['50%', '30%', '30%', '20%']}
+                            height={['50%', '30%', '30%', '40%']}
+                        />
+                        <Heading size='lg'>Aesops</Heading>
+                    </HStack>
                 </GridItem>
 
                 {/* links */}
 
                 <GridItem
                     colSpan='1'
-                    color={colorMode === 'light' ? '#555' : 'whiteAlpha.700'}
+                    color={colorMode === 'light' ? 'gray.600' : 'gray.400'}
                     p='0 20px'>
-                    <Heading fontSize='md' my='1rem'>
+                    <Heading fontSize='xl' my='1rem'>
                         Company Links
                     </Heading>
                     <VStack
@@ -131,7 +142,7 @@ function Footer() {
                             <Box key={link.label}>
                                 <Link href={link.link} passHref>
                                     <Text
-                                        fontSize='sm'
+                                        fontSize='md'
                                         _hover={{ color: 'brand.muted' }}
                                         cursor='pointer'>
                                         {link.label}
@@ -146,9 +157,9 @@ function Footer() {
 
                 <GridItem
                     colSpan='1'
-                    color={colorMode === 'light' ? '#555' : 'whiteAlpha.700'}
+                    color={colorMode === 'light' ? 'gray.600' : 'gray.400'}
                     p='0 20px'>
-                    <Heading fontSize='md' my='1rem'>
+                    <Heading fontSize='lg' my='1rem'>
                         Connect with us
                     </Heading>
                     <VStack
@@ -163,7 +174,7 @@ function Footer() {
                                 <Icon as={social.icon} fontSize='1rem' />
                                 <Text
                                     as='a'
-                                    fontSize='sm'
+                                    fontSize='md'
                                     href={social.href}
                                     target='_blank'
                                     rel='noopener noreferrer'>
@@ -175,9 +186,9 @@ function Footer() {
                 </GridItem>
                 <GridItem
                     colSpan='1'
-                    color={colorMode === 'light' ? '#555' : 'whiteAlpha.700'}
+                    color={colorMode === 'light' ? 'gray.600' : 'gray.400'}
                     p='0 20px'>
-                    <Heading fontSize='md' my='1rem'>
+                    <Heading fontSize='lg' my='1rem'>
                         Legal
                     </Heading>
 
@@ -189,7 +200,7 @@ function Footer() {
                             _hover={{ color: 'brand.muted' }}>
                             <Text
                                 as='a'
-                                fontSize='sm'
+                                fontSize='md'
                                 href={leg.href}
                                 target='_blank'
                                 rel='noopener noreferrer'>
@@ -204,13 +215,14 @@ function Footer() {
                 mx='auto'
                 mb='2rem'
                 width={['90%', '90%', '80%', '70%', '40%']}
-                borderColor={colorMode === 'light' ? '#eee' : 'gray.700'}
+                color={colorMode === 'light' ? 'gray.600' : 'gray.400'}
             />
 
             <Text
                 my='1rem'
                 as='p'
-                color={colorMode === 'light' ? 'gray.600' : 'gray.500'}
+                fontSize='md'
+                color={colorMode === 'light' ? 'gray.600' : 'gray.400'}
                 textTransform='capitalize'
                 textAlign='center'>
                 all rights reserved {new Date().getFullYear()} &copy;

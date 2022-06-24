@@ -35,10 +35,12 @@ function RecommendedList({ title }) {
         <Box
             bg={colorMode === 'light' ? 'gray.50' : 'gray.700'}
             width='100%'
-            p='20px'
+            p={['20px', '20px', '20px', '20px', '25px']}
             borderRadius='10px'>
-            <Heading fontSize='md'>Recommended articles</Heading>
-            <Divider my='0.5rem' />
+            <Heading fontSize={['lg', '', '', '', 'xl']}>
+                Recommended articles
+            </Heading>
+            <Divider my='1rem' />
             <Grid gap='1rem' templateColumns='repeat(1,1fr)'>
                 {recommended &&
                     recommended.map((item) => (
@@ -47,10 +49,10 @@ function RecommendedList({ title }) {
             </Grid>
             {!recommended.length && (
                 <Center flexDirection='column' height='100%'>
-                    <Text fontSize='sm' fontWeight='400'>
+                    <Text fontSize='md' fontWeight='400'>
                         😧
                     </Text>
-                    <Text fontSize='sm' textAlign='center'>
+                    <Text fontSize='md' textAlign='center'>
                         We couldn&apos;t find any recommended fables.
                     </Text>
                     <Link href='/fables' passHref>

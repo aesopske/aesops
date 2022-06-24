@@ -6,11 +6,15 @@ import {
     IconButton,
     Grid,
     useColorMode,
+    useMediaQuery,
 } from '@chakra-ui/react'
 import { FaDatabase, FaFileAlt, FaShareAlt, FaCode } from 'react-icons/fa'
+import Overflow from '../common/Overflow'
+import { motion } from 'framer-motion'
 
 function WhatWeOffer() {
     const { colorMode } = useColorMode()
+    const [isTabletAndUp] = useMediaQuery('(min-width: 1024px)')
     const activities = [
         {
             name: 'Collect',
@@ -39,61 +43,101 @@ function WhatWeOffer() {
     ]
     return (
         <Box
-            width={['90%', '90%', '80%']}
+            as={motion.div}
+            initial={{ y: 100, opacity: 0 }}
+            animate={{
+                y: 0,
+                opacity: 1,
+                transition: { duration: 0.5, delay: 0.5 },
+            }}
+            width={['90%', '90%', '80%', '', '75%']}
             mx='auto'
             height='auto'
-            p={['0', '0', '50px 0']}
-            my={['0', '0', '5rem']}>
+            p={['0', '0', '20px 0']}
+            my={['0', '0', '2rem']}>
             <Box>
-                <Heading fontSize='2xl' my='3rem'>
-                    What we offer
+                <Heading fontSize={['2xl', '', '', '', '3xl', '4xl']} my='2rem'>
+                    What we do
                 </Heading>
-                <Grid
-                    gap='1rem'
-                    my='1rem'
-                    templateColumns={[
-                        'repeat(1,1fr)',
-                        'repeat(1,1fr)',
-                        'repeat(3,1fr)',
-                        'repeat(4,1fr)',
-                    ]}>
-                    {activities.map((activity) => (
-                        <Box
-                            key={activity.name}
-                            height='auto'
-                            minHeight='20vh'
-                            p='30px'
-                            bg={colorMode === 'light' ? '#fff' : 'gray.700'}
-                            borderRadius='10px'
-                            border='2px solid'
-                            shadow='lg'
-                            borderColor={
-                                colorMode === 'light' ? '#eee' : 'gray.700'
-                            }>
-                            <IconButton
-                                icon={activity.icon}
-                                size='lg'
+                {isTabletAndUp ? (
+                    <Grid
+                        gap='1rem'
+                        my='1rem'
+                        templateColumns={[
+                            'repeat(2,1fr)',
+                            'repeat(2,1fr)',
+                            'repeat(3,1fr)',
+                            'repeat(4,1fr)',
+                        ]}>
+                        {activities.map((activity) => (
+                            <Box
+                                key={activity.name}
+                                height='auto'
+                                minHeight='20vh'
+                                p='30px'
+                                bg={
+                                    colorMode === 'light'
+                                        ? 'gray.50'
+                                        : 'gray.700'
+                                }
                                 borderRadius='10px'
-                                fontSize='1.5rem'
-                                bg='purple.100'
-                                color='brand.primary'
-                            />
-                            <Text
-                                as='p'
-                                my='1rem'
-                                fontSize={[
-                                    '1rem',
-                                    '1rem',
-                                    '',
-                                    '',
-                                    '',
-                                    '1.1rem',
-                                ]}>
-                                {activity.description}
-                            </Text>
-                        </Box>
-                    ))}
-                </Grid>
+                                border='2px solid'
+                                borderColor={
+                                    colorMode === 'light'
+                                        ? 'gray.200'
+                                        : 'gray.700'
+                                }>
+                                <IconButton
+                                    icon={activity.icon}
+                                    size='lg'
+                                    borderRadius='10px'
+                                    fontSize='1.5rem'
+                                    bg='purple.100'
+                                    color='brand.primary'
+                                />
+                                <Text as='p' my='1rem' fontSize='lg'>
+                                    {activity.description}
+                                </Text>
+                            </Box>
+                        ))}
+                    </Grid>
+                ) : (
+                    <Overflow
+                        color={colorMode === 'light' ? 'gray.700' : 'gray.400'}>
+                        {activities.map((activity) => (
+                            <Box
+                                key={activity.name}
+                                height='auto'
+                                minHeight='20vh'
+                                p='30px'
+                                minWidth={['100%', '100%', '70%', '50%', '30%']}
+                                bg={
+                                    colorMode === 'light'
+                                        ? 'gray.50'
+                                        : 'gray.700'
+                                }
+                                borderRadius='10px'
+                                border='2px solid'
+                                borderColor={
+                                    colorMode === 'light'
+                                        ? 'gray.200'
+                                        : 'gray.700'
+                                }>
+                                <IconButton
+                                    icon={activity.icon}
+                                    size='lg'
+                                    borderRadius='10px'
+                                    fontSize='1.5rem'
+                                    bg='purple.100'
+                                    color='brand.primary'
+                                />
+                                <Text as='p' my='1rem' fontSize='lg'>
+                                    {activity.description}
+                                </Text>
+                            </Box>
+                        ))}
+                    </Overflow>
+                )}
             </Box>
         </Box>
     )

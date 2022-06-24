@@ -11,9 +11,9 @@ function MoreByAuthorItem({ post }) {
             <Link href={`/articles/${post?.slug}`} passHref>
                 <Heading
                     mb='0.5rem'
-                    fontSize='sm'
+                    fontSize='md'
                     textTransform='capitalize'
-                    fontWeight='medium'
+                    fontWeight='semibold'
                     color={colorMode === 'light' ? 'gray.600' : 'gray.300'}
                     cursor='pointer'>
                     {post?.title}
@@ -30,6 +30,7 @@ function MoreByAuthorItem({ post }) {
                             key={index}
                             textTransform='capitalize'
                             borderRadius='full'
+                            fontSize='sm'
                             onClick={() => {
                                 router.push(
                                     {
@@ -42,7 +43,7 @@ function MoreByAuthorItem({ post }) {
                                     }
                                 )
                             }}
-                            p='5px'
+                            p='10px'
                             fontWeight='500'
                             colorScheme='purple'>
                             {tag}

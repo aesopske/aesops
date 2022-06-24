@@ -1,6 +1,5 @@
 import React from 'react'
 import Link from 'next/link'
-import Fade from 'react-reveal/Fade'
 import {
     Box,
     Image,
@@ -13,6 +12,7 @@ import {
 import { useGa } from '@/src/context/TrackingProvider'
 import { ErrorBoundary } from 'react-error-boundary'
 import ErrorHandler from '../common/ErrorHandler'
+import { motion } from 'framer-motion'
 
 function Hero() {
     const { colorMode } = useColorMode()
@@ -21,7 +21,7 @@ function Hero() {
     return (
         <ErrorBoundary FallbackComponent={ErrorHandler}>
             <Box
-                width={['95%', '90%', '80%']}
+                width='100%'
                 height={['auto', 'auto', 'auto', '100vh', '70vh']}
                 bgImage={
                     colorMode === 'light'
@@ -31,141 +31,151 @@ function Hero() {
                 bgRepeat='no-repeat'
                 p='10px'
                 mx='auto'
-                borderRadius='20px'
-                my='1rem'
+                borderRadius='0'
                 bgPosition='center'
                 bgSize='cover'>
                 <Box
-                    width='100%'
+                    width={['100%', '90%', '80%', '', '75%']}
                     mx='auto'
                     my='1rem'
-                    p={['20px', '20px', '50px']}
+                    p={['20px 0', '20px 0', '50px 0']}
                     height='100%'
                     as={Stack}
                     direction={['column', 'column', 'column', 'row']}
                     alignItems='center'
                     justifyContent='space-between'>
-                    <Box>
-                        <Fade bottom>
-                            <Box width={['100%', '100%', '100%', '100%']}>
-                                <Heading as='h1' size='2xl' color='#fff'>
-                                    We tell stories with data as our medium
-                                </Heading>
-                                <Text
-                                    as='p'
-                                    fontSize='lg'
-                                    my='2rem'
-                                    color='#fff'>
-                                    Understand better what is happening around
-                                    you both interestingly and qualitatively.
-                                </Text>
+                    <Box
+                        as={motion.div}
+                        initial={{ y: 100, opacity: 0 }}
+                        animate={{
+                            y: 0,
+                            opacity: 1,
+                            transition: { duration: 0.5, delay: 0.3 },
+                        }}>
+                        <Box width={['100%', '100%', '100%', '100%']}>
+                            <Heading as='h1' size='3xl' color='#fff'>
+                                We tell stories with data as our medium
+                            </Heading>
+                            <Text
+                                as='p'
+                                fontSize={['lg', '', '', '', '', 'xl']}
+                                my='2rem'
+                                color='#fff'>
+                                Understand better what is happening around you
+                                both interestingly and qualitatively.
+                            </Text>
 
-                                <Box
-                                    as={Stack}
-                                    direction={[
-                                        'column',
-                                        'column',
-                                        'row',
-                                        'row',
+                            <Stack
+                                direction={['column', 'column', 'row', 'row']}
+                                alignItems={[
+                                    'flex-start',
+                                    'flex-start',
+                                    'center',
+                                    'center',
+                                ]}>
+                                <Button
+                                    as='a'
+                                    href={`${process.env.DASHBOARD_URL}/auth/signup`}
+                                    target='_blank'
+                                    onClick={() => {
+                                        gaEvent({
+                                            category: 'Home',
+                                            action: 'Clicked sign up',
+                                            label: 'signup',
+                                        })
+                                    }}
+                                    rel='noopener noreferer'
+                                    bg={
+                                        colorMode === 'light'
+                                            ? '#fff'
+                                            : 'brand.muted'
+                                    }
+                                    _hover={{
+                                        bg:
+                                            colorMode === 'light'
+                                                ? 'gray.50'
+                                                : 'brand.hover',
+                                    }}
+                                    mr='1rem'
+                                    my={['1rem', '1rem', '1rem', '0']}
+                                    height={[
+                                        '2.5rem',
+                                        '2.5rem',
+                                        '3rem',
+                                        '3rem',
                                     ]}
-                                    alignItems={[
-                                        'flex-start',
-                                        'flex-start',
-                                        'center',
-                                        'center',
-                                    ]}>
+                                    width={['100%', '100%', 'auto']}
+                                    borderRadius='10px'
+                                    fontWeight='500'
+                                    fontSize='1rem'>
+                                    Join the community &rarr;
+                                </Button>
+                                <Link href='/articles' passHref>
                                     <Button
-                                        as='a'
-                                        href={`${process.env.DASHBOARD_URL}/auth/signup`}
-                                        target='_blank'
+                                        bg='transparent'
                                         onClick={() => {
                                             gaEvent({
                                                 category: 'Home',
-                                                action: 'Clicked sign up',
-                                                label: 'signup',
+                                                action: 'Clicked show articles',
+                                                label: 'show articles',
                                             })
                                         }}
-                                        rel='noopener noreferer'
-                                        bg={
+                                        color='#fff'
+                                        border='2px solid'
+                                        borderColor={
                                             colorMode === 'light'
                                                 ? '#fff'
-                                                : 'brand.primary'
+                                                : 'gray.500'
                                         }
                                         _hover={{
-                                            bg:
-                                                colorMode === 'light'
-                                                    ? 'gray.50'
-                                                    : 'brand.hover',
+                                            bg: 'transparent',
+                                        }}
+                                        _focus={{
+                                            bg: 'transparent',
+                                            outline: 'none',
+                                        }}
+                                        _active={{
+                                            bg: 'transparent',
+                                            outline: 'none',
                                         }}
                                         mr='1rem'
                                         my={['1rem', '1rem', '1rem', '0']}
-                                        height='2.5rem'
-                                        width={['100%', '100%', 'auto']}
+                                        height={[
+                                            '2.5rem',
+                                            '2.5rem',
+                                            '3rem',
+                                            '3rem',
+                                        ]}
+                                        width={['100%', '100%', 'auto', 'auto']}
                                         borderRadius='10px'
                                         fontWeight='500'
                                         fontSize='1rem'>
-                                        Join the community &rarr;
+                                        View articles &rarr;
                                     </Button>
-                                    <Link href='/articles' passHref>
-                                        <Button
-                                            bg='transparent'
-                                            onClick={() => {
-                                                gaEvent({
-                                                    category: 'Home',
-                                                    action: 'Clicked show articles',
-                                                    label: 'show articles',
-                                                })
-                                            }}
-                                            color='#fff'
-                                            border='2px solid'
-                                            borderColor={
-                                                colorMode === 'light'
-                                                    ? '#fff'
-                                                    : 'gray.500'
-                                            }
-                                            _hover={{ bg: 'transparent' }}
-                                            _focus={{
-                                                bg: 'transparent',
-                                                outline: 'none',
-                                            }}
-                                            _active={{
-                                                bg: 'transparent',
-                                                outline: 'none',
-                                            }}
-                                            mr='1rem'
-                                            my={['1rem', '1rem', '1rem', '0']}
-                                            height='2.5rem'
-                                            width={[
-                                                '100%',
-                                                '100%',
-                                                'auto',
-                                                'auto',
-                                            ]}
-                                            borderRadius='10px'
-                                            fontWeight='500'
-                                            fontSize='1rem'>
-                                            View articles &rarr;
-                                        </Button>
-                                    </Link>
-                                </Box>
-                            </Box>
-                        </Fade>
+                                </Link>
+                            </Stack>
+                        </Box>
                     </Box>
 
-                    <Fade bottom>
-                        <Box
-                            my={['2rem', '1rem', '1rem', '0']}
-                            display={['none', 'none', 'block']}>
-                            <Image
-                                src='/images/aesops-nutshell.png'
-                                alt='aesops'
-                                width={['100%', '90%', '90%', '80%', '70%']}
-                                mx='auto'
-                                height='100%'
-                                objectFit='contain'
-                            />
-                        </Box>
-                    </Fade>
+                    <Box
+                        as={motion.div}
+                        initial={{ y: -100, opacity: 0 }}
+                        animate={{
+                            y: 0,
+                            opacity: 1,
+                            transition: { duration: 0.3, delay: 0.3 },
+                        }}
+                        my={['2rem', '1rem', '1rem', '0']}
+                        display={['none', 'none', 'block']}>
+                        <Image
+                            src='/images/aesops-nutshell.png'
+                            alt='aesops'
+                            width={['100%', '90%', '90%', '80%', '70%']}
+                            mx='auto'
+                            height='100%'
+                            objectFit='contain'
+                        />
+                    </Box>
                 </Box>
             </Box>
         </ErrorBoundary>

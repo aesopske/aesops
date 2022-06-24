@@ -33,12 +33,12 @@ function RecommendedListItem({ item }) {
                 justifyContent='space-between'>
                 <Link href={{ pathname: `/articles/${item?.slug}` }} passHref>
                     <Heading
-                        fontSize='sm'
+                        fontSize={['md', 'md']}
                         mb='0.5rem'
                         textTransform='capitalize'
                         cursor='pointer'
                         color={colorMode === 'light' ? 'gray.600' : 'gray.300'}
-                        fontWeight='medium'>
+                        fontWeight='semibold'>
                         {item?.title}
                     </Heading>
                 </Link>

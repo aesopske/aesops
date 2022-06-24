@@ -1,7 +1,8 @@
 import Layout from '@/src/components/common/Layout'
 import Teamcard from '@/src/components/team/Teamcard'
-import { Box, Heading, Grid, useColorMode, Text } from '@chakra-ui/react'
+import { Box, Grid, useColorMode, Text } from '@chakra-ui/react'
 import { profiles } from '@/src/utils/team'
+import PageBanner from '@/src/components/common/PageBanner'
 
 function Team({ cookieConsent }) {
     const { colorMode } = useColorMode()
@@ -21,47 +22,19 @@ function Team({ cookieConsent }) {
                 mx='auto'
                 p='10px'>
                 <Box minHeight='100vh' width='100%'>
-                    <Box
-                        width='100%'
-                        height={[
-                            'auto',
-                            'auto',
-                            'auto',
-                            'auto',
-                            '35vh',
-                            '30vh',
-                        ]}
-                        bgImage={
-                            colorMode === 'light'
-                                ? '/images/background.png'
-                                : '/svg/hero-dark.svg'
-                        }
-                        bgRepeat='no-repeat'
-                        p='50px'
-                        bgPosition='center'
-                        bgAttachment='fixed'
-                        position='relative'
-                        zIndex='0'
-                        mt='2rem'
-                        mb='5rem'
-                        borderRadius='20px'
-                        bgSize='cover'>
-                        <Heading my='1rem' size='2xl' width='100%' color='#fff'>
-                            Meet the team
-                        </Heading>
-
+                    <PageBanner heading='Meet The Team'>
                         <Text
                             as='p'
                             width={['100%', '100%', '80%', '', '50%', '45%']}
                             color={
                                 colorMode === 'light' ? 'gray.100' : 'gray.400'
                             }
-                            fontSize='1.1rem'>
+                            fontSize='lg'>
                             These are the great minds behind all the activities,
                             all the stories and all the products that makes up
                             Aesops as a whole.
                         </Text>
-                    </Box>
+                    </PageBanner>
 
                     <Box
                         width={['100%', '80%', '100%']}

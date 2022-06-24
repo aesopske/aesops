@@ -8,22 +8,22 @@ function Trends({ cookieConsent }) {
     return (
         <Layout title='Aesops - Trends' cookieConsent={cookieConsent}>
             <Box
-                width='80%'
+                width={['90%', '', '', '80%', '', '75%']}
                 mx='auto'
                 minHeight='40vh'
                 mb='2rem'
                 as={VStack}
                 alignItems='flex-start'
                 justifyContent='center'>
-                <PageBanner heading='Trending'>
+                <PageBanner heading='Data Trends'>
                     <Text
                         as='p'
-                        fontSize='1.1rem'
+                        fontSize='lg'
                         width={['100%', '100%', '80%', '', '60%', '45%']}
                         color={colorMode === 'light' ? 'gray.100' : 'gray.400'}>
-                        Find out what is trending in a fun, visual and
-                        interactive way. We visualize different trending topics
-                        using data from different sources.
+                        Find out how your favourite information is trending in a
+                        fun, visual and interactive way. We visualize different
+                        topics using data from different sources.
                     </Text>
                 </PageBanner>
                 <Heading fontSize='2xl' my='2rem'>
@@ -54,7 +54,7 @@ function Trends({ cookieConsent }) {
           `,
                         }}
                     />
-                    <Text as='p' fontSize='md' my='2rem'>
+                    <Text as='p' fontSize='lg' my='2rem'>
                         Oil price unlike most other commodities affect the
                         entire economy for any country that is reliant on oil
                         for electricity, power and transportation. Kenya is no
