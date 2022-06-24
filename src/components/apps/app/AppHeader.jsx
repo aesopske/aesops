@@ -29,11 +29,7 @@ function AppHeader({ app }) {
                 spacing='6'>
                 <Heading>{app?.title}</Heading>
                 <UserAvatar
-                    user={{
-                        name: app?.author,
-                        date: new Date(app?.created).toDateString(),
-                    }}
-                    onSurface
+                    
                 />
             </Box>
         </Box>

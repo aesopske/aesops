@@ -3,7 +3,8 @@ import React from 'react'
 import fs from 'fs'
 import matter from 'gray-matter'
 import MarkdownReader from '@/src/components/common/MarkdownReader'
-import { Box } from '@chakra-ui/react'
+import { Box, Text } from '@chakra-ui/react'
+import PageBanner from '@/src/components/common/PageBanner'
 
 function PrivacyPolicy({ policy, cookieConsent }) {
     return (
@@ -11,8 +12,24 @@ function PrivacyPolicy({ policy, cookieConsent }) {
             title='Privacy Policy'
             description='Aesops legal data privacy policy that highlights how we use the data we collect'
             cookieConsent={cookieConsent}>
-            <Box width='80%' mx='auto' mb='3rem'>
-                <MarkdownReader content={policy?.content} />
+            <Box
+                width={['90%', '90%', '80%', '', '', '75%']}
+                mx='auto'
+                fontSize='lg'
+                my='3rem'>
+                <PageBanner heading='Data Privacy Policy'>
+                    <Text as='p' fontSize='lg'>
+                        Aesops legal data privacy policy that highlights how we
+                        use the data we collect
+                    </Text>
+
+                    <Text as='p' mt='1rem'>
+                        Last Updated: {policy?.data.dateUpdated}
+                    </Text>
+                </PageBanner>
+                <Box width={['100%', '100%', '90%', '80%']} mx='auto'>
+                    <MarkdownReader content={policy?.content} />
+                </Box>
             </Box>
         </Layout>
     )

@@ -1,9 +1,16 @@
-import { Grid, Box, Heading, useMediaQuery } from '@chakra-ui/react'
+import {
+    Grid,
+    Box,
+    Heading,
+    useMediaQuery,
+    useColorMode,
+} from '@chakra-ui/react'
 import FeaturedCard from './FeaturedCard'
 import Overflow from '../common/Overflow'
 
 function FeaturedList({ featured }) {
-    const [isTabletAndUp] = useMediaQuery('(min-width: 768px)')
+    const { colorMode } = useColorMode()
+    const [isTabletAndUp] = useMediaQuery('(min-width: 1024px)')
     return (
         <Box>
             <Heading fontSize={['2xl', '', '', '', '4xl']} my='2rem'>
@@ -29,7 +36,8 @@ function FeaturedList({ featured }) {
                         ))}
                 </Grid>
             ) : (
-                <Overflow>
+                <Overflow
+                    color={colorMode === 'light' ? 'gray.700' : 'gray.400'}>
                     {featured &&
                         featured.map((article) => (
                             <FeaturedCard

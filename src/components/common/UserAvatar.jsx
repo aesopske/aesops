@@ -23,7 +23,7 @@ function UserAvatar({
                 justifyContent='space-between'>
                 <Text
                     fontWeight='600'
-                    fontSize={['sm', 'sm', 'sm', 'md', 'md']}
+                    fontSize='md'
                     textTransform='capitalize'
                     color={
                         colorMode === 'light'
@@ -36,7 +36,7 @@ function UserAvatar({
                 </Text>
                 {user?.read ? (
                     <Text
-                        fontSize={['sm', 'sm', 'sm', 'sm', 'md']}
+                        fontSize='md'
                         color={
                             colorMode === 'light'
                                 ? onSurface

@@ -1,9 +1,10 @@
 import Layout from '@/src/components/common/Layout'
 import { fetchApp, fetchApps } from '@/src/utils/requests'
 import { Box, Grid, GridItem } from '@chakra-ui/react'
-import AppHeader from '@/src/components/apps/app/AppHeader'
 import AppLinks from '@/src/components/apps/app/AppLinks'
 import AppDescription from '@/src/components/apps/app/AppDescription'
+import PageBanner from '@/src/components/common/PageBanner'
+import UserAvatar from '@/src/components/common/UserAvatar'
 
 function AppDetail({ app, cookieConsent }) {
     return (
@@ -12,11 +13,20 @@ function AppDetail({ app, cookieConsent }) {
             description={app?.description}
             cookieConsent={cookieConsent}>
             <Box
-                width={['95%', '90%', '90%', '80%']}
+                width={['95%', '90%', '90%', '80%', '', '75%']}
                 mx='auto'
                 height='auto'
                 minHeight='50vh'>
-                <AppHeader app={app} />
+                <PageBanner heading={app?.title}>
+                    <UserAvatar
+                        user={{
+                            name: app?.author,
+                            date: new Date(app?.created).toDateString(),
+                        }}
+                        onSurface
+                        size='md'
+                    />
+                </PageBanner>
                 <Grid
                     my='2rem'
                     gap='2rem'
@@ -58,7 +68,7 @@ export async function getStaticProps(ctx) {
             cookieConsent,
         },
 
-        revalidate: 10,
+        revalidate: 60 * (60 * 2),
     }
 }
 

@@ -75,10 +75,24 @@ function MachineLearning() {
                             width={['100%', '100%', '90%', 'auto']}
                             borderRadius='10px'
                             fontSize='1rem'
-                            bg='brand.primary'
+                            bg={
+                                colorMode === 'light'
+                                    ? 'brand.primary'
+                                    : 'brand.muted'
+                            }
                             _hover={{ bg: 'brand.hover' }}
-                            _focus={{ bg: 'brand.hover', outline: 'none' }}
-                            _active={{ bg: 'brand.hover', outline: 'none' }}
+                            _focus={{
+                                bg:
+                                    colorMode === 'light'
+                                        ? 'brand.primary'
+                                        : 'brand.muted',
+                            }}
+                            _active={{
+                                bg:
+                                    colorMode === 'light'
+                                        ? 'brand.primary'
+                                        : 'brand.muted',
+                            }}
                             color='#fff'
                             fontWeight='500'>
                             View articles &rarr;

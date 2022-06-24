@@ -35,7 +35,7 @@ function Teamcard({ profile }) {
             <Avatar
                 name={profile?.name}
                 src={profile?.image}
-                size='xl'
+                size='2xl'
                 position='absolute'
                 borderRadius='30px'
                 left='50%'
@@ -49,7 +49,7 @@ function Teamcard({ profile }) {
                 my='1rem'
                 borderRadius='0 0 20px 20px'>
                 <Box
-                    mt='3rem'
+                    mt='2rem'
                     as={Stack}
                     height='100%'
                     direction='column'
@@ -57,7 +57,7 @@ function Teamcard({ profile }) {
                     alignItems='center'>
                     <Heading
                         my='0.5rem'
-                        fontSize='1.2rem'
+                        fontSize='2xl'
                         textAlign='center'
                         textTransform='capitalize'>
                         {profile?.name}
@@ -65,6 +65,7 @@ function Teamcard({ profile }) {
                     <Text
                         as='p'
                         textAlign='center'
+                        fontSize='lg'
                         color={colorMode === 'light' ? '#555' : 'gray.300'}>
                         {profile?.description}
                     </Text>

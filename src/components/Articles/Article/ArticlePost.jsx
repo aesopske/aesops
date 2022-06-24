@@ -73,7 +73,7 @@ function ArticlePost({ article = {}, authorArticles = [] }) {
                                     }
                                 )
                             }}
-                            p='5px 10px'
+                            p='10px'
                             colorScheme='purple'
                             fontWeight='500'
                             borderRadius='full'
@@ -95,12 +95,12 @@ function ArticlePost({ article = {}, authorArticles = [] }) {
                 <Box width={['100%', '', '', '60%']}>
                     <Box my='1rem'>
                         <Heading
-                            fontSize='4xl'
+                            fontSize='3xl'
                             my='1rem'
                             textTransform='capitalize'>
                             {article?.title}
                         </Heading>
-                        <UserAvatar user={user} align='center' />
+                        <UserAvatar user={user} align='center' size='md' />
                     </Box>
 
                     {article?.image && (

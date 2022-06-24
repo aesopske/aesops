@@ -23,10 +23,16 @@ function DatasetLinks({ dataset }) {
             p='20px'
             bg={colorMode === 'light' ? '#fff' : 'gray.700'}>
             <HStack>
-                <Icon as={RiArticleLine} fontSize='1.2rem' />
+                <Icon as={RiArticleLine} fontSize='lg' />
                 {dataset?.article ? (
-                    <Link href={`/fables/${articleSlug}`} passHref>
-                        <Text cursor='pointer'>{dataset?.article} &rarr;</Text>
+                    <Link href={`/articles/${articleSlug}`} passHref>
+                        <Text
+                            cursor='pointer'
+                            fontSize='lg'
+                            _hover={{ color: 'brand.hover' }}
+                            textTransform='capitalize'>
+                            {dataset?.article} &rarr;
+                        </Text>
                     </Link>
                 ) : (
                     <Text cursor='pointer'>No Related article</Text>
@@ -39,7 +45,7 @@ function DatasetLinks({ dataset }) {
                 as='a'
                 href={dataset.link}
                 my='1rem'
-                fontSize='0.9rem'
+                fontSize='lg'
                 height='3rem'
                 bg='brand.primary'
                 _hover={{ bg: 'brand.hover' }}
@@ -49,7 +55,7 @@ function DatasetLinks({ dataset }) {
                     bg: 'brand.hover',
                     outline: 'none',
                 }}>
-                Go to dataset &rarr;
+                Go to dataset 
             </Button>
         </Box>
     )

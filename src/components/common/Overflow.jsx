@@ -1,13 +1,16 @@
-import { Box, Stack } from '@chakra-ui/react'
+import { Box, Stack, Text } from '@chakra-ui/react'
 import React from 'react'
 
-function Overflow({ children }) {
+function Overflow({ children, color }) {
     return (
         <Box as='section' my={['1rem', '1rem', '2rem']}>
+            <Text mb='1rem' color={color}>
+                Scroll &rarr;
+            </Text>
             <Box overflow='hidden'>
                 <Stack
                     direction='row'
-                    spacing='8'
+                    spacing='5'
                     justifyContent='space-between'
                     overflowX='scroll'
                     css={{
@@ -22,6 +25,10 @@ function Overflow({ children }) {
             </Box>
         </Box>
     )
+}
+
+Overflow.defaultProps = {
+    color: 'gray.200',
 }
 
 export default Overflow

@@ -111,7 +111,11 @@ function Footer() {
                     display={['none', 'none', 'none', 'block']}>
                     <HStack spacing='5'>
                         <Image
-                            src='/svg/aesops-color-1.svg'
+                            src={
+                                colorMode === 'light'
+                                    ? '/images/aesops-logo.png'
+                                    : '/images/aesops-logo-muted.png'
+                            }
                             alt='logo'
                             objectFit='contain'
                             width={['50%', '30%', '30%', '20%']}
@@ -127,7 +131,7 @@ function Footer() {
                     colSpan='1'
                     color={colorMode === 'light' ? 'gray.600' : 'gray.400'}
                     p='0 20px'>
-                    <Heading fontSize={['md', '', '', '', '', 'xl']} my='1rem'>
+                    <Heading fontSize='xl' my='1rem'>
                         Company Links
                     </Heading>
                     <VStack
@@ -138,7 +142,7 @@ function Footer() {
                             <Box key={link.label}>
                                 <Link href={link.link} passHref>
                                     <Text
-                                        fontSize={['sm', 'md', '', '', 'lg']}
+                                        fontSize='md'
                                         _hover={{ color: 'brand.muted' }}
                                         cursor='pointer'>
                                         {link.label}
@@ -155,7 +159,7 @@ function Footer() {
                     colSpan='1'
                     color={colorMode === 'light' ? 'gray.600' : 'gray.400'}
                     p='0 20px'>
-                    <Heading fontSize={['md', '', '', '', '', 'xl']} my='1rem'>
+                    <Heading fontSize='lg' my='1rem'>
                         Connect with us
                     </Heading>
                     <VStack
@@ -170,7 +174,7 @@ function Footer() {
                                 <Icon as={social.icon} fontSize='1rem' />
                                 <Text
                                     as='a'
-                                    fontSize={['sm', 'md', '', '', 'lg']}
+                                    fontSize='md'
                                     href={social.href}
                                     target='_blank'
                                     rel='noopener noreferrer'>
@@ -184,7 +188,7 @@ function Footer() {
                     colSpan='1'
                     color={colorMode === 'light' ? 'gray.600' : 'gray.400'}
                     p='0 20px'>
-                    <Heading fontSize={['md', '', '', '', '', 'xl']} my='1rem'>
+                    <Heading fontSize='lg' my='1rem'>
                         Legal
                     </Heading>
 
@@ -196,7 +200,7 @@ function Footer() {
                             _hover={{ color: 'brand.muted' }}>
                             <Text
                                 as='a'
-                                fontSize={['sm', 'md', '', '', 'lg']}
+                                fontSize='md'
                                 href={leg.href}
                                 target='_blank'
                                 rel='noopener noreferrer'>
@@ -217,6 +221,7 @@ function Footer() {
             <Text
                 my='1rem'
                 as='p'
+                fontSize='md'
                 color={colorMode === 'light' ? 'gray.600' : 'gray.400'}
                 textTransform='capitalize'
                 textAlign='center'>

@@ -12,6 +12,7 @@ import {
 } from '@chakra-ui/react'
 import Link from 'next/link'
 import { profiles } from '@/src/utils/team'
+import { motion } from 'framer-motion'
 
 function About() {
     const { colorMode } = useColorMode()
@@ -24,6 +25,13 @@ function About() {
             p={['20px 0', '30px 0', '50px 0']}
             my={['1rem', '1rem', '2rem', '3rem', '5rem']}>
             <VStack
+                as={motion.div}
+                initial={{ y: 100, opacity: 0 }}
+                animate={{
+                    y: 0,
+                    opacity: 1,
+                    transition: { duration: 0.2, delay: 0.1 },
+                }}
                 mx='auto'
                 height='100%'
                 width={['95%', '90%', '90%', '80%']}
@@ -70,7 +78,14 @@ function About() {
                     a student, employer, business person, and so on.
                 </Text>
 
-                <Box>
+                <Box
+                    as={motion.div}
+                    initial={{ y: 100, opacity: 0 }}
+                    animate={{
+                        y: 0,
+                        opacity: 1,
+                        transition: { duration: 0.5, delay: 0.4 },
+                    }}>
                     <AvatarGroup max={isTabletAndUp ? 6 : 3}>
                         {profiles.map((profile, index) => (
                             <Avatar
@@ -83,22 +98,36 @@ function About() {
                     </AvatarGroup>
                 </Box>
 
-                <Link href='/team' passHref>
-                    <Button
-                        color='#fff'
-                        fontWeight='400'
-                        borderRadius='10px'
-                        height={['2.5rem', '2.5rem', '2.5rem', '3rem']}
-                        mt='1rem'
-                        fontSize='md'
-                        bg='brand.primary'
-                        _hover={{ bg: 'brand.hover' }}
-                        _focus={{ bg: 'brand.hover', outline: 'none' }}
-                        _active={{ bg: 'brand.hover', outline: 'none' }}
-                        width={['100%', '80%', '60%', '', '30%']}>
-                        Meet the team &rarr;
-                    </Button>
-                </Link>
+                <Box
+                    as={motion.div}
+                    initial={{ y: 100, opacity: 0 }}
+                    animate={{
+                        y: 0,
+                        opacity: 1,
+                        transition: { duration: 0.5, delay: 0.6 },
+                    }}
+                    width={['100%', '80%', '60%', '', '30%']}>
+                    <Link href='/team' passHref>
+                        <Button
+                            color='#fff'
+                            fontWeight='400'
+                            borderRadius='10px'
+                            height={['2.5rem', '2.5rem', '2.5rem', '3rem']}
+                            mt='1rem'
+                            fontSize='md'
+                            bg={
+                                colorMode === 'light'
+                                    ? 'brand.primary'
+                                    : 'brand.muted'
+                            }
+                            _hover={{ bg: 'brand.hover' }}
+                            _focus={{ bg: 'brand.hover', outline: 'none' }}
+                            _active={{ bg: 'brand.hover', outline: 'none' }}
+                            width='100%'>
+                            Meet the team &rarr;
+                        </Button>
+                    </Link>
+                </Box>
             </VStack>
         </Box>
     )

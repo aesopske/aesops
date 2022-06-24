@@ -2,7 +2,7 @@ import { Box } from '@chakra-ui/react'
 import Head from 'next/head'
 import Navbar from './Navbar'
 import Footer from './Footer'
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 import ScrollUp from './ScrollUp'
 import { useCookie } from '@/src/context/CookieProvider'
 import CookieBanner from './CookieBanner'
@@ -10,6 +10,8 @@ import NavbarMobile from './NavbarMobile'
 import Script from 'next/script'
 import { ErrorBoundary } from 'react-error-boundary'
 import ErrorHandler from './ErrorHandler'
+import useEventListener from '../hooks/useEventListener'
+import { motion } from 'framer-motion'
 
 function Layout({ children, title, keywords, description, url, imageurl }) {
     const [scroll, setScroll] = useState(false)
@@ -23,16 +25,16 @@ function Layout({ children, title, keywords, description, url, imageurl }) {
         }
     }
 
-    useEffect(() => {
-        if (typeof window !== 'undefined') {
-            window.addEventListener('scroll', handleScrollChange)
-        }
-
-        return () => window.removeEventListener('scroll', handleScrollChange)
-    }, [])
+    useEventListener('scroll', handleScrollChange)
 
     return (
-        <Box width='100%' position='relative'>
+        <Box
+            as={motion.div}
+            initial={{ y: -50, opacity: 0 }}
+            animate={{ y: 0, opacity: 1 }}
+            exit={{ y: 50, opacity: 0 }}
+            width='100%'
+            position='relative'>
             <Head>
                 <title>{title}</title>
                 <meta name='description' content={description} />

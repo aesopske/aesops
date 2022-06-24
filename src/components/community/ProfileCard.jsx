@@ -59,24 +59,23 @@ function ProfileCard({ profile = {}, details = {} }) {
                     size='lg'
                     position='absolute'
                     borderRadius='20px'
-                    left='50%'
-                    top={['15%', '15%', '15%', '15%', '15%', '22%']}
-                    transform='translate(-50%,-15%)'
+                    left='40%'
+                    top='20%'
+                    transform='translate(-50%,-50%%)'
                 />
                 <Box
+                    mt='1rem'
                     height='auto'
                     bg={colorMode === 'light' ? '#fff' : 'gray.700'}
                     p='20px 10px'
                     borderRadius='0 0 20px 20px'>
                     <Stack
-                        mt='1rem'
                         height='100%'
                         direction='column'
                         justifyContent='flex-start'
                         alignItems='center'>
                         <Heading
-                            my='1rem'
-                            fontSize='lg'
+                            fontSize='xl'
                             textAlign='center'
                             textTransform='capitalize'>
                             {profile?.name}

@@ -4,7 +4,7 @@ function PageBanner({ heading, children }) {
     const { colorMode } = useColorMode()
     return (
         <Box
-            height={['auto', 'auto', 'auto', '40vh', '35vh']}
+            height={['auto', 'auto', 'auto', '40vh', '30vh']}
             width='100%'
             my='1rem'
             borderRadius='10px'

@@ -8,6 +8,7 @@ import '@fontsource/fira-mono/400.css'
 import ContextProvider from '../src/context/ContextProvider'
 import ProgressBar from '@badrap/bar-of-progress'
 import Router from 'next/router'
+import { AnimatePresence } from 'framer-motion'
 
 const progress = new ProgressBar({
     size: 4,
@@ -25,7 +26,9 @@ function MyApp({ Component, pageProps }) {
         <ChakraProvider theme={theme}>
             <CSSReset />
             <ContextProvider>
-                <Component {...pageProps} />
+                <AnimatePresence exitBeforeEnter>
+                    <Component {...pageProps} />
+                </AnimatePresence>
             </ContextProvider>
         </ChakraProvider>
     )

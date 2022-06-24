@@ -12,6 +12,7 @@ import {
 import { useGa } from '@/src/context/TrackingProvider'
 import { ErrorBoundary } from 'react-error-boundary'
 import ErrorHandler from '../common/ErrorHandler'
+import { motion } from 'framer-motion'
 
 function Hero() {
     const { colorMode } = useColorMode()
@@ -31,7 +32,6 @@ function Hero() {
                 p='10px'
                 mx='auto'
                 borderRadius='0'
-                my={['0', '0', '1rem']}
                 bgPosition='center'
                 bgSize='cover'>
                 <Box
@@ -44,7 +44,14 @@ function Hero() {
                     direction={['column', 'column', 'column', 'row']}
                     alignItems='center'
                     justifyContent='space-between'>
-                    <Box>
+                    <Box
+                        as={motion.div}
+                        initial={{ y: 100, opacity: 0 }}
+                        animate={{
+                            y: 0,
+                            opacity: 1,
+                            transition: { duration: 0.5, delay: 0.3 },
+                        }}>
                         <Box width={['100%', '100%', '100%', '100%']}>
                             <Heading as='h1' size='3xl' color='#fff'>
                                 We tell stories with data as our medium
@@ -58,8 +65,7 @@ function Hero() {
                                 both interestingly and qualitatively.
                             </Text>
 
-                            <Box
-                                as={Stack}
+                            <Stack
                                 direction={['column', 'column', 'row', 'row']}
                                 alignItems={[
                                     'flex-start',
@@ -82,7 +88,7 @@ function Hero() {
                                     bg={
                                         colorMode === 'light'
                                             ? '#fff'
-                                            : 'brand.primary'
+                                            : 'brand.muted'
                                     }
                                     _hover={{
                                         bg:
@@ -147,11 +153,18 @@ function Hero() {
                                         View articles &rarr;
                                     </Button>
                                 </Link>
-                            </Box>
+                            </Stack>
                         </Box>
                     </Box>
 
                     <Box
+                        as={motion.div}
+                        initial={{ y: -100, opacity: 0 }}
+                        animate={{
+                            y: 0,
+                            opacity: 1,
+                            transition: { duration: 0.3, delay: 0.3 },
+                        }}
                         my={['2rem', '1rem', '1rem', '0']}
                         display={['none', 'none', 'block']}>
                         <Image

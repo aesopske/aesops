@@ -42,6 +42,7 @@ function TopRankCard({ profile, details }) {
                     colorMode === 'light' ? 'glass-effect' : 'glass-effect-dark'
                 }
                 position='relative'
+                minWidth={['100%', '100%', '70%', '70%', '70%', '80%']}
                 minHeight='20vh'>
                 <Box height='10vh' bg='transparent' />
 
@@ -65,14 +66,15 @@ function TopRankCard({ profile, details }) {
                     p='20px'
                     borderRadius='0 0 20px 20px'>
                     <Box
-                        mt='4rem'
+                        mt='2rem'
                         as={Stack}
                         height='100%'
                         direction='column'
+                        spacing='2'
                         justifyContent='flex-start'
                         alignItems='center'>
                         <Heading
-                            fontSize='lg'
+                            fontSize='2xl'
                             textAlign='center'
                             textTransform='capitalize'>
                             {profile?.name}
@@ -80,14 +82,14 @@ function TopRankCard({ profile, details }) {
 
                         <Text
                             as='p'
-                            mt='.5rem'
                             mb='2rem'
+                            fontSize={['md', '', '', 'lg', 'lg']}
                             textAlign='center'
                             textTransform='capitalize'
                             color={colorMode === 'light' ? '#555' : 'gray.400'}>
                             {profile?.occupation}
                         </Text>
-                        <HStack>
+                        <HStack mt='1rem'>
                             <Tooltip
                                 label='Show details'
                                 hasArrow

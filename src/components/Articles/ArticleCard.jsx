@@ -73,7 +73,7 @@ function ArticlesCard({ article }) {
                         passHref>
                         <Heading
                             cursor='pointer'
-                            fontSize={['xl', 'xl', '2xl', '2xl', '2xl']}
+                            fontSize='2xl'
                             onClick={() => {
                                 gaEvent(
                                     'Articles',
@@ -100,8 +100,22 @@ function ArticlesCard({ article }) {
 
                 <Stack
                     justifyContent='space-between'
-                    alignItems={['flex-start', 'flex-start', '', '', 'center']}
-                    direction={['column', 'column', '', 'row', 'row']}
+                    alignItems={[
+                        'flex-start',
+                        'flex-start',
+                        '',
+                        '',
+                        'flex-start',
+                        'center',
+                    ]}
+                    direction={[
+                        'column',
+                        'column',
+                        'column',
+                        'column',
+                        'column',
+                        'row',
+                    ]}
                     spacing='5'
                     width='100%'>
                     <UserAvatar user={user} align='center' />

@@ -10,10 +10,11 @@ import {
 } from '@chakra-ui/react'
 import { FaDatabase, FaFileAlt, FaShareAlt, FaCode } from 'react-icons/fa'
 import Overflow from '../common/Overflow'
+import { motion } from 'framer-motion'
 
 function WhatWeOffer() {
     const { colorMode } = useColorMode()
-    const [isTabletAndUp] = useMediaQuery('(min-width: 768px)')
+    const [isTabletAndUp] = useMediaQuery('(min-width: 1024px)')
     const activities = [
         {
             name: 'Collect',
@@ -42,6 +43,13 @@ function WhatWeOffer() {
     ]
     return (
         <Box
+            as={motion.div}
+            initial={{ y: 100, opacity: 0 }}
+            animate={{
+                y: 0,
+                opacity: 1,
+                transition: { duration: 0.5, delay: 0.5 },
+            }}
             width={['90%', '90%', '80%', '', '75%']}
             mx='auto'
             height='auto'
@@ -94,20 +102,15 @@ function WhatWeOffer() {
                         ))}
                     </Grid>
                 ) : (
-                    <Overflow>
+                    <Overflow
+                        color={colorMode === 'light' ? 'gray.700' : 'gray.400'}>
                         {activities.map((activity) => (
                             <Box
                                 key={activity.name}
                                 height='auto'
                                 minHeight='20vh'
                                 p='30px'
-                                minWidth={[
-                                    '100%',
-                                    '100%',
-                                    '100%',
-                                    '100%',
-                                    '30%',
-                                ]}
+                                minWidth={['100%', '100%', '70%', '50%', '30%']}
                                 bg={
                                     colorMode === 'light'
                                         ? 'gray.50'

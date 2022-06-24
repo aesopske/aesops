@@ -1,9 +1,10 @@
 import Layout from '@/src/components/common/Layout'
 import { fetchDataset, fetchDatasets } from '@/src/utils/requests'
 import { Box, Grid, GridItem } from '@chakra-ui/react'
-import DatasetHeader from '@/src/components/datasets/dataset/DatasetHeader'
 import DatasetLinks from '@/src/components/datasets/dataset/DatasetLinks'
 import DatasetDescription from '@/src/components/datasets/dataset/DatasetDescription'
+import PageBanner from '@/src/components/common/PageBanner'
+import UserAvatar from '@/src/components/common/UserAvatar'
 
 function DatasetDetail({ dataset, cookieConsent }) {
     return (
@@ -12,11 +13,20 @@ function DatasetDetail({ dataset, cookieConsent }) {
             description={dataset?.description}
             cookieConsent={cookieConsent}>
             <Box
-                width={['90%', '90%', '90%', '80%']}
+                width={['90%', '90%', '90%', '80%', '', '75%']}
                 mx='auto'
                 height='auto'
                 minHeight='50vh'>
-                <DatasetHeader dataset={dataset} />
+                <PageBanner heading={dataset?.title}>
+                    <UserAvatar
+                        user={{
+                            name: dataset?.author,
+                            date: new Date(dataset?.created).toDateString(),
+                        }}
+                        size='md'
+                        onSurface
+                    />
+                </PageBanner>
                 <Grid
                     my='2rem'
                     gap='2rem'
@@ -39,7 +49,6 @@ function DatasetDetail({ dataset, cookieConsent }) {
 }
 
 export async function getStaticProps(ctx) {
-    const cookieConsent = ctx.req ? ctx.req.cookies.cookieConsent : null
     const { slug } = ctx.params
     const data = await fetchDataset(slug)
 
@@ -55,7 +64,6 @@ export async function getStaticProps(ctx) {
     return {
         props: {
             dataset: data.item,
-            cookieConsent,
         },
     }
 }

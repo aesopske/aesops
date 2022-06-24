@@ -1,21 +1,21 @@
 ---
-dateUpdated: '17/03/2022'
+dateUpdated: '17 March, 2022'
 name: 'Privacy Policy'
 ---
 
-## Data privacy policy
+# Data privacy policy
 
 ---
 
-### Data we collect.
+## Data we collect
 
 When you sign in on Aesops, you give us some information such as name, email, GitHub/LinkedIn link as well as a brief description of your capabilities and skills. We also collect links to datasets from your personal Github or drive accounts as well as articles that you volunteer on the site.
 
-### How we use the data.
+### How we use the data
 
 The personal data is displayed on the website as part of the user profile to be viewed by all users of the website with the intention of employing the users or just learning more about them. The links to the data are shown on the data page to encourage the users to visit the links and access the data contained there. The articles collected, are displayed on the website and are owned by Aesops.
 
-### What information we share.
+### What information we share
 
 We can share the articles with third parties without informing the writers of such decisions since the articles are owned by the website.
 
@@ -32,8 +32,6 @@ Yes, Aesops can send you emails on the email you shared on your personal profile
 ## Cookie Policy
 
 ---
-
-<br/>
 
 According to wikipedia computer cookies are small blocks of data created by a web server while a user is browsing a website and placed on the user's computer or other device by the user's web browser. Cookies are placed on the device used to access a website, and more than one cookie may be placed on a user's device during a session.
 

@@ -1,6 +1,7 @@
 import React from 'react'
 import { Box, Image, Heading, Text, Stack, Button } from '@chakra-ui/react'
 import Link from 'next/link'
+import { motion } from 'framer-motion'
 
 function DatasetsHero() {
     return (
@@ -26,8 +27,7 @@ function DatasetsHero() {
                 width='100%'
                 height='100%'
             />
-            <Box
-                as={Stack}
+            <Stack
                 height='100%'
                 direction={['column', 'column', 'column', 'row']}
                 alignItems='center'
@@ -36,7 +36,17 @@ function DatasetsHero() {
                 mx='auto'
                 zIndex='10'
                 my={['0', '0', '2rem', '4rem']}>
-                <Box flex='1' color='#fff' zIndex='20'>
+                <Box
+                    as={motion.div}
+                    initial={{ y: -100, opacity: 0 }}
+                    animate={{
+                        y: 0,
+                        opacity: 1,
+                        transition: { duration: 0.3, delay: 0.3 },
+                    }}
+                    flex='1'
+                    color='#fff'
+                    zIndex='20'>
                     <Heading fontSize={['2xl', '', '', '', '3xl', '4xl']}>
                         Datasets
                     </Heading>
@@ -69,6 +79,13 @@ function DatasetsHero() {
                     </Link>
                 </Box>
                 <Box
+                    as={motion.div}
+                    initial={{ y: 100, opacity: 0 }}
+                    animate={{
+                        y: 0,
+                        opacity: 1,
+                        transition: { duration: 0.3, delay: 0.3 },
+                    }}
                     flex='1'
                     zIndex='20'
                     width={['80%', '60%', '40%']}
@@ -83,7 +100,7 @@ function DatasetsHero() {
                         objectFit='contain'
                     />
                 </Box>
-            </Box>
+            </Stack>
         </Box>
     )
 }

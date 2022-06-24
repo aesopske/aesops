@@ -11,8 +11,8 @@ const breakpoints = createBreakpoints({
 
 const colors = {
     brand: {
-        primary: '#6f0dcc', // '#072ac8', // #3a6ea5
-        muted: '#9b5fd3',
+        primary: '#6f0dcc',
+        muted: '#9D4AEA',
         hover: '#6f0daa',
         gradient: 'linear(to-r,#804fadcc, #700dccc0 )',
     },
@@ -20,7 +20,7 @@ const colors = {
 
 const config = {
     initialColorMode: 'light',
-    useSystemColorMode: false,
+    useSystemColorMode: true,
 }
 
 const styles = {

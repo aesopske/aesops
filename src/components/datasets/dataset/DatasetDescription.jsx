@@ -1,6 +1,5 @@
-import { Box, Heading, Divider } from '@chakra-ui/react'
+import { Box, Heading } from '@chakra-ui/react'
 import MarkdownReader from '@/src/components/common/MarkdownReader'
-
 import { useState, useEffect } from 'react'
 import { DiscussionEmbed } from 'disqus-react'
 
@@ -19,10 +18,13 @@ function DatasetDescription({ dataset }) {
 
     return (
         <Box>
-            <Heading size='md'>Description</Heading>
-            <Divider my='1rem' />
-            <MarkdownReader content={dataset.description} />
-            <Box my='2rem'>
+            <Heading fontSize='2xl' mb='1rem'>
+                Description
+            </Heading>
+            <Box fontSize='lg'>
+                <MarkdownReader content={dataset.description} />
+            </Box>
+            <Box mt='2rem'>
                 <DiscussionEmbed shortname='aesops' config={config} />
             </Box>
         </Box>

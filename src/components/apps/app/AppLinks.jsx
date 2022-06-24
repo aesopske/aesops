@@ -13,7 +13,6 @@ import slugify from 'slugify'
 
 function AppLinks({ app }) {
     const { colorMode } = useColorMode()
-
     const appSlug = slugify(app?.article, { lower: true })
     const datasetSlug = slugify(app?.dataset, { lower: true })
 
@@ -24,24 +23,38 @@ function AppLinks({ app }) {
             borderRadius='10px'
             p='20px'
             bg={colorMode === 'light' ? '#fff' : 'gray.700'}>
-            <HStack alignItems='flex-start'>
-                <Icon as={RiArticleLine} fontSize='1.3rem' />
+            <HStack alignItems='center'>
+                <Icon as={RiArticleLine} fontSize='lg' />
                 {app?.article ? (
-                    <Link href={`/fables/${appSlug}`} passHref>
-                        <Text cursor='pointer'>{app?.article} &rarr;</Text>
+                    <Link href={`/articles/${appSlug}`} passHref>
+                        <Text
+                            cursor='pointer'
+                            fontSize='lg'
+                            _hover={{ color: 'brand.hover' }}>
+                            {app?.article} &rarr;
+                        </Text>
                     </Link>
                 ) : (
-                    <Text cursor='pointer'>No linked fables</Text>
+                    <Text cursor='pointer' fontSize='lg'>
+                        No linked fables
+                    </Text>
                 )}
             </HStack>
-            <HStack my='1rem' alignItems='flex-start'>
-                <Icon as={RiDatabase2Line} fontSize='1.3rem' />
+            <HStack my='1rem' alignItems='center'>
+                <Icon as={RiDatabase2Line} fontSize='lg' />
                 {app?.dataset ? (
                     <Link href={`/datasets/${datasetSlug}`} passHref>
-                        <Text cursor='pointer'>{app?.dataset} &rarr;</Text>
+                        <Text
+                            cursor='pointer'
+                            fontSize='lg'
+                            _hover={{ color: 'brand.hover' }}>
+                            {app?.dataset} &rarr;
+                        </Text>
                     </Link>
                 ) : (
-                    <Text cursor='pointer'>No linked dataset</Text>
+                    <Text cursor='pointer' fontSize='lg'>
+                        No linked dataset
+                    </Text>
                 )}
             </HStack>
 
@@ -53,17 +66,18 @@ function AppLinks({ app }) {
                 my='1rem'
                 target='_blank'
                 rel='noopener noreferer'
-                fontSize='0.9rem'
+                fontSize='lg'
                 height='3rem'
-                bg='brand.primary'
+                bg={colorMode === 'light' ? 'brand.primary' : 'brand.muted'}
                 _hover={{ bg: 'brand.hover' }}
-                _focus={{ bg: 'brand.hover', outline: 'none' }}
+                _focus={{
+                    bg: colorMode === 'light' ? 'brand.primary' : 'brand.muted',
+                }}
                 color='#fff'
                 _active={{
-                    bg: 'brand.hover',
-                    outline: 'none',
+                    bg: colorMode === 'light' ? 'brand.primary' : 'brand.muted',
                 }}>
-                Go to application &rarr;
+                Go to application
             </Button>
         </Box>
     )

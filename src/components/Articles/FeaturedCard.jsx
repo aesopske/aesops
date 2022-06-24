@@ -29,7 +29,7 @@ function FeaturedCard({ article, isMobile }) {
     }
 
     return (
-        <Box height='100%' minWidth={isMobile && ['100%', '80%', '50%']}>
+        <Box height='100%' minWidth={isMobile && ['100%', '70%', '70%', '50%']}>
             <Link href={`/articles/${article?.slug}`} passHref>
                 <Stack
                     direction='column'
@@ -60,7 +60,7 @@ function FeaturedCard({ article, isMobile }) {
                         />
                     </Box>
 
-                    <Heading fontSize='xl'  my='1rem'>
+                    <Heading fontSize='2xl' my='1rem'>
                         {article?.title}
                     </Heading>
                     <Box>
