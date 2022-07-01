@@ -97,17 +97,19 @@ function ArticleList({ articles }) {
                 width={['100%', '', '', '70%']}>
                 <HStack
                     mb='1rem'
-                    height={'auto'}
+                    height='auto'
                     width='100%'
                     justifyContent='space-between'
                     alignItems='center'>
-                    <Search
-                        placeholder='Search by title or tag ...'
-                        setTerm={setSearchterm}
-                        term={searchterm}
-                        label={isTabletAndUp ? 'Search Fables' : ''}
-                        full={isTabletAndUp}
-                    />
+                    <Box width={['80%', '70%', '70%', '70%', '50%']} p='0'>
+                        <Search
+                            placeholder='Search by title or tag ...'
+                            setTerm={setSearchterm}
+                            term={searchterm}
+                            label={isTabletAndUp ? 'Search Fables' : ''}
+                            full
+                        />
+                    </Box>
                     <IconButton
                         onClick={onToggle}
                         display={['flex', 'flex', 'flex', 'none']}
@@ -191,10 +193,10 @@ function ArticleList({ articles }) {
                     </Box>
                 )}
 
-                {loading && <ArticleLoader />}
+                {loading && !filtered.length && <ArticleLoader />}
 
                 {text ? (
-                    <Grid gap='2rem' templateColumns='repeat(1, 1fr)'>
+                    <Grid gap='3rem' templateColumns='repeat(1, 1fr)'>
                         {filtered &&
                             filtered.map((article) => (
                                 <ArticleCard
@@ -204,7 +206,7 @@ function ArticleList({ articles }) {
                             ))}
                     </Grid>
                 ) : query ? (
-                    <Grid gap='2rem' templateColumns='repeat(1, 1fr)'>
+                    <Grid gap='3rem' templateColumns='repeat(1, 1fr)'>
                         {filtered &&
                             filtered.map((article) => (
                                 <ArticleCard
@@ -214,7 +216,7 @@ function ArticleList({ articles }) {
                             ))}
                     </Grid>
                 ) : (
-                    <Grid gap='2rem' templateColumns='repeat(1, 1fr)'>
+                    <Grid gap='3rem' templateColumns='repeat(1, 1fr)'>
                         {articles &&
                             articles.map((article) => (
                                 <ArticleCard

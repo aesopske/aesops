@@ -43,6 +43,7 @@ function FeaturedCard({ article, isMobile }) {
                     justifyContent='space-between'
                     alignItems='flex-start'
                     height='100%'
+                    spacing='4'
                     cursor='pointer'>
                     <Box height='35vh' width='100%'>
                         <Image
@@ -60,13 +61,16 @@ function FeaturedCard({ article, isMobile }) {
                         />
                     </Box>
 
-                    <Heading fontSize='2xl' my='1rem'>
+                    <Heading
+                        fontSize='2xl'
+                        my='1rem'
+                        mt='1rem'
+                        textTransform='capitalize'>
                         {article?.title}
                     </Heading>
                     <Box>
                         <Text
                             as='p'
-                            my='1rem'
                             fontSize={['md', '', '', 'lg', 'lg']}
                             color={
                                 colorMode === 'light'
