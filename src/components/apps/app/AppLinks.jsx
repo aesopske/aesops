@@ -30,7 +30,12 @@ function AppLinks({ app }) {
                         <Text
                             cursor='pointer'
                             fontSize='lg'
-                            _hover={{ color: 'brand.hover' }}>
+                            _hover={{
+                                color:
+                                    colorMode === 'light'
+                                        ? 'brand.hover'
+                                        : 'brand.muted',
+                            }}>
                             {app?.article} &rarr;
                         </Text>
                     </Link>
@@ -47,7 +52,12 @@ function AppLinks({ app }) {
                         <Text
                             cursor='pointer'
                             fontSize='lg'
-                            _hover={{ color: 'brand.hover' }}>
+                            _hover={{
+                                color:
+                                    colorMode === 'light'
+                                        ? 'brand.hover'
+                                        : 'brand.muted',
+                            }}>
                             {app?.dataset} &rarr;
                         </Text>
                     </Link>

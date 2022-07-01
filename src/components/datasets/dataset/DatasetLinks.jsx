@@ -29,7 +29,12 @@ function DatasetLinks({ dataset }) {
                         <Text
                             cursor='pointer'
                             fontSize='lg'
-                            _hover={{ color: 'brand.hover' }}
+                            _hover={{
+                                color:
+                                    colorMode === 'light'
+                                        ? 'brand.hover'
+                                        : 'brand.muted',
+                            }}
                             textTransform='capitalize'>
                             {dataset?.article} &rarr;
                         </Text>
@@ -55,7 +60,7 @@ function DatasetLinks({ dataset }) {
                     bg: 'brand.hover',
                     outline: 'none',
                 }}>
-                Go to dataset 
+                Go to dataset
             </Button>
         </Box>
     )

@@ -30,9 +30,9 @@ function Layout({ children, title, keywords, description, url, imageurl }) {
     return (
         <Box
             as={motion.div}
-            initial={{ y: -50, opacity: 0 }}
-            animate={{ y: 0, opacity: 1 }}
-            exit={{ y: 50, opacity: 0 }}
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
             width='100%'
             position='relative'>
             <Head>
