@@ -12,15 +12,11 @@ import {
 } from '@chakra-ui/react'
 import { FaSearch, FaTimes } from 'react-icons/fa'
 
-function Search({ setTerm, term, placeholder, full, label }) {
+function Search({ setTerm, term, placeholder, label }) {
     const { colorMode } = useColorMode()
     return (
         <Box height='auto' width='auto'>
-            <FormControl
-                height='3rem'
-                width={
-                    full ? '100%' : ['100%', '100%', '90%', '60%', '60%', '60%']
-                }>
+            <FormControl height='auto' width='100%'>
                 <FormLabel fontWeight='800' color='gray.500'>
                     {label}
                 </FormLabel>

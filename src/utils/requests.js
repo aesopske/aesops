@@ -36,7 +36,7 @@ export async function fetchFeaturedArticles() {
 // fetch article
 export async function fetchArticle(slug) {
     const { data = {} } = await axios.get(
-        `${baseUrl}/articles/title/${slug}`,
+        `${baseUrl}/articles/article/${slug}`,
         config
     )
     return data
@@ -44,17 +44,26 @@ export async function fetchArticle(slug) {
 
 // fetch recommended articles
 export async function fetchRecommended(title) {
+    const search = new URLSearchParams({
+        title,
+    })
     const { data = {} } = await axios.get(
-        `${baseUrl}/articles/recommendations/${title}`,
+        `${baseUrl}/articles/recommendations?${search.toString()}`,
         config
     )
     return data
 }
 
 // fetch more articles by author
-export async function fetchMoreByAuthor(author = '') {
+export async function fetchMoreByAuthor(authorEmail = '') {
+    const search = new URLSearchParams({
+        email: authorEmail,
+        limit: 4,
+        page: 1,
+    })
+
     const { data = {} } = await axios.get(
-        `${baseUrl}/articles/moreby/${author}?limit=4&page=1`,
+        `${baseUrl}/articles/author?${search.toString()}`,
         config
     )
     return data
@@ -137,7 +146,7 @@ export async function fetchCategories(params = {}) {
         const search = new URLSearchParams({ ...params })
         const query = search.toString()
 
-        const url = `category?${query}`
+        const url = `categories?${query}`
         const { data = {} } = await axios.get(`${baseUrl}/${url}`, config)
         return data
     } catch (error) {
