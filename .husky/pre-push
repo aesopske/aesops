@@ -2,22 +2,3 @@
 . "$(dirname -- "$0")/_/husky.sh"
 
 npm run build
-
-echo "<== Running release script ==>"
-
-echo what is the release status ?
-read status
-
-if [[ $status == 'minor' ]]
-then
-    npm run release:minor
-elif [[ $status == 'patch' ]]
-then
-    npm run release:patch
-elif [[ $status == 'major' ]]
-then
-    npm run release:major
-else 
-    echo "Invalid action"
-    exit 113
-fi
