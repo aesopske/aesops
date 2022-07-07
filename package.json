@@ -6,11 +6,17 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "release": "standard-version",
+    "release:minor": "standard-version --release-as minor",
+    "release:patch": "standard-version --release-as patch",
+    "release:major": "standard-version --release-as major"
   },
   "dependencies": {
     "@badrap/bar-of-progress": "^0.1.2",
     "@chakra-ui/react": "^1.6.8",
+    "@commitlint/cli": "^17.0.3",
+    "@commitlint/config-conventional": "^17.0.3",
     "@emotion/react": "^11.4.1",
     "@emotion/styled": "^11.3.0",
     "@fontsource/fira-mono": "^4.5.6",
@@ -23,6 +29,7 @@
     "framer-motion": "^4.1.17",
     "ga-4-react": "^0.1.281",
     "gray-matter": "^4.0.3",
+    "husky": "^8.0.1",
     "js-cookie": "^3.0.1",
     "moment": "^2.29.1",
     "next": "11.1.2",
@@ -44,6 +51,7 @@
   },
   "devDependencies": {
     "eslint": "7.32.0",
-    "eslint-config-next": "11.1.2"
+    "eslint-config-next": "11.1.2",
+    "standard-version": "^9.5.0"
   }
 }
