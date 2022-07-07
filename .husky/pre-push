@@ -3,19 +3,18 @@
 
 npm run build
 
-echo "Running release script"
+echo "<== Running release script ==>"
+
 echo what is the release status ?
 read status
 
-ACTION=$status
-
-if [[ $ACTION == 'minor' ]]
+if [[ $status == 'minor' ]]
 then
     npm run release:minor
-elif [[ $ACTION == 'patch' ]]
+elif [[ $status == 'patch' ]]
 then
     npm run release:patch
-elif [[ $ACTION == 'major' ]]
+elif [[ $status == 'major' ]]
 then
     npm run release:major
 else 
