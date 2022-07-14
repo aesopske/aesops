@@ -34,7 +34,7 @@ function FilterByCategory({ categories, query }) {
                     fontWeight='400'
                     fontSize='sm'
                     colorScheme={
-                        router.asPath === '/articles' ? 'purple' : 'gray'
+                        router.pathname === '/articles' ? 'purple' : 'gray'
                     }
                     textTransform='capitalize'
                     cursor='pointer'
@@ -55,7 +55,7 @@ function FilterByCategory({ categories, query }) {
                     categories.map((category) => (
                         <Badge
                             key={category?.id}
-                            p='10px'
+                            p='5px 10px'
                             fontWeight='500'
                             cursor='pointer'
                             fontSize='sm'

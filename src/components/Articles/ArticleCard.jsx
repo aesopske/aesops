@@ -33,14 +33,16 @@ function ArticlesCard({ article }) {
 
     return (
         <Stack
-            height={['auto', 'auto', '', '', '30vh', '25vh']}
+            height='auto'
             width='100%'
             spacing='3'
             direction={['column', 'column', 'row-reverse', 'row-reverse']}>
             {article?.image?.url && (
                 <Box
                     width={['100%', '100%', '40%', '35%', '30%']}
-                    height={['35vh', '40vh', '40vh', '30vh', '30vh', '25vh']}>
+                    height='auto'
+                    minHeight='25vh'
+                    maxHeight='30vh'>
                     <Link href={`/articles/${article?.slug}`} passHref>
                         <Image
                             borderRadius='10px'
@@ -127,8 +129,8 @@ function ArticlesCard({ article }) {
                                     borderRadius='full'
                                     colorScheme='purple'
                                     fontWeight='500'
-                                    p='10px'
-                                    fontSize={['sm', '', '', '', 'md']}
+                                    p='5px 10px'
+                                    fontSize={['sm', '', '', '', '', 'sm']}
                                     textTransform='capitalize'>
                                     {tag}
                                 </Badge>
