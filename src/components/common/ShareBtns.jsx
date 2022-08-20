@@ -44,7 +44,7 @@ function Share({ title }) {
             height='auto'
             width='100%'
             bg={colorMode === 'light' ? 'gray.50' : 'gray.700'}
-            p='20px'
+            p='25px'
             borderRadius='10px'>
             <Heading fontSize={['lg', '', '', '', 'xl']}>
                 Share with others
@@ -71,7 +71,8 @@ function Share({ title }) {
                         transition='.3s ease'
                         icon={share.icon}
                         bg='purple.100'
-                        color='brand.primary'
+                        color='purple'
+                        fontSize='xl'
                     />
                 ))}
             </HStack>

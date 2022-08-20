@@ -102,7 +102,7 @@ function Navbar() {
                             <Link key={item.label} href={item.path} passHref>
                                 <Text
                                     as='span'
-                                    fontSize={['md', 'md', 'md', 'md', 'lg']}
+                                    fontSize='md'
                                     color={
                                         router.asPath === item.path
                                             ? colorMode === 'dark'
@@ -133,7 +133,7 @@ function Navbar() {
                             href={`${process.env.DASHBOARD_URL}/auth/signin`}
                             _hover={{ color: 'brand.muted' }}
                             target='_blank'
-                            fontSize={['md', 'md', 'md', 'md', 'lg']}
+                            fontSize='md'
                             onClick={() => {
                                 gaEvent({
                                     category: 'Auth',
@@ -151,7 +151,7 @@ function Navbar() {
                             href={`${process.env.DASHBOARD_URL}/auth/signup`}
                             target='_blank'
                             rel='noopener noreferer'
-                            fontSize={['md', 'md', 'md', 'md', 'lg']}
+                            fontSize='md'
                             fontWeight='500'
                             color='#fff'
                             onClick={() => {

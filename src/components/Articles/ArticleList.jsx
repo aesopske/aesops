@@ -8,6 +8,7 @@ import {
     useColorMode,
     useMediaQuery,
     useDisclosure,
+    VStack,
 } from '@chakra-ui/react'
 import Search from '../common/Search'
 import ArticleCard from './ArticleCard'
@@ -89,14 +90,14 @@ function ArticleList({ articles }) {
                 'column-reverse',
                 'row',
             ]}>
-            <Box
+            <VStack
+                spacing='5'
                 height='auto'
                 minHeight='70vh'
                 my='1rem'
                 position='relative'
                 width={['100%', '', '', '70%']}>
                 <HStack
-                    mb='1rem'
                     height='auto'
                     width='100%'
                     justifyContent='space-between'
@@ -143,7 +144,7 @@ function ArticleList({ articles }) {
                     )}
                 </AnimatePresence>
 
-                <Box height='auto' my='4rem'>
+                <Box height='auto' my='1rem'>
                     {text && !filtered.length && (
                         <Unavailable
                             message='😧 The post you are searching for does not exist'
@@ -233,7 +234,7 @@ function ArticleList({ articles }) {
                         src='/images/unavailable.svg'
                     />
                 )}
-            </Box>
+            </VStack>
 
             <Box
                 position='relative'

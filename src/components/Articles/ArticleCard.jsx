@@ -35,31 +35,30 @@ function ArticlesCard({ article }) {
         <Stack
             height='auto'
             width='100%'
-            spacing='3'
+            spacing='6'
+            minHeight='25vh'
             direction={['column', 'column', 'row-reverse', 'row-reverse']}>
-            {article?.image?.url && (
-                <Box
-                    width={['100%', '100%', '40%', '35%', '30%']}
-                    height='auto'
-                    minHeight='25vh'
-                    maxHeight='30vh'>
-                    <Link href={`/articles/${article?.slug}`} passHref>
-                        <Image
-                            borderRadius='10px'
-                            src={article?.image?.url}
-                            alt={article?.title}
-                            objectFit='cover'
-                            width='100%'
-                            height='100%'
-                            fallbackSrc={
-                                colorMode === 'light'
-                                    ? 'images/placeholderthumbnail.png'
-                                    : '/images/placeholderthumbnail-dark.png'
-                            }
-                        />
-                    </Link>
-                </Box>
-            )}
+            <Box
+                width={['100%', '100%', '40%', '35%', '30%']}
+                height='auto'
+                minHeight='25vh'
+                maxHeight='30vh'>
+                <Link href={`/articles/${article?.slug}`} passHref>
+                    <Image
+                        borderRadius='lg'
+                        src={article?.image?.url}
+                        alt={article?.title}
+                        objectFit='cover'
+                        width='100%'
+                        height='100%'
+                        fallbackSrc={
+                            colorMode === 'light'
+                                ? 'images/placeholderthumbnail.png'
+                                : '/images/placeholderthumbnail-dark.png'
+                        }
+                    />
+                </Link>
+            </Box>
 
             <VStack
                 spacing='3'
@@ -76,14 +75,14 @@ function ArticlesCard({ article }) {
                         <Heading
                             cursor='pointer'
                             fontSize='2xl'
+                            textTransform='capitalize'
                             onClick={() => {
                                 gaEvent(
                                     'Articles',
                                     'clicked on Article Title',
                                     article?.title
                                 )
-                            }}
-                            textTransform='capitalize'>
+                            }}>
                             {article?.title}
                         </Heading>
                     </Link>
@@ -94,6 +93,7 @@ function ArticlesCard({ article }) {
                         fontWeight='light'
                         width='100%'
                         my='1rem'
+                        lineHeight='1.8rem'
                         color={colorMode === 'light' ? 'gray.200' : 'gray.500'}
                         noOfLines={[2, 2, 3]}>
                         <MarkdownReader content={article?.summary} />
@@ -129,7 +129,7 @@ function ArticlesCard({ article }) {
                                     borderRadius='full'
                                     colorScheme='purple'
                                     fontWeight='500'
-                                    p='5px 10px'
+                                    p='10px'
                                     fontSize={['sm', '', '', '', '', 'sm']}
                                     textTransform='capitalize'>
                                     {tag}

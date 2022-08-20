@@ -36,7 +36,7 @@ function UserAvatar({
                 </Text>
                 {user?.read ? (
                     <Text
-                        fontSize='md'
+                        fontSize='sm'
                         color={
                             colorMode === 'light'
                                 ? onSurface
@@ -48,7 +48,7 @@ function UserAvatar({
                     </Text>
                 ) : (
                     <Text
-                        fontSize={['sm', 'sm', 'sm', 'sm', 'md']}
+                        fontSize='sm'
                         color={
                             colorMode === 'light'
                                 ? onSurface

@@ -11,7 +11,7 @@ function Articles({ articles, featured, count }) {
     return (
         <Layout title='Aesops - Articles'>
             <Box
-                mt={['0', '0', '0', '2rem', '2rem']}
+                mt={['0', '0', '0', '2rem', '3rem']}
                 width={['95%', '90%', '80%', '', '75%']}
                 minHeight='50vh'
                 mx='auto'>

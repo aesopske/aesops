@@ -17,9 +17,11 @@ function Search({ setTerm, term, placeholder, label }) {
     return (
         <Box height='auto' width='auto'>
             <FormControl height='auto' width='100%'>
-                <FormLabel fontWeight='800' color='gray.500'>
-                    {label}
-                </FormLabel>
+                {label && (
+                    <FormLabel fontWeight='800' color='gray.500'>
+                        {label}
+                    </FormLabel>
+                )}
                 <InputGroup height='3rem' width='100%'>
                     <InputLeftElement fontSize='1rem' height='100%'>
                         <Icon

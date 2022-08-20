@@ -132,7 +132,7 @@ function Footer() {
                     color={colorMode === 'light' ? 'gray.600' : 'gray.400'}
                     p='0 20px'>
                     <Heading fontSize='xl' my='1rem'>
-                        Company Links
+                        Company links
                     </Heading>
                     <VStack
                         alignItems='flex-start'

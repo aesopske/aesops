@@ -92,7 +92,7 @@ function ArticlePost({ article = {}, authorArticles = [] }) {
             width={['100%', '100%', '90%', '80%', '75%']}
             mx='auto'>
             <Stack direction={['column', 'column', 'row', 'row']} spacing='8'>
-                <Box width={['100%', '', '', '60%']}>
+                <Box width={['100%', '', '', '65%']}>
                     <Box my='1rem'>
                         <Heading
                             fontSize='3xl'
@@ -124,7 +124,7 @@ function ArticlePost({ article = {}, authorArticles = [] }) {
                     <Text
                         a='p'
                         fontSize='lg'
-                        lineHeight='1.7'
+                        lineHeight='2'
                         textAlign='justify'
                         p={['10px', '10px', '0', '0', '0']}
                         className='paragraph'
@@ -138,7 +138,7 @@ function ArticlePost({ article = {}, authorArticles = [] }) {
                     </Box>
                 </Box>
                 <Box
-                    width={['100%', '100%', '40%']}
+                    width={['100%', '100%', '35%']}
                     colSpan={1}
                     position='relative'>
                     <Stack

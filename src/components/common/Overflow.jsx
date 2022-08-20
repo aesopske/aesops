@@ -5,7 +5,7 @@ function Overflow({ children, color }) {
     return (
         <Box as='section' my={['1rem', '1rem', '2rem']}>
             <Text mb='1rem' color={color}>
-                Scroll &rarr;
+                Swipe &rarr;
             </Text>
             <Box overflow='hidden'>
                 <Stack
