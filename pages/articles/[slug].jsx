@@ -41,6 +41,7 @@ function Article({ article, cookieConsent }) {
             imageurl={defaultUrl}
             url={`https://aesops.co.ke/articles/${article?.slug}`}
             cookieConsent={cookieConsent}
+            isArticle
             ogarticleProps={{
                 publishedTime: article?.created,
                 modifiedTime: null,
