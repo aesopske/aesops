@@ -45,7 +45,7 @@ function FeaturedCard({ article, isMobile }) {
                     height='100%'
                     spacing='4'
                     cursor='pointer'>
-                    <Box height='35vh' width='100%'>
+                    <Box height='40vh' width='100%'>
                         <Image
                             src={article.image && article.image.url}
                             alt={article?.title}
@@ -54,30 +54,22 @@ function FeaturedCard({ article, isMobile }) {
                                     ? 'images/placeholderthumbnail.png'
                                     : '/images/placeholderthumbnail-dark.png'
                             }
-                            borderRadius='10px'
+                            borderRadius='lg'
                             objectFit='cover'
                             width='100%'
                             height='100%'
                         />
                     </Box>
 
-                    <Heading
-                        fontSize='2xl'
-                        my='1rem'
-                        mt='1rem'
-                        textTransform='capitalize'>
+                    <Heading fontSize='2xl' textTransform='capitalize'>
                         {article?.title}
                     </Heading>
                     <Box>
                         <Text
                             as='p'
-                            fontSize={['md', '', '', 'lg', 'lg']}
-                            color={
-                                colorMode === 'light'
-                                    ? 'gray.300'
-                                    : 'whiteAlpha.700'
-                            }
-                            noOfLines='3'>
+                            fontSize='lg'
+                            noOfLines='3'
+                            lineHeight='1.8rem'>
                             <MarkdownReader content={article?.summary} />
                         </Text>
                     </Box>

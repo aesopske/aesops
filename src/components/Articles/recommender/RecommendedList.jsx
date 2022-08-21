@@ -37,9 +37,7 @@ function RecommendedList({ title }) {
             width='100%'
             p={['20px', '20px', '20px', '20px', '25px']}
             borderRadius='10px'>
-            <Heading fontSize={['lg', '', '', '', 'xl']}>
-                Recommended articles
-            </Heading>
+            <Heading fontSize='xl'>Recommended articles</Heading>
             <Divider my='1rem' />
             <Grid gap='1rem' templateColumns='repeat(1,1fr)'>
                 {recommended &&
@@ -53,7 +51,7 @@ function RecommendedList({ title }) {
                         😧
                     </Text>
                     <Text fontSize='md' textAlign='center'>
-                        We couldn&apos;t find any recommended fables.
+                        No similar recommendations found.
                     </Text>
                     <Link href='/fables' passHref>
                         <Text

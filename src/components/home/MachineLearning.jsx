@@ -50,13 +50,13 @@ function MachineLearning() {
                     />
                 </Box>
                 <Box flex='1'>
-                    <Heading fontSize={['2xl', '', '', '', '3xl', '4xl']}>
+                    <Heading fontSize={['2xl', '', '', '', '3xl', '3xl']}>
                         Machine Learning
                     </Heading>
                     <Text
                         as='p'
                         my='2rem'
-                        fontSize={['lg', '', '', '', '', 'xl']}
+                        fontSize='lg'
                         color={
                             colorMode === 'light' ? '#555' : 'whiteAlpha.800'
                         }

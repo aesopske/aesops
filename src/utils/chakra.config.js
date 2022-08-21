@@ -38,8 +38,8 @@ export const theme = extendTheme({
     colors,
     styles,
     fonts: {
-        heading: 'Fira Sans',
-        body: 'PT Sans',
+        heading: 'Hauora Sans',
+        body: 'Hauora Sans',
         mono: 'Fira Mono',
     },
 })

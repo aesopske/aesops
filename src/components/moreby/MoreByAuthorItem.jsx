@@ -1,5 +1,5 @@
 import React from 'react'
-import { Badge, Box, Heading, HStack, useColorMode } from '@chakra-ui/react'
+import { Divider, HStack, Text, useColorMode, VStack } from '@chakra-ui/react'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
 
@@ -7,30 +7,23 @@ function MoreByAuthorItem({ post }) {
     const router = useRouter()
     const { colorMode } = useColorMode()
     return (
-        <Box>
+        <VStack spacing='2' alignItems='flex-start'>
             <Link href={`/articles/${post?.slug}`} passHref>
-                <Heading
-                    mb='0.5rem'
-                    fontSize='md'
-                    textTransform='capitalize'
-                    fontWeight='semibold'
-                    color={colorMode === 'light' ? 'gray.600' : 'gray.300'}
+                <Text
+                    fontSize='lg'
+                    color={colorMode === 'light' ? 'gray.700' : 'gray.300'}
                     cursor='pointer'>
                     {post?.title}
-                </Heading>
+                </Text>
             </Link>
-            <HStack
-                gap='5px'
-                spacing='1'
-                alignItems='flex-start'
-                flexWrap='wrap'>
+            <HStack spacing='2' alignItems='flex-start' flexWrap='wrap'>
                 {post?.tags &&
                     post?.tags.slice(0, 2).map((tag, index) => (
-                        <Badge
+                        <Text
                             key={index}
                             textTransform='capitalize'
-                            borderRadius='full'
-                            fontSize='sm'
+                            fontSize='md'
+                            cursor='pointer'
                             onClick={() => {
                                 router.push(
                                     {
@@ -43,14 +36,15 @@ function MoreByAuthorItem({ post }) {
                                     }
                                 )
                             }}
-                            p='10px'
-                            fontWeight='500'
-                            colorScheme='purple'>
-                            {tag}
-                        </Badge>
+                            color={
+                                colorMode === 'light' ? 'gray.500' : 'gray.300'
+                            }>
+                            # {tag}
+                        </Text>
                     ))}
             </HStack>
-        </Box>
+            <Divider my='.5rem' />
+        </VStack>
     )
 }
 

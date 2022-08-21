@@ -13,7 +13,7 @@ function FeaturedList({ featured }) {
     const [isTabletAndUp] = useMediaQuery('(min-width: 1024px)')
     return (
         <Box>
-            <Heading fontSize={['2xl', '', '', '', '4xl']} my='2rem'>
+            <Heading fontSize={['2xl', '', '', '', '2xl']} my='2rem'>
                 Editor&apos;s Choice
             </Heading>
             {isTabletAndUp ? (

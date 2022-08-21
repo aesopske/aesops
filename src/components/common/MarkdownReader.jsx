@@ -61,7 +61,7 @@ function MarkdownReader({ content }) {
                             as='p'
                             width='100%'
                             color={
-                                colorMode === 'light' ? 'gray.700' : 'gray.300'
+                                colorMode === 'light' ? 'gray.500' : 'gray.300'
                             }>
                             {children}
                         </Text>
@@ -87,7 +87,7 @@ function MarkdownReader({ content }) {
                     }
 
                     return (
-                        <Box>
+                        <Box fontFamily='fira mono'>
                             <SyntaxHighlighter
                                 style={duotoneSpace}
                                 language={language}>
@@ -149,6 +149,23 @@ function MarkdownReader({ content }) {
                         color={colorMode === 'light' ? 'gray.600' : 'gray.300'}>
                         {props.children}
                     </Heading>
+                ),
+                pre: (props) => (
+                    <Box
+                        as='pre'
+                        fontFamily='fira mono'
+                        whiteSpace='pre-wrap'
+                        overflowX='auto'
+                        border='1px solid'
+                        fontSize='md'
+                        borderColor={
+                            colorMode === 'light' ? 'gray.200' : 'gray.700'
+                        }
+                        p='20px'
+                        my='1rem'
+                        color={colorMode === 'light' ? 'gray.500' : 'gray.300'}>
+                        {props.children}
+                    </Box>
                 ),
             }}>
             {content}

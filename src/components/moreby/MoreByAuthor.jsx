@@ -16,13 +16,13 @@ function MoreByAuthor({ user, posts, current }) {
     return (
         <Box
             bg={colorMode === 'light' ? 'gray.50' : 'gray.700'}
-            p='20px'
+            p='30px'
             width='100%'
             borderRadius='10px'>
-            <Heading fontSize={['lg', '', '', '', 'xl']} fontWeight='semibold'>
+            <Heading fontSize='xl' fontWeight='semibold'>
                 More from {user?.name}
             </Heading>
-            <Divider my='0.5rem' />
+            <Divider my='1rem' />
             <Box height='auto'>
                 <Grid gap='1rem'>
                     {filtered &&

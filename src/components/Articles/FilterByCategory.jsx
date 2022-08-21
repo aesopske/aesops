@@ -18,7 +18,7 @@ function FilterByCategory({ categories, query }) {
     return (
         <Box
             minHeight='15vh'
-            borderRadius='10px'
+            borderRadius='lg'
             bg={colorMode === 'light' ? 'white' : 'gray.700'}
             mt={['1rem', '2rem', '3rem', '3rem', '6rem']}
             top={['0', '0', '1rem']}
@@ -26,7 +26,7 @@ function FilterByCategory({ categories, query }) {
             zIndex='50'
             p='20px'
             position='sticky'>
-            <Heading fontSize='lg'>Filter by category</Heading>
+            <Heading fontSize='xl'>Filter by category</Heading>
             <Divider my='1rem' />
             <HStack flexWrap='wrap' gap='10px' spacing='0'>
                 <Badge
@@ -34,7 +34,7 @@ function FilterByCategory({ categories, query }) {
                     fontWeight='400'
                     fontSize='sm'
                     colorScheme={
-                        router.pathname === '/articles' ? 'purple' : 'gray'
+                        router.asPath === '/articles' ? 'purple' : 'gray'
                     }
                     textTransform='capitalize'
                     cursor='pointer'
@@ -55,7 +55,7 @@ function FilterByCategory({ categories, query }) {
                     categories.map((category) => (
                         <Badge
                             key={category?.id}
-                            p='5px 10px'
+                            p='10px'
                             fontWeight='500'
                             cursor='pointer'
                             fontSize='sm'
