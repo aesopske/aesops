@@ -1,6 +1,15 @@
 import React from 'react'
 import MarkDown from 'react-markdown'
-import { Box, Heading, Image, Text, useColorMode } from '@chakra-ui/react'
+import {
+    Box,
+    Heading,
+    Image,
+    ListItem,
+    OrderedList,
+    Text,
+    UnorderedList,
+    useColorMode,
+} from '@chakra-ui/react'
 import rehypeRaw from 'rehype-raw'
 import gfm from 'remark-gfm'
 import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter'
@@ -61,7 +70,7 @@ function MarkdownReader({ content }) {
                             as='p'
                             width='100%'
                             color={
-                                colorMode === 'light' ? 'gray.500' : 'gray.300'
+                                colorMode === 'light' ? 'gray.600' : 'gray.300'
                             }>
                             {children}
                         </Text>
@@ -163,10 +172,13 @@ function MarkdownReader({ content }) {
                         }
                         p='20px'
                         my='1rem'
-                        color={colorMode === 'light' ? 'gray.500' : 'gray.300'}>
+                        color={colorMode === 'light' ? 'gray.600' : 'gray.300'}>
                         {props.children}
                     </Box>
                 ),
+                ul: (props) => <UnorderedList>{props.children}</UnorderedList>,
+                ol: (props) => <OrderedList>{props.children}</OrderedList>,
+                li: (props) => <ListItem>{props.children}</ListItem>,
             }}>
             {content}
         </MarkDown>

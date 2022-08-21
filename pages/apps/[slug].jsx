@@ -1,10 +1,11 @@
 import Layout from '@/src/components/common/Layout'
 import { fetchApp, fetchApps } from '@/src/utils/requests'
-import { Box, Grid, GridItem } from '@chakra-ui/react'
+import { Box, Grid, GridItem, VStack } from '@chakra-ui/react'
 import AppLinks from '@/src/components/apps/app/AppLinks'
 import AppDescription from '@/src/components/apps/app/AppDescription'
 import PageBanner from '@/src/components/common/PageBanner'
 import UserAvatar from '@/src/components/common/UserAvatar'
+import Share from '@/src/components/common/ShareBtns'
 
 function AppDetail({ app, cookieConsent }) {
     return (
@@ -30,17 +31,30 @@ function AppDetail({ app, cookieConsent }) {
                 <Grid
                     my='2rem'
                     gap='2rem'
+                    position='relative'
                     templateColumns={[
                         'repeat(1, 1fr)',
                         'repeat(1, 1fr)',
                         'repeat(2, 1fr)',
                         'repeat(3, 1fr)',
                     ]}>
-                    <GridItem colSpan='1'>
-                        <AppLinks app={app} />
-                    </GridItem>
                     <GridItem colSpan={[1, 1, 1, 2]}>
                         <AppDescription app={app} />
+                    </GridItem>
+                    <GridItem colSpan='1'>
+                        <VStack
+                            position={[
+                                'relative',
+                                'relative',
+                                'relative',
+                                'sticky',
+                            ]}
+                            zIndex='10'
+                            top={['0', '0', '0', '6rem']}
+                            left='0'>
+                            <Share title={app?.title} />
+                            <AppLinks app={app} />
+                        </VStack>
                     </GridItem>
                 </Grid>
             </Box>

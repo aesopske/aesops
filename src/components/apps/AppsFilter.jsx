@@ -8,9 +8,9 @@ function AppsFilter({ searchTerm, setSearchTerm }) {
             p='20px'
             bg={colorMode === 'light' ? '#fff' : 'gray.700'}
             borderRadius='10px'
-            height={['20vh', '20vh', '20vh', '20vh', '20vh', '15vh']}>
+            minHeight='10vh'>
             <Search
-                placeholder='search by title or category ...'
+                placeholder='Search by title ...'
                 label='Search for app'
                 full
                 setTerm={setSearchTerm}

@@ -60,6 +60,7 @@ function Apps({ apps, cookieConsent }) {
                 </PageBanner>
                 <Grid
                     gap='2rem'
+                    position='relative'
                     templateColumns={[
                         'repeat(1,1fr)',
                         'repeat(1,1fr)',
@@ -68,10 +69,21 @@ function Apps({ apps, cookieConsent }) {
                     ]}
                     my='2rem'>
                     <GridItem colSpan='1'>
-                        <AppsFilter
-                            searchTerm={searchTerm}
-                            setSearchTerm={setSearchTerm}
-                        />
+                        <Box
+                            position={[
+                                'relative',
+                                'relative',
+                                'relative',
+                                'sticky',
+                            ]}
+                            zIndex='10'
+                            top={['0', '0', '0', '6rem']}
+                            left='0'>
+                            <AppsFilter
+                                searchTerm={searchTerm}
+                                setSearchTerm={setSearchTerm}
+                            />
+                        </Box>
                     </GridItem>
                     <GridItem colSpan={[1, 1, 1, 2]}>
                         {text ? (

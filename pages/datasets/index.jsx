@@ -51,6 +51,7 @@ function Datasets({ datasets }) {
                     </Text>
                 </PageBanner>
                 <Grid
+                    position='relative'
                     gap='2rem'
                     templateColumns={[
                         'repeat(1,1fr)',
@@ -60,10 +61,21 @@ function Datasets({ datasets }) {
                     ]}
                     my='2rem'>
                     <GridItem colSpan='1'>
-                        <DatasetFilter
-                            searchTerm={searchTerm}
-                            setSearchTerm={setSearchTerm}
-                        />
+                        <Box
+                            position={[
+                                'relative',
+                                'relative',
+                                'relative',
+                                'sticky',
+                            ]}
+                            zIndex='10'
+                            top={['0', '0', '0','6rem']}
+                            left='0'>
+                            <DatasetFilter
+                                searchTerm={searchTerm}
+                                setSearchTerm={setSearchTerm}
+                            />
+                        </Box>
                     </GridItem>
                     <GridItem colSpan={[1, 1, 1, 2]}>
                         {text ? (

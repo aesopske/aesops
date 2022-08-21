@@ -1,10 +1,11 @@
 import Layout from '@/src/components/common/Layout'
 import { fetchDataset, fetchDatasets } from '@/src/utils/requests'
-import { Box, Grid, GridItem } from '@chakra-ui/react'
+import { Box, Grid, GridItem, VStack } from '@chakra-ui/react'
 import DatasetLinks from '@/src/components/datasets/dataset/DatasetLinks'
 import DatasetDescription from '@/src/components/datasets/dataset/DatasetDescription'
 import PageBanner from '@/src/components/common/PageBanner'
 import UserAvatar from '@/src/components/common/UserAvatar'
+import Share from '@/src/components/common/ShareBtns'
 
 function DatasetDetail({ dataset, cookieConsent }) {
     return (
@@ -30,17 +31,30 @@ function DatasetDetail({ dataset, cookieConsent }) {
                 <Grid
                     my='2rem'
                     gap='2rem'
+                    position='relative'
                     templateColumns={[
                         'repeat(1, 1fr)',
                         'repeat(1, 1fr)',
                         'repeat(2, 1fr)',
                         'repeat(3, 1fr)',
                     ]}>
-                    <GridItem colSpan='1'>
-                        <DatasetLinks dataset={dataset} />
-                    </GridItem>
                     <GridItem colSpan={[1, 1, 1, 2]}>
                         <DatasetDescription dataset={dataset} />
+                    </GridItem>
+                    <GridItem colSpan='1'>
+                        <VStack
+                            position={[
+                                'relative',
+                                'relative',
+                                'relative',
+                                'sticky',
+                            ]}
+                            zIndex='10'
+                            top={['0', '0', '0', '6rem']}
+                            left='0'>
+                            <Share title={dataset?.title} />
+                            <DatasetLinks dataset={dataset} />
+                        </VStack>
                     </GridItem>
                 </Grid>
             </Box>

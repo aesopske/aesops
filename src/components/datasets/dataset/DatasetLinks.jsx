@@ -18,9 +18,10 @@ function DatasetLinks({ dataset }) {
     return (
         <Box
             height='auto'
-            minHeight='20vh'
+            minHeight='10vh'
             borderRadius='10px'
             p='20px'
+            width='100%'
             bg={colorMode === 'light' ? '#fff' : 'gray.700'}>
             <HStack>
                 <Icon as={RiArticleLine} fontSize='lg' />
@@ -28,7 +29,7 @@ function DatasetLinks({ dataset }) {
                     <Link href={`/articles/${articleSlug}`} passHref>
                         <Text
                             cursor='pointer'
-                            fontSize='lg'
+                            fontSize='md'
                             _hover={{
                                 color:
                                     colorMode === 'light'
@@ -36,7 +37,7 @@ function DatasetLinks({ dataset }) {
                                         : 'brand.muted',
                             }}
                             textTransform='capitalize'>
-                            {dataset?.article} &rarr;
+                            {dataset?.article}
                         </Text>
                     </Link>
                 ) : (
@@ -49,7 +50,6 @@ function DatasetLinks({ dataset }) {
             <Button
                 as='a'
                 href={dataset.link}
-                my='1rem'
                 fontSize='lg'
                 height='3rem'
                 bg='brand.primary'

@@ -16,7 +16,7 @@ function DatasetsListItem({ dataset }) {
         <VStack
             key={dataset._id}
             bg={colorMode === 'light' ? '#fff' : 'gray.700'}
-            p='20px 40px'
+            p={['20px', '', '30px']}
             spacing='8'
             alignItems='flex-start'
             justifyContent='space-between'
@@ -27,7 +27,10 @@ function DatasetsListItem({ dataset }) {
                 spacing='3'
                 direction={['column', 'column', 'row']}>
                 <Link href={`/datasets/${dataset.slug}`} passHref>
-                    <Heading fontSize='2xl' cursor='pointer'>
+                    <Heading
+                        fontSize={['xl', '', '2xl']}
+                        cursor='pointer'
+                        textTransform='capitalize'>
                         {dataset.title}
                     </Heading>
                 </Link>

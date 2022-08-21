@@ -152,7 +152,6 @@ function Navbar() {
                             target='_blank'
                             rel='noopener noreferer'
                             fontSize='md'
-                            fontWeight='500'
                             color='#fff'
                             onClick={() => {
                                 gaEvent({

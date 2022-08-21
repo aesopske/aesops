@@ -3,7 +3,7 @@ import { format } from 'date-fns'
 import readTime from 'reading-time'
 import Link from 'next/link'
 import UserAvatar from '../../common/UserAvatar'
-import { Box, Heading, Stack, useColorMode } from '@chakra-ui/react'
+import { Divider, Stack, Text, useColorMode } from '@chakra-ui/react'
 
 function RecommendedListItem({ item }) {
     const { colorMode } = useColorMode()
@@ -18,33 +18,31 @@ function RecommendedListItem({ item }) {
     }
 
     return (
-        <Box
-            as={Stack}
+        <Stack
             direction='column'
             alignItems='flex-start'
             width='100%'
             justifyContent='flex-start'
+            spacing={3}
             height='auto'>
             <Stack
                 dir='column'
                 alignItems='flex-start'
                 height='auto'
-                spacing='1'
+                spacing='3'
                 justifyContent='space-between'>
                 <Link href={{ pathname: `/articles/${item?.slug}` }} passHref>
-                    <Heading
-                        fontSize={['md', 'md']}
-                        mb='0.5rem'
-                        textTransform='capitalize'
-                        cursor='pointer'
-                        color={colorMode === 'light' ? 'gray.600' : 'gray.300'}
-                        fontWeight='semibold'>
+                    <Text
+                        fontSize='lg'
+                        color={colorMode === 'light' ? 'gray.700' : 'gray.300'}
+                        cursor='pointer'>
                         {item?.title}
-                    </Heading>
+                    </Text>
                 </Link>
                 <UserAvatar user={user} size='sm' />
             </Stack>
-        </Box>
+            <Divider />
+        </Stack>
     )
 }
 

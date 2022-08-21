@@ -21,6 +21,7 @@ function AppLinks({ app }) {
             height='auto'
             minHeight='20vh'
             borderRadius='10px'
+            width='100%'
             p='20px'
             bg={colorMode === 'light' ? '#fff' : 'gray.700'}>
             <HStack alignItems='center'>
@@ -29,7 +30,7 @@ function AppLinks({ app }) {
                     <Link href={`/articles/${appSlug}`} passHref>
                         <Text
                             cursor='pointer'
-                            fontSize='lg'
+                            fontSize='md'
                             _hover={{
                                 color:
                                     colorMode === 'light'
@@ -51,7 +52,7 @@ function AppLinks({ app }) {
                     <Link href={`/datasets/${datasetSlug}`} passHref>
                         <Text
                             cursor='pointer'
-                            fontSize='lg'
+                            fontSize='md'
                             _hover={{
                                 color:
                                     colorMode === 'light'
@@ -73,11 +74,11 @@ function AppLinks({ app }) {
             <Button
                 as='a'
                 href={app?.link}
-                my='1rem'
                 target='_blank'
                 rel='noopener noreferer'
-                fontSize='lg'
+                fontSize='md'
                 height='3rem'
+                borderRadius='lg'
                 bg={colorMode === 'light' ? 'brand.primary' : 'brand.muted'}
                 _hover={{ bg: 'brand.hover' }}
                 _focus={{

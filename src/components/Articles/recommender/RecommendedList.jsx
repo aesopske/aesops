@@ -35,7 +35,7 @@ function RecommendedList({ title }) {
         <Box
             bg={colorMode === 'light' ? 'gray.50' : 'gray.700'}
             width='100%'
-            p={['20px', '20px', '20px', '20px', '25px']}
+            p={['20px', '20px', '20px', '20px', '30px']}
             borderRadius='10px'>
             <Heading fontSize='xl'>Recommended articles</Heading>
             <Divider my='1rem' />
