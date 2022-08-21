@@ -1,5 +1,4 @@
 import { Box } from '@chakra-ui/react'
-import Head from 'next/head'
 import Navbar from './Navbar'
 import Footer from './Footer'
 import { useState } from 'react'
@@ -12,8 +11,18 @@ import { ErrorBoundary } from 'react-error-boundary'
 import ErrorHandler from './ErrorHandler'
 import useEventListener from '../hooks/useEventListener'
 import { motion } from 'framer-motion'
+import { NextSeo } from 'next-seo'
 
-function Layout({ children, title, keywords, description, url, imageurl }) {
+function Layout({
+    children,
+    title,
+    keywords,
+    description,
+    url,
+    imageurl,
+    isArticle,
+    ogarticleProps,
+}) {
     const [scroll, setScroll] = useState(false)
     const { showCookieBanner } = useCookie()
 
@@ -35,27 +44,40 @@ function Layout({ children, title, keywords, description, url, imageurl }) {
             exit={{ opacity: 0 }}
             width='100%'
             position='relative'>
-            <Head>
-                <title>{title}</title>
-                <meta name='description' content={description} />
-                <meta name='keywords' content={keywords} />
-
-                {/* Open Graph / facebook */}
-
-                <meta property='og:type' content='website' />
-                <meta property='og:url' content={url} />
-                <meta property='og:title' content={title} />
-                <meta property='og:description' content={description} />
-                <meta property='og:image' content={imageurl} />
-
-                {/* Twitter card */}
-
-                <meta property='twitter:card' content='summary_large_image' />
-                <meta property='twitter:url' content={url} />
-                <meta property='twitter:title' content={title} />
-                <meta property='twitter:description' content={description} />
-                <meta property='twitter:image' content={imageurl} />
-            </Head>
+            <NextSeo
+                title={title}
+                description={description}
+                openGraph={{
+                    url,
+                    title,
+                    description,
+                    images: [imageurl],
+                    type: isArticle ? 'article' : 'website',
+                    article: isArticle ? ogarticleProps : {},
+                }}
+                twitter={{
+                    site: url,
+                    handle: '@Aesopsk',
+                    cardType: 'summary_large_image',
+                }}
+                facebook={{
+                    appId: '2559798124066192',
+                }}
+                additionalMetaTags={[
+                    {
+                        property: 'keywords',
+                        content: keywords,
+                    },
+                    {
+                        property: 'og:image',
+                        content: imageurl,
+                    },
+                    {
+                        property: 'twitter:image',
+                        content: imageurl,
+                    },
+                ]}
+            />
             <Script
                 strategy='afterInteractive'
                 src={`https://www.googletagmanager.com/gtag/js?id=${process.env.GA_TRACKING_ID}`}
@@ -97,6 +119,8 @@ Layout.defaultProps = {
     url: 'https://aesops.co.ke',
     imageurl:
         'https://firebasestorage.googleapis.com/v0/b/aesops-ke.appspot.com/o/aesops-seo.png?alt=media&token=33e1fc5e-68cb-435f-9d1e-466bd0ad5dd6',
+    isArticle: false,
+    ogarticleProps: {},
 }
 
 export default Layout

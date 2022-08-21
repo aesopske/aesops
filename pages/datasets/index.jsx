@@ -69,7 +69,7 @@ function Datasets({ datasets }) {
                                 'sticky',
                             ]}
                             zIndex='10'
-                            top={['0', '0', '0','6rem']}
+                            top={['0', '0', '0', '6rem']}
                             left='0'>
                             <DatasetFilter
                                 searchTerm={searchTerm}
@@ -106,7 +106,7 @@ export async function getStaticProps() {
             datasets: data.items,
         },
 
-        revalidate: 60 * (60 * 2),
+        revalidate: 60 * (60 * 2), // 2 hours
     }
 }
 

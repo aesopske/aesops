@@ -29,7 +29,7 @@ function Articles({ articles, featured, count }) {
 export async function getStaticProps() {
     const [featured, articles] = await Promise.all([
         fetchFeaturedArticles(),
-        fetchArticles({ limit: 50, page: 1 }),
+        fetchArticles({ limit: 100, page: 1 }),
     ])
 
     if (!articles && !featured) {

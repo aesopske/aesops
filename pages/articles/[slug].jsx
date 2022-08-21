@@ -40,7 +40,13 @@ function Article({ article, cookieConsent }) {
             description={article?.summary}
             imageurl={defaultUrl}
             url={`https://aesops.co.ke/articles/${article?.slug}`}
-            cookieConsent={cookieConsent}>
+            cookieConsent={cookieConsent}
+            ogarticleProps={{
+                publishedTime: article?.created,
+                modifiedTime: null,
+                authors: [article?.author],
+                tags: [...article?.tags],
+            }}>
             <ArticlePost article={article} authorArticles={byAuthor} />
         </Layout>
     )
@@ -66,7 +72,7 @@ export async function getStaticProps(ctx) {
             cookieConsent,
         },
 
-        revalidate: 10 * 60,
+        revalidate: 60 * (60 * 2), // 2 hours
     }
 }
 

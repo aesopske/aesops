@@ -27,14 +27,14 @@ export async function generateRssFeed(posts = []) {
     })
 
     posts.forEach((post) => {
-        const url = `${siteURL}/fables/${post?.slug}`
+        const url = `${siteURL}/articles/${post?.slug}`
 
         feed.addItem({
             title: post?.title,
             id: url,
             link: url,
             description: post?.summary,
-            content: post?.body,
+            content: post?.summary,
             image: post?.image?.url,
             author: [
                 {

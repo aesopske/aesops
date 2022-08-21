@@ -1,0 +1,7 @@
+Sitemap: https://aesops.co.ke/rss.xml
+Sitemap: https://aesops.co.ke/sitemap.xml
+
+User-agent: *
+Allow: /*
+
+Disallow: /api/*
