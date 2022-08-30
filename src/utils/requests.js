@@ -1,23 +1,14 @@
-import axios from 'axios'
-
-const baseUrl = `${process.env.BASE_URL}/api/v1`
-const config = {
-    headers: {
-        Accept: 'application/json',
-        'Content-type': 'application/json',
-        'same-site': 'Secure',
-    },
-}
+import { invoke } from '../lib/axios.config'
 
 // fetch articles
 export async function fetchArticles(params = {}) {
     try {
-        const search = new URLSearchParams({
-            ...params,
-        })
-        const query = search.toString()
-        const url = `articles?${query}`
-        const { data = {} } = await axios.get(`${baseUrl}/${url}`, config)
+        const search = new URLSearchParams(params)
+
+        const { data = {} } = await invoke(
+            'GET',
+            `articles?${search.toString()}`
+        )
 
         return data
     } catch (error) {
@@ -26,19 +17,13 @@ export async function fetchArticles(params = {}) {
 }
 // fetch articles
 export async function fetchFeaturedArticles() {
-    const { data = {} } = await axios.get(
-        `${baseUrl}/articles/featured`,
-        config
-    )
+    const { data = {} } = await invoke('GET', 'articles/featured')
     return data
 }
 
 // fetch article
 export async function fetchArticle(slug) {
-    const { data = {} } = await axios.get(
-        `${baseUrl}/articles/article/${slug}`,
-        config
-    )
+    const { data = {} } = await invoke('GET', `articles/article/${slug}`)
     return data
 }
 
@@ -47,9 +32,9 @@ export async function fetchRecommended(title) {
     const search = new URLSearchParams({
         title,
     })
-    const { data = {} } = await axios.get(
-        `${baseUrl}/articles/recommendations?${search.toString()}`,
-        config
+    const { data = {} } = await invoke(
+        'GET',
+        `articles/recommendations?${search.toString()}`
     )
     return data
 }
@@ -62,9 +47,9 @@ export async function fetchMoreByAuthor(authorEmail = '') {
         page: 1,
     })
 
-    const { data = {} } = await axios.get(
-        `${baseUrl}/articles/author?${search.toString()}`,
-        config
+    const { data = {} } = await invoke(
+        'GET',
+        `articles/author?${search.toString()}`
     )
     return data
 }
@@ -76,13 +61,12 @@ export async function fetchMoreByAuthor(authorEmail = '') {
 // fetch datasets
 export async function fetchDatasets(params = {}) {
     try {
-        const search = new URLSearchParams({
-            ...params,
-        })
-        const query = search.toString()
-        const url = `datasets?${query}`
+        const search = new URLSearchParams(params)
 
-        const { data = {} } = await axios.get(`${baseUrl}/${url}`, config)
+        const { data = {} } = await invoke(
+            'GET',
+            `datasets?${search.toString()}`
+        )
         return data
     } catch (error) {
         return { count: [], datasets: [] }
@@ -91,10 +75,7 @@ export async function fetchDatasets(params = {}) {
 
 // fetch dataset
 export async function fetchDataset(slug) {
-    const { data = {} } = await axios.get(
-        `${baseUrl}/datasets/dataset/${slug}`,
-        config
-    )
+    const { data = {} } = await invoke('GET', `datasets/dataset/${slug}`)
     return data
 }
 
@@ -105,11 +86,9 @@ export async function fetchDataset(slug) {
 // fetch apps
 export async function fetchApps(params = {}) {
     try {
-        const search = new URLSearchParams({ ...params })
-        const query = search.toString()
+        const search = new URLSearchParams(params)
 
-        const url = `apps?${query}`
-        const { data = {} } = await axios.get(`${baseUrl}/${url}`, config)
+        const { data = {} } = await invoke('GET', `apps?${search.toString()}`)
         return data
     } catch (error) {
         return { apps: [] }
@@ -118,7 +97,7 @@ export async function fetchApps(params = {}) {
 
 // fetch app
 export async function fetchApp(slug) {
-    const { data = {} } = await axios.get(`${baseUrl}/apps/app/${slug}`, config)
+    const { data = {} } = await invoke('GET', `apps/app/${slug}`)
     return data
 }
 
@@ -129,11 +108,8 @@ export async function fetchApp(slug) {
 // fetch community
 export async function fetchCommunity(params = {}) {
     try {
-        const search = new URLSearchParams({ ...params })
-        const query = search.toString()
-
-        const url = `users?${query}`
-        const { data = {} } = await axios.get(`${baseUrl}/${url}`, config)
+        const search = new URLSearchParams(params)
+        const { data = {} } = await invoke('GET', `users?${search.toString()}`)
         return data
     } catch (error) {
         return { users: [] }
@@ -143,11 +119,11 @@ export async function fetchCommunity(params = {}) {
 // fetch categories
 export async function fetchCategories(params = {}) {
     try {
-        const search = new URLSearchParams({ ...params })
-        const query = search.toString()
-
-        const url = `categories?${query}`
-        const { data = {} } = await axios.get(`${baseUrl}/${url}`, config)
+        const search = new URLSearchParams(params)
+        const { data = {} } = await invoke(
+            'GET',
+            `categories?${search.toString()}`
+        )
         return data
     } catch (error) {
         return { categories: [] }

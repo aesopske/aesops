@@ -11,10 +11,16 @@ const breakpoints = createBreakpoints({
 
 const colors = {
     brand: {
-        primary: '#6f0dcc',
-        muted: '#9D4AEA',
-        hover: '#6f0daa',
-        gradient: 'linear(to-r,#804fadcc, #700dccc0 )',
+        50: '#f6e5ff',
+        100: '#dbb6fe',
+        200: '#c286f9',
+        300: '#a857f5',
+        400: '#8f27f1',
+        500: '#750ed8',
+        600: '#5b09a9',
+        700: '#41067a',
+        800: '#27034b',
+        900: '#0f001e',
     },
 }
 
@@ -38,8 +44,8 @@ export const theme = extendTheme({
     colors,
     styles,
     fonts: {
-        heading: 'Hauora Sans',
-        body: 'Hauora Sans',
-        mono: 'Fira Mono',
+        heading: 'Roboto',
+        body: 'Roboto Serif',
+        mono: 'Roboto Mono',
     },
 })

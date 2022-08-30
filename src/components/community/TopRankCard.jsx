@@ -16,6 +16,7 @@ import {
 import { FaCrown, FaEnvelope } from 'react-icons/fa'
 import { BiDetail } from 'react-icons/bi'
 import ProfileDetails from './ProfileDetails'
+import useOptimize from '../hooks/useOptimize'
 
 function TopRankCard({ profile, details }) {
     const { colorMode } = useColorMode()
@@ -25,6 +26,8 @@ function TopRankCard({ profile, details }) {
         profile?.photourl && typeof profile?.photourl === 'object'
             ? profile?.photourl.url
             : profile?.photourl
+
+    const { optimizedSrc } = useOptimize(src)
 
     return (
         <>
@@ -48,7 +51,7 @@ function TopRankCard({ profile, details }) {
 
                 <Avatar
                     name={profile?.name}
-                    src={src}
+                    src={optimizedSrc}
                     size='xl'
                     position='absolute'
                     left='50%'
@@ -104,16 +107,7 @@ function TopRankCard({ profile, details }) {
                                     borderRadius='8px'
                                     height='40px'
                                     width='20px'
-                                    bg={
-                                        colorMode === 'light'
-                                            ? 'purple.100'
-                                            : 'gray.600'
-                                    }
-                                    color={
-                                        colorMode === 'light'
-                                            ? 'brand.primary'
-                                            : 'brand.muted'
-                                    }
+                                    colorScheme='brand'
                                 />
                             </Tooltip>
                             <Tooltip
@@ -133,16 +127,7 @@ function TopRankCard({ profile, details }) {
                                     borderRadius='8px'
                                     height='40px'
                                     width='20px'
-                                    bg={
-                                        colorMode === 'light'
-                                            ? 'purple.100'
-                                            : 'gray.600'
-                                    }
-                                    color={
-                                        colorMode === 'light'
-                                            ? 'brand.primary'
-                                            : 'brand.muted'
-                                    }
+                                    colorScheme='brand'
                                 />
                             </Tooltip>
                         </HStack>

@@ -56,7 +56,7 @@ function WhatWeOffer() {
             p={['0', '0', '20px 0']}
             my={['0', '0', '2rem']}>
             <Box>
-                <Heading fontSize={['2xl', '', '', '', '3xl', '4xl']} my='2rem'>
+                <Heading fontSize={['2xl', '', '', '', '3xl']} my='2rem'>
                     What we do
                 </Heading>
                 {isTabletAndUp ? (
@@ -92,8 +92,7 @@ function WhatWeOffer() {
                                     size='lg'
                                     borderRadius='10px'
                                     fontSize='1.5rem'
-                                    bg='purple.100'
-                                    color='brand.primary'
+                                    colorScheme='brand'
                                 />
                                 <Text as='p' my='1rem' fontSize='lg'>
                                     {activity.description}
@@ -128,8 +127,7 @@ function WhatWeOffer() {
                                     size='lg'
                                     borderRadius='10px'
                                     fontSize='1.5rem'
-                                    bg='purple.100'
-                                    color='brand.primary'
+                                    colorScheme='brand'
                                 />
                                 <Text as='p' my='1rem' fontSize='lg'>
                                     {activity.description}

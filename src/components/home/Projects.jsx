@@ -5,10 +5,10 @@ import {
     Heading,
     Text,
     Stack,
-    Button,
     useColorMode,
 } from '@chakra-ui/react'
 import Link from 'next/link'
+import AesopBtn from '../common/atoms/AesopBtn'
 
 function Projects() {
     const { colorMode } = useColorMode()
@@ -69,33 +69,10 @@ function Projects() {
                         reads them with their quality and intensive research.
                     </Text>
                     <Link href='/apps' passHref>
-                        <Button
-                            height={['2.5rem', '2.5rem', '2.5rem', '3rem']}
-                            width={['100%', '100%', '90%', 'auto']}
-                            borderRadius='10px'
-                            fontSize='1rem'
-                            bg={
-                                colorMode === 'light'
-                                    ? 'brand.primary'
-                                    : 'brand.muted'
-                            }
-                            _hover={{ bg: 'brand.hover' }}
-                            _focus={{
-                                bg:
-                                    colorMode === 'light'
-                                        ? 'brand.primary'
-                                        : 'brand.muted',
-                            }}
-                            _active={{
-                                bg:
-                                    colorMode === 'light'
-                                        ? 'brand.primary'
-                                        : 'brand.muted',
-                            }}
-                            color='#fff'
-                            fontWeight='500'>
-                            View applications &rarr;
-                        </Button>
+                        <AesopBtn
+                            label='View applications &rarr;'
+                            minWidth={['100%', '100%', '90%', '40%', '30%']}
+                        />
                     </Link>
                 </Box>
             </Box>

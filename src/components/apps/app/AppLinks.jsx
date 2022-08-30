@@ -5,11 +5,11 @@ import {
     HStack,
     Icon,
     Text,
-    Button,
 } from '@chakra-ui/react'
 import Link from 'next/link'
 import { RiArticleLine, RiDatabase2Line } from 'react-icons/ri'
 import slugify from 'slugify'
+import AesopBtn from '../../common/atoms/AesopBtn'
 
 function AppLinks({ app }) {
     const { colorMode } = useColorMode()
@@ -71,25 +71,14 @@ function AppLinks({ app }) {
 
             <Divider my='1rem' />
 
-            <Button
+            <AesopBtn
+                label='Go to application'
                 as='a'
                 href={app?.link}
                 target='_blank'
-                rel='noopener noreferer'
-                fontSize='md'
-                height='3rem'
-                borderRadius='lg'
-                bg={colorMode === 'light' ? 'brand.primary' : 'brand.muted'}
-                _hover={{ bg: 'brand.hover' }}
-                _focus={{
-                    bg: colorMode === 'light' ? 'brand.primary' : 'brand.muted',
-                }}
-                color='#fff'
-                _active={{
-                    bg: colorMode === 'light' ? 'brand.primary' : 'brand.muted',
-                }}>
-                Go to application
-            </Button>
+                rel='noreferer noopener'
+                isLink
+            />
         </Box>
     )
 }

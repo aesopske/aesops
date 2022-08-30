@@ -1,15 +1,8 @@
 import React from 'react'
 import Link from 'next/link'
-import {
-    Box,
-    Heading,
-    Text,
-    Button,
-    Image,
-    HStack,
-    VStack,
-} from '@chakra-ui/react'
+import { Box, Heading, Text, Image, HStack, VStack } from '@chakra-ui/react'
 import Layout from '@/src/components/common/Layout'
+import AesopBtn from '@/src/components/common/atoms/AesopBtn'
 
 function NotFound({ cookieConsent }) {
     return (
@@ -18,15 +11,15 @@ function NotFound({ cookieConsent }) {
                 as={HStack}
                 alignItems='center'
                 justifyContent='center'
-                height='100vh'
+                minHeight='55vh'
                 width='100%'>
                 <Box as={VStack} spacing='8'>
                     <Image
                         src='/svg/notfound.svg'
                         alt='not found'
                         objectFit='contain'
-                        height='30%'
-                        width='20%'
+                        height='40%'
+                        width='30%'
                     />
 
                     <VStack spacing='4'>
@@ -36,22 +29,7 @@ function NotFound({ cookieConsent }) {
                         </Text>
 
                         <Link href='/' passHref>
-                            <Button
-                                height='2.5rem'
-                                bg='brand.primary'
-                                _hover={{ bg: 'brand.hover' }}
-                                _focus={{
-                                    bg: 'brand.primary',
-                                    outline: 'none',
-                                }}
-                                _active={{
-                                    bg: 'brand.primary',
-                                    outline: 'none',
-                                }}
-                                color='#fff'
-                                borderRadius='10px'>
-                                Go back home &rarr;
-                            </Button>
+                            <AesopBtn label='&larr; Go back home' />
                         </Link>
                     </VStack>
                 </Box>

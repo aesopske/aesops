@@ -18,7 +18,7 @@ function FeaturedList({ featured }) {
             </Heading>
             {isTabletAndUp ? (
                 <Grid
-                    gap='1rem'
+                    gap='1rem 2rem'
                     mb='2rem'
                     templateColumns={[
                         'repeat(1, 1fr)',

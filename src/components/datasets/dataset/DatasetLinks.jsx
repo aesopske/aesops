@@ -6,11 +6,11 @@ import {
     HStack,
     Icon,
     Text,
-    Button,
 } from '@chakra-ui/react'
 import Link from 'next/link'
 import { RiArticleLine } from 'react-icons/ri'
 import slugify from 'slugify'
+import AesopBtn from '../../common/atoms/AesopBtn'
 
 function DatasetLinks({ dataset }) {
     const { colorMode } = useColorMode()
@@ -47,21 +47,14 @@ function DatasetLinks({ dataset }) {
 
             <Divider my='1rem' />
 
-            <Button
+            <AesopBtn
+                label='Go to dataset'
                 as='a'
                 href={dataset.link}
-                fontSize='lg'
-                height='3rem'
-                bg='brand.primary'
-                _hover={{ bg: 'brand.hover' }}
-                _focus={{ bg: 'brand.hover', outline: 'none' }}
-                color='#fff'
-                _active={{
-                    bg: 'brand.hover',
-                    outline: 'none',
-                }}>
-                Go to dataset
-            </Button>
+                target='_blank'
+                rel='noreferer noopener'
+                isLink
+            />
         </Box>
     )
 }

@@ -29,7 +29,11 @@ function Modall({ onClose, isOpen, size = 'md', title, children }) {
                     _focus={{ outline: 'none' }}
                     bg={colorMode === 'light' ? 'gray.200' : 'gray.600'}
                 />
-                <ModalHeader mt='1rem' fontWeight='800' fontSize='1.5rem'>
+                <ModalHeader
+                    fontFamily='Roboto'
+                    mt='1rem'
+                    fontWeight='800'
+                    fontSize='1.5rem'>
                     {title}
                 </ModalHeader>
                 <Divider mb='1rem' />

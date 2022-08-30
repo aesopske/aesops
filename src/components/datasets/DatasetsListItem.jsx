@@ -5,9 +5,9 @@ import {
     Heading,
     // Badge,
     Stack,
-    Button,
 } from '@chakra-ui/react'
 import Link from 'next/link'
+import AesopBtn from '../common/atoms/AesopBtn'
 import UserAvatar from '../common/UserAvatar'
 
 function DatasetsListItem({ dataset }) {
@@ -58,14 +58,14 @@ function DatasetsListItem({ dataset }) {
                     }}
                 />
 
-                <Button
+                <AesopBtn
+                    label='Visit Link'
                     as='a'
+                    isLink
                     target='_blank'
                     rel='noopener noreferer'
                     href={dataset?.link}
-                    fontSize='0.9rem'>
-                    Go to link
-                </Button>
+                />
             </HStack>
         </VStack>
     )

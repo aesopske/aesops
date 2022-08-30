@@ -1,7 +1,8 @@
 import React from 'react'
-import { Box, Image, Heading, Text, Stack, Button } from '@chakra-ui/react'
+import { Box, Image, Heading, Text, Stack } from '@chakra-ui/react'
 import Link from 'next/link'
 import { motion } from 'framer-motion'
+import AesopBtn from '../common/atoms/AesopBtn'
 
 function DatasetsHero() {
     return (
@@ -63,19 +64,15 @@ function DatasetsHero() {
                         that fit the unique problems that we face.
                     </Text>
                     <Link href='/datasets' passHref>
-                        <Button
-                            height={['2.5rem', '2.5rem', '2.5rem', '3rem']}
-                            width={['100%', '100%', '90%', 'auto']}
-                            borderRadius='10px'
-                            fontSize='1rem'
-                            color='#444'
-                            bg='gray.100'
+                        <AesopBtn
+                            label='View datasets &rarr;'
+                            bg='white'
+                            color='gray.600'
+                            minWidth={['100%', '100%', '90%', '40%']}
                             _hover={{ bg: 'gray.100' }}
                             _focus={{ bg: 'gray.100' }}
                             _active={{ bg: 'gray.100' }}
-                            fontWeight='500'>
-                            View datasets &rarr;
-                        </Button>
+                        />
                     </Link>
                 </Box>
                 <Box

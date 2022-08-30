@@ -7,19 +7,24 @@ import {
     IconButton,
     Image,
     Text,
-    Button,
     Stack,
     useColorMode,
     useOutsideClick,
 } from '@chakra-ui/react'
 import { CgMenuRight } from 'react-icons/cg'
-import { FaAppStoreIos, FaDatabase, FaUsers } from 'react-icons/fa'
 import { RiTeamFill } from 'react-icons/ri'
-import { MdGraphicEq, MdArticle } from 'react-icons/md'
+import {
+    MdGraphicEq,
+    MdArticle,
+    MdStorage,
+    MdApps,
+    MdPeopleAlt,
+} from 'react-icons/md'
 import Link from 'next/link'
 import ThemeSwitcher from './ThemeSwitcher'
 import { useRouter } from 'next/router'
 import { AnimatePresence, motion } from 'framer-motion'
+import AesopBtn from './atoms/AesopBtn'
 
 function NavbarMobile() {
     const ref = useRef()
@@ -48,17 +53,17 @@ function NavbarMobile() {
         {
             label: 'Datasets',
             path: '/datasets',
-            icon: FaDatabase,
+            icon: MdStorage,
         },
         {
             label: 'Apps',
             path: '/apps',
-            icon: FaAppStoreIos,
+            icon: MdApps,
         },
         {
             label: 'Community',
             path: '/community',
-            icon: FaUsers,
+            icon: MdPeopleAlt,
         },
         {
             label: 'Trendsboard',
@@ -73,27 +78,27 @@ function NavbarMobile() {
     ]
 
     return (
-        <AnimatePresence exitBeforeEnter>
-            <Stack
-                display={['flex', 'flex', 'none', 'none']}
-                ref={ref}
-                position='sticky'
-                height='auto'
-                width='95%'
-                borderRadius='10px'
-                direction='column'
-                justifyContent='space-between'
-                alignItems='center'
-                bottom='0.5rem'
-                left='2.5%'
-                zIndex='100'
-                mx='auto'>
+        <Stack
+            display={['flex', 'flex', 'none', 'none']}
+            ref={ref}
+            position='sticky'
+            height='auto'
+            width='95%'
+            borderRadius='10px'
+            direction='column'
+            justifyContent='space-between'
+            alignItems='center'
+            bottom='0.5rem'
+            left='2.5%'
+            zIndex='100'
+            mx='auto'>
+            <AnimatePresence>
                 {isOpen && (
                     <Stack
                         as={motion.div}
                         initial={{ y: 50, opacity: 0 }}
                         animate={{ y: 0, opacity: 1 }}
-                        exit={{ y: -50 }}
+                        exit={{ y: -50, opacity: 0 }}
                         width='100%'
                         direction='column'
                         justifyContent='space-between'
@@ -106,70 +111,88 @@ function NavbarMobile() {
                         }
                         shadow='lg'
                         my='0.5rem'
-                        spacing='6'
+                        spacing='4'
                         zIndex='40'
                         alignItems='center'>
                         <Grid
                             my='1rem'
                             gap='1rem'
+                            width='90%'
+                            mx='auto'
                             templateColumns='repeat(3,1fr)'>
-                            {navs.map((nav) => (
-                                <Link
-                                    className='navitem'
-                                    key={nav.label}
-                                    href={nav.path}
-                                    passHref>
-                                    <Stack
-                                        direction='column'
-                                        alignItems='center'
-                                        color={
-                                            router.asPath === nav.path
-                                                ? colorMode === 'dark'
-                                                    ? 'brand.muted'
-                                                    : 'brand.primary'
-                                                : colorMode === 'light'
-                                                ? '#444'
-                                                : 'gray.200'
-                                        }
-                                        justifyContent='center'>
-                                        <Icon as={nav.icon} fontSize='1.4rem' />
-                                        <Text fontSize='0.9rem'>
-                                            {nav.label}
-                                        </Text>
-                                    </Stack>
-                                </Link>
-                            ))}
+                            {navs.map((nav) => {
+                                const isActive = router.asPath === nav.path
+                                const lightMode = colorMode === 'light'
+                                return (
+                                    <Link
+                                        key={`${nav.label}-${
+                                            nav.path
+                                        }-${Math.random()}`}
+                                        href={nav.path}
+                                        passHref>
+                                        <Stack
+                                            direction='column'
+                                            alignItems='center'
+                                            bg={
+                                                isActive
+                                                    ? lightMode
+                                                        ? 'brand.50'
+                                                        : 'gray.600'
+                                                    : 'transparent'
+                                            }
+                                            p='10px'
+                                            borderRadius='xl'
+                                            color={
+                                                isActive
+                                                    ? colorMode === 'dark'
+                                                        ? 'brand.400'
+                                                        : 'brand.600'
+                                                    : colorMode === 'light'
+                                                    ? '#444'
+                                                    : 'gray.200'
+                                            }
+                                            justifyContent='center'>
+                                            <Icon
+                                                as={nav.icon}
+                                                fontSize='1.4rem'
+                                            />
+                                            <Text
+                                                fontSize='sm'
+                                                fontWeight={
+                                                    isActive ? 'bold' : 'normal'
+                                                }
+                                                fontFamily='Roboto'>
+                                                {nav.label}
+                                            </Text>
+                                        </Stack>
+                                    </Link>
+                                )
+                            })}
                         </Grid>
 
                         <HStack
-                            width='80%'
+                            width='90%'
                             mx='auto'
                             justifyContent='space-between'>
-                            <Text
+                            <AesopBtn
+                                label='Sign in &rarr;'
+                                variant='link'
                                 as='a'
                                 target='_blank'
                                 rel='noreferer noopener'
                                 href={`${process.env.DASHBOARD_URL}/auth/signin`}
-                                _hover={{ color: 'brand.muted' }}>
-                                Sign in &rarr;
-                            </Text>
+                            />
                             <ThemeSwitcher hasText text='Switch Theme' />
                         </HStack>
 
-                        <Button
+                        <AesopBtn
                             as='a'
                             href={`${process.env.DASHBOARD_URL}/auth/signup`}
-                            color='#fff'
-                            bg='brand.primary'
-                            _hover={{ bg: 'brand.primary' }}
-                            height='3rem'
                             target='_blank'
                             rel='noreferer noopener'
-                            borderRadius='10px'
-                            width='80%'
-                            mx='auto'>
-                            Get started &rarr;
-                        </Button>
+                            minWidth='90%'
+                            label='Get started &rarr;'
+                        />
                     </Stack>
                 )}
                 <HStack
@@ -189,7 +212,11 @@ function NavbarMobile() {
                                 width='60px'
                                 height='50px'
                                 objectFit='contain'
-                                src='/svg/aesops-color-1.svg'
+                                src={
+                                    colorMode === 'light'
+                                        ? '/images/aesops-logo.png'
+                                        : '/images/aesops-logo-muted.png'
+                                }
                                 alt='logo'
                             />
                             <Heading
@@ -209,18 +236,17 @@ function NavbarMobile() {
                     </Link>
 
                     <IconButton
+                        aria-label='Navigation menu mobile'
                         icon={<CgMenuRight />}
-                        bg='brand.primary'
-                        _focus={{ bg: 'brand.primary', outline: 'none' }}
-                        _hover={{ bg: 'brand.primary' }}
+                        colorScheme='brand'
                         color='#fff'
                         fontSize='1.2rem'
                         borderRadius='10px'
                         onClick={toggle}
                     />
                 </HStack>
-            </Stack>
-        </AnimatePresence>
+            </AnimatePresence>
+        </Stack>
     )
 }
 
