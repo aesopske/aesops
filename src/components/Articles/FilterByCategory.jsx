@@ -20,8 +20,8 @@ function FilterByCategory({ categories, query }) {
             minHeight='15vh'
             borderRadius='lg'
             bg={colorMode === 'light' ? 'white' : 'gray.700'}
-            mt={['1rem', '2rem', '3rem', '3rem', '6rem']}
-            top={['0', '0', '1rem']}
+            mt={['1rem', '2rem', '3rem', '3rem', '5rem']}
+            top={['0', '0', '6rem']}
             left='0'
             zIndex='50'
             p='20px'

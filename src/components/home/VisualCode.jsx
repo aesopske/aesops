@@ -1,6 +1,7 @@
 import React from 'react'
-import { Box, Image, Heading, Text, Stack, Button } from '@chakra-ui/react'
+import { Box, Image, Heading, Text, Stack } from '@chakra-ui/react'
 import Link from 'next/link'
+import AesopBtn from '../common/atoms/AesopBtn'
 
 function VisualCode() {
     return (
@@ -55,7 +56,7 @@ function VisualCode() {
                         high professionalism and encourage learning.
                     </Text>
                     <Link href='/apps' passHref>
-                        <Button
+                        {/* <Button
                             height={['2.5rem', '2.5rem', '2.5rem', '3rem']}
                             width={['100%', '100%', '90%', 'auto']}
                             borderRadius='10px'
@@ -66,7 +67,16 @@ function VisualCode() {
                             color='#444'
                             fontWeight='500'>
                             View applications &rarr;
-                        </Button>
+                        </Button> */}
+                        <AesopBtn
+                            label='View datasets &rarr;'
+                            bg='white'
+                            color='gray.600'
+                            minWidth={['100%', '100%', '90%', '40%']}
+                            _hover={{ bg: 'gray.100' }}
+                            _focus={{ bg: 'gray.100' }}
+                            _active={{ bg: 'gray.100' }}
+                        />
                     </Link>
                 </Box>
                 <Box

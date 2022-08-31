@@ -6,13 +6,13 @@ import {
     Text,
     Heading,
     Stack,
-    Button,
     useColorMode,
 } from '@chakra-ui/react'
 import { useGa } from '@/src/context/TrackingProvider'
 import { ErrorBoundary } from 'react-error-boundary'
 import ErrorHandler from '../common/ErrorHandler'
 import { motion } from 'framer-motion'
+import AesopBtn from '../common/atoms/AesopBtn'
 
 function Hero() {
     const { colorMode } = useColorMode()
@@ -73,8 +73,9 @@ function Hero() {
                                     'center',
                                     'center',
                                 ]}>
-                                <Button
-                                    as='a'
+                                <AesopBtn
+                                    label='Join the community &rarr;'
+                                    isLink
                                     href={`${process.env.DASHBOARD_URL}/auth/signup`}
                                     target='_blank'
                                     onClick={() => {
@@ -87,71 +88,36 @@ function Hero() {
                                     rel='noopener noreferer'
                                     bg={
                                         colorMode === 'light'
-                                            ? '#fff'
-                                            : 'brand.muted'
+                                            ? 'white'
+                                            : 'brand.200'
                                     }
                                     _hover={{
                                         bg:
                                             colorMode === 'light'
-                                                ? 'gray.50'
-                                                : 'brand.hover',
+                                                ? 'gray.100'
+                                                : 'brand.300',
                                     }}
-                                    mr='1rem'
+                                    color='gray.800'
                                     my={['1rem', '1rem', '1rem', '0']}
-                                    height={[
-                                        '2.5rem',
-                                        '2.5rem',
-                                        '3rem',
-                                        '3rem',
-                                    ]}
-                                    width={['100%', '100%', 'auto']}
-                                    borderRadius='10px'
-                                    fontWeight='500'
-                                    fontSize='1rem'>
-                                    Join the community &rarr;
-                                </Button>
+                                    minWidth={['100%', '100%', 'auto']}
+                                />
                                 <Link href='/articles' passHref>
-                                    <Button
-                                        bg='transparent'
+                                    <AesopBtn
+                                        label='Explore Articles &rarr;'
+                                        variant='outline'
+                                        color='white'
                                         onClick={() => {
                                             gaEvent({
                                                 category: 'Home',
-                                                action: 'Clicked show articles',
-                                                label: 'show articles',
+                                                action: 'Clicked Explore articles',
+                                                label: 'Explore articles',
                                             })
                                         }}
-                                        color='#fff'
-                                        border='2px solid'
-                                        borderColor={
-                                            colorMode === 'light'
-                                                ? '#fff'
-                                                : 'gray.500'
-                                        }
                                         _hover={{
-                                            bg: 'transparent',
+                                            bg: 'whiteAlpha.300',
                                         }}
-                                        _focus={{
-                                            bg: 'transparent',
-                                            outline: 'none',
-                                        }}
-                                        _active={{
-                                            bg: 'transparent',
-                                            outline: 'none',
-                                        }}
-                                        mr='1rem'
-                                        my={['1rem', '1rem', '1rem', '0']}
-                                        height={[
-                                            '2.5rem',
-                                            '2.5rem',
-                                            '3rem',
-                                            '3rem',
-                                        ]}
-                                        width={['100%', '100%', 'auto', 'auto']}
-                                        borderRadius='10px'
-                                        fontWeight='500'
-                                        fontSize='1rem'>
-                                        View articles &rarr;
-                                    </Button>
+                                        minWidth={['100%', '100%', 'auto']}
+                                    />
                                 </Link>
                             </Stack>
                         </Box>

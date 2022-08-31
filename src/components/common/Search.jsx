@@ -18,7 +18,10 @@ function Search({ setTerm, term, placeholder, label }) {
         <Box height='auto' width='auto'>
             <FormControl height='auto' width='100%'>
                 {label && (
-                    <FormLabel fontWeight='800' color='gray.500'>
+                    <FormLabel
+                        fontWeight='800'
+                        color='gray.500'
+                        fontFamily='Roboto'>
                         {label}
                     </FormLabel>
                 )}

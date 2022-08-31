@@ -6,6 +6,9 @@ module.exports = {
         GA_TRACKING_ID: process.env.GA_TRACKING_ID,
         SITE_URL: process.env.SITE_URL,
 
+        // firebase storage bucket
+        CLOUDINARY_NAME: process.env.CLOUDINARY_NAME,
+
         // slack
         SLACK_WEBHOOK: process.env.SLACK_WEBHOOK,
 

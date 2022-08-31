@@ -4,10 +4,10 @@ import {
     HStack,
     Heading,
     // Badge,
-    Button,
     Stack,
 } from '@chakra-ui/react'
 import Link from 'next/link'
+import AesopBtn from '../common/atoms/AesopBtn'
 import UserAvatar from '../common/UserAvatar'
 
 function AppsListItem({ app }) {
@@ -57,15 +57,14 @@ function AppsListItem({ app }) {
                         date: new Date(app.created).toDateString(),
                     }}
                 />
-
-                <Button
+                <AesopBtn
+                    label='Visit Link'
                     as='a'
+                    isLink
                     target='_blank'
                     rel='noopener noreferer'
-                    href={app.link}
-                    fontSize='0.9rem'>
-                    Go to link
-                </Button>
+                    href={app?.link}
+                />
             </HStack>
         </VStack>
     )

@@ -16,6 +16,7 @@ import {
 } from '@chakra-ui/react'
 import UserAvatar from '../common/UserAvatar'
 import { useGa } from '@/src/context/TrackingProvider'
+import useOptimize from '../hooks/useOptimize'
 
 function ArticlesCard({ article }) {
     const { gaEvent } = useGa()
@@ -31,6 +32,8 @@ function ArticlesCard({ article }) {
         photoURL: article?.author_image,
     }
 
+    const { ref, optimizedSrc } = useOptimize(article?.image?.url)
+
     return (
         <Stack
             height='auto'
@@ -41,12 +44,12 @@ function ArticlesCard({ article }) {
             <Box
                 width={['100%', '100%', '40%', '35%', '30%']}
                 height='auto'
-                minHeight='25vh'
-                maxHeight='30vh'>
+                maxHeight='inherit'>
                 <Link href={`/articles/${article?.slug}`} passHref>
                     <Image
+                        ref={ref}
                         borderRadius='lg'
-                        src={article?.image?.url}
+                        src={optimizedSrc}
                         alt={article?.title}
                         objectFit='cover'
                         width='100%'
@@ -93,6 +96,7 @@ function ArticlesCard({ article }) {
                         fontWeight='light'
                         width='100%'
                         my='1rem'
+                        fontFamily='Roboto Serif'
                         lineHeight='1.8rem'
                         color={colorMode === 'light' ? 'gray.200' : 'gray.500'}
                         noOfLines={[2, 2, 3]}>

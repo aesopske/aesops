@@ -18,6 +18,9 @@ function ProfileDetails({ onClose, isOpen, profile, details }) {
         details.apps?.length &&
         details.apps?.filter((post) => post.author_email === profile.email)
 
+    const unavailable =
+        !userPosts.length && !userDatasets.length && !userApps.length
+
     return (
         <Modall
             size='lg'
@@ -25,13 +28,24 @@ function ProfileDetails({ onClose, isOpen, profile, details }) {
             isOpen={isOpen}
             title={`Contributions`}>
             <Box height='auto' borderRadius='10px'>
-                {!userPosts.length ? null : <UserPosts posts={userPosts} />}
-                <Divider my='1rem' />
-                {!userDatasets.length ? null : (
-                    <UserDatasets datasets={userDatasets} />
+                {userPosts.length > 0 && (
+                    <>
+                        <UserPosts posts={userPosts} />
+                        <Divider my='1rem' />
+                    </>
                 )}
-                <Divider my='1rem' />
-                {!userApps.length ? null : <UserApps apps={userApps} />}
+                {userDatasets.length > 0 && (
+                    <>
+                        <UserDatasets datasets={userDatasets} />
+                        <Divider my='1rem' />
+                    </>
+                )}
+                {userApps.length > 0 && <UserApps apps={userApps} />}
+                {unavailable && (
+                    <Box>
+                        Contribution history is unavailable for this user.
+                    </Box>
+                )}
             </Box>
         </Modall>
     )

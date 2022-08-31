@@ -1,5 +1,6 @@
 import React from 'react'
 import { Avatar, Text, HStack, useColorMode, VStack } from '@chakra-ui/react'
+import useOptimize from '../hooks/useOptimize'
 
 function UserAvatar({
     user,
@@ -8,12 +9,14 @@ function UserAvatar({
     onSurface = false,
 }) {
     const { colorMode } = useColorMode()
+    const lightMode = colorMode === 'light'
+    const { optimizedSrc } = useOptimize(user?.photoURL)
     return (
-        <HStack alignItems={align}>
+        <HStack alignItems={align} fontFamily='Roboto'>
             <Avatar
                 size={size}
                 name={user?.name}
-                src={user.photoURL}
+                src={optimizedSrc}
                 borderRadius='10px'
             />
             <VStack
@@ -26,11 +29,11 @@ function UserAvatar({
                     fontSize='md'
                     textTransform='capitalize'
                     color={
-                        colorMode === 'light'
+                        lightMode
                             ? onSurface
                                 ? 'gray.100'
                                 : 'gray.600'
-                            : 'gray.400'
+                            : 'gray.300'
                     }>
                     {user?.name.toLowerCase()}
                 </Text>
@@ -38,23 +41,24 @@ function UserAvatar({
                     <Text
                         fontSize='sm'
                         color={
-                            colorMode === 'light'
+                            lightMode
                                 ? onSurface
                                     ? 'gray.100'
                                     : 'gray.600'
-                                : 'gray.500'
+                                : 'gray.400'
                         }>
                         {user?.date} &bull; {user?.read}
                     </Text>
                 ) : (
                     <Text
                         fontSize='sm'
+                        fontWeight='400'
                         color={
                             colorMode === 'light'
                                 ? onSurface
                                     ? 'gray.100'
                                     : 'gray.600'
-                                : 'gray.500'
+                                : 'gray.400'
                         }>
                         {user?.date}
                     </Text>

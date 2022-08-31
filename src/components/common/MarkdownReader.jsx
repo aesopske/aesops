@@ -2,6 +2,7 @@ import React from 'react'
 import MarkDown from 'react-markdown'
 import {
     Box,
+    Code,
     Heading,
     Image,
     ListItem,
@@ -12,36 +13,11 @@ import {
 } from '@chakra-ui/react'
 import rehypeRaw from 'rehype-raw'
 import gfm from 'remark-gfm'
-import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter'
-import { duotoneSpace } from 'react-syntax-highlighter/dist/cjs/styles/prism'
+import { optimizeImage } from '@/src/utils'
 
 function MarkdownReader({ content }) {
     const { colorMode } = useColorMode()
-    const pythonSyntax = [
-        'def',
-        'list',
-        'range',
-        'for i in range(10):',
-        'Flask',
-        'requests',
-        '__name__',
-        '__main__',
-        'if __name__ == "__main__":',
-        'Blueprint',
-        '@app.route',
-    ]
-
-    const jsSyntax = [
-        'React',
-        'ReactDOM',
-        'ReactDOMServer',
-        'document',
-        'window',
-        'function',
-        'const',
-        'let',
-        'var',
-    ]
+    const lightMode = colorMode === 'light'
 
     return (
         <MarkDown
@@ -55,11 +31,12 @@ function MarkdownReader({ content }) {
                         return (
                             <Box my='1rem'>
                                 <Image
-                                    src={image.properties.src}
+                                    src={optimizeImage(image.properties.src)}
                                     alt={image.properties.alt}
                                     width='100%'
                                     height='auto'
                                     placeholder='/images/placeholder.png'
+                                    borderRadius='lg'
                                 />
                             </Box>
                         )
@@ -77,38 +54,21 @@ function MarkdownReader({ content }) {
                     )
                 },
                 code: (props) => {
-                    let language = 'bash'
-
-                    if (
-                        jsSyntax.some((syntax) =>
-                            props.children[0]?.includes(syntax)
-                        )
-                    ) {
-                        language = 'javascript'
-                    }
-
-                    if (
-                        pythonSyntax.some((syntax) =>
-                            props.children[0]?.includes(syntax)
-                        )
-                    ) {
-                        language = 'python'
-                    }
-
                     return (
-                        <Box fontFamily='fira mono'>
-                            <SyntaxHighlighter
-                                style={duotoneSpace}
-                                language={language}>
-                                {props.children[0]}
-                            </SyntaxHighlighter>
-                        </Box>
+                        <Code
+                            fontFamily='Roboto Mono'
+                            width='100%'
+                            p='20px'
+                            borderRadius='lg'
+                            bg={lightMode ? 'gray.200' : 'gray.700'}>
+                            {props.children}
+                        </Code>
                     )
                 },
                 h1: (props) => (
                     <Heading
                         as='h1'
-                        fontSize='3xl'
+                        fontSize='2xl'
                         my='1rem'
                         color={colorMode === 'light' ? 'gray.600' : 'gray.300'}>
                         {props.children}
@@ -126,7 +86,7 @@ function MarkdownReader({ content }) {
                 h3: (props) => (
                     <Heading
                         as='h3'
-                        fontSize='xl'
+                        fontSize='lg'
                         my='1rem'
                         color={colorMode === 'light' ? 'gray.600' : 'gray.300'}>
                         {props.children}
@@ -135,7 +95,7 @@ function MarkdownReader({ content }) {
                 h4: (props) => (
                     <Heading
                         as='h4'
-                        fontSize='lg'
+                        fontSize='md'
                         my='1rem'
                         color={colorMode === 'light' ? 'gray.600' : 'gray.300'}>
                         {props.children}
@@ -150,34 +110,37 @@ function MarkdownReader({ content }) {
                         {props.children}
                     </Heading>
                 ),
-                h6: (props) => (
-                    <Heading
-                        as='h6'
-                        fontSize='md'
-                        my='1rem'
-                        color={colorMode === 'light' ? 'gray.600' : 'gray.300'}>
+
+                pre: (props) => {
+                    const hasCode = props.children.some((child) => {
+                        return child.props?.node.tagName === 'code'
+                    })
+                    return (
+                        <Box
+                            as='pre'
+                            fontFamily='Roboto Mono'
+                            whiteSpace='pre-wrap'
+                            overflowX='auto'
+                            fontSize='md'
+                            borderColor={lightMode ? 'gray.200' : 'gray.700'}
+                            p={!hasCode && '20px'}
+                            my='1rem'
+                            color={lightMode ? 'gray.600' : 'gray.400'}
+                            bg={lightMode ? 'gray.200' : 'gray.700'}>
+                            {props.children}
+                        </Box>
+                    )
+                },
+                ul: (props) => (
+                    <UnorderedList color={lightMode ? 'gray.600' : 'gray.300'}>
                         {props.children}
-                    </Heading>
+                    </UnorderedList>
                 ),
-                pre: (props) => (
-                    <Box
-                        as='pre'
-                        fontFamily='fira mono'
-                        whiteSpace='pre-wrap'
-                        overflowX='auto'
-                        border='1px solid'
-                        fontSize='md'
-                        borderColor={
-                            colorMode === 'light' ? 'gray.200' : 'gray.700'
-                        }
-                        p='20px'
-                        my='1rem'
-                        color={colorMode === 'light' ? 'gray.600' : 'gray.300'}>
+                ol: (props) => (
+                    <OrderedList color={lightMode ? 'gray.600' : 'gray.300'}>
                         {props.children}
-                    </Box>
+                    </OrderedList>
                 ),
-                ul: (props) => <UnorderedList>{props.children}</UnorderedList>,
-                ol: (props) => <OrderedList>{props.children}</OrderedList>,
                 li: (props) => <ListItem>{props.children}</ListItem>,
             }}>
             {content}

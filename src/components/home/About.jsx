@@ -1,6 +1,5 @@
 import React from 'react'
 import {
-    Button,
     Text,
     Box,
     Heading,
@@ -13,6 +12,7 @@ import {
 import Link from 'next/link'
 import { profiles } from '@/src/utils/team'
 import { motion } from 'framer-motion'
+import AesopBtn from '../common/atoms/AesopBtn'
 
 function About() {
     const { colorMode } = useColorMode()
@@ -108,24 +108,10 @@ function About() {
                     }}
                     width={['100%', '80%', '60%', '', '30%']}>
                     <Link href='/team' passHref>
-                        <Button
-                            color='#fff'
-                            fontWeight='400'
-                            borderRadius='10px'
-                            height={['2.5rem', '2.5rem', '2.5rem', '3rem']}
-                            mt='1rem'
-                            fontSize='md'
-                            bg={
-                                colorMode === 'light'
-                                    ? 'brand.primary'
-                                    : 'brand.muted'
-                            }
-                            _hover={{ bg: 'brand.hover' }}
-                            _focus={{ bg: 'brand.hover', outline: 'none' }}
-                            _active={{ bg: 'brand.hover', outline: 'none' }}
-                            width='100%'>
-                            Meet the team &rarr;
-                        </Button>
+                        <AesopBtn
+                            label='Meet the team &rarr;'
+                            minWidth='100%'
+                        />
                     </Link>
                 </Box>
             </VStack>

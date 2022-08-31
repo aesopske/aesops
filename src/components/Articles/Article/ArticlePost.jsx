@@ -17,6 +17,7 @@ import {
 import UserAvatar from '../../common/UserAvatar'
 import MoreByAuthor from '../../moreby/MoreByAuthor'
 import { useRouter } from 'next/router'
+import { optimizeImage } from '@/src/utils'
 
 function ArticlePost({ article = {}, authorArticles = [] }) {
     const router = useRouter()
@@ -109,7 +110,7 @@ function ArticlePost({ article = {}, authorArticles = [] }) {
                             height={['40vh', '40vh', '40vh', '40vh', '60vh']}
                             my='1rem'>
                             <Image
-                                src={article.image?.url}
+                                src={optimizeImage(article.image?.url)}
                                 alt='article'
                                 borderRadius='10px'
                                 width='100%'

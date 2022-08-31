@@ -22,6 +22,7 @@ function MoreByAuthorItem({ post }) {
                         <Text
                             key={index}
                             textTransform='capitalize'
+                            fontFamily='Roboto'
                             fontSize='md'
                             cursor='pointer'
                             onClick={() => {

@@ -1,8 +1,7 @@
-import { Box, IconButton, useColorMode } from '@chakra-ui/react'
+import { Box, IconButton } from '@chakra-ui/react'
 import { FaArrowUp } from 'react-icons/fa'
 
 function Backtop({ scroll }) {
-    const { colorMode } = useColorMode()
     const backToTop = () => {
         window.scrollTo(0, 0)
     }
@@ -18,24 +17,10 @@ function Backtop({ scroll }) {
                     borderRadius='10px'
                     height='45px'
                     width='45px'
-                    bg={colorMode === 'light' ? 'brand.primary' : 'brand.muted'}
-                    fontSize='0.9rem'
-                    color='gray.100'
-                    _hover={{ bg: 'brand.hover' }}
-                    _focus={{
-                        bg:
-                            colorMode === 'light'
-                                ? 'brand.primary'
-                                : 'brand.muted',
-                    }}
-                    _active={{
-                        bg:
-                            colorMode === 'light'
-                                ? 'brand.primary'
-                                : 'brand.muted',
-                    }}
+                    colorScheme='brand'
                     icon={<FaArrowUp />}
                     onClick={backToTop}
+                    aria-label='Back to top'
                 />
             ) : null}
         </Box>

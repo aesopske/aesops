@@ -1,9 +1,7 @@
 import React from 'react'
 import Link from 'next/link'
-
 import {
     Box,
-    Button,
     Heading,
     HStack,
     Image,
@@ -14,6 +12,7 @@ import {
 import ThemeSwitcher from './ThemeSwitcher'
 import { useRouter } from 'next/router'
 import { useGa } from '@/src/context/TrackingProvider'
+import AesopBtn from './atoms/AesopBtn'
 
 function Navbar() {
     const router = useRouter()
@@ -52,7 +51,7 @@ function Navbar() {
             left='0'
             bg={colorMode === 'light' ? 'gray.100' : 'gray.800'}
             borderBottom={colorMode === 'light' ? '1px solid' : '1px solid'}
-            borderColor={colorMode === 'light' ? 'gray.300' : 'gray.800'}
+            borderColor={colorMode === 'light' ? 'gray.300' : 'gray.700'}
             zIndex='60'
             display={['none', 'none', 'block', 'block']}>
             <Box
@@ -94,44 +93,52 @@ function Navbar() {
                 </Link>
 
                 <HStack spacing={['', '', '2', '3', '4', '6']} width='auto'>
-                    <Box
-                        as={HStack}
-                        spacing={['', '', '2', '3', '5']}
-                        width='auto'>
-                        {nav.map((item) => (
-                            <Link key={item.label} href={item.path} passHref>
-                                <Text
-                                    as='span'
-                                    fontSize='md'
-                                    color={
-                                        router.asPath === item.path
-                                            ? colorMode === 'dark'
-                                                ? 'brand.muted'
-                                                : 'brand.primary'
-                                            : colorMode === 'light'
-                                            ? '#444'
-                                            : 'gray.200'
-                                    }
-                                    fontWeight={
-                                        router.asPath === item.path
-                                            ? '700'
-                                            : '500'
-                                    }
-                                    cursor='pointer'>
-                                    {item.label}
-                                </Text>
-                            </Link>
-                        ))}
-                    </Box>
+                    <HStack spacing={['', '', '2', '3', '5']} width='auto'>
+                        {nav.map((item) => {
+                            const isActive = router.asPath === item.path
+                            const lightMode = colorMode === 'light'
+                            return (
+                                <Link
+                                    key={item.label}
+                                    href={item.path}
+                                    passHref>
+                                    <Text
+                                        as='span'
+                                        fontSize='md'
+                                        fontFamily='Roboto'
+                                        color={
+                                            isActive
+                                                ? lightMode
+                                                    ? 'brand.600'
+                                                    : 'brand.200'
+                                                : lightMode
+                                                ? 'gray.600'
+                                                : 'gray.300'
+                                        }
+                                        fontWeight={
+                                            router.asPath === item.path
+                                                ? '700'
+                                                : '500'
+                                        }
+                                        _hover={{}}
+                                        cursor='pointer'>
+                                        {item.label}
+                                    </Text>
+                                </Link>
+                            )
+                        })}
+                    </HStack>
 
                     <Text> | </Text>
 
                     <HStack spacing='8' width='auto'>
                         <ThemeSwitcher />
-                        <Text
+
+                        <AesopBtn
+                            variant='link'
+                            label='Sign In'
                             as='a'
                             href={`${process.env.DASHBOARD_URL}/auth/signin`}
-                            _hover={{ color: 'brand.muted' }}
                             target='_blank'
                             fontSize='md'
                             onClick={() => {
@@ -142,17 +149,10 @@ function Navbar() {
                                 })
                             }}
                             rel='noopener noreferer'
-                            width='auto'>
-                            Sign In
-                        </Text>
+                        />
 
-                        <Button
-                            as='a'
-                            href={`${process.env.DASHBOARD_URL}/auth/signup`}
-                            target='_blank'
-                            rel='noopener noreferer'
-                            fontSize='md'
-                            color='#fff'
+                        <AesopBtn
+                            isLink
                             onClick={() => {
                                 gaEvent({
                                     category: 'Auth',
@@ -160,35 +160,13 @@ function Navbar() {
                                     label: 'signup',
                                 })
                             }}
-                            bg={
-                                colorMode === 'light'
-                                    ? 'brand.primary'
-                                    : 'brand.muted'
-                            }
-                            _hover={{
-                                bg:
-                                    colorMode === 'light'
-                                        ? 'brand.primary'
-                                        : 'brand.hover',
-                            }}
-                            _focus={{
-                                bg:
-                                    colorMode === 'light'
-                                        ? 'brand.primary'
-                                        : 'brand.muted',
-                            }}
-                            _active={{
-                                bg:
-                                    colorMode === 'light'
-                                        ? 'brand.primary'
-                                        : 'brand.muted',
-                            }}
+                            label='Get started &rarr;'
+                            as='a'
+                            target='_blank'
+                            rel='noopener noreferer'
+                            href={`${process.env.DASHBOARD_URL}/auth/signup`}
                             height={['', '', '2.5rem', '2.5rem', '3rem']}
-                            borderRadius='10px'
-                            width='auto'
-                            minWidth='40%'>
-                            Get started &rarr;
-                        </Button>
+                        />
                     </HStack>
                 </HStack>
             </Box>

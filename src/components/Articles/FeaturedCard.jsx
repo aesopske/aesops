@@ -13,6 +13,7 @@ import readTime from 'reading-time'
 import MarkdownReader from '../common/MarkdownReader'
 import UserAvatar from '../common/UserAvatar'
 import { useGa } from '@/src/context/TrackingProvider'
+import useOptimize from '../hooks/useOptimize'
 
 function FeaturedCard({ article, isMobile }) {
     const { gaEvent } = useGa()
@@ -27,6 +28,8 @@ function FeaturedCard({ article, isMobile }) {
         read: text,
         photoURL: article?.author_image,
     }
+
+    const { ref, optimizedSrc } = useOptimize(article?.image?.url)
 
     return (
         <Box height='100%' minWidth={isMobile && ['100%', '70%', '70%', '50%']}>
@@ -47,7 +50,8 @@ function FeaturedCard({ article, isMobile }) {
                     cursor='pointer'>
                     <Box height='40vh' width='100%'>
                         <Image
-                            src={article.image && article.image.url}
+                            ref={ref}
+                            src={optimizedSrc}
                             alt={article?.title}
                             fallbackSrc={
                                 colorMode === 'light'

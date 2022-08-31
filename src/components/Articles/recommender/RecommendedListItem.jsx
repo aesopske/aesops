@@ -35,6 +35,7 @@ function RecommendedListItem({ item }) {
                     <Text
                         fontSize='lg'
                         color={colorMode === 'light' ? 'gray.700' : 'gray.300'}
+                        textTransform='capitalize'
                         cursor='pointer'>
                         {item?.title}
                     </Text>

@@ -33,7 +33,7 @@ function RecommendedList({ title }) {
     }, [title])
     return (
         <Box
-            bg={colorMode === 'light' ? 'gray.50' : 'gray.700'}
+            bg={colorMode === 'light' ? 'white' : 'gray.700'}
             width='100%'
             p={['20px', '20px', '20px', '20px', '30px']}
             borderRadius='10px'>

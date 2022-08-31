@@ -64,14 +64,14 @@ function Share({ title }) {
                             colorMode === 'light' ? 'transparent' : 'gray.700'
                         }
                         _hover={{
-                            borderColor: 'brand.primary',
+                            borderColor: 'brand.500',
                         }}
                         href={share.href}
                         rel='noopener noreferrer'
                         transition='.3s ease'
                         icon={share.icon}
-                        bg='purple.100'
-                        color='purple'
+                        bg='brand.50'
+                        color='brand.600'
                         fontSize='xl'
                     />
                 ))}

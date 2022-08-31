@@ -4,11 +4,11 @@ import {
     Text,
     Heading,
     Stack,
-    Button,
     Image,
     useColorMode,
 } from '@chakra-ui/react'
 import Link from 'next/link'
+import AesopBtn from '../common/atoms/AesopBtn'
 
 function MachineLearning() {
     const { colorMode } = useColorMode()
@@ -18,8 +18,7 @@ function MachineLearning() {
             width={['100%', '90%', '80%', '', '75%']}
             mx='auto'
             my='2rem'>
-            <Box
-                as={Stack}
+            <Stack
                 height='100%'
                 direction={[
                     'column-reverse',
@@ -70,36 +69,13 @@ function MachineLearning() {
                         machine learning that we build and share.
                     </Text>
                     <Link href='/articles' passHref>
-                        <Button
-                            height={['2.5rem', '2.5rem', '2.5rem', '3rem']}
-                            width={['100%', '100%', '90%', 'auto']}
-                            borderRadius='10px'
-                            fontSize='1rem'
-                            bg={
-                                colorMode === 'light'
-                                    ? 'brand.primary'
-                                    : 'brand.muted'
-                            }
-                            _hover={{ bg: 'brand.hover' }}
-                            _focus={{
-                                bg:
-                                    colorMode === 'light'
-                                        ? 'brand.primary'
-                                        : 'brand.muted',
-                            }}
-                            _active={{
-                                bg:
-                                    colorMode === 'light'
-                                        ? 'brand.primary'
-                                        : 'brand.muted',
-                            }}
-                            color='#fff'
-                            fontWeight='500'>
-                            View articles &rarr;
-                        </Button>
+                        <AesopBtn
+                            label='Read articles &rarr;'
+                            minWidth={['100%', '100%', '90%', '40%', '30%']}
+                        />
                     </Link>
                 </Box>
-            </Box>
+            </Stack>
         </Box>
     )
 }
