@@ -13,7 +13,6 @@ import Link from 'next/link'
 import { profiles } from '@/src/utils/team'
 import { motion } from 'framer-motion'
 import AesopBtn from '../common/atoms/AesopBtn'
-import { optimizeImage } from '@/src/utils'
 
 function About() {
     const { colorMode } = useColorMode()
