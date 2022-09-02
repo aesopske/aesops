@@ -93,7 +93,7 @@ function About() {
                                 fontFamily='Roboto'
                                 key={index}
                                 name={profile.name}
-                                src={optimizeImage(profile.image)}
+                                src={profile.image}
                                 size={isTabletAndUp ? 'xl' : 'lg'}
                             />
                         ))}
