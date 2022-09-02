@@ -13,6 +13,7 @@ import Link from 'next/link'
 import { profiles } from '@/src/utils/team'
 import { motion } from 'framer-motion'
 import AesopBtn from '../common/atoms/AesopBtn'
+import { optimizeImage } from '@/src/utils'
 
 function About() {
     const { colorMode } = useColorMode()
@@ -51,7 +52,7 @@ function About() {
                     width='100%'
                     as='p'
                     my='1rem'
-                    fontSize={['lg', '', '', '', '', 'xl']}
+                    fontSize='lg'
                     textAlign='center'
                     color={colorMode === 'light' ? '#555' : '#f4f4f4'}>
                     We are a Kenyan data organization with the dream of
@@ -67,7 +68,7 @@ function About() {
                     as='p'
                     my='1rem'
                     textAlign='center'
-                    fontSize={['lg', '', '', '', '', 'xl']}
+                    fontSize='lg'
                     color={colorMode === 'light' ? '#555' : '#f4f4f4'}>
                     We also share data-driven articles where we analyze the
                     state of the art technologies in Kenya and in the region
@@ -89,9 +90,10 @@ function About() {
                     <AvatarGroup max={isTabletAndUp ? 6 : 3}>
                         {profiles.map((profile, index) => (
                             <Avatar
+                                fontFamily='Roboto'
                                 key={index}
                                 name={profile.name}
-                                src={profile.image}
+                                src={optimizeImage(profile.image)}
                                 size={isTabletAndUp ? 'xl' : 'lg'}
                             />
                         ))}
