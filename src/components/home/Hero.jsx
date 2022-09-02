@@ -13,6 +13,7 @@ import { ErrorBoundary } from 'react-error-boundary'
 import ErrorHandler from '../common/ErrorHandler'
 import { motion } from 'framer-motion'
 import AesopBtn from '../common/atoms/AesopBtn'
+import { optimizeImage } from '@/src/utils'
 
 function Hero() {
     const { colorMode } = useColorMode()
@@ -25,8 +26,14 @@ function Hero() {
                 height={['auto', 'auto', 'auto', '100vh', '70vh']}
                 bgImage={
                     colorMode === 'light'
-                        ? '/images/background.png'
-                        : '/svg/hero-dark.svg'
+                        ? optimizeImage(
+                              `${process.env.SITE_URL}/images/background.png`,
+                              false
+                          )
+                        : optimizeImage(
+                              `${process.env.SITE_URL}/svg/hero-dark.svg`,
+                              false
+                          )
                 }
                 bgRepeat='no-repeat'
                 p='10px'
@@ -134,7 +141,9 @@ function Hero() {
                         my={['2rem', '1rem', '1rem', '0']}
                         display={['none', 'none', 'block']}>
                         <Image
-                            src='/images/aesops-nutshell.png'
+                            src={optimizeImage(
+                                `${process.env.SITE_URL}/images/aesops-nutshell.png`
+                            )}
                             alt='aesops'
                             width={['100%', '90%', '90%', '80%', '70%']}
                             mx='auto'

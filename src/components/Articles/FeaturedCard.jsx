@@ -13,7 +13,7 @@ import readTime from 'reading-time'
 import MarkdownReader from '../common/MarkdownReader'
 import UserAvatar from '../common/UserAvatar'
 import { useGa } from '@/src/context/TrackingProvider'
-import useOptimize from '../hooks/useOptimize'
+import useOptimize from '../../hooks/useOptimize'
 
 function FeaturedCard({ article, isMobile }) {
     const { gaEvent } = useGa()

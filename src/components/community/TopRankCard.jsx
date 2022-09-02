@@ -16,7 +16,7 @@ import {
 import { FaCrown, FaEnvelope } from 'react-icons/fa'
 import { BiDetail } from 'react-icons/bi'
 import ProfileDetails from './ProfileDetails'
-import useOptimize from '../hooks/useOptimize'
+import useOptimize from '../../hooks/useOptimize'
 
 function TopRankCard({ profile, details }) {
     const { colorMode } = useColorMode()

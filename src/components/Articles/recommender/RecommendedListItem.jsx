@@ -34,6 +34,7 @@ function RecommendedListItem({ item }) {
                 <Link href={{ pathname: `/articles/${item?.slug}` }} passHref>
                     <Text
                         fontSize='lg'
+                        fontFamily='Roboto'
                         color={colorMode === 'light' ? 'gray.700' : 'gray.300'}
                         textTransform='capitalize'
                         cursor='pointer'>

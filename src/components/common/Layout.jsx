@@ -9,7 +9,7 @@ import NavbarMobile from './NavbarMobile'
 import Script from 'next/script'
 import { ErrorBoundary } from 'react-error-boundary'
 import ErrorHandler from './ErrorHandler'
-import useEventListener from '../hooks/useEventListener'
+import useEventListener from '../../hooks/useEventListener'
 import { motion } from 'framer-motion'
 import { NextSeo } from 'next-seo'
 
