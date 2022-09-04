@@ -44,7 +44,7 @@ function VisualCode() {
                     <Text
                         as='p'
                         my='2rem'
-                        fontSize={['lg', '', '', '', '', 'xl']}
+                        fontSize='lg'
                         width={['100%', '100%', '90%', '100%']}>
                         Our eyes are the gateways to our very souls. We appeal
                         to the souls of our readers with beautiful plots made in
@@ -56,18 +56,6 @@ function VisualCode() {
                         high professionalism and encourage learning.
                     </Text>
                     <Link href='/apps' passHref>
-                        {/* <Button
-                            height={['2.5rem', '2.5rem', '2.5rem', '3rem']}
-                            width={['100%', '100%', '90%', 'auto']}
-                            borderRadius='10px'
-                            fontSize='1rem'
-                            bg='#fff'
-                            colorScheme='gray'
-                            mb={['2rem', '0']}
-                            color='#444'
-                            fontWeight='500'>
-                            View applications &rarr;
-                        </Button> */}
                         <AesopBtn
                             label='View datasets &rarr;'
                             bg='white'

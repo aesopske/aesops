@@ -53,8 +53,8 @@ function DatasetsHero() {
                     </Heading>
                     <Text
                         as='p'
-                        fontSize={['lg', '', '', '', '', 'xl']}
                         my='2rem'
+                        fontSize='lg'
                         width={['100%', '100%', '90%', '100%']}>
                         We look for unique datasets from Kenya, or Africa that
                         are largely under-represented in the data science

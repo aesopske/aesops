@@ -14,7 +14,7 @@ import {
 import { FaEnvelope } from 'react-icons/fa'
 import { BiDetail } from 'react-icons/bi'
 import ProfileDetails from './ProfileDetails'
-import useOptimize from '../hooks/useOptimize'
+import useOptimize from '../../hooks/useOptimize'
 
 function ProfileCard({ profile = {}, details = {} }) {
     const { colorMode } = useColorMode()

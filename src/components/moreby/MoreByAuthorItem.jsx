@@ -11,6 +11,7 @@ function MoreByAuthorItem({ post }) {
             <Link href={`/articles/${post?.slug}`} passHref>
                 <Text
                     fontSize='lg'
+                    fontFamily='Roboto'
                     color={colorMode === 'light' ? 'gray.700' : 'gray.300'}
                     cursor='pointer'>
                     {post?.title}
@@ -22,7 +23,6 @@ function MoreByAuthorItem({ post }) {
                         <Text
                             key={index}
                             textTransform='capitalize'
-                            fontFamily='Roboto'
                             fontSize='md'
                             cursor='pointer'
                             onClick={() => {

@@ -1,6 +1,6 @@
 import React from 'react'
 import { Avatar, Text, HStack, useColorMode, VStack } from '@chakra-ui/react'
-import useOptimize from '../hooks/useOptimize'
+import useOptimize from '../../hooks/useOptimize'
 
 function UserAvatar({
     user,

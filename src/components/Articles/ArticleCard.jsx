@@ -16,7 +16,7 @@ import {
 } from '@chakra-ui/react'
 import UserAvatar from '../common/UserAvatar'
 import { useGa } from '@/src/context/TrackingProvider'
-import useOptimize from '../hooks/useOptimize'
+import useOptimize from '../../hooks/useOptimize'
 
 function ArticlesCard({ article }) {
     const { gaEvent } = useGa()
