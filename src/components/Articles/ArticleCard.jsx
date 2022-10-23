@@ -36,12 +36,13 @@ function ArticlesCard({ article }) {
             height='auto'
             width='100%'
             spacing='6'
+            p='10px'
             maxHeight={['auto', 'auto', 'auto', 'auto', '20vh', '20vh']}
             direction={['column', 'column', 'row-reverse', 'row-reverse']}>
             <Box
                 ref={observe}
                 width={['100%', '100%', '40%', '35%', '30%']}
-                height='auto'
+                height={['30vh', '30vh', 'auto']}
                 maxHeight='inherit'>
                 <Link href={`/articles/${article?.slug}`} passHref>
                     <AesopImage
