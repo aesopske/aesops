@@ -9,8 +9,6 @@ import {
     Box,
     useColorMode,
     Stack,
-    HStack,
-    Badge,
     VStack,
 } from '@chakra-ui/react'
 import UserAvatar from '../common/UserAvatar'

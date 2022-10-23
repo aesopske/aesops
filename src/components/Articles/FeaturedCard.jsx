@@ -1,19 +1,11 @@
 import React from 'react'
 import Link from 'next/link'
 import { format } from 'date-fns'
-import {
-    Image,
-    Box,
-    Text,
-    Heading,
-    useColorMode,
-    Stack,
-} from '@chakra-ui/react'
+import { Box, Text, Heading, useColorMode, Stack } from '@chakra-ui/react'
 import readTime from 'reading-time'
 import MarkdownReader from '../common/MarkdownReader'
 import UserAvatar from '../common/UserAvatar'
 import { useGa } from '@/src/context/TrackingProvider'
-import useOptimize from '../../hooks/useOptimize'
 import useDimensions from 'react-cool-dimensions'
 import AesopImage from '../common/AesopImage'
 
@@ -30,8 +22,6 @@ function FeaturedCard({ article, isMobile }) {
         read: text,
         photoURL: article?.author_image,
     }
-
-    const { ref, optimizedSrc } = useOptimize(article?.image?.url)
 
     const { observe, width, height } = useDimensions()
 
