@@ -17,18 +17,16 @@ function RecommendedList({ title }) {
     const { colorMode } = useColorMode()
 
     useEffect(() => {
-        if (typeof window !== 'undefined') {
-            if (title) {
-                const fetchAll = async () => {
-                    try {
-                        const recommendations = await fetchRecommended(title)
-                        setRecommended(recommendations.items)
-                    } catch (error) {
-                        setRecommended([])
-                    }
+        if (title) {
+            const fetchAll = async () => {
+                try {
+                    const recommendations = await fetchRecommended(title)
+                    setRecommended(recommendations.items)
+                } catch (error) {
+                    setRecommended([])
                 }
-                fetchAll()
             }
+            fetchAll()
         }
     }, [title])
     return (

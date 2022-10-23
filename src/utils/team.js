@@ -14,34 +14,6 @@ export const profiles = [
             'CTO, in charge of technological development of Aesops and data engineering.',
     },
     {
-        name: 'John Kamau Kariuki',
-        image: '/images/profiles/kamice.jpeg',
-        role: 'Communication & Social Media expert',
-        description:
-            "People's person.In charge of Aesop's image on social media and other platforms.As well as taking lead in visualizations.",
-    },
-    {
-        name: 'Stephen Mungai',
-        image: '/images/profiles/stevo.jpeg',
-        role: 'Lead Data Analyst',
-        description:
-            'Data scientist. in the field of mathematics and data analytics, He is the lead in the data modeling team.',
-    },
-    {
-        name: 'Alex Gatangi',
-        image: '/images/profiles/Alex.jpeg',
-        role: 'Media and Photography',
-        description:
-            'Media guru, in charge of photography,video editing and graphic design. He also doubles as a social media pro.',
-    },
-    {
-        name: 'Lydia Gathoni',
-        image: '/images/profiles/lydia.jpeg',
-        role: 'Data Modelling & Reporting',
-        description:
-            'Data Scientist. Lydia is a data scientist with vast experience in analytics and machine learning. She leads the reporting and documentation team',
-    },
-    {
         name: 'Jochoniah Nzomo',
         image: '/images/profiles/nzomo.jpg',
         role: 'Data Scientist',
@@ -49,10 +21,52 @@ export const profiles = [
             'Jochoniah is a data scientist specializing with a specialization in analysis and research. Doubles in the modelling team..',
     },
     {
-        name: 'Benson Ongocho',
-        image: '',
-        role: 'Data Scientist',
+        name: 'Cosmas Biwott',
+        image: '/images/profiles/cosmas.jpeg',
+        role: 'Lead Data Analyst',
         description:
-            'Ben is a data scientist specializing in R. He works in the data analytics and data modelling team.',
+            'Data scientist, in the field of mathematics and data analytics, He is the lead in the data modeling team.',
     },
+    {
+        name: 'Norbert Oduor',
+        image: '/images/profiles/norbert.png',
+        role: 'Lead Data Analyst',
+        description:
+            'Data scientist, also in the field of mathematics and data analytics, He is the lead in the data modeling team.',
+    },
+    // {
+    //     name: 'John Kamau Kariuki',
+    //     image: '/images/profiles/kamice.jpeg',
+    //     role: 'Communication & Social Media expert',
+    //     description:
+    //         "People's person.In charge of Aesop's image on social media and other platforms.As well as taking lead in visualizations.",
+    // },
+    // {
+    //     name: 'Stephen Mungai',
+    //     image: '/images/profiles/stevo.jpeg',
+    //     role: 'Lead Data Analyst',
+    //     description:
+    //         'Data scientist. in the field of mathematics and data analytics, He is the lead in the data modeling team.',
+    // },
+    // {
+    //     name: 'Alex Gatangi',
+    //     image: '/images/profiles/Alex.jpeg',
+    //     role: 'Media and Photography',
+    //     description:
+    //         'Media guru, in charge of photography,video editing and graphic design. He also doubles as a social media pro.',
+    // },
+    // {
+    //     name: 'Lydia Gathoni',
+    //     image: '/images/profiles/lydia.jpeg',
+    //     role: 'Data Modelling & Reporting',
+    //     description:
+    //         'Data Scientist. Lydia is a data scientist with vast experience in analytics and machine learning. She leads the reporting and documentation team',
+    // },
+    // {
+    //     name: 'Benson Ongocho',
+    //     image: '',
+    //     role: 'Data Scientist',
+    //     description:
+    //         'Ben is a data scientist specializing in R. He works in the data analytics and data modelling team.',
+    // },
 ]

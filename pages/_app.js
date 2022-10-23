@@ -7,6 +7,9 @@ import '@fontsource/roboto/500.css'
 import '@fontsource/roboto/700.css'
 import '@fontsource/roboto-serif/400.css'
 import '@fontsource/roboto-serif/500.css'
+import '@fontsource/inter/400.css'
+import '@fontsource/inter/700.css'
+import '@fontsource/inter/800.css'
 import ContextProvider from '../src/context/ContextProvider'
 import ProgressBar from '@badrap/bar-of-progress'
 import Router from 'next/router'
@@ -28,7 +31,7 @@ function MyApp({ Component, pageProps }) {
         <ChakraProvider theme={theme}>
             <CSSReset />
             <ContextProvider>
-                <AnimatePresence exitBeforeEnter>
+                <AnimatePresence mode='wait'>
                     <Component {...pageProps} />
                 </AnimatePresence>
             </ContextProvider>

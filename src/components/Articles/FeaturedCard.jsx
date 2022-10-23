@@ -14,6 +14,8 @@ import MarkdownReader from '../common/MarkdownReader'
 import UserAvatar from '../common/UserAvatar'
 import { useGa } from '@/src/context/TrackingProvider'
 import useOptimize from '../../hooks/useOptimize'
+import useDimensions from 'react-cool-dimensions'
+import AesopImage from '../common/AesopImage'
 
 function FeaturedCard({ article, isMobile }) {
     const { gaEvent } = useGa()
@@ -30,6 +32,8 @@ function FeaturedCard({ article, isMobile }) {
     }
 
     const { ref, optimizedSrc } = useOptimize(article?.image?.url)
+
+    const { observe, width, height } = useDimensions()
 
     return (
         <Box height='100%' minWidth={isMobile && ['100%', '70%', '70%', '50%']}>
@@ -48,11 +52,10 @@ function FeaturedCard({ article, isMobile }) {
                     height='100%'
                     spacing='4'
                     cursor='pointer'>
-                    <Box height='40vh' width='100%'>
-                        <Image
-                            ref={ref}
-                            src={optimizedSrc}
-                            alt={article?.title}
+                    <Box ref={observe} height='40vh' width='100%'>
+                        <AesopImage
+                            src={article.image.url}
+                            alt={`${article?.title}-${article.image.pubId}`}
                             fallbackSrc={
                                 colorMode === 'light'
                                     ? 'images/placeholderthumbnail.png'
@@ -60,14 +63,12 @@ function FeaturedCard({ article, isMobile }) {
                             }
                             borderRadius='lg'
                             objectFit='cover'
-                            width='100%'
-                            height='100%'
+                            width={width}
+                            height={height}
                         />
                     </Box>
 
-                    <Heading fontSize='2xl' textTransform='capitalize'>
-                        {article?.title}
-                    </Heading>
+                    <Heading fontSize='2xl'>{article?.title}</Heading>
                     <Box>
                         <Text
                             as='p'

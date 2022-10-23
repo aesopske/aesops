@@ -7,13 +7,11 @@ function AppDescription({ app }) {
     const [config, setConfig] = useState({})
 
     useEffect(() => {
-        if (typeof window !== 'undefined') {
-            setConfig({
-                url: window.location.href,
-                identifier: app?._id,
-                title: app?.title,
-            })
-        }
+        setConfig({
+            url: window.location.href,
+            identifier: app?._id,
+            title: app?.title,
+        })
     }, [app?._id, app?.title])
     return (
         <Box>

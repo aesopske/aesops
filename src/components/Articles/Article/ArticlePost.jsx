@@ -9,15 +9,15 @@ import {
     Heading,
     Text,
     Badge,
-    Image,
     useColorMode,
     HStack,
     Stack,
 } from '@chakra-ui/react'
+import useMeasure from 'react-cool-dimensions'
 import UserAvatar from '../../common/UserAvatar'
 import MoreByAuthor from '../../moreby/MoreByAuthor'
 import { useRouter } from 'next/router'
-import { optimizeImage } from '@/src/utils'
+import AesopImage from '../../common/AesopImage'
 
 function ArticlePost({ article = {}, authorArticles = [] }) {
     const router = useRouter()
@@ -27,18 +27,16 @@ function ArticlePost({ article = {}, authorArticles = [] }) {
     const date = new Date(article.created).toDateString()
 
     useEffect(() => {
-        if (typeof window !== 'undefined') {
-            if (article.body) {
-                const { text } = readTime(article.body)
-                setRead(text)
-            }
-
-            setConfig({
-                url: window.location.href,
-                identifier: article._id,
-                title: article.title,
-            })
+        if (article.body) {
+            const { text } = readTime(article.body)
+            setRead(text)
         }
+
+        setConfig({
+            url: window.location.href,
+            identifier: article._id,
+            title: article.title,
+        })
     }, [article.body, article._id, article.title])
 
     const user = {
@@ -53,6 +51,8 @@ function ArticlePost({ article = {}, authorArticles = [] }) {
         email: article.author_email,
     }
 
+    const { observe, width, height } = useMeasure()
+
     const Tags = () => {
         return (
             <HStack flexWrap='wrap' gap='5px' alignItems='flex-start'>
@@ -65,10 +65,10 @@ function ArticlePost({ article = {}, authorArticles = [] }) {
                             onClick={() => {
                                 router.push(
                                     {
-                                        pathname: '/fables',
+                                        pathname: '/articles',
                                         query: { category: tag },
                                     },
-                                    `/fables?category=${tag}`,
+                                    `/articles?category=${tag}`,
                                     {
                                         shallow: true,
                                     }
@@ -106,16 +106,18 @@ function ArticlePost({ article = {}, authorArticles = [] }) {
 
                     {article?.image && (
                         <Box
+                            ref={observe}
                             width='100%'
                             height={['40vh', '40vh', '40vh', '40vh', '60vh']}
                             my='1rem'>
-                            <Image
-                                src={optimizeImage(article.image?.url)}
-                                alt='article'
+                            <AesopImage
+                                src={article.image?.url}
+                                alt={article?.title}
                                 borderRadius='10px'
-                                width='100%'
-                                height='100%'
+                                width={width}
+                                height={height}
                                 objectFit='cover'
+                                layout='responsive'
                                 fallbackSrc='/images/placeholder.png'
                             />
                         </Box>
@@ -128,7 +130,7 @@ function ArticlePost({ article = {}, authorArticles = [] }) {
                         lineHeight='2'
                         textAlign='justify'
                         p={['10px', '10px', '0', '0', '0']}
-                        className='paragraph'
+                        fontFamily='Roboto Serif'
                         color={colorMode === 'light' ? 'gray.600' : 'gray.300'}
                         my='1rem'>
                         <MarkdownReader content={article?.body} />

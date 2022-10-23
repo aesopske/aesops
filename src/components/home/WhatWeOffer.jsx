@@ -94,7 +94,10 @@ function WhatWeOffer() {
                                     fontSize='1.5rem'
                                     colorScheme='brand'
                                 />
-                                <Text as='p' my='1rem' fontSize='lg'>
+                                <Text
+                                    as='p'
+                                    my='1rem'
+                                    fontSize={['lg', 'lg', 'lg', 'xl']}>
                                     {activity.description}
                                 </Text>
                             </Box>

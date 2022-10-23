@@ -25,11 +25,9 @@ function Datasets({ datasets }) {
 
     // client side rendering
     useEffect(() => {
-        if (typeof window !== 'undefined') {
-            if (text) {
-                // fetch filtered
-                fetchFiltered(text)
-            }
+        if (text) {
+            // fetch filtered
+            fetchFiltered(text)
         }
     }, [text])
     return (
