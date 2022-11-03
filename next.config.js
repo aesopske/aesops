@@ -18,4 +18,7 @@ module.exports = {
         // mongodb
         MONGO_URI: process.env.MONGO_URI,
     },
+    images: {
+        domains: ['res.cloudinary.com', 'firebasestorage.googleapis.com'],
+    },
 }

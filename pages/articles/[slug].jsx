@@ -5,34 +5,22 @@ import {
     fetchArticles,
     fetchMoreByAuthor,
 } from '@/src/utils/requests'
-import { useEffect, useState } from 'react'
+import { Suspense, useCallback, useEffect, useState } from 'react'
 
 function Article({ article, cookieConsent }) {
     const [byAuthor, setByAuthor] = useState([])
+    const defaultUrl = article?.image?.url
 
-    let defaultUrl
-
-    if (article?.image?.url) {
-        defaultUrl = article?.image?.url
-    } else {
-        defaultUrl =
-            'https://firebasestorage.googleapis.com/v0/b/aesops-ke.appspot.com/o/aesops-seo.png?alt=media&token=33e1fc5e-68cb-435f-9d1e-466bd0ad5dd6'
-    }
+    const fetchAll = useCallback(async () => {
+        const moreFromAuthor = await fetchMoreByAuthor(article.author_email)
+        setByAuthor(moreFromAuthor.items)
+    }, [article.author_email])
 
     useEffect(() => {
-        if (typeof window !== 'undefined') {
-            if (article) {
-                const fetchAll = async () => {
-                    const moreFromAuthor = await fetchMoreByAuthor(
-                        article.author_email
-                    )
-                    setByAuthor(moreFromAuthor.items)
-                }
-
-                fetchAll()
-            }
+        if (article) {
+            fetchAll()
         }
-    }, [article])
+    }, [article, fetchAll])
 
     return (
         <Layout
@@ -48,7 +36,9 @@ function Article({ article, cookieConsent }) {
                 authors: [article?.author],
                 tags: [...article?.tags],
             }}>
-            <ArticlePost article={article} authorArticles={byAuthor} />
+            <Suspense fallback={<p>loading ...</p>}>
+                <ArticlePost article={article} authorArticles={byAuthor} />
+            </Suspense>
         </Layout>
     )
 }

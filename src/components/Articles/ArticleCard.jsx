@@ -4,19 +4,17 @@ import Link from 'next/link'
 import readTime from 'reading-time'
 import MarkdownReader from '../common/MarkdownReader'
 import {
-    Image,
     Text,
     Heading,
     Box,
     useColorMode,
     Stack,
-    HStack,
-    Badge,
     VStack,
 } from '@chakra-ui/react'
 import UserAvatar from '../common/UserAvatar'
 import { useGa } from '@/src/context/TrackingProvider'
-import useOptimize from '../../hooks/useOptimize'
+import useMeasure from 'react-cool-dimensions'
+import AesopImage from '../common/AesopImage'
 
 function ArticlesCard({ article }) {
     const { gaEvent } = useGa()
@@ -31,29 +29,30 @@ function ArticlesCard({ article }) {
         read: text,
         photoURL: article?.author_image,
     }
-
-    const { ref, optimizedSrc } = useOptimize(article?.image?.url)
+    const { observe, width, height } = useMeasure()
 
     return (
         <Stack
             height='auto'
             width='100%'
             spacing='6'
-            minHeight='25vh'
+            p='10px'
+            maxHeight={['auto', 'auto', 'auto', 'auto', '20vh', '20vh']}
             direction={['column', 'column', 'row-reverse', 'row-reverse']}>
             <Box
+                ref={observe}
                 width={['100%', '100%', '40%', '35%', '30%']}
-                height='auto'
+                height={['30vh', '30vh', 'auto']}
                 maxHeight='inherit'>
                 <Link href={`/articles/${article?.slug}`} passHref>
-                    <Image
-                        ref={ref}
+                    <AesopImage
                         borderRadius='lg'
-                        src={optimizedSrc}
+                        src={article?.image?.url}
                         alt={article?.title}
                         objectFit='cover'
-                        width='100%'
-                        height='100%'
+                        width={width}
+                        height={height}
+                        layout='responsive'
                         fallbackSrc={
                             colorMode === 'light'
                                 ? 'images/placeholderthumbnail.png'
@@ -78,7 +77,6 @@ function ArticlesCard({ article }) {
                         <Heading
                             cursor='pointer'
                             fontSize='2xl'
-                            textTransform='capitalize'
                             onClick={() => {
                                 gaEvent(
                                     'Articles',
@@ -96,7 +94,6 @@ function ArticlesCard({ article }) {
                         fontWeight='light'
                         width='100%'
                         my='1rem'
-                        fontFamily='Roboto Serif'
                         lineHeight='1.8rem'
                         color={colorMode === 'light' ? 'gray.200' : 'gray.500'}
                         noOfLines={[2, 2, 3]}>
@@ -104,43 +101,7 @@ function ArticlesCard({ article }) {
                     </Text>
                 </Box>
 
-                <Stack
-                    justifyContent='space-between'
-                    alignItems={[
-                        'flex-start',
-                        'flex-start',
-                        '',
-                        '',
-                        'flex-start',
-                        'center',
-                    ]}
-                    direction={[
-                        'column',
-                        'column',
-                        'column',
-                        'column',
-                        'column',
-                        'row',
-                    ]}
-                    spacing='5'
-                    width='100%'>
-                    <UserAvatar user={user} align='center' />
-                    <HStack spacing='1' flexWrap='wrap' mb='0.5rem'>
-                        {article?.tags &&
-                            article?.tags.slice(0, 2).map((tag) => (
-                                <Badge
-                                    key={tag}
-                                    borderRadius='full'
-                                    colorScheme='purple'
-                                    fontWeight='500'
-                                    p='10px'
-                                    fontSize={['sm', '', '', '', '', 'sm']}
-                                    textTransform='capitalize'>
-                                    {tag}
-                                </Badge>
-                            ))}
-                    </HStack>
-                </Stack>
+                <UserAvatar user={user} align='center' />
             </VStack>
         </Stack>
     )

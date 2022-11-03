@@ -9,6 +9,7 @@ import {
     useMediaQuery,
     useDisclosure,
     VStack,
+    Divider,
 } from '@chakra-ui/react'
 import Search from '../common/Search'
 import ArticleCard from './ArticleCard'
@@ -59,29 +60,24 @@ function ArticleList({ articles }) {
     }, [])
 
     useEffect(() => {
-        if (typeof window !== 'undefined') {
-            if (text) {
-                fetchFiltered(text)
-            }
+        if (text) {
+            fetchFiltered(text)
         }
     }, [text, fetchFiltered])
 
     useEffect(() => {
-        if (typeof window !== 'undefined') {
-            if (query) {
-                fetchFiltered(query)
-            }
+        if (query) {
+            fetchFiltered(query)
         }
     }, [query, fetchFiltered])
 
     useEffect(() => {
-        if (typeof window !== 'undefined') {
-            getCategories()
-        }
+        getCategories()
     }, [getCategories])
 
     return (
         <Stack
+            my='2rem'
             gap='1rem'
             spacing={['2', '2', '3', '8']}
             flexDir={[
@@ -196,34 +192,36 @@ function ArticleList({ articles }) {
 
                 {loading && !filtered.length && <ArticleLoader />}
 
-                {text ? (
-                    <Grid gap='3rem' templateColumns='repeat(1, 1fr)'>
+                {text || query ? (
+                    <Grid gap='4rem' templateColumns='repeat(1, 1fr)'>
                         {filtered &&
-                            filtered.map((article) => (
-                                <ArticleCard
-                                    key={article._id}
-                                    article={article}
-                                />
-                            ))}
-                    </Grid>
-                ) : query ? (
-                    <Grid gap='3rem' templateColumns='repeat(1, 1fr)'>
-                        {filtered &&
-                            filtered.map((article) => (
-                                <ArticleCard
-                                    key={article._id}
-                                    article={article}
-                                />
+                            filtered.map((article, index) => (
+                                <>
+                                    <ArticleCard
+                                        key={article._id}
+                                        article={article}
+                                    />
+                                    {index !== filtered.length - 1 && (
+                                        <Divider />
+                                    )}
+                                </>
                             ))}
                     </Grid>
                 ) : (
-                    <Grid gap='3rem' templateColumns='repeat(1, 1fr)'>
+                    <Grid
+                        gap={['3rem', '3rem']}
+                        templateColumns='repeat(1, 1fr)'>
                         {articles &&
-                            articles.map((article) => (
-                                <ArticleCard
-                                    key={article._id}
-                                    article={article}
-                                />
+                            articles.map((article, index) => (
+                                <>
+                                    <ArticleCard
+                                        key={article._id}
+                                        article={article}
+                                    />
+                                    {index !== articles.length - 1 && (
+                                        <Divider />
+                                    )}
+                                </>
                             ))}
                     </Grid>
                 )}

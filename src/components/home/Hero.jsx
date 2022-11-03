@@ -2,7 +2,6 @@ import React from 'react'
 import Link from 'next/link'
 import {
     Box,
-    Image,
     Text,
     Heading,
     Stack,
@@ -13,10 +12,13 @@ import { ErrorBoundary } from 'react-error-boundary'
 import ErrorHandler from '../common/ErrorHandler'
 import { motion } from 'framer-motion'
 import AesopBtn from '../common/atoms/AesopBtn'
+import AesopImage from '../common/AesopImage'
+import useDimensions from 'react-cool-dimensions'
 
 function Hero() {
     const { colorMode } = useColorMode()
     const { gaEvent } = useGa()
+    const { observe, width, height } = useDimensions()
 
     return (
         <ErrorBoundary FallbackComponent={ErrorHandler}>
@@ -52,8 +54,8 @@ function Hero() {
                             opacity: 1,
                             transition: { duration: 0.5, delay: 0.3 },
                         }}>
-                        <Box width={['100%', '100%', '100%', '100%']}>
-                            <Heading as='h1' size='3xl' color='#fff'>
+                        <Box width={['100%', '100%', '100%', '80%']}>
+                            <Heading as='h1' size='4xl' color='#fff'>
                                 We tell stories with data as our medium
                             </Heading>
                             <Text
@@ -124,6 +126,7 @@ function Hero() {
                     </Box>
 
                     <Box
+                        ref={observe}
                         as={motion.div}
                         initial={{ y: -100, opacity: 0 }}
                         animate={{
@@ -132,14 +135,17 @@ function Hero() {
                             transition: { duration: 0.3, delay: 0.3 },
                         }}
                         my={['2rem', '1rem', '1rem', '0']}
+                        width={['100%', '90%', '90%', '80%', '70%']}
+                        height='100%'
                         display={['none', 'none', 'block']}>
-                        <Image
-                            src='/images/aesops-nutshell.png'
-                            alt='aesops'
-                            width={['100%', '90%', '90%', '80%', '70%']}
+                        <AesopImage
                             mx='auto'
-                            height='100%'
+                            alt='aesops'
+                            width={width}
+                            height={height}
                             objectFit='contain'
+                            src='/images/aesops-nutshell.png'
+                            priority={true}
                         />
                     </Box>
                 </Box>

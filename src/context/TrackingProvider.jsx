@@ -8,23 +8,19 @@ function TrackingProvider({ children }) {
 
     const pageView = useCallback(
         (location = window.location.href) => {
-            if (typeof window !== 'undefined') {
-                window.gtag('config', trackingId, {
-                    page_path: location,
-                })
-            }
+            window.gtag('config', trackingId, {
+                page_path: location,
+            })
         },
         [trackingId]
     )
 
     function gaEvent(category = '', action = '', label = '', value = '') {
-        if (typeof window !== 'undefined') {
-            window.gtag('event', action, {
-                event_category: category,
-                event_label: label,
-                value,
-            })
-        }
+        window.gtag('event', action, {
+            event_category: category,
+            event_label: label,
+            value,
+        })
     }
 
     const handleRouteChange = useCallback(

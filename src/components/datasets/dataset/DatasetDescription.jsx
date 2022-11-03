@@ -7,13 +7,11 @@ function DatasetDescription({ dataset }) {
     const [config, setConfig] = useState({})
 
     useEffect(() => {
-        if (typeof window !== 'undefined') {
-            setConfig({
-                url: window.location.href,
-                identifier: dataset?._id,
-                title: dataset?.title,
-            })
-        }
+        setConfig({
+            url: window.location.href,
+            identifier: dataset?._id,
+            title: dataset?.title,
+        })
     }, [dataset?.body, dataset?._id, dataset?.title])
 
     return (

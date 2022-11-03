@@ -1,10 +1,13 @@
 import React from 'react'
-import { Box, Image, Heading, Text, Stack } from '@chakra-ui/react'
+import { Box, Heading, Text, Stack } from '@chakra-ui/react'
 import Link from 'next/link'
 import { motion } from 'framer-motion'
 import AesopBtn from '../common/atoms/AesopBtn'
+import AesopImage from '../common/AesopImage'
+import useDimensions from 'react-cool-dimensions'
 
 function DatasetsHero() {
+    const { observe, width, height } = useDimensions()
     return (
         <Box
             height='auto'
@@ -19,7 +22,7 @@ function DatasetsHero() {
             borderRadius='0'
             my='2rem'>
             <Box
-                bgGradient='linear(to-r,#804fadcc, #700dccc0 )'
+                bgGradient='linear(to-b, #804fadcc, #700dccc0 )'
                 position='absolute'
                 borderRadius='0'
                 top='0'
@@ -27,6 +30,7 @@ function DatasetsHero() {
                 zIndex='0'
                 width='100%'
                 height='100%'
+                backdropFilter='blur(5px)'
             />
             <Stack
                 height='100%'
@@ -54,7 +58,7 @@ function DatasetsHero() {
                     <Text
                         as='p'
                         my='2rem'
-                        fontSize='lg'
+                        fontSize='xl'
                         width={['100%', '100%', '90%', '100%']}>
                         We look for unique datasets from Kenya, or Africa that
                         are largely under-represented in the data science
@@ -76,6 +80,7 @@ function DatasetsHero() {
                     </Link>
                 </Box>
                 <Box
+                    ref={observe}
                     as={motion.div}
                     initial={{ y: 100, opacity: 0 }}
                     animate={{
@@ -85,16 +90,17 @@ function DatasetsHero() {
                     }}
                     flex='1'
                     zIndex='20'
-                    width={['80%', '60%', '40%']}
-                    height={['80%', '70%', '60%']}
+                    width='100%'
+                    height={['35vh', '40vh', '', '45vh']}
                     display={['none', 'none', 'block']}
                     mt={['2rem', '2rem', '2rem', '0']}>
-                    <Image
+                    <AesopImage
                         src='/svg/dataset.svg'
                         alt='Datasets'
-                        width='80%'
-                        height='80%'
+                        width={width}
+                        height={height}
                         objectFit='contain'
+                        layout='responsive'
                     />
                 </Box>
             </Stack>

@@ -57,7 +57,7 @@ function Projects() {
                     <Text
                         as='p'
                         my='2rem'
-                        fontSize='lg'
+                        fontSize={['lg', 'lg', 'lg', 'xl']}
                         color={
                             colorMode === 'light' ? '#555' : 'whiteAlpha.800'
                         }

@@ -26,6 +26,7 @@ function VisualCode() {
                 zIndex='0'
                 width='100%'
                 height='100%'
+                backdropFilter='blur(5px)'
             />
             <Box
                 as={Stack}
@@ -44,7 +45,7 @@ function VisualCode() {
                     <Text
                         as='p'
                         my='2rem'
-                        fontSize='lg'
+                        fontSize={['lg', 'lg', 'lg', 'xl']}
                         width={['100%', '100%', '90%', '100%']}>
                         Our eyes are the gateways to our very souls. We appeal
                         to the souls of our readers with beautiful plots made in
