@@ -1,4 +1,4 @@
-import { Badge, Box, HStack, Stack, Text, useColorMode } from '@chakra-ui/react'
+import { Box } from '@chakra-ui/react'
 import Navbar from './Navbar'
 import Footer from './Footer'
 import { useState } from 'react'
@@ -25,8 +25,6 @@ function Layout({
 }) {
     const { showCookieBanner } = useCookie()
     const [scroll, setScroll] = useState(false)
-    const { colorMode } = useColorMode()
-    const isDark = colorMode === 'dark'
 
     const handleScrollChange = () => {
         if (window.scrollY !== 0) {
@@ -98,7 +96,7 @@ function Layout({
           `,
                 }}
             />
-           
+
             <Navbar />
 
             <Box width='100%' height='auto'>
