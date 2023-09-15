@@ -6,6 +6,7 @@ import {
     HStack,
     Image,
     Stack,
+    Badge,
     Text,
     useColorMode,
 } from '@chakra-ui/react'
@@ -18,6 +19,7 @@ function Navbar() {
     const router = useRouter()
     const { gaEvent } = useGa()
     const { colorMode } = useColorMode()
+    const isDark = colorMode === 'dark'
 
     const nav = [
         {
@@ -43,132 +45,162 @@ function Navbar() {
     ]
 
     return (
-        <Box
-            height='5rem'
-            width='100%'
-            position='sticky'
-            top='0'
-            left='0'
-            bg={colorMode === 'light' ? 'gray.100' : 'gray.800'}
-            borderBottom={colorMode === 'light' ? '1px solid' : '1px solid'}
-            borderColor={colorMode === 'light' ? 'gray.300' : 'gray.700'}
-            zIndex='60'
-            display={['none', 'none', 'block', 'block']}>
+        <Box position='sticky' top='0' left='0' zIndex='60'>
             <Box
-                as={Stack}
-                direction='row'
-                alignItems='center'
-                justifyContent='space-between'
-                height='100%'
-                width={['90%', '90%', '90%', '80%', '', '75%']}
-                mx='auto'>
-                <Link href='/' passHref>
-                    <HStack width='auto' cursor='pointer'>
-                        <Image
-                            width='60px'
-                            height='50px'
-                            objectFit='contain'
-                            src={
-                                colorMode === 'light'
-                                    ? '/images/aesops-logo.png'
-                                    : '/images/aesops-logo-muted.png'
-                            }
-                            alt='Aesops Logo'
-                            aria-label='Aesops Logo'
-                        />
-                        <Heading
-                            size='md'
-                            color={
-                                router.asPath === '/'
-                                    ? colorMode === 'dark'
-                                        ? 'brand.muted'
-                                        : 'brand.primary'
-                                    : colorMode === 'dark'
-                                    ? 'gray.200'
-                                    : 'gray.700'
-                            }>
-                            Aesops
-                        </Heading>
+                px='20px'
+                py='10px'
+                height={['auto', 'auto', '3rem']}
+                bg={isDark ? 'gray.900' : 'gray.200'}>
+                <Stack
+                    direction={['column', 'column', 'row']}
+                    alignItems={['start', 'start', 'center']}
+                    height='100%'
+                    width='100%'
+                    justifyContent='space-between'>
+                    <HStack spacing='10px'>
+                        <Badge colorScheme='teal'>New</Badge>
+                        <Text fontWeight='semibold'>
+                            Register for our free Bootcamp
+                        </Text>
                     </HStack>
-                </Link>
+                    <Text
+                        as='a'
+                        p='5px'
+                        px='10px'
+                        rounded='md'
+                        bg='brand.400'
+                        color='white'
+                        target='_blank'
+                        fontWeight='semibold'
+                        rel='noreferrer noopener'
+                        href='https://forms.gle/pjNVDD5Yn4RDQhpK9'>
+                        Register 🙂
+                    </Text>
+                </Stack>
+            </Box>
+            <Box
+                height='5rem'
+                width='100%'
+                bg={colorMode === 'light' ? 'gray.100' : 'gray.800'}
+                borderBottom={colorMode === 'light' ? '1px solid' : '1px solid'}
+                borderColor={colorMode === 'light' ? 'gray.300' : 'gray.700'}
+                display={['none', 'none', 'block', 'block']}>
+                <Box
+                    as={Stack}
+                    direction='row'
+                    alignItems='center'
+                    justifyContent='space-between'
+                    height='100%'
+                    width={['90%', '90%', '90%', '80%', '', '75%']}
+                    mx='auto'>
+                    <Link href='/' passHref>
+                        <HStack width='auto' cursor='pointer'>
+                            <Image
+                                width='60px'
+                                height='50px'
+                                objectFit='contain'
+                                src={
+                                    colorMode === 'light'
+                                        ? '/images/aesops-logo.png'
+                                        : '/images/aesops-logo-muted.png'
+                                }
+                                alt='Aesops Logo'
+                                aria-label='Aesops Logo'
+                            />
+                            <Heading
+                                size='md'
+                                color={
+                                    router.asPath === '/'
+                                        ? colorMode === 'dark'
+                                            ? 'brand.muted'
+                                            : 'brand.primary'
+                                        : colorMode === 'dark'
+                                        ? 'gray.200'
+                                        : 'gray.700'
+                                }>
+                                Aesops
+                            </Heading>
+                        </HStack>
+                    </Link>
 
-                <HStack spacing={['', '', '2', '3', '4', '6']} width='auto'>
-                    <HStack spacing={['', '', '2', '3', '5']} width='auto'>
-                        {nav.map((item) => {
-                            const isActive = router.asPath === item.path
-                            const lightMode = colorMode === 'light'
-                            return (
-                                <Link
-                                    key={item.label}
-                                    href={item.path}
-                                    passHref>
-                                    <Text
-                                        as='span'
-                                        fontSize='md'
-                                        fontFamily='Roboto'
-                                        color={
-                                            isActive
-                                                ? lightMode
-                                                    ? 'brand.600'
-                                                    : 'brand.200'
-                                                : lightMode
-                                                ? 'gray.600'
-                                                : 'gray.300'
-                                        }
-                                        fontWeight={
-                                            router.asPath === item.path
-                                                ? '700'
-                                                : '500'
-                                        }
-                                        _hover={{}}
-                                        cursor='pointer'>
-                                        {item.label}
-                                    </Text>
-                                </Link>
-                            )
-                        })}
+                    <HStack spacing={['', '', '2', '3', '4', '6']} width='auto'>
+                        <HStack spacing={['', '', '2', '3', '5']} width='auto'>
+                            {nav.map((item) => {
+                                const isActive = router.asPath === item.path
+                                const lightMode = colorMode === 'light'
+                                return (
+                                    <Link
+                                        key={item.label}
+                                        href={item.path}
+                                        passHref>
+                                        <Text
+                                            as='span'
+                                            fontSize='md'
+                                            fontFamily='Roboto'
+                                            color={
+                                                isActive
+                                                    ? lightMode
+                                                        ? 'brand.600'
+                                                        : 'brand.200'
+                                                    : lightMode
+                                                    ? 'gray.600'
+                                                    : 'gray.300'
+                                            }
+                                            fontWeight={
+                                                router.asPath === item.path
+                                                    ? '700'
+                                                    : '500'
+                                            }
+                                            _hover={{}}
+                                            cursor='pointer'>
+                                            {item.label}
+                                        </Text>
+                                    </Link>
+                                )
+                            })}
+                        </HStack>
+
+                        <Text> | </Text>
+
+                        <HStack spacing='8' width='auto'>
+                            <ThemeSwitcher />
+
+                            <AesopBtn
+                                variant='link'
+                                label='Sign In'
+                                as='a'
+                                href={`${process.env.DASHBOARD_URL}/auth/signin`}
+                                target='_blank'
+                                fontSize='md'
+                                onClick={() => {
+                                    gaEvent({
+                                        category: 'Auth',
+                                        action: 'Clicked sign in',
+                                        label: 'signin',
+                                    })
+                                }}
+                                rel='noopener noreferer'
+                            />
+
+                            <AesopBtn
+                                isLink
+                                onClick={() => {
+                                    gaEvent({
+                                        category: 'Auth',
+                                        action: 'Clicked sign up',
+                                        label: 'signup',
+                                    })
+                                }}
+                                label='Get started &rarr;'
+                                as='a'
+                                target='_blank'
+                                rel='noopener noreferer'
+                                href={`${process.env.DASHBOARD_URL}/auth/signup`}
+                                height={['', '', '2.5rem', '2.5rem', '3rem']}
+                            />
+                        </HStack>
                     </HStack>
-
-                    <Text> | </Text>
-
-                    <HStack spacing='8' width='auto'>
-                        <ThemeSwitcher />
-
-                        <AesopBtn
-                            variant='link'
-                            label='Sign In'
-                            as='a'
-                            href={`${process.env.DASHBOARD_URL}/auth/signin`}
-                            target='_blank'
-                            fontSize='md'
-                            onClick={() => {
-                                gaEvent({
-                                    category: 'Auth',
-                                    action: 'Clicked sign in',
-                                    label: 'signin',
-                                })
-                            }}
-                            rel='noopener noreferer'
-                        />
-
-                        <AesopBtn
-                            isLink
-                            onClick={() => {
-                                gaEvent({
-                                    category: 'Auth',
-                                    action: 'Clicked sign up',
-                                    label: 'signup',
-                                })
-                            }}
-                            label='Get started &rarr;'
-                            as='a'
-                            target='_blank'
-                            rel='noopener noreferer'
-                            href={`${process.env.DASHBOARD_URL}/auth/signup`}
-                            height={['', '', '2.5rem', '2.5rem', '3rem']}
-                        />
-                    </HStack>
-                </HStack>
+                </Box>
             </Box>
         </Box>
     )
