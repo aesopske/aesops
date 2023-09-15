@@ -1,4 +1,4 @@
-import { Badge, Box, HStack, Stack, Text, useColorMode } from '@chakra-ui/react'
+import { Box } from '@chakra-ui/react'
 import Navbar from './Navbar'
 import Footer from './Footer'
 import { useState } from 'react'
@@ -25,8 +25,6 @@ function Layout({
 }) {
     const { showCookieBanner } = useCookie()
     const [scroll, setScroll] = useState(false)
-    const { colorMode } = useColorMode()
-    const isDark = colorMode === 'dark'
 
     const handleScrollChange = () => {
         if (window.scrollY !== 0) {
@@ -98,42 +96,9 @@ function Layout({
           `,
                 }}
             />
-            <Box
-                top='0'
-                left='0'
-                px='20px'
-                py='10px'
-                position='sticky'
-                height={['auto', 'auto', '3rem']}
-                bg={isDark ? 'gray.900' : 'gray.200'}>
-                <Stack
-                    direction={['column', 'column', 'row']}
-                    alignItems={['start', 'start', 'center']}
-                    height='100%'
-                    width='100%'
-                    justifyContent='space-between'>
-                    <HStack spacing='10px'>
-                        <Badge colorScheme='teal'>New</Badge>
-                        <Text fontWeight='semibold'>
-                            Register for our free Bootcamp
-                        </Text>
-                    </HStack>
-                    <Text
-                        as='a'
-                        p='5px'
-                        px='10px'
-                        rounded='md'
-                        bg='brand.400'
-                        color='white'
-                        target='_blank'
-                        fontWeight='semibold'
-                        rel='noreferrer noopener'
-                        href='https://forms.gle/pjNVDD5Yn4RDQhpK9'>
-                        Register 🙂
-                    </Text>
-                </Stack>
-            </Box>
+
             <Navbar />
+
             <Box width='100%' height='auto'>
                 {showCookieBanner && <CookieBanner />}
                 <ErrorBoundary FallbackComponent={ErrorHandler}>
