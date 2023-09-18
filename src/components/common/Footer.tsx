@@ -105,7 +105,6 @@ function Footer() {
                 {/* logo */}
 
                 <GridItem
-                    colSpan='1'
                     height='auto'
                     width='100%'
                     display={['none', 'none', 'none', 'block']}>
@@ -128,7 +127,6 @@ function Footer() {
                 {/* links */}
 
                 <GridItem
-                    colSpan='1'
                     color={colorMode === 'light' ? 'gray.600' : 'gray.400'}
                     p='0 20px'>
                     <Heading fontSize='xl' my='1rem'>
@@ -156,7 +154,6 @@ function Footer() {
                 {/* socials */}
 
                 <GridItem
-                    colSpan='1'
                     color={colorMode === 'light' ? 'gray.600' : 'gray.400'}
                     p='0 20px'>
                     <Heading fontSize='lg' my='1rem'>
@@ -185,7 +182,6 @@ function Footer() {
                     </VStack>
                 </GridItem>
                 <GridItem
-                    colSpan='1'
                     color={colorMode === 'light' ? 'gray.600' : 'gray.400'}
                     p='0 20px'>
                     <Heading fontSize='lg' my='1rem'>
