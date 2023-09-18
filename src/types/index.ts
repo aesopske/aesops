@@ -59,7 +59,7 @@ export type DATASET = {
 }
 
 export type USER = {
-    _id: string
+    _id?: string
     id?: string
     name: string
     email: string
