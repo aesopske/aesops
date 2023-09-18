@@ -1,20 +1,26 @@
-import Layout from '@/components/common/Layout'
-import { fetchApps } from '@/utils/requests'
-import { Box, Grid, GridItem, Text, useColorMode } from '@chakra-ui/react'
-import AppsFilter from '@/components/apps/AppsFilter'
-import AppsList from '@/components/apps/AppsList'
 import { useDebounce } from 'use-debounce'
 import { useState, useEffect } from 'react'
+import { Box, Grid, GridItem, Text, useColorMode } from '@chakra-ui/react'
+
+import { APP } from '@/types'
+import { fetchApps } from '@/utils/requests'
+import Layout from '@/components/common/Layout'
+import AppsList from '@/components/apps/AppsList'
+import AppsFilter from '@/components/apps/AppsFilter'
 import PageBanner from '@/components/common/PageBanner'
 
-function Apps({ apps, cookieConsent }) {
+type AppsProps = {
+    apps: APP[]
+}
+
+function Apps({ apps }: AppsProps) {
     const { colorMode } = useColorMode()
     const [searchTerm, setSearchTerm] = useState('')
     const [filtered, setFiltered] = useState([])
 
     const [text] = useDebounce(searchTerm, 500)
 
-    const fetchFiltered = async (txt) => {
+    const fetchFiltered = async (txt: string) => {
         const data = await fetchApps({ keyword: txt })
         if (data.items) {
             setFiltered(data.items)
@@ -37,8 +43,7 @@ function Apps({ apps, cookieConsent }) {
         <Layout
             title='Aesops | Apps'
             url='https://aesops.co.ke/apps'
-            description={description}
-            cookieConsent={cookieConsent}>
+            description={description}>
             <Box
                 width={['90%', '90%', '90%', '80%', '', '75%']}
                 height='auto'
@@ -66,7 +71,7 @@ function Apps({ apps, cookieConsent }) {
                         'repeat(3,1fr)',
                     ]}
                     my='2rem'>
-                    <GridItem colSpan='1'>
+                    <GridItem>
                         <Box
                             position={[
                                 'relative',
@@ -96,8 +101,7 @@ function Apps({ apps, cookieConsent }) {
     )
 }
 
-export async function getStaticProps(ctx) {
-    const cookieConsent = ctx.req ? ctx.req.cookies.cookieConsent : null
+export async function getStaticProps() {
     const data = await fetchApps({ limit: 100, page: 1 })
 
     if (!data) {
@@ -112,7 +116,6 @@ export async function getStaticProps(ctx) {
     return {
         props: {
             apps: data.items,
-            cookieConsent,
         },
 
         revalidate: 10,

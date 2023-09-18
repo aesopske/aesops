@@ -7,9 +7,9 @@ import Projects from '@/components/home/Projects'
 import VisualCode from '@/components/home/VisualCode'
 import WhatWeOffer from '@/components/home/WhatWeOffer'
 
-function Home({ cookieConsent }) {
+function Home() {
     return (
-        <Layout title='Aesops - Home' cookieConsent={cookieConsent}>
+        <Layout title='Aesops - Home'>
             <Hero />
             <WhatWeOffer />
             <About />
@@ -21,12 +21,6 @@ function Home({ cookieConsent }) {
     )
 }
 
-Home.getInitialProps = async (ctx) => {
-    const cookieConsent = ctx.req ? ctx.req.cookies.cookieConsent : null
 
-    return {
-        cookieConsent,
-    }
-}
 
 export default Home

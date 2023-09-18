@@ -62,7 +62,7 @@ export type USER = {
     _id?: string
     id?: string
     name: string
-    email: string
+    email?: string
     photourl?:
         | string
         | {

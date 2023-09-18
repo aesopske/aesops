@@ -58,7 +58,7 @@ function Datasets({ datasets }) {
                         'repeat(3,1fr)',
                     ]}
                     my='2rem'>
-                    <GridItem colSpan='1'>
+                    <GridItem>
                         <Box
                             position={[
                                 'relative',

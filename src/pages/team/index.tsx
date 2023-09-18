@@ -4,17 +4,14 @@ import { Box, Grid, useColorMode, Text } from '@chakra-ui/react'
 import { profiles } from '@/utils/team'
 import PageBanner from '@/components/common/PageBanner'
 
-function Team({ cookieConsent }) {
+function Team() {
     const { colorMode } = useColorMode()
 
     const description =
         'Meet the brilliant minds behind Aesops. Investing and growing a platform and community with data experts to make share data and findings.'
 
     return (
-        <Layout
-            title='Aesops - team'
-            description={description}
-            cookieConsent={cookieConsent}>
+        <Layout title='Aesops - team' description={description}>
             <Box
                 height='auto'
                 minHeight='50vh'
@@ -72,11 +69,5 @@ function Team({ cookieConsent }) {
     )
 }
 
-Team.getInitialProps = async (ctx) => {
-    const cookieConsent = ctx.req ? ctx.req.cookies.cookieConsent : null
-    return {
-        cookieConsent,
-    }
-}
 
 export default Team

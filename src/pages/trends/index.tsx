@@ -3,10 +3,10 @@ import Layout from '@/components/common/Layout'
 import Script from 'next/script'
 import PageBanner from '@/components/common/PageBanner'
 
-function Trends({ cookieConsent }) {
+function Trends() {
     const { colorMode } = useColorMode()
     return (
-        <Layout title='Aesops - Trends' cookieConsent={cookieConsent}>
+        <Layout title='Aesops - Trends'>
             <Box
                 width={['90%', '', '', '80%', '', '75%']}
                 mx='auto'
@@ -76,11 +76,5 @@ function Trends({ cookieConsent }) {
     )
 }
 
-Trends.getInitialProps = async (ctx) => {
-    const cookieConsent = ctx.req ? ctx.req.cookies.cookieConsent : null
-    return {
-        cookieConsent,
-    }
-}
 
 export default Trends

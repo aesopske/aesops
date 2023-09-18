@@ -30,7 +30,7 @@ const config = {
 }
 
 const styles = {
-    global: (props) => ({
+    global: (props: Record<string, any>) => ({
         body: {
             color: mode('gray.800', 'whiteAlpha.900')(props),
             bg: mode('gray.100', 'gray.800')(props),

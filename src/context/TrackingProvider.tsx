@@ -1,6 +1,13 @@
 import React, { createContext, useCallback, useContext, useEffect } from 'react'
 import { Router } from 'next/router'
 
+declare global {
+    // eslint-disable-next-line
+    interface Window {
+        gtag: any
+    }
+}
+
 const TrackingContext = createContext({})
 
 function TrackingProvider({ children }) {
@@ -24,7 +31,7 @@ function TrackingProvider({ children }) {
     }
 
     const handleRouteChange = useCallback(
-        (url) => {
+        (url: string) => {
             pageView(url)
         },
         [pageView]

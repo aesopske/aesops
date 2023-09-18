@@ -88,6 +88,7 @@ function WhatWeOffer() {
                                         : 'gray.700'
                                 }>
                                 <IconButton
+                                    aria-label='activity icon'
                                     icon={activity.icon}
                                     size='lg'
                                     borderRadius='10px'
@@ -126,6 +127,7 @@ function WhatWeOffer() {
                                         : 'gray.700'
                                 }>
                                 <IconButton
+                                    aria-label='activity icon'
                                     icon={activity.icon}
                                     size='lg'
                                     borderRadius='10px'

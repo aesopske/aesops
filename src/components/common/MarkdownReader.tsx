@@ -27,12 +27,19 @@ function MarkdownReader({ content }) {
             components={{
                 p: ({ node, children }) => {
                     if (node.tagName === 'img') {
-                        const image = node.children[0]
+                        const image = node.children[0] as unknown as {
+                            type: string
+                            tagName: string
+                            properties: {
+                                alt: string
+                                src: string
+                            }
+                        }
                         return (
                             <Box my='1rem'>
                                 <Image
-                                    src={optimizeImage(image.properties.src)}
-                                    alt={image.properties.alt}
+                                    src={optimizeImage(image.properties?.src)}
+                                    alt={image?.properties?.alt}
                                     width='100%'
                                     height='auto'
                                     placeholder='/images/placeholder.png'
@@ -112,9 +119,11 @@ function MarkdownReader({ content }) {
                 ),
 
                 pre: (props) => {
-                    const hasCode = props.children.some((child) => {
-                        return child.props?.node.tagName === 'code'
-                    })
+                    const hasCode = props.children.some(
+                        (child: React.ReactNode) => {
+                            return child.props?.node.tagName === 'code'
+                        }
+                    )
                     return (
                         <Box
                             as='pre'

@@ -11,6 +11,9 @@ dependencies:
   '@chakra-ui/react':
     specifier: ^2.3.6
     version: 2.8.1(@emotion/react@11.11.1)(@emotion/styled@11.11.0)(@types/react@18.2.21)(framer-motion@7.10.3)(react-dom@18.2.0)(react@18.2.0)
+  '@chakra-ui/theme-tools':
+    specifier: ^2.1.1
+    version: 2.1.1(@chakra-ui/styled-system@2.9.1)
   '@commitlint/cli':
     specifier: ^17.1.2
     version: 17.7.1(@swc/core@1.3.85)

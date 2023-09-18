@@ -13,6 +13,7 @@
   "dependencies": {
     "@badrap/bar-of-progress": "^0.2.2",
     "@chakra-ui/react": "^2.3.6",
+    "@chakra-ui/theme-tools": "^2.1.1",
     "@commitlint/cli": "^17.1.2",
     "@commitlint/config-conventional": "^17.1.0",
     "@emotion/react": "^11.10.4",

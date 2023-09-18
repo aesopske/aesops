@@ -6,13 +6,15 @@ import DatasetDescription from '@/components/datasets/dataset/DatasetDescription
 import PageBanner from '@/components/common/PageBanner'
 import UserAvatar from '@/components/common/UserAvatar'
 import Share from '@/components/common/ShareBtns'
+import { DATASET } from '@/types'
 
-function DatasetDetail({ dataset, cookieConsent }) {
+type DatasetDetailProps = {
+    dataset: DATASET
+}
+
+function DatasetDetail({ dataset }: DatasetDetailProps) {
     return (
-        <Layout
-            title={dataset?.title}
-            description={dataset?.description}
-            cookieConsent={cookieConsent}>
+        <Layout title={dataset?.title} description={dataset?.description}>
             <Box
                 width={['90%', '90%', '90%', '80%', '', '75%']}
                 mx='auto'
@@ -41,7 +43,7 @@ function DatasetDetail({ dataset, cookieConsent }) {
                     <GridItem colSpan={[1, 1, 1, 2]}>
                         <DatasetDescription dataset={dataset} />
                     </GridItem>
-                    <GridItem colSpan='1'>
+                    <GridItem>
                         <VStack
                             position={[
                                 'relative',
@@ -93,7 +95,7 @@ export async function getStaticPaths() {
     }
 
     return {
-        paths: data.items.map((dataset) => ({
+        paths: data.items.map((dataset: DATASET) => ({
             params: {
                 slug: dataset.slug,
             },

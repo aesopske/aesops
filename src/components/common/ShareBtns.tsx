@@ -56,6 +56,7 @@ function Share({ title }) {
                 {shares.map((share) => (
                     <IconButton
                         as='a'
+                        aria-label={`share on ${share.label}`}
                         key={share.label}
                         borderRadius='10px'
                         target='_blank'

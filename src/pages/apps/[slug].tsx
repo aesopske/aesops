@@ -1,18 +1,21 @@
-import Layout from '@/components/common/Layout'
-import { fetchApp, fetchApps } from '@/utils/requests'
 import { Box, Grid, GridItem, VStack } from '@chakra-ui/react'
+
+import { APP } from '@/types'
+import Layout from '@/components/common/Layout'
+import Share from '@/components/common/ShareBtns'
 import AppLinks from '@/components/apps/app/AppLinks'
-import AppDescription from '@/components/apps/app/AppDescription'
+import { fetchApp, fetchApps } from '@/utils/requests'
 import PageBanner from '@/components/common/PageBanner'
 import UserAvatar from '@/components/common/UserAvatar'
-import Share from '@/components/common/ShareBtns'
+import AppDescription from '@/components/apps/app/AppDescription'
 
-function AppDetail({ app, cookieConsent }) {
+type AppDetailProps = {
+    app: APP
+}
+
+function AppDetail({ app }: AppDetailProps) {
     return (
-        <Layout
-            title={app.title}
-            description={app?.description}
-            cookieConsent={cookieConsent}>
+        <Layout title={app.title} description={app?.description}>
             <Box
                 width={['95%', '90%', '90%', '80%', '', '75%']}
                 mx='auto'
@@ -41,7 +44,7 @@ function AppDetail({ app, cookieConsent }) {
                     <GridItem colSpan={[1, 1, 1, 2]}>
                         <AppDescription app={app} />
                     </GridItem>
-                    <GridItem colSpan='1'>
+                    <GridItem>
                         <VStack
                             position={[
                                 'relative',
@@ -63,7 +66,6 @@ function AppDetail({ app, cookieConsent }) {
 }
 
 export async function getStaticProps(ctx) {
-    const cookieConsent = ctx.req ? ctx.req.cookies.cookieConsent : null
     const { slug } = ctx.params
     const data = await fetchApp(slug)
 
@@ -79,7 +81,6 @@ export async function getStaticProps(ctx) {
     return {
         props: {
             app: data.item,
-            cookieConsent,
         },
 
         revalidate: 60 * (60 * 2),
@@ -90,7 +91,7 @@ export async function getStaticPaths() {
     const data = await fetchApps({ limit: 100, page: 1 })
 
     return {
-        paths: data.items.map((item) => ({
+        paths: data.items.map((item: APP) => ({
             params: {
                 slug: item.slug,
             },

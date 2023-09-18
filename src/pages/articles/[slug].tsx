@@ -1,3 +1,6 @@
+import { Suspense, useCallback, useEffect, useState } from 'react'
+
+import { ARTICLE } from '@/types'
 import Layout from '@/components/common/Layout'
 import ArticlePost from '@/components/Articles/Article/ArticlePost'
 import {
@@ -5,9 +8,12 @@ import {
     fetchArticles,
     fetchMoreByAuthor,
 } from '@/utils/requests'
-import { Suspense, useCallback, useEffect, useState } from 'react'
 
-function Article({ article, cookieConsent }) {
+type ArticleProps = {
+    article: ARTICLE
+}
+
+function Article({ article }: ArticleProps) {
     const [byAuthor, setByAuthor] = useState([])
     const defaultUrl = article?.image?.url
 
@@ -28,7 +34,6 @@ function Article({ article, cookieConsent }) {
             description={article?.summary}
             imageurl={defaultUrl}
             url={`https://aesops.co.ke/articles/${article?.slug}`}
-            cookieConsent={cookieConsent}
             isArticle
             ogarticleProps={{
                 publishedTime: article?.created,
@@ -44,7 +49,6 @@ function Article({ article, cookieConsent }) {
 }
 
 export async function getStaticProps(ctx) {
-    const cookieConsent = ctx.req ? ctx.req.cookies.cookieConsent : null
     const { slug } = ctx.params
     const article = await fetchArticle(slug)
 
@@ -60,7 +64,6 @@ export async function getStaticProps(ctx) {
     return {
         props: {
             article: article.item,
-            cookieConsent,
         },
 
         revalidate: 60 * (60 * 2), // 2 hours
@@ -71,7 +74,7 @@ export async function getStaticPaths() {
     const articles = await fetchArticles({ limit: 100 })
 
     return {
-        paths: articles.items.map((article) => ({
+        paths: articles.items.map((article: ARTICLE) => ({
             params: {
                 slug: article.slug,
             },

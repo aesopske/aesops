@@ -1,14 +1,24 @@
+import Promise from 'promise'
+import { Box } from '@chakra-ui/react'
+
 import Layout from '@/components/common/Layout'
-import ProfileList from '@/components/community/ProfileList'
 import TopRank from '@/components/community/TopRank'
+import { APP, ARTICLE, DATASET, USER } from '@/types'
 import {
     fetchApps,
     fetchArticles,
     fetchCommunity,
     fetchDatasets,
 } from '@/utils/requests'
-import { Box } from '@chakra-ui/layout'
-import Promise from 'promise'
+import ProfileList from '@/components/community/ProfileList'
+
+type CommunityProps = {
+    apps: APP[]
+    profiles: USER[]
+    topranked: USER[]
+    posts: ARTICLE[]
+    datasets: DATASET[]
+}
 
 function Community({
     profiles,
@@ -16,8 +26,7 @@ function Community({
     posts,
     apps,
     datasets,
-    cookieConsent,
-}) {
+}: CommunityProps) {
     const description =
         'Join our community, share your thoughts about data, share insights on a data, create apps, share datasets of your own and share articles with the rest of the community.'
 
@@ -31,8 +40,7 @@ function Community({
         <Layout
             title='Aesops - Community'
             description={description}
-            url='https://aesops.co.ke/community'
-            cookieConsent={cookieConsent}>
+            url='https://aesops.co.ke/community'>
             <Box width={['95%', '90%', '90%', '80%']} mx='auto'>
                 <TopRank profiles={topranked} details={details} />
                 <ProfileList profiles={profiles} details={details} />

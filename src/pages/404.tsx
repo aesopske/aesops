@@ -1,12 +1,13 @@
 import React from 'react'
 import Link from 'next/link'
 import { Box, Heading, Text, Image, HStack, VStack } from '@chakra-ui/react'
+
 import Layout from '@/components/common/Layout'
 import AesopBtn from '@/components/common/atoms/AesopBtn'
 
-function NotFound({ cookieConsent }) {
+function NotFound() {
     return (
-        <Layout title='404 - Not found' cookieConsent={cookieConsent}>
+        <Layout title='404 - Not found'>
             <Box
                 as={HStack}
                 alignItems='center'
@@ -38,13 +39,5 @@ function NotFound({ cookieConsent }) {
     )
 }
 
-export async function getStaticProps(ctx) {
-    const cookieConsent = ctx.req ? ctx.req.cookies.cookieConsent : null
-    return {
-        props: {
-            cookieConsent,
-        },
-    }
-}
 
 export default NotFound

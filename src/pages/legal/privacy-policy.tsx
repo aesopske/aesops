@@ -6,12 +6,22 @@ import MarkdownReader from '@/components/common/MarkdownReader'
 import { Box, Text } from '@chakra-ui/react'
 import PageBanner from '@/components/common/PageBanner'
 
-function PrivacyPolicy({ policy, cookieConsent }) {
+type policy = {
+    data: {
+        dateUpdated: string
+    }
+    content: string
+}
+
+type PrivacyPolicyProps = {
+    policy: policy
+}
+
+function PrivacyPolicy({ policy }: PrivacyPolicyProps) {
     return (
         <Layout
             title='Privacy Policy'
-            description='Aesops legal data privacy policy that highlights how we use the data we collect'
-            cookieConsent={cookieConsent}>
+            description='Aesops legal data privacy policy that highlights how we use the data we collect'>
             <Box
                 width={['90%', '90%', '80%', '', '', '75%']}
                 mx='auto'
@@ -35,16 +45,13 @@ function PrivacyPolicy({ policy, cookieConsent }) {
     )
 }
 
-export async function getStaticProps(ctx) {
-    const cookieConsent = ctx.req ? ctx.req.cookies.cookieConsent : null
-    const path = `${process.cwd()}/content/legal/Privacy-policy.md`
-
+export async function getStaticProps() {
+    const path = `${process.cwd()}/src/content/legal/Privacy-policy.md`
     const rawContent = fs.readFileSync(path, { encoding: 'utf-8' })
-
     const { data, content } = matter(rawContent)
 
     return {
-        props: { policy: { data, content }, cookieConsent },
+        props: { policy: { data, content } },
     }
 }
 

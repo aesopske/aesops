@@ -3,10 +3,10 @@ import { Button, ButtonProps } from '@chakra-ui/react'
 
 interface AesopBtnProps extends ButtonProps {
     label: string
-    isLink: boolean
-    href: string
-    target: string
-    rel: string
+    isLink?: boolean
+    href?: string
+    target?: string
+    rel?: string
 }
 
 function AesopBtn({
