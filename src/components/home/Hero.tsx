@@ -135,8 +135,8 @@ function Hero() {
                         <AesopImage
                             mx='auto'
                             alt='aesops'
-                            width={width}
-                            height={height}
+                            width={width || 600}
+                            height={height || 600}
                             objectFit='contain'
                             src='/images/aesops-nutshell.png'
                             priority={true}

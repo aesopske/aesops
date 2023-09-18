@@ -60,8 +60,8 @@ function FeaturedCard({ article, isMobile }: FeaturedCardProps) {
                             }
                             borderRadius='lg'
                             objectFit='cover'
-                            width={width}
-                            height={height}
+                            width={width || 600}
+                            height={height || 600}
                         />
                     </Box>
 

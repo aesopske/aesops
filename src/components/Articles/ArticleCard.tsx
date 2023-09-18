@@ -56,8 +56,8 @@ function ArticlesCard({ article }: ArticlesCardProps) {
                         src={article?.image?.url}
                         alt={article?.title}
                         objectFit='cover'
-                        width={width}
-                        height={height}
+                        width={width || 600}
+                        height={height || 600}
                         layout='responsive'
                         fallbackSrc={
                             colorMode === 'light'

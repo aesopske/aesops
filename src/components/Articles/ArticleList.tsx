@@ -18,7 +18,7 @@ import { MdFilterList } from 'react-icons/md'
 import { AnimatePresence, motion } from 'framer-motion'
 import { useEffect, useState, useCallback } from 'react'
 
-import { ARTICLE } from '@/types'
+import { ARTICLE, CATEGORY } from '@/types'
 import Search from '../common/Search'
 import ArticleCard from './ArticleCard'
 import ArticleLoader from './ArticleLoader'
@@ -36,17 +36,19 @@ function ArticleList({ articles }: ArticleListProps) {
     const [isTabletAndUp] = useMediaQuery('(min-width: 768px)')
     const { colorMode } = useColorMode()
     const [searchterm, setSearchterm] = useState('')
-    const [filtered, setFiltered] = useState([])
+    const [filtered, setFiltered] = useState<ARTICLE[]>([])
     const [loading, setLoading] = useState(false)
     const [text] = useDebounce(searchterm, 500)
-    const [categories, setCategories] = useState([])
+    const [categories, setCategories] = useState<CATEGORY[]>([])
 
     const { category: query } = router.query as { category: string }
 
     const fetchFiltered = useCallback(async (txt: string) => {
         try {
             setLoading(true)
-            const data = await fetchArticles({ keyword: txt })
+            const data = (await fetchArticles({ keyword: txt })) as {
+                items: ARTICLE[]
+            }
             setFiltered(data.items)
             setLoading(false)
         } catch (error) {
@@ -201,7 +203,7 @@ function ArticleList({ articles }: ArticleListProps) {
                 {text || query ? (
                     <Grid gap='4rem' templateColumns='repeat(1, 1fr)'>
                         {filtered &&
-                            filtered.map((article, index) => (
+                            filtered.map((article: ARTICLE, index: number) => (
                                 <>
                                     <ArticleCard
                                         key={article._id}

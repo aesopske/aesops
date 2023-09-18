@@ -97,8 +97,8 @@ function DatasetsHero() {
                     <AesopImage
                         src='/svg/dataset.svg'
                         alt='Datasets'
-                        width={width}
-                        height={height}
+                        width={width || 600}
+                        height={height || 600}
                         objectFit='contain'
                         layout='responsive'
                     />
