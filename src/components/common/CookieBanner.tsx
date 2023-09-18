@@ -31,7 +31,7 @@ function CookieBanner() {
                 as={motion.div}
                 initial={{ opacity: 0, x: -10 }}
                 animate={{ opacity: 1, x: 0 }}
-                transition={{ duration: 0.5 }}
+                transition={{ duration: '0.5' }}
                 width={['95%', '', '50%']}
                 borderRadius='10px'
                 p='10px 20px'
