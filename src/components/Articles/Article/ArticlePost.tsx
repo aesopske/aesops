@@ -26,39 +26,36 @@ type ArticlePostProps = {
     authorArticles: ARTICLE[]
 }
 
-function ArticlePost({
-    article = null,
-    authorArticles = [],
-}: ArticlePostProps) {
+function ArticlePost({ article, authorArticles = [] }: ArticlePostProps) {
     const router = useRouter()
     const { colorMode } = useColorMode()
     const [read, setRead] = useState(null)
     const [config, setConfig] = useState({})
-    const date = new Date(article.created).toDateString()
+    const date = new Date(article?.created).toDateString()
 
     useEffect(() => {
-        if (article.body) {
-            const { text } = readTime(article.body)
+        if (article?.body) {
+            const { text } = readTime(article?.body)
             setRead(text)
         }
 
         setConfig({
             url: window.location.href,
-            identifier: article._id,
-            title: article.title,
+            identifier: article?._id,
+            title: article?.title,
         })
-    }, [article.body, article._id, article.title])
+    }, [article?.body, article?._id, article?.title])
 
     const user = {
-        name: article.author,
+        name: article?.author ?? 'Author',
         date,
         read: read,
-        photoURL: article.author_image,
+        photoURL: article?.author_image ?? '',
     }
 
     const user2 = {
-        name: article.author,
-        email: article.author_email,
+        name: article?.author,
+        email: article?.author_email,
     }
 
     const { observe, width, height } = useMeasure()

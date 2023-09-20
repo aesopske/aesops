@@ -7,8 +7,6 @@ const CustomImage = chakra(Image, {
         [
             'src',
             'alt',
-            'objectFit',
-            'objectPosition',
             'width',
             'height',
             'sizes',
@@ -16,7 +14,7 @@ const CustomImage = chakra(Image, {
             'priority',
             'placeholder',
             'blurDataURL',
-            'padding'
+            'padding',
         ].includes(prop),
 })
 

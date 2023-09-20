@@ -14,7 +14,7 @@ import RecommendedListItem from './RecommendedListItem'
 import { fetchRecommended } from '@/utils/requests'
 
 type RecommendedListProps = {
-    title: string
+    title: string | undefined
 }
 
 function RecommendedList({ title }: RecommendedListProps) {

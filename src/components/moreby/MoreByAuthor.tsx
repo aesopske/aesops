@@ -13,9 +13,9 @@ import { ARTICLE, USER } from '@/types'
 import MoreByAuthorItem from './MoreByAuthorItem'
 
 type MoreByAuthorProps = {
-    user: USER
+    user: USER | null
     posts: ARTICLE[]
-    current: ARTICLE
+    current: ARTICLE | null
 }
 
 function MoreByAuthor({ user, posts, current }: MoreByAuthorProps) {

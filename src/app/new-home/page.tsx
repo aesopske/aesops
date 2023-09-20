@@ -1,4 +1,12 @@
+import Themeswitcher from '../_components/ui/Themeswitcher'
+
 function Page() {
-    return <div className='bg-blue-200 w-full text-2xl'>Hello world .... </div>
+    return (
+        <div className='w-full text-2xl p-5'>
+            <nav>
+                <Themeswitcher />
+            </nav>
+        </div>
+    )
 }
 export default Page
