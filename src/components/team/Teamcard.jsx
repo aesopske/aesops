@@ -5,12 +5,12 @@ import {
     Stack,
     VStack,
     HStack,
+    Avatar,
     Heading,
     IconButton,
     useColorMode,
     useDisclosure,
 } from '@chakra-ui/react'
-import Image from 'next/image'
 import Modall from '../common/Modall'
 import { FaStickyNote, FaLinkedin } from 'react-icons/fa'
 
@@ -45,29 +45,20 @@ function Teamcard({ profile }) {
                     w='full'
                     direction={['column', 'column', 'row']}
                     alignItems='center'
+                    gap='1rem'
                     my='1rem'
                     height='auto'
                     p='10px 20px'
                     borderRadius='0 0 20px 20px'
                     bg={colorMode === 'light' ? '#fff' : 'gray.700'}>
-                    <Box
-                        h={['20vh', '25vh', '15vh']}
-                        w={['60%', '60%', '50%', '30%']}>
-                        <Image
-                            width={200}
-                            height={400}
-                            alt={profile?.name}
-                            src={profile?.image}
-                            style={{
-                                width: '100%',
-                                height: '100%',
-                                objectFit: 'cover',
-                                objectPosition: 'center',
-                                borderRadius: '10px',
-                                scale: '0.9',
-                            }}
-                        />
-                    </Box>
+                    <Avatar
+                        width='150px'
+                        height='150px'
+                        alt={profile?.name}
+                        src={profile?.image}
+                        borderRadius='xl'
+                    />
+
                     <Stack
                         height='100%'
                         direction='column'
