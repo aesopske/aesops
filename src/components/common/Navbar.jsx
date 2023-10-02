@@ -6,7 +6,6 @@ import {
     HStack,
     Image,
     Stack,
-    Badge,
     Text,
     useColorMode,
 } from '@chakra-ui/react'
@@ -47,43 +46,11 @@ function Navbar() {
     return (
         <Box position='sticky' top='0' left='0' zIndex='60'>
             <Box
-                px='20px'
-                py='10px'
-                height={['auto', 'auto', '3rem']}
-                bg={isDark ? 'gray.900' : 'gray.200'}>
-                <Stack
-                    direction={['column', 'column', 'row']}
-                    alignItems={['start', 'start', 'center']}
-                    height='100%'
-                    width='100%'
-                    justifyContent='space-between'>
-                    <HStack spacing='10px'>
-                        <Badge colorScheme='teal'>New</Badge>
-                        <Text fontWeight='semibold'>
-                            Register for our free Bootcamp
-                        </Text>
-                    </HStack>
-                    <Text
-                        as='a'
-                        p='5px'
-                        px='10px'
-                        rounded='md'
-                        bg='brand.400'
-                        color='white'
-                        target='_blank'
-                        fontWeight='semibold'
-                        rel='noreferrer noopener'
-                        href='https://forms.gle/pjNVDD5Yn4RDQhpK9'>
-                        Register 🙂
-                    </Text>
-                </Stack>
-            </Box>
-            <Box
                 height='5rem'
                 width='100%'
-                bg={colorMode === 'light' ? 'gray.100' : 'gray.800'}
-                borderBottom={colorMode === 'light' ? '1px solid' : '1px solid'}
-                borderColor={colorMode === 'light' ? 'gray.300' : 'gray.700'}
+                bg={!isDark ? 'gray.100' : 'gray.800'}
+                borderBottom={!isDark ? '1px solid' : '1px solid'}
+                borderColor={!isDark ? 'gray.300' : 'gray.700'}
                 display={['none', 'none', 'block', 'block']}>
                 <Box
                     as={Stack}
@@ -100,7 +67,7 @@ function Navbar() {
                                 height='50px'
                                 objectFit='contain'
                                 src={
-                                    colorMode === 'light'
+                                    !isDark
                                         ? '/images/aesops-logo.png'
                                         : '/images/aesops-logo-muted.png'
                                 }
@@ -127,7 +94,7 @@ function Navbar() {
                         <HStack spacing={['', '', '2', '3', '5']} width='auto'>
                             {nav.map((item) => {
                                 const isActive = router.asPath === item.path
-                                const lightMode = colorMode === 'light'
+                                const lightMode = !isDark
                                 return (
                                     <Link
                                         key={item.label}

@@ -114,8 +114,8 @@ function ArticlePost({ article = {}, authorArticles = [] }) {
                                 src={article.image?.url}
                                 alt={article?.title}
                                 borderRadius='10px'
-                                width={width}
-                                height={height}
+                                width={width || 600}
+                                height={height || 600}
                                 objectFit='cover'
                                 layout='responsive'
                                 fallbackSrc='/images/placeholder.png'
