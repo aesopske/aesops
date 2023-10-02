@@ -12,11 +12,10 @@ const CustomImage = chakra(Image, {
             'width',
             'height',
             'sizes',
-            'layout',
             'priority',
             'placeholder',
             'blurDataURL',
-            'padding'
+            'padding',
         ].includes(prop),
 })
 

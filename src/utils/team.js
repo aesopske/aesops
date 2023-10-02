@@ -34,39 +34,18 @@ export const profiles = [
         description:
             'Data scientist, also in the field of mathematics and data analytics, He is the lead in the data modeling team.',
     },
-    // {
-    //     name: 'John Kamau Kariuki',
-    //     image: '/images/profiles/kamice.jpeg',
-    //     role: 'Communication & Social Media expert',
-    //     description:
-    //         "People's person.In charge of Aesop's image on social media and other platforms.As well as taking lead in visualizations.",
-    // },
-    // {
-    //     name: 'Stephen Mungai',
-    //     image: '/images/profiles/stevo.jpeg',
-    //     role: 'Lead Data Analyst',
-    //     description:
-    //         'Data scientist. in the field of mathematics and data analytics, He is the lead in the data modeling team.',
-    // },
-    // {
-    //     name: 'Alex Gatangi',
-    //     image: '/images/profiles/Alex.jpeg',
-    //     role: 'Media and Photography',
-    //     description:
-    //         'Media guru, in charge of photography,video editing and graphic design. He also doubles as a social media pro.',
-    // },
-    // {
-    //     name: 'Lydia Gathoni',
-    //     image: '/images/profiles/lydia.jpeg',
-    //     role: 'Data Modelling & Reporting',
-    //     description:
-    //         'Data Scientist. Lydia is a data scientist with vast experience in analytics and machine learning. She leads the reporting and documentation team',
-    // },
-    // {
-    //     name: 'Benson Ongocho',
-    //     image: '',
-    //     role: 'Data Scientist',
-    //     description:
-    //         'Ben is a data scientist specializing in R. He works in the data analytics and data modelling team.',
-    // },
+    {
+        name: 'Lynn Ajema',
+        image: '/images/profiles/lynn.jpeg',
+        role: 'Data Analyst',
+        description:
+            'A talented data analyst with a background in statistics. She has a passion for transforming complex information into actionable insights. Lynn is a proficient user of R and Python, leveraging these powerful tools to extract valuable meaning from raw data. With expertise in data visualization techniques using Tableau,R,Python and Power BI, Lynn excels at presenting data in a visually appealing and understandable manner, enabling stakeholders to make informed decisions.',
+    },
+    {
+        name: 'Stephen Mungai',
+        image: '/images/profiles/stevo.jpeg',
+        role: 'Data Analyst & Actuary',
+        description:
+            'Stephen is a seasoned actuary with a wealth of experience spanning over 12 years in the field of actuarial science. He possesses a profound enthusiasm for the realms of data science and artificial intelligence, recognizing the transformative potential these disciplines hold for the future.',
+    },
 ]

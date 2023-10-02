@@ -1,6 +1,6 @@
 import Layout from '@/src/components/common/Layout'
 import Teamcard from '@/src/components/team/Teamcard'
-import { Box, Grid, useColorMode, Text } from '@chakra-ui/react'
+import { Box, Grid, GridItem, useColorMode, Text } from '@chakra-ui/react'
 import { profiles } from '@/src/utils/team'
 import PageBanner from '@/src/components/common/PageBanner'
 
@@ -42,27 +42,23 @@ function Team({ cookieConsent }) {
                         padding='10px 0'
                         height='auto'>
                         <Grid
-                            gap={[
-                                '1rem',
-                                '1rem',
-                                '2rem',
-                                '2rem',
-                                '2rem',
-                                '3rem',
-                            ]}
+                            gap='1rem'
                             width='100%'
                             mx='auto'
                             templateColumns={[
                                 'repeat(1,1fr)',
                                 'repeat(1,1fr)',
                                 'repeat(2,1fr)',
+                                'repeat(2,1fr)',
                                 'repeat(3,1fr)',
                             ]}>
                             {profiles.map((profile) => (
-                                <Teamcard
-                                    key={profile.name}
-                                    profile={profile}
-                                />
+                                <GridItem key={profile.name}>
+                                    <Teamcard
+                                        key={profile.name}
+                                        profile={profile}
+                                    />
+                                </GridItem>
                             ))}
                         </Grid>
                     </Box>

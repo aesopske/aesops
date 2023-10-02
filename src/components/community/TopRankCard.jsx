@@ -96,8 +96,6 @@ function TopRankCard({ profile, details }) {
                             <Tooltip
                                 label='Show details'
                                 hasArrow
-                                closeOnMouseDown
-                                closeOnClick
                                 placement='bottom'>
                                 <IconButton
                                     onClick={onOpen}
@@ -113,7 +111,6 @@ function TopRankCard({ profile, details }) {
                             <Tooltip
                                 label='Contact'
                                 hasArrow
-                                closeOnMouseDown
                                 closeOnClick
                                 placement='bottom'>
                                 <IconButton
