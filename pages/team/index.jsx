@@ -37,20 +37,21 @@ function Team({ cookieConsent }) {
                     </PageBanner>
 
                     <Box
-                        width={['100%', '80%', '100%']}
+                        width='100%'
                         margin='1rem auto'
                         padding='10px 0'
                         height='auto'>
                         <Grid
-                            gap='1rem'
+                            gap='2rem'
                             width='100%'
                             mx='auto'
                             templateColumns={[
                                 'repeat(1,1fr)',
-                                'repeat(1,1fr)',
                                 'repeat(2,1fr)',
                                 'repeat(2,1fr)',
                                 'repeat(3,1fr)',
+                                'repeat(3,1fr)',
+                                'repeat(4,1fr)',
                             ]}>
                             {profiles.map((profile) => (
                                 <GridItem key={profile.name}>

@@ -43,7 +43,7 @@ function Teamcard({ profile }) {
                 position='relative'>
                 <Stack
                     w='full'
-                    direction={['column', 'column', 'row']}
+                    direction={['column', 'column']}
                     alignItems='center'
                     gap='1rem'
                     my='1rem'
@@ -53,20 +53,19 @@ function Teamcard({ profile }) {
                     bg={colorMode === 'light' ? '#fff' : 'gray.700'}>
                     <Avatar
                         width='150px'
-                        height='150px'
+                        height='200px'
+                        borderRadius='xl'
                         alt={profile?.name}
                         src={profile?.image}
-                        borderRadius='xl'
                     />
 
                     <Stack
                         height='100%'
                         direction='column'
                         justifyContent='flex-start'
-                        alignItems={['center', 'start']}>
+                        alignItems={['center']}>
                         <Heading
                             font='bold'
-                            mt='0.5rem'
                             fontSize='xl'
                             textAlign={['center', 'center', 'left']}
                             textTransform='capitalize'>
