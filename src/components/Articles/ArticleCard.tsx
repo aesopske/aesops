@@ -1,16 +1,12 @@
+'use client'
+
 import React from 'react'
 import Link from 'next/link'
 import { format } from 'date-fns'
 import readTime from 'reading-time'
-import {
-    Text,
-    Heading,
-    Box,
-    useColorMode,
-    Stack,
-    VStack,
-} from '@chakra-ui/react'
 import useMeasure from 'react-cool-dimensions'
+import Text from '../common/atoms/Text'
+import Heading from '../common/atoms/Heading'
 
 import { ARTICLE } from '@/types'
 import UserAvatar from '../common/UserAvatar'
@@ -24,7 +20,6 @@ type ArticlesCardProps = {
 
 function ArticlesCard({ article }: ArticlesCardProps) {
     const { gaEvent } = useGa()
-    const { colorMode } = useColorMode()
 
     const date = format(new Date(article?.created), 'MMM dd')
     const { text } = readTime(article?.body)
@@ -38,78 +33,48 @@ function ArticlesCard({ article }: ArticlesCardProps) {
     const { observe, width, height } = useMeasure()
 
     return (
-        <Stack
-            height='auto'
-            width='100%'
-            spacing='6'
-            p='10px'
-            maxHeight={['auto', 'auto', 'auto', 'auto', '20vh', '20vh']}
-            direction={['column', 'column', 'row-reverse', 'row-reverse']}>
-            <Box
-                ref={observe}
-                width={['100%', '100%', '40%', '35%', '30%']}
-                height={['30vh', '30vh', 'auto']}
-                maxHeight='inherit'>
-                <Link href={`/articles/${article?.slug}`} passHref>
+        <Link
+            href={`/articles/${article?.slug}`}
+            onClick={() => {
+                gaEvent('Articles', 'clicked on Article Title', article?.title)
+            }}
+            passHref>
+            <div className='flex items-start gap-2 flex-col w-full md:flex-row-reverse md:justify-between '>
+                <div
+                    ref={observe}
+                    className='relative w-56 h-40 rounded-lg overflow-hidden cursor-pointer'>
                     <AesopImage
-                        borderRadius='lg'
-                        src={article?.image?.url}
-                        alt={article?.title}
-                        objectFit='cover'
-                        width={width || 600}
-                        height={height || 600}
-                        layout='responsive'
-                        fallbackSrc={
-                            colorMode === 'light'
-                                ? 'images/placeholderthumbnail.png'
-                                : '/images/placeholderthumbnail-dark.png'
+                        src={
+                            article?.image?.url ??
+                            '/images/placeholderthumbnail.png'
                         }
+                        alt={article?.title}
+                        width={width || 300}
+                        height={height || 300}
+                        className='rounded-lg cursor-pointer object-cover w-full h-full'
                     />
-                </Link>
-            </Box>
+                </div>
 
-            <VStack
-                spacing='3'
-                height='auto'
-                alignItems='flex-start'
-                justifyContent='space-between'
-                width={['100%', '100%', '60%', '65%', '70%']}>
-                <Box>
-                    <Link
-                        href={{
-                            pathname: `/articles/${article?.slug}`,
-                        }}
-                        passHref>
+                <div className='flex flex-col gap-3 w-full md:w-3/4'>
+                    <div className='max-w-lg'>
                         <Heading
-                            cursor='pointer'
-                            fontSize='2xl'
-                            onClick={() => {
-                                gaEvent(
-                                    'Articles',
-                                    'clicked on Article Title',
-                                    article?.title
-                                )
-                            }}>
+                            type='h3'
+                            className='cursor-pointer font-bold capitalize'>
                             {article?.title}
                         </Heading>
-                    </Link>
 
-                    <Text
-                        as='p'
-                        fontSize='lg'
-                        fontWeight='light'
-                        width='100%'
-                        my='1rem'
-                        lineHeight='1.8rem'
-                        color={colorMode === 'light' ? 'gray.200' : 'gray.500'}
-                        noOfLines={[2, 2, 3]}>
-                        <MarkdownReader content={article?.summary} />
-                    </Text>
-                </Box>
+                        <Text
+                            className='line-clamp-3 my-2'
+                            dangerouslySetInnerHTML={{
+                                __html: article?.summary ?? '',
+                            }}
+                        />
+                    </div>
 
-                <UserAvatar user={user} align='center' />
-            </VStack>
-        </Stack>
+                    <UserAvatar user={user} />
+                </div>
+            </div>
+        </Link>
     )
 }
 

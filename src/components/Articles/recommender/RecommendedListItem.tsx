@@ -5,14 +5,12 @@ import readTime from 'reading-time'
 
 import { ARTICLE } from '@/types'
 import UserAvatar from '../../common/UserAvatar'
-import { Divider, Stack, Text, useColorMode } from '@chakra-ui/react'
 
 type RecommendedListItemProps = {
     item: ARTICLE
 }
 
 function RecommendedListItem({ item }: RecommendedListItemProps) {
-    const { colorMode } = useColorMode()
     const date = format(new Date(item?.created), 'MMM dd')
     const { text } = readTime(item?.body)
 
@@ -24,33 +22,17 @@ function RecommendedListItem({ item }: RecommendedListItemProps) {
     }
 
     return (
-        <Stack
-            direction='column'
-            alignItems='flex-start'
-            width='100%'
-            justifyContent='flex-start'
-            spacing={3}
-            height='auto'>
-            <Stack
-                dir='column'
-                alignItems='flex-start'
-                height='auto'
-                spacing='3'
-                justifyContent='space-between'>
-                <Link href={{ pathname: `/articles/${item?.slug}` }} passHref>
-                    <Text
-                        fontSize='lg'
-                        fontFamily='Roboto'
-                        color={colorMode === 'light' ? 'gray.700' : 'gray.300'}
-                        textTransform='capitalize'
-                        cursor='pointer'>
-                        {item?.title}
-                    </Text>
+        <div className='flex items-start flex-col gap-2'>
+            <div className='flex flex-col items-start gap-3 justify-between'>
+                <Link
+                    href={{ pathname: `/articles/${item?.slug}` }}
+                    passHref
+                    className='cursor-pointer font-semibold'>
+                    {item?.title}
                 </Link>
-                <UserAvatar user={user} size='sm' />
-            </Stack>
-            <Divider />
-        </Stack>
+                <UserAvatar user={user} />
+            </div>
+        </div>
     )
 }
 

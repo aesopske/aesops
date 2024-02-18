@@ -1,33 +1,24 @@
+'use client'
+
 import React from 'react'
-import MarkDown from 'react-markdown'
-import {
-    Box,
-    Code,
-    Heading,
-    Image,
-    ListItem,
-    OrderedList,
-    Text,
-    UnorderedList,
-    useColorMode,
-} from '@chakra-ui/react'
-import rehypeRaw from 'rehype-raw'
 import gfm from 'remark-gfm'
-import { optimizeImage } from '@/utils'
+import rehypeRaw from 'rehype-raw'
+import MarkDown from 'react-markdown'
 
-function MarkdownReader({ content }) {
-    const { colorMode } = useColorMode()
-    const lightMode = colorMode === 'light'
+import { cn } from '@/lib/utils'
+import Text from './atoms/Text'
+import Heading from './atoms/Heading'
 
+function MarkdownReader({ content }: { content: string }) {
     return (
         <MarkDown
-            className='paragraph'
+            className='prose max-w-none w-full tracking-normal'
             remarkPlugins={[gfm]}
             rehypePlugins={[rehypeRaw]}
             components={{
                 p: ({ node, children }) => {
-                    if (node.tagName === 'img') {
-                        const image = node.children[0] as unknown as {
+                    if (node?.tagName === 'img') {
+                        const image = node?.children[0] as unknown as {
                             type: string
                             tagName: string
                             properties: {
@@ -36,121 +27,84 @@ function MarkdownReader({ content }) {
                             }
                         }
                         return (
-                            <Box my='1rem'>
-                                <Image
-                                    src={optimizeImage(image.properties?.src)}
+                            <span className='border'>
+                                <img
+                                    src={
+                                        image?.properties?.src ??
+                                        '/images/placeholder.png'
+                                    }
                                     alt={image?.properties?.alt}
                                     width='100%'
                                     height='auto'
-                                    placeholder='/images/placeholder.png'
-                                    borderRadius='lg'
+                                    className='rounded-xl w-full h-auto max-h-96 object-cover border'
                                 />
-                            </Box>
+                            </span>
                         )
                     }
 
-                    return (
-                        <Text
-                            as='p'
-                            width='100%'
-                            color={
-                                colorMode === 'light' ? 'gray.600' : 'gray.300'
-                            }>
-                            {children}
-                        </Text>
-                    )
+                    return <Text className='my-2'>{children}</Text>
                 },
                 code: (props) => {
                     return (
-                        <Code
-                            fontFamily='Roboto Mono'
-                            width='100%'
-                            p='20px'
-                            borderRadius='lg'
-                            bg={lightMode ? 'gray.200' : 'gray.700'}>
+                        <pre className='font-mono w-full p-5 rounded-xl bg-gray-100'>
                             {props.children}
-                        </Code>
+                        </pre>
                     )
                 },
                 h1: (props) => (
-                    <Heading
-                        as='h1'
-                        fontSize='2xl'
-                        my='1rem'
-                        color={colorMode === 'light' ? 'gray.600' : 'gray.300'}>
+                    <Heading type='h1' className='md:text-3xl my-2'>
                         {props.children}
                     </Heading>
                 ),
                 h2: (props) => (
                     <Heading
-                        as='h2'
-                        fontSize='2xl'
-                        my='1rem'
-                        color={colorMode === 'light' ? 'gray.600' : 'gray.300'}>
+                        type='h2'
+                        className='md:text-2xl my-4 font-semibold'>
                         {props.children}
                     </Heading>
                 ),
                 h3: (props) => (
                     <Heading
-                        as='h3'
-                        fontSize='lg'
-                        my='1rem'
-                        color={colorMode === 'light' ? 'gray.600' : 'gray.300'}>
+                        type='h3'
+                        className='md:text-xl my-4 font-semibold'>
                         {props.children}
                     </Heading>
                 ),
                 h4: (props) => (
-                    <Heading
-                        as='h4'
-                        fontSize='md'
-                        my='1rem'
-                        color={colorMode === 'light' ? 'gray.600' : 'gray.300'}>
+                    <Heading type='h4' className='my-4 font-semibold'>
                         {props.children}
                     </Heading>
                 ),
                 h5: (props) => (
-                    <Heading
-                        as='h5'
-                        fontSize='md'
-                        my='1rem'
-                        color={colorMode === 'light' ? 'gray.600' : 'gray.300'}>
+                    <Heading type='h5' className='my-4 font-semibold'>
                         {props.children}
                     </Heading>
                 ),
 
                 pre: (props) => {
-                    const hasCode = props.children.some(
-                        (child: React.ReactNode) => {
+                    const hasCode =
+                        props?.children &&
+                        Array.isArray(props?.children) &&
+                        props?.children?.some((child: React.ReactNode) => {
                             return child.props?.node.tagName === 'code'
-                        }
-                    )
+                        })
                     return (
-                        <Box
-                            as='pre'
-                            fontFamily='Roboto Mono'
-                            whiteSpace='pre-wrap'
-                            overflowX='auto'
-                            fontSize='md'
-                            borderColor={lightMode ? 'gray.200' : 'gray.700'}
-                            p={!hasCode && '20px'}
-                            my='1rem'
-                            color={lightMode ? 'gray.600' : 'gray.400'}
-                            bg={lightMode ? 'gray.200' : 'gray.700'}>
+                        <pre
+                            className={cn(
+                                'whitespace-pre-wrap overflow-x-auto text-md border-gray-100 border rounded-xl my-4 font-mono',
+                                hasCode && 'p-5'
+                            )}>
                             {props.children}
-                        </Box>
+                        </pre>
                     )
                 },
                 ul: (props) => (
-                    <UnorderedList color={lightMode ? 'gray.600' : 'gray.300'}>
-                        {props.children}
-                    </UnorderedList>
+                    <ul className='my-2 list-disc px-4'>{props.children}</ul>
                 ),
                 ol: (props) => (
-                    <OrderedList color={lightMode ? 'gray.600' : 'gray.300'}>
-                        {props.children}
-                    </OrderedList>
+                    <ol className='my-2 list-decimal px-4'>{props.children}</ol>
                 ),
-                li: (props) => <ListItem>{props.children}</ListItem>,
+                li: (props) => <li>{props.children}</li>,
             }}>
             {content}
         </MarkDown>

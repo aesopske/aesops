@@ -16,20 +16,11 @@ function Hero() {
 
     return (
         <ErrorBoundary FallbackComponent={ErrorHandler}>
-            <Box
-                width='100%'
-                height={['auto', 'auto', 'auto', '100vh', '70vh']}
-                bgImage={
-                    colorMode === 'light'
-                        ? '/images/background.png'
-                        : '/svg/hero-dark.svg'
-                }
-                bgRepeat='no-repeat'
-                p='10px'
-                mx='auto'
-                borderRadius='0'
-                bgPosition='center'
-                bgSize='cover'>
+            <div
+                className='w-full h-auto lg:max-h-[70dvh] bg-no-repeat bg-cover relative p-3 mx-auto'
+                style={{
+                    background: `url(${'/images/background.png'})`,
+                }}>
                 <Box
                     width={['100%', '90%', '80%', '', '75%']}
                     mx='auto'
@@ -61,14 +52,7 @@ function Hero() {
                                 both interestingly and qualitatively.
                             </Text>
 
-                            <Stack
-                                direction={['column', 'column', 'row', 'row']}
-                                alignItems={[
-                                    'flex-start',
-                                    'flex-start',
-                                    'center',
-                                    'center',
-                                ]}>
+                            <div className='flex flex-col gap-4 lg:flex-row lg:items-center'>
                                 <AesopBtn
                                     label='Join the community &rarr;'
                                     isLink
@@ -115,35 +99,30 @@ function Hero() {
                                         minWidth={['100%', '100%', 'auto']}
                                     />
                                 </Link>
-                            </Stack>
+                            </div>
                         </Box>
                     </Box>
 
-                    <Box
+                    <motion.div
                         ref={observe}
-                        as={motion.div}
                         initial={{ y: -100, opacity: 0 }}
                         animate={{
                             y: 0,
                             opacity: 1,
                             transition: { duration: 0.3, delay: 0.3 },
                         }}
-                        my={['2rem', '1rem', '1rem', '0']}
-                        width={['100%', '90%', '90%', '80%', '70%']}
-                        height='100%'
-                        display={['none', 'none', 'block']}>
+                        className='hidden my-4 w-full h-full lg:block lg:my-0 lg:w-3/4'>
                         <AesopImage
-                            mx='auto'
                             alt='aesops'
                             width={width || 600}
                             height={height || 600}
-                            objectFit='contain'
                             src='/images/aesops-nutshell.png'
                             priority={true}
+                            className='mx-auto'
                         />
-                    </Box>
+                    </motion.div>
                 </Box>
-            </Box>
+            </div>
         </ErrorBoundary>
     )
 }

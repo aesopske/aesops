@@ -2,15 +2,14 @@ import Script from 'next/script'
 import { NextSeo } from 'next-seo'
 import { motion } from 'framer-motion'
 import React, { useState } from 'react'
-import { Box } from '@chakra-ui/react'
 import { OpenGraphMedia } from 'next-seo/lib/types'
 import { ErrorBoundary } from 'react-error-boundary'
 
-import Navbar from './Navbar'
 import Footer from './Footer'
 import ScrollUp from './ScrollUp'
 import CookieBanner from './CookieBanner'
 import NavbarMobile from './NavbarMobile'
+import NewNavbar from './NewNavbar'
 import ErrorHandler from './ErrorHandler'
 import { useCookie } from '@/context/CookieProvider'
 import useEventListener from '@/hooks/useEventListener'
@@ -59,13 +58,11 @@ function Layout({
     const openGraphImage = imageurl as OpenGraphMedia
 
     return (
-        <Box
-            as={motion.div}
+        <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            width='100%'
-            position='relative'>
+            className='w-full h-full relative bg-brand-background'>
             <NextSeo
                 title={title}
                 description={description}
@@ -88,7 +85,7 @@ function Layout({
                 additionalMetaTags={[
                     {
                         property: 'keywords',
-                        content: keywords,
+                        content: keywords as string,
                     },
                     {
                         property: 'og:image',
@@ -119,18 +116,19 @@ function Layout({
                 }}
             />
 
-            <Navbar />
+            {/* <Navbar /> */}
+            <NewNavbar />
 
-            <Box width='100%' height='auto'>
+            <div className='w-full h-full'>
                 {showCookieBanner && <CookieBanner />}
                 <ErrorBoundary FallbackComponent={ErrorHandler}>
                     {children}
                 </ErrorBoundary>
-            </Box>
+            </div>
             <Footer />
             <ScrollUp scroll={scroll} />
-            <NavbarMobile />
-        </Box>
+            {/* <NavbarMobile /> */}
+        </motion.div>
     )
 }
 

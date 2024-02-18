@@ -1,55 +1,44 @@
 import React from 'react'
-import {
-    Box,
-    Heading,
-    Grid,
-    Text,
-    useColorMode,
-    Divider,
-    Center,
-} from '@chakra-ui/react'
 
 import { ARTICLE, USER } from '@/types'
 import MoreByAuthorItem from './MoreByAuthorItem'
+import Heading from '../common/atoms/Heading'
+import Text from '../common/atoms/Text'
+import { Separator } from '../ui/separator'
 
 type MoreByAuthorProps = {
-    user: USER | null
+    user: Pick<USER, 'name' | 'email'> | null
     posts: ARTICLE[]
-    current: ARTICLE | null
+    current: Pick<ARTICLE, '_id'> | null
 }
 
 function MoreByAuthor({ user, posts, current }: MoreByAuthorProps) {
-    const { colorMode } = useColorMode()
     const filtered = posts && posts.filter((post) => post?._id !== current?._id)
     return (
-        <Box
-            bg={colorMode === 'light' ? 'white' : 'gray.700'}
-            p='30px'
-            width='100%'
-            borderRadius='10px'>
-            <Heading fontSize='xl' fontWeight='semibold'>
-                More from {user?.name}
+        <div className='w-full p-6 rounded-xl bg-white border shadow-sm'>
+            <Heading type='h4' className='text-semibold'>
+                More from author
             </Heading>
-            <Divider my='1rem' />
-            <Box height='auto'>
-                <Grid gap='1rem'>
-                    {filtered &&
-                        filtered.map((post) => (
+            <Separator className='my-4 border border-gray-100' />
+
+            <div className='grid grid-cols-1 gap-2'>
+                {filtered &&
+                    filtered.map((post) => (
+                        <>
                             <MoreByAuthorItem key={post._id} post={post} />
-                        ))}
-                </Grid>
-                {!filtered.length && (
-                    <Center flexDirection='column' height='100%'>
-                        <Text fontSize='sm' fontWeight='400'>
-                            😧
-                        </Text>
-                        <Text mt='1rem' fontSize='md'>
-                            Can&apos;t find more fables by {user?.name}
-                        </Text>
-                    </Center>
-                )}
-            </Box>
-        </Box>
+                            <Separator className='border border-gray-100 last:hidden' />
+                        </>
+                    ))}
+            </div>
+            {!filtered.length && (
+                <div className='flex items-center justify-center gap-2 h-full'>
+                    <Text className='text-sm'>😧</Text>
+                    <Text className='text-sm'>
+                        Can&apos;t find more fables by {user?.name}
+                    </Text>
+                </div>
+            )}
+        </div>
     )
 }
 

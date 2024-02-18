@@ -1,11 +1,14 @@
-import React from 'react'
+'use client'
+
 import Link from 'next/link'
 import { format } from 'date-fns'
 import readTime from 'reading-time'
 import useDimensions from 'react-cool-dimensions'
-import { Box, Text, Heading, useColorMode, Stack } from '@chakra-ui/react'
 
 import { ARTICLE } from '@/types'
+import Heading from '@components/common/atoms/Heading'
+import Text from '@components/common/atoms/Text'
+
 import UserAvatar from '../common/UserAvatar'
 import AesopImage from '../common/AesopImage'
 import { useGa } from '@/context/TrackingProvider'
@@ -13,12 +16,10 @@ import MarkdownReader from '../common/MarkdownReader'
 
 type FeaturedCardProps = {
     article: ARTICLE
-    isMobile?: boolean
 }
 
-function FeaturedCard({ article, isMobile }: FeaturedCardProps) {
+function FeaturedCard({ article }: FeaturedCardProps) {
     const { gaEvent } = useGa()
-    const { colorMode } = useColorMode()
     const { text } = readTime(article?.body)
 
     const date = format(new Date(article?.created), 'MMM dd')
@@ -33,53 +34,46 @@ function FeaturedCard({ article, isMobile }: FeaturedCardProps) {
     const { observe, width, height } = useDimensions()
 
     return (
-        <Box height='100%' minWidth={isMobile && ['100%', '70%', '70%', '50%']}>
+        <div className='w-full h-full my-0 p-0'>
             <Link href={`/articles/${article?.slug}`} passHref>
-                <Stack
-                    direction='column'
+                <div
+                    role='button'
+                    className='flex flex-col w-full h-full justify-between items-start gap-3 cursor-pointer'
                     onClick={() => {
                         gaEvent(
                             'Article',
                             'Clicked Featured Article',
                             article?.title
                         )
-                    }}
-                    justifyContent='space-between'
-                    alignItems='flex-start'
-                    height='100%'
-                    spacing='4'
-                    cursor='pointer'>
-                    <Box ref={observe} height='40vh' width='100%'>
+                    }}>
+                    <div ref={observe} className='w-full h-72'>
                         <AesopImage
-                            src={article.image.url}
-                            alt={`${article?.title}-${article.image.pub_id}`}
-                            fallbackSrc={
-                                colorMode === 'light'
-                                    ? 'images/placeholderthumbnail.png'
-                                    : '/images/placeholderthumbnail-dark.png'
+                            src={
+                                article?.image?.url ??
+                                '/images/placeholderthumbnail.png'
                             }
-                            borderRadius='lg'
-                            objectFit='cover'
+                            alt={`${article?.title}-${article?.image?.pub_id}`}
                             width={width || 600}
                             height={height || 600}
+                            className='rounded-xl object-cover border border-gray-200 w-full h-full'
                         />
-                    </Box>
+                    </div>
 
-                    <Heading fontSize='2xl'>{article?.title}</Heading>
-                    <Box>
-                        <Text
-                            as='p'
-                            fontSize='lg'
-                            noOfLines={3}
-                            lineHeight='1.8rem'>
-                            <MarkdownReader content={article?.summary} />
-                        </Text>
-                    </Box>
+                    <Heading type='h4' className='capitalize font-bold'>
+                        {article?.title}
+                    </Heading>
 
-                    <UserAvatar user={user} align='center' />
-                </Stack>
+                    <Text
+                        className='line-clamp-2'
+                        dangerouslySetInnerHTML={{
+                            __html: article?.summary ?? '',
+                        }}
+                    />
+
+                    <UserAvatar user={user} />
+                </div>
             </Link>
-        </Box>
+        </div>
     )
 }
 

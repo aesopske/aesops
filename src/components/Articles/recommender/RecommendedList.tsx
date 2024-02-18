@@ -1,17 +1,13 @@
-import React, { useEffect, useState } from 'react'
-import {
-    Box,
-    Center,
-    Divider,
-    Grid,
-    Heading,
-    Text,
-    useColorMode,
-} from '@chakra-ui/react'
 import Link from 'next/link'
+import React, { useEffect, useState, Fragment } from 'react'
+
+import Text from '@/components/common/atoms/Text'
+import Heading from '@/components/common/atoms/Heading'
 
 import RecommendedListItem from './RecommendedListItem'
 import { fetchRecommended } from '@/utils/requests'
+import { Separator } from '@/components/ui/separator'
+import { ARTICLE } from '@/types'
 
 type RecommendedListProps = {
     title: string | undefined
@@ -19,7 +15,6 @@ type RecommendedListProps = {
 
 function RecommendedList({ title }: RecommendedListProps) {
     const [recommended, setRecommended] = useState([])
-    const { colorMode } = useColorMode()
 
     useEffect(() => {
         if (title) {
@@ -35,43 +30,32 @@ function RecommendedList({ title }: RecommendedListProps) {
         }
     }, [title])
     return (
-        <Box
-            bg={colorMode === 'light' ? 'white' : 'gray.700'}
-            width='100%'
-            p={['20px', '20px', '20px', '20px', '30px']}
-            borderRadius='10px'>
-            <Heading fontSize='xl'>Recommended articles</Heading>
-            <Divider my='1rem' />
-            <Grid gap='1rem' templateColumns='repeat(1,1fr)'>
+        <div className='w-full p-5 bg-white  rounded-xl border shadow-sm'>
+            <Heading type='h4' className='font-semibold'>
+                Recommended Posts
+            </Heading>
+            <Separator my='1rem' className='my-4 border border-gray-100' />
+            <div className='grid grid-cols-1 gap-4'>
                 {recommended &&
-                    recommended.map((item) => (
-                        <RecommendedListItem key={item._id} item={item} />
+                    recommended.map((item: ARTICLE) => (
+                        <Fragment key={item?.id}>
+                            <RecommendedListItem key={item._id} item={item} />
+                            <Separator className='border border-gray-100 last:hidden' />
+                        </Fragment>
                     ))}
-            </Grid>
+            </div>
             {!recommended.length && (
-                <Center flexDirection='column' height='100%'>
-                    <Text fontSize='md' fontWeight='400'>
-                        😧
-                    </Text>
-                    <Text fontSize='md' textAlign='center'>
+                <div className='flex flex-col items-center justify-center h-full'>
+                    <Text as='span'>😧</Text>
+                    <Text className='text-center'>
                         No similar recommendations found.
                     </Text>
-                    <Link href='/fables' passHref>
-                        <Text
-                            fontSize='sm'
-                            cursor='pointer'
-                            textAlign='center'
-                            color={
-                                colorMode === 'light'
-                                    ? 'brand.primary'
-                                    : 'brand.muted'
-                            }>
-                            Continue Exploring &rarr;
-                        </Text>
+                    <Link href='/articles' passHref>
+                        Continue Exploring &rarr;
                     </Link>
-                </Center>
+                </div>
             )}
-        </Box>
+        </div>
     )
 }
 

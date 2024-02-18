@@ -1,4 +1,4 @@
-import { Suspense, useCallback, useEffect, useState } from 'react'
+import { useCallback, useEffect, useState } from 'react'
 
 import { ARTICLE } from '@/types'
 import Layout from '@/components/common/Layout'
@@ -18,7 +18,9 @@ function Article({ article }: ArticleProps) {
     const defaultUrl = article?.image?.url
 
     const fetchAll = useCallback(async () => {
-        const moreFromAuthor = await fetchMoreByAuthor(article.author_email)
+        const moreFromAuthor = await fetchMoreByAuthor(
+            article?.author_email ?? ''
+        )
         setByAuthor(moreFromAuthor.items)
     }, [article.author_email])
 
@@ -37,13 +39,11 @@ function Article({ article }: ArticleProps) {
             isArticle
             ogarticleProps={{
                 publishedTime: article?.created,
-                modifiedTime: null,
+                modifiedTime: '',
                 authors: [article?.author],
-                tags: [...article?.tags],
+                tags: article?.tags,
             }}>
-            <Suspense fallback={<p>loading ...</p>}>
-                <ArticlePost article={article} authorArticles={byAuthor} />
-            </Suspense>
+            <ArticlePost article={article} authorArticles={byAuthor} />
         </Layout>
     )
 }

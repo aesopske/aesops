@@ -1,5 +1,6 @@
 import React from 'react'
-import { Box, Image, Text, Stack } from '@chakra-ui/react'
+import Image from 'next/image'
+import Text from './atoms/Text'
 
 type UnavailableProps = {
     message: string
@@ -8,26 +9,16 @@ type UnavailableProps = {
 
 function Unavailable({ message, src }: UnavailableProps) {
     return (
-        <Box
-            position='absolute'
-            top='50%'
-            left='50%'
-            transform='translate(-50%,-50%)'
-            as={Stack}
-            justifyContent='center'
-            alignItems='center'>
+        <div className='w-full h-full relative bg-brand-background flex flex-col gap-4 items-center justify-center text-center'>
             <Image
-                mb='1rem'
                 src={src}
-                width='40%'
-                height='auto'
-                objectFit='contain'
+                width={300}
+                height={300}
+                className='w-48 h-48'
                 alt='Unavailable'
             />
-            <Text as='p' fontSize='lg'>
-                {message}
-            </Text>
-        </Box>
+            <Text className='text-center'>{message}</Text>
+        </div>
     )
 }
 

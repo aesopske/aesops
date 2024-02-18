@@ -1,13 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import {
-    Box,
-    Heading,
-    Text,
-    Badge,
-    useColorMode,
-    HStack,
-    Stack,
-} from '@chakra-ui/react'
+
 import readTime from 'reading-time'
 import { useRouter } from 'next/router'
 import useMeasure from 'react-cool-dimensions'
@@ -20,6 +12,8 @@ import AesopImage from '../../common/AesopImage'
 import MoreByAuthor from '../../moreby/MoreByAuthor'
 import MarkdownReader from '../../common/MarkdownReader'
 import RecommendedList from '../recommender/RecommendedList'
+import { Badge } from '@/components/ui/badge'
+import Heading from '@/components/common/atoms/Heading'
 
 type ArticlePostProps = {
     article: ARTICLE | null
@@ -28,10 +22,9 @@ type ArticlePostProps = {
 
 function ArticlePost({ article, authorArticles = [] }: ArticlePostProps) {
     const router = useRouter()
-    const { colorMode } = useColorMode()
     const [read, setRead] = useState(null)
     const [config, setConfig] = useState({})
-    const date = new Date(article?.created).toDateString()
+    const date = new Date(article?.created ?? '').toDateString()
 
     useEffect(() => {
         if (article?.body) {
@@ -54,21 +47,23 @@ function ArticlePost({ article, authorArticles = [] }: ArticlePostProps) {
     }
 
     const user2 = {
-        name: article?.author,
-        email: article?.author_email,
+        name: article?.author ?? 'Author',
+        email: article?.author_email ?? '',
     }
 
     const { observe, width, height } = useMeasure()
 
     const Tags = () => {
         return (
-            <HStack flexWrap='wrap' gap='5px' alignItems='flex-start'>
+            <div className='flex items-center flex-wrap gap-2 my-4'>
                 {article?.tags &&
                     article?.tags.map((tag, index) => (
                         <Badge
                             key={index}
-                            fontSize='sm'
-                            cursor='pointer'
+                            role='button'
+                            variant='primary'
+                            aria-label='tag'
+                            className='cursor-pointer text-sm rounded-full py-2 px-4 bg-white border border-gray-200 hover:bg-gray-100 transition-colors duration-300 ease-in-out'
                             onClick={() => {
                                 router.push(
                                     {
@@ -80,95 +75,59 @@ function ArticlePost({ article, authorArticles = [] }: ArticlePostProps) {
                                         shallow: true,
                                     }
                                 )
-                            }}
-                            p='10px'
-                            colorScheme='purple'
-                            fontWeight='500'
-                            borderRadius='full'
-                            textTransform='capitalize'>
+                            }}>
                             {tag}
                         </Badge>
                     ))}
-            </HStack>
+            </div>
         )
     }
 
     return (
-        <Box
-            my='.5rem'
-            p='10px'
-            width={['100%', '100%', '90%', '80%', '75%']}
-            mx='auto'>
-            <Stack direction={['column', 'column', 'row', 'row']} spacing='8'>
-                <Box width={['100%', '', '', '65%']}>
-                    <Box my='1rem'>
-                        <Heading
-                            fontSize='3xl'
-                            my='1rem'
-                            textTransform='capitalize'>
-                            {article?.title}
-                        </Heading>
-                        <UserAvatar user={user} align='center' size='md' />
-                    </Box>
+        <div className=' relative container-fluid mx-auto max-w-screen-xl w-full px-6 pb-28 grid grid-cols-3 gap-20'>
+            <div className='w-full col-span-2 max-w-4xl relative'>
+                <div className='my-4 flex flex-col gap-2'>
+                    <Heading className='capitalize md:text-4xl'>
+                        {article?.title}
+                    </Heading>
+                    <UserAvatar user={user} />
+                </div>
 
-                    {article?.image && (
-                        <Box
-                            ref={observe}
-                            width='100%'
-                            height={['40vh', '40vh', '40vh', '40vh', '60vh']}
-                            my='1rem'>
-                            <AesopImage
-                                src={article.image?.url}
-                                alt={article?.title}
-                                borderRadius='10px'
-                                width={width || 600}
-                                height={height || 600}
-                                objectFit='cover'
-                                layout='responsive'
-                                fallbackSrc='/images/placeholder.png'
-                            />
-                        </Box>
-                    )}
-
-                    <Tags />
-                    <Text
-                        fontSize='lg'
-                        lineHeight='2'
-                        textAlign='justify'
-                        p={['10px', '10px', '0', '0', '0']}
-                        fontFamily='Roboto Serif'
-                        color={colorMode === 'light' ? 'gray.600' : 'gray.300'}
-                        my='1rem'>
-                        <MarkdownReader content={article?.body} />
-                    </Text>
-
-                    <Box mt='2rem'>
-                        <DiscussionEmbed shortname='aesops' config={config} />
-                    </Box>
-                </Box>
-                <Box width={['100%', '100%', '35%']} position='relative'>
-                    <Stack
-                        flexDir='column'
-                        position='sticky'
-                        top='1rem'
-                        left='0'
-                        width='100%'
-                        alignItems='flex-start'
-                        justifyContent='flex-start'
-                        height='auto'
-                        spacing='3'
-                        mt={['1rem', '2rem', '3rem', '5rem', '8rem']}>
-                        <Share title={article?.title} />
-                        <MoreByAuthor
-                            user={user2}
-                            posts={authorArticles}
-                            current={article}
+                {article?.image && (
+                    <div
+                        ref={observe}
+                        className='w-full h-96 rounded-xl object-cover overflow-hidden border border-gray-200'>
+                        <AesopImage
+                            src={
+                                article.image?.url ?? '/images/placeholder.png'
+                            }
+                            alt={article?.title}
+                            width={width || 600}
+                            height={height || 600}
+                            className='w-full h-full object-cover rounded-lg'
                         />
-                        <RecommendedList title={article?.title} />
-                    </Stack>
-                </Box>
-            </Stack>
-        </Box>
+                    </div>
+                )}
+
+                <Tags />
+                <MarkdownReader content={article?.body ?? ''} />
+
+                <div className='mt-4'>
+                    <DiscussionEmbed shortname='aesops' config={config} />
+                </div>
+            </div>
+            <div className='relative w-full'>
+                <div className='flex flex-col gap-3 lg:sticky lg:top-20 lg:pt-10 lg:pl-0 lg:left-0 lg:w-full lg:items-start lg:justify-start lg:h-auto lg:mt-8'>
+                    <MoreByAuthor
+                        user={user2}
+                        posts={authorArticles}
+                        current={article}
+                    />
+                    <RecommendedList title={article?.title} />
+                    <Share title={article?.title} />
+                </div>
+            </div>
+        </div>
     )
 }
 

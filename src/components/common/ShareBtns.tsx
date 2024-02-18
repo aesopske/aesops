@@ -1,16 +1,12 @@
+import { cn } from '@/lib/utils'
 import React, { useEffect, useState } from 'react'
 import { FaWhatsapp, FaTwitter, FaFacebook } from 'react-icons/fa'
-import {
-    Box,
-    Divider,
-    Heading,
-    HStack,
-    IconButton,
-    useColorMode,
-} from '@chakra-ui/react'
 
-function Share({ title }) {
-    const { colorMode } = useColorMode()
+type ShareProps = {
+    title: string
+} & React.HTMLProps<HTMLDivElement>
+
+function Share({ title, className }: ShareProps) {
     const [newUrl, setnewUrl] = useState(null)
 
     useEffect(() => {
@@ -40,44 +36,21 @@ function Share({ title }) {
     ]
 
     return (
-        <Box
-            height='auto'
-            width='100%'
-            bg={colorMode === 'light' ? 'white' : 'gray.700'}
-            p='25px'
-            borderRadius='10px'>
-            <Heading fontSize={['lg', '', '', '', 'xl']}>
-                Share with others
-            </Heading>
-
-            <Divider my='0.5rem' />
-
-            <HStack spacing='3' my='1rem'>
+        <div className={cn('relative self-center', className)}>
+            <div className='flex gap-2'>
                 {shares.map((share) => (
-                    <IconButton
-                        as='a'
-                        aria-label={`share on ${share.label}`}
+                    <a
                         key={share.label}
-                        borderRadius='10px'
+                        className='h-12 w-12 rounded-full bg-white border border-gray-200 flex items-center justify-center hover:bg-gray-100 focus-within:border-2 transition-all duration-300 ease-in-out'
+                        aria-label={`share on ${share.label}`}
                         target='_blank'
-                        border='1px solid'
-                        borderColor={
-                            colorMode === 'light' ? 'transparent' : 'gray.700'
-                        }
-                        _hover={{
-                            borderColor: 'brand.500',
-                        }}
                         href={share.href}
-                        rel='noopener noreferrer'
-                        transition='.3s ease'
-                        icon={share.icon}
-                        bg='brand.50'
-                        color='brand.600'
-                        fontSize='xl'
-                    />
+                        rel='noopener noreferrer'>
+                        {share.icon}
+                    </a>
                 ))}
-            </HStack>
-        </Box>
+            </div>
+        </div>
     )
 }
 

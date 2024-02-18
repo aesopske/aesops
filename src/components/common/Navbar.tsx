@@ -47,38 +47,6 @@ function Navbar() {
     return (
         <Box position='sticky' top='0' left='0' zIndex='60'>
             <Box
-                px='20px'
-                py='10px'
-                height={['auto', 'auto', '3rem']}
-                bg={isDark ? 'gray.900' : 'gray.200'}>
-                <Stack
-                    direction={['column', 'column', 'row']}
-                    alignItems={['start', 'start', 'center']}
-                    height='100%'
-                    width='100%'
-                    justifyContent='space-between'>
-                    <HStack spacing='10px'>
-                        <Badge colorScheme='teal'>New</Badge>
-                        <Text fontWeight='semibold'>
-                            Register for our free Bootcamp
-                        </Text>
-                    </HStack>
-                    <Text
-                        as='a'
-                        p='5px'
-                        px='10px'
-                        rounded='md'
-                        bg='brand.400'
-                        color='white'
-                        target='_blank'
-                        fontWeight='semibold'
-                        rel='noreferrer noopener'
-                        href='https://forms.gle/pjNVDD5Yn4RDQhpK9'>
-                        Register 🙂
-                    </Text>
-                </Stack>
-            </Box>
-            <Box
                 height='5rem'
                 width='100%'
                 bg={colorMode === 'light' ? 'gray.100' : 'gray.800'}

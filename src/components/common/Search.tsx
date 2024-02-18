@@ -1,72 +1,78 @@
-import React from 'react'
-import {
-    Box,
-    FormControl,
-    InputGroup,
-    Input,
-    Icon,
-    InputLeftElement,
-    InputRightElement,
-    useColorMode,
-    FormLabel,
-} from '@chakra-ui/react'
-import { FaSearch, FaTimes } from 'react-icons/fa'
+'use client'
 
-function Search({ setTerm, term, placeholder, label }) {
-    const { colorMode } = useColorMode()
+import React, { useState, useEffect } from 'react'
+
+import { Button } from '../ui'
+import { Input } from '../ui/input'
+import { useRouter } from 'next/router'
+import { X, SearchIcon } from 'lucide-react'
+
+function Search({ placeholder, label }) {
+    const router = useRouter()
+    const pathname = router.pathname
+    const { search, category } = router.query as {
+        search: string
+        category: string
+    }
+    const [searchterm, setSearchterm] = useState(search || '')
+
+    useEffect(() => {
+        if (search) setSearchterm(search)
+        if (category) setSearchterm(category)
+        if (search && category) setSearchterm(search)
+    }, [search, category])
+
+    const handleChange = (e: React.FormEvent<HTMLInputElement>) => {
+        const inputElement = e.target as HTMLInputElement
+        if (inputElement.value) setSearchterm(inputElement.value.toLowerCase())
+    }
+
+    const handleClick = () => {
+        if (!searchterm) return
+        router.push(`/${pathname}?search=${searchterm}`, undefined, {
+            shallow: true,
+        })
+    }
+
     return (
-        <Box height='auto' width='auto'>
-            <FormControl height='auto' width='100%'>
-                {label && (
-                    <FormLabel
-                        fontWeight='800'
-                        color='gray.500'
-                        fontFamily='Roboto'>
-                        {label}
-                    </FormLabel>
-                )}
-                <InputGroup height='3rem' width='100%'>
-                    <InputLeftElement fontSize='1rem' height='100%'>
-                        <Icon
-                            as={FaSearch}
-                            fontSize='1.2rem'
-                            color='gray.400'
-                        />
-                    </InputLeftElement>
-                    <Input
-                        p='10px 50px'
-                        borderRadius='10px'
-                        value={term}
-                        width='100%'
-                        color='gray.500'
-                        border='2px solid'
-                        borderColor={
-                            colorMode === 'light' ? 'gray.300' : 'gray.600'
-                        }
-                        _focus={{
-                            outlineColor: 'gray.500',
-                        }}
-                        placeholder={placeholder}
-                        onChange={(e) => setTerm(e.target.value)}
-                        height='3rem'
-                    />
+        <div className='w-full'>
+            <label htmlFor='search' className='sr-only'>
+                {label}
+            </label>
+            <div className='flex items-center gap-2'>
+                <div className='relative w-full'>
+                    <SearchIcon className='h-4 w-4 absolute left-3 top-3' />
 
-                    {term && (
-                        <InputRightElement
-                            fontSize='1rem'
-                            height='100%'
-                            cursor='pointer'
-                            onClick={() => setTerm('')}>
-                            <Icon
-                                as={FaTimes}
-                                fontSize='1.2rem'
-                                color='gray.500'
-                            />
-                        </InputRightElement>
-                    )}
-                </InputGroup>
-            </FormControl>
-        </Box>
+                    <Input
+                        onChange={handleChange}
+                        className='w-full px-10'
+                        placeholder={placeholder}
+                        value={searchterm}
+                    />
+                    {searchterm ? (
+                        <Button
+                            variant='ghost'
+                            onClick={() => {
+                                setSearchterm('')
+                                router.push(pathname, undefined, {
+                                    shallow: true,
+                                })
+                            }}
+                            className='absolute right-3 top-0 flex items-center justify-center p-0 hover:bg-transparent'
+                            aria-label='clear search'>
+                            <X className='h-4 w-4' />
+                        </Button>
+                    ) : null}
+                </div>
+
+                <Button
+                    className='w-fit'
+                    disabled={!searchterm}
+                    onClick={handleClick}>
+                    Search
+                </Button>
+            </div>
+        </div>
     )
 }
 

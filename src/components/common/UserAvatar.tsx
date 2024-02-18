@@ -1,7 +1,7 @@
-import React from 'react'
-import { Avatar, Text, HStack, useColorMode, VStack } from '@chakra-ui/react'
+'use client'
 
-import useOptimize from '@/hooks/useOptimize'
+import Text from './atoms/Text'
+import { Avatar, AvatarFallback, AvatarImage } from '../ui/avatar'
 
 type user = {
     name: string
@@ -12,74 +12,37 @@ type user = {
 
 type UserAvatarProps = {
     user: user | null
-    size?: string
-    align?: string
-    onSurface?: boolean
 }
 
-function UserAvatar({
-    user,
-    size = 'sm',
-    align = 'center',
-    onSurface = false,
-}: UserAvatarProps) {
-    const { colorMode } = useColorMode()
-    const lightMode = colorMode === 'light'
-    const { optimizedSrc } = useOptimize(user?.photoURL)
+function UserAvatar({ user }: UserAvatarProps) {
+    const firstLastNameLetters = () => {
+        if (user) {
+            const name = user?.name.split(' ')
+            return name[0][0] + name[1][0]
+        }
+        return ''
+    }
+
     return (
-        <HStack alignItems={align} fontFamily='Roboto'>
-            <Avatar
-                size={size}
-                name={user?.name}
-                src={optimizedSrc}
-                borderRadius='10px'
-            />
-            <VStack
-                direction='column'
-                alignItems='flex-start'
-                spacing='0'
-                justifyContent='space-between'>
-                <Text
-                    fontWeight='600'
-                    fontSize='md'
-                    textTransform='capitalize'
-                    color={
-                        lightMode
-                            ? onSurface
-                                ? 'gray.100'
-                                : 'gray.600'
-                            : 'gray.300'
-                    }>
+        <div className='flex items-start gap-2'>
+            <Avatar className='border'>
+                <AvatarImage src={user?.photoURL} alt={user?.name} />
+                <AvatarFallback>{firstLastNameLetters()}</AvatarFallback>
+            </Avatar>
+
+            <div className='flex flex-1 flex-col items-start gap-0 justify-between'>
+                <Text className='capitalize font-semibold'>
                     {user?.name.toLowerCase()}
                 </Text>
                 {user?.read ? (
-                    <Text
-                        fontSize='sm'
-                        color={
-                            lightMode
-                                ? onSurface
-                                    ? 'gray.100'
-                                    : 'gray.600'
-                                : 'gray.400'
-                        }>
+                    <Text className='text-xs'>
                         {user?.date} &bull; {user?.read}
                     </Text>
                 ) : (
-                    <Text
-                        fontSize='sm'
-                        fontWeight='400'
-                        color={
-                            colorMode === 'light'
-                                ? onSurface
-                                    ? 'gray.100'
-                                    : 'gray.600'
-                                : 'gray.400'
-                        }>
-                        {user?.date}
-                    </Text>
+                    <Text className='text-xs'>{user?.date}</Text>
                 )}
-            </VStack>
-        </HStack>
+            </div>
+        </div>
     )
 }
 

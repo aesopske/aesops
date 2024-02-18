@@ -1,22 +1,5 @@
-import {
-    Box,
-    Grid,
-    Heading,
-    HStack,
-    IconButton,
-    Stack,
-    useColorMode,
-    useMediaQuery,
-    useDisclosure,
-    VStack,
-    Divider,
-} from '@chakra-ui/react'
 import { useRouter } from 'next/router'
-import { FaTimes } from 'react-icons/fa'
-import { useDebounce } from 'use-debounce'
-import { MdFilterList } from 'react-icons/md'
-import { AnimatePresence, motion } from 'framer-motion'
-import { useEffect, useState, useCallback } from 'react'
+import { useEffect, useState, useCallback, Fragment } from 'react'
 
 import { ARTICLE, CATEGORY } from '@/types'
 import Search from '../common/Search'
@@ -25,6 +8,9 @@ import ArticleLoader from './ArticleLoader'
 import Unavailable from '../common/Unavailable'
 import FilterByCategory from './FilterByCategory'
 import { fetchArticles, fetchCategories } from '@/utils/requests'
+import Text from '../common/atoms/Text'
+import { X } from 'lucide-react'
+import { Button } from '../ui'
 
 type ArticleListProps = {
     articles: ARTICLE[]
@@ -32,16 +18,14 @@ type ArticleListProps = {
 
 function ArticleList({ articles }: ArticleListProps) {
     const router = useRouter()
-    const { onToggle, isOpen } = useDisclosure()
-    const [isTabletAndUp] = useMediaQuery('(min-width: 768px)')
-    const { colorMode } = useColorMode()
-    const [searchterm, setSearchterm] = useState('')
-    const [filtered, setFiltered] = useState<ARTICLE[]>([])
     const [loading, setLoading] = useState(false)
-    const [text] = useDebounce(searchterm, 500)
+    const [filtered, setFiltered] = useState<ARTICLE[]>([])
     const [categories, setCategories] = useState<CATEGORY[]>([])
 
-    const { category: query } = router.query as { category: string }
+    const { category: query, search } = router.query as {
+        category: string
+        search: string
+    }
 
     const fetchFiltered = useCallback(async (txt: string) => {
         try {
@@ -60,18 +44,15 @@ function ArticleList({ articles }: ArticleListProps) {
     const getCategories = useCallback(async () => {
         const data = await fetchCategories({ limit: 12 })
 
-        if (data.categories) {
-            setCategories(data.categories)
-        } else {
-            setCategories([])
-        }
+        if (!data.categories) return
+        setCategories(data.categories)
     }, [])
 
     useEffect(() => {
-        if (text) {
-            fetchFiltered(text)
+        if (search) {
+            fetchFiltered(search)
         }
-    }, [text, fetchFiltered])
+    }, [search, fetchFiltered])
 
     useEffect(() => {
         if (query) {
@@ -84,172 +65,79 @@ function ArticleList({ articles }: ArticleListProps) {
     }, [getCategories])
 
     return (
-        <Stack
-            my='2rem'
-            gap='1rem'
-            spacing={['2', '2', '3', '8']}
-            flexDir={[
-                'column-reverse',
-                'column-reverse',
-                'column-reverse',
-                'row',
-            ]}>
-            <VStack
-                spacing='5'
-                height='auto'
-                minHeight='70vh'
-                my='1rem'
-                position='relative'
-                width={['100%', '', '', '70%']}>
-                <HStack
-                    height='auto'
-                    width='100%'
-                    justifyContent='space-between'
-                    alignItems='center'>
-                    <Box width={['80%', '70%', '70%', '70%', '50%']} p='0'>
+        <div className='grid grid-cols-1 py-12 gap-10 lg:grid-cols-3 lg:py-24'>
+            <div className='flex flex-col gap-4 relative w-full col-span-2'>
+                <div className='flex items-center gap-4 w-full justify-between mb-4'>
+                    <div className='w-full md:w-3/4 lg:w-1/2 p-0'>
                         <Search
+                            label='Search articles'
                             placeholder='Search by title or tag ...'
-                            setTerm={setSearchterm}
-                            term={searchterm}
-                            label={isTabletAndUp ? 'Search Fables' : ''}
-                            full
                         />
-                    </Box>
-                    <IconButton
-                        onClick={onToggle}
-                        display={['flex', 'flex', 'flex', 'none']}
-                        icon={<MdFilterList />}
-                        aria-label='Filter by category'
-                        bg='transparent'
-                        border='2px solid'
-                        borderRadius='10px'
-                        borderColor={
-                            colorMode === 'light' ? 'gray.300' : 'gray.700'
-                        }
-                        variant='outline'
-                        size='lg'
-                        fontSize='xl'
-                    />
-                </HStack>
+                    </div>
+                    {(query || search) && (
+                        <div className='flex items-center my-4 justify-between gap-5 border bg-white rounded-lg py-0 pl-4'>
+                            <Text className='text-sm font-bold'>Results</Text>
 
-                <AnimatePresence>
-                    {isOpen && (
-                        <Box
-                            as={motion.div}
-                            initial={{ y: -50, opacity: 0 }}
-                            animate={{ y: 0, opacity: 1 }}
-                            exit={{ y: 50, opacity: 0 }}>
-                            <FilterByCategory
-                                categories={categories}
-                                query={query}
-                            />
-                        </Box>
+                            <Button
+                                size='icon'
+                                variant='secondary'
+                                className='border border-gray-200'>
+                                {filtered && filtered.length}
+                            </Button>
+                        </div>
                     )}
-                </AnimatePresence>
-
-                <Box height='auto' my='1rem'>
-                    {text && !filtered.length && (
-                        <Unavailable
-                            message='😧 The post you are searching for does not exist'
-                            src='/images/unavailable.svg'
-                        />
-                    )}
-                </Box>
-
-                {query && (
-                    <HStack
-                        width='100%'
-                        justifyContent='space-between'
-                        alignItems='flex-start'
-                        my='1rem'>
-                        <Heading
-                            fontSize='lg'
-                            color='gray.500'
-                            fontWeight='medium'>
-                            {filtered && filtered.length} result
-                            {filtered.length > 1 && 's'} for {query}
-                        </Heading>
-
-                        <IconButton
-                            aria-label='Close filter'
-                            onClick={() => {
-                                router.push(
-                                    {
-                                        pathname: '/articles',
-                                    },
-                                    `${process.env.SITE_URL}/articles`,
-                                    { shallow: true }
-                                )
-                            }}
-                            _focus={{ outline: 'none' }}
-                            _active={{ outline: 'none' }}
-                            bg={colorMode === 'light' ? 'gray.300' : 'gray.700'}
-                            icon={<FaTimes />}
-                        />
-                    </HStack>
-                )}
-
-                {query && !filtered.length && !loading && (
-                    <Box height='auto' minHeight='40vh' my='2rem'>
-                        <Unavailable
-                            message='😧 No posts available for that filter'
-                            src='/images/unavailable.svg'
-                        />
-                    </Box>
-                )}
+                </div>
 
                 {loading && !filtered.length && <ArticleLoader />}
 
-                {text || query ? (
-                    <Grid gap='4rem' templateColumns='repeat(1, 1fr)'>
-                        {filtered &&
-                            filtered.map((article: ARTICLE, index: number) => (
-                                <>
-                                    <ArticleCard
-                                        key={article._id}
-                                        article={article}
-                                    />
-                                    {index !== filtered.length - 1 && (
-                                        <Divider />
-                                    )}
-                                </>
-                            ))}
-                    </Grid>
-                ) : (
-                    <Grid
-                        gap={['3rem', '3rem']}
-                        templateColumns='repeat(1, 1fr)'>
-                        {articles &&
-                            articles.map((article, index) => (
-                                <>
-                                    <ArticleCard
-                                        key={article._id}
-                                        article={article}
-                                    />
-                                    {index !== articles.length - 1 && (
-                                        <Divider />
-                                    )}
-                                </>
-                            ))}
-                    </Grid>
-                )}
+                <div className='grid grid-cols-1 gap-8'>
+                    {search || query ? (
+                        <Fragment>
+                            {filtered &&
+                                filtered.map(
+                                    (article: ARTICLE, index: number) => (
+                                        <Fragment key={article?.id}>
+                                            <ArticleCard article={article} />
+                                            <hr className='last:hidden border border-gray-100' />
+                                        </Fragment>
+                                    )
+                                )}
+                        </Fragment>
+                    ) : (
+                        <Fragment>
+                            {articles &&
+                                articles.map((article) => (
+                                    <Fragment key={article?.id}>
+                                        <ArticleCard article={article} />
+                                        <hr className='last:hidden border border-gray-100' />
+                                    </Fragment>
+                                ))}
+                        </Fragment>
+                    )}
+                </div>
 
-                {!articles.length && (
-                    <Unavailable
-                        message='😧 No published fables found'
-                        src='/images/unavailable.svg'
-                    />
-                )}
-            </VStack>
+                {!articles.length && !loading ? (
+                    <div className='my-8'>
+                        <Unavailable
+                            message='😧 No published fables found'
+                            src='/images/unavailable.svg'
+                        />
+                    </div>
+                ) : null}
+                {query && filtered.length === 0 && !loading ? (
+                    <div className='my-8'>
+                        <Unavailable
+                            message='😧 Not blog matched, try another search keyword'
+                            src='/images/unavailable.svg'
+                        />
+                    </div>
+                ) : null}
+            </div>
 
-            <Box
-                position='relative'
-                display={['none', 'none', 'none', 'block']}
-                width={['100%', '', '', '30%']}
-                p={['10px 0', '10px 0', '20px 0']}>
+            <div className='hidden w-full py-2.5 lg:block '>
                 <FilterByCategory categories={categories} query={query} />
-            </Box>
-        </Stack>
+            </div>
+        </div>
     )
 }
 

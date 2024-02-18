@@ -1,28 +1,17 @@
+'use client'
+
 import React from 'react'
 import Link from 'next/link'
-import {
-    FaLinkedin,
-    FaTwitter,
-    FaFacebook,
-    FaGithub,
-    FaRss,
-} from 'react-icons/fa'
-import {
-    Heading,
-    Box,
-    Text,
-    HStack,
-    Icon,
-    Divider,
-    Image,
-    GridItem,
-    useColorMode,
-    Grid,
-    VStack,
-} from '@chakra-ui/react'
+import Image from 'next/image'
+import { FaXTwitter } from 'react-icons/fa6'
+import { usePathname } from 'next/navigation'
+import { FaLinkedin, FaFacebook, FaGithub, FaRss } from 'react-icons/fa'
+
+import Text from './atoms/Text'
+import Heading from './atoms/Heading'
+import { Separator } from '@/components/ui/separator'
 
 function Footer() {
-    const { colorMode } = useColorMode()
     const links = [
         {
             label: 'Articles',
@@ -53,27 +42,27 @@ function Footer() {
         {
             label: 'LinkedIn',
             href: 'https://www.linkedin.com/company/aesops/',
-            icon: FaLinkedin,
+            icon: <FaLinkedin className='w-full h-full' />,
         },
         {
             label: 'Github',
             href: 'https://github.com/aesopske',
-            icon: FaGithub,
+            icon: <FaGithub className='w-full h-full' />,
         },
         {
             label: 'Twitter',
             href: 'https://twitter.com/Aesopsk',
-            icon: FaTwitter,
+            icon: <FaXTwitter className='w-full h-full' />,
         },
         {
             label: 'Facebook',
             href: 'https://facebook.com/aesopske',
-            icon: FaFacebook,
+            icon: <FaFacebook className='w-full h-full' />,
         },
         {
             label: 'Rss Feed',
             href: `${process.env.SITE_URL}/rss.xml`,
-            icon: FaRss,
+            icon: <FaRss className='w-full h-full' />,
         },
     ]
 
@@ -83,150 +72,84 @@ function Footer() {
             href: `${process.env.SITE_URL}/legal/privacy-policy`,
         },
     ]
+
+    const pathname = usePathname()
+    if (pathname?.includes('/studio')) return null
     return (
-        <Box
-            height='auto'
-            p='40px 0'
-            borderTop='3px solid'
-            borderColor={colorMode === 'light' ? 'gray.200' : 'gray.700'}>
-            <Grid
-                width={['95%', '80%', '80%', '80%', '75%']}
-                height='100%'
-                mx='auto'
-                p='20px 0'
-                gap='1rem'
-                templateColumns={[
-                    'repeat(2,1fr)',
-                    'repeat(2,1fr)',
-                    'repeat(2,1fr)',
-                    'repeat(3,1fr)',
-                    'repeat(4,1fr)',
-                ]}>
-                {/* logo */}
+        <section className='w-full h-full pt-32 px-6 bg-gradient-to-b pb-5 from-brand-background via-aes-light  to-aes-primary'>
+            <div className='mx-auto max-w-screen-xl grid gap-4 grid-cols-6'>
+                <div className='w-56 h-56 col-span-3 flex items-start justify-start'>
+                    <Image
+                        alt='logo'
+                        width={300}
+                        height={300}
+                        src='/logo.svg'
+                        className='object-contain w-full'
+                    />
+                </div>
 
-                <GridItem
-                    height='auto'
-                    width='100%'
-                    display={['none', 'none', 'none', 'block']}>
-                    <HStack spacing='5'>
-                        <Image
-                            src={
-                                colorMode === 'light'
-                                    ? '/images/aesops-logo.png'
-                                    : '/images/aesops-logo-muted.png'
-                            }
-                            alt='logo'
-                            objectFit='contain'
-                            width={['50%', '30%', '30%', '20%']}
-                            height={['50%', '30%', '30%', '40%']}
-                        />
-                        <Heading size='lg'>Aesops</Heading>
-                    </HStack>
-                </GridItem>
-
-                {/* links */}
-
-                <GridItem
-                    color={colorMode === 'light' ? 'gray.600' : 'gray.400'}
-                    p='0 20px'>
-                    <Heading fontSize='xl' my='1rem'>
-                        Company links
-                    </Heading>
-                    <VStack
-                        alignItems='flex-start'
-                        justify-content='flex-start'
-                        spacing='2'>
+                <div className='flex flex-col gap-4'>
+                    <Heading type='h5'>Company</Heading>
+                    <div className='flex flex-col gap-2 '>
                         {links.map((link) => (
-                            <Box key={link.label}>
-                                <Link href={link.link} passHref>
-                                    <Text
-                                        fontSize='md'
-                                        _hover={{ color: 'brand.muted' }}
-                                        cursor='pointer'>
-                                        {link.label}
-                                    </Text>
-                                </Link>
-                            </Box>
+                            <Link
+                                passHref
+                                href={link.link}
+                                className='cursor-pointer border-b border-dashed pb-1 border-gray-400 w-fit text-sm'>
+                                {link.label}
+                            </Link>
                         ))}
-                    </VStack>
-                </GridItem>
+                    </div>
+                </div>
 
-                {/* socials */}
-
-                <GridItem
-                    color={colorMode === 'light' ? 'gray.600' : 'gray.400'}
-                    p='0 20px'>
-                    <Heading fontSize='lg' my='1rem'>
-                        Connect with us
-                    </Heading>
-                    <VStack
-                        alignItems='flex-start'
-                        justify-content='flex-start'
-                        spacing='3'>
+                <div className='flex flex-col gap-4'>
+                    <Heading type='h5'>Connect With Us</Heading>
+                    <div className='flex flex-col gap-2'>
                         {socials.map((social) => (
-                            <HStack
-                                key={social.label}
-                                width='100%'
-                                _hover={{ color: 'brand.muted' }}>
-                                <Icon as={social.icon} fontSize='1rem' />
-                                <Text
-                                    as='a'
-                                    fontSize='md'
-                                    href={social.href}
-                                    target='_blank'
-                                    rel='noopener noreferrer'>
-                                    {social.label}
-                                </Text>
-                            </HStack>
-                        ))}
-                    </VStack>
-                </GridItem>
-                <GridItem
-                    color={colorMode === 'light' ? 'gray.600' : 'gray.400'}
-                    p='0 20px'>
-                    <Heading fontSize='lg' my='1rem'>
-                        Legal
-                    </Heading>
-
-                    {legal.map((leg) => (
-                        <HStack
-                            key={leg.label}
-                            my='.5rem'
-                            width='100%'
-                            _hover={{ color: 'brand.muted' }}>
-                            <Text
-                                as='a'
-                                fontSize='md'
-                                href={leg.href}
+                            <a
                                 target='_blank'
+                                key={social.label}
+                                href={social.href}
+                                rel='noopener noreferrer'
+                                className='flex items-center gap-2 text-sm'>
+                                <span className='w-7 h-7 p-1.5 border border-transparent  rounded-full'>
+                                    {social.icon}
+                                </span>
+
+                                <Text className='text-sm'>{social.label}</Text>
+                            </a>
+                        ))}
+                    </div>
+                </div>
+                <div className='flex flex-col gap-4'>
+                    <Heading type='h5'>Legal</Heading>
+
+                    <div className='flex flex-col gap-2'>
+                        {legal.map((leg) => (
+                            <a
+                                href={leg.href}
+                                key={leg.label}
+                                target='_blank'
+                                className='cursor-pointer border-b border-dashed pb-1 border-gray-400 w-fit text-sm'
                                 rel='noopener noreferrer'>
                                 {leg.label}
-                            </Text>
-                        </HStack>
-                    ))}
-                </GridItem>
-            </Grid>
+                            </a>
+                        ))}
+                    </div>
+                </div>
+            </div>
 
-            <Divider
-                mx='auto'
-                mb='2rem'
-                width={['90%', '90%', '80%', '70%', '40%']}
-                color={colorMode === 'light' ? 'gray.600' : 'gray.400'}
-            />
+            <hr className='my-8 border border-aes-primary/10 max-w-3xl mx-auto' />
 
-            <Text
-                my='1rem'
-                as='p'
-                fontSize='md'
-                color={colorMode === 'light' ? 'gray.600' : 'gray.400'}
-                textTransform='capitalize'
-                textAlign='center'>
+            <Text className='text-center w-full capitalize my-4 text-white'>
                 all rights reserved {new Date().getFullYear()} &copy;
-                <Text as='a' ml='0.5rem' href={`${process.env.SITE_URL}`}>
+                <a
+                    className='border-b  border-dashed border-gray-400 ml-2'
+                    href={`${process.env.SITE_URL}`}>
                     aesops
-                </Text>
+                </a>
             </Text>
-        </Box>
+        </section>
     )
 }
 
