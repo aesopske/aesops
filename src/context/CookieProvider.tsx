@@ -1,13 +1,25 @@
 import React, { createContext, useState, useContext, useEffect } from 'react'
 import Cookies from 'js-cookie'
 
-const CookieContext = createContext({})
+type CookieContextType = {
+    showCookieBanner: boolean
+    consent: boolean
+    setCookieConsent: (consent: boolean) => void // eslint-disable-line
+    setShowCookieBanner: (show: boolean) => void // eslint-disable-line
+}
+
+const CookieContext = createContext<CookieContextType>({
+    showCookieBanner: false,
+    consent: false,
+    setCookieConsent: () => null,
+    setShowCookieBanner: () => null,
+})
 
 function CookieProvider({ children }) {
-    const [consent, setConsent] = useState(null)
+    const [consent, setConsent] = useState(false)
     const [showCookieBanner, setShowCookieBanner] = useState(false)
 
-    const setCookieConsent = (consent) => {
+    const setCookieConsent = (consent: boolean) => {
         Cookies.set('cookieConsent', consent)
         setConsent(consent)
         setShowCookieBanner(false)

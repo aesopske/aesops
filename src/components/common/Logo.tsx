@@ -1,4 +1,4 @@
-import Link from 'next/link'
+import React from 'react'
 import Image from 'next/image'
 
 import { cn } from '@/lib/utils'
@@ -16,9 +16,9 @@ function Logo({ variant = 'default', className }: LogoProps) {
                 <Image
                     width={200}
                     height={200}
-                    src='/logo.svg'
                     alt='Aesops Logo'
                     className='h-10 w-auto'
+                    src={variant === 'small' ? '/logo-small.svg' : '/logo.svg'}
                 />
             </a>
         </div>

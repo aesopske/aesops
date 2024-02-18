@@ -1,4 +1,4 @@
-import { fetchArticles, fetchFeaturedArticles } from '@/utils/requests'
+import { fetchFeaturedArticles } from '@/utils/requests'
 import FeaturedCard from '../Articles/FeaturedCard'
 import Heading from '@components/common/atoms/Heading'
 import { ARTICLE } from '@/types'

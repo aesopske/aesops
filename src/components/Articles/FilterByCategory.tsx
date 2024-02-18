@@ -8,7 +8,6 @@ import { useGa } from '@/context/TrackingProvider'
 import { Badge } from '@/components/ui/badge'
 import Heading from '@/components/common/atoms/Heading'
 import { Separator } from '../ui/separator'
-import Link from 'next/link'
 
 type FilterByCategoryProps = {
     categories: CATEGORY[]
@@ -19,14 +18,18 @@ function FilterByCategory({ categories, query }: FilterByCategoryProps) {
     const { gaEvent } = useGa()
     const router = useRouter()
 
-    const handleClick = (category: string) => {
+    const handleClick = (category?: string) => {
         if (!category) {
             router.replace(`/articles`, undefined, {
                 shallow: true,
             })
             return
         }
-        gaEvent('BLOG', 'CATEGORY FILTER', category)
+        gaEvent({
+            category: 'BLOG',
+            action: 'CATEGORY FILTER',
+            label: category,
+        })
         router.replace(`/articles?category=${category}`, undefined, {
             shallow: true,
         })
@@ -36,14 +39,15 @@ function FilterByCategory({ categories, query }: FilterByCategoryProps) {
             <Heading type='h4' className=''>
                 Filter by category
             </Heading>
-            <Separator className='border my-4' />
+            <hr className='border my-4 border-gray-200' />
             <div className='flex flex-wrap gap-2.5'>
-                <Badge
-                    role='button'
-                    onClick={handleClick}
-                    className='cursor-pointer py-2 rounded-full border-none'>
-                    All Articles
-                </Badge>
+                <button className='unset' onClick={() => handleClick()}>
+                    <Badge
+                        role='button'
+                        className='cursor-pointer py-2 rounded-full border-none'>
+                        All Articles
+                    </Badge>
+                </button>
 
                 {categories &&
                     categories.map((category) => (
@@ -54,13 +58,10 @@ function FilterByCategory({ categories, query }: FilterByCategoryProps) {
                             variant={
                                 query === category?.name
                                     ? 'secondary'
-                                    : 'primary'
+                                    : 'default'
                             }
                             className={
                                 'cursor-pointer py-2 rounded-full hover:bg-gray-200'
-                            }
-                            colorScheme={
-                                query === category?.name ? 'purple' : 'gray'
                             }>
                             {category?.name}
                         </Badge>

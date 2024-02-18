@@ -1,13 +1,12 @@
 import React from 'react'
 import Heading from './atoms/Heading'
+import { cn } from '@src/lib/utils'
 
-type HeroProps = React.HTMLAttributes<HTMLElement> & {}
-
-//bg-gradient-to-b from-aes-primary  via-aes-primary to-bg-brand-background
+type HeroProps = {} & React.HTMLAttributes<HTMLDivElement>
 
 function Hero({ className }: HeroProps) {
     return (
-        <div className='bg-aes-primary'>
+        <div className={cn('bg-aes-primary', className)}>
             <div className='relative isolate px-6 pt-14 lg:px-8'>
                 <div
                     className='absolute inset-x-0 -top-40 -z-10 transform-gpu overflow-hidden blur-3xl sm:-top-80'

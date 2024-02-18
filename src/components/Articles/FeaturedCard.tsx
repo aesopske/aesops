@@ -12,7 +12,6 @@ import Text from '@components/common/atoms/Text'
 import UserAvatar from '../common/UserAvatar'
 import AesopImage from '../common/AesopImage'
 import { useGa } from '@/context/TrackingProvider'
-import MarkdownReader from '../common/MarkdownReader'
 
 type FeaturedCardProps = {
     article: ARTICLE
@@ -40,11 +39,11 @@ function FeaturedCard({ article }: FeaturedCardProps) {
                     role='button'
                     className='flex flex-col w-full h-full justify-between items-start gap-3 cursor-pointer'
                     onClick={() => {
-                        gaEvent(
-                            'Article',
-                            'Clicked Featured Article',
-                            article?.title
-                        )
+                        gaEvent({
+                            category: 'Article',
+                            action: 'Clicked Featured Article',
+                            label: article?.title,
+                        })
                     }}>
                     <div ref={observe} className='w-full h-72'>
                         <AesopImage

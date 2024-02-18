@@ -1,7 +1,4 @@
-import { Box, IconButton } from '@chakra-ui/react'
-import { FaArrowUp } from 'react-icons/fa'
 import { ArrowUp } from 'lucide-react'
-import { Button } from '../ui'
 import { AnimatePresence, motion } from 'framer-motion'
 
 function Backtop({ scroll }) {

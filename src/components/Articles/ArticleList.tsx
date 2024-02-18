@@ -9,7 +9,6 @@ import Unavailable from '../common/Unavailable'
 import FilterByCategory from './FilterByCategory'
 import { fetchArticles, fetchCategories } from '@/utils/requests'
 import Text from '../common/atoms/Text'
-import { X } from 'lucide-react'
 import { Button } from '../ui'
 
 type ArticleListProps = {
@@ -94,14 +93,12 @@ function ArticleList({ articles }: ArticleListProps) {
                     {search || query ? (
                         <Fragment>
                             {filtered &&
-                                filtered.map(
-                                    (article: ARTICLE, index: number) => (
-                                        <Fragment key={article?.id}>
-                                            <ArticleCard article={article} />
-                                            <hr className='last:hidden border border-gray-100' />
-                                        </Fragment>
-                                    )
-                                )}
+                                filtered.map((article) => (
+                                    <Fragment key={article?.id}>
+                                        <ArticleCard article={article} />
+                                        <hr className='last:hidden border border-gray-100' />
+                                    </Fragment>
+                                ))}
                         </Fragment>
                     ) : (
                         <Fragment>

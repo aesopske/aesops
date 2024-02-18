@@ -1,6 +1,5 @@
 import '@/scss/global.scss'
 import Footer from '@/components/common/Footer'
-// import './globals.css'
 import NewNavbar from '@components/common/NewNavbar'
 
 function RootLayout({ children }) {

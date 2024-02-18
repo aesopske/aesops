@@ -9,7 +9,6 @@ import { FaLinkedin, FaFacebook, FaGithub, FaRss } from 'react-icons/fa'
 
 import Text from './atoms/Text'
 import Heading from './atoms/Heading'
-import { Separator } from '@/components/ui/separator'
 
 function Footer() {
     const links = [
@@ -94,6 +93,7 @@ function Footer() {
                         {links.map((link) => (
                             <Link
                                 passHref
+                                key={link.label}
                                 href={link.link}
                                 className='cursor-pointer border-b border-dashed pb-1 border-gray-400 w-fit text-sm'>
                                 {link.label}

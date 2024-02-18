@@ -8,7 +8,22 @@ declare global {
     }
 }
 
-const TrackingContext = createContext({})
+type EVENT = {
+    category: string
+    action: string
+    label: string
+    value?: string
+}
+
+type TrackingContextType = {
+    pageView: (url: string) => void // eslint-disable-line
+    gaEvent: (event: EVENT) => void // eslint-disable-line
+}
+
+const TrackingContext = createContext<TrackingContextType>({
+    pageView: () => null,
+    gaEvent: () => null,
+})
 
 function TrackingProvider({ children }) {
     const trackingId = process.env.GA_TRACKING_ID
@@ -22,7 +37,7 @@ function TrackingProvider({ children }) {
         [trackingId]
     )
 
-    function gaEvent(category = '', action = '', label = '', value = '') {
+    function gaEvent({ category = '', action = '', label = '', value = '' }) {
         window.gtag('event', action, {
             event_category: category,
             event_label: label,
@@ -50,6 +65,8 @@ function TrackingProvider({ children }) {
         </TrackingContext.Provider>
     )
 }
+
+
 
 export const useGa = () => useContext(TrackingContext)
 

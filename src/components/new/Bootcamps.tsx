@@ -1,5 +1,4 @@
 import Link from 'next/link'
-import DatasetsList from './DatasetsList'
 import Heading from '../common/atoms/Heading'
 
 function BootCamps() {
@@ -13,13 +12,13 @@ function BootCamps() {
                         </Heading>
                         <p className='my-4 leading-8 text-gray-600 max-w-xl'>
                             Join us on a transformative journey of learning and
-                            discovery with our Data Boot Camps. Whether you're
-                            looking to upskill your team, drive innovation, or
-                            enhance business performance, our boot camps are
-                            your gateway to unlocking the full potential of
-                            data. Invest in the future success of your
-                            organization and empower your team to thrive in the
-                            data-driven era.
+                            discovery with our Data Boot Camps. Whether
+                            you&apos;re looking to upskill your team, drive
+                            innovation, or enhance business performance, our
+                            boot camps are your gateway to unlocking the full
+                            potential of data. Invest in the future success of
+                            your organization and empower your team to thrive in
+                            the data-driven era.
                         </p>
                         <div className='flex items-center gap-x-6'>
                             <Link

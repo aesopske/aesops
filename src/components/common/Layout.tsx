@@ -127,7 +127,7 @@ function Layout({
             </div>
             <Footer />
             <ScrollUp scroll={scroll} />
-            {/* <NavbarMobile /> */}
+            <NavbarMobile />
         </motion.div>
     )
 }

@@ -1,13 +1,12 @@
 import React from 'react'
 import Link from 'next/link'
 import {
+    Text,
     Box,
-    Heading,
-    HStack,
     Image,
     Stack,
-    Badge,
-    Text,
+    HStack,
+    Heading,
     useColorMode,
 } from '@chakra-ui/react'
 import ThemeSwitcher from './ThemeSwitcher'
@@ -19,7 +18,6 @@ function Navbar() {
     const router = useRouter()
     const { gaEvent } = useGa()
     const { colorMode } = useColorMode()
-    const isDark = colorMode === 'dark'
 
     const nav = [
         {

@@ -1,4 +1,4 @@
-import { createElement } from 'react'
+import React, { createElement } from 'react'
 
 import { cn } from '@/lib/utils'
 import { cva } from 'class-variance-authority'

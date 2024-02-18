@@ -12,7 +12,6 @@ import { ARTICLE } from '@/types'
 import UserAvatar from '../common/UserAvatar'
 import AesopImage from '../common/AesopImage'
 import { useGa } from '@/context/TrackingProvider'
-import MarkdownReader from '../common/MarkdownReader'
 
 type ArticlesCardProps = {
     article: ARTICLE
@@ -36,7 +35,11 @@ function ArticlesCard({ article }: ArticlesCardProps) {
         <Link
             href={`/articles/${article?.slug}`}
             onClick={() => {
-                gaEvent('Articles', 'clicked on Article Title', article?.title)
+                gaEvent({
+                    category: 'Articles',
+                    action: 'clicked on Article Title',
+                    label: article?.title,
+                })
             }}
             passHref>
             <div className='flex items-start gap-2 flex-col w-full md:flex-row-reverse md:justify-between '>
