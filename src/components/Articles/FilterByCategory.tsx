@@ -7,7 +7,6 @@ import { CATEGORY } from '@/types'
 import { useGa } from '@/context/TrackingProvider'
 import { Badge } from '@/components/ui/badge'
 import Heading from '@/components/common/atoms/Heading'
-import { Separator } from '../ui/separator'
 
 type FilterByCategoryProps = {
     categories: CATEGORY[]

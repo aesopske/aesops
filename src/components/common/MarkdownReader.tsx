@@ -8,6 +8,7 @@ import MarkDown from 'react-markdown'
 import { cn } from '@/lib/utils'
 import Text from './atoms/Text'
 import Heading from './atoms/Heading'
+import Image from 'next/image'
 
 function MarkdownReader({ content }: { content: string }) {
     return (
@@ -28,15 +29,16 @@ function MarkdownReader({ content }: { content: string }) {
                         }
                         return (
                             <span className='border'>
-                                <img
+                                <Image
                                     src={
                                         image?.properties?.src ??
                                         '/images/placeholder.png'
                                     }
                                     alt={image?.properties?.alt}
-                                    width='100%'
-                                    height='auto'
+                                    width={300}
+                                    height={300}
                                     className='rounded-xl w-full h-auto max-h-96 object-cover border'
+                                    unoptimized
                                 />
                             </span>
                         )
@@ -86,7 +88,7 @@ function MarkdownReader({ content }: { content: string }) {
                         props?.children &&
                         Array.isArray(props?.children) &&
                         props?.children?.some((child: React.ReactNode) => {
-                            return child.props?.node.tagName === 'code'
+                            return child?.props?.node.tagName === 'code'
                         })
                     return (
                         <pre
