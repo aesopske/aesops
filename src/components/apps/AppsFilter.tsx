@@ -7,7 +7,7 @@ type AppsFilterProps = {
     setSearchTerm: (term: string) => void // eslint-disable-line no-unused-vars
 }
 
-function AppsFilter({ searchTerm, setSearchTerm }: AppsFilterProps) {
+function AppsFilter({ searchTerm }: AppsFilterProps) {
     const { colorMode } = useColorMode()
     return (
         <Box
@@ -16,10 +16,9 @@ function AppsFilter({ searchTerm, setSearchTerm }: AppsFilterProps) {
             borderRadius='10px'
             minHeight='10vh'>
             <Search
+                full
                 placeholder='Search by title ...'
                 label='Search for app'
-                full
-                setTerm={setSearchTerm}
                 term={searchTerm}
             />
         </Box>

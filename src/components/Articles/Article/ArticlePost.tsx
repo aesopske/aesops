@@ -22,7 +22,7 @@ type ArticlePostProps = {
 
 function ArticlePost({ article, authorArticles = [] }: ArticlePostProps) {
     const router = useRouter()
-    const [read, setRead] = useState(null)
+    const [read, setRead] = useState('')
     const [config, setConfig] = useState({})
     const date = new Date(article?.created ?? '').toDateString()
 
@@ -61,7 +61,7 @@ function ArticlePost({ article, authorArticles = [] }: ArticlePostProps) {
                         <Badge
                             key={index}
                             role='button'
-                            variant='primary'
+                            variant='default'
                             aria-label='tag'
                             className='cursor-pointer text-sm rounded-full py-2 px-4 bg-white border border-gray-200 hover:bg-gray-100 transition-colors duration-300 ease-in-out'
                             onClick={() => {
@@ -124,7 +124,7 @@ function ArticlePost({ article, authorArticles = [] }: ArticlePostProps) {
                         current={article}
                     />
                     <RecommendedList title={article?.title} />
-                    <Share title={article?.title} />
+                    <Share title={article?.title ?? ''} />
                 </div>
             </div>
         </div>
