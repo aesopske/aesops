@@ -47,7 +47,6 @@ function FeaturedList({ featured }: FeaturedListProps) {
                     {featured &&
                         featured.map((article) => (
                             <FeaturedCard
-                                isMobile
                                 key={article?._id}
                                 article={article}
                             />
