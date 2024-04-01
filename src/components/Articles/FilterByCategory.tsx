@@ -7,6 +7,7 @@ import { CATEGORY } from '@/types'
 import { useGa } from '@/context/TrackingProvider'
 import { Badge } from '@/components/ui/badge'
 import Heading from '@/components/common/atoms/Heading'
+import ListWrapper from '@components/common/ListWrapper'
 
 type FilterByCategoryProps = {
     categories: CATEGORY[]
@@ -43,28 +44,29 @@ function FilterByCategory({ categories, query }: FilterByCategoryProps) {
                 <button className='unset' onClick={() => handleClick()}>
                     <Badge
                         role='button'
-                        className='cursor-pointer py-2 rounded-full border-none'>
+                        variant={query ? 'secondary' : 'default'}
+                        className='cursor-pointer py-2 rounded-full border border-gray-200'>
                         All Articles
                     </Badge>
                 </button>
 
-                {categories &&
-                    categories.map((category) => (
+                <ListWrapper list={categories} itemKey='id'>
+                    {(category: CATEGORY) => (
                         <Badge
                             role='button'
+                            data-selected={query === category?.name}
                             onClick={() => handleClick(category?.name)}
                             key={category?.id}
                             variant={
                                 query === category?.name
-                                    ? 'secondary'
-                                    : 'default'
+                                    ? 'default'
+                                    : 'secondary'
                             }
-                            className={
-                                'cursor-pointer py-2 rounded-full hover:bg-gray-200'
-                            }>
+                            className='cursor-pointer py-2 rounded-full hover:bg-gray-200 data-[selected=true]:hover:bg-gray-800'>
                             {category?.name}
                         </Badge>
-                    ))}
+                    )}
+                </ListWrapper>
             </div>
         </div>
     )

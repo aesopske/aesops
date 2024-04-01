@@ -30,8 +30,8 @@ function UserAvatar({ user }: UserAvatarProps) {
                 <AvatarFallback>{firstLastNameLetters()}</AvatarFallback>
             </Avatar>
 
-            <div className='flex flex-1 flex-col items-start gap-0 justify-between'>
-                <Text className='capitalize font-semibold'>
+            <div className='flex flex-1 flex-col items-start justify-between gap-0'>
+                <Text className='font-semibold capitalize'>
                     {user?.name.toLowerCase()}
                 </Text>
                 {user?.read ? (

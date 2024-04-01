@@ -48,9 +48,9 @@ function MarkdownReader({ content }: { content: string }) {
                 },
                 code: (props) => {
                     return (
-                        <pre className='font-mono w-full p-5 rounded-xl bg-gray-100'>
+                        <code className='font-mono w-full p-5 rounded-xl bg-gray-100'>
                             {props.children}
-                        </pre>
+                        </code>
                     )
                 },
                 h1: (props) => (

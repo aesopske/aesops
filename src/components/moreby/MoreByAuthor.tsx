@@ -34,7 +34,7 @@ function MoreByAuthor({ user, posts, current }: MoreByAuthorProps) {
                 <div className='flex items-center justify-center gap-2 h-full'>
                     <Text className='text-sm'>😧</Text>
                     <Text className='text-sm'>
-                        Can&apos;t find more fables by {user?.name}
+                        Can&apos;t find more articles by {user?.name}
                     </Text>
                 </div>
             )}

@@ -1,4 +1,5 @@
 import '@/scss/global.scss'
+import '@fontsource-variable/lora'
 import Footer from '@/components/common/Footer'
 import NewNavbar from '@components/common/NewNavbar'
 

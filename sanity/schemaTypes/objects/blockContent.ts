@@ -1,5 +1,5 @@
-import { CodeIcon } from 'lucide-react'
 import { defineType, defineArrayMember } from 'sanity'
+import { Code, Table, Frame, Play } from 'lucide-react'
 
 /**
  * This is the schema type for block content used in the post document type
@@ -78,9 +78,34 @@ export default defineType({
             type: 'code',
             name: 'code',
             title: 'Code',
+            icon: Code,
             options: {
                 withFilename: true,
             },
+        }),
+
+        // Adding a YouTube embed
+        defineArrayMember({
+            type: 'youTube',
+            name: 'youTube',
+            icon: Play,
+            title: 'YouTube Embed',
+        }),
+
+        // Adding an Iframe embed
+        defineArrayMember({
+            type: 'iframeEmbed',
+            name: 'iframeEmbed',
+            title: 'Iframe Embed',
+            icon: Frame,
+        }),
+
+        // Adding a table block
+        defineArrayMember({
+            type: 'tableBlock',
+            name: 'tableBlock',
+            title: 'Table Block',
+            icon: Table,
         }),
     ],
 })

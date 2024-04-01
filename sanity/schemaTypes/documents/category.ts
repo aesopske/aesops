@@ -13,9 +13,18 @@ export default defineType({
             type: 'string',
         }),
         defineField({
+            name: 'slug',
+            title: 'Slug',
+            type: 'slug',
+            options: {
+                source: 'title',
+            },
+        }),
+        defineField({
             name: 'description',
             title: 'Description',
             type: 'text',
+            validation: (Rule) => Rule.required(),
         }),
     ],
 })

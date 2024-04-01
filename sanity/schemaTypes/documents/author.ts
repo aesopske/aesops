@@ -11,6 +11,7 @@ export default defineType({
             name: 'name',
             title: 'Name',
             type: 'string',
+            validation: (Rule) => Rule.required(),
         }),
         defineField({
             name: 'slug',
@@ -39,15 +40,7 @@ export default defineType({
         defineField({
             name: 'bio',
             title: 'Bio',
-            type: 'array',
-            of: [
-                {
-                    title: 'Block',
-                    type: 'block',
-                    styles: [{ title: 'Normal', value: 'normal' }],
-                    lists: [],
-                },
-            ],
+            type: 'text',
         }),
         defineField({
             name: 'socials',
@@ -61,6 +54,15 @@ export default defineType({
                             name: 'name',
                             title: 'Name',
                             type: 'string',
+                            initialValue: 'github',
+                            options: {
+                                list: [
+                                    { title: 'Github', value: 'github' },
+                                    { title: 'LinkedIn', value: 'linkedin' },
+                                    { title: 'Twitter', value: 'twitter' },
+                                    { title: 'Website', value: 'website' },
+                                ],
+                            },
                         },
                         {
                             name: 'url',
@@ -72,16 +74,31 @@ export default defineType({
             ],
         }),
         defineField({
-            name: 'isCoreTeam',
+            name: 'isCoreMember',
             title: 'Is a core team member',
             type: 'boolean',
             initialValue: false,
+        }),
+
+        defineField({
+            name: 'role',
+            title: 'Role',
+            type: 'string',
+            hidden: ({ document }) => !document?.isCoreMember,
         }),
     ],
     preview: {
         select: {
             title: 'name',
             media: 'image',
+            subtitle: 'slug.current',
+        },
+        prepare(selection) {
+            return {
+                title: selection.title,
+                subtitle: `/${selection.subtitle}`,
+                media: selection.media,
+            }
         },
     },
 })

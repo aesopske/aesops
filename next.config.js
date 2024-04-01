@@ -7,6 +7,7 @@ const nextConfig = {
         GA_TRACKING_ID: process.env.GA_TRACKING_ID,
         SITE_URL: process.env.SITE_URL,
         SLACK_WEBHOOK: process.env.SLACK_WEBHOOK,
+        HAGGING_FACE_ACCESS_TOKEN: process.env.HAGGING_FACE_ACCESS_TOKEN,
     },
     images: {
         remotePatterns: [

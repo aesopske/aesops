@@ -1,5 +1,5 @@
 import { defineField, defineType } from 'sanity'
-import { Rss, SearchCheck, MoreVertical } from 'lucide-react'
+import { Rss } from 'lucide-react'
 
 export default defineType({
     name: 'post',
