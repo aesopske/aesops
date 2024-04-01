@@ -10,7 +10,15 @@ type AppDescriptionProps = {
 }
 
 function AppDescription({ app }: AppDescriptionProps) {
-    const [config, setConfig] = useState(null)
+    const [config, setConfig] = useState<{
+        url: string
+        identifier: string
+        title: string
+    }>({
+        url: '',
+        identifier: '',
+        title: '',
+    })
 
     useEffect(() => {
         setConfig({
