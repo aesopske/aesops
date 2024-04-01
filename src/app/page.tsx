@@ -2,7 +2,7 @@ import Hero from '@/components/common/Hero'
 import BootCamps from '@/components/new/Bootcamps'
 import Consultancy from '@/components/new/Consultancy'
 import Datasets from '@/components/new/Datasets'
-import RecentPosts from '@/components/new/RecentPosts'
+// import RecentPosts from '@/components/new/RecentPosts'
 // import HasBackgroundWrapper from '@src/components/common/HasBackgroundWrapper'
 import Heading from '@src/components/common/atoms/Heading'
 
@@ -27,7 +27,7 @@ function Page() {
             </HasBackgroundWrapper> */}
             <Consultancy />
             <BootCamps />
-            <RecentPosts />
+            {/* <RecentPosts /> */}
             <section className='bg-aes-primary h-96 rounded-3xl container mx-auto max-w-screen-xl'></section>
         </div>
     )

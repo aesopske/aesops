@@ -88,7 +88,10 @@ function MarkdownReader({ content }: { content: string }) {
                         props?.children &&
                         Array.isArray(props?.children) &&
                         props?.children?.some((child: React.ReactNode) => {
-                            return child?.props?.node.tagName === 'code'
+                            return (
+                                React.isValidElement(child) &&
+                                child.props?.node.tagName === 'code'
+                            )
                         })
                     return (
                         <pre

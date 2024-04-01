@@ -9,12 +9,12 @@ import { cn } from '@/lib/utils'
 import { buttonVariants } from '../ui'
 
 const navigation = [
-    { name: 'Services', href: '#' },
-    { name: 'Datasets', href: '/datasets' },
-    { name: 'Trends', href: '/trends' },
+    { name: 'Services', href: '#', coming: false },
+    { name: 'Datasets', href: '/#', coming: true },
+    { name: 'Trends', href: '/#', coming: true },
     // { name: 'Tools', href: '/tools' },
     // { name: 'Competitions', href: '/' },
-    { name: 'Blog', href: '/articles' },
+    { name: 'Blog', href: '/blog', coming: false },
 ]
 
 function Navbar() {
@@ -42,8 +42,14 @@ function Navbar() {
                         <a
                             key={item.name}
                             href={item.href}
-                            className='text-sm font-semibold leading-6'>
+                            aria-disabled={item.coming}
+                            className='relative text-sm font-semibold leading-6 aria-disabled:opacity-50 aria-disabled:pointer-events-none'>
                             {item.name}
+                            {item.coming ? (
+                                <sup className='w-full bg-aes-secondary text-aes-dark rounded px-2 py-[1px]'>
+                                    Coming soon
+                                </sup>
+                            ) : null}
                         </a>
                     ))}
                 </div>
