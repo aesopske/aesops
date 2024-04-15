@@ -14,24 +14,23 @@ type postCardProps = {
     className?: string
     hideImage?: boolean
     hideCategory?: boolean
-    orientation?: 'horizontal' | 'vertical'
+    topPick?: boolean
 }
 
 function PostCard({
     post,
+    topPick,
     hideAuthor,
     className,
     hideCategory = false,
-    orientation = 'vertical',
 }: postCardProps) {
     const categories = post.categories ?? []
-    const isHorizontal = orientation === 'horizontal'
 
     return (
         <div
             className={cn(
                 '  bg-white border border-gray-200 p-4 rounded text-aes-dark h-full space-y-6',
-                className
+                className,
             )}>
             <div className='flex gap-2 flex-wrap'>
                 {categories?.length > 0 || !hideCategory ? (
@@ -47,28 +46,34 @@ function PostCard({
                 <Link href={`/blog/${post.slug.current}`} passHref>
                     <div className='flex flex-col gap-2'>
                         <Heading
-                            type={isHorizontal ? 'h4' : 'h3'}
-                            className={cn('font-black text-2xl ')}>
+                            type={topPick ? 'h2' : 'h3'}
+                            className={cn('font-black')}>
                             {titleCase(post.title)}
                         </Heading>
-                        <Text className='line-clamp-3 text-sm text-opacity-80 max-w-xl'>
+                        <Text
+                            className={cn(
+                                'line-clamp-3 text-sm text-opacity-80 max-w-xl',
+                                topPick
+                                    ? 'text-base text-current text-opacity-60'
+                                    : '',
+                            )}>
                             {post.excerpt}
                         </Text>
                     </div>
                 </Link>
                 {hideAuthor ? (
-                    <p className='text-sm text-opacity-70'>
+                    <Text className='text-sm text-opacity-70'>
                         <span>
                             {new Date(post?.publishedAt).toDateString()}
                         </span>{' '}
                         &bull; <span>{post?.readTime} min read</span>
-                    </p>
+                    </Text>
                 ) : (
                     <AuthorCard
                         isSmall
                         author={post.author}
                         readTime={post.readTime}
-                        className='text-opacity-70'
+                        className='text-opacity-70 text-current'
                         date={new Date(post.publishedAt).toDateString()}
                     />
                 )}

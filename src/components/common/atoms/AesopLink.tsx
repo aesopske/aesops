@@ -1,34 +1,46 @@
-'use client'
-
 import React from 'react'
 import Link, { LinkProps } from 'next/link'
 import { cva } from 'class-variance-authority'
-import { cn } from '@src/lib/utils'
-import { buttonVariants } from '@src/components/ui'
 
-type AesopLinkProps = {
-    isExternal?: boolean
+import { cn } from '@src/lib/utils'
+
+type defaultProps = {
     variant?: 'default' | 'button'
-    buttonType?: 'secondary' | 'link'
-} & React.HTMLAttributes<HTMLAnchorElement> &
+    color?: 'default' | 'primary' | 'secondary' | 'dark'
+    children: React.ReactNode
+    className?: string
+}
+
+type ExternalProps = {
+    isExternal: true
+} & defaultProps &
+    React.AnchorHTMLAttributes<HTMLAnchorElement>
+
+type InternalProps = {
+    isExternal?: false
+} & defaultProps &
     LinkProps
 
-const linkVariants = cva('', {
+type AesopLinkProps = ExternalProps | InternalProps
+
+const linkVariants = cva('font-sans transition-all duration-300', {
     variants: {
         variant: {
-            default: 'underline underline-offset-8 hover:decoration-dashed',
-            button: buttonVariants({ variant: 'default' }),
+            default:
+                'hover:underline underline-offset-4 hover:decoration-dashed transition-all duration-300',
+            button: 'inline-block w-fit rounded-full text-center py-3 px-6 hover:shadow-md',
         },
-        buttonType: {
-            // primary: buttonVariants({ variant: 'primary' }),
-            secondary: buttonVariants({ variant: 'secondary' }),
-            link: buttonVariants({ variant: 'link' }),
+        color: {
+            default: 'text-aes-dark',
+            primary: 'bg-aes-primary text-aes-light',
+            secondary: 'bg-aes-secondary text-aes-dark',
+            dark: 'bg-aes-dark text-aes-light',
         },
     },
 
     defaultVariants: {
         variant: 'default',
-        buttonType: 'secondary',
+        color: 'default',
     },
 })
 
@@ -37,21 +49,21 @@ function AesopLink({
     children,
     className,
     variant,
-    buttonType,
+    color,
     ...props
 }: AesopLinkProps) {
     const { href, ...restProps } = props
     return isExternal ? (
         <a
-            href={href.toString()}
-            className={cn(linkVariants({ variant, buttonType }), className)}
+            href={href?.toString()}
+            className={cn(linkVariants({ variant, color }), className)}
             {...restProps}>
             {children}
         </a>
     ) : (
         <Link
             {...props}
-            className={cn(linkVariants({ variant, buttonType }), className)}>
+            className={cn(linkVariants({ variant, color }), className)}>
             {children}
         </Link>
     )

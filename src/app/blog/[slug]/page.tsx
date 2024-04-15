@@ -25,14 +25,14 @@ async function Blog({ params }) {
     const recentPosts = post?.recentPosts ?? []
 
     return (
-        <div className='min-h-screen pb-28'>
-            <div className='relative mx-auto flex max-w-screen-xl items-start justify-between gap-x-12 py-20'>
-                <div className='sticky left-0 top-28 z-10 h-96 w-1/5 rounded '>
+        <div className='min-h-screen py-6 lg:py-12 md:px-4 xl:px-0'>
+            <div className='relative mx-auto gap-6 flex flex-col max-w-screen-xl items-start justify-between lg:gap-x-12 lg:flex-row'>
+                <div className='hidden sticky w-full left-0 top-28 z-10 h-96 rounded lg:block lg:w-1/5'>
                     <ContentHeadingReader outline={outline} />
                     <Share title={post?.title} />
                 </div>
-                <div className='mx-auto w-1/2 max-w-screen-xl space-y-5'>
-                    <div className='space-y-2'>
+                <div className='mx-auto w-full max-w-screen-xl space-y-5 lg:w-1/2'>
+                    <div className='space-y-2 px-4 lg:px-0'>
                         <BreadCrumbs />
                         <Heading type='h1' className='capitalize'>
                             {post?.title}
@@ -49,14 +49,17 @@ async function Blog({ params }) {
                             height={500}
                             src={imageUrl}
                             alt={post?.mainImage.alt}
-                            className='h-[35vh] w-full rounded-md object-cover'
+                            className='h-[35vh] w-full object-cover lg:rounded-md'
                         />
                     ) : null}
-                    <div>
+                    <div className='px-4 space-y-6 lg:px-0'>
                         <ContentReader content={post?.body} />
+                        <div className='lg:hidden'>
+                            <Share title={post?.title} />
+                        </div>
                     </div>
                 </div>
-                <div className='sticky left-0 top-24 z-10 h-fit w-1/4 px-2 space-y-6'>
+                <div className='w-full px-4 left-0 top-24 z-10 h-fit space-y-6 lg:sticky lg:px-2 lg:w-1/4'>
                     <AboutAuthor author={formatAuthor(post?.author)} />
                     <RecentPosts posts={recentPosts} />
                 </div>

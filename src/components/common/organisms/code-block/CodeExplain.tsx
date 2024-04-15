@@ -22,7 +22,7 @@ function CodeExplain({ code }: CodeExplainProps) {
     // store the explanation session store to avoid re-explaining the same code
     const { completion, complete, isLoading, error } = useCompletion()
     const { getValue, saveValue } = useSessionStore(
-        code?._key || code?.filename || ''
+        code?._key || code?.filename || '',
     )
 
     useEffect(() => {
@@ -70,14 +70,16 @@ function CodeExplain({ code }: CodeExplainProps) {
                         animate={{ opacity: 1, height: 'auto' }}
                         exit={{ opacity: 0, height: 0 }}
                         className='w-full'>
-                        <output className='font-mono text-sm text-aes-dark'>
+                        <output
+                            data-hidden={!!error}
+                            className='font-mono text-sm text-aes-dark data-[hidden=true]:hidden'>
                             {savedCompletion ? savedCompletion : completion}
                         </output>
                     </motion.div>
                 ) : null}
             </AnimatePresence>
 
-            {error ? (
+            {error && isOpen ? (
                 <output className='prose text-xs text-red-500'>
                     {error?.message}
                 </output>
@@ -106,7 +108,7 @@ function useSessionStore(key: string) {
             // create the key
             sessionStorage.setItem(updatedKey, JSON.stringify(value))
         },
-        [getValue, updatedKey]
+        [getValue, updatedKey],
     )
 
     return { getValue, saveValue }

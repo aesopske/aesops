@@ -1,6 +1,7 @@
 import { AUTHOR } from '@sanity/lib/types'
 import AuthorDetails from './AuthorDetails'
 import Text from '@/components/common/atoms/Text'
+import Heading from '@/components/common/atoms/Heading'
 import { formatAuthor } from '@src/lib/sanity/formatAuthor'
 import { cn } from '@src/lib/utils'
 import { format } from 'date-fns'
@@ -27,19 +28,24 @@ function AuthorCard({
         <div className={cn('flex items-center gap-2', className)}>
             <AuthorDetails author={newAuthor} isSmall={isSmall} />
             <div className='flex flex-1 flex-col items-start justify-between gap-0'>
-                <Text
+                <Heading
+                    type='h6'
                     className={cn(
-                        'font-semibold capitalize',
-                        isSmall && 'text-sm'
+                        'font-bold capitalize',
+                        isSmall && 'text-sm',
                     )}>
                     {author?.name.toLowerCase()}
-                </Text>
+                </Heading>
                 {readTime ? (
-                    <Text className='text-xs'>
+                    <Text as='span' className='text-xs text-current'>
                         {formattedDate} &bull; {readTime} min read
                     </Text>
                 ) : (
-                    <Text className='text-xs'>{formattedDate}</Text>
+                    <Text
+                        as='span'
+                        className='text-xs text-current text-opacity-20'>
+                        {formattedDate}
+                    </Text>
                 )}
             </div>
         </div>

@@ -3,6 +3,7 @@ import { Fragment } from 'react'
 import PostCard from './PostCard'
 import ListWrapper from '../../ListWrapper'
 import { MIN_POST } from '@sanity/lib/types'
+import Heading from '@components/common/atoms/Heading'
 import { fetchFeaturedArticles } from '@sanity/lib/requests'
 
 async function FeaturedPosts() {
@@ -13,11 +14,17 @@ async function FeaturedPosts() {
     return (
         <div className='relative'>
             <div className='h-fit grid grid-cols-3 gap-6'>
-                <div className='col-span-2 flex items-center justify-center bg-aes-light rounded-xl'>
+                <div className='relative col-span-2 flex items-center justify-center bg-aes-light rounded-xl'>
+                    <Heading
+                        type='h1'
+                        className=' absolute top-28 left-6 lg:text-[8rem] text-aes-secondary/30 z-0'>
+                        Top Pick
+                    </Heading>
+
                     <PostCard
+                        topPick
                         post={firstPost}
-                        orientation='vertical'
-                        className='bg-transparent border-none h-fit max-w-xl mx-auto'
+                        className='relative bg-transparent border-none h-fit max-w-xl mx-auto bg-aes-primary p-16 text-aes-light rounded-xl'
                     />
                 </div>
 

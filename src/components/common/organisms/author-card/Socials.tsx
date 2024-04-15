@@ -1,8 +1,9 @@
 'use client'
 
-import { SOCIAL } from '@sanity/lib/types'
 import { X, Linkedin, Github, Globe } from 'lucide-react'
+
 import { cn } from '@src/lib/utils'
+import { SOCIAL } from '@sanity/lib/types'
 import { buttonVariants } from '@src/components/ui'
 
 const socialIcons = {
@@ -31,7 +32,7 @@ function Socials({ socials }: { socials: SOCIAL[] }) {
                                 variant: 'outline',
                                 className:
                                     'rounded-full border border-aes-dark/50 text-aes-dark hover:text-aes-light w-8 h-8 p-1.5 flex items-center justify-center',
-                            })
+                            }),
                         )}
                         rel='noreferrer noopener'>
                         {icon}

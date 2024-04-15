@@ -1,5 +1,6 @@
-import '@/scss/global.scss'
+import '@app/styles/global.css'
 import '@fontsource-variable/lora'
+import '@fontsource-variable/bricolage-grotesque'
 import Footer from '@/components/common/Footer'
 import NewNavbar from '@components/common/NewNavbar'
 

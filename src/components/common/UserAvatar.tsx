@@ -35,11 +35,13 @@ function UserAvatar({ user }: UserAvatarProps) {
                     {user?.name.toLowerCase()}
                 </Text>
                 {user?.read ? (
-                    <Text className='text-xs'>
+                    <Text as='span' className='text-xs'>
                         {user?.date} &bull; {user?.read}
                     </Text>
                 ) : (
-                    <Text className='text-xs'>{user?.date}</Text>
+                    <Text as='span' className='text-xs'>
+                        {user?.date}
+                    </Text>
                 )}
             </div>
         </div>

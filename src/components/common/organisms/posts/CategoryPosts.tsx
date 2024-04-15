@@ -20,12 +20,12 @@ async function CategoryPosts({ search }: { search: string }) {
             <div className='col-span-2 space-y-10'>
                 <div className='space-y-2'>
                     <Heading type='h2' className='font-bold'>
-                        Category Posts
+                        Exciting Categories
                     </Heading>
                     <Text className='max-w-xl'>
-                        Explore our blog by category. Whether you&apos;re
-                        interested in data visualization, machine learning, or
-                        data analysis, we have something for everyone.
+                        Explore posts by category. Whether you&apos;re
+                        interested in data visualization, machine learning, data
+                        analysis e.t.c, we have something for everyone.
                     </Text>
                 </div>
                 <div className='my-2'>

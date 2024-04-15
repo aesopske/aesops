@@ -5,6 +5,7 @@ import { PortableText, PortableTextComponents } from '@portabletext/react'
 import AesopImage from './AesopImage'
 import { urlForImage } from '@sanity/lib/image'
 import Heading from '@components/common/atoms/Heading'
+import Text from '@components/common/atoms/Text'
 import TableBlock from './organisms/table-block/TableBlock'
 import YouTubeEmbed from './organisms/youtube-embed/YouTubeEmbed'
 import CodeBlock from '@components/common/organisms/code-block/CodeBlock'
@@ -18,7 +19,7 @@ function BlockHeading({ children, type }) {
     const id = speakingUrl(url ?? '')
 
     return (
-        <Heading id={id} type={type} className='my-2 capitalize'>
+        <Heading id={id} type={type} className='capitalize'>
             {children}
         </Heading>
     )
@@ -34,7 +35,7 @@ const components = {
         h5: ({ children }) => <BlockHeading type='h5'>{children}</BlockHeading>,
 
         normal: ({ children }) => (
-            <p className='my-4 text-justify font-serif'>{children}</p>
+            <p className='text-justify font-serif'>{children}</p>
         ),
     },
     types: {
@@ -56,18 +57,18 @@ const components = {
         image: ({ value }) => {
             const src = value ? urlForImage(value) : ''
             return (
-                <div className='w-full h-auto bg-aes-light/50 rounded-lg space-y-2 overflow-hidden'>
+                <div className='w-full h-auto bg-aes-light/50 rounded-lg overflow-hidden'>
                     <AesopImage
                         width={500}
                         height={300}
                         src={src}
                         alt={value?.alt || ''}
-                        className='h-96 w-full object-contain rounded-lg'
+                        className='h-96 w-full object-contain rounded-t-lg'
                     />
-                    <p className='w-full italic bg-aes-light text-gray-500 p-2 flex items-center gap-2'>
+                    <Text className='w-full italic bg-aes-light text-gray-500 p-2 flex items-center gap-2 text-sm'>
                         <ImageIcon size={16} />
                         {value?.caption || value?.alt || ''}
-                    </p>
+                    </Text>
                 </div>
             )
         },
@@ -78,14 +79,16 @@ const components = {
     list: {
         // Ex. 1: customizing common list types
         bullet: ({ children }) => (
-            <ul className='list-disc ml-6'>{children}</ul>
+            <ul className='list-disc ml-6 font-serif'>{children}</ul>
         ),
         number: ({ children }) => (
-            <ol className='list-decimal ml-6'>{children}</ol>
+            <ol className='list-decimal ml-6 font-serif'>{children}</ol>
         ),
 
         // Ex. 2: rendering custom lists
-        checkmarks: ({ children }) => <ol className='ml-6'>✔{children}</ol>,
+        checkmarks: ({ children }) => (
+            <ol className='ml-6 font-serif'>✔{children}</ol>
+        ),
     },
 } as PortableTextComponents
 

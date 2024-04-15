@@ -7,7 +7,7 @@ function ContentHeadingReader({ outline }) {
     if (!outline || outline.length === 0) return null
     return (
         <div className='space-y-3 mb-4'>
-            <Heading type='h6' className='uppercase font-semibold'>
+            <Heading type='h6' className='capitalize font-semibold'>
                 Page Contents
             </Heading>
 
@@ -28,14 +28,14 @@ function Header({ outline }) {
                         className='data-[active=true]:border-l-1 my-0.5 border-aes-light px-1 first:px-0'>
                         <a
                             href={`#${heading.slug}`}
-                            className='text-sm font-medium font-serif capitalize text-aes-dark'>
+                            className='text-sm  font-sans font-normal capitalize text-aes-dark'>
                             {heading?.text}
                         </a>
-                        <p className='pl-2 list-decimal'>
+                        <div className='pl-2 list-decimal'>
                             {heading?.subheadings?.length > 0 && (
                                 <Header outline={heading.subheadings} />
                             )}
-                        </p>
+                        </div>
                     </li>
                 )}
             </ListWrapper>

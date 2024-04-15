@@ -98,7 +98,8 @@ module.exports = {
                 1000: '1000ms',
             },
             fontFamily: {
-                sans: ['Inter', 'sans-serif'],
+                heading: ['Bricolage Grotesque Variable', 'sans-serif'],
+                sans: ['Bricolage Grotesque Variable', 'sans-serif'],
                 serif: ['Lora Variable', 'serif'],
             },
         },

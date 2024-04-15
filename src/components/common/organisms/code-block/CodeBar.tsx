@@ -17,7 +17,7 @@ function CodeBar({ filename, code }) {
     }, [copied])
     return (
         <div className='flex items-center justify-between px-4 py-2 bg-aes-light'>
-            <span className='font-mono text-sm'>{filename}</span>
+            <span className='font-sans text-sm'>{filename}</span>
             <Button
                 variant='outline'
                 data-clicked={copied}

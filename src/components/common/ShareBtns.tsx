@@ -45,7 +45,7 @@ function Share({ title, className }: ShareProps) {
 
     return (
         <div className={cn('relative self-center space-y-2', className)}>
-            <Heading type='h6' className='uppercase font-semibold'>
+            <Heading type='h6' className='capitalize font-semibold'>
                 Share:
             </Heading>
             <div className='flex gap-2 w-full'>
@@ -60,7 +60,7 @@ function Share({ title, className }: ShareProps) {
                                 variant: 'outline',
                                 className:
                                     'rounded-full border border-aes-dark/50 text-aes-dark hover:text-aes-light w-9 h-9 p-2 flex items-center justify-center',
-                            })
+                            }),
                         )}
                         rel='noreferrer noopener'>
                         {share.icon}

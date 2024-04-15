@@ -1,43 +1,44 @@
 'use client'
 
-import Link from 'next/link'
-import { Menu } from 'lucide-react'
 import { usePathname } from 'next/navigation'
 
 import Logo from './Logo'
-import { cn } from '@/lib/utils'
-import { buttonVariants } from '../ui'
+import Hamburger from 'hamburger-react'
+import useDisclosure from '@src/hooks/useDisclosure'
 
 const navigation = [
-    { name: 'Services', href: '#', coming: false },
+    {
+        name: 'Home',
+        coming: false,
+        href: '/',
+    },
+    { name: 'Services', href: '/#services', coming: false },
     { name: 'Datasets', href: '/#', coming: true },
-    { name: 'Trends', href: '/#', coming: true },
+    // { name: 'Trends', href: '/#', coming: true },
     // { name: 'Tools', href: '/tools' },
-    // { name: 'Competitions', href: '/' },
+    { name: 'Competitions', href: '/', coming: true },
     { name: 'Blog', href: '/blog', coming: false },
 ]
 
 function Navbar() {
+    const { isOpen, onToggle } = useDisclosure(false)
     const pathname = usePathname()
 
     if (pathname?.includes('/studio')) return null
     return (
-        <header className='sticky inset-x-0 top-0 z-50 text-aes-dark border-b bg-brand-background max-h-20'>
+        <header className='sticky inset-x-0 top-0 z-50 text-aes-dark border-b bg-brand-background max-h-20 h-fit'>
             <nav
-                className='flex items-center justify-between p-6 lg:px-0 container-fluid max-w-screen-xl mx-auto'
+                className='flex items-center justify-between px-6 py-4 lg:px-0 container-fluid max-w-screen-xl mx-auto h-full'
                 aria-label='Global'>
                 <Logo />
                 <div className='flex lg:hidden'>
-                    <button
-                        type='button'
-                        className='-m-2.5 inline-flex items-center justify-center rounded-md p-2.5'
-                        // onClick={() => setMobileMenuOpen(true)}
-                    >
-                        <span className='sr-only'>Open main menu</span>
-                        <Menu className='h-6 w-6' aria-hidden='true' />
-                    </button>
+                    <Hamburger
+                        toggled={isOpen}
+                        onToggle={onToggle}
+                        color='#000'
+                    />
                 </div>
-                <div className='hidden lg:flex lg:gap-x-12'>
+                <div className='hidden lg:flex lg:gap-x-6 font-sans'>
                     {navigation.map((item) => (
                         <a
                             key={item.name}
@@ -53,72 +54,26 @@ function Navbar() {
                         </a>
                     ))}
                 </div>
-                <div className='flex flex-1 items-center gap-4 lg:flex lg:flex-1 lg:justify-end'>
-                    <Link
-                        href={`${process.env.DASHBOARD_URL}/auth/signin`}
-                        className={cn(
-                            buttonVariants({
-                                variant: 'default',
-                                className: 'rounded-full',
-                            })
-                        )}>
-                        Sign in &rarr;
-                    </Link>
-                    <Link
-                        href={`${process.env.DASHBOARD_URL}/auth/signup`}
-                        className={cn(
-                            buttonVariants({
-                                variant: 'outline',
-                                className: 'rounded-full',
-                            })
-                        )}>
-                        Sign up
-                    </Link>
-                </div>
             </nav>
-            {/* <Dialog as='div' className='lg:hidden' open={mobileMenuOpen} onClose={setMobileMenuOpen}>
-          <div className='fixed inset-0 z-50' />
-          <Dialog.Panel className='fixed inset-y-0 right-0 z-50 w-full overflow-y-auto bg-white px-6 py-6 sm:max-w-sm sm:ring-1 sm:ring-gray-900/10'>
-              <div className='flex items-center justify-between'>
-                  <a href='#' className='-m-1.5 p-1.5'>
-                      <span className='sr-only'>Your Company</span>
-                      <img
-                          className='h-8 w-auto'
-                          src='https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=600'
-                          alt=''
-                      />
-                  </a>
-                  <button
-                      type='button'
-                      className='-m-2.5 rounded-md p-2.5 text-gray-700'
-                      onClick={() => setMobileMenuOpen(false)}>
-                      <span className='sr-only'>Close menu</span>
-                      <XMarkIcon className='h-6 w-6' aria-hidden='true' />
-                  </button>
-              </div>
-              <div className='mt-6 flow-root'>
-                  <div className='-my-6 divide-y divide-gray-500/10'>
-                      <div className='space-y-2 py-6'>
-                          {navigation.map((item) => (
-                              <a
-                                  key={item.name}
-                                  href={item.href}
-                                  className='-mx-3 block rounded-lg px-3 py-2 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50'>
-                                  {item.name}
-                              </a>
-                          ))}
-                      </div>
-                      <div className='py-6'>
-                          <a
-                              href='#'
-                              className='-mx-3 block rounded-lg px-3 py-2.5 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50'>
-                              Log in
-                          </a>
-                      </div>
-                  </div>
-              </div>
-          </Dialog.Panel>
-      </Dialog> */}
+
+            {isOpen ? (
+                <div className='flex flex-col gap-4 bg-brand-background shadow-md p-8 font-sans lg:hidden'>
+                    {navigation.map((item) => (
+                        <a
+                            key={item.name}
+                            href={item.href}
+                            aria-disabled={item.coming}
+                            className='relative text-base font-semibold leading-6 aria-disabled:opacity-50 aria-disabled:pointer-events-none'>
+                            {item.name}
+                            {item.coming ? (
+                                <sup className='w-full bg-aes-secondary text-aes-dark rounded px-2 py-[1px]'>
+                                    Coming soon
+                                </sup>
+                            ) : null}
+                        </a>
+                    ))}
+                </div>
+            ) : null}
         </header>
     )
 }

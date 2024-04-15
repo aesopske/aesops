@@ -7,7 +7,7 @@ function RecentPosts({ posts }: { posts: MIN_POST[] }) {
     if (!posts || posts.length === 0) return null
     return (
         <div className='space-y-3 my-6'>
-            <Heading type='h4' className='uppercase font-semibold'>
+            <Heading type='h4' className='capitalize font-semibold'>
                 Recent Posts
             </Heading>
             <div className='flex flex-col gap-3'>

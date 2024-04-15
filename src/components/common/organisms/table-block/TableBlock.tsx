@@ -9,6 +9,7 @@ import {
     TableHeader,
     TableRow,
 } from '@/components/ui/table'
+import Text from '@/components/common/atoms/Text'
 
 function TableBlock({ content }) {
     const headerRow = content?.table?.rows[0] ?? []
@@ -41,10 +42,10 @@ function TableBlock({ content }) {
                     ))}
                 </TableBody>
                 <TableCaption className='relative bg-aes-light text-start  w-full'>
-                    <div className='w-full flex items-center p-2 italic'>
+                    <Text className='w-full flex items-center p-2 italic text-sm'>
                         <TableIcon size={16} className='mr-2' />
                         {content?.caption}
-                    </div>
+                    </Text>
                 </TableCaption>
             </Table>
         </div>

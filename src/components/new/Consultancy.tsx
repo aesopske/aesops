@@ -1,5 +1,6 @@
-import Link from 'next/link'
 import Heading from '../common/atoms/Heading'
+import Text from '../common/atoms/Text'
+import AesopLink from '../common/atoms/AesopLink'
 
 function Consultancy() {
     return (
@@ -10,39 +11,32 @@ function Consultancy() {
                         <Heading className='text-4xl font-bold tracking-tight max-w-xl'>
                             Let us help you understand your data.
                         </Heading>
-                        <p className='my-4 leading-8 text-gray-600 max-w-xl'>
+                        <Text className='my-4 leading-8 text-gray-600 max-w-xl'>
                             Our consultancy services are designed to help you
                             understand your data and make informed decisions.
                             Our team of experts will work with you to identify
                             the best approach to your data and provide you with
                             actionable insights.
-                        </p>
+                        </Text>
                         <div className='flex items-center justify-start gap-x-6'>
-                            <Link
+                            <AesopLink
                                 passHref
-                                href='/datasets/#share-your-dataset'
-                                className='rounded-full bg-aes-primary py-3 px-5 text-aes-light'>
+                                variant='button'
+                                color='secondary'
+                                href='/datasets/#share-your-dataset'>
                                 Contact Us
-                            </Link>
-                            <Link
+                            </AesopLink>
+                            <AesopLink
                                 href='/consultancy'
-                                className='text-sm font-semibold leading-6 text-aes-dark underline decoration-dashed underline-offset-4'>
+                                className='text-sm font-semibold leading-6 text-aes-dark'>
                                 View Public Case Studies{' '}
                                 <span aria-hidden='true'>&rarr;</span>
-                            </Link>
+                            </AesopLink>
                         </div>
                     </div>
                     {/* Add a list of recent case studies */}
                     <div className='w-full'>
                         <Heading type='h2'>Recent Case Studies</Heading>
-                        <div className='grid grid-cols-1 my-6 gap-6 md:grid-cols-2 lg:grid-cols-3 '>
-                            <div className='h-48 bg-aes-light w-full rounded-xl'></div>
-                            <div className='h-48 bg-aes-light w-full rounded-xl'></div>
-                            <div className='h-48 bg-aes-light w-full rounded-xl'></div>
-                        </div>
-                    </div>
-                    <div className='w-full'>
-                        <Heading type='h3'>What our Clients are Saying</Heading>
                         <div className='grid grid-cols-1 my-6 gap-6 md:grid-cols-2 lg:grid-cols-3 '>
                             <div className='h-48 bg-aes-light w-full rounded-xl'></div>
                             <div className='h-48 bg-aes-light w-full rounded-xl'></div>

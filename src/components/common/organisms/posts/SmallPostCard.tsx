@@ -6,6 +6,7 @@ import { cn } from '@src/lib/utils'
 import { format } from 'date-fns'
 import { titleCase } from '@src/lib/titleCase'
 import { Badge } from '@src/components/ui/badge'
+import Text from '@components/common/atoms/Text'
 
 type SmallPostCardProps = {
     post: POST | MIN_POST
@@ -20,7 +21,7 @@ function SmallPostCard({ post, hideAuthor, className }: SmallPostCardProps) {
             <div
                 className={cn(
                     'bg-white border border-gray-200 p-4 rounded space-y-4',
-                    className
+                    className,
                 )}>
                 <div className='flex gap-2 flex-wrap'>
                     {categories?.length > 0 ? (
@@ -37,29 +38,32 @@ function SmallPostCard({ post, hideAuthor, className }: SmallPostCardProps) {
                         className='font-black hover:underline hover:decoration-dotted underline-offset-8'>
                         {titleCase(post.title)}
                     </Heading>
-                    <p className='line-clamp-2 text-sm text-aes-dark/70'>
+                    <Text className='line-clamp-2 text-sm text-aes-dark/70'>
                         {post.excerpt}
-                    </p>
+                    </Text>
                 </div>
 
-                {hideAuthor ? (
-                    <p className='text-xs text-gray-500'>
-                        <span>
-                            {format(
-                                new Date(post?.publishedAt),
-                                'MMM dd, yyyy'
-                            )}
-                        </span>{' '}
-                        &bull; <span>{post?.readTime} min read</span>
-                    </p>
-                ) : (
-                    <AuthorCard
-                        isSmall
-                        author={post.author}
-                        readTime={post.readTime}
-                        date={new Date(post.publishedAt).toDateString()}
-                    />
-                )}
+                <div>
+                    {hideAuthor && (
+                        <Text className='text-xs text-gray-500'>
+                            <span>
+                                {format(
+                                    new Date(post?.publishedAt),
+                                    'MMM dd, yyyy',
+                                )}
+                            </span>{' '}
+                            &bull; <span>{post?.readTime} min read</span>
+                        </Text>
+                    )}
+                    {!hideAuthor && (
+                        <AuthorCard
+                            isSmall
+                            author={post.author}
+                            readTime={post.readTime}
+                            date={new Date(post.publishedAt).toDateString()}
+                        />
+                    )}
+                </div>
             </div>
         </Link>
     )

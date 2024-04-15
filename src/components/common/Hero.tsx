@@ -37,7 +37,7 @@ function Hero({ className }: HeroProps) {
                             </div>
                         </div>
                         <div className='text-left max-w-2xl'>
-                            <Heading className='md:text-7xl font-bold tracking-tight text-gray-100'>
+                            <Heading className='md:text-6xl font-black tracking-tight text-gray-100'>
                                 Unveiling Insights Crafting Tomorrow.
                             </Heading>
                             <p className='my-8 leading-8 text-aes-light'>

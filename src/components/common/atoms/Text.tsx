@@ -1,9 +1,9 @@
-import React, { createElement } from 'react'
+import React, { createElement, forwardRef } from 'react'
 
 import { cn } from '@/lib/utils'
 import { cva } from 'class-variance-authority'
 
-export const textVariants = cva('text-gray-900 tracking-normal', {
+export const textVariants = cva('text-gray-900 tracking-normal font-sans', {
     variants: {
         variant: {
             default: 'text-gray-800',
@@ -45,14 +45,16 @@ type TextProps = {
         | 'brand-light'
 } & React.HTMLProps<HTMLParagraphElement>
 
-function Text({ as = 'p', variant, className, children, ...props }: TextProps) {
+function Text(props: TextProps, ref: React.Ref<HTMLParagraphElement>) {
+    const { as = 'p', variant, className, children, ...rest } = props
     return createElement(
         as,
         {
+            ref,
             className: cn(textVariants({ variant }), className),
-            ...props,
+            ...rest,
         },
-        children
+        children,
     )
 }
-export default Text
+export default forwardRef(Text)

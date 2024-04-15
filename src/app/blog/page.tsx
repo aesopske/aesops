@@ -5,8 +5,9 @@ import HasBackgroundWrapper from '@src/components/common/HasBackgroundWrapper'
 import FeaturedPosts from '@src/components/common/organisms/posts/FeaturedPosts'
 import CategoryPosts from '@src/components/common/organisms/posts/CategoryPosts'
 import PostList from '@src/components/common/organisms/posts/PostList'
+import TalkToUs from '@src/components/new/TalkToUs'
 
-async function Blog({ searchParams }) {
+function Blog({ searchParams }) {
     return (
         <div className='max-w-screen-xl mx-auto my-12 space-y-16'>
             <div className='space-y-6'>
@@ -38,8 +39,8 @@ async function Blog({ searchParams }) {
                             community.
                         </Text>
                         <AesopLink
-                            variant='default'
-                            buttonType='secondary'
+                            variant='button'
+                            color='secondary'
                             href='/blog/contribute'
                             className='mt-4 rounded-full no-underline'>
                             Contribution Guideline &rarr;
@@ -53,7 +54,7 @@ async function Blog({ searchParams }) {
 
             <hr className='border border-gray-100 max-w-3xl' />
             <PostList />
-            <section className='bg-aes-primary h-96 rounded-3xl container mx-auto max-w-screen-xl'></section>
+            <TalkToUs />
         </div>
     )
 }

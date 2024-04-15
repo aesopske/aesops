@@ -4,21 +4,27 @@ import Image from 'next/image'
 import { cn } from '@/lib/utils'
 
 type LogoProps = {
-    variant?: 'default' | 'small'
     className?: string
 } & React.HTMLAttributes<HTMLDivElement>
 
-function Logo({ variant = 'default', className }: LogoProps) {
+function Logo({ className }: LogoProps) {
     return (
         <div className='flex lg:flex-1'>
-            <a href='/' className={cn('-m-1.5 p-1.5', className)}>
+            <a href='/' className={cn('h-14 w-auto', className)}>
                 <span className='sr-only'>Aesops</span>
                 <Image
                     width={200}
                     height={200}
                     alt='Aesops Logo'
-                    className='h-10 w-auto'
-                    src={variant === 'small' ? '/logo-small.svg' : '/logo.svg'}
+                    className='hidden h-full w-full md:block'
+                    src='/logo.svg'
+                />
+                <Image
+                    width={200}
+                    height={200}
+                    alt='Aesops Logo'
+                    className='h-full w-full md:hidden'
+                    src='/logo-mobile.svg'
                 />
             </a>
         </div>
