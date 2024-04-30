@@ -12,13 +12,7 @@ async function PostList() {
 
             <div className='grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3 my-5'>
                 <ListWrapper list={posts} itemKey='slug.current'>
-                    {(post: MIN_POST) => (
-                        <PostCard
-                            hideImage
-                            post={post}
-                            orientation='vertical'
-                        />
-                    )}
+                    {(post: MIN_POST) => <PostCard hideImage post={post} />}
                 </ListWrapper>
             </div>
         </div>
