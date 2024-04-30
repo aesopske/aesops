@@ -1,17 +1,18 @@
 import React from 'react'
-import { Alert, AlertIcon, Box, Heading, Text } from '@chakra-ui/react'
+import { OctagonX } from 'lucide-react'
+import { Alert, AlertDescription, AlertTitle } from '@components/ui/alert'
 
 function ErrorHandler({ error }) {
     return (
-        <Box p='20px'>
-            <Heading size='2xl' my='2rem'>
-                Oops!! We have an opsy
-            </Heading>
-            <Alert borderRadius='10px' status='error' alignItems='flex-start'>
-                <AlertIcon />
-                <Text fontSize='sm'>{error.message}</Text>
+        <div className='p-5 space-y-4'>
+            <Alert variant='destructive'>
+                <OctagonX className='h-4 w-4' />
+                <AlertTitle>Oops!! We have an opsy</AlertTitle>
+                <AlertDescription>
+                    {error.message ? error.message : 'Something went wrong'}
+                </AlertDescription>
             </Alert>
-        </Box>
+        </div>
     )
 }
 
