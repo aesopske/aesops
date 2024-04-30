@@ -8,9 +8,6 @@ dependencies:
   '@badrap/bar-of-progress':
     specifier: ^0.2.2
     version: 0.2.2
-  '@fontsource-variable/archivo':
-    specifier: ^5.0.18
-    version: 5.0.18
   '@fontsource-variable/bricolage-grotesque':
     specifier: ^5.0.5
     version: 5.0.5
@@ -2559,10 +2556,6 @@ packages:
 
   /@floating-ui/utils@0.2.1:
     resolution: {integrity: sha512-9TANp6GPoMtYzQdt54kfAyMmz1+osLlXdg2ENroU7zzrtflTLrrC/lgrIfaSe+Wu0b89GKccT7vxXA0MoAIO+Q==}
-    dev: false
-
-  /@fontsource-variable/archivo@5.0.18:
-    resolution: {integrity: sha512-2RMljjwJcHz1JqYFI29syQXWktmby6sTCQ2GKPw0JEHEk9OUxx0L1L+syG2Kq46fjBrmI1Enq4I+Ne2EwSD7aA==}
     dev: false
 
   /@fontsource-variable/bricolage-grotesque@5.0.5:

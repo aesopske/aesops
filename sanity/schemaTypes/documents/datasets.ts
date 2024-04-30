@@ -1,28 +1,72 @@
-import { defineType } from 'sanity'
+import { defineType, defineField } from 'sanity'
 
 export default defineType({
     name: 'dataset',
     title: 'Dataset',
     type: 'document',
-    fields: [
+    groups: [
         {
-            name: 'name',
-            title: 'Name',
-            type: 'string',
+            title: 'SEO',
+            name: 'seo',
         },
         {
+            title: 'Post Content',
+            name: 'postContent',
+            default: true,
+        },
+        {
+            title: 'Post Actions',
+            name: 'postActions',
+        },
+    ],
+    fields: [
+        defineField({
+            name: 'title',
+            title: 'Title',
+            type: 'string',
+            group: 'postContent',
+            validation: (Rule) => Rule.required(),
+        }),
+        defineField({
             name: 'slug',
             title: 'Slug',
             type: 'slug',
+            group: 'postContent',
             options: {
-                source: 'name',
+                source: 'title',
                 maxLength: 96,
             },
-        },
-        {
+            validation: (Rule) => Rule.required(),
+        }),
+        defineField({
             name: 'description',
             title: 'Description',
-            type: 'text',
-        },
+            type: 'blockContent',
+            group: 'postContent',
+            validation: (Rule) => Rule.required(),
+        }),
+        defineField({
+            name: 'categories',
+            title: 'Categories',
+            type: 'array',
+            of: [{ type: 'reference', to: [{ type: 'category' }] }],
+        }),
+
+        defineField({
+            name: 'author',
+            title: 'Author',
+            type: 'reference',
+            to: [{ type: 'author' }],
+            group: 'postContent',
+            validation: (Rule) => Rule.required(),
+        }),
+
+        // TODO: build a datasetUpload schema type and component to handle dataset uploads
+        // defineField({
+        //     name: 'datasetUpload',
+        //     title: 'Dataset Upload',
+        //     type: 'datasetUpload',
+        //     group: 'postContent',
+        // }),
     ],
 })

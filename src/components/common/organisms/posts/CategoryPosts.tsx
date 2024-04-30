@@ -46,7 +46,6 @@ async function CategoryPosts({ search }: { search: string }) {
                                     </div>
                                     <AesopLink
                                         variant='default'
-                                        buttonType='link'
                                         href={`/blog?category=${category.slug.current}#${category.slug.current}`}>
                                         View More Posts &rarr;
                                     </AesopLink>
@@ -59,7 +58,6 @@ async function CategoryPosts({ search }: { search: string }) {
                                             <PostCard
                                                 post={post}
                                                 className='h-full'
-                                                orientation='vertical'
                                             />
                                         )}
                                     </ListWrapper>

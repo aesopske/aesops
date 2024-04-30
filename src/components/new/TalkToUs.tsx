@@ -4,7 +4,7 @@ import AesopLink from '@components/common/atoms/AesopLink'
 
 function TalkToUs() {
     return (
-        <section className='bg-aes-primary h-96 rounded-3xl container mx-auto max-w-screen-lg grid grid-cols-2 gap-5 p-0'>
+        <section className='bg-aes-primary h-96 rounded-3xl container mx-auto max-w-screen-xl grid grid-cols-2 gap-5 p-0'>
             <div className="bg-[url('/svg/quadpattern.svg')] h-full bg-no-repeat bg-cover cols-span-1" />
             <div className='w-full py-20 px-10 space-y-2'>
                 <Heading type='h2' className='text-white font-black'>

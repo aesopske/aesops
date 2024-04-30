@@ -22,13 +22,13 @@ function Consultancy() {
                             <AesopLink
                                 passHref
                                 variant='button'
-                                color='secondary'
+                                color='primary'
                                 href='/datasets/#share-your-dataset'>
                                 Contact Us
                             </AesopLink>
                             <AesopLink
                                 href='/consultancy'
-                                className='text-sm font-semibold leading-6 text-aes-dark'>
+                                className='font-semibold leading-6 text-aes-dark'>
                                 View Public Case Studies{' '}
                                 <span aria-hidden='true'>&rarr;</span>
                             </AesopLink>

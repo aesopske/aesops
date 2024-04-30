@@ -1,13 +1,16 @@
 import React from 'react'
 import Heading from './atoms/Heading'
 import { cn } from '@src/lib/utils'
+import AesopLink from './atoms/AesopLink'
+import Text from './atoms/Text'
+import Image from 'next/image'
 
 type HeroProps = {} & React.HTMLAttributes<HTMLDivElement>
 
 function Hero({ className }: HeroProps) {
     return (
-        <div className={cn('bg-aes-primary', className)}>
-            <div className='relative isolate px-6 pt-14 lg:px-8'>
+        <section id='home' className={cn('bg-aes-primary', className)}>
+            <div className='relative isolate px-6 lg:px-8'>
                 <div
                     className='absolute inset-x-0 -top-40 -z-10 transform-gpu overflow-hidden blur-3xl sm:-top-80'
                     aria-hidden='true'>
@@ -19,13 +22,13 @@ function Hero({ className }: HeroProps) {
                         }}
                     />
                 </div>
-                <div className='mx-auto max-w-screen-xl grid grid-cols-4 py-32 sm:py-40 lg:py-28'>
-                    <div className='col-span-2'>
+                <div className='mx-auto max-w-screen-xl grid grid-cols-1 md:grid-cols-2 '>
+                    <div className='py-32 sm:py-40 lg:py-28'>
                         <div className='hidden sm:mb-8 sm:flex sm:justify-start'>
-                            <div className='relative rounded-full px-3 py-1 text-sm leading-6 text-white ring-2 ring-gray-100/10 hover:ring-gray-200/20'>
+                            <div className='relative rounded-full px-3 py-1 font-sans leading-6 text-white ring-2 ring-gray-100/10 hover:ring-gray-200/20'>
                                 Unveiling aesops new website.{' '}
-                                <a
-                                    href='#'
+                                <AesopLink
+                                    href='/blog/aeosps-new-website'
                                     className='font-semibold text-aes-secondary'>
                                     <span
                                         className='absolute inset-0'
@@ -33,36 +36,40 @@ function Hero({ className }: HeroProps) {
                                     />
                                     Read more{' '}
                                     <span aria-hidden='true'>&rarr;</span>
-                                </a>
+                                </AesopLink>
                             </div>
                         </div>
                         <div className='text-left max-w-2xl'>
                             <Heading className='md:text-6xl font-black tracking-tight text-gray-100'>
                                 Unveiling Insights Crafting Tomorrow.
                             </Heading>
-                            <p className='my-8 leading-8 text-aes-light'>
+                            <Text className='my-8 leading-8 text-aes-light'>
                                 Aesops aims to provide a platform for data
                                 science, where we unveil and share insights with
                                 our community. We provide tools, resources and
                                 valuable expertise to help you gain a deeper
                                 understanding of your data.
-                            </p>
+                            </Text>
                             <div className='flex items-center justify-start gap-x-6'>
-                                <a
-                                    href='#'
-                                    className='rounded-full bg-aes-secondary px-3.5 py-2.5 text-sm font-semibold text-aes-dark shadow-sm hover:bg-aes-secondary/90 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-aes-secondary/70'>
+                                <AesopLink
+                                    variant='button'
+                                    color='secondary'
+                                    href='/community'>
                                     Join our community
-                                </a>
-                                <a
-                                    href='#'
-                                    className='text-sm font-semibold leading-6 text-aes-light'>
-                                    Learn more <span aria-hidden='true'>→</span>
-                                </a>
+                                </AesopLink>
                             </div>
                         </div>
                     </div>
-                    <div></div>
+                    <div className='h-full w-full '></div>
                 </div>
+                <Image
+                    src='/svg/hero.svg'
+                    width={1440}
+                    height={1080}
+                    alt='hero'
+                    // fill
+                    className='mx-auto w-full h-full object-contain'
+                />
                 <div
                     className='absolute inset-x-0 top-[calc(100%-13rem)] -z-10 transform-gpu overflow-hidden blur-3xl sm:top-[calc(100%-30rem)]'
                     aria-hidden='true'>
@@ -75,7 +82,7 @@ function Hero({ className }: HeroProps) {
                     />
                 </div>
             </div>
-        </div>
+        </section>
     )
 }
 export default Hero

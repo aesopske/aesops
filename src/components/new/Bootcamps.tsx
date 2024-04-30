@@ -1,5 +1,6 @@
-import Link from 'next/link'
+import Text from '../common/atoms/Text'
 import Heading from '../common/atoms/Heading'
+import AesopLink from '../common/atoms/AesopLink'
 
 function BootCamps() {
     return (
@@ -10,7 +11,7 @@ function BootCamps() {
                         <Heading className='text-4xl font-bold tracking-tight max-w-xl'>
                             Empower Your Team with Data Boot Camps
                         </Heading>
-                        <p className='my-4 leading-8 text-gray-600 max-w-xl'>
+                        <Text className='my-4 leading-8 text-gray-600 max-w-xl'>
                             Join us on a transformative journey of learning and
                             discovery with our Data Boot Camps. Whether
                             you&apos;re looking to upskill your team, drive
@@ -19,20 +20,21 @@ function BootCamps() {
                             potential of data. Invest in the future success of
                             your organization and empower your team to thrive in
                             the data-driven era.
-                        </p>
+                        </Text>
                         <div className='flex items-center gap-x-6'>
-                            <Link
+                            <AesopLink
                                 passHref
-                                href='/datasets/#share-your-dataset'
-                                className='rounded-full bg-aes-primary py-3 px-5 text-aes-light'>
+                                variant='button'
+                                color='primary'
+                                href='/datasets/#share-your-dataset'>
                                 See Available Bootcamps
-                            </Link>
-                            <Link
+                            </AesopLink>
+                            <AesopLink
                                 href='/datasets'
-                                className='text-sm font-semibold leading-6 text-aes-dark underline decoration-dashed underline-offset-4'>
+                                className='font-semibold leading-6 text-aes-dark'>
                                 View More Datasets{' '}
                                 <span aria-hidden='true'>&rarr;</span>
-                            </Link>
+                            </AesopLink>
                         </div>
                     </div>
                     <div>

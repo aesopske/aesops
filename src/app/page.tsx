@@ -2,7 +2,7 @@ import Hero from '@/components/common/Hero'
 import BootCamps from '@/components/new/Bootcamps'
 import Consultancy from '@/components/new/Consultancy'
 import Datasets from '@/components/new/Datasets'
-// import RecentPosts from '@/components/new/RecentPosts'
+import RecentPosts from '@/components/new/RecentPosts'
 import HasBackgroundWrapper from '@src/components/common/HasBackgroundWrapper'
 import Heading from '@src/components/common/atoms/Heading'
 import Text from '@src/components/common/atoms/Text'
@@ -83,7 +83,7 @@ function Page() {
                 </HasBackgroundWrapper>
             </div>
             <BootCamps />
-            {/* <RecentPosts /> */}
+            <RecentPosts />
             {/* TODO: find a way to import svgs as components in Nextjs */}
             <TalkToUs />
         </div>
