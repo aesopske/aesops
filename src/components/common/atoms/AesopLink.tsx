@@ -44,8 +44,9 @@ const linkVariants = cva('font-sans transition-all duration-300', {
     },
 })
 
+
 function AesopLink({
-    isExternal,
+    isExternal = false,
     children,
     className,
     variant,
@@ -62,8 +63,10 @@ function AesopLink({
         </a>
     ) : (
         <Link
-            {...props}
-            className={cn(linkVariants({ variant, color }), className)}>
+            passHref
+            href={href as string}
+            className={cn(linkVariants({ variant, color }), className)}
+            {...restProps}>
             {children}
         </Link>
     )
