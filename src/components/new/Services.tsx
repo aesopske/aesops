@@ -35,9 +35,9 @@ const services = [
         icon: <Speech size={24} />,
     },
     {
-        title: 'Technical Reports & Statistical Analysis',
+        title: 'Statistical Analysis & Technical Reports',
         description:
-            'We provide technical reports and statistical analysis services to help you understand your data.',
+            'We produce data-driven reports and develop statistical models with actionable insights.',
         link: '/services/data-visualization',
         icon: <FilePieChart size={24} />,
     },

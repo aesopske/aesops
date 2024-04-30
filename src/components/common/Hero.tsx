@@ -62,14 +62,14 @@ function Hero({ className }: HeroProps) {
                     </div>
                     <div className='h-full w-full '></div>
                 </div>
-                <Image
+                {/* <Image
                     src='/svg/hero.svg'
                     width={1440}
                     height={1080}
                     alt='hero'
                     // fill
                     className='mx-auto w-full h-full object-contain'
-                />
+                /> */}
                 <div
                     className='absolute inset-x-0 top-[calc(100%-13rem)] -z-10 transform-gpu overflow-hidden blur-3xl sm:top-[calc(100%-30rem)]'
                     aria-hidden='true'>
