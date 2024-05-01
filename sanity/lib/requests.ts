@@ -2,7 +2,7 @@ import { groq } from 'next-sanity'
 import { client } from '@/lib/sanity/client'
 import { CATEGORY_POST, MIN_POST, POST, CATEGORY } from '@sanity/lib/types'
 
-const query = groq`*[_type == 'post']{
+const query = groq`*[_type == 'post' && !(_id in path('drafts.**'))] | order(publishedAt desc){
     title,
     slug,
     publishedAt,
@@ -55,7 +55,7 @@ const postQuery = groq`*[_type == 'post' && slug.current == $slug]{
       isCoreMember,
       role,
       socials,
-      "posts": *[_type == 'post' && author._ref == ^._id && slug.current != $slug] | order(publishedAt desc) [0...3] {
+      "posts": *[_type == 'post' && author._ref == ^._id && slug.current != $slug && !(_id in path('drafts.**'))] | order(publishedAt desc) [0...3] {
           title,
           slug,
           categories[]->{
@@ -67,7 +67,7 @@ const postQuery = groq`*[_type == 'post' && slug.current == $slug]{
           excerpt,
       },
   },
-  "recentPosts": *[_type == 'post' && slug.current != $slug] | order(publishedAt desc) [0...3] {
+  "recentPosts": *[_type == 'post' && slug.current != $slug && !(_id in path('drafts.**'))] | order(publishedAt desc) [0...3] {
     title,
     slug,
     publishedAt,
@@ -100,7 +100,7 @@ export const getPostBySlug = async (slug: string) => {
 
 // fetch featured articles
 
-const featuredQuery = groq`*[_type == 'post' && featured == true]{
+const featuredQuery = groq`*[_type == 'post' && !(_id in path('drafts.**')) && featured == true]{
     title,
     slug,
     publishedAt,
@@ -133,7 +133,7 @@ export const fetchFeaturedArticles = async () => {
 
 // fetch recent posts
 
-const recentQuery = groq`*[_type == 'post'] | order(publishedAt desc) [0...3]{
+const recentQuery = groq`*[_type == 'post' && !(_id in path('drafts.**'))] | order(publishedAt desc) [0...3]{
     title,
     slug,
     publishedAt,
@@ -186,7 +186,7 @@ const categoryQuery = groq`*[_type == 'category']{
     title,
     slug,
     description,
-    "posts": *[_type == 'post' && references(^._id)] | order(publishedAt desc) [0...4]{
+    "posts": *[_type == 'post' && references(^._id) && !(_id in path('drafts.**'))] | order(publishedAt desc) [0...4]{
         title,
         slug,
         mainImage,
@@ -213,7 +213,7 @@ const specificCategoryQuery = groq`*[_type == 'category' && slug.current == $slu
     title,
     slug,
     description,
-    "posts": *[_type == 'post' && references(^._id)] | order(publishedAt desc) [$offset...$limit]{
+    "posts": *[_type == 'post' && references(^._id) && !(_id in path('drafts.**'))] | order(publishedAt desc) [$offset...$limit]{
         title,
         slug,
         mainImage,

@@ -14,7 +14,7 @@ async function FeaturedPosts() {
     return (
         <div className='relative px-5'>
             <div className='h-fit grid grid-cols-1 md:grid-cols-3 gap-6'>
-                <div className='relative col-span-2 flex items-center justify-center bg-aes-light rounded-xl p-10'>
+                <div className='relative col-span-1 flex items-center justify-center bg-aes-light rounded-xl lg:p-10 lg:col-span-2'>
                     <Heading
                         type='h1'
                         className=' absolute top-1 text-6xl md:top-28 left-5 md:text-[8rem] text-aes-secondary/30 z-0'>
@@ -24,7 +24,7 @@ async function FeaturedPosts() {
                     <PostCard
                         topPick
                         post={firstPost}
-                        className='relative bg-transparent border-none h-fit max-w-xl mx-auto bg-aes-primary p-8 text-aes-light rounded-xl md:p-16'
+                        className='relative bg-transparent border-none h-fit max-w-xl mx-auto bg-aes-primary p-5 text-aes-light rounded-xl md:p-16'
                     />
                 </div>
 
