@@ -38,6 +38,7 @@ function CodeExplain({ code }: CodeExplainProps) {
 
     const savedCompletion = getValue()
 
+
     return (
         <div className='flex min-h-10 flex-col items-start gap-4 bg-aes-light px-4 py-2'>
             <Button
@@ -53,7 +54,9 @@ function CodeExplain({ code }: CodeExplainProps) {
                         return
                     }
                     setIsOpen(!isOpen)
-                    const prompt = `Explain the following ${code?.language} code: \n\n${code?.code}`
+                    const language =
+                        code?.language === 'sh' ? 'bash' : code?.language
+                    const prompt = `Explain the following ${language} code: \n\n${code?.code}`
                     complete(prompt)
                 }}>
                 <Stars
@@ -72,7 +75,7 @@ function CodeExplain({ code }: CodeExplainProps) {
                         className='w-full'>
                         <output
                             data-hidden={!!error}
-                            className='font-mono text-sm text-aes-dark data-[hidden=true]:hidden'>
+                            className='prose font-mono text-sm text-aes-dark data-[hidden=true]:hidden'>
                             {savedCompletion ? savedCompletion : completion}
                         </output>
                     </motion.div>
