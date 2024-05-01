@@ -35,7 +35,7 @@ const components = {
         h5: ({ children }) => <BlockHeading type='h5'>{children}</BlockHeading>,
 
         normal: ({ children }) => (
-            <p className='text-justify font-serif'>{children}</p>
+            <p className='font-serif text-lg lg:text-base'>{children}</p>
         ),
     },
     types: {

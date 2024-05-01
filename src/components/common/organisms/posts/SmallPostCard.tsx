@@ -21,7 +21,7 @@ function SmallPostCard({ post, hideAuthor, className }: SmallPostCardProps) {
             <div
                 className={cn(
                     'bg-white border border-gray-200 p-4 rounded space-y-4',
-                    className,
+                    className
                 )}>
                 <div className='flex gap-2 flex-wrap'>
                     {categories?.length > 0 ? (
@@ -38,18 +38,18 @@ function SmallPostCard({ post, hideAuthor, className }: SmallPostCardProps) {
                         className='font-black hover:underline hover:decoration-dotted underline-offset-8'>
                         {titleCase(post.title)}
                     </Heading>
-                    <Text className='line-clamp-2 text-sm text-aes-dark/70'>
+                    <Text className='line-clamp-3 text-base text-aes-dark/70 lg:text-sm'>
                         {post.excerpt}
                     </Text>
                 </div>
 
                 <div>
                     {hideAuthor && (
-                        <Text className='text-xs text-gray-500'>
+                        <Text className='text-sm text-gray-500'>
                             <span>
                                 {format(
                                     new Date(post?.publishedAt),
-                                    'MMM dd, yyyy',
+                                    'MMM dd, yyyy'
                                 )}
                             </span>{' '}
                             &bull; <span>{post?.readTime} min read</span>

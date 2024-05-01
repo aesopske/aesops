@@ -23,8 +23,7 @@ function CodeBlock({ codeContent }: CodeBlockProps) {
                 <CodeBar filename={filename} code={code} />
                 <SyntaxHighlighter
                     language={language}
-                    wrapLongLines
-                    className='rounded-md'
+                    className='rounded-md py-0'
                     showLineNumbers
                     customStyle={{
                         borderRadius: '0.5rem',

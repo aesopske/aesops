@@ -10,7 +10,9 @@ type LogoProps = {
 function Logo({ className }: LogoProps) {
     return (
         <div className='flex lg:flex-1'>
-            <a href='/' className={cn('h-14 w-auto', className)}>
+            <a
+                href='/'
+                className={cn('h-10 w-10 lg:h-14 lg:w-auto', className)}>
                 <span className='sr-only'>Aesops</span>
                 <Image
                     width={200}

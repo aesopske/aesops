@@ -56,7 +56,7 @@ function CodeExplain({ code }: CodeExplainProps) {
                     setIsOpen(!isOpen)
                     const language =
                         code?.language === 'sh' ? 'bash' : code?.language
-                    const prompt = `Explain the following ${language} code: \n\n${code?.code}`
+                    const prompt = `Give a brief explanation the following ${language} code: \n\n${code?.code}`
                     complete(prompt)
                 }}>
                 <Stars

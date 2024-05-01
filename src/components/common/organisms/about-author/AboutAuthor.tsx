@@ -32,13 +32,13 @@ function AboutAuthor({ author, hideBio, hidePosts }: AboutAuthorProps) {
                     </Heading>
                     {author?.isCoreMember ? (
                         <div className='flex items-center gap-1'>
-                            <Text as='span' className='text-xs text-gray-500'>
+                            <Text as='span' className='text-sm text-gray-500'>
                                 Core Member &bull; {author?.role}
                             </Text>
                         </div>
                     ) : (
                         <div className='flex items-center gap-1'>
-                            <Text as='span' className='text-xs text-gray-500'>
+                            <Text as='span' className='text-sm text-gray-500'>
                                 Community Member
                             </Text>
                         </div>
@@ -46,7 +46,7 @@ function AboutAuthor({ author, hideBio, hidePosts }: AboutAuthorProps) {
                 </div>
                 {!author?.bio || hideBio ? null : (
                     <div className='space-y-2 text-aes-dark/70'>
-                        <Text className='text-sm font-light'>
+                        <Text className='text-base font-light lg:text-sm'>
                             {author?.bio}
                         </Text>
                     </div>

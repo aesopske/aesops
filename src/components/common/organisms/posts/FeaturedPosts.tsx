@@ -12,7 +12,7 @@ async function FeaturedPosts() {
     const firstPost = featuredPosts[0]
     featuredPosts.shift()
     return (
-        <div className='relative px-5'>
+        <div className='relative'>
             <div className='h-fit grid grid-cols-1 md:grid-cols-3 gap-6'>
                 <div className='relative col-span-1 flex items-center justify-center bg-aes-light rounded-xl lg:p-10 lg:col-span-2'>
                     <Heading

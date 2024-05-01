@@ -29,7 +29,7 @@ function Navbar() {
     return (
         <header className='sticky inset-x-0 top-0 z-50 text-aes-dark border-b border-aes-light bg-brand-background h-fit md:max-h-20'>
             <nav
-                className='flex items-center justify-between px-6 py-4 lg:px-0 container-fluid max-w-screen-xl mx-auto h-full border-b border-aes-light md:border-none'
+                className='flex items-center justify-between px-6 py-2 container-fluid max-w-screen-xl mx-auto h-full border-b border-aes-light md:border-none lg:py-4 lg:px-0'
                 aria-label='Global'>
                 <Logo />
                 <div className='flex lg:hidden'>
@@ -37,6 +37,7 @@ function Navbar() {
                         toggled={isOpen}
                         onToggle={onToggle}
                         color='#000'
+                        size={20}
                     />
                 </div>
                 <div className='hidden lg:flex lg:gap-x-6 font-sans'>

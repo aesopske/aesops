@@ -50,7 +50,7 @@ async function CategoryPosts({ search }: { search: string }) {
                                         View More Posts &rarr;
                                     </AesopLink>
                                 </div>
-                                <div className='grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4'>
+                                <div className='grid grid-cols-1 md:grid-cols-2 gap-4'>
                                     <ListWrapper
                                         list={category?.posts}
                                         itemKey='_key'>

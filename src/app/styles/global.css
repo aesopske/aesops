@@ -79,14 +79,6 @@
         box-sizing: border-box;
         padding: 0;
         margin: 0;
-
-        &::-webkit-scrollbar {
-            width: 8px;
-        }
-
-        &::-webkit-scrollbar-thumb {
-            background-color: #718096;
-        }
     }
     body {
         @apply bg-aes-light p-0 m-0 scroll-smooth;

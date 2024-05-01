@@ -10,8 +10,8 @@ import TalkToUs from '@src/components/new/TalkToUs'
 function Blog({ searchParams }) {
     return (
         <div className='max-w-screen-xl mx-auto my-6 space-y-16 lg:my-12'>
-            <div className='space-y-6'>
-                <div className='max-w-2xl space-y-3 px-5 lg:px-0'>
+            <div className='space-y-6 px-5 lg:px-0'>
+                <div className='max-w-2xl space-y-3 '>
                     <Heading type='h1'>Blogs</Heading>
                     <Text>
                         Dive deep into the world of data analysis,
@@ -26,7 +26,7 @@ function Blog({ searchParams }) {
 
             <hr className='border border-gray-100 max-w-3xl' />
 
-            <div className='relative h-full py-12 px-5 md:py-24'>
+            <div className='relative h-full py-12 px-5 md:py-24 lg:px-0'>
                 <HasBackgroundWrapper className='rounded-3xl h-auto max-w-4xl flex items-center mx-auto'>
                     <div className='max-w-xl px-10 py-24 mx-auto space-y-4 md:p-10'>
                         <Heading type='h1' className='text-aes-light'>
@@ -53,7 +53,7 @@ function Blog({ searchParams }) {
             <CategoryPosts search={searchParams?.category} />
 
             <hr className='border border-gray-100 max-w-3xl' />
-            <div className='px-5 xl:px-0'>
+            <div className='px-5 xl:px-0 space-y-20'>
                 <PostList />
                 <TalkToUs />
             </div>

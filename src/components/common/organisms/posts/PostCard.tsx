@@ -30,7 +30,7 @@ function PostCard({
         <div
             className={cn(
                 '  bg-white border border-gray-200 p-4 rounded text-aes-dark h-full space-y-6',
-                className,
+                className
             )}>
             <div className='flex gap-2 flex-wrap'>
                 {categories?.length > 0 || !hideCategory ? (
@@ -52,17 +52,17 @@ function PostCard({
                         </Heading>
                         <Text
                             className={cn(
-                                'line-clamp-3 text-sm text-opacity-80 max-w-xl',
+                                'line-clamp-3 text-base text-opacity-80 max-w-xl',
                                 topPick
                                     ? 'text-base text-current text-opacity-60'
-                                    : '',
+                                    : ''
                             )}>
                             {post.excerpt}
                         </Text>
                     </div>
                 </Link>
                 {hideAuthor ? (
-                    <Text className='text-sm text-opacity-70'>
+                    <Text className='text-base text-opacity-70'>
                         <span>
                             {new Date(post?.publishedAt).toDateString()}
                         </span>{' '}
