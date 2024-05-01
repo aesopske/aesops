@@ -1,37 +1,44 @@
-import { HfInference } from '@huggingface/inference'
-import { HuggingFaceStream, StreamingTextResponse } from 'ai'
+import OpenAI from 'openai'
+import { OpenAIStream, StreamingTextResponse } from 'ai'
 
 import { env } from '@/env'
+import { NextResponse } from 'next/server'
 
 // create new huggingface Inference instance
-const hf = new HfInference(env.HUGGING_FACE_ACCESS_TOKEN)
+const openai = new OpenAI({
+    apiKey: env.OPENAI_API_KEY,
+})
 
-export const runtime = 'edge'
+export const dynamic = 'force-dynamic' // force dynamic rendering
 
 export async function POST(req: Request) {
     // get the message from the body
     try {
         const { prompt } = await req.json()
 
-        const response = hf.textGenerationStream({
-            model: 'OpenAssistant/oasst-sft-4-pythia-12b-epoch-3.5',
-            inputs: `<|prompter|>${prompt}<|endoftext|><|assistant|>`,
-            parameters: {
-                max_new_tokens: 200,
-                // @ts-ignore (this is a valid parameter specifically in OpenAssistant models)
-                typical_p: 0.2,
-                repetition_penalty: 1,
-                truncate: 1000,
-                return_full_text: false,
-            },
+        const response = await openai.completions.create({
+            model: 'gpt-3.5-turbo-instruct',
+            max_tokens: 2000,
+            stream: true,
+            prompt,
         })
 
         // convert the response to a stream
-        const stream = HuggingFaceStream(response)
+        const stream = OpenAIStream(response)
 
         // return the stream
         return new StreamingTextResponse(stream)
     } catch (error) {
-        throw new Error('Failed to generate response, please try again later.')
+        // Check if the error is an APIError
+        if (error instanceof OpenAI.APIError) {
+            const { name, status, headers, message } = error
+
+            return NextResponse.json(
+                { name, status, headers, message },
+                { status }
+            )
+        } else {
+            throw error
+        }
     }
 }
