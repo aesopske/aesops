@@ -1,13 +1,22 @@
 'use client'
 
-import { CATEGORY } from '@sanity/lib/types'
-import ListWrapper from '../../ListWrapper'
-import Heading from '../../atoms/Heading'
-import { Badge } from '@src/components/ui/badge'
+import React from 'react'
 import { useRouter } from 'next/navigation'
-import { Button } from '@src/components/ui'
+import { CATEGORY } from '@sanity/lib/types'
 
-function Categories({ search, categories }) {
+import { cn } from '@src/lib/utils'
+import Heading from '../../atoms/Heading'
+import ListWrapper from '../../ListWrapper'
+import { Button } from '@src/components/ui'
+import { Badge } from '@src/components/ui/badge'
+
+type CategoriesProps = {
+    search: string
+    categories: CATEGORY[]
+    className?: string
+} & React.HTMLAttributes<HTMLDivElement>
+
+function Categories({ search, categories, className }: CategoriesProps) {
     const router = useRouter()
 
     const selectCategory = (category?: string) => {
@@ -21,7 +30,7 @@ function Categories({ search, categories }) {
         })
     }
     return (
-        <div className='relative w-full col-span-1 px-4'>
+        <div className={cn('relative w-full col-span-1 md:px-4', className)}>
             <div className='bg-aes-primary rounded-lg min-h-32 sticky top-24 right-0 z-10 p-5 text-aes-light space-y-4'>
                 <Heading type='h4' className='font-black'>
                     Categories Topics

@@ -1,9 +1,10 @@
 'use client'
 
+import Hamburger from 'hamburger-react'
 import { usePathname } from 'next/navigation'
+import { AnimatePresence, motion } from 'framer-motion'
 
 import Logo from './Logo'
-import Hamburger from 'hamburger-react'
 import useDisclosure from '@src/hooks/useDisclosure'
 
 const navigation = [
@@ -26,9 +27,9 @@ function Navbar() {
 
     if (pathname?.includes('/studio')) return null
     return (
-        <header className='sticky inset-x-0 top-0 z-50 text-aes-dark border-b bg-brand-background max-h-20 h-fit'>
+        <header className='sticky inset-x-0 top-0 z-50 text-aes-dark border-b border-aes-light bg-brand-background h-fit md:max-h-20'>
             <nav
-                className='flex items-center justify-between px-6 py-4 lg:px-0 container-fluid max-w-screen-xl mx-auto h-full'
+                className='flex items-center justify-between px-6 py-4 lg:px-0 container-fluid max-w-screen-xl mx-auto h-full border-b border-aes-light md:border-none'
                 aria-label='Global'>
                 <Logo />
                 <div className='flex lg:hidden'>
@@ -56,24 +57,31 @@ function Navbar() {
                 </div>
             </nav>
 
-            {isOpen ? (
-                <div className='flex flex-col gap-4 bg-brand-background shadow-md p-8 font-sans lg:hidden'>
-                    {navigation.map((item) => (
-                        <a
-                            key={item.name}
-                            href={item.href}
-                            aria-disabled={item.coming}
-                            className='relative text-base font-semibold leading-6 aria-disabled:opacity-50 aria-disabled:pointer-events-none'>
-                            {item.name}
-                            {item.coming ? (
-                                <sup className='w-full bg-aes-secondary text-aes-dark rounded px-2 py-[1px]'>
-                                    Coming soon
-                                </sup>
-                            ) : null}
-                        </a>
-                    ))}
-                </div>
-            ) : null}
+            <AnimatePresence mode='wait' initial={false}>
+                {isOpen ? (
+                    <motion.div
+                        initial={{ opacity: 0, height: 0 }}
+                        animate={{ opacity: 1, height: 'auto' }}
+                        exit={{ opacity: 0, height: 0 }}
+                        transition={{ duration: 0.2, delayChildren: 0.4 }}
+                        className='flex flex-col gap-4 bg-brand-background shadow-md py-4 px-8 font-sans lg:hidden'>
+                        {navigation.map((item) => (
+                            <a
+                                key={item.name}
+                                href={item.href}
+                                aria-disabled={item.coming}
+                                className='relative text-base font-semibold leading-6 aria-disabled:opacity-50 aria-disabled:pointer-events-none'>
+                                {item.name}
+                                {item.coming ? (
+                                    <sup className='w-full bg-aes-secondary text-aes-dark rounded px-2 py-[1px]'>
+                                        Coming soon
+                                    </sup>
+                                ) : null}
+                            </a>
+                        ))}
+                    </motion.div>
+                ) : null}
+            </AnimatePresence>
         </header>
     )
 }

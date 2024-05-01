@@ -16,8 +16,8 @@ async function CategoryPosts({ search }: { search: string }) {
     const categories = await fetchCategories()
 
     return (
-        <div className='grid grid-cols-3 gap-5'>
-            <div className='col-span-2 space-y-10'>
+        <div className='grid grid-cols-1 order-last gap-5 px-5 lg:grid-cols-3 xl:px-0'>
+            <div className='col-span-1  space-y-10 md:col-span-2'>
                 <div className='space-y-2'>
                     <Heading type='h2' className='font-bold'>
                         Exciting Categories
@@ -32,7 +32,7 @@ async function CategoryPosts({ search }: { search: string }) {
                     <ListWrapper list={categoryPosts} itemKey='slug.current'>
                         {(category: CATEGORY_POST) => (
                             <div className='space-y-5 my-6'>
-                                <div className='flex items-center justify-between'>
+                                <div className='flex flex-col item-start justify-between md:flex-row md:items-center'>
                                     <div className='space-y-2'>
                                         <Heading
                                             type='h3'
@@ -50,7 +50,7 @@ async function CategoryPosts({ search }: { search: string }) {
                                         View More Posts &rarr;
                                     </AesopLink>
                                 </div>
-                                <div className='grid grid-cols-3 gap-4'>
+                                <div className='grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4'>
                                     <ListWrapper
                                         list={category?.posts}
                                         itemKey='_key'>
@@ -67,7 +67,11 @@ async function CategoryPosts({ search }: { search: string }) {
                     </ListWrapper>
                 </div>
             </div>
-            <Categories categories={categories} search={search} />
+            <Categories
+                search={search}
+                categories={categories}
+                className='order-first md:order-last'
+            />
         </div>
     )
 }

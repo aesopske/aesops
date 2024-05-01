@@ -12,19 +12,19 @@ async function FeaturedPosts() {
     const firstPost = featuredPosts[0]
     featuredPosts.shift()
     return (
-        <div className='relative'>
-            <div className='h-fit grid grid-cols-3 gap-6'>
-                <div className='relative col-span-2 flex items-center justify-center bg-aes-light rounded-xl'>
+        <div className='relative px-5'>
+            <div className='h-fit grid grid-cols-1 md:grid-cols-3 gap-6'>
+                <div className='relative col-span-2 flex items-center justify-center bg-aes-light rounded-xl p-10'>
                     <Heading
                         type='h1'
-                        className=' absolute top-28 left-6 lg:text-[8rem] text-aes-secondary/30 z-0'>
+                        className=' absolute top-1 text-6xl md:top-28 left-5 md:text-[8rem] text-aes-secondary/30 z-0'>
                         Top Pick
                     </Heading>
 
                     <PostCard
                         topPick
                         post={firstPost}
-                        className='relative bg-transparent border-none h-fit max-w-xl mx-auto bg-aes-primary p-16 text-aes-light rounded-xl'
+                        className='relative bg-transparent border-none h-fit max-w-xl mx-auto bg-aes-primary p-8 text-aes-light rounded-xl md:p-16'
                     />
                 </div>
 
