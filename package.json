@@ -9,7 +9,6 @@
     "lint": "next lint"
   },
   "dependencies": {
-    "@badrap/bar-of-progress": "^0.2.2",
     "@fontsource-variable/bricolage-grotesque": "^5.0.5",
     "@fontsource-variable/lora": "^5.0.17",
     "@fontsource/inter": "^5.0.17",
@@ -50,6 +49,8 @@
     "next-sanity": "^8.5.3",
     "next-seo": "^6.5.0",
     "next-themes": "^0.3.0",
+    "nextjs-toploader": "^1.6.12",
+    "openai": "^4.40.0",
     "plaiceholder": "^3.0.0",
     "prisma": "^5.12.1",
     "promise": "^8.3.0",
