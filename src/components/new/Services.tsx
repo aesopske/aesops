@@ -68,7 +68,7 @@ function Services() {
     return (
         <section id='services'>
             <div className='relative isolate px-6 lg:px-8'>
-                <div className='mx-auto flex flex-col gap-10 container-fluid max-w-screen-xl py-32 sm:py-40 lg:pt-20'>
+                <div className='mx-auto flex flex-col gap-10 container-fluid max-w-screen-xl py-10 sm:py-40 lg:pt-20'>
                     <div className='text-left space-y-4'>
                         <Heading>Our Services</Heading>
                         <Text className='leading-8 text-gray-600 max-w-xl'>
@@ -78,7 +78,7 @@ function Services() {
                             tailored solutions to drive your business forward.
                         </Text>
                     </div>
-                    <div className='grid grid-cols-2 md:grid-cols-3 gap-6 relative'>
+                    <div className='grid grid-cols-1 md:grid-cols-3 gap-6 relative'>
                         <ListWrapper list={services} itemKey='title'>
                             {(item, idx) => (
                                 <div className='space-y-4 h-full'>

@@ -6,7 +6,7 @@ function Consultancy() {
     return (
         <div className=''>
             <div className='relative isolate px-6 lg:px-8'>
-                <div className='mx-auto flex flex-col items-end gap-10 container-fluid max-w-screen-xl py-32 sm:py-40 lg:py-36'>
+                <div className='mx-auto flex flex-col items-end gap-10 container-fluid max-w-screen-xl py-10 sm:py-40 lg:py-36'>
                     <div className='text-left'>
                         <Heading className='text-4xl font-bold tracking-tight max-w-xl'>
                             Let us help you understand your data.
@@ -18,7 +18,7 @@ function Consultancy() {
                             the best approach to your data and provide you with
                             actionable insights.
                         </Text>
-                        <div className='flex items-center justify-start gap-x-6'>
+                        <div className='flex flex-col gap-3  md:flex-row md:items-center md:justify-start md:gap-x-6'>
                             <AesopLink
                                 passHref
                                 variant='button'

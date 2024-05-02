@@ -7,7 +7,7 @@ function Datasets() {
     return (
         <section id='datasets'>
             <div className='relative isolate px-6 lg:px-8'>
-                <div className='mx-auto flex flex-col gap-10 container-fluid max-w-screen-xl py-32 sm:py-40 lg:py-36'>
+                <div className='mx-auto flex flex-col gap-10 container-fluid max-w-screen-xl py-10 sm:py-40 lg:py-36'>
                     <div className='text-left'>
                         <Heading className='text-4xl font-bold tracking-tight'>
                             Datasets.
@@ -17,7 +17,7 @@ function Datasets() {
                             are largely under-represented in the data science
                             community.
                         </Text>
-                        <Text className='flex items-center gap-x-6'>
+                        <Text className='flex flex-col items-start md:flex-row gap-3 md:items-center md:gap-6'>
                             <AesopLink
                                 color='primary'
                                 variant='button'

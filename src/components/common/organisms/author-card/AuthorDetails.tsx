@@ -7,12 +7,13 @@ import { Avatar, AvatarFallback, AvatarImage } from '@src/components/ui/avatar'
 type AuthorDetailsProps = {
     author: AUTHOR_PLUS
     isSmall?: boolean
+    hideDetails?: boolean
 }
 
-function AuthorDetails({ author, isSmall }: AuthorDetailsProps) {
+function AuthorDetails({ author, isSmall, hideDetails }: AuthorDetailsProps) {
     return (
         <HoverCard
-            hideDetails={!author.isCoreMember}
+            hideDetails={!author.isCoreMember || hideDetails}
             renderTrigger={() => (
                 <Avatar className={cn('object-cover', isSmall && 'w-8 h-8')}>
                     <AvatarImage

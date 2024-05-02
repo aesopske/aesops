@@ -6,7 +6,7 @@ function BootCamps() {
     return (
         <div className=''>
             <div className='relative isolate px-6 lg:px-8'>
-                <div className='mx-auto flex flex-col gap-10 container-fluid max-w-screen-xl py-32 sm:py-40 lg:py-36'>
+                <div className='mx-auto flex flex-col gap-10 container-fluid max-w-screen-xl py-10 sm:py-40 lg:py-36'>
                     <div className='text-left'>
                         <Heading className='text-4xl font-bold tracking-tight max-w-xl'>
                             Empower Your Team with Data Boot Camps
@@ -21,7 +21,7 @@ function BootCamps() {
                             your organization and empower your team to thrive in
                             the data-driven era.
                         </Text>
-                        <div className='flex items-center gap-x-6'>
+                        <div className='flex flex-col gap-3 md:flex-row md:items-center md:gap-x-6'>
                             <AesopLink
                                 passHref
                                 variant='button'

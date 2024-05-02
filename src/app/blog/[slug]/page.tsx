@@ -38,6 +38,7 @@ async function Blog({ params }) {
                             {post?.title}
                         </Heading>
                         <AuthorCard
+                            hideDetails={true}
                             author={post?.author}
                             date={new Date(post?.publishedAt).toDateString()}
                             readTime={post?.readTime}

@@ -3,7 +3,6 @@ import Heading from './atoms/Heading'
 import { cn } from '@src/lib/utils'
 import AesopLink from './atoms/AesopLink'
 import Text from './atoms/Text'
-import Image from 'next/image'
 
 type HeroProps = {} & React.HTMLAttributes<HTMLDivElement>
 
@@ -23,9 +22,9 @@ function Hero({ className }: HeroProps) {
                     />
                 </div>
                 <div className='mx-auto max-w-screen-xl grid grid-cols-1 md:grid-cols-2 '>
-                    <div className='py-32 sm:py-40 lg:py-28'>
-                        <div className='hidden sm:mb-8 sm:flex sm:justify-start'>
-                            <div className='relative rounded-full px-3 py-1 font-sans leading-6 text-white ring-2 ring-gray-100/10 hover:ring-gray-200/20'>
+                    <div className=' space-y-3 py-10 sm:py-40 lg:py-28'>
+                        <div className='sm:mb-8 sm:flex sm:justify-start'>
+                            <div className='relative text-xs rounded-full px-3 py-1 font-sans leading-6 text-white ring-2 ring-gray-100/10 hover:ring-gray-200/20 lg:text-base '>
                                 Unveiling aesops new website.{' '}
                                 <AesopLink
                                     href='/blog/aeosps-new-website'
@@ -43,33 +42,26 @@ function Hero({ className }: HeroProps) {
                             <Heading className='md:text-6xl font-black tracking-tight text-gray-100'>
                                 Unveiling Insights Crafting Tomorrow.
                             </Heading>
-                            <Text className='my-8 leading-8 text-aes-light'>
+                            <Text className='my-4 lg:my-8 leading-8 text-aes-light'>
                                 Aesops aims to provide a platform for data
                                 science, where we unveil and share insights with
                                 our community. We provide tools, resources and
                                 valuable expertise to help you gain a deeper
                                 understanding of your data.
                             </Text>
-                            <div className='flex items-center justify-start gap-x-6'>
+                            <div className='flex flex-col gap-3 md:flex-row md:items-center md:justify-start md:gap-x-6'>
                                 <AesopLink
                                     variant='button'
                                     color='secondary'
-                                    href='/community'>
-                                    Join our community
+                                    href='/blog'>
+                                    Join the Community
                                 </AesopLink>
                             </div>
                         </div>
                     </div>
                     <div className='h-full w-full '></div>
                 </div>
-                {/* <Image
-                    src='/svg/hero.svg'
-                    width={1440}
-                    height={1080}
-                    alt='hero'
-                    // fill
-                    className='mx-auto w-full h-full object-contain'
-                /> */}
+
                 <div
                     className='absolute inset-x-0 top-[calc(100%-13rem)] -z-10 transform-gpu overflow-hidden blur-3xl sm:top-[calc(100%-30rem)]'
                     aria-hidden='true'>

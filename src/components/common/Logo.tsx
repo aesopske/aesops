@@ -26,7 +26,7 @@ function Logo({ className }: LogoProps) {
                     height={200}
                     alt='Aesops Logo'
                     className='h-full w-full md:hidden'
-                    src='/logo-mobile.svg'
+                    src='/logo-mark.svg'
                 />
             </a>
         </div>

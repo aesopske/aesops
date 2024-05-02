@@ -18,7 +18,7 @@ function Page() {
             <Services />
             <HasBackgroundWrapper>
                 <div className='h-full w-full text-white max-w-screen-xl mx-auto  grid grid-cols-1 gap-5 md:grid-cols-2 lg:grid-col-3'>
-                    <div className='max-w-2xl space-y-6 text-aes-light py-48'>
+                    <div className='max-w-2xl space-y-6 text-aes-light px-5 py-24 pb-10 lg:py-48 lg:px-0'>
                         <Heading type='h1' className='text-current'>
                             Why Aesops ?
                         </Heading>
@@ -32,7 +32,7 @@ function Page() {
                             disseminates data, fostering a culture of
                             data-driven decision-making and innovation.
                         </Text>
-                        <Text className='space-x-4'>
+                        <Text className='space-x-4 flex flex-col gap-3 items-start md:flex-row md:items-center'>
                             <AesopLink
                                 href='/about-us'
                                 variant='button'
@@ -47,13 +47,13 @@ function Page() {
                             </AesopLink>
                         </Text>
                     </div>
-                    <div className='relative h-full w-full '>
+                    <div className='relative h-28 w-full md:h-full '>
                         <Image
                             src='/svg/quadpattern.svg'
                             alt='hero'
                             width={500}
                             height={1000}
-                            className='object-cover w-full h-full'
+                            className='object-cover w-full h-full object-center'
                         />
                     </div>
                 </div>
@@ -61,9 +61,9 @@ function Page() {
             <Datasets />
             <Consultancy />
             <div className='relative h-full py-10'>
-                <HasBackgroundWrapper className='rounded-3xl h-96 max-w-4xl flex items-center mx-auto'>
-                    <div className='max-w-lg mx-auto space-y-4 p-10'>
-                        <Heading type='h2' className='text-aes-light'>
+                <HasBackgroundWrapper className=' h-auto max-w-4xl flex items-center mx-auto md:rounded-3xl'>
+                    <div className='max-w-lg mx-auto space-y-4 p-10 md:py-28'>
+                        <Heading type='h2' className='text-aes-light text-2xl'>
                             What our clients say.
                         </Heading>
                         <Text className='text-aes-light'>
@@ -72,18 +72,14 @@ function Page() {
                             provided us with actionable insights that have
                             helped us make informed decisions.&quot;
                         </Text>
-                        <Text>
-                            <AesopLink
-                                href='/'
-                                className='text-aes-light font-medium'>
-                                John Doe, CEO, Aesops Ltd
-                            </AesopLink>
+                        <Text className='text-aes-light font-bold'>
+                            John Doe, CEO, Aesops Ltd
                         </Text>
                     </div>
                 </HasBackgroundWrapper>
             </div>
             <BootCamps />
-            <RecentPosts />
+            <RecentPosts className='px-5 xl:px-0' />
             {/* TODO: find a way to import svgs as components in Nextjs */}
             <TalkToUs />
         </div>

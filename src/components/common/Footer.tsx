@@ -95,7 +95,7 @@ function Footer() {
         <section className='w-full h-full pt-10 px-6 bg-gradient-to-b pb-5 from-brand-background via-aes-light to-aes-primary lg:pt-32'>
             <div className='mx-auto max-w-screen-xl grid gap-4 grid-cols-2 md:grid-cols-3 lg:grid-cols-6'>
                 <div className='w-56 h-auto col-span-2 flex items-start justify-start md:col-span-3 lg:col-span-3 lg:h-56'>
-                    <Logo className='h-auto w-32 md:w-56' />
+                    <Logo className='h-auto w-24 md:w-56' />
                 </div>
 
                 <div className='flex flex-col gap-4'>

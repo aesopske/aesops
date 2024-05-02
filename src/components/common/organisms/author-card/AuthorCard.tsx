@@ -12,6 +12,7 @@ type AuthorCardProps = {
     readTime?: number
     date: string
     isSmall?: boolean
+    hideDetails?: boolean
 } & React.HTMLAttributes<HTMLDivElement>
 
 function AuthorCard({
@@ -20,19 +21,24 @@ function AuthorCard({
     isSmall,
     readTime,
     className,
+    hideDetails,
 }: AuthorCardProps) {
     const newAuthor = formatAuthor(author)
 
     const formattedDate = format(new Date(date), 'MMM dd, yyyy')
     return (
         <div className={cn('flex items-center gap-2', className)}>
-            <AuthorDetails author={newAuthor} isSmall={isSmall} />
+            <AuthorDetails
+                isSmall={isSmall}
+                author={newAuthor}
+                hideDetails={hideDetails}
+            />
             <div className='flex flex-1 flex-col items-start justify-between gap-0'>
                 <Heading
                     type='h6'
                     className={cn(
                         'font-bold capitalize',
-                        isSmall && 'text-sm',
+                        isSmall && 'text-sm'
                     )}>
                     {author?.name.toLowerCase()}
                 </Heading>
