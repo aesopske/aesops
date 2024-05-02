@@ -34,9 +34,7 @@ const components = {
         h4: ({ children }) => <BlockHeading type='h4'>{children}</BlockHeading>,
         h5: ({ children }) => <BlockHeading type='h5'>{children}</BlockHeading>,
 
-        normal: ({ children }) => (
-            <p className='font-serif text-lg lg:text-base'>{children}</p>
-        ),
+        normal: ({ children }) => <p className='font-serif'>{children}</p>,
     },
     types: {
         code: ({ value }) => <CodeBlock codeContent={value} />,
