@@ -17,7 +17,16 @@ function RootLayout({ children }) {
                     name='viewport'
                     content='width=device-width, initial-scale=1'
                 />
-                <title>Aesops</title>
+                <meta name='theme-color' content='#15616D' />
+                <meta
+                    name='keywords'
+                    content='Aesops, data, data organization, data-driven decision-making, innovation, Kenya, data sector, AESOPS, data organization, data-driven decision-making, innovation, Kenya, data sector'
+                />
+                <meta
+                    name='description'
+                    content='Are you looking to get insights for your data and make data-driven decisions? Aesops is a pioneering data organization based in Kenya, dedicated to revolutionizing the data sector in the country. AESOPS has rapidly evolved into a dynamic platform that collects, curates, and disseminates data, fostering a culture of data-driven decision-making and innovation.'
+                />
+                <title>Aesops - Unveiling insights</title>
                 <link
                     rel='icon'
                     href='/logo-mark.svg'
