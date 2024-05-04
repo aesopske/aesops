@@ -1,4 +1,6 @@
 import Image from 'next/image'
+import { Metadata, ResolvingMetadata } from 'next'
+
 import { urlForImage } from '@sanity/lib/image'
 import { getPostBySlug } from '@sanity/lib/requests'
 
@@ -12,6 +14,36 @@ import AuthorCard from '@src/components/common/organisms/author-card/AuthorCard'
 import AboutAuthor from '@src/components/common/organisms/about-author/AboutAuthor'
 import RecentPosts from '@src/components/common/organisms/posts/RecentPosts'
 import BreadCrumbs from '@src/components/common/organisms/bread-crumbs/BreadCrumbs'
+
+type Props = {
+    params: {
+        slug: string
+    }
+}
+
+export async function generateMetadata(
+    { params }: Props,
+    parent: ResolvingMetadata
+): Promise<Metadata> {
+    const post = await getPostBySlug(params.slug)
+    const previousImages = (await parent).openGraph?.images ?? []
+    return {
+        title: post?.title,
+        description: post?.excerpt,
+        openGraph: {
+            title: post?.title,
+            description: post?.excerpt,
+            images: [
+                {
+                    url: post?.mainImage ? urlForImage(post?.mainImage) : '',
+                    alt: post?.mainImage?.alt ?? '',
+                },
+                ...previousImages,
+            ],
+        },
+    }
+}
+
 
 async function Blog({ params }) {
     const slug = params?.slug

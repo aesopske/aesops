@@ -7,6 +7,13 @@ import CategoryPosts from '@src/components/common/organisms/posts/CategoryPosts'
 import PostList from '@src/components/common/organisms/posts/PostList'
 import TalkToUs from '@src/components/new/TalkToUs'
 
+
+export const metadata = {
+    title: 'Aesops - Blog',
+    description:
+        'Dive deep into the world of data analysis, visualization, and insights. Whether you’re a seasoned data scientist or just beginning your journey in the field, our blog is your go-to resource for all things data.',
+}
+
 function Blog({ searchParams }) {
     return (
         <div className='max-w-screen-xl mx-auto my-6 space-y-10 lg:space-y-16 lg:my-12'>
