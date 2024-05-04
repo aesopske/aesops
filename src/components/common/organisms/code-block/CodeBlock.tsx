@@ -18,12 +18,13 @@ function CodeBlock({ codeContent }: CodeBlockProps) {
     const filename = codeContent?.filename ?? ''
 
     return (
-        <div className='my-5 w-full overflow-hidden rounded-md bg-aes-light/50 border border-gray-200'>
+        <div className='my-5 w-full overflow-hidden rounded-md bg-aes-light/50 border border-aes-light/50 shadow-sm'>
             <div className=''>
                 <CodeBar filename={filename} code={code} />
                 <SyntaxHighlighter
                     language={language}
                     className='rounded-md py-0'
+                    wrapLines
                     showLineNumbers
                     customStyle={{
                         borderRadius: '0.5rem',

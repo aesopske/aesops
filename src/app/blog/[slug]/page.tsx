@@ -25,14 +25,15 @@ export async function generateMetadata(
     { params }: Props,
     parent: ResolvingMetadata
 ): Promise<Metadata> {
-    const post = await getPostBySlug(params.slug)
+    const post = await getPostBySlug(params?.slug)
     const previousImages = (await parent).openGraph?.images ?? []
     return {
         title: post?.title,
         description: post?.excerpt,
+
         openGraph: {
-            title: post?.title,
-            description: post?.excerpt,
+            // title: post?.title,
+            // description: post?.excerpt,
             images: [
                 {
                     url: post?.mainImage ? urlForImage(post?.mainImage) : '',
@@ -43,7 +44,6 @@ export async function generateMetadata(
         },
     }
 }
-
 
 async function Blog({ params }) {
     const slug = params?.slug
@@ -82,10 +82,10 @@ async function Blog({ params }) {
                             height={500}
                             src={imageUrl}
                             alt={post?.mainImage.alt}
-                            className='h-[35vh] w-full object-cover lg:rounded-md'
+                            className='h-[35vh] w-full object-cover lg:rounded'
                         />
                     ) : null}
-                    <div className='px-4 space-y-6 lg:px-0'>
+                    <div className='space-y-6 px-4 lg:px-0'>
                         <ContentReader content={post?.body} />
                         <div className='lg:hidden'>
                             <Share title={post?.title} />

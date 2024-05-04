@@ -34,7 +34,7 @@ const components = {
         h4: ({ children }) => <BlockHeading type='h4'>{children}</BlockHeading>,
         h5: ({ children }) => <BlockHeading type='h5'>{children}</BlockHeading>,
 
-        normal: ({ children }) => <p className='font-serif'>{children}</p>,
+        normal: ({ children }) => <p className='font-serif '>{children}</p>,
     },
     types: {
         code: ({ value }) => <CodeBlock codeContent={value} />,
@@ -55,15 +55,15 @@ const components = {
         image: ({ value }) => {
             const src = value ? urlForImage(value) : ''
             return (
-                <div className='w-full h-auto bg-aes-light/50 rounded-lg overflow-hidden'>
+                <div className='w-full h-auto bg-aes-light/50 md:rounded-lg overflow-hidden'>
                     <AesopImage
                         width={500}
                         height={300}
                         src={src}
                         alt={value?.alt || ''}
-                        className='h-96 w-full object-contain rounded-t-lg'
+                        className='h-fit w-full object-contain md:rounded-t-lg'
                     />
-                    <Text className='w-full italic bg-aes-light text-gray-500 p-2 flex items-center gap-2 text-sm'>
+                    <Text className='w-full italic bg-aes-light text-gray-500 p-2 px-5 flex items-center gap-2 text-sm md:px-2'>
                         <ImageIcon size={16} />
                         {value?.caption || value?.alt || ''}
                     </Text>

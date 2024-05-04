@@ -11,6 +11,13 @@ import AesopLink from '@src/components/common/atoms/AesopLink'
 import Services from '@src/components/new/Services'
 import TalkToUs from '@src/components/new/TalkToUs'
 
+
+export const metadata = {
+    title: 'Aesops - Unveiling Insights',
+    description:
+        'Are you looking to get insights for your data and make data-driven decisions? Aesops is a pioneering data organization based in Kenya, dedicated to revolutionizing the data sector in the country. AESOPS has rapidly evolved into a dynamic platform that collects, curates, and disseminates data, fostering a culture of data-driven decision-making and innovation.',
+}
+
 function Page() {
     return (
         <div className='w-full h-full min-h-screen'>

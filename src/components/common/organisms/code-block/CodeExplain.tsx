@@ -48,11 +48,15 @@ function CodeExplain({ code }: CodeExplainProps) {
                 data-loading={isLoading}
                 className='group flex h-8 items-center gap-2 rounded-full border-aes-dark bg-transparent data-[open=true]:bg-aes-dark data-[open=true]:text-aes-light hover:bg-aes-dark hover:text-aes-light'
                 onClick={() => {
+                    if (isOpen) return setIsOpen(false)
+
                     // check if we have a saved explanation
                     if (savedCompletion) {
                         setIsOpen(!isOpen)
                         return
                     }
+
+                    // open the panel and stream the generated explanation
                     setIsOpen(!isOpen)
                     const language =
                         code?.language === 'sh' ? 'bash' : code?.language
@@ -67,26 +71,27 @@ function CodeExplain({ code }: CodeExplainProps) {
             </Button>
 
             <AnimatePresence initial={false} mode='wait'>
-                {isOpen ? (
+                {isOpen && (
                     <motion.div
+                        key={isOpen ? 'explanation' : 'no-explanation'}
                         initial={{ opacity: 0, height: 0 }}
                         animate={{ opacity: 1, height: 'auto' }}
-                        exit={{ opacity: 0, height: 0 }}
+                        exit={{ opacity: 0, height: '0px' }}
+                        transition={{ duration: 0.3 }}
                         className='w-full'>
                         <output
                             data-hidden={!!error}
                             className='prose font-mono text-sm text-aes-dark data-[hidden=true]:hidden'>
                             {savedCompletion ? savedCompletion : completion}
                         </output>
+                        {error && isOpen ? (
+                            <output className='prose text-xs text-red-500'>
+                                {error?.message}
+                            </output>
+                        ) : null}
                     </motion.div>
-                ) : null}
+                )}
             </AnimatePresence>
-
-            {error && isOpen ? (
-                <output className='prose text-xs text-red-500'>
-                    {error?.message}
-                </output>
-            ) : null}
         </div>
     )
 }
