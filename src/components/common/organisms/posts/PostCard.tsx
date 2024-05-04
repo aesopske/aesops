@@ -33,6 +33,13 @@ function PostCard({
                 className
             )}>
             <div className='flex gap-2 flex-wrap'>
+                {topPick && (
+                    <Badge
+                        variant='secondary'
+                        className='text-aes-primary rounded-full w-fit'>
+                        Top Pick
+                    </Badge>
+                )}
                 {categories?.length > 0 || !hideCategory ? (
                     <Badge
                         variant='default'
