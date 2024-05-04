@@ -6,16 +6,21 @@ import CodeExplain from './CodeExplain'
 
 type CodeBlockProps = {
     codeContent: {
-        language: string
-        code: string
-        filename?: string
+        code: {
+            language: string
+            code: string
+            filename?: string
+        }
+        allowAIExplain?: boolean
     }
 }
 
 function CodeBlock({ codeContent }: CodeBlockProps) {
-    const language = codeContent?.language ?? ''
-    const code = codeContent?.code ?? ''
-    const filename = codeContent?.filename ?? ''
+    const language = codeContent?.code?.language ?? ''
+    const code = codeContent?.code?.code ?? ''
+    const filename = codeContent?.code?.filename ?? ''
+
+    const allowCodeExplain = codeContent?.allowAIExplain ?? false
 
     return (
         <div className='my-5 w-full overflow-hidden rounded-md bg-aes-light/50 border border-aes-light/50 shadow-sm'>
@@ -36,7 +41,7 @@ function CodeBlock({ codeContent }: CodeBlockProps) {
                     {code}
                 </SyntaxHighlighter>
             </div>
-            <CodeExplain code={codeContent} />
+            {allowCodeExplain && <CodeExplain code={codeContent} />}
         </div>
     )
 }

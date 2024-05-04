@@ -75,13 +75,10 @@ export default defineType({
 
         // Adding a code block
         defineArrayMember({
-            type: 'code',
+            type: 'codeBlock',
             name: 'code',
             title: 'Code',
             icon: Code,
-            options: {
-                withFilename: true,
-            },
         }),
 
         // Adding a YouTube embed

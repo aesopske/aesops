@@ -9,11 +9,13 @@ import { Button } from '@src/components/ui'
 
 type CodeExplainProps = {
     code: {
-        language: string
-        code: string
-        filename?: string
-        _key?: string
-        _type?: string
+        code: {
+            language: string
+            code: string
+            filename?: string
+            _key?: string
+            _type?: string
+        }
     }
 }
 
@@ -22,7 +24,7 @@ function CodeExplain({ code }: CodeExplainProps) {
     // store the explanation session store to avoid re-explaining the same code
     const { completion, complete, isLoading, error } = useCompletion()
     const { getValue, saveValue } = useSessionStore(
-        code?._key || code?.filename || '',
+        code?.code._key || code?.code?.filename || ''
     )
 
     useEffect(() => {
@@ -37,7 +39,6 @@ function CodeExplain({ code }: CodeExplainProps) {
     }, [completion, saveValue])
 
     const savedCompletion = getValue()
-
 
     return (
         <div className='flex min-h-10 flex-col items-start gap-4 bg-aes-light px-4 py-2'>
@@ -59,8 +60,10 @@ function CodeExplain({ code }: CodeExplainProps) {
                     // open the panel and stream the generated explanation
                     setIsOpen(!isOpen)
                     const language =
-                        code?.language === 'sh' ? 'bash' : code?.language
-                    const prompt = `Give a brief explanation the following ${language} code: \n\n${code?.code}`
+                        code?.code?.language === 'sh'
+                            ? 'bash'
+                            : code?.code?.language
+                    const prompt = `Give a brief explanation the following ${language} code: \n\n${code?.code?.code}`
                     complete(prompt)
                 }}>
                 <Stars

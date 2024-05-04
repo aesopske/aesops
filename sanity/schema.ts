@@ -14,6 +14,7 @@ import externalLink from './schemaTypes/objects/externalLink'
 import youtubeEmbed from './schemaTypes/objects/youtubeEmbed'
 import iframeEmbed from './schemaTypes/objects/IframeEmbed'
 import tableBlock from './schemaTypes/objects/tableBlock'
+import codeBlock from './schemaTypes/objects/codeBlock'
 // import pageBuilder from './schemaTypes/objects/pageBuilder'
 
 export const schema: { types: SchemaTypeDefinition[] } = {
@@ -32,6 +33,7 @@ export const schema: { types: SchemaTypeDefinition[] } = {
         youtubeEmbed,
         iframeEmbed,
         tableBlock,
+        codeBlock,
         // pageBuilder, TODO: add page builder to schema for editing page content
     ],
 }

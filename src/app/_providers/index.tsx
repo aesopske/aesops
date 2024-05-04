@@ -1,7 +1,7 @@
 'use client'
 
 import React from 'react'
-import { ThemeProvider } from 'next-themes'
+// import { ThemeProvider } from 'next-themes'
 
 
 type ProvidersProps = {
@@ -9,7 +9,7 @@ type ProvidersProps = {
 }
 
 function Providers({ children }: ProvidersProps) {
-    return <ThemeProvider>{children}</ThemeProvider>
+    return <div>{children}</div>
 }
 
 export default Providers
