@@ -55,8 +55,8 @@ function AboutAuthor({ author, hideBio, hidePosts }: AboutAuthorProps) {
 
             {hidePosts || author?.posts?.length === 0 ? null : (
                 <div className='flex flex-col gap-2'>
-                    <Heading type='h4' className='font-semibold capitalize'>
-                        Posts
+                    <Heading type='h4' className='font-semibold'>
+                        More posts by author
                     </Heading>
 
                     <ListWrapper list={author?.posts ?? []} itemKey='_key'>
