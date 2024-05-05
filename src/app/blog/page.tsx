@@ -7,6 +7,8 @@ import CategoryPosts from '@src/components/common/organisms/posts/CategoryPosts'
 import PostList from '@src/components/common/organisms/posts/PostList'
 import TalkToUs from '@src/components/new/TalkToUs'
 
+export const revalidate = 60 // 1 minute
+
 
 export const metadata = {
     title: 'Aesops - Blog',
