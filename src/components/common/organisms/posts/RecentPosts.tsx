@@ -1,4 +1,4 @@
-import { MIN_POST } from '@sanity/lib/types'
+import { MIN_POST } from '@sanity/utils/types'
 import SmallPostCard from './SmallPostCard'
 import ListWrapper from '@components/common/ListWrapper'
 import Heading from '@components/common/atoms/Heading'

@@ -4,8 +4,8 @@ import Text from '@components/common/atoms/Text'
 import Heading from '@components/common/atoms/Heading'
 import ListWrapper from '@components/common/ListWrapper'
 import AesopLink from '@components/common/atoms/AesopLink'
-import { CATEGORY_POST, MIN_POST } from '@sanity/lib/types'
-import { fetchCategories, fetchCategoryPosts } from '@sanity/lib/requests'
+import { CATEGORY_POST, MIN_POST } from '@sanity/utils/types'
+import { fetchCategories, fetchCategoryPosts } from '@sanity/utils/requests'
 
 async function CategoryPosts({ search }: { search: string }) {
     const categoryPosts = await fetchCategoryPosts({

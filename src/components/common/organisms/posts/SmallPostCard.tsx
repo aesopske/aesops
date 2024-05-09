@@ -1,6 +1,6 @@
 import Link from 'next/link'
 import Heading from '@components/common/atoms/Heading'
-import { MIN_POST, POST } from '@sanity/lib/types'
+import { MIN_POST, POST } from '@sanity/utils/types'
 import AuthorCard from '../author-card/AuthorCard'
 import { cn } from '@src/lib/utils'
 import { format } from 'date-fns'

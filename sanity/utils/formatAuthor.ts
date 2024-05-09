@@ -1,5 +1,5 @@
-import { urlForImage } from '@sanity/lib/image'
-import { AUTHOR } from '@sanity/lib/types'
+import { urlForImage } from '@sanity/utils/image'
+import { AUTHOR } from '@sanity/utils/types'
 
 export function formatAuthor(author: AUTHOR) {
     const formatName = (name: string) => {

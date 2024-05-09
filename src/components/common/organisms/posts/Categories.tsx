@@ -2,7 +2,7 @@
 
 import React from 'react'
 import { useRouter } from 'next/navigation'
-import { CATEGORY } from '@sanity/lib/types'
+import { CATEGORY } from '@sanity/utils/types'
 
 import { cn } from '@src/lib/utils'
 import Heading from '../../atoms/Heading'

@@ -1,4 +1,4 @@
-import { PATH } from '@sanity/lib/types'
+import { PATH } from '@sanity/utils/types'
 
 export function getBreadcrumbs(path: string): PATH[] {
     const paths = path.split('/').filter((p) => p)

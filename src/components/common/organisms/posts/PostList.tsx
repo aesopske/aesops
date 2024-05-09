@@ -1,7 +1,7 @@
-import { getPosts } from '@sanity/lib/requests'
+import { getPosts } from '@sanity/utils/requests'
 import ListWrapper from '../../ListWrapper'
 import Heading from '../../atoms/Heading'
-import { MIN_POST } from '@sanity/lib/types'
+import { MIN_POST } from '@sanity/utils/types'
 import PostCard from './PostCard'
 
 async function PostList() {

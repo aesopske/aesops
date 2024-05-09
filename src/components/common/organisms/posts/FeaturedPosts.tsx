@@ -2,9 +2,9 @@ import { Fragment } from 'react'
 
 import PostCard from './PostCard'
 import ListWrapper from '../../ListWrapper'
-import { MIN_POST } from '@sanity/lib/types'
+import { MIN_POST } from '@sanity/utils/types'
 import Heading from '@components/common/atoms/Heading'
-import { fetchFeaturedArticles } from '@sanity/lib/requests'
+import { fetchFeaturedArticles } from '@sanity/utils/requests'
 
 async function FeaturedPosts() {
     const featuredPosts = await fetchFeaturedArticles()

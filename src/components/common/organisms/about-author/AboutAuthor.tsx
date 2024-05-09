@@ -1,4 +1,4 @@
-import { AUTHOR_PLUS, POST } from '@sanity/lib/types'
+import { AUTHOR_PLUS, POST } from '@sanity/utils/types'
 import Heading from '@/components/common/atoms/Heading'
 import Socials from '@/components/common/organisms/author-card/Socials'
 import { Avatar, AvatarImage, AvatarFallback } from '@src/components/ui/avatar'

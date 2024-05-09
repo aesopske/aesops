@@ -4,7 +4,7 @@ import { cn } from '@src/lib/utils'
 import Text from '../../atoms/Text'
 import { titleCase } from '@src/lib/titleCase'
 import { Badge } from '@src/components/ui/badge'
-import { MIN_POST, POST } from '@sanity/lib/types'
+import { MIN_POST, POST } from '@sanity/utils/types'
 import AuthorCard from '../author-card/AuthorCard'
 import Heading from '@components/common/atoms/Heading'
 

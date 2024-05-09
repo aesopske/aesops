@@ -2,11 +2,11 @@ import React from 'react'
 
 import { cn } from '@src/lib/utils'
 import Text from '../common/atoms/Text'
-import { MIN_POST } from '@sanity/lib/types'
+import { MIN_POST } from '@sanity/utils/types'
 import Heading from '../common/atoms/Heading'
 import ListWrapper from '../common/ListWrapper'
 import AesopLink from '../common/atoms/AesopLink'
-import { fetchRecentPosts } from '@sanity/lib/requests'
+import { fetchRecentPosts } from '@sanity/utils/requests'
 import PostCard from '../common/organisms/posts/PostCard'
 
 type RecentPostsProps = {} & React.HTMLProps<HTMLDivElement>

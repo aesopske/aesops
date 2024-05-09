@@ -3,7 +3,7 @@ import { ImageIcon } from 'lucide-react'
 import { PortableText, PortableTextComponents } from '@portabletext/react'
 
 import AesopImage from './AesopImage'
-import { urlForImage } from '@sanity/lib/image'
+import { urlForImage } from '@sanity/utils/image'
 import Heading from '@components/common/atoms/Heading'
 import Text from '@components/common/atoms/Text'
 import TableBlock from './organisms/table-block/TableBlock'

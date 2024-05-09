@@ -9,7 +9,6 @@ import TalkToUs from '@src/components/new/TalkToUs'
 
 export const revalidate = 60 // 1 minute
 
-
 export const metadata = {
     title: 'Aesops - Blog',
     description:

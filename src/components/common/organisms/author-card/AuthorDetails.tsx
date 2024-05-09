@@ -1,5 +1,5 @@
 import { cn } from '@src/lib/utils'
-import { AUTHOR_PLUS } from '@sanity/lib/types'
+import { AUTHOR_PLUS } from '@sanity/utils/types'
 import AboutAuthor from '../about-author/AboutAuthor'
 import HoverCard from '@/components/common/molecules/HoverCard'
 import { Avatar, AvatarFallback, AvatarImage } from '@src/components/ui/avatar'

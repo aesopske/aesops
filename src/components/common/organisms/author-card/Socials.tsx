@@ -3,7 +3,7 @@
 import { X, Linkedin, Github, Globe } from 'lucide-react'
 
 import { cn } from '@src/lib/utils'
-import { SOCIAL } from '@sanity/lib/types'
+import { SOCIAL } from '@sanity/utils/types'
 import { buttonVariants } from '@src/components/ui'
 
 const socialIcons = {

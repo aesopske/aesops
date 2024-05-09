@@ -9,7 +9,7 @@ import {
     BreadcrumbList,
     BreadcrumbSeparator,
 } from '@/components/ui/breadcrumb'
-import { PATH } from '@sanity/lib/types'
+import { PATH } from '@sanity/utils/types'
 import ListWrapper from '@components/common/ListWrapper'
 import { getBreadcrumbs } from '@src/lib/getBreadcrumbs'
 

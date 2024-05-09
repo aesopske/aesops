@@ -1,13 +1,13 @@
 import Image from 'next/image'
 import { Metadata, ResolvingMetadata } from 'next'
 
-import { urlForImage } from '@sanity/lib/image'
-import { getPostBySlug } from '@sanity/lib/requests'
+import { urlForImage } from '@sanity/utils/image'
+import { getPostBySlug } from '@sanity/utils/requests'
 
 import Share from '@src/components/common/ShareBtns'
 import Heading from '@components/common/atoms/Heading'
-import parseOutline from '@src/lib/sanity/parseOutline'
-import { formatAuthor } from '@src/lib/sanity/formatAuthor'
+import parseOutline from '@sanity/utils/parseOutline'
+import { formatAuthor } from '@sanity/utils/formatAuthor'
 import ContentReader from '@src/components/common/ContentReader'
 import ContentHeadingReader from '@src/components/common/ContentHeadingReader'
 import AuthorCard from '@src/components/common/organisms/author-card/AuthorCard'

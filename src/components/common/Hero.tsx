@@ -3,13 +3,19 @@ import Heading from './atoms/Heading'
 import { cn } from '@src/lib/utils'
 import AesopLink from './atoms/AesopLink'
 import Text from './atoms/Text'
+// import Image from 'next/image'
 
 type HeroProps = {} & React.HTMLAttributes<HTMLDivElement>
 
 function Hero({ className }: HeroProps) {
     return (
-        <section id='home' className={cn('bg-aes-primary', className)}>
-            <div className='relative isolate px-6 lg:px-8'>
+        <section
+            id='home'
+            className={cn(
+                'bg-aes-primary hero-bg relative min-h-[60vh] h-auto',
+                className
+            )}>
+            <div className='absolute isolate inset-0 bg-gradient-to-r from-aes-primary from-30% via-aes-primary/80 to-aes-primary/50 px-6 lg:px-8'>
                 <div
                     className='absolute inset-x-0 -top-40 -z-10 transform-gpu overflow-hidden blur-3xl sm:-top-80'
                     aria-hidden='true'>
@@ -59,7 +65,7 @@ function Hero({ className }: HeroProps) {
                             </div>
                         </div>
                     </div>
-                    <div className='h-full w-full '></div>
+                    {/* <div className='h-full w-full bg-green-200 bg-hero bg-cover bg-center bg-no-repeat relative bg-opacity-10  overflow-hidden' /> */}
                 </div>
 
                 <div

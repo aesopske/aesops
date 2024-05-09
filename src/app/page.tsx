@@ -1,16 +1,16 @@
-import Hero from '@/components/common/Hero'
-import BootCamps from '@/components/new/Bootcamps'
-import Consultancy from '@/components/new/Consultancy'
-import Datasets from '@/components/new/Datasets'
-import RecentPosts from '@/components/new/RecentPosts'
-import HasBackgroundWrapper from '@src/components/common/HasBackgroundWrapper'
-import Heading from '@src/components/common/atoms/Heading'
-import Text from '@src/components/common/atoms/Text'
 import Image from 'next/image'
-import AesopLink from '@src/components/common/atoms/AesopLink'
+
+import Hero from '@/components/common/Hero'
+import Datasets from '@/components/new/Datasets'
+import Community from '@src/components/new/Community'
 import Services from '@src/components/new/Services'
 import TalkToUs from '@src/components/new/TalkToUs'
-
+import Text from '@src/components/common/atoms/Text'
+import RecentPosts from '@/components/new/RecentPosts'
+import Consultancy from '@/components/new/Consultancy'
+import Heading from '@src/components/common/atoms/Heading'
+import AesopLink from '@src/components/common/atoms/AesopLink'
+import HasBackgroundWrapper from '@src/components/common/HasBackgroundWrapper'
 
 export const metadata = {
     title: 'Aesops - Unveiling Insights',
@@ -85,7 +85,7 @@ function Page() {
                     </div>
                 </HasBackgroundWrapper>
             </div>
-            <BootCamps />
+            <Community />
             <RecentPosts className='px-5 xl:px-0' />
             {/* TODO: find a way to import svgs as components in Nextjs */}
             <TalkToUs />

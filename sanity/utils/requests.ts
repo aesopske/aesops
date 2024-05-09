@@ -1,6 +1,6 @@
 import { groq } from 'next-sanity'
-import { client } from '@/lib/sanity/client'
-import { CATEGORY_POST, MIN_POST, POST, CATEGORY } from '@sanity/lib/types'
+import { client } from './client'
+import { CATEGORY_POST, MIN_POST, POST, CATEGORY } from '@sanity/utils/types'
 
 const query = groq`*[_type == 'post' && !(_id in path('drafts.**'))] | order(publishedAt desc){
     title,

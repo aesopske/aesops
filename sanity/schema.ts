@@ -6,7 +6,7 @@ import category from './schemaTypes/documents/category'
 import post from './schemaTypes/documents/post'
 import author from './schemaTypes/documents/author'
 import dataset from './schemaTypes/documents/datasets'
-// import page from './schemaTypes/documents/page'
+import page from './schemaTypes/documents/page'
 
 // objects
 import blockContent from './schemaTypes/objects/blockContent'
@@ -15,13 +15,13 @@ import youtubeEmbed from './schemaTypes/objects/youtubeEmbed'
 import iframeEmbed from './schemaTypes/objects/IframeEmbed'
 import tableBlock from './schemaTypes/objects/tableBlock'
 import codeBlock from './schemaTypes/objects/codeBlock'
-// import pageBuilder from './schemaTypes/objects/pageBuilder'
+import pageBuilder from './schemaTypes/objects/pageBuilder'
 
 export const schema: { types: SchemaTypeDefinition[] } = {
     types: [
         // documents
         siteSettings,
-        // page, : TODO: added pages to schema for editing page content
+        page,
         post,
         dataset,
         author,
@@ -34,6 +34,6 @@ export const schema: { types: SchemaTypeDefinition[] } = {
         iframeEmbed,
         tableBlock,
         codeBlock,
-        // pageBuilder, TODO: add page builder to schema for editing page content
+        pageBuilder,
     ],
 }
