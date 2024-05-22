@@ -12,7 +12,10 @@ function Logo({ className }: LogoProps) {
         <div className='flex lg:flex-1'>
             <a
                 href='/'
-                className={cn('h-10 w-10 lg:h-14 lg:w-auto', className)}>
+                className={cn(
+                    'h-10 w-10 md:h-10 md:w-auto xl:h-14',
+                    className
+                )}>
                 <span className='sr-only'>Aesops</span>
                 <Image
                     width={200}

@@ -11,7 +11,7 @@ async function CategoryPosts({ search }: { search: string }) {
     const categoryPosts = await fetchCategoryPosts({
         search,
         page: 1,
-        limit: 10,
+        limit: 5,
     })
     const categories = await fetchCategories()
 
@@ -44,11 +44,13 @@ async function CategoryPosts({ search }: { search: string }) {
                                             {category.description}
                                         </Text>
                                     </div>
-                                    <AesopLink
-                                        variant='default'
-                                        href={`/blog?category=${category.slug.current}#${category.slug.current}`}>
-                                        View More Posts &rarr;
-                                    </AesopLink>
+                                    {CategoryPosts?.length > 3 && (
+                                        <AesopLink
+                                            variant='default'
+                                            href={`/blog?category=${category.slug.current}#${category.slug.current}`}>
+                                            View More Posts &rarr;
+                                        </AesopLink>
+                                    )}
                                 </div>
                                 <div className='grid grid-cols-1 md:grid-cols-2 gap-4'>
                                     <ListWrapper
