@@ -13,7 +13,7 @@ function Hero({ className }: HeroProps) {
         <section
             id='home'
             className={cn(
-                'bg-aes-primary relative min-h-[60vh] h-full',
+                'bg-aes-primary relative min-h-[60vh] h-auto',
                 className
             )}>
             <div className='absolute isolate inset-0 bg-gradient-to-b lg:bg-gradient-to-r from-aes-primary from-30% via-aes-primary/80 to-aes-primary/50 px-6 lg:px-8'>
@@ -28,8 +28,8 @@ function Hero({ className }: HeroProps) {
                         }}
                     />
                 </div>
-                <div className='mx-auto max-w-screen-xl grid grid-cols-1 md:grid-cols-2 '>
-                    <div className=' space-y-3 py-10 sm:py-40 lg:py-28'>
+                <div className='mx-auto max-w-screen-xl flex flex-col h-full md:flex-row'>
+                    <div className='w-full space-y-3 py-10 lg:py-28'>
                         <div className='sm:mb-8 sm:flex sm:justify-start'>
                             <div className='relative text-xs rounded-full px-3 py-1 font-sans leading-6 text-white ring-2 ring-gray-100/10 hover:ring-gray-200/20 lg:text-base '>
                                 Welcome to aesops&apos; new website.{' '}
@@ -46,7 +46,7 @@ function Hero({ className }: HeroProps) {
                             </div>
                         </div>
                         <div className='text-left max-w-2xl'>
-                            <Heading className='md:text-6xl font-black tracking-tight text-gray-100'>
+                            <Heading className='font-black tracking-tight text-gray-100 xl:text-6xl'>
                                 Unveiling Insights Crafting Tomorrow.
                             </Heading>
                             <Text className='my-4 lg:my-8 leading-8 text-aes-light'>
@@ -67,7 +67,7 @@ function Hero({ className }: HeroProps) {
                             </div>
                         </div>
                     </div>
-                    <div className='hidden h-full w-full lg:flex items-center justify-center overflow-hidden p-28'>
+                    <div className='hidden h-full w-full  items-center justify-center overflow-hidden p-28 pr-0 lg:flex'>
                         <Image
                             unoptimized
                             src='/svg/datapoints.svg'
