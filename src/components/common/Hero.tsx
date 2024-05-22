@@ -13,7 +13,7 @@ function Hero({ className }: HeroProps) {
         <section
             id='home'
             className={cn(
-                'bg-aes-primary relative min-h-[60vh] h-auto',
+                'bg-aes-primary relative min-h-[60vh] h-full',
                 className
             )}>
             <div className='absolute isolate inset-0 bg-gradient-to-b lg:bg-gradient-to-r from-aes-primary from-30% via-aes-primary/80 to-aes-primary/50 px-6 lg:px-8'>
@@ -52,7 +52,7 @@ function Hero({ className }: HeroProps) {
                             <Text className='my-4 lg:my-8 leading-8 text-aes-light'>
                                 Aesops aims to provide a platform for data
                                 science, where we unveil and share insights with
-                                our community. We provide tools, resources and
+                                our community. Providing tools, resources and
                                 valuable expertise to help you gain a deeper
                                 understanding of your data.
                             </Text>
@@ -61,7 +61,8 @@ function Hero({ className }: HeroProps) {
                                     variant='button'
                                     color='secondary'
                                     href='/blog'>
-                                    Join the Community
+                                    Join the Community &rarr;
+                                    {/* TODO: update the link when the community is added */}
                                 </AesopLink>
                             </div>
                         </div>
