@@ -7,10 +7,10 @@ function Community() {
     return (
         <div className=''>
             <div className='relative isolate px-6 lg:px-8'>
-                <div className='mx-auto flex flex-col gap-10 container-fluid max-w-screen-xl py-10 sm:py-40 lg:py-36'>
+                <div className='mx-auto flex flex-col gap-10 container-fluid max-w-screen-xl py-10 sm:py-40 lg:py-32'>
                     <div className='flex flex-col md:flex-row gap-5'>
                         <div className='text-left'>
-                            <Heading className='text-4xl font-bold tracking-tight max-w-xl'>
+                            <Heading className='font-bold tracking-tight max-w-xl lg:text-4xl'>
                                 Empowering our community through various
                                 outreach events
                             </Heading>
@@ -41,7 +41,7 @@ function Community() {
                             </div>
                         </div>
 
-                        <div className='w-1/2 h-80'>
+                        <div className='w-full h-80 px-6 lg:w-1/2 lg:px-0'>
                             <Image
                                 alt='consultancy-hero'
                                 src='/svg/learning.svg'
@@ -52,7 +52,7 @@ function Community() {
                             />
                         </div>
                     </div>
-                    <div>
+                    {/* <div>
                         <Heading type='h3'>Top pick events</Heading>
                         <div className='grid grid-cols-1 my-6 gap-6 md:grid-cols-2 lg:grid-cols-3 '>
                             <div className='h-48 bg-aes-light w-full rounded-xl'></div>
@@ -67,7 +67,7 @@ function Community() {
                             <div className='h-48 bg-aes-light w-full rounded-xl'></div>
                             <div className='h-48 bg-aes-light w-full rounded-xl'></div>
                         </div>
-                    </div>
+                    </div> */}
                 </div>
             </div>
         </div>

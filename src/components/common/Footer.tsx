@@ -20,16 +20,16 @@ import AesopLink from './atoms/AesopLink'
 function Footer() {
     const links = [
         {
-            label: 'Articles',
-            link: '/articles',
-        },
-        {
             label: 'Datasets',
             link: '/datasets',
         },
         {
-            label: 'Apps',
-            link: '/apps',
+            label: 'Competitions',
+            link: '/competitions',
+        },
+        {
+            label: 'Blog',
+            link: '/blog',
         },
         {
             label: 'Community',
@@ -40,8 +40,8 @@ function Footer() {
             link: '/trends',
         },
         {
-            label: 'Team',
-            link: '/team',
+            label: 'About Us',
+            link: '/aboutus',
         },
     ]
     const socials = [

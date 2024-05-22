@@ -103,8 +103,5 @@
             sans-serif;
         -webkit-font-smoothing: antialiased;
     }
-    .hero-bg {
-        background: url('/images/hero1.jpg') no-repeat center center/cover;
-        
-    }
+    
 }

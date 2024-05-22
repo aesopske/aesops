@@ -266,3 +266,77 @@ export const fetchCategoryPosts = async (params: {
         throw new Error('Error fetching posts')
     }
 }
+
+
+// Fetch Datasets
+const datasetQuery = groq`*[_type == 'dataset']{
+    title,
+    slug,
+    description,
+    "categories": *[_type == 'category' && references(^._id)]{
+        title,
+        slug
+    },
+    "tags": *[_type == 'tag' && references(^._id)]{
+        title,
+        slug
+    }
+}`
+
+export const fetchDatasets = async () => {
+    try {
+        const datasets = await client.fetch(datasetQuery)
+        return datasets
+    } catch (error) {
+        throw new Error('Error fetching datasets')
+    }
+}
+
+
+// Fetch single dataset
+const singleDatasetQuery = groq`*[_type == 'dataset' && slug.current == $slug]{
+    title,
+    slug,
+    description,
+    "categories": *[_type == 'category' && references(^._id)]{
+        title,
+        slug
+    },
+    "tags": *[_type == 'tag' && references(^._id)]{
+        title,
+        slug
+    }
+}[0]`
+
+export const fetchDataset = async (slug: string) => {
+    try {
+        const dataset = await client.fetch(singleDatasetQuery, { slug })
+        return dataset
+    } catch (error) {
+        throw new Error('Error fetching dataset')
+    }
+}
+
+// fetch featured datasets
+const featuredDatasetQuery = groq`*[_type == 'dataset' && featured == true]{
+    title,
+    slug,
+    description,
+    "categories": *[_type == 'category' && references(^._id)]{
+        title,
+        slug
+    },
+    "tags": *[_type == 'tag' && references(^._id)]{
+        title,
+        slug
+    }
+}`
+
+export const fetchFeaturedDatasets = async () => {
+    try {
+        const datasets = await client.fetch(featuredDatasetQuery)
+        return datasets
+    } catch (error) {
+        throw new Error('Error fetching datasets')
+    }
+}
