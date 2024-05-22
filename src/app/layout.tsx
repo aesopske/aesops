@@ -3,6 +3,7 @@ import '@fontsource-variable/lora'
 import '@fontsource-variable/bricolage-grotesque'
 
 import TopLoader from 'nextjs-toploader'
+import { Analytics } from '@vercel/analytics/react'
 
 import Footer from '@/components/common/Footer'
 import NewNavbar from '@components/common/NewNavbar'
@@ -35,6 +36,7 @@ function RootLayout({ children }) {
                 <NewNavbar />
                 <main>{children}</main>
                 <Footer />
+                <Analytics />
             </body>
         </html>
     )
