@@ -3,9 +3,9 @@ import { draftMode } from 'next/headers'
 import type { QueryOptions, QueryParams } from 'next-sanity'
 
 import { client } from './client'
-import { env } from '@src/env'
+// import { env } from '@src/env'
 
-export const token = env.SANITY_API_READ_TOKEN
+export const token = "" // env.SANITY_API_READ_TOKEN
 
 type FetchOptions = {
     query: string

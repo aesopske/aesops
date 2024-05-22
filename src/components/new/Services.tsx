@@ -1,6 +1,6 @@
 import Heading from '@components/common/atoms/Heading'
 import Text from '@components/common/atoms/Text'
-import AesopLink from '@components/common/atoms/AesopLink'
+// import AesopLink from '@components/common/atoms/AesopLink'
 import ListWrapper from '../common/ListWrapper'
 import {
     Lightbulb,
