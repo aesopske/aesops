@@ -1,11 +1,12 @@
+import React from 'react'
+import { format } from 'date-fns'
+
+import { cn } from '@src/lib/utils'
 import { AUTHOR } from '@sanity/utils/types'
 import AuthorDetails from './AuthorDetails'
 import Text from '@/components/common/atoms/Text'
 import Heading from '@/components/common/atoms/Heading'
 import { formatAuthor } from '@sanity/utils/formatAuthor'
-import { cn } from '@src/lib/utils'
-import { format } from 'date-fns'
-import React from 'react'
 
 type AuthorCardProps = {
     author: AUTHOR
@@ -24,8 +25,8 @@ function AuthorCard({
     hideDetails,
 }: AuthorCardProps) {
     const newAuthor = formatAuthor(author)
+    const formattedDate = format(date, 'MMM dd, yyyy')
 
-    const formattedDate = format(new Date(date), 'MMM dd, yyyy')
     return (
         <div className={cn('flex items-center gap-2', className)}>
             <AuthorDetails
@@ -38,7 +39,7 @@ function AuthorCard({
                     type='h6'
                     className={cn(
                         'font-bold capitalize',
-                        isSmall && 'text-sm'
+                        isSmall && 'text-sm',
                     )}>
                     {author?.name.toLowerCase()}
                 </Heading>

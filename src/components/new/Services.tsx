@@ -68,7 +68,7 @@ function Services() {
     return (
         <section id='services'>
             <div className='relative isolate px-6 lg:px-8'>
-                <div className='mx-auto flex flex-col gap-10 container-fluid max-w-screen-xl py-10 sm:py-40 lg:pt-20'>
+                <div className='mx-auto flex flex-col gap-10 container-fluid max-w-screen-xl py-10 md:pb-40 lg:pt-20 '>
                     <div className='text-left space-y-4'>
                         <Heading>Our Services</Heading>
                         <Text className='leading-8 text-gray-600 max-w-xl'>

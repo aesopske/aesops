@@ -30,9 +30,9 @@ export default defineType({
             validation: (Rule) => Rule.required(),
         }),
         defineField({
-            name: 'pagebuilder',
-            title: 'Page Builder',
-            type: 'pagebuilder',
+            name: 'sections',
+            title: 'Sections',
+            type: 'pageSections',
             group: 'pageContent',
         }),
         defineField({

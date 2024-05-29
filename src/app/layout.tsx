@@ -3,6 +3,8 @@ import '@fontsource-variable/lora'
 import '@fontsource-variable/bricolage-grotesque'
 
 import TopLoader from 'nextjs-toploader'
+import { draftMode } from 'next/headers'
+import { VisualEditing } from 'next-sanity'
 import { Analytics } from '@vercel/analytics/react'
 
 import Footer from '@/components/common/Footer'
@@ -33,8 +35,9 @@ function RootLayout({ children }) {
             </head>
             <body className=''>
                 <TopLoader color='#15616D' showSpinner={false} />
-                <NewNavbar />
+                <NewNavbar previewEnabled={draftMode().isEnabled} />
                 <main>{children}</main>
+                {draftMode().isEnabled && <VisualEditing />}
                 <Footer />
                 <Analytics />
             </body>

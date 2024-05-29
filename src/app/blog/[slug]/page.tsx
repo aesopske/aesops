@@ -1,8 +1,9 @@
 import Image from 'next/image'
+import { notFound } from 'next/navigation'
 import { Metadata, ResolvingMetadata } from 'next'
 
 import { urlForImage } from '@sanity/utils/image'
-import { getPostBySlug } from '@sanity/utils/requests'
+import { postQuery, postsQuery } from '@sanity/utils/requests'
 
 import Share from '@src/components/common/ShareBtns'
 import Heading from '@components/common/atoms/Heading'
@@ -14,6 +15,9 @@ import AuthorCard from '@src/components/common/organisms/author-card/AuthorCard'
 import AboutAuthor from '@src/components/common/organisms/about-author/AboutAuthor'
 import RecentPosts from '@src/components/common/organisms/posts/RecentPosts'
 import BreadCrumbs from '@src/components/common/organisms/bread-crumbs/BreadCrumbs'
+import { sanityFetch } from '@sanity/utils/fetch'
+import { POST } from '@sanity/utils/types'
+import { QueryParams } from 'next-sanity'
 
 type Props = {
     params: {
@@ -21,13 +25,14 @@ type Props = {
     }
 }
 
-export const revalidate = 60 // 1 minute
-
 export async function generateMetadata(
     { params }: Props,
-    parent: ResolvingMetadata
+    parent: ResolvingMetadata,
 ): Promise<Metadata> {
-    const post = await getPostBySlug(params?.slug)
+    const post = await sanityFetch<POST>({
+        query: postQuery,
+        params: { slug: params?.slug },
+    })
     const previousImages = (await parent).openGraph?.images ?? []
     return {
         title: post?.title,
@@ -46,15 +51,34 @@ export async function generateMetadata(
     }
 }
 
-async function Blog({ params }) {
+export async function generateStaticParams() {
+    const posts = await sanityFetch<POST[]>({
+        stega: false,
+        query: postsQuery,
+        perspective: 'published',
+    })
+
+    return posts.map((post) => ({
+        slug: post.slug?.current,
+    }))
+}
+
+async function Blog({ params }: { params: QueryParams }) {
     const slug = params?.slug
 
     if (!slug) return null
 
-    const post = await getPostBySlug(slug)
+    const post = await sanityFetch<POST>({
+        query: postQuery,
+        params: { slug },
+    })
+
+    if (!post) {
+        return notFound()
+    }
+
     const imageUrl = post?.mainImage ? urlForImage(post?.mainImage) : ''
     const outline = post?.body ? parseOutline(post?.body) : []
-
     const recentPosts = post?.recentPosts ?? []
 
     return (

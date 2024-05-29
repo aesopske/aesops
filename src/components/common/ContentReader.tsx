@@ -27,14 +27,14 @@ function BlockHeading({ children, type }) {
 
 const components = {
     block: {
-        h1: ({ children }) => <BlockHeading type='h1'>{children}</BlockHeading>,
-        h2: ({ children }) => <BlockHeading type='h2'>{children}</BlockHeading>,
+        h1: ({ children }) => <BlockHeading type='h2'>{children}</BlockHeading>,
+        h2: ({ children }) => <BlockHeading type='h3'>{children}</BlockHeading>,
 
-        h3: ({ children }) => <BlockHeading type='h3'>{children}</BlockHeading>,
-        h4: ({ children }) => <BlockHeading type='h4'>{children}</BlockHeading>,
-        h5: ({ children }) => <BlockHeading type='h5'>{children}</BlockHeading>,
+        h3: ({ children }) => <BlockHeading type='h4'>{children}</BlockHeading>,
+        h4: ({ children }) => <BlockHeading type='h5'>{children}</BlockHeading>,
+        h5: ({ children }) => <BlockHeading type='h6'>{children}</BlockHeading>,
 
-        normal: ({ children }) => <p className='font-serif '>{children}</p>,
+        normal: ({ children }) => <p className='font-serif'>{children}</p>,
     },
     types: {
         code: ({ value }) => <CodeBlock codeContent={value} />,

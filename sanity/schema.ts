@@ -15,7 +15,9 @@ import youtubeEmbed from './schemaTypes/objects/youtubeEmbed'
 import iframeEmbed from './schemaTypes/objects/IframeEmbed'
 import tableBlock from './schemaTypes/objects/tableBlock'
 import codeBlock from './schemaTypes/objects/codeBlock'
-import pageBuilder from './schemaTypes/objects/pageBuilder'
+import pageSections from './schemaTypes/objects/pageSections'
+import sectionContent from './schemaTypes/objects/sectionContent'
+import cta from './schemaTypes/objects/cta'
 
 export const schema: { types: SchemaTypeDefinition[] } = {
     types: [
@@ -34,6 +36,8 @@ export const schema: { types: SchemaTypeDefinition[] } = {
         iframeEmbed,
         tableBlock,
         codeBlock,
-        pageBuilder,
+        pageSections,
+        sectionContent,
+        cta,
     ],
 }
