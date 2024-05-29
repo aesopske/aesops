@@ -1,5 +1,5 @@
 import React from 'react'
-import { format, isValid } from 'date-fns'
+import { format } from 'date-fns'
 
 import { cn } from '@src/lib/utils'
 import { AUTHOR } from '@sanity/utils/types'

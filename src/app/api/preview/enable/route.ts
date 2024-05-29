@@ -11,14 +11,10 @@ const clientWithToken = client.withConfig({
 
 export async function GET(request: Request) {
     try {
-        console.log(clientWithToken.config().token)
-        const {
-            isValid,
-            redirectTo = '/',
-            studioOrigin,
-        } = await validatePreviewUrl(clientWithToken, request.url)
-
-        console.log(studioOrigin)
+        const { isValid, redirectTo = '/' } = await validatePreviewUrl(
+            clientWithToken,
+            request.url,
+        )
 
         if (!isValid) {
             return new Response('Invalid secret', { status: 401 })
@@ -27,7 +23,6 @@ export async function GET(request: Request) {
         draftMode().enable()
         redirect(redirectTo)
     } catch (error) {
-        console.error(error)
         return new Response('Internal server error', { status: 500 })
     }
 }
