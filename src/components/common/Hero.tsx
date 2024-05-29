@@ -1,20 +1,20 @@
 import React from 'react'
-import Heading from './atoms/Heading'
-import { cn } from '@src/lib/utils'
-import AesopLink from './atoms/AesopLink'
-import Text from './atoms/Text'
 import Image from 'next/image'
-// import Image from 'next/image'
+
+import { cn } from '@src/lib/utils'
+import Text from '@components/common/atoms/Text'
+import Heading from '@components/common/atoms/Heading'
+import AesopLink from '@components/common/atoms/AesopLink'
 
 type HeroProps = {} & React.HTMLAttributes<HTMLDivElement>
 
 function Hero({ className }: HeroProps) {
     return (
         <section
-            id='home'
+            id='hero'
             className={cn(
-                'bg-aes-primary relative min-h-[60vh] h-auto',
-                className
+                'bg-aes-primary relative min-h-[65vh] md:min-h-[60vh] h-auto',
+                className,
             )}>
             <div className='absolute isolate inset-0 bg-gradient-to-b lg:bg-gradient-to-r from-aes-primary from-30% via-aes-primary/80 to-aes-primary/50 px-6 lg:px-8'>
                 <div
@@ -28,10 +28,10 @@ function Hero({ className }: HeroProps) {
                         }}
                     />
                 </div>
-                <div className='mx-auto max-w-screen-xl flex flex-col h-full md:flex-row'>
+                <div className='mx-auto max-w-screen-xl flex flex-col h-auto md:flex-row'>
                     <div className='w-full space-y-3 py-10 lg:py-28'>
                         <div className='sm:mb-8 sm:flex sm:justify-start'>
-                            <div className='relative text-xs rounded-full px-3 py-1 font-sans leading-6 text-white ring-2 ring-gray-100/10 hover:ring-gray-200/20 lg:text-base '>
+                            <div className='relative text-xs rounded-full px-3 py-1 font-sans leading-6 text-white ring-2 ring-gray-100/10 hover:ring-gray-200/20 lg:text-sm '>
                                 Welcome to aesops&apos; new website.{' '}
                                 <AesopLink
                                     href='/blog'

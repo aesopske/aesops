@@ -2,7 +2,7 @@ import { groq } from 'next-sanity'
 import { client } from './client'
 import { CATEGORY_POST, MIN_POST, POST, CATEGORY } from '@sanity/utils/types'
 
-const query = groq`*[_type == 'post' && !(_id in path('drafts.**'))] | order(publishedAt desc){
+export const postsQuery = groq`*[_type == 'post' && !(_id in path('drafts.**'))] | order(publishedAt desc){
     title,
     slug,
     publishedAt,
@@ -25,7 +25,7 @@ const query = groq`*[_type == 'post' && !(_id in path('drafts.**'))] | order(pub
 
 export const getPosts = async () => {
     try {
-        const posts = await client.fetch<MIN_POST[]>(query)
+        const posts = await client.fetch<MIN_POST[]>(postsQuery)
         return posts
     } catch (error) {
         throw new Error('Error fetching posts')
@@ -33,7 +33,7 @@ export const getPosts = async () => {
 }
 
 // get post by slug query
-const postQuery = groq`*[_type == 'post' && slug.current == $slug]{
+export const postQuery = groq`*[_type == 'post' && slug.current == $slug]{
   title,
   slug,
   mainImage,
@@ -100,7 +100,7 @@ export const getPostBySlug = async (slug: string) => {
 
 // fetch featured articles
 
-const featuredQuery = groq`*[_type == 'post' && !(_id in path('drafts.**')) && featured == true]{
+export const featuredQuery = groq`*[_type == 'post' && !(_id in path('drafts.**')) && featured == true]{
     title,
     slug,
     publishedAt,
@@ -133,7 +133,7 @@ export const fetchFeaturedArticles = async () => {
 
 // fetch recent posts
 
-const recentQuery = groq`*[_type == 'post' && !(_id in path('drafts.**'))] | order(publishedAt desc) [0...3]{
+export const recentQuery = groq`*[_type == 'post' && !(_id in path('drafts.**'))] | order(publishedAt desc) [0...3]{
     title,
     slug,
     publishedAt,
@@ -165,7 +165,7 @@ export const fetchRecentPosts = async () => {
 
 // fetch all categories
 
-const categoriesQuery = groq`*[_type == 'category']{
+export const categoriesQuery = groq`*[_type == 'category']{
     title,
     slug,
     description
@@ -182,7 +182,7 @@ export const fetchCategories = async () => {
 
 // fetch top 4 category posts based on number of posts per category
 
-const categoryQuery = groq`*[_type == 'category']{
+export const categoryQuery = groq`*[_type == 'category']{
     title,
     slug,
     description,
@@ -209,7 +209,7 @@ const categoryQuery = groq`*[_type == 'category']{
     }
   }`
 
-const specificCategoryQuery = groq`*[_type == 'category' && slug.current == $slug]{
+export const specificCategoryQuery = groq`*[_type == 'category' && slug.current == $slug]{
     title,
     slug,
     description,
@@ -259,7 +259,7 @@ export const fetchCategoryPosts = async (params: {
 
         const categories = await client.fetch<CATEGORY_POST[]>(
             query,
-            queryParams
+            queryParams,
         )
         return categories
     } catch (error) {
@@ -267,9 +267,8 @@ export const fetchCategoryPosts = async (params: {
     }
 }
 
-
 // Fetch Datasets
-const datasetQuery = groq`*[_type == 'dataset']{
+export const datasetQuery = groq`*[_type == 'dataset']{
     title,
     slug,
     description,
@@ -292,9 +291,8 @@ export const fetchDatasets = async () => {
     }
 }
 
-
 // Fetch single dataset
-const singleDatasetQuery = groq`*[_type == 'dataset' && slug.current == $slug]{
+export const singleDatasetQuery = groq`*[_type == 'dataset' && slug.current == $slug]{
     title,
     slug,
     description,
@@ -318,7 +316,7 @@ export const fetchDataset = async (slug: string) => {
 }
 
 // fetch featured datasets
-const featuredDatasetQuery = groq`*[_type == 'dataset' && featured == true]{
+export const featuredDatasetQuery = groq`*[_type == 'dataset' && featured == true]{
     title,
     slug,
     description,

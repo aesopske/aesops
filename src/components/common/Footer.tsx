@@ -75,17 +75,12 @@ function Footer() {
             href: 'www.youtube.com/@aesops7379',
             icon: <FaYoutube className='w-full h-full' />,
         },
-        // {
-        //     label: 'Rss Feed',
-        //     href: `${process.env.SITE_URL}/rss.xml`,
-        //     icon: <FaRss className='w-full h-full' />,
-        // },
     ]
 
     const legal = [
         {
             label: 'Privacy Policy',
-            href: `${process.env.SITE_URL}/legal/privacy-policy`,
+            href: `/privacy-policy`,
         },
     ]
 
@@ -105,7 +100,7 @@ function Footer() {
                             <Link
                                 passHref
                                 key={link.label}
-                                href={link.link}
+                                href={link?.link || ''}
                                 className='cursor-pointer border-b border-dashed pb-1 border-gray-400 w-fit font-sans'>
                                 {link.label}
                             </Link>
@@ -140,14 +135,14 @@ function Footer() {
 
                     <div className='flex flex-col gap-2 text-sm'>
                         {legal.map((leg) => (
-                            <a
-                                href={leg.href}
+                            <AesopLink
+                                href={leg?.href}
                                 key={leg.label}
                                 target='_blank'
                                 className='cursor-pointer border-b border-dashed pb-1 border-gray-400 w-fit font-sans'
                                 rel='noopener noreferrer'>
                                 {leg.label}
-                            </a>
+                            </AesopLink>
                         ))}
                     </div>
                 </div>

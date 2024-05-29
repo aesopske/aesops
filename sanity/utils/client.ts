@@ -8,4 +8,8 @@ export const client = createClient({
     projectId,
     useCdn,
     perspective: 'published',
+    stega: {
+        enabled: false,
+        studioUrl: '/studio',
+    },
 })

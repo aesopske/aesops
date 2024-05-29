@@ -1,11 +1,13 @@
 'use client'
 
+import { Eye } from 'lucide-react'
 import Hamburger from 'hamburger-react'
 import { usePathname } from 'next/navigation'
 import { AnimatePresence, motion } from 'framer-motion'
 
 import Logo from './Logo'
 import useDisclosure from '@src/hooks/useDisclosure'
+import AesopLink from './atoms/AesopLink'
 
 const navigation = [
     {
@@ -21,7 +23,7 @@ const navigation = [
     { name: 'Blog', href: '/blog', coming: false },
 ]
 
-function Navbar() {
+function Navbar({ previewEnabled }: { previewEnabled: boolean }) {
     const { isOpen, onToggle } = useDisclosure(false)
     const pathname = usePathname()
 
@@ -29,7 +31,7 @@ function Navbar() {
     return (
         <header className='sticky inset-x-0 top-0 z-50 text-aes-dark border-b border-aes-light bg-brand-background h-fit md:max-h-20'>
             <nav
-                className='flex items-center justify-between px-5 py-2 container-fluid max-w-screen-xl mx-auto h-full border-b border-aes-light md:border-none lg:py-4 2xl:px-0'
+                className='flex items-center justify-between px-5 py-2 container-fluid max-w-screen-xl mx-auto h-full border-b border-aes-light gap-5 md:border-none lg:py-4 2xl:px-0'
                 aria-label='Global'>
                 <Logo />
                 <div className='flex lg:hidden'>
@@ -56,6 +58,15 @@ function Navbar() {
                         </a>
                     ))}
                 </div>
+                {previewEnabled && (
+                    <AesopLink
+                        href='/api/preview/disable'
+                        variant='button'
+                        title='Disable Preview'>
+                        <Eye />
+                        <span className='sr-only'>Disable Preview</span>
+                    </AesopLink>
+                )}
             </nav>
 
             <AnimatePresence mode='wait' initial={false}>
