@@ -9,12 +9,13 @@ import { Button } from '@src/components/ui'
 
 type CodeExplainProps = {
     code: {
+        _key?: string
+        _type?: string
+        allowAIExplain?: boolean
         code: {
             language: string
             code: string
             filename?: string
-            _key?: string
-            _type?: string
         }
     }
 }
@@ -24,7 +25,7 @@ function CodeExplain({ code }: CodeExplainProps) {
     // store the explanation session store to avoid re-explaining the same code
     const { completion, complete, isLoading, error } = useCompletion()
     const { getValue, saveValue } = useSessionStore(
-        code?.code._key || code?.code?.filename || ''
+        code?._key || code?.code?.filename || '',
     )
 
     useEffect(() => {
@@ -63,7 +64,7 @@ function CodeExplain({ code }: CodeExplainProps) {
                         code?.code?.language === 'sh'
                             ? 'bash'
                             : code?.code?.language
-                    const prompt = `Give a brief explanation the following ${language} code: \n\n${code?.code?.code}`
+                    const prompt = `Give a short explanation the following ${language} code: \n\n${code?.code?.code}`
                     complete(prompt)
                 }}>
                 <Stars

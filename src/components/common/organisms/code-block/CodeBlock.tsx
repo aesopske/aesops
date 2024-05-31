@@ -12,6 +12,8 @@ type CodeBlockProps = {
             filename?: string
         }
         allowAIExplain?: boolean
+        _key?: string
+        _type?: string
     }
 }
 

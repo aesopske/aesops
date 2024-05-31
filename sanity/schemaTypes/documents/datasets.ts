@@ -1,9 +1,11 @@
 import { defineType, defineField } from 'sanity'
+import { Database } from 'lucide-react'
 
 export default defineType({
     name: 'dataset',
     title: 'Dataset',
     type: 'document',
+    icon: Database,
     groups: [
         {
             title: 'SEO',
