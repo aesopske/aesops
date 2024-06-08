@@ -67,6 +67,7 @@
     "rehype-raw": "^7.0.0",
     "remark-gfm": "^4.0.0",
     "sanity": "^3.43.0",
+    "sanity-plugin-asset-source-unsplash": "^3.0.1",
     "sanity-plugin-iframe-pane": "^3.1.6",
     "sass": "^1.77.2",
     "server-only": "^0.0.1",

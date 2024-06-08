@@ -9,6 +9,7 @@ import { visionTool } from '@sanity/vision'
 import { codeInput } from '@sanity/code-input'
 import { structureTool } from 'sanity/structure'
 import { presentationTool } from 'sanity/presentation'
+import { unsplashImageAsset } from 'sanity-plugin-asset-source-unsplash'
 
 // Go to https://www.sanity.io/docs/api-versioning to learn how API versioning works
 import { schema } from './sanity/schema'
@@ -42,5 +43,6 @@ export default defineConfig({
         }),
         codeInput(),
         table(),
+        unsplashImageAsset(),
     ],
 })
