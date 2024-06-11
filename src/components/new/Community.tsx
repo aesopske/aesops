@@ -1,9 +1,16 @@
-import Text from '../common/atoms/Text'
-import Heading from '../common/atoms/Heading'
-import AesopLink from '../common/atoms/AesopLink'
+import React from 'react'
 import Image from 'next/image'
 
-function Community() {
+import { SECTION } from '@sanity/utils/types'
+import Text from '@components/common/atoms/Text'
+import Heading from '@components/common/atoms/Heading'
+import SanityCtaGroup from '@components/common/molecules/SanityCtaGroup'
+
+type CommunityProps = {
+    section: SECTION
+} & React.HTMLAttributes<HTMLDivElement>
+
+function Community({ section }: CommunityProps) {
     return (
         <div className=''>
             <div className='relative isolate px-6 lg:px-8'>
@@ -11,34 +18,12 @@ function Community() {
                     <div className='flex flex-col md:flex-row gap-5'>
                         <div className='text-left'>
                             <Heading className='font-bold tracking-tight max-w-xl lg:text-4xl'>
-                                Empowering our community through various
-                                outreach events
+                                {section?.title}
                             </Heading>
                             <Text className='my-4 leading-8 text-gray-600 max-w-xl'>
-                                Join us on a transformative journey of learning
-                                and discovery with our outreach events. Whether
-                                you&apos;re looking to upskill your team, drive
-                                innovation, or enhance business performance, our
-                                trainings are your gateway to unlocking the full
-                                potential of data. Invest in the future success
-                                of your organization and empower your team to
-                                thrive in the data-driven era.
+                                {section?.description}
                             </Text>
-                            <div className='flex flex-col gap-3 md:flex-row md:items-center md:gap-x-6'>
-                                <AesopLink
-                                    passHref
-                                    variant='button'
-                                    color='primary'
-                                    href='/community/events'>
-                                    Upcoming Events
-                                </AesopLink>
-                                <AesopLink
-                                    href='/community/competitions'
-                                    className='font-semibold leading-6 text-aes-dark'>
-                                    Competitions
-                                    <span aria-hidden='true'>&rarr;</span>
-                                </AesopLink>
-                            </div>
+                            <SanityCtaGroup ctas={section?.cta ?? []} />
                         </div>
 
                         <div className='w-full h-80 px-6 lg:w-1/2 lg:px-0'>

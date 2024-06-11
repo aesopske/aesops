@@ -14,8 +14,7 @@ export default defineType({
         defineField({
             name: 'link',
             title: 'Link',
-            type: 'url',
-            validation: (Rule) => Rule.required(),
+            type: 'customUrl',
         }),
         defineField({
             name: 'variant',
@@ -26,7 +25,7 @@ export default defineType({
                     { title: 'Default', value: 'default' },
                     { title: 'Primary', value: 'primary' },
                     { title: 'Secondary', value: 'secondary' },
-                    { title: 'Tertiary', value: 'tertiary' },
+                    { title: 'Dark', value: 'dark' },
                 ],
             },
             initialValue: 'default',

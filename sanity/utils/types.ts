@@ -72,3 +72,44 @@ export type PATH = {
 export type CATEGORY_POST = {
     posts: MIN_POST[]
 } & CATEGORY
+
+
+// Page types
+export type PAGE = {
+    _id: string
+    _type: string
+    title: string
+    slug: {
+        current: string
+    }
+    seoTitle: string
+    seoDescription: string
+    sections: SECTION[]
+}
+
+export type SECTION = {
+    _id: string
+    _type: string
+    title: string
+    description?: string
+    cta?: CTA[]
+    useBody?: boolean
+    image?: SANITY_IMAGE
+}
+
+export type CTA = {
+    _key: string
+    _type: string
+    label: string
+    link: {
+        internal?: {
+            slug?: {
+                current: string
+            }
+        }
+        external?: {
+            url: string
+        }
+    }
+    variant: "default" |"primary" | "secondary" | "dark"
+}

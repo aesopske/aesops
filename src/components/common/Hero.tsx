@@ -2,13 +2,17 @@ import React from 'react'
 import Image from 'next/image'
 
 import { cn } from '@src/lib/utils'
+import { SECTION } from '@sanity/utils/types'
 import Text from '@components/common/atoms/Text'
 import Heading from '@components/common/atoms/Heading'
 import AesopLink from '@components/common/atoms/AesopLink'
+import SanityCtaGroup from './molecules/SanityCtaGroup'
 
-type HeroProps = {} & React.HTMLAttributes<HTMLDivElement>
+interface HeroProps extends React.HTMLAttributes<HTMLDivElement> {
+    section: SECTION
+}
 
-function Hero({ className }: HeroProps) {
+function Hero({ className, section }: HeroProps) {
     return (
         <section
             id='hero'
@@ -47,24 +51,12 @@ function Hero({ className }: HeroProps) {
                         </div>
                         <div className='text-left max-w-2xl'>
                             <Heading className='font-black tracking-tight text-gray-100 xl:text-6xl'>
-                                Unveiling Insights Crafting Tomorrow.
+                                {section?.title}
                             </Heading>
                             <Text className='my-4 lg:my-8 leading-8 text-aes-light'>
-                                Aesops aims to provide a platform for data
-                                science, where we unveil and share insights with
-                                our community. Providing tools, resources and
-                                valuable expertise to help you gain a deeper
-                                understanding of your data.
+                                {section?.description}
                             </Text>
-                            <div className='flex flex-col gap-3 md:flex-row md:items-center md:justify-start md:gap-x-6'>
-                                <AesopLink
-                                    variant='button'
-                                    color='secondary'
-                                    href='/blog'>
-                                    Join the Community &rarr;
-                                    {/* TODO: update the link when the community is added */}
-                                </AesopLink>
-                            </div>
+                            <SanityCtaGroup ctas={section?.cta ?? []} />
                         </div>
                     </div>
                     <div className='hidden h-full w-full  items-center justify-center overflow-hidden p-28 pr-0 lg:flex'>

@@ -338,3 +338,38 @@ export const fetchFeaturedDatasets = async () => {
         throw new Error('Error fetching datasets')
     }
 }
+
+
+// fetch page by slug
+export const pageQuery = groq`*[_type == 'page' && slug.current == $slug]{
+    title,
+    slug,
+    sections[]{
+        cta[]{
+            link {
+                internal -> {
+                    slug
+                },
+                external -> {
+                    url
+                }
+            },
+            ...
+        },
+       ... 
+    }
+}[0]`
+
+export const pageMetadataQuery = groq`*[_type == 'page' && slug.current == $slug]{
+    seoTitle,
+    seoDescription,
+}[0]`
+
+export const fetchPageBySlug = async (slug: string, fetchMetadata = false) => {
+    try {
+        const page = await client.fetch(fetchMetadata ? pageMetadataQuery : pageQuery, { slug })
+        return page
+    } catch (error) {
+        throw new Error('Error fetching page')
+    }
+}

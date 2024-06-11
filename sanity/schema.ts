@@ -18,6 +18,7 @@ import codeBlock from './schemaTypes/objects/codeBlock'
 import pageSections from './schemaTypes/objects/pageSections'
 import sectionContent from './schemaTypes/objects/sectionContent'
 import cta from './schemaTypes/objects/cta'
+import customUrl from './schemaTypes/objects/customUrl'
 
 export const schema: { types: SchemaTypeDefinition[] } = {
     types: [
@@ -39,5 +40,6 @@ export const schema: { types: SchemaTypeDefinition[] } = {
         pageSections,
         sectionContent,
         cta,
+        customUrl,
     ],
 }

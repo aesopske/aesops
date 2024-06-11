@@ -2,8 +2,15 @@ import Heading from '../common/atoms/Heading'
 import Text from '../common/atoms/Text'
 import AesopLink from '../common/atoms/AesopLink'
 import Image from 'next/image'
+import React from 'react'
+import { SECTION } from '@sanity/utils/types'
+import SanityCtaGroup from '../common/molecules/SanityCtaGroup'
 
-function Consultancy() {
+type ConsultancyProps = {
+    section: SECTION
+} & React.HTMLAttributes<HTMLDivElement>
+
+function Consultancy({ section }: ConsultancyProps) {
     return (
         <div className=''>
             <div className='relative mx-auto isolate px-5 container-fluid max-w-screen-xl space-y-10 py-10 sm:py-40 lg:py-36 lg:px-8'>
@@ -20,30 +27,12 @@ function Consultancy() {
                     </div>
                     <div className='w-full text-left lg:w-1/2'>
                         <Heading className='font-bold tracking-tight max-w-xl lg:text-4xl'>
-                            Let us help you understand your data.
+                            {section?.title}
                         </Heading>
                         <Text className='my-4 leading-8 text-gray-600 max-w-xl'>
-                            Our consultancy services are designed to help you
-                            understand your data and make informed decisions.
-                            Our team of experts will work with you to identify
-                            the best approach to your data and provide you with
-                            actionable insights.
+                            {section?.description}
                         </Text>
-                        <div className='flex flex-col gap-3  md:flex-row md:items-center md:justify-start md:gap-x-6'>
-                            <AesopLink
-                                passHref
-                                variant='button'
-                                color='primary'
-                                href='/datasets/#share-your-dataset'>
-                                Contact Us
-                            </AesopLink>
-                            <AesopLink
-                                href='/consultancy'
-                                className='font-semibold leading-6 text-aes-dark'>
-                                View Public Case Studies{' '}
-                                <span aria-hidden='true'>&rarr;</span>
-                            </AesopLink>
-                        </div>
+                        <SanityCtaGroup ctas={section?.cta ?? []} />
                     </div>
                     {/* Add a list of recent case studies */}
                 </div>
