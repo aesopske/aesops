@@ -17,10 +17,10 @@ function Hero({ className, section }: HeroProps) {
         <section
             id='hero'
             className={cn(
-                'bg-aes-primary relative min-h-[65vh] md:min-h-[60vh] h-auto',
+                'bg-aes-primary relative min-h-[50vh] h-auto',
                 className,
             )}>
-            <div className='absolute isolate inset-0 bg-gradient-to-b lg:bg-gradient-to-r from-aes-primary from-30% via-aes-primary/80 to-aes-primary/50 px-6 lg:px-8'>
+            <div className='relative isolate bg-gradient-to-b lg:bg-gradient-to-r from-aes-primary from-30% via-aes-primary/80 to-aes-primary/50 px-6 lg:px-8'>
                 <div
                     className='absolute inset-x-0 -top-40 -z-10 transform-gpu overflow-hidden blur-3xl sm:-top-80'
                     aria-hidden='true'>
