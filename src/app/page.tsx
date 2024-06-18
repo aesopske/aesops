@@ -45,7 +45,7 @@ async function Page() {
     return (
         <div className='w-full h-full min-h-screen'>
             <Hero section={page?.sections[0]} />
-            <Services />
+            <Services section={page?.sections[1]} />
             <AboutSummary section={page?.sections[2]} />
             <Datasets section={page?.sections[3]} />
             <Consultancy section={page?.sections[4]} />
@@ -69,7 +69,6 @@ async function Page() {
             </div>
             <Community section={page?.sections[5]} />
             <RecentPosts className='px-5 xl:px-0' />
-            {/* TODO: find a way to import svgs as components in Nextjs */}
             <TalkToUs />
         </div>
     )
