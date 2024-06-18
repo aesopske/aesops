@@ -18,26 +18,10 @@ function AboutSummary({ section }: AboutSummaryProps) {
                     <Heading type='h1' className='text-current'>
                         {section?.title}
                     </Heading>
-
                     <Text className='text-current font-light'>
                         {section?.description}
                     </Text>
                     <SanityCtaGroup ctas={section?.cta ?? []} />
-                    {/* <Text className='space-x-4 flex flex-col gap-3 items-start md:flex-row md:items-center'>
-                        {}
-                        <AesopLink
-                            href='/about-us'
-                            type='button'
-                            variant='secondary'>
-                            Mission & Vision
-                        </AesopLink>
-
-                        <AesopLink
-                            href='/about-us#team'
-                            className='text-aes-light'>
-                            Meet the team &rarr;
-                        </AesopLink>
-                    </Text> */}
                 </div>
                 <div className='relative h-28 w-full md:h-full '>
                     <Image
