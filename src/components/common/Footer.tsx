@@ -1,21 +1,21 @@
 'use client'
 
-import React from 'react'
 import Link from 'next/link'
-import { FaXTwitter } from 'react-icons/fa6'
 import { usePathname } from 'next/navigation'
+import React from 'react'
 import {
-    FaLinkedin,
     FaFacebook,
     FaGithub,
-    FaYoutube,
+    FaLinkedin,
     FaTiktok,
+    FaYoutube,
 } from 'react-icons/fa'
+import { FaXTwitter } from 'react-icons/fa6'
 
 import Logo from './Logo'
-import Text from './atoms/Text'
-import Heading from './atoms/Heading'
 import AesopLink from './atoms/AesopLink'
+import Heading from './atoms/Heading'
+import Text from './atoms/Text'
 
 function Footer() {
     const links = [
@@ -46,9 +46,9 @@ function Footer() {
             link: '/blog',
         },
         {
-            label: 'Blog Contribution Guidelines',
+            label: 'Write for Aesops',
             link: '/blog/contribute',
-        }
+        },
     ]
     const socials = [
         {
@@ -164,7 +164,6 @@ function Footer() {
                                     {social.label}
                                 </Text>
                             </AesopLink>
-               
                         ))}
                     </div>
                 </div>
