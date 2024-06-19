@@ -1,24 +1,26 @@
-import { type SchemaTypeDefinition } from 'sanity'
+import { type SchemaTypeDefinition } from 'sanity';
 
+
+
+import author from './schemaTypes/documents/author';
+import category from './schemaTypes/documents/category';
+import dataset from './schemaTypes/documents/datasets';
+import page from './schemaTypes/documents/page';
+import post from './schemaTypes/documents/post';
 // documents
-import siteSettings from './schemaTypes/documents/siteSettings'
-import category from './schemaTypes/documents/category'
-import post from './schemaTypes/documents/post'
-import author from './schemaTypes/documents/author'
-import dataset from './schemaTypes/documents/datasets'
-import page from './schemaTypes/documents/page'
-
+import siteSettings from './schemaTypes/documents/siteSettings';
+import iframeEmbed from './schemaTypes/objects/IframeEmbed';
 // objects
-import blockContent from './schemaTypes/objects/blockContent'
-import externalLink from './schemaTypes/objects/externalLink'
+import blockContent from './schemaTypes/objects/blockContent';
+import codeBlock from './schemaTypes/objects/codeBlock';
+import cta from './schemaTypes/objects/cta';
+import externalLink from './schemaTypes/objects/externalLink';
+import pageSections from './schemaTypes/objects/pageSections';
+import sectionContent from './schemaTypes/objects/sectionContent';
+import tableBlock from './schemaTypes/objects/tableBlock';
 import youtubeEmbed from './schemaTypes/objects/youtubeEmbed'
-import iframeEmbed from './schemaTypes/objects/IframeEmbed'
-import tableBlock from './schemaTypes/objects/tableBlock'
-import codeBlock from './schemaTypes/objects/codeBlock'
-import pageSections from './schemaTypes/objects/pageSections'
-import sectionContent from './schemaTypes/objects/sectionContent'
-import cta from './schemaTypes/objects/cta'
-import customUrl from './schemaTypes/objects/customUrl'
+
+// import customUrl from './schemaTypes/objects/customUrl'
 
 export const schema: { types: SchemaTypeDefinition[] } = {
     types: [
@@ -40,6 +42,6 @@ export const schema: { types: SchemaTypeDefinition[] } = {
         pageSections,
         sectionContent,
         cta,
-        customUrl,
+        // customUrl,
     ],
 }

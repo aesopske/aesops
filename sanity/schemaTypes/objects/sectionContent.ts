@@ -1,5 +1,6 @@
-import { defineType, defineField, defineArrayMember } from 'sanity'
-import { LayoutPanelTop } from 'lucide-react'
+import { LayoutPanelTop } from 'lucide-react';
+import { defineArrayMember, defineField, defineType } from 'sanity';
+
 
 export default defineType({
     name: 'sectionContent',
@@ -39,6 +40,13 @@ export default defineType({
             type: 'image',
             description: 'Image for the section',
             options: { hotspot: true },
+            fields: [
+                {
+                    name: 'alt',
+                    type: 'string',
+                    title: 'Alternative Text',
+                },
+            ],
         }),
         defineField({
             name: 'cta',

@@ -21,9 +21,9 @@ function SanityCtaGroup({ ctas, className }: SanityCtaGroupProps) {
             <ListWrapper list={ctas} itemKey='label'>
                 {(cta: CTA) => (
                     <Fragment>
-                        {!cta?.link?.external ? (
+                        {!cta?.isExternal ? (
                             <AesopLink
-                                href={cta?.link?.internal?.slug?.current ?? ''}
+                                href={cta?.link ?? ''}
                                 type='button'
                                 variant={cta?.variant ?? ''}>
                                 {cta?.label}{' '}
@@ -32,7 +32,8 @@ function SanityCtaGroup({ ctas, className }: SanityCtaGroupProps) {
                         ) : (
                             <AesopLink
                                 isExternal
-                                href={cta?.link?.external?.url}
+                                type='button'
+                                href={cta?.link ?? ''}
                                 variant={cta?.variant ?? ''}>
                                 {cta?.label}{' '}
                                 <span aria-hidden='true'>&rarr;</span>

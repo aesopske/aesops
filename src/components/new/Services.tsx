@@ -76,7 +76,7 @@ function Services({ section }: ServicesProps) {
     return (
         <section id='services'>
             <div className='relative isolate px-6 lg:px-8'>
-                <div className='mx-auto flex flex-col gap-10 container-fluid max-w-screen-xl py-10 md:pb-40 lg:pt-20 '>
+                <div className='mx-auto flex flex-col gap-10 container-fluid max-w-screen-2xl py-10 md:pb-40 lg:pt-20 '>
                     <div className='text-left space-y-4'>
                         <Heading>{section?.title}</Heading>
                         <Text className='leading-8 text-gray-600 max-w-xl'>

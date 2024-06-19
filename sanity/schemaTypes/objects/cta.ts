@@ -1,4 +1,4 @@
-import { defineType, defineField } from 'sanity'
+import { defineField, defineType } from 'sanity'
 
 export default defineType({
     name: 'cta',
@@ -12,10 +12,23 @@ export default defineType({
             validation: (Rule) => Rule.required(),
         }),
         defineField({
+            name: 'isExternal',
+            title: 'Is link external?',
+            type: 'boolean',
+            initialValue: false,
+        }),
+        defineField({
             name: 'link',
             title: 'Link',
-            type: 'customUrl',
+            type: 'string',
         }),
+        // defineField({
+        //     name: 'internalLink',
+        //     title: 'Link to',
+        //     type: 'reference',
+        //     to: { type: 'page' },
+        //     hidden: ({ parent, value }) => !value && parent?.useExternal,
+        // }),
         defineField({
             name: 'variant',
             title: 'Variant',

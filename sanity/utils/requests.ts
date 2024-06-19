@@ -1,6 +1,10 @@
-import { groq } from 'next-sanity'
+import { groq } from 'next-sanity';
+
+
+
+import { CATEGORY, CATEGORY_POST, MIN_POST, POST } from '@sanity/utils/types'
+
 import { client } from './client'
-import { CATEGORY_POST, MIN_POST, POST, CATEGORY } from '@sanity/utils/types'
 
 export const postsQuery = groq`*[_type == 'post' && !(_id in path('drafts.**'))] | order(publishedAt desc){
     title,
@@ -339,37 +343,14 @@ export const fetchFeaturedDatasets = async () => {
     }
 }
 
-
 // fetch page by slug
 export const pageQuery = groq`*[_type == 'page' && slug.current == $slug]{
     title,
     slug,
-    sections[]{
-        cta[]{
-            link {
-                internal -> {
-                    slug
-                },
-                external -> {
-                    url
-                }
-            },
-            ...
-        },
-       ... 
-    }
+    sections
 }[0]`
 
 export const pageMetadataQuery = groq`*[_type == 'page' && slug.current == $slug]{
     seoTitle,
     seoDescription,
 }[0]`
-
-export const fetchPageBySlug = async (slug: string, fetchMetadata = false) => {
-    try {
-        const page = await client.fetch(fetchMetadata ? pageMetadataQuery : pageQuery, { slug })
-        return page
-    } catch (error) {
-        throw new Error('Error fetching page')
-    }
-}

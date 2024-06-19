@@ -1,11 +1,15 @@
-import React from 'react'
 import Image from 'next/image'
+import React from 'react'
 
 import { cn } from '@src/lib/utils'
+
+import { urlForImage } from '@sanity/utils/image'
 import { SECTION } from '@sanity/utils/types'
-import Text from '@components/common/atoms/Text'
-import Heading from '@components/common/atoms/Heading'
+
 import AesopLink from '@components/common/atoms/AesopLink'
+import Heading from '@components/common/atoms/Heading'
+import Text from '@components/common/atoms/Text'
+
 import SanityCtaGroup from './molecules/SanityCtaGroup'
 
 interface HeroProps extends React.HTMLAttributes<HTMLDivElement> {
@@ -13,11 +17,12 @@ interface HeroProps extends React.HTMLAttributes<HTMLDivElement> {
 }
 
 function Hero({ className, section }: HeroProps) {
+    const imageUrl = section?.image ? urlForImage(section?.image) : ''
     return (
         <section
             id='hero'
             className={cn(
-                'bg-aes-primary relative min-h-[50vh] h-auto',
+                'bg-aes-primary relative max-h-[70vh] md:max-h-[80vh] md:h-auto lg:min-h-[70vh] lg:py-20 overflow-hidden',
                 className,
             )}>
             <div className='relative isolate bg-gradient-to-b lg:bg-gradient-to-r from-aes-primary from-30% via-aes-primary/80 to-aes-primary/50 px-6 lg:px-8'>
@@ -32,7 +37,7 @@ function Hero({ className, section }: HeroProps) {
                         }}
                     />
                 </div>
-                <div className='mx-auto max-w-screen-xl flex flex-col h-auto md:flex-row'>
+                <div className='mx-auto max-w-screen-2xl flex flex-col h-auto lg:flex-row lg:items-center lg:justify-between lg:gap-10'>
                     <div className='w-full space-y-3 py-10 lg:py-28'>
                         <div className='sm:mb-8 sm:flex sm:justify-start'>
                             <div className='relative text-xs rounded-full px-3 py-1 font-sans leading-6 text-white ring-2 ring-gray-100/10 hover:ring-gray-200/20 lg:text-sm '>
@@ -59,14 +64,13 @@ function Hero({ className, section }: HeroProps) {
                             <SanityCtaGroup ctas={section?.cta ?? []} />
                         </div>
                     </div>
-                    <div className='hidden h-full w-full  items-center justify-center overflow-hidden p-28 pr-0 lg:flex'>
+                    <div className='h-full w-full items-center justify-center  lg:flex'>
                         <Image
-                            unoptimized
-                            src='/svg/datapoints.svg'
-                            alt='hero'
-                            width={500}
-                            height={500}
-                            className='w-full h-full object-contain object-center'
+                            src={imageUrl ?? '/svg/datapoints.svg'}
+                            alt={section?.image?.alt}
+                            width={800}
+                            height={800}
+                            className='w-full h-full object-contain object-center scale-125 relative left-5 lg:left-0'
                         />
                     </div>
                 </div>

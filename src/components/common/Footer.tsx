@@ -28,10 +28,6 @@ function Footer() {
             link: '/competitions',
         },
         {
-            label: 'Blog',
-            link: '/blog',
-        },
-        {
             label: 'Community',
             link: '/community',
         },
@@ -43,6 +39,16 @@ function Footer() {
             label: 'About Us',
             link: '/aboutus',
         },
+    ]
+    const resources = [
+        {
+            label: 'Blog',
+            link: '/blog',
+        },
+        {
+            label: 'Blog Contribution Guidelines',
+            link: '/blog/contribute',
+        }
     ]
     const socials = [
         {
@@ -88,7 +94,7 @@ function Footer() {
     if (pathname?.includes('/studio')) return null
     return (
         <section className='w-full h-full pt-10 px-6 bg-gradient-to-b pb-5 from-brand-background via-aes-light to-aes-primary lg:pt-32'>
-            <div className='mx-auto max-w-screen-xl grid gap-4 grid-cols-2 md:grid-cols-3 lg:grid-cols-6'>
+            <div className='mx-auto max-w-screen-2xl grid gap-4 grid-cols-2 md:grid-cols-3 lg:grid-cols-7'>
                 <div className='w-56 h-auto col-span-2 flex items-start justify-start md:col-span-3 lg:col-span-3 lg:h-56'>
                     <Logo className='h-auto w-24 md:w-56' />
                 </div>
@@ -104,6 +110,37 @@ function Footer() {
                                 className='cursor-pointer border-b border-dashed pb-1 border-gray-400 w-fit font-sans'>
                                 {link.label}
                             </Link>
+                        ))}
+                    </div>
+                </div>
+
+                <div className='flex flex-col gap-4'>
+                    <Heading type='h4'>Resources</Heading>
+                    <div className='flex flex-col gap-2 text-sm'>
+                        {resources.map((link) => (
+                            <Link
+                                passHref
+                                key={link.label}
+                                href={link?.link || ''}
+                                className='cursor-pointer border-b border-dashed pb-1 border-gray-400 w-fit font-sans'>
+                                {link.label}
+                            </Link>
+                        ))}
+                    </div>
+                </div>
+                <div className='flex flex-col gap-4'>
+                    <Heading type='h4'>Legal</Heading>
+
+                    <div className='flex flex-col gap-2 text-sm'>
+                        {legal.map((leg) => (
+                            <AesopLink
+                                href={leg?.href}
+                                key={leg.label}
+                                target='_blank'
+                                className='cursor-pointer border-b border-dashed pb-1 border-gray-400 w-fit font-sans'
+                                rel='noopener noreferrer'>
+                                {leg.label}
+                            </AesopLink>
                         ))}
                     </div>
                 </div>
@@ -127,22 +164,7 @@ function Footer() {
                                     {social.label}
                                 </Text>
                             </AesopLink>
-                        ))}
-                    </div>
-                </div>
-                <div className='flex flex-col gap-4'>
-                    <Heading type='h4'>Legal</Heading>
-
-                    <div className='flex flex-col gap-2 text-sm'>
-                        {legal.map((leg) => (
-                            <AesopLink
-                                href={leg?.href}
-                                key={leg.label}
-                                target='_blank'
-                                className='cursor-pointer border-b border-dashed pb-1 border-gray-400 w-fit font-sans'
-                                rel='noopener noreferrer'>
-                                {leg.label}
-                            </AesopLink>
+               
                         ))}
                     </div>
                 </div>

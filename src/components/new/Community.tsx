@@ -14,7 +14,7 @@ function Community({ section }: CommunityProps) {
     return (
         <div className=''>
             <div className='relative isolate px-6 lg:px-8'>
-                <div className='mx-auto flex flex-col gap-10 container-fluid max-w-screen-xl py-10 sm:py-40 lg:py-32'>
+                <div className='mx-auto flex flex-col gap-10 container-fluid max-w-screen-2xl py-10 sm:py-40 lg:py-32'>
                     <div className='flex flex-col md:flex-row gap-5'>
                         <div className='text-left'>
                             <Heading className='font-bold tracking-tight max-w-xl lg:text-4xl'>
