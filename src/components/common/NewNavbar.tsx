@@ -1,12 +1,13 @@
 'use client'
 
-import { Eye } from 'lucide-react'
-import Hamburger from 'hamburger-react'
-import { usePathname } from 'next/navigation'
 import { AnimatePresence, motion } from 'framer-motion'
+import Hamburger from 'hamburger-react'
+import { Eye } from 'lucide-react'
+import { usePathname } from 'next/navigation'
+
+import useDisclosure from '@src/hooks/useDisclosure'
 
 import Logo from './Logo'
-import useDisclosure from '@src/hooks/useDisclosure'
 import AesopLink from './atoms/AesopLink'
 
 const navigation = [
@@ -15,7 +16,7 @@ const navigation = [
         coming: false,
         href: '/',
     },
-    { name: 'Services', href: '/#services', coming: false },
+    // { name: 'Services', href: '/#services', coming: false },
     { name: 'Datasets', href: '/#', coming: true },
     // { name: 'Trends', href: '/#', coming: true },
     // { name: 'Tools', href: '/tools' },
@@ -60,8 +61,8 @@ function Navbar({ previewEnabled }: { previewEnabled: boolean }) {
                 </div>
                 {previewEnabled && (
                     <AesopLink
+                        type='button'
                         href='/api/preview/disable'
-                        variant='button'
                         title='Disable Preview'>
                         <Eye />
                         <span className='sr-only'>Disable Preview</span>

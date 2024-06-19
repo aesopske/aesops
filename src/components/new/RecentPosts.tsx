@@ -1,13 +1,15 @@
 import React from 'react'
 
 import { cn } from '@src/lib/utils'
-import Text from '../common/atoms/Text'
-import { MIN_POST } from '@sanity/utils/types'
-import Heading from '../common/atoms/Heading'
-import ListWrapper from '../common/ListWrapper'
-import AesopLink from '../common/atoms/AesopLink'
+
 import { fetchRecentPosts } from '@sanity/utils/requests'
-import PostCard from '../common/organisms/posts/PostCard'
+import { MIN_POST } from '@sanity/utils/types'
+
+import ListWrapper from '@components/common/ListWrapper'
+import AesopLink from '@components/common/atoms/AesopLink'
+import Heading from '@components/common/atoms/Heading'
+import Text from '@components/common/atoms/Text'
+import PostCard from '@components/common/organisms/posts/PostCard'
 
 type RecentPostsProps = {} & React.HTMLProps<HTMLDivElement>
 
@@ -26,10 +28,7 @@ async function RecentPosts({ className }: RecentPostsProps) {
                         data science and technology from us and our community.
                     </Text>
                     <Text className='flex items-center gap-x-6'>
-                        <AesopLink
-                            color='primary'
-                            variant='button'
-                            href='/blog'>
+                        <AesopLink color='primary' type='button' href='/blog'>
                             View All Posts &rarr;
                         </AesopLink>
                     </Text>

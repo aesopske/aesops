@@ -1,10 +1,11 @@
+import Image from 'next/image'
 import React from 'react'
+
+import { SECTION } from '@sanity/utils/types'
+
 // import DatasetsList from './DatasetsList'
 import Heading from '../common/atoms/Heading'
 import Text from '../common/atoms/Text'
-import AesopLink from '../common/atoms/AesopLink'
-import Image from 'next/image'
-import { SECTION } from '@sanity/utils/types'
 import SanityCtaGroup from '../common/molecules/SanityCtaGroup'
 
 type DatasetsProps = {
