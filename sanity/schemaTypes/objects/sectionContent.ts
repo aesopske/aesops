@@ -1,5 +1,6 @@
-import { defineType, defineField, defineArrayMember } from 'sanity'
-import { LayoutPanelTop } from 'lucide-react'
+import { LayoutPanelTop } from 'lucide-react';
+import { defineArrayMember, defineField, defineType } from 'sanity';
+
 
 export default defineType({
     name: 'sectionContent',
@@ -11,18 +12,41 @@ export default defineType({
             name: 'title',
             title: 'Title',
             type: 'string',
-            validation: (Rule) => Rule.required(),
+        }),
+        defineField({
+            name: 'useBlock',
+            title: 'Use Block',
+            type: 'boolean',
+            initialValue: false,
+            description: 'Use a block instead of text',
         }),
         defineField({
             name: 'description',
             title: 'Description',
+            type: 'text',
+            description: 'More information about the section',
+            hidden: ({ parent }) => parent?.useBlock,
+        }),
+        defineField({
+            name: 'descriptionContent',
+            title: 'Description',
             type: 'blockContent',
+            description: 'More information about the section',
+            hidden: ({ parent }) => !parent?.useBlock,
         }),
         defineField({
             name: 'image',
             title: 'Image',
             type: 'image',
+            description: 'Image for the section',
             options: { hotspot: true },
+            fields: [
+                {
+                    name: 'alt',
+                    type: 'string',
+                    title: 'Alternative Text',
+                },
+            ],
         }),
         defineField({
             name: 'cta',

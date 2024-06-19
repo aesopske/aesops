@@ -13,7 +13,7 @@ function Logo({ className }: LogoProps) {
             <a
                 href='/'
                 className={cn(
-                    'h-10 w-10 md:h-10 md:w-auto xl:h-14',
+                    'h-10 w-10 md:h-10 md:w-auto xl:h-12',
                     className
                 )}>
                 <span className='sr-only'>Aesops</span>

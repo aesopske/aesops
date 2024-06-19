@@ -4,10 +4,16 @@ import Text from '@components/common/atoms/Text'
 import Heading from '@components/common/atoms/Heading'
 import ListWrapper from '@components/common/ListWrapper'
 import AesopLink from '@components/common/atoms/AesopLink'
-import { CATEGORY_POST, MIN_POST } from '@sanity/utils/types'
+import { CATEGORY_POST, MIN_POST, SECTION } from '@sanity/utils/types'
 import { fetchCategories, fetchCategoryPosts } from '@sanity/utils/requests'
+import React from 'react'
 
-async function CategoryPosts({ search }: { search: string }) {
+type CategoryPostsProps = {
+    search: string
+    sectionContent: SECTION
+} & React.HTMLAttributes<HTMLDivElement>
+
+async function CategoryPosts({ search, sectionContent }: CategoryPostsProps) {
     const categoryPosts = await fetchCategoryPosts({
         search,
         page: 1,
@@ -20,12 +26,10 @@ async function CategoryPosts({ search }: { search: string }) {
             <div className='col-span-1  space-y-10 md:col-span-2'>
                 <div className='space-y-2'>
                     <Heading type='h2' className='font-bold'>
-                        Exciting Categories
+                        {sectionContent?.title}
                     </Heading>
                     <Text className='max-w-xl'>
-                        Explore posts by category. Whether you&apos;re
-                        interested in data visualization, machine learning, data
-                        analysis e.t.c, we have something for everyone.
+                        {sectionContent?.description}
                     </Text>
                 </div>
                 <div className='my-2'>

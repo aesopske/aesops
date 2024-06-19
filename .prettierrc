@@ -3,5 +3,17 @@
     "singleQuote": true,
     "jsxBracketSameLine": true,
     "jsxSingleQuote": true,
-    "semi": false
+    "semi": false,
+ 
+    "plugins": ["@trivago/prettier-plugin-sort-imports"],
+    "importOrder": [
+        "^@src/(.*)$",
+        "^@sanity/(.*)$",
+        "^@components/(.*)$",
+        "^@utils/(.*)$",
+        "^[./]"
+    ],
+    "importOrderSeparation": true,
+    "importOrderSortSpecifiers": true,
+    "importOrderByLength": true
 }

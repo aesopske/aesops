@@ -1,16 +1,20 @@
+import {
+    FilePieChart,
+    FileSearch,
+    LayoutDashboard,
+    Lightbulb,
+    Presentation,
+    Speech,
+    TableCellsMerge,
+} from 'lucide-react'
+import React from 'react'
+
+import { SECTION } from '@sanity/utils/types'
+
 import Heading from '@components/common/atoms/Heading'
 import Text from '@components/common/atoms/Text'
-// import AesopLink from '@components/common/atoms/AesopLink'
+
 import ListWrapper from '../common/ListWrapper'
-import {
-    Lightbulb,
-    LayoutDashboard,
-    Speech,
-    FilePieChart,
-    TableCellsMerge,
-    FileSearch,
-    Presentation,
-} from 'lucide-react'
 
 const services = [
     {
@@ -64,18 +68,19 @@ const services = [
     },
 ]
 
-function Services() {
+type ServicesProps = {
+    section: SECTION
+} & React.HTMLAttributes<HTMLDivElement>
+
+function Services({ section }: ServicesProps) {
     return (
         <section id='services'>
             <div className='relative isolate px-6 lg:px-8'>
-                <div className='mx-auto flex flex-col gap-10 container-fluid max-w-screen-xl py-10 md:pb-40 lg:pt-20 '>
+                <div className='mx-auto flex flex-col gap-10 container-fluid max-w-screen-2xl py-10 md:pb-40 lg:pt-20 '>
                     <div className='text-left space-y-4'>
-                        <Heading>Our Services</Heading>
+                        <Heading>{section?.title}</Heading>
                         <Text className='leading-8 text-gray-600 max-w-xl'>
-                            Discover the power of data with our comprehensive
-                            consultation and analysis services. From strategic
-                            planning to actionable insights and more, we offer
-                            tailored solutions to drive your business forward.
+                            {section?.description}
                         </Text>
                     </div>
                     <div className='grid grid-cols-1 md:grid-cols-3 gap-6 relative'>

@@ -1,22 +1,31 @@
-import React from 'react'
 import Image from 'next/image'
+import React from 'react'
 
 import { cn } from '@src/lib/utils'
-import Text from '@components/common/atoms/Text'
-import Heading from '@components/common/atoms/Heading'
+
+import { urlForImage } from '@sanity/utils/image'
+import { SECTION } from '@sanity/utils/types'
+
 import AesopLink from '@components/common/atoms/AesopLink'
+import Heading from '@components/common/atoms/Heading'
+import Text from '@components/common/atoms/Text'
 
-type HeroProps = {} & React.HTMLAttributes<HTMLDivElement>
+import SanityCtaGroup from './molecules/SanityCtaGroup'
 
-function Hero({ className }: HeroProps) {
+interface HeroProps extends React.HTMLAttributes<HTMLDivElement> {
+    section: SECTION
+}
+
+function Hero({ className, section }: HeroProps) {
+    const imageUrl = section?.image ? urlForImage(section?.image) : ''
     return (
         <section
             id='hero'
             className={cn(
-                'bg-aes-primary relative min-h-[65vh] md:min-h-[60vh] h-auto',
+                'bg-aes-primary relative max-h-[70vh] md:max-h-[80vh] md:h-auto lg:min-h-[70vh] lg:py-20 overflow-hidden',
                 className,
             )}>
-            <div className='absolute isolate inset-0 bg-gradient-to-b lg:bg-gradient-to-r from-aes-primary from-30% via-aes-primary/80 to-aes-primary/50 px-6 lg:px-8'>
+            <div className='relative isolate bg-gradient-to-b lg:bg-gradient-to-r from-aes-primary from-30% via-aes-primary/80 to-aes-primary/50 px-6 lg:px-8'>
                 <div
                     className='absolute inset-x-0 -top-40 -z-10 transform-gpu overflow-hidden blur-3xl sm:-top-80'
                     aria-hidden='true'>
@@ -28,7 +37,7 @@ function Hero({ className }: HeroProps) {
                         }}
                     />
                 </div>
-                <div className='mx-auto max-w-screen-xl flex flex-col h-auto md:flex-row'>
+                <div className='mx-auto max-w-screen-2xl flex flex-col h-auto lg:flex-row lg:items-center lg:justify-between lg:gap-10'>
                     <div className='w-full space-y-3 py-10 lg:py-28'>
                         <div className='sm:mb-8 sm:flex sm:justify-start'>
                             <div className='relative text-xs rounded-full px-3 py-1 font-sans leading-6 text-white ring-2 ring-gray-100/10 hover:ring-gray-200/20 lg:text-sm '>
@@ -47,34 +56,21 @@ function Hero({ className }: HeroProps) {
                         </div>
                         <div className='text-left max-w-2xl'>
                             <Heading className='font-black tracking-tight text-gray-100 xl:text-6xl'>
-                                Unveiling Insights Crafting Tomorrow.
+                                {section?.title}
                             </Heading>
                             <Text className='my-4 lg:my-8 leading-8 text-aes-light'>
-                                Aesops aims to provide a platform for data
-                                science, where we unveil and share insights with
-                                our community. Providing tools, resources and
-                                valuable expertise to help you gain a deeper
-                                understanding of your data.
+                                {section?.description}
                             </Text>
-                            <div className='flex flex-col gap-3 md:flex-row md:items-center md:justify-start md:gap-x-6'>
-                                <AesopLink
-                                    variant='button'
-                                    color='secondary'
-                                    href='/blog'>
-                                    Join the Community &rarr;
-                                    {/* TODO: update the link when the community is added */}
-                                </AesopLink>
-                            </div>
+                            <SanityCtaGroup ctas={section?.cta ?? []} />
                         </div>
                     </div>
-                    <div className='hidden h-full w-full  items-center justify-center overflow-hidden p-28 pr-0 lg:flex'>
+                    <div className='h-full w-full items-center justify-center  lg:flex'>
                         <Image
-                            unoptimized
-                            src='/svg/datapoints.svg'
-                            alt='hero'
-                            width={500}
-                            height={500}
-                            className='w-full h-full object-contain object-center'
+                            src={imageUrl ?? '/svg/datapoints.svg'}
+                            alt={section?.image?.alt}
+                            width={800}
+                            height={800}
+                            className='w-full h-full object-contain object-center scale-125 relative left-5 lg:left-0'
                         />
                     </div>
                 </div>
