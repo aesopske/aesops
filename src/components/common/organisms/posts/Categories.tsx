@@ -31,11 +31,11 @@ function Categories({ search, categories, className }: CategoriesProps) {
     }
     return (
         <div className={cn('relative w-full col-span-1 md:px-4', className)}>
-            <div className='bg-aes-primary rounded-lg min-h-32 sticky top-24 right-0 z-10 p-5 text-aes-light space-y-4'>
+            <div className='bg-brandprimary-700 rounded-lg min-h-32 sticky top-24 right-0 z-10 p-5 text-brandaccent-50 space-y-4'>
                 <Heading type='h4' className='font-black'>
                     Categories Topics
                 </Heading>
-                <hr className='border border-aes-light/20 my-2' />
+                <hr className='border border-brandaccent-50/20 my-2' />
 
                 <div className='flex flex-wrap gap-2'>
                     <ListWrapper list={categories} itemKey='title'>
@@ -49,7 +49,7 @@ function Categories({ search, categories, className }: CategoriesProps) {
                                     selectCategory(category?.slug?.current)
                                 }
                                 variant='default'
-                                className='text-aes-light py-2 rounded-full data-[selected=true]:bg-aes-light data-[selected=true]:text-aes-dark'>
+                                className='text-brandaccent-50 py-2 rounded-full data-[selected=true]:bg-brandaccent-50 data-[selected=true]:text-brandprimary-900'>
                                 {category.title}
                             </Badge>
                         )}
@@ -60,7 +60,7 @@ function Categories({ search, categories, className }: CategoriesProps) {
                     <Button
                         variant='link'
                         onClick={() => selectCategory()}
-                        className='text-aes-light p-0'>
+                        className='text-brandaccent-50 p-0'>
                         Clear filter
                     </Button>
                 ) : null}

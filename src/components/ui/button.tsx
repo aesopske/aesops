@@ -1,10 +1,9 @@
 'use client'
 
-import * as React from 'react'
-import { Slot } from '@radix-ui/react-slot'
-import { cva, type VariantProps } from 'class-variance-authority'
-
 import { cn } from '@/lib/utils'
+import { Slot } from '@radix-ui/react-slot'
+import { type VariantProps, cva } from 'class-variance-authority'
+import * as React from 'react'
 
 const buttonVariants = cva(
     'inline-flex items-center justify-center rounded-md text-sm font-medium ring-offset-white transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-950 focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 dark:ring-offset-slate-950 dark:focus-visible:ring-slate-300',
@@ -16,7 +15,7 @@ const buttonVariants = cva(
                 destructive:
                     'bg-red-500 text-slate-50 hover:bg-red-500/90 dark:bg-red-900 dark:text-slate-50 dark:hover:bg-red-900/90',
                 outline:
-                    'border border-aes-dark bg-transparent hover:bg-aes-dark hover:text-aes-light dark:border-slate-800 dark:bg-slate-950 dark:hover:bg-slate-800 dark:hover:text-slate-50',
+                    'border border-brandprimary-900 bg-transparent hover:bg-brandprimary-900 hover:text-brandaccent-50 dark:border-slate-800 dark:bg-slate-950 dark:hover:bg-slate-800 dark:hover:text-slate-50',
                 secondary:
                     'bg-slate-100 text-slate-900 hover:bg-slate-100/80 dark:bg-slate-800 dark:text-slate-50 dark:hover:bg-slate-800/80',
                 ghost: 'hover:bg-slate-100 hover:text-slate-900 dark:hover:bg-slate-800 dark:hover:text-slate-50',

@@ -31,7 +31,7 @@ function Socials({ socials }: { socials: SOCIAL[] }) {
                             buttonVariants({
                                 variant: 'outline',
                                 className:
-                                    'rounded-full border border-aes-dark/50 text-aes-dark hover:text-aes-light w-8 h-8 p-1.5 flex items-center justify-center',
+                                    'rounded-full border border-brandprimary-900/50 text-brandprimary-900 hover:text-brandaccent-50 w-8 h-8 p-1.5 flex items-center justify-center',
                             }),
                         )}
                         rel='noreferrer noopener'>

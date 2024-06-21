@@ -30,9 +30,9 @@ function Navbar({ previewEnabled }: { previewEnabled: boolean }) {
 
     if (pathname?.includes('/studio')) return null
     return (
-        <header className='sticky inset-x-0 top-0 z-50 text-aes-dark border-b border-aes-light bg-brand-background h-fit md:max-h-20'>
+        <header className='sticky inset-x-0 top-0 z-50 text-brandprimary-900 border-b border-brandaccent-50 bg-brand-background h-fit md:max-h-20'>
             <nav
-                className='flex items-center justify-between px-5 py-2 container-fluid max-w-screen-2xl mx-auto h-full border-b border-aes-light gap-5 md:border-none lg:py-4 2xl:px-0'
+                className='flex items-center justify-between px-5 py-2 container-fluid max-w-screen-2xl mx-auto h-full border-b border-brandaccent-50 gap-5 md:border-none lg:py-4 2xl:px-0'
                 aria-label='Global'>
                 <Logo />
                 <div className='flex lg:hidden'>
@@ -52,7 +52,7 @@ function Navbar({ previewEnabled }: { previewEnabled: boolean }) {
                             className='relative text-sm font-semibold leading-6 aria-disabled:opacity-50 aria-disabled:pointer-events-none'>
                             {item.name}
                             {item.coming ? (
-                                <sup className='w-full bg-aes-secondary text-aes-dark rounded px-2 py-[1px]'>
+                                <sup className='w-full bg-brandaccent-500 text-brandprimary-900 rounded px-2 py-[1px]'>
                                     Coming soon
                                 </sup>
                             ) : null}
@@ -86,7 +86,7 @@ function Navbar({ previewEnabled }: { previewEnabled: boolean }) {
                                 className='relative text-base font-semibold leading-6 aria-disabled:opacity-50 aria-disabled:pointer-events-none'>
                                 {item.name}
                                 {item.coming ? (
-                                    <sup className='w-full bg-aes-secondary text-aes-dark rounded px-2 py-[1px]'>
+                                    <sup className='w-full bg-brandaccent-500 text-brandprimary-900 rounded px-2 py-[1px]'>
                                         Coming soon
                                     </sup>
                                 ) : null}

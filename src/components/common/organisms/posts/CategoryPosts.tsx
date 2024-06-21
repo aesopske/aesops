@@ -44,7 +44,7 @@ async function CategoryPosts({ search, sectionContent }: CategoryPostsProps) {
                                             className='font-bold'>
                                             {category.title}
                                         </Heading>
-                                        <Text className='max-w-xl text-aes-dark/70'>
+                                        <Text className='max-w-xl text-brandprimary-900/70'>
                                             {category.description}
                                         </Text>
                                     </div>

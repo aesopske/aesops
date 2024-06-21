@@ -45,7 +45,7 @@ function AboutAuthor({ author, hideBio, hidePosts }: AboutAuthorProps) {
                     )}
                 </div>
                 {!author?.bio || hideBio ? null : (
-                    <div className='space-y-2 text-aes-dark/70'>
+                    <div className='space-y-2 text-brandprimary-900/70'>
                         <Text className='text-base font-light lg:text-sm'>
                             {author?.bio}
                         </Text>

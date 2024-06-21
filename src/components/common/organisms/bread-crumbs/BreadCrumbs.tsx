@@ -33,7 +33,7 @@ function BreadCrumbs() {
                                 ? window?.location.pathname === '/'
                                 : false
                         }
-                        className='data-[active=false]:text-aes-dark font-sans'>
+                        className='data-[active=false]:text-brandprimary-900 font-sans'>
                         Home
                     </BreadcrumbLink>
                 </BreadcrumbItem>
@@ -48,7 +48,7 @@ function BreadCrumbs() {
                                     href={path.href}
                                     aria-disabled={path.active}
                                     data-active={path.active}
-                                    className='data-[active=false]:text-aes-dark capitalize aria-disabled:pointer-events-none aria-disabled:text-gray-500 font-sans'>
+                                    className='data-[active=false]:text-brandprimary-900 capitalize aria-disabled:pointer-events-none aria-disabled:text-gray-500 font-sans'>
                                     {path.name}
                                 </BreadcrumbLink>
                             </BreadcrumbItem>

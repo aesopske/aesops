@@ -15,7 +15,7 @@ function Backtop({ scroll }) {
                     animate={{ opacity: 1, scale: 1 }}
                     exit={{ opacity: 0, scale: 0 }}
                     onClick={backToTop}
-                    className='hidden fixed bottom-6 right-6 z-20 bg-aes-light border border-gray-50 w-14 h-14 items-center justify-center rounded-full shadow-md md:flex'>
+                    className='hidden fixed bottom-6 right-6 z-20 bg-brandaccent-50 border border-gray-50 w-14 h-14 items-center justify-center rounded-full shadow-md md:flex'>
                     <ArrowUp className='h-6 w-6' />
                 </motion.button>
             ) : null}

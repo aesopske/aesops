@@ -16,12 +16,12 @@ function CodeBar({ filename, code }) {
         }
     }, [copied])
     return (
-        <div className='flex items-center justify-between px-4 py-2 bg-aes-light'>
+        <div className='flex items-center justify-between px-4 py-2 bg-brandaccent-50'>
             <span className='font-sans text-sm'>{filename}</span>
             <Button
                 variant='outline'
                 data-clicked={copied}
-                className='flex h-8 cursor-pointer items-center gap-2 space-x-2 rounded-full py-2 data-[clicked=true]:bg-aes-dark data-[clicked=true]:text-aes-light'
+                className='flex h-8 cursor-pointer items-center gap-2 space-x-2 rounded-full py-2 data-[clicked=true]:bg-brandprimary-900 data-[clicked=true]:text-brandaccent-50'
                 onClick={() => {
                     if (!navigator.clipboard) return
                     navigator.clipboard.writeText(code)

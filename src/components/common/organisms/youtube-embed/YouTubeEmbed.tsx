@@ -6,7 +6,7 @@ import Text from '@components/common/atoms/Text'
 
 function YouTubeEmbed({ content }) {
     return (
-        <div className='bg-aes-light rounded-md overflow-hidden'>
+        <div className='bg-brandaccent-50 rounded-md overflow-hidden'>
             <ReactPlayer
                 controls
                 url={content.url}
@@ -14,7 +14,7 @@ function YouTubeEmbed({ content }) {
                     <div className='h-72 md:h-96'>{children}</div>
                 )}
             />
-            <Text className='p-2 italic text-aes-dark/70 flex items-center gap-2 text-sm'>
+            <Text className='p-2 italic text-brandprimary-900/70 flex items-center gap-2 text-sm'>
                 <Play size={16} />
                 {content.title}
             </Text>

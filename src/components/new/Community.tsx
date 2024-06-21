@@ -40,17 +40,17 @@ function Community({ section }: CommunityProps) {
                     {/* <div>
                         <Heading type='h3'>Top pick events</Heading>
                         <div className='grid grid-cols-1 my-6 gap-6 md:grid-cols-2 lg:grid-cols-3 '>
-                            <div className='h-48 bg-aes-light w-full rounded-xl'></div>
-                            <div className='h-48 bg-aes-light w-full rounded-xl'></div>
-                            <div className='h-48 bg-aes-light w-full rounded-xl'></div>
+                            <div className='h-48 bg-brandaccent-50 w-full rounded-xl'></div>
+                            <div className='h-48 bg-brandaccent-50 w-full rounded-xl'></div>
+                            <div className='h-48 bg-brandaccent-50 w-full rounded-xl'></div>
                         </div>
                     </div>
                     <div>
                         <Heading type='h3'>Note from community members</Heading>
                         <div className='grid grid-cols-1 my-6 gap-6 md:grid-cols-2 lg:grid-cols-3 '>
-                            <div className='h-48 bg-aes-light w-full rounded-xl'></div>
-                            <div className='h-48 bg-aes-light w-full rounded-xl'></div>
-                            <div className='h-48 bg-aes-light w-full rounded-xl'></div>
+                            <div className='h-48 bg-brandaccent-50 w-full rounded-xl'></div>
+                            <div className='h-48 bg-brandaccent-50 w-full rounded-xl'></div>
+                            <div className='h-48 bg-brandaccent-50 w-full rounded-xl'></div>
                         </div>
                     </div> */}
                 </div>

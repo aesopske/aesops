@@ -25,7 +25,7 @@ function CodeBlock({ codeContent }: CodeBlockProps) {
     const allowCodeExplain = codeContent?.allowAIExplain ?? false
 
     return (
-        <div className='my-5 w-full overflow-hidden rounded-md bg-aes-light/50 border border-aes-light/50 shadow-sm'>
+        <div className='my-5 w-full overflow-hidden rounded-md bg-brandaccent-50/50 border border-brandaccent-50/50 shadow-sm'>
             <div className=''>
                 <CodeBar filename={filename} code={code} />
                 <SyntaxHighlighter

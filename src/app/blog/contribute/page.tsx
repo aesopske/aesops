@@ -38,9 +38,9 @@ async function Contribute() {
 
     return (
         <div>
-            <div className='min-h-[20vh] bg-aes-primary flex items-center'>
+            <div className='min-h-[20vh] bg-brandprimary-700 flex items-center'>
                 <div className='max-w-screen-2xl mx-auto flex items-center px-5 py-5 xl:px-0 w-full'>
-                    <Heading className='text-aes-light max-w-xl'>
+                    <Heading className='text-brandaccent-50 max-w-xl'>
                         {section?.title}
                     </Heading>
                 </div>

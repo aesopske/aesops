@@ -14,7 +14,7 @@ function AboutSummary({ section }: AboutSummaryProps) {
     return (
         <HasBackgroundWrapper>
             <div className='h-full w-full text-white max-w-screen-2xl mx-auto  grid grid-cols-1 gap-5 md:grid-cols-2 lg:grid-col-3'>
-                <div className='max-w-2xl space-y-6 text-aes-light px-5 py-24 pb-10 lg:py-48 xl:px-0'>
+                <div className='max-w-2xl space-y-6 text-brandaccent-50 px-5 py-24 pb-10 lg:py-48 xl:px-0'>
                     <Heading type='h1' className='text-current'>
                         {section?.title}
                     </Heading>

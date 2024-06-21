@@ -87,14 +87,14 @@ function Services({ section }: ServicesProps) {
                         <ListWrapper list={services} itemKey='title'>
                             {(item, idx) => (
                                 <div className='space-y-4 h-full bg-white  p-6  rounded-md border relative overflow-hidden'>
-                                    <div className='h-32 w-32 absolute -right-5 -top-5 bg-aes-light/40 rounded-full flex items-center justify-center'>
-                                        <div className='bg-aes-primary text-aes-light h-12 w-12 rounded-full flex items-center justify-center shadow'>
+                                    <div className='h-32 w-32 absolute -right-5 -top-5 bg-brandaccent-50/40 rounded-full flex items-center justify-center'>
+                                        <div className='bg-brandprimary-700 text-brandaccent-50 h-12 w-12 rounded-full flex items-center justify-center shadow'>
                                             {item.icon}
                                         </div>
                                     </div>
                                     <div className='flex flex-col gap-2 relative z-10 pt-12'>
                                         <div className='absolute left-2 top-0 pointer-events-none'>
-                                            <Heading className='lg:text-9xl text-aes-light/50'>
+                                            <Heading className='lg:text-9xl text-brandaccent-50/50'>
                                                 {idx + 1}
                                             </Heading>
                                         </div>

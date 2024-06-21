@@ -52,16 +52,16 @@ async function Page() {
             <div className='relative h-full py-10'>
                 <HasBackgroundWrapper className=' h-auto max-w-4xl flex items-center mx-auto md:rounded-3xl'>
                     <div className='max-w-lg mx-auto space-y-4 p-10 md:py-28'>
-                        <Heading type='h2' className='text-aes-light text-2xl'>
+                        <Heading type='h2' className='text-brandaccent-50 text-2xl'>
                             What our clients say.
                         </Heading>
-                        <Text className='text-aes-light'>
+                        <Text className='text-brandaccent-50'>
                             &quot;Aesop has been a great partner in helping us
                             understand our data. Their team of experts have
                             provided us with actionable insights that have
                             helped us make informed decisions.&quot;
                         </Text>
-                        <Text className='text-aes-light font-bold'>
+                        <Text className='text-brandaccent-50 font-bold'>
                             John Doe, CEO, Aesops Ltd
                         </Text>
                     </div>

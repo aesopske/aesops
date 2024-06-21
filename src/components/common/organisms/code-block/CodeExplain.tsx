@@ -42,13 +42,13 @@ function CodeExplain({ code }: CodeExplainProps) {
     const savedCompletion = getValue()
 
     return (
-        <div className='flex min-h-10 flex-col items-start gap-4 bg-aes-light px-4 py-2'>
+        <div className='flex min-h-10 flex-col items-start gap-4 bg-brandaccent-50 px-4 py-2'>
             <Button
                 data-open={isOpen}
                 variant='outline'
                 disabled={isLoading}
                 data-loading={isLoading}
-                className='group flex h-8 items-center gap-2 rounded-full border-aes-dark bg-transparent data-[open=true]:bg-aes-dark data-[open=true]:text-aes-light hover:bg-aes-dark hover:text-aes-light'
+                className='group flex h-8 items-center gap-2 rounded-full border-brandprimary-900 bg-transparent data-[open=true]:bg-brandprimary-900 data-[open=true]:text-brandaccent-50 hover:bg-brandprimary-900 hover:text-brandaccent-50'
                 onClick={() => {
                     if (isOpen) return setIsOpen(false)
 
@@ -85,7 +85,7 @@ function CodeExplain({ code }: CodeExplainProps) {
                         className='w-full'>
                         <output
                             data-hidden={!!error}
-                            className='prose font-mono text-sm text-aes-dark data-[hidden=true]:hidden'>
+                            className='prose font-mono text-sm text-brandprimary-900 data-[hidden=true]:hidden'>
                             {savedCompletion ? savedCompletion : completion}
                         </output>
                         {error && isOpen ? (

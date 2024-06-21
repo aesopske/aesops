@@ -1,6 +1,6 @@
-import React from 'react'
-import Link, { LinkProps } from 'next/link'
 import { cva } from 'class-variance-authority'
+import Link, { LinkProps } from 'next/link'
+import React from 'react'
 
 import { cn } from '@src/lib/utils'
 
@@ -31,10 +31,10 @@ const linkVariants = cva('font-sans transition-all duration-300', {
             button: 'inline-block w-fit rounded-full text-center py-3 px-6 hover:shadow-md',
         },
         variant: {
-            default: 'text-aes-dark',
-            primary: 'bg-aes-primary text-aes-light',
-            secondary: 'bg-aes-secondary text-aes-dark',
-            dark: 'bg-aes-dark text-aes-light',
+            default: 'text-brandprimary-900',
+            primary: 'bg-brandprimary-700 text-brandaccent-50',
+            secondary: 'bg-brandaccent-500 text-brandprimary-900',
+            dark: 'bg-brandprimary-900 text-brandaccent-50',
         },
     },
 

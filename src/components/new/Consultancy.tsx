@@ -40,11 +40,11 @@ function Consultancy({ section }: ConsultancyProps) {
                 {/* <div className='w-full'>
                     <Heading type='h2'>Recent Case Studies</Heading>
                     <div className='grid grid-cols-1 my-6 gap-6 md:grid-cols-2 lg:grid-cols-3 '>
-                        <div className='h-48 bg-aes-light w-full rounded-xl hero-bg min-h-[25vh] relative overflow-hidden'>
-                            <div className='absolute inset-0 w-full h-auto bg-gradient-to-b from-aes-dark/20 via-aes-dark/70 to-aes-dark'></div>
+                        <div className='h-48 bg-brandaccent-50 w-full rounded-xl hero-bg min-h-[25vh] relative overflow-hidden'>
+                            <div className='absolute inset-0 w-full h-auto bg-gradient-to-b from-brandprimary-900/20 via-brandprimary-900/70 to-brandprimary-900'></div>
                         </div>
-                        <div className='h-48 bg-aes-light w-full rounded-xl'></div>
-                        <div className='h-48 bg-aes-light w-full rounded-xl'></div>
+                        <div className='h-48 bg-brandaccent-50 w-full rounded-xl'></div>
+                        <div className='h-48 bg-brandaccent-50 w-full rounded-xl'></div>
                     </div>
                 </div> */}
             </div>
