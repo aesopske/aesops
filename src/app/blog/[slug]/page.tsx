@@ -10,7 +10,6 @@ import AboutAuthor from '@src/components/common/organisms/about-author/AboutAuth
 import AuthorCard from '@src/components/common/organisms/author-card/AuthorCard'
 import BreadCrumbs from '@src/components/common/organisms/bread-crumbs/BreadCrumbs'
 import RecentPosts from '@src/components/common/organisms/posts/RecentPosts'
-import Notes from '@src/components/sanity/Notes'
 
 import { sanityFetch } from '@sanity/utils/fetch'
 import { formatAuthor } from '@sanity/utils/formatAuthor'
@@ -91,9 +90,7 @@ async function Blog({ params }: { params: QueryParams }) {
                 <div className='mx-auto w-full max-w-screen-2xl space-y-5 lg:w-1/2'>
                     <div className='space-y-2 px-4 lg:px-0'>
                         <BreadCrumbs />
-                        <Heading type='h1' className='capitalize'>
-                            {post?.title}
-                        </Heading>
+                        <Heading>{post?.title}</Heading>
                         <AuthorCard
                             hideDetails={true}
                             author={post?.author}
@@ -110,7 +107,6 @@ async function Blog({ params }: { params: QueryParams }) {
                             className='h-[35vh] w-full object-cover lg:rounded'
                         />
                     ) : null}
-                    <Notes />
                     <div className='space-y-6 px-4 lg:px-0'>
                         <ContentReader content={post?.body} />
                         <div className='lg:hidden'>

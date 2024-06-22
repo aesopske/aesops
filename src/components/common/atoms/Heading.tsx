@@ -1,12 +1,12 @@
-import React, { createElement } from 'react'
-import { cva } from 'class-variance-authority'
+import { cn } from '@/lib/utils';
+import { cva } from 'class-variance-authority';
+import React, { createElement } from 'react';
 
-import { cn } from '@/lib/utils'
 
 const headingVariants = cva('tracking-tight font-heading', {
     variants: {
         type: {
-            h1: 'text-3xl md:text-5xl font-extrabold ',
+            h1: 'text-3xl md:text-4xl font-extrabold ',
             h2: 'text-xl md:text-3xl font-bold',
             h3: 'text-2xl font-semibold',
             h4: 'text-xl font-semibold',

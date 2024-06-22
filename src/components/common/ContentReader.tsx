@@ -1,15 +1,18 @@
-import speakingUrl from 'speakingurl'
-import { ImageIcon } from 'lucide-react'
 import { PortableText, PortableTextComponents } from '@portabletext/react'
+import { ImageIcon } from 'lucide-react'
+import speakingUrl from 'speakingurl'
 
-import AesopImage from './AesopImage'
 import { urlForImage } from '@sanity/utils/image'
+
 import Heading from '@components/common/atoms/Heading'
 import Text from '@components/common/atoms/Text'
-import TableBlock from './organisms/table-block/TableBlock'
-import YouTubeEmbed from './organisms/youtube-embed/YouTubeEmbed'
 import CodeBlock from '@components/common/organisms/code-block/CodeBlock'
 import IframeEmbed from '@components/common/organisms/iframe-embed/IframeEmbed'
+
+import AesopImage from './AesopImage'
+import PostNote from './organisms/post-note/PostNote'
+import TableBlock from './organisms/table-block/TableBlock'
+import YouTubeEmbed from './organisms/youtube-embed/YouTubeEmbed'
 
 function BlockHeading({ children, type }) {
     const url = children[0]?.props?.text
@@ -19,7 +22,7 @@ function BlockHeading({ children, type }) {
     const id = speakingUrl(url ?? '')
 
     return (
-        <Heading id={id} type={type} className='capitalize'>
+        <Heading id={id} type={type}>
             {children}
         </Heading>
     )
@@ -34,7 +37,9 @@ const components = {
         h4: ({ children }) => <BlockHeading type='h5'>{children}</BlockHeading>,
         h5: ({ children }) => <BlockHeading type='h6'>{children}</BlockHeading>,
 
-        normal: ({ children }) => <p className='font-serif'>{children}</p>,
+        normal: ({ children }) => (
+            <p className='font-serif text-base'>{children}</p>
+        ),
     },
     types: {
         code: ({ value }) => <CodeBlock codeContent={value} />,
@@ -72,6 +77,9 @@ const components = {
         },
         tableBlock: ({ value }) => {
             return <TableBlock content={value} />
+        },
+        note: ({ value }) => {
+            return <PostNote content={value} />
         },
     },
     list: {
