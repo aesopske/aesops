@@ -101,6 +101,7 @@ export type SECTION = {
     members?: AUTHOR[]
     datasets?: DATASET[]
     values?: VALUE[]
+    services?: SERVICE[]
 }
 
 export type CTA = {
@@ -126,6 +127,14 @@ export type VALUE = {
     _key: string
     _type: string
     value: string
+    description: string
+    icon: string
+}
+
+export type SERVICE = {
+    _key: string
+    _type: string
+    title: string
     description: string
     icon: string
 }

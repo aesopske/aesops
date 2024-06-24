@@ -7,6 +7,7 @@ import category from './schemaTypes/documents/category';
 import dataset from './schemaTypes/documents/datasets';
 import page from './schemaTypes/documents/page';
 import post from './schemaTypes/documents/post';
+import service from './schemaTypes/documents/service'
 import siteSettings from './schemaTypes/documents/siteSettings'
 import values from './schemaTypes/documents/value'
 import iframeEmbed from './schemaTypes/objects/IframeEmbed'
@@ -44,6 +45,7 @@ export const schema: { types: SchemaTypeDefinition[] } = {
         cta,
         NotesBlock,
         values,
+        service,
         // customUrl,
     ],
 }

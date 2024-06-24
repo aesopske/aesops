@@ -12,6 +12,7 @@ export default defineType({
             name: 'title',
             title: 'Title',
             type: 'string',
+            description: 'The name of the section',
         }),
         defineField({
             name: 'useBlock',
@@ -52,25 +53,35 @@ export default defineType({
             name: 'cta',
             title: 'Call to Action',
             type: 'array',
+            description: 'Call to action for the section',
             of: [{ type: 'cta' }],
         }),
         defineField({
             name: 'posts',
             title: 'Posts',
             type: 'array',
+            description: 'Posts shared by Aesops & the community',
             of: [{ type: 'reference', to: [{ type: 'post' }] }],
         }),
-
         defineField({
             name: 'datasets',
             title: 'Datasets',
             type: 'array',
+            description: 'Datasets shared by Aesops & the community',
             of: [{ type: 'reference', to: [{ type: 'dataset' }] }],
+        }),
+        defineField({
+            name: 'services',
+            title: 'Services',
+            description: 'Consultancy services offered by Aesops',
+            type: 'array',
+            of: [{ type: 'reference', to: [{ type: 'service' }] }],
         }),
         defineField({
             name: 'values',
             title: 'Values',
             type: 'array',
+            description: 'Aesops values',
             of: [{ type: 'reference', to: [{ type: 'value' }] }],
         }),
         defineField({

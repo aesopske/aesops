@@ -17,10 +17,10 @@ function Community({ section }: CommunityProps) {
                 <div className='mx-auto flex flex-col gap-10 container-fluid max-w-screen-2xl py-10 sm:py-40 lg:py-32'>
                     <div className='flex flex-col md:flex-row gap-5'>
                         <div className='text-left'>
-                            <Heading className='font-bold tracking-tight max-w-xl lg:text-4xl'>
+                            <Heading type='h2' className='font-bold tracking-tight max-w-lg'>
                                 {section?.title}
                             </Heading>
-                            <Text className='my-4 leading-8 text-gray-600 max-w-xl'>
+                            <Text className='my-4 leading-8 text-gray-600 max-w-lg'>
                                 {section?.description}
                             </Text>
                             <SanityCtaGroup ctas={section?.cta ?? []} />
