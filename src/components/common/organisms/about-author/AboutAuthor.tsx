@@ -1,22 +1,36 @@
-import { AUTHOR_PLUS, POST } from '@sanity/utils/types'
-import Heading from '@/components/common/atoms/Heading'
-import Socials from '@/components/common/organisms/author-card/Socials'
-import { Avatar, AvatarImage, AvatarFallback } from '@src/components/ui/avatar'
+import { Fragment } from 'react'
+
 import ListWrapper from '@src/components/common/ListWrapper'
-import SmallPostCard from '../posts/SmallPostCard'
-import Text from '@/components/common/atoms/Text'
+import { Avatar, AvatarFallback, AvatarImage } from '@src/components/ui/avatar'
+import { cn } from '@src/lib/utils'
+
+import { AUTHOR_PLUS, POST } from '@sanity/utils/types'
+
+import Heading from '@components/common/atoms/Heading'
+import Text from '@components/common/atoms/Text'
+import Socials from '@components/common/organisms/author-card/Socials'
+import SmallPostCard from '@components/common/organisms/posts/SmallPostCard'
 
 type AboutAuthorProps = {
     author: AUTHOR_PLUS
     hideBio?: boolean
     hidePosts?: boolean
+    largeProfile?: boolean
 }
 
-function AboutAuthor({ author, hideBio, hidePosts }: AboutAuthorProps) {
+function AboutAuthor({
+    author,
+    hideBio,
+    hidePosts,
+    largeProfile,
+}: AboutAuthorProps) {
     return (
         <div className='space-y-5'>
             <div className='flex items-center w-full gap-2'>
-                <Avatar className='border h-20 w-20'>
+                <Avatar
+                    className={cn('border h-20 w-20', {
+                        'lg:w-36 lg:h-36': largeProfile,
+                    })}>
                     <AvatarImage
                         src={author.photoURL}
                         alt={author?.name}
@@ -32,9 +46,7 @@ function AboutAuthor({ author, hideBio, hidePosts }: AboutAuthorProps) {
                     </Heading>
                     {author?.isCoreMember ? (
                         <div className='flex items-center gap-1'>
-                            <Text as='span' className='text-sm text-gray-500'>
-                                Core Member &bull; {author?.role}
-                            </Text>
+                            <Role role={author?.role ?? ''} />
                         </div>
                     ) : (
                         <div className='flex items-center gap-1'>
@@ -69,6 +81,28 @@ function AboutAuthor({ author, hideBio, hidePosts }: AboutAuthorProps) {
 
             <Socials socials={author.socials ?? []} />
         </div>
+    )
+}
+
+function Role({ role }: { role: string }) {
+    // check if split role is an array
+    if (!role) return null
+
+    const splitRole = role.split('|')
+
+    return Array.isArray(splitRole) ? (
+        <Text as='span' className='text-sm text-gray-500'>
+            {splitRole.map((role: string, idx: number) => (
+                <Fragment key={role}>
+                    {role}{' '}
+                    {idx < splitRole.length - 1 ? <span>&bull;</span> : ''}
+                </Fragment>
+            ))}
+        </Text>
+    ) : (
+        <Text as='span' className='text-sm text-gray-500'>
+            {role}
+        </Text>
     )
 }
 export default AboutAuthor

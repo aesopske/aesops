@@ -1,5 +1,5 @@
 import { LayoutPanelTop } from 'lucide-react';
-import { defineArrayMember, defineField, defineType } from 'sanity';
+import { defineField, defineType } from 'sanity'
 
 
 export default defineType({
@@ -55,23 +55,36 @@ export default defineType({
             of: [{ type: 'cta' }],
         }),
         defineField({
-            name: 'moreContent',
-            title: 'More Content',
+            name: 'posts',
+            title: 'Posts',
+            type: 'array',
+            of: [{ type: 'reference', to: [{ type: 'post' }] }],
+        }),
+
+        defineField({
+            name: 'datasets',
+            title: 'Datasets',
+            type: 'array',
+            of: [{ type: 'reference', to: [{ type: 'dataset' }] }],
+        }),
+        defineField({
+            name: 'values',
+            title: 'Values',
+            type: 'array',
+            of: [{ type: 'reference', to: [{ type: 'value' }] }],
+        }),
+        defineField({
+            name: 'members',
+            title: 'Members',
             type: 'array',
             of: [
-                defineArrayMember({
-                    name: 'posts',
-                    title: 'Posts',
+                {
                     type: 'reference',
-                    to: [{ type: 'post' }],
-                }),
-                defineArrayMember({
-                    name: 'datasets',
-                    title: 'Datasets',
-                    type: 'reference',
-                    to: [{ type: 'dataset' }],
-                }),
+                    to: [{ type: 'author' }],
+                    options: { filter: 'isCoreMember' },
+                },
             ],
+            description: 'Members of the section',
         }),
     ],
 })

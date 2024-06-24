@@ -8,6 +8,7 @@ import dataset from './schemaTypes/documents/datasets';
 import page from './schemaTypes/documents/page';
 import post from './schemaTypes/documents/post';
 import siteSettings from './schemaTypes/documents/siteSettings'
+import values from './schemaTypes/documents/value'
 import iframeEmbed from './schemaTypes/objects/IframeEmbed'
 import NotesBlock from './schemaTypes/objects/NotesBlock'
 import blockContent from './schemaTypes/objects/blockContent'
@@ -42,6 +43,7 @@ export const schema: { types: SchemaTypeDefinition[] } = {
         sectionContent,
         cta,
         NotesBlock,
+        values,
         // customUrl,
     ],
 }

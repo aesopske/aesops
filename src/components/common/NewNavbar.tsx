@@ -16,6 +16,7 @@ const navigation = [
         coming: false,
         href: '/',
     },
+    { name: 'About Us', href: '/about-us', coming: false },
     // { name: 'Services', href: '/#services', coming: false },
     { name: 'Datasets', href: '/#', coming: true },
     // { name: 'Trends', href: '/#', coming: true },
