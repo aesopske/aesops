@@ -46,7 +46,7 @@ async function Page() {
         <div className='w-full h-full min-h-screen'>
             <Hero section={page?.sections[0]} />
             <Services section={page?.sections[1]} />
-            <AboutSummary section={page?.sections[2]} />
+            {/* <AboutSummary section={page?.sections[2]} /> */}
             <Datasets section={page?.sections[3]} />
             <Consultancy section={page?.sections[4]} />
             <div className='relative h-full py-10'>

@@ -28,7 +28,7 @@ async function RecentPosts({ className }: RecentPostsProps) {
                         data science and technology from us and our community.
                     </Text>
                     <Text className='flex items-center gap-x-6'>
-                        <AesopLink color='primary' type='button' href='/blog'>
+                        <AesopLink variant='primary' type='button' href='/blog'>
                             View All Posts &rarr;
                         </AesopLink>
                     </Text>

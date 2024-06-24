@@ -1,28 +1,27 @@
-'use client'
+'use client';
 
-import { AnimatePresence, motion } from 'framer-motion'
-import Hamburger from 'hamburger-react'
-import { Eye } from 'lucide-react'
-import { usePathname } from 'next/navigation'
+import { AnimatePresence, motion } from 'framer-motion';
+import Hamburger from 'hamburger-react';
+import { Eye } from 'lucide-react';
+import { usePathname } from 'next/navigation';
 
-import useDisclosure from '@src/hooks/useDisclosure'
 
-import Logo from './Logo'
-import AesopLink from './atoms/AesopLink'
+
+import useDisclosure from '@src/hooks/useDisclosure';
+
+
+
+import Logo from './Logo';
+import AesopLink from './atoms/AesopLink';
+
 
 const navigation = [
-    {
-        name: 'Home',
-        coming: false,
-        href: '/',
-    },
-    { name: 'About Us', href: '/about-us', coming: false },
-    // { name: 'Services', href: '/#services', coming: false },
     { name: 'Datasets', href: '/#', coming: true },
+    { name: 'Competitions', href: '/', coming: true },
+    { name: 'About Us', href: '/about-us', coming: false },
+    { name: 'Blog', href: '/blog', coming: false },
     // { name: 'Trends', href: '/#', coming: true },
     // { name: 'Tools', href: '/tools' },
-    { name: 'Competitions', href: '/', coming: true },
-    { name: 'Blog', href: '/blog', coming: false },
 ]
 
 function Navbar({ previewEnabled }: { previewEnabled: boolean }) {

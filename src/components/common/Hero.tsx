@@ -38,7 +38,7 @@ function Hero({ className, section }: HeroProps) {
                     />
                 </div>
                 <div className='mx-auto max-w-screen-2xl flex flex-col h-auto lg:flex-row lg:items-center lg:justify-between lg:gap-10'>
-                    <div className='w-full space-y-3 py-10 lg:py-28'>
+                    <div className='w-full space-y-3 py-10 lg:py-24'>
                         <div className='sm:mb-8 sm:flex sm:justify-start'>
                             <div className='relative text-xs rounded-full px-3 py-1 font-sans leading-6 text-white ring-2 ring-gray-100/10 hover:ring-gray-200/20 lg:text-sm '>
                                 Welcome to aesops&apos; new website.{' '}
@@ -64,7 +64,7 @@ function Hero({ className, section }: HeroProps) {
                             <SanityCtaGroup ctas={section?.cta ?? []} />
                         </div>
                     </div>
-                    <div className='h-full w-full items-center justify-center  lg:flex'>
+                    <div className='h-full w-full px-8 items-center justify-center lg:flex 3xl:px-0 '>
                         <Image
                             src={imageUrl ?? '/svg/datapoints.svg'}
                             alt={section?.image?.alt}
