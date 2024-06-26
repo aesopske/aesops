@@ -1,5 +1,5 @@
 import { LayoutPanelTop } from 'lucide-react';
-import { defineArrayMember, defineField, defineType } from 'sanity';
+import { defineField, defineType } from 'sanity'
 
 
 export default defineType({
@@ -12,6 +12,7 @@ export default defineType({
             name: 'title',
             title: 'Title',
             type: 'string',
+            description: 'The name of the section',
         }),
         defineField({
             name: 'useBlock',
@@ -52,26 +53,49 @@ export default defineType({
             name: 'cta',
             title: 'Call to Action',
             type: 'array',
+            description: 'Call to action for the section',
             of: [{ type: 'cta' }],
         }),
         defineField({
-            name: 'moreContent',
-            title: 'More Content',
+            name: 'posts',
+            title: 'Posts',
+            type: 'array',
+            description: 'Posts shared by Aesops & the community',
+            of: [{ type: 'reference', to: [{ type: 'post' }] }],
+        }),
+        defineField({
+            name: 'datasets',
+            title: 'Datasets',
+            type: 'array',
+            description: 'Datasets shared by Aesops & the community',
+            of: [{ type: 'reference', to: [{ type: 'dataset' }] }],
+        }),
+        defineField({
+            name: 'services',
+            title: 'Services',
+            description: 'Consultancy services offered by Aesops',
+            type: 'array',
+            of: [{ type: 'reference', to: [{ type: 'service' }] }],
+        }),
+        defineField({
+            name: 'values',
+            title: 'Values',
+            type: 'array',
+            description: 'Aesops values',
+            of: [{ type: 'reference', to: [{ type: 'value' }] }],
+        }),
+        defineField({
+            name: 'members',
+            title: 'Members',
             type: 'array',
             of: [
-                defineArrayMember({
-                    name: 'posts',
-                    title: 'Posts',
+                {
                     type: 'reference',
-                    to: [{ type: 'post' }],
-                }),
-                defineArrayMember({
-                    name: 'datasets',
-                    title: 'Datasets',
-                    type: 'reference',
-                    to: [{ type: 'dataset' }],
-                }),
+                    to: [{ type: 'author' }],
+                    options: { filter: 'isCoreMember' },
+                },
             ],
+            description: 'Members of the section',
         }),
     ],
 })

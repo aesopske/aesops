@@ -2,9 +2,12 @@ import { groq } from 'next-sanity';
 
 
 
-import { CATEGORY, CATEGORY_POST, MIN_POST, POST } from '@sanity/utils/types'
+import { CATEGORY, CATEGORY_POST, MIN_POST, POST } from '@sanity/utils/types';
 
-import { client } from './client'
+
+
+import { client } from './client';
+
 
 export const postsQuery = groq`*[_type == 'post' && !(_id in path('drafts.**'))] | order(publishedAt desc){
     title,
@@ -347,7 +350,48 @@ export const fetchFeaturedDatasets = async () => {
 export const pageQuery = groq`*[_type == 'page' && slug.current == $slug]{
     title,
     slug,
-    sections
+    sections[]{
+        ...,
+        values[]->{
+            ...
+        },
+        services[]->{
+            ...
+        },
+        posts[]->{
+            title,
+            slug,
+            mainImage,
+            publishedAt,
+            excerpt,
+            categories[]->{
+                title,
+                slug
+            },
+            "readTime":round(length(pt::text(body)) / 5 / 180 ),
+            author->{
+                name,
+                bio,
+                image,
+                slug,
+                isCoreMember,
+                socials,
+                role 
+            }
+        },
+        datasets[]->{
+            ...
+        },
+        members[]->{
+            name,
+            bio,
+            image,
+            slug,
+            isCoreMember,
+            socials,
+            role 
+        }
+    }
 }[0]`
 
 export const pageMetadataQuery = groq`*[_type == 'page' && slug.current == $slug]{

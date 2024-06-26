@@ -80,10 +80,10 @@ function ContributionSection({ sectionContent }) {
         <div className='relative h-full py-8 md:py-24'>
             <HasBackgroundWrapper className=' h-auto max-w-4xl flex items-center mx-auto lg:rounded-3xl'>
                 <div className='max-w-xl px-5 py-24 mx-auto space-y-4 md:p-10 md:px-10'>
-                    <Heading type='h1' className='text-aes-light'>
+                    <Heading type='h1' className='text-brandaccent-50'>
                         {sectionContent?.title}
                     </Heading>
-                    <Text className='text-aes-light'>
+                    <Text className='text-brandaccent-50'>
                         {sectionContent?.description}
                     </Text>
                     <SanityCtaGroup ctas={sectionContent?.cta ?? []} />

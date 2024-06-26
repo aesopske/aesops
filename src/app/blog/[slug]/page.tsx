@@ -90,9 +90,7 @@ async function Blog({ params }: { params: QueryParams }) {
                 <div className='mx-auto w-full max-w-screen-2xl space-y-5 lg:w-1/2'>
                     <div className='space-y-2 px-4 lg:px-0'>
                         <BreadCrumbs />
-                        <Heading type='h1' className='capitalize'>
-                            {post?.title}
-                        </Heading>
+                        <Heading>{post?.title}</Heading>
                         <AuthorCard
                             hideDetails={true}
                             author={post?.author}

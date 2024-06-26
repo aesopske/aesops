@@ -97,6 +97,11 @@ export type SECTION = {
     cta?: CTA[]
     useBody?: boolean
     image?: SANITY_IMAGE
+    posts?: POST[]
+    members?: AUTHOR[]
+    datasets?: DATASET[]
+    values?: VALUE[]
+    services?: SERVICE[]
 }
 
 export type CTA = {
@@ -106,4 +111,30 @@ export type CTA = {
     isExternal?: boolean
     link: string
     variant: 'default' | 'primary' | 'secondary' | 'dark'
+}
+
+export type DATASET = {
+    _key: string
+    _type: string
+    title: string
+    slug: {
+        current: string
+    }
+    description: string
+}
+
+export type VALUE = {
+    _key: string
+    _type: string
+    value: string
+    description: string
+    icon: string
+}
+
+export type SERVICE = {
+    _key: string
+    _type: string
+    title: string
+    description: string
+    icon: string
 }

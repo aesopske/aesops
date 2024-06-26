@@ -59,7 +59,7 @@ function Share({ title, className }: ShareProps) {
                             buttonVariants({
                                 variant: 'outline',
                                 className:
-                                    'rounded-full border border-aes-dark/50 text-aes-dark hover:text-aes-light w-9 h-9 p-2 flex items-center justify-center',
+                                    'rounded-full border border-brandprimary-900/50 text-brandprimary-900 hover:text-brandaccent-50 w-9 h-9 p-2 flex items-center justify-center',
                             }),
                         )}
                         rel='noreferrer noopener'>
@@ -73,7 +73,7 @@ function Share({ title, className }: ShareProps) {
                         onCopy(decodeURIComponent(newUrl))
                     }}
                     variant='outline'
-                    className='rounded-full border border-aes-dark/50 text-aes-dark hover:text-aes-light w-9 h-9 p-2 flex items-center justify-center data-[active=true]:bg-aes-dark data-[active=true]:text-aes-light'>
+                    className='rounded-full border border-brandprimary-900/50 text-brandprimary-900 hover:text-brandaccent-50 w-9 h-9 p-2 flex items-center justify-center data-[active=true]:bg-brandprimary-900 data-[active=true]:text-brandaccent-50'>
                     {copied ? (
                         <Check className='w-full h-full' />
                     ) : (

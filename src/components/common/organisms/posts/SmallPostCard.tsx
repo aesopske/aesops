@@ -27,7 +27,7 @@ function SmallPostCard({ post, hideAuthor, className }: SmallPostCardProps) {
                     {categories?.length > 0 ? (
                         <Badge
                             variant='default'
-                            className='text-xs text-aes-light rounded-full'>
+                            className='text-xs text-brandaccent-50 rounded-full'>
                             # {categories[0]?.title}
                         </Badge>
                     ) : null}
@@ -38,7 +38,7 @@ function SmallPostCard({ post, hideAuthor, className }: SmallPostCardProps) {
                         className='font-black hover:underline hover:decoration-dotted underline-offset-8'>
                         {titleCase(post.title)}
                     </Heading>
-                    <Text className='line-clamp-3 text-base text-aes-dark/70 lg:text-sm'>
+                    <Text className='line-clamp-3 text-base text-brandprimary-900/70 lg:text-sm'>
                         {post.excerpt}
                     </Text>
                 </div>

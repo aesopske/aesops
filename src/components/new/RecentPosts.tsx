@@ -2,7 +2,8 @@ import React from 'react'
 
 import { cn } from '@src/lib/utils'
 
-import { fetchRecentPosts } from '@sanity/utils/requests'
+import { sanityFetch } from '@sanity/utils/fetch'
+import { recentQuery } from '@sanity/utils/requests'
 import { MIN_POST } from '@sanity/utils/types'
 
 import ListWrapper from '@components/common/ListWrapper'
@@ -14,7 +15,9 @@ import PostCard from '@components/common/organisms/posts/PostCard'
 type RecentPostsProps = {} & React.HTMLProps<HTMLDivElement>
 
 async function RecentPosts({ className }: RecentPostsProps) {
-    const posts = await fetchRecentPosts()
+    const posts = await sanityFetch<MIN_POST[]>({
+        query: recentQuery,
+    })
 
     return (
         <section id='recent-posts' className={cn('w-full', className)}>
@@ -28,13 +31,13 @@ async function RecentPosts({ className }: RecentPostsProps) {
                         data science and technology from us and our community.
                     </Text>
                     <Text className='flex items-center gap-x-6'>
-                        <AesopLink color='primary' type='button' href='/blog'>
+                        <AesopLink variant='primary' type='button' href='/blog'>
                             View All Posts &rarr;
                         </AesopLink>
                     </Text>
                 </div>
                 <div className='grid grid-cols-1 gap-3 md:grid-cols-2 lg:grid-cols-3'>
-                    <ListWrapper list={posts} itemKey='_key'>
+                    <ListWrapper list={posts ?? []} itemKey='_key'>
                         {(post: MIN_POST) => <PostCard post={post} />}
                     </ListWrapper>
                 </div>

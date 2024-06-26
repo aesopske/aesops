@@ -1,5 +1,5 @@
-import { defineType, defineArrayMember } from 'sanity'
-import { Code, Table, Frame, Play } from 'lucide-react'
+import { Code, Frame, Play, StickyNote, Table } from 'lucide-react'
+import { defineArrayMember, defineType } from 'sanity'
 
 /**
  * This is the schema type for block content used in the post document type
@@ -103,6 +103,14 @@ export default defineType({
             name: 'tableBlock',
             title: 'Table Block',
             icon: Table,
+        }),
+
+        // Adding notes block
+        defineArrayMember({
+            type: 'note',
+            name: 'note',
+            title: 'Note',
+            icon: StickyNote,
         }),
     ],
 })

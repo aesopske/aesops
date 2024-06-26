@@ -29,21 +29,21 @@ function PostCard({
     return (
         <div
             className={cn(
-                '  bg-white border border-gray-200 p-4 rounded text-aes-dark h-full space-y-6',
+                '  bg-white border border-gray-200 p-4 rounded text-brandprimary-900 h-full space-y-6',
                 className
             )}>
             <div className='flex gap-2 flex-wrap'>
                 {topPick && (
                     <Badge
                         variant='secondary'
-                        className='text-aes-primary rounded-full w-fit'>
+                        className='text-brandprimary-700 rounded-full w-fit'>
                         Top Pick
                     </Badge>
                 )}
                 {categories?.length > 0 || !hideCategory ? (
                     <Badge
                         variant='default'
-                        className='text-aes-light rounded-full w-fit'>
+                        className='text-brandaccent-50 rounded-full w-fit'>
                         # {categories[0]?.title}
                     </Badge>
                 ) : null}
