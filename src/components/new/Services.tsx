@@ -32,7 +32,6 @@ function Services({ services }: ServicesProps) {
     }
     return (
         <section id='services'>
-            <div className='mx-auto flex flex-col gap-5 max-w-screen-2xl py-10 px-6 lg:gap-8 xl:px-0'>
                 <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 relative'>
                     <ListWrapper itemKey='title' list={services ?? []}>
                         {(item: SERVICE) => {
@@ -53,7 +52,6 @@ function Services({ services }: ServicesProps) {
                         }}
                     </ListWrapper>
                 </div>
-            </div>
         </section>
     )
 }
