@@ -1,13 +1,6 @@
-import { groq } from 'next-sanity';
-
-
-
-import { CATEGORY, CATEGORY_POST, MIN_POST, POST } from '@sanity/utils/types';
-
-
-
-import { client } from './client';
-
+import { groq } from 'next-sanity'
+import { CATEGORY, CATEGORY_POST, MIN_POST, POST } from '@sanity/utils/types'
+import { client } from './client'
 
 export const postsQuery = groq`*[_type == 'post' && !(_id in path('drafts.**'))] | order(publishedAt desc){
     title,
@@ -398,3 +391,14 @@ export const pageMetadataQuery = groq`*[_type == 'page' && slug.current == $slug
     seoTitle,
     seoDescription,
 }[0]`
+
+// authors query
+export const membersQuery = groq`*[_type == 'author' && !(_id in path('drafts.**'))]{
+    name,
+    bio,
+    image,
+    slug,
+    isCoreMember,
+    socials,
+    role,
+}[]`

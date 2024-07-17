@@ -1,87 +1,65 @@
 'use client'
 
-import React, { useState, useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 
 import { Button } from '../ui'
-import { Input } from '../ui/input'
-import { useRouter } from 'next/router'
+import { useRouter, usePathname } from 'next/navigation'
 import { X, SearchIcon } from 'lucide-react'
 
-function Search({ placeholder, label }) {
-    const router = useRouter()
-    const pathname = router.pathname
-    const { search, category } = router.query as {
-        search: string
-        category: string
-    }
-    const [searchterm, setSearchterm] = useState(search || '')
+function Search({ placeholder, search, label }) {
+  const router = useRouter()
+  const pathname = usePathname()
+  const inputRef = React.useRef<HTMLInputElement>(null)
 
-    useEffect(() => {
-        if (search) setSearchterm(search)
-        if (category) setSearchterm(category)
-        if (search && category) setSearchterm(search)
-    }, [search, category])
+  const [searchTerm, setSearchTerm] = useState<string | undefined>(search || '')
 
-    const handleChange = (e: React.FormEvent<HTMLInputElement>) => {
-        const inputElement = e.target as HTMLInputElement
-        if (inputElement.value) setSearchterm(inputElement.value.toLowerCase())
-    }
+  // const searchTerm = inputRef.current?.value
 
-    const handleClick = () => {
-        if (!searchterm) return
-        router.push(`/${pathname}?search=${searchterm}`, undefined, {
-            shallow: true,
-        })
-    }
+  const handleClick = () => {
+    if (!searchTerm || searchTerm?.length < 3) return
+    const newPathname = `${pathname}?search=${searchTerm}`
+    router.replace(newPathname, {
+      scroll: false,
+    })
+  }
 
-    return (
-        <div className='w-full'>
-            <label htmlFor='search' className='sr-only'>
-                {label}
-            </label>
-            <div className='flex items-center gap-2'>
-                <div className='relative w-full'>
-                    <SearchIcon className='h-4 w-4 absolute left-3 top-3' />
+  const clearInput = () => {
+    if (!searchTerm) return;
+    setSearchTerm('')
+  }
 
-                    <Input
-                        onChange={handleChange}
-                        className='w-full px-10'
-                        placeholder={placeholder}
-                        value={searchterm}
-                    />
-                    {searchterm ? (
-                        <Button
-                            variant='ghost'
-                            onClick={() => {
-                                setSearchterm('')
-                                router.push(pathname, undefined, {
-                                    shallow: true,
-                                })
-                            }}
-                            className='absolute right-3 top-0 flex items-center justify-center p-0 hover:bg-transparent'
-                            aria-label='clear search'>
-                            <X className='h-4 w-4' />
-                        </Button>
-                    ) : null}
-                </div>
 
-                <Button
-                    className='w-fit'
-                    disabled={!searchterm}
-                    onClick={handleClick}>
-                    Search
-                </Button>
-            </div>
+  return (
+    <div className='w-full h-full'>
+      <label htmlFor='search' className='sr-only'>
+        {label}
+      </label>
+      <div className='flex items-center gap-2 h-full'>
+        <div className='relative w-full h-full'>
+          <input name='searchterm' type="text" placeholder={placeholder} value={searchTerm} onChange={(e) => setSearchTerm(e.target.value)} className='w-full h-full bg-transparent text-brandprimary-900 font-semibold pl-4 col-span-2 outline-none ring-0' />
+          {searchTerm ? (
+            <Button
+              variant='ghost'
+              onClick={() => {
+                router.replace(pathname, { scroll: false })
+                clearInput()
+              }}
+              className='absolute right-3 top-0 flex items-center justify-center p-0 hover:bg-transparent h-full'
+              aria-label='clear search'>
+              <X className='h-5 w-5' />
+            </Button>
+          ) : null}
         </div>
-    )
-}
 
-Search.defaultProps = {
-    label: '',
-    setTerm: () => {},
-    term: '',
-    placeholder: 'search',
-    full: false,
+        <Button
+          className='w-fit rounded-lg bg-brandprimary-700 hover:bg-brandprimary-600 text-white font-semibold px-4 py-2'
+          disabled={!searchTerm}
+          onClick={handleClick}>
+          <SearchIcon className='h-5 w-5' />
+        </Button>
+      </div>
+    </div>
+  )
 }
 
 export default Search

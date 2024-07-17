@@ -1,12 +1,11 @@
-import '@app/styles/global.css'
-import '@fontsource-variable/lora'
-import '@fontsource-variable/bricolage-grotesque'
-
-import TopLoader from 'nextjs-toploader'
+import '@app/styles/global.css';
+import { ClerkProvider } from '@clerk/nextjs';
+import '@fontsource-variable/bricolage-grotesque';
+import '@fontsource-variable/lora';
+import { Analytics } from '@vercel/analytics/react';
+import { VisualEditing } from 'next-sanity';
 import { draftMode } from 'next/headers'
-import { VisualEditing } from 'next-sanity'
-import { Analytics } from '@vercel/analytics/react'
-
+import TopLoader from 'nextjs-toploader'
 import Footer from '@/components/common/Footer'
 import NewNavbar from '@components/common/NewNavbar'
 
@@ -33,14 +32,16 @@ function RootLayout({ children }) {
                     sizes='32x32'
                 />
             </head>
-            <body className=''>
-                <TopLoader color='#15616D' showSpinner={false} />
-                <NewNavbar previewEnabled={draftMode().isEnabled} />
-                <main>{children}</main>
-                {draftMode().isEnabled && <VisualEditing />}
-                <Footer />
-                <Analytics />
-            </body>
+            <ClerkProvider>
+                <body className=''>
+                    <TopLoader color='#15616D' showSpinner={false} />
+                    <NewNavbar previewEnabled={draftMode().isEnabled} />
+                    <main>{children}</main>
+                    {draftMode().isEnabled && <VisualEditing />}
+                    <Footer />
+                    <Analytics />
+                </body>
+            </ClerkProvider>
         </html>
     )
 }

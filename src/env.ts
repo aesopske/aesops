@@ -1,5 +1,5 @@
-import { z } from 'zod'
 import { createEnv } from '@t3-oss/env-nextjs'
+import { z } from 'zod'
 
 export const env = createEnv({
     server: {
@@ -7,10 +7,20 @@ export const env = createEnv({
         SANITY_API_READ_TOKEN: z.string({
             message: 'SANITY_API_READ_TOKEN is required',
         }),
+        CLERK_SECRET_KEY: z.string({
+            message: 'CLERK_SECRET_KEY is required',
+        }),
     },
-    client: {},
+    client: {
+        NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY: z.string({
+            message: 'NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY is required',
+        }),
+    },
     runtimeEnv: {
         OPENAI_API_KEY: process.env.OPENAI_API_KEY,
         SANITY_API_READ_TOKEN: process.env.SANITY_API_READ_TOKEN,
+        CLERK_SECRET_KEY: process.env.CLERK_SECRET_KEY,
+        NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY:
+            process.env.NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY,
     },
 })

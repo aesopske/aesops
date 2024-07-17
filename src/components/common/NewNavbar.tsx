@@ -1,23 +1,17 @@
 'use client';
 
-import { AnimatePresence, motion } from 'framer-motion';
-import Hamburger from 'hamburger-react';
-import { Eye } from 'lucide-react';
-import { usePathname } from 'next/navigation';
-
-
-
-import useDisclosure from '@src/hooks/useDisclosure';
-
-
-
-import Logo from './Logo';
-import AesopLink from './atoms/AesopLink';
-
+import { SignedIn, UserButton } from '@clerk/nextjs'
+import { AnimatePresence, motion } from 'framer-motion'
+import Hamburger from 'hamburger-react'
+import { Eye } from 'lucide-react'
+import { usePathname } from 'next/navigation'
+import useDisclosure from '@src/hooks/useDisclosure'
+import Logo from './Logo'
+import AesopLink from './atoms/AesopLink'
 
 const navigation = [
-    { name: 'Datasets', href: '/datasets', coming: false },
-    { name: 'Competitions', href: '/', coming: true },
+    { name: 'Datasets', href: '/datasets', coming: true },
+    { name: 'Competitions', href: '/competitions', coming: false },
     { name: 'About Us', href: '/about-us', coming: false },
     { name: 'Blog', href: '/blog', coming: false },
     // { name: 'Trends', href: '/#', coming: true },
@@ -58,6 +52,11 @@ function Navbar({ previewEnabled }: { previewEnabled: boolean }) {
                             ) : null}
                         </a>
                     ))}
+                    <SignedIn>
+                        <div className='ml-3'>
+                            <UserButton />
+                        </div>
+                    </SignedIn>
                 </div>
                 {previewEnabled && (
                     <AesopLink
