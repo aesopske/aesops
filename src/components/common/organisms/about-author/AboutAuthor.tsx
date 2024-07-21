@@ -50,7 +50,7 @@ function AboutAuthor({
                         {author?.name}
                     </Heading>
                     {author?.isCoreMember ? (
-                        <div className='flex items-center gap-1'>
+                        <div className='flex items-center gap-1 text-gray-100'>
                             <Role role={author?.role ?? ''} />
                         </div>
                     ) : (
