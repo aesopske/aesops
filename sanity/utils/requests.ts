@@ -1,7 +1,6 @@
-import { groq } from 'next-sanity';
-import { CATEGORY, CATEGORY_POST, MIN_POST, POST } from '@sanity/utils/types';
-import { client } from './client';
-
+import { groq } from 'next-sanity'
+import { CATEGORY, CATEGORY_POST, MIN_POST, POST } from '@sanity/utils/types'
+import { client } from './client'
 
 export const postsQuery = groq`*[_type == 'post' && !(_id in path('drafts.**'))] | order(publishedAt desc){
     title,
@@ -20,7 +19,7 @@ export const postsQuery = groq`*[_type == 'post' && !(_id in path('drafts.**'))]
         slug,
         isCoreMember,
         socials,
-        role 
+        role
     }
   }`
 
@@ -119,7 +118,7 @@ export const featuredQuery = groq`*[_type == 'post' && !(_id in path('drafts.**'
         slug,
         isCoreMember,
         socials,
-        role 
+        role
     }
   }`
 
@@ -151,7 +150,7 @@ export const recentQuery = groq`*[_type == 'post' && !(_id in path('drafts.**'))
         slug,
         isCoreMember,
         socials,
-        role 
+        role
     }
   }`
 
@@ -205,7 +204,7 @@ export const categoryQuery = groq`*[_type == 'category']{
             slug,
             isCoreMember,
             socials,
-            role 
+            role
         }
     }
   }`
@@ -232,7 +231,7 @@ export const specificCategoryQuery = groq`*[_type == 'category' && slug.current 
             slug,
             isCoreMember,
             socials,
-            role 
+            role
         }
     }
   }`
@@ -352,7 +351,7 @@ export const pageQuery = groq`*[_type == 'page' && slug.current == $slug]{
                 slug,
                 isCoreMember,
                 socials,
-                role 
+                role
             }
         },
         datasets[]->{
@@ -365,7 +364,7 @@ export const pageQuery = groq`*[_type == 'page' && slug.current == $slug]{
             slug,
             isCoreMember,
             socials,
-            role 
+            role
         }
     }
 }[0]`
@@ -406,9 +405,17 @@ export const memberQuery = groq`*[_type == 'author' && slug.current == $slug]{
             slug,
             isCoreMember,
             socials,
-            role 
+            role
         }
     }
+}[0]`
+
+// Fetch single member metadata
+export const memberMetadataQuery = groq`*[_type == 'author' && slug.current == $slug && isCoreMember == true]{
+  name,
+  bio,
+  image,
+  slug,
 }[0]`
 
 // Competitions query

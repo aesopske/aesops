@@ -1,4 +1,5 @@
 import React, { Fragment } from 'react'
+import { ResolvingMetadata, Metadata } from 'next'
 import Image from 'next/image'
 import HasBackgroundWrapper from '@src/components/common/HasBackgroundWrapper'
 import ListWrapper from '@src/components/common/ListWrapper'
@@ -9,10 +10,42 @@ import BreadCrumbs from '@src/components/common/organisms/bread-crumbs/BreadCrum
 import PostCard from '@src/components/common/organisms/posts/PostCard'
 import { sanityFetch } from '@sanity/utils/fetch'
 import { urlForImage } from '@sanity/utils/image'
-import { memberQuery } from '@sanity/utils/requests'
+import { memberMetadataQuery, memberQuery } from '@sanity/utils/requests'
 import { AUTHOR, POST } from '@sanity/utils/types'
 
 export const revalidate = 60 * 60 * 24 // 24 hours
+
+type Props = {
+    params: {
+        member: string
+    }
+}
+
+export async function generateMetadata(
+    { params }: Props,
+    parent: ResolvingMetadata,
+): Promise<Metadata> {
+    const member = await sanityFetch<AUTHOR>({
+        query: memberMetadataQuery,
+        params: { slug: params?.member },
+    })
+    const previousImages = (await parent).openGraph?.images ?? []
+    return {
+        title: member?.name,
+        description: member?.bio,
+        openGraph: {
+            title: member?.name,
+            description: member?.bio,
+            images: [
+                {
+                    url: member?.image ? urlForImage(member?.image) : '',
+                    alt: member?.image?.alt ?? '',
+                },
+                ...previousImages,
+            ],
+        },
+    }
+}
 
 async function MemberPage({ params }: { params: { member: string } }) {
     const member = params.member
