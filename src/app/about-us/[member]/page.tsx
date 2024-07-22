@@ -5,6 +5,7 @@ import ListWrapper from '@src/components/common/ListWrapper'
 import Heading from '@src/components/common/atoms/Heading'
 import Text from '@src/components/common/atoms/Text'
 import Socials from '@src/components/common/organisms/author-card/Socials'
+import BreadCrumbs from '@src/components/common/organisms/bread-crumbs/BreadCrumbs'
 import PostCard from '@src/components/common/organisms/posts/PostCard'
 import { sanityFetch } from '@sanity/utils/fetch'
 import { urlForImage } from '@sanity/utils/image'
@@ -41,6 +42,7 @@ async function MemberPage({ params }: { params: { member: string } }) {
                     </div>
 
                     <div className='space-y-1'>
+                        <BreadCrumbs color='light' />
                         <Heading className='text-brandaccent-50 max-w-xl xl:text-5xl'>
                             {memberData?.name}
                         </Heading>
@@ -66,7 +68,7 @@ async function MemberPage({ params }: { params: { member: string } }) {
                                     alt={memberData?.name}
                                     width={400}
                                     height={400}
-                                    className='object-cover p-4 rounded-full h-full w-full'
+                                    className='object-cover object-top p-4 rounded-full h-full w-full'
                                 />
                             </div>
                         </div>
@@ -80,6 +82,9 @@ async function MemberPage({ params }: { params: { member: string } }) {
                         <Heading type='h4'>Posts by {memberData?.name}</Heading>
                         <hr className='border-gray-200 my-4' />
                         <div className='grid grid-cols-1 gap-4 md:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4 lg:gap-10 '>
+                            {!memberData?.posts?.length && (
+                                <Text>No posts available yet!!</Text>
+                            )}
                             <ListWrapper
                                 list={memberData?.posts ?? []}
                                 itemKey='_id'>

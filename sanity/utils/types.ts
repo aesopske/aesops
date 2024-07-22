@@ -138,3 +138,35 @@ export type SERVICE = {
     description: string
     icon: string
 }
+
+export type COMPETITION = {
+    _key: string
+    _type: string
+    _createdAt: string
+    title: string
+    slug: {
+        current: string
+    }
+    description: string
+    mainImage: SANITY_IMAGE
+    startDate: string
+    endDate?: string
+    info: COMPETITION_INFO
+    keywords: string
+    featured?: boolean
+}
+
+export type COMPETITION_INFO = {
+    overview: string
+    rules: string
+    prize?: string
+    datasetInfo?: string
+    dataset?: DATASET
+    competitioninfo: string
+    competition: string
+}
+
+export type COMPETITION_METADATA = Pick<
+    COMPETITION,
+    'slug' | 'title' | 'description'
+>

@@ -39,7 +39,7 @@ function AboutAuthor({
                     <AvatarImage
                         src={author.photoURL}
                         alt={author?.name}
-                        className='object-cover'
+                        className='object-cover object-top'
                     />
                     <AvatarFallback>{author?.initials}</AvatarFallback>
                 </Avatar>

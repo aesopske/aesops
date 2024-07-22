@@ -1,9 +1,10 @@
-import React, { Fragment } from 'react'
-import { getRandomString, getNestedValue } from '@src/utils'
+import React, { Fragment } from 'react';
+import { getRandomString, getNestedValue } from '@src/utils';
+
 
 type ListWrapperProps = {
     list: any[]
-    itemKey: string
+    itemKey?: string
     renderFallback?: () => React.ReactNode
     children: (item: any, index: number) => React.ReactNode //eslint-disable-line
 }

@@ -37,26 +37,28 @@ function Navbar({ previewEnabled }: { previewEnabled: boolean }) {
                         size={20}
                     />
                 </div>
-                <div className='hidden lg:flex lg:gap-x-6 font-sans'>
-                    {navigation.map((item) => (
-                        <a
-                            key={item.name}
-                            href={item.href}
-                            aria-disabled={item.coming}
-                            className='relative text-sm font-semibold leading-6 aria-disabled:opacity-50 aria-disabled:pointer-events-none'>
-                            {item.name}
-                            {item.coming ? (
-                                <sup className='w-full bg-brandaccent-500 text-brandprimary-900 rounded px-2 py-[1px]'>
-                                    Coming soon
-                                </sup>
-                            ) : null}
-                        </a>
-                    ))}
-                    <SignedIn>
-                        <div className='ml-3'>
-                            <UserButton />
-                        </div>
-                    </SignedIn>
+                <div className='flex items-center gap-5'>
+                    <div className='hidden lg:flex lg:gap-x-6 font-sans'>
+                        {navigation.map((item) => (
+                            <a
+                                key={item.name}
+                                href={item.href}
+                                aria-disabled={item.coming}
+                                className='relative text-sm font-semibold leading-6 aria-disabled:opacity-50 aria-disabled:pointer-events-none w-fit'>
+                                {item.name}
+                                {item.coming ? (
+                                    <sup className='w-full bg-brandaccent-500 text-brandprimary-900 rounded px-2 py-[1px]'>
+                                        Coming soon
+                                    </sup>
+                                ) : null}
+                            </a>
+                        ))}
+                        <SignedIn>
+                            <div className='ml-3'>
+                                <UserButton />
+                            </div>
+                        </SignedIn>
+                    </div>
                 </div>
                 {previewEnabled && (
                     <AesopLink

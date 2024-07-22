@@ -1,5 +1,6 @@
-import { Info, Award } from 'lucide-react'
-import { defineType, defineField } from 'sanity'
+import { Info, Award } from 'lucide-react';
+import { defineType, defineField } from 'sanity';
+
 
 export default defineType({
     name: 'competition',
@@ -15,6 +16,10 @@ export default defineType({
         {
             title: 'SEO & Metadata',
             name: 'seo',
+        },
+        {
+            title: 'Actions',
+            name: 'actions',
         },
     ],
     fields: [
@@ -86,6 +91,14 @@ export default defineType({
             description: 'What is the competition about?',
             icon: Info,
             group: 'info',
+        }),
+        defineField({
+            name: 'featured',
+            title: 'Featured',
+            type: 'boolean',
+            initialValue: false,
+            description: 'Is this competition featured?',
+            group: 'actions',
         }),
         defineField({
             name: 'keywords',

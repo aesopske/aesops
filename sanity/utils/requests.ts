@@ -1,6 +1,7 @@
-import { groq } from 'next-sanity'
-import { CATEGORY, CATEGORY_POST, MIN_POST, POST } from '@sanity/utils/types'
-import { client } from './client'
+import { groq } from 'next-sanity';
+import { CATEGORY, CATEGORY_POST, MIN_POST, POST } from '@sanity/utils/types';
+import { client } from './client';
+
 
 export const postsQuery = groq`*[_type == 'post' && !(_id in path('drafts.**'))] | order(publishedAt desc){
     title,
@@ -306,15 +307,6 @@ export const singleDatasetQuery = groq`*[_type == 'dataset' && slug.current == $
     }
 }[0]`
 
-export const fetchDataset = async (slug: string) => {
-    try {
-        const dataset = await client.fetch(singleDatasetQuery, { slug })
-        return dataset
-    } catch (error) {
-        throw new Error('Error fetching dataset')
-    }
-}
-
 // fetch featured datasets
 export const featuredDatasetQuery = groq`*[_type == 'dataset' && featured == true]{
     title,
@@ -329,15 +321,6 @@ export const featuredDatasetQuery = groq`*[_type == 'dataset' && featured == tru
         slug
     }
 }`
-
-export const fetchFeaturedDatasets = async () => {
-    try {
-        const datasets = await client.fetch(featuredDatasetQuery)
-        return datasets
-    } catch (error) {
-        throw new Error('Error fetching datasets')
-    }
-}
 
 // fetch page by slug
 export const pageQuery = groq`*[_type == 'page' && slug.current == $slug]{
@@ -402,3 +385,48 @@ export const membersQuery = groq`*[_type == 'author' && !(_id in path('drafts.**
     socials,
     role,
 }[]`
+
+export const memberQuery = groq`*[_type == 'author' && slug.current == $slug]{
+    ...,
+    "posts": *[_type == 'post' && references(^._id) && !(_id in path('drafts.**'))] | order(publishedAt desc){
+        title,
+        slug,
+        mainImage,
+        publishedAt,
+        excerpt,
+        categories[]->{
+            title,
+            slug
+        },
+        "readTime":round(length(pt::text(body)) / 5 / 180 ),
+        author->{
+            name,
+            bio,
+            image,
+            slug,
+            isCoreMember,
+            socials,
+            role 
+        }
+    }
+}[0]`
+
+// Competitions query
+export const competitionsQuery = groq`*[_type == 'competition' && !(_id in path('drafts.**'))]{
+    title,
+    description,
+    slug,
+    mainImage,
+    startDate,
+    endDate,
+    featured
+}[]`
+
+export const competitionQuery = groq`*[_type == 'competition' && slug.current == $slug]{
+    ...
+}[0]`
+
+export const competitionsMetadataQuery = groq`*[_type == 'competition' && slug.current == $slug]{
+    title,
+    description,
+}[0]`

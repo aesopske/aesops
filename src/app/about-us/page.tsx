@@ -214,7 +214,7 @@ function OurTeam({ sectionContent }: { sectionContent: SECTION }) {
                             {(member: AUTHOR) => {
                                 return (
                                     <Link
-                                        href={`/about-us/team/${member.slug?.current}`}>
+                                        href={`/about-us/${member.slug?.current}`}>
                                         <AboutMember
                                             hideBio
                                             hidePosts
