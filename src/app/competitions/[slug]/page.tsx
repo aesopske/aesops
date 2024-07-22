@@ -118,7 +118,7 @@ async function page({ params }: { params: QueryParams }) {
                 <hr className='my-4' />
                 <div>
                     <Tabs
-                        defaultValue='overview'
+                        defaultValue={competition?.tabs?.[0]?.title.toLowerCase()}
                         className='w-full max-w-3xl rounded-md'>
                         <TabsList className='bg-brandaccent-50/80 py-6 px-2 rounded-full shadow-sm'>
                             <ListWrapper list={competition.tabs ?? []}>
