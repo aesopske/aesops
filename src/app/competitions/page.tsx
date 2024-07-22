@@ -1,3 +1,4 @@
+import { SignedIn, SignedOut } from '@clerk/nextjs'
 import { format } from 'date-fns'
 import { Metadata } from 'next'
 import Image from 'next/image'
@@ -8,6 +9,9 @@ import AesopLink from '@src/components/common/atoms/AesopLink'
 import Heading from '@src/components/common/atoms/Heading'
 import Text from '@src/components/common/atoms/Text'
 import AuthNav from '@src/components/common/organisms/auth-nav/AuthNav'
+import CompetitionCard from '@src/components/common/organisms/competition-card/CompetitionCard'
+import CompetitionProfile from '@src/components/common/organisms/competition-profile/CompetitionProfile'
+import { cn } from '@src/lib/utils'
 import { sanityFetch } from '@sanity/utils/fetch'
 import { urlForImage } from '@sanity/utils/image'
 import {
@@ -37,8 +41,6 @@ export async function generateMetadata(): Promise<Metadata> {
 }
 
 async function Competitions({ searchParams }) {
-    const allCompetitions = Array.from({ length: 10 }, (_, i) => i + 1)
-
     const page = await sanityFetch<PAGE>({
         query: pageQuery,
         params: {
@@ -48,8 +50,14 @@ async function Competitions({ searchParams }) {
 
     const initialSection = page?.sections?.[0]
 
+    const params = {
+        limit: 8,
+        search: searchParams?.search ?? '',
+    }
+
     const competitions = await sanityFetch<COMPETITION[]>({
         query: competitionsQuery,
+        params: searchParams?.search ? params : {},
     })
 
     return (
@@ -72,100 +80,93 @@ async function Competitions({ searchParams }) {
                 </div>
             </HasBackgroundWrapper>
             <div className='my-20 max-w-screen-2xl mx-auto h-full space-y-6'>
-                <AuthNav />
+                <div className='bg-brandaccent-50 min-h-20 p-5 rounded-md'>
+                    <SignedOut>
+                        <div className='w-full flex items-center justify-between'>
+                            <div>
+                                <Heading type='h3' className='font-bold'>
+                                    Start Competing Today
+                                </Heading>
+                                <Text className='w-auto'>
+                                    Sign in to participate in competitions
+                                </Text>
+                            </div>
+                            <AuthNav />
+                        </div>
+                    </SignedOut>
+                    <SignedIn>
+                        <CompetitionProfile />
+                    </SignedIn>
+                </div>
 
-                <div className='flex flex-col gap-2'>
-                    <Heading type='h2' className='font-bold'>
-                        Featured Competitions
-                    </Heading>
-                    <Text className='text-sm'>
-                        Compete with other players and win prizes
-                    </Text>
-                    <div className='grid grid-cols-4 gap-4'>
-                        {['1', '2', '3', '4'].map((_, index) => (
-                            <div
-                                key={index}
-                                className='bg-white h-96 w-full rounded-md shadow-sm'></div>
-                        ))}
+                {searchParams.search ? (
+                    <div className='space-y-4'>
+                        <Heading type='h3' className='font-bold'>
+                            Search Results
+                        </Heading>
+                        <hr />
+                        <div
+                            className={cn('grid grid-cols-4 gap-4', {
+                                'grid-cols-1': searchParams.search,
+                            })}>
+                            <ListWrapper
+                                list={[]}
+                                itemKey='_id'
+                                renderFallback={() => (
+                                    <Text className='opacity-60'>
+                                        Could not find what you're looking for,
+                                        change your search
+                                    </Text>
+                                )}>
+                                {(competition) => (
+                                    <CompetitionCard
+                                        competition={competition}
+                                    />
+                                )}
+                            </ListWrapper>
+                        </div>
                     </div>
-                </div>
-                <div className='flex flex-col gap-2'>
-                    <Heading type='h2' className='font-bold'>
-                        Upcoming
-                    </Heading>
-                    <Text className='text-sm'>
-                        Compete with other players and win prizes
-                    </Text>
-                    <div className='grid grid-cols-4 gap-4'>
-                        <ListWrapper list={competitions} itemKey='_id'>
-                            {(competition: COMPETITION) => (
-                                <CompetitionCard competition={competition} />
-                            )}
-                        </ListWrapper>
+                ) : (
+                    <div className='space-y-10'>
+                        <div className='flex flex-col gap-4'>
+                            <div>
+                                <Heading type='h3' className='font-bold'>
+                                    Upcoming
+                                </Heading>
+                                <Text className='text-sm'>
+                                    Compete with other players and win prizes
+                                </Text>
+                            </div>
+                            <div className='grid grid-cols-4 gap-4'>
+                                <ListWrapper list={competitions} itemKey='_id'>
+                                    {(competition) => (
+                                        <CompetitionCard
+                                            competition={competition}
+                                        />
+                                    )}
+                                </ListWrapper>
+                            </div>
+                        </div>
+                        <div className='flex flex-col gap-4'>
+                            <div>
+                                <Heading type='h3' className='font-bold'>
+                                    All Competitions
+                                </Heading>
+                                <Text className='text-sm'>
+                                    Compete with other players and win prizes
+                                </Text>
+                            </div>
+                            <div className='grid grid-cols-4 gap-4'>
+                                {competitions.map((competition, index) => (
+                                    <CompetitionCard
+                                        key={index}
+                                        competition={competition}
+                                    />
+                                ))}
+                            </div>
+                        </div>
                     </div>
-                </div>
-                <div className='flex flex-col gap-2'>
-                    <Heading type='h2' className='font-bold'>
-                        All Competitions
-                    </Heading>
-                    <Text className='text-sm'>
-                        Compete with other players and win prizes
-                    </Text>
-                    <div className='grid grid-cols-4 gap-4'>
-                        {allCompetitions.map((_, index) => (
-                            <div
-                                key={index}
-                                className='bg-white h-96 w-full rounded-md shadow-sm'></div>
-                        ))}
-                    </div>
-                </div>
-            </div>
-        </div>
-    )
-}
-
-function CompetitionCard({ competition }: { competition: COMPETITION }) {
-    const imageUrl = urlForImage(competition.mainImage) ?? ''
-    return (
-        <div className='bg-white h-auto w-full rounded-md shadow-sm flex flex-col justify-between align-start overflow-hidden'>
-            <div>
-                <div className='h-48 w-full'>
-                    <Image
-                        src={imageUrl}
-                        alt={competition?.mainImage?.alt ?? ''}
-                        width={400}
-                        height={400}
-                        className='object-cover h-full w-full'
-                    />
-                </div>
-                <div className='p-4 space-y-2'>
-                    <Heading type='h4' className='font-bold'>
-                        {competition.title}
-                    </Heading>
-                    <Text className='text-sm line-clamp-3'>
-                        {competition.description}
-                    </Text>
-                </div>
-                <div className='px-4 space-x-1'>
-                    <Text as='span'>
-                        {format(competition.startDate, 'dd MMM yyyy')}
-                    </Text>
-                    <Text as='span'>&bull;</Text>
-                    <Text as='span'>
-                        {competition.endDate
-                            ? format(competition.endDate, 'dd MMM yyyy')
-                            : 'Ongoing'}
-                    </Text>
-                </div>
-            </div>
-
-            <div className='p-4'>
-                <AesopLink
-                    href={`/competitions/${competition.slug?.current}`}
-                    type='button'
-                    variant='dark'>
-                    Join Competition &rarr;
-                </AesopLink>
+                )}
             </div>
         </div>
     )

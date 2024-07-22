@@ -1,7 +1,6 @@
 import { cva } from 'class-variance-authority'
-import Link, { LinkProps } from 'next/link'
 import React from 'react'
-
+import Link, { LinkProps } from 'next/link'
 import { cn } from '@src/lib/utils'
 
 type defaultProps = {
@@ -28,7 +27,7 @@ const linkVariants = cva('font-sans transition-all duration-300', {
         type: {
             default:
                 'hover:underline underline-offset-4 hover:decoration-dashed transition-all duration-300',
-            button: 'inline-block w-fit rounded-full text-center py-3 px-6 hover:shadow-md',
+            button: 'inline-block w-fit rounded-full text-center py-2 px-6 hover:shadow-md',
         },
         variant: {
             default: 'text-brandprimary-900',

@@ -1,6 +1,6 @@
-'use client';
+'use client'
 
-import { SignedIn, UserButton } from '@clerk/nextjs'
+import { ClerkLoaded, ClerkLoading, SignedIn, UserButton } from '@clerk/nextjs'
 import { AnimatePresence, motion } from 'framer-motion'
 import Hamburger from 'hamburger-react'
 import { Eye } from 'lucide-react'
@@ -38,7 +38,7 @@ function Navbar({ previewEnabled }: { previewEnabled: boolean }) {
                     />
                 </div>
                 <div className='flex items-center gap-5'>
-                    <div className='hidden lg:flex lg:gap-x-6 font-sans'>
+                    <div className='hidden lg:flex lg:items-center lg:gap-x-6 font-sans'>
                         {navigation.map((item) => (
                             <a
                                 key={item.name}
@@ -53,11 +53,16 @@ function Navbar({ previewEnabled }: { previewEnabled: boolean }) {
                                 ) : null}
                             </a>
                         ))}
-                        <SignedIn>
-                            <div className='ml-3'>
-                                <UserButton />
-                            </div>
-                        </SignedIn>
+                        <ClerkLoading>
+                            <span className='animate-pulse min-h-10 rounded-full w-36 bg-brandaccent-100/50' />
+                        </ClerkLoading>
+                        <ClerkLoaded>
+                            <SignedIn>
+                                <div className='ml-3 border border-brandprimary-900 p-2 rounded-full'>
+                                    <UserButton showName />
+                                </div>
+                            </SignedIn>
+                        </ClerkLoaded>
                     </div>
                 </div>
                 {previewEnabled && (
