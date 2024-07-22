@@ -1,10 +1,9 @@
-import { Info, Award } from 'lucide-react';
-import { defineType, defineField } from 'sanity';
-
+import { Info, Award } from 'lucide-react'
+import { defineType, defineField } from 'sanity'
 
 export default defineType({
     name: 'competition',
-    title: 'Competition',
+    title: 'Competitions',
     type: 'document',
     icon: Award,
     groups: [
@@ -61,6 +60,31 @@ export default defineType({
         }),
 
         defineField({
+            name: 'keywords',
+            title: 'Keywords',
+            description: 'Keywords for SEO',
+            type: 'string',
+            group: 'seo',
+        }),
+        defineField({
+            name: 'description',
+            title: 'Description',
+            description: 'A short description of the competition for SEO',
+            type: 'text',
+            group: 'seo',
+            validation: (Rule) => Rule.required(),
+        }),
+
+        defineField({
+            name: 'featured',
+            title: 'Featured',
+            type: 'boolean',
+            initialValue: false,
+            description: 'Is this competition featured?',
+            group: 'actions',
+        }),
+
+        defineField({
             name: 'startDate',
             title: 'Start Date',
             description: 'When does the competition start?',
@@ -85,35 +109,13 @@ export default defineType({
             group: 'info',
         }),
         defineField({
-            name: 'info',
-            title: 'Competition Details',
-            type: 'competitionInfo',
-            description: 'What is the competition about?',
-            icon: Info,
+            name: 'tabs',
+            title: 'Tabs',
+            description:
+                'Details about the competition. Select the tabs you want to display',
+            type: 'array',
+            of: [{ type: 'tab' }],
             group: 'info',
-        }),
-        defineField({
-            name: 'featured',
-            title: 'Featured',
-            type: 'boolean',
-            initialValue: false,
-            description: 'Is this competition featured?',
-            group: 'actions',
-        }),
-        defineField({
-            name: 'keywords',
-            title: 'Keywords',
-            description: 'Keywords for SEO',
-            type: 'string',
-            group: 'seo',
-        }),
-        defineField({
-            name: 'description',
-            title: 'Description',
-            description: 'A short description of the competition for SEO',
-            type: 'text',
-            group: 'seo',
-            validation: (Rule) => Rule.required(),
         }),
     ],
 })

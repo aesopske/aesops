@@ -12,11 +12,11 @@ import iframeEmbed from './schemaTypes/objects/IframeEmbed'
 import NotesBlock from './schemaTypes/objects/NotesBlock'
 import blockContent from './schemaTypes/objects/blockContent'
 import codeBlock from './schemaTypes/objects/codeBlock'
-import competitionInfo from './schemaTypes/objects/competitionInfo'
 import cta from './schemaTypes/objects/cta'
 import externalLink from './schemaTypes/objects/externalLink'
 import pageSections from './schemaTypes/objects/pageSections'
 import sectionContent from './schemaTypes/objects/sectionContent'
+import tab from './schemaTypes/objects/tab'
 import tableBlock from './schemaTypes/objects/tableBlock'
 import youtubeEmbed from './schemaTypes/objects/youtubeEmbed'
 
@@ -46,7 +46,7 @@ export const schema: { types: SchemaTypeDefinition[] } = {
         NotesBlock,
         values,
         service,
-        competitionInfo,
+        tab,
         // customUrl,
     ],
 }
