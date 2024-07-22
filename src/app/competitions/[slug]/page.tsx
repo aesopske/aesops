@@ -8,6 +8,7 @@ import ContentReader from '@src/components/common/ContentReader'
 import ListWrapper from '@src/components/common/ListWrapper'
 import Heading from '@src/components/common/atoms/Heading'
 import Text from '@src/components/common/atoms/Text'
+import BreadCrumbs from '@src/components/common/organisms/bread-crumbs/BreadCrumbs'
 import { Badge } from '@src/components/ui/badge'
 import { sanityFetch } from '@sanity/utils/fetch'
 import { urlForImage } from '@sanity/utils/image'
@@ -87,25 +88,31 @@ async function page({ params }: { params: QueryParams }) {
                 />
             </div>
             <div className='p-4 space-y-5 max-w-screen-2xl mx-auto py-10'>
-                <div className='space-y-2'>
-                    <Heading className='lg:text-5xl'>
-                        {competition?.title}
-                    </Heading>
-                    <div className='flex gap-2 flex-wrap'>
-                        {competition?.endDate ? (
-                            <Text className='text-base'>
-                                Ends &bull;{' '}
-                                {format(competition?.endDate, 'dd MMM yyyy')}
+                <div className='space-y-4'>
+                    <BreadCrumbs />
+                    <div className='space-y-2'>
+                        <Heading className='lg:text-5xl'>
+                            {competition?.title}
+                        </Heading>
+                        <div className='flex gap-2 flex-wrap'>
+                            {competition?.endDate ? (
+                                <Text className='text-base'>
+                                    Ends &bull;{' '}
+                                    {format(
+                                        competition?.endDate,
+                                        'dd MMM yyyy',
+                                    )}
+                                </Text>
+                            ) : (
+                                <Badge className='text-sm rounded-full w-fit'>
+                                    Ongoing
+                                </Badge>
+                            )}
+                            <Text className='text-base '>
+                                Started &bull;{' '}
+                                {format(competition?.startDate, 'dd MMM yyyy')}
                             </Text>
-                        ) : (
-                            <Badge className='text-sm rounded-full w-fit'>
-                                Ongoing
-                            </Badge>
-                        )}
-                        <Text className='text-base '>
-                            Started &bull;{' '}
-                            {format(competition?.startDate, 'dd MMM yyyy')}
-                        </Text>
+                        </div>
                     </div>
                 </div>
 
