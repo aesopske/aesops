@@ -151,19 +151,15 @@ export type COMPETITION = {
     mainImage: SANITY_IMAGE
     startDate: string
     endDate?: string
-    info: COMPETITION_INFO
+    tabs: TAB[]
     keywords: string
     featured?: boolean
 }
 
-export type COMPETITION_INFO = {
-    overview: string
-    rules: string
-    prize?: string
-    datasetInfo?: string
+export type TAB = {
+    title: string
     dataset?: DATASET
-    competitioninfo: string
-    competition: string
+    content: any[]
 }
 
 export type COMPETITION_METADATA = Pick<

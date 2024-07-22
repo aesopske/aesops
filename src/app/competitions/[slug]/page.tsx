@@ -3,6 +3,7 @@ import React from 'react'
 import { ResolvingMetadata, Metadata } from 'next'
 import { QueryParams } from 'next-sanity'
 import Image from 'next/image'
+import { notFound } from 'next/navigation'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
 import ContentReader from '@src/components/common/ContentReader'
 import ListWrapper from '@src/components/common/ListWrapper'
@@ -63,18 +64,13 @@ async function page({ params }: { params: QueryParams }) {
     })
 
     if (!competition) {
-        return null
+        // naviqate to 404
+        notFound()
     }
 
     const imageUrl = competition?.mainImage
         ? urlForImage(competition?.mainImage)
         : ''
-
-    const infoArray = Object.keys(competition?.info ?? {}).filter(
-        (item) => !item.startsWith('_'),
-    )
-    // custom sorting for the info array - [overview, dataset, prizes, rules]
-    const sortedInfoArray = infoArray.reverse()
 
     return (
         <div className='min-h-screen'>
@@ -124,26 +120,24 @@ async function page({ params }: { params: QueryParams }) {
                     <Tabs
                         defaultValue='overview'
                         className='w-full max-w-3xl rounded-md'>
-                        <TabsList className='bg-brandaccent-50/50 py-6 px-3 rounded-full'>
-                            <ListWrapper list={sortedInfoArray}>
+                        <TabsList className='bg-brandaccent-50/80 py-6 px-2 rounded-full shadow-sm'>
+                            <ListWrapper list={competition.tabs ?? []}>
                                 {(item) => (
                                     <TabsTrigger
-                                        value={item}
-                                        className='capitalize data-[state=active]:bg-brandprimary-900 data-[state=active]:text-brandaccent-50 text-base text-gray-900 data-[state=active]:rounded-full'>
-                                        {item}
+                                        value={item.title.toLowerCase()}
+                                        className='capitalize data-[state=active]:bg-brandprimary-900 data-[state=active]:text-brandaccent-50 text-base font-normal text-gray-900 data-[state=active]:rounded-full'>
+                                        {item.title}
                                     </TabsTrigger>
                                 )}
                             </ListWrapper>
                         </TabsList>
-                        <ListWrapper list={sortedInfoArray}>
+                        <ListWrapper list={competition?.tabs ?? []}>
                             {(item) => (
                                 <TabsContent
-                                    value={item}
+                                    value={item.title.toLowerCase()}
                                     className='py-8 bg-brandaccent-50/50 rounded-lg px-6 shadow-sm'>
                                     <div className='space-y-4'>
-                                        <ContentReader
-                                            content={competition?.info?.[item]}
-                                        />
+                                        <ContentReader content={item.content} />
                                     </div>
                                 </TabsContent>
                             )}
