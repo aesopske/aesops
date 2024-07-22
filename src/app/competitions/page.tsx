@@ -1,11 +1,8 @@
 import { SignedIn, SignedOut } from '@clerk/nextjs'
-import { format } from 'date-fns'
 import { Metadata } from 'next'
-import Image from 'next/image'
 import HasBackgroundWrapper from '@src/components/common/HasBackgroundWrapper'
 import ListWrapper from '@src/components/common/ListWrapper'
 import Search from '@src/components/common/Search'
-import AesopLink from '@src/components/common/atoms/AesopLink'
 import Heading from '@src/components/common/atoms/Heading'
 import Text from '@src/components/common/atoms/Text'
 import AuthNav from '@src/components/common/organisms/auth-nav/AuthNav'
@@ -13,7 +10,6 @@ import CompetitionCard from '@src/components/common/organisms/competition-card/C
 import CompetitionProfile from '@src/components/common/organisms/competition-profile/CompetitionProfile'
 import { cn } from '@src/lib/utils'
 import { sanityFetch } from '@sanity/utils/fetch'
-import { urlForImage } from '@sanity/utils/image'
 import {
     competitionsQuery,
     pageMetadataQuery,
@@ -114,8 +110,8 @@ async function Competitions({ searchParams }) {
                                 itemKey='_id'
                                 renderFallback={() => (
                                     <Text className='opacity-60'>
-                                        Could not find what you're looking for,
-                                        change your search
+                                        Could not find what you&apos;re looking
+                                        for, change your search
                                     </Text>
                                 )}>
                                 {(competition) => (

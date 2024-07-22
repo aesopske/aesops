@@ -1,5 +1,4 @@
 import '@app/styles/global.css'
-import { ClerkProvider } from '@clerk/nextjs'
 import '@fontsource-variable/bricolage-grotesque'
 import '@fontsource-variable/lora'
 import { Analytics } from '@vercel/analytics/react'
