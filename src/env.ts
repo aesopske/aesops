@@ -15,6 +15,7 @@ export const env = createEnv({
         NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY: z.string({
             message: 'NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY is required',
         }),
+        NEXT_PUBLIC_DEMO_CREDENTIALS: z.string().optional(),
     },
     runtimeEnv: {
         OPENAI_API_KEY: process.env.OPENAI_API_KEY,
@@ -22,5 +23,6 @@ export const env = createEnv({
         CLERK_SECRET_KEY: process.env.CLERK_SECRET_KEY,
         NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY:
             process.env.NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY,
+        NEXT_PUBLIC_DEMO_CREDENTIALS: process.env.NEXT_PUBLIC_DEMO_CREDENTIALS,
     },
 })

@@ -1,3 +1,4 @@
+import { SignInButton } from '@clerk/nextjs'
 import { format } from 'date-fns'
 import React from 'react'
 import { ResolvingMetadata, Metadata } from 'next'
@@ -10,6 +11,8 @@ import ListWrapper from '@src/components/common/ListWrapper'
 import Heading from '@src/components/common/atoms/Heading'
 import Text from '@src/components/common/atoms/Text'
 import BreadCrumbs from '@src/components/common/organisms/bread-crumbs/BreadCrumbs'
+import ClerkWrapper from '@src/components/common/organisms/clerk-wrapper/ClerkWrapper'
+import { Button } from '@src/components/ui'
 import { Badge } from '@src/components/ui/badge'
 import { sanityFetch } from '@sanity/utils/fetch'
 import { urlForImage } from '@sanity/utils/image'
@@ -87,9 +90,35 @@ async function page({ params }: { params: QueryParams }) {
                 <div className='space-y-4'>
                     <BreadCrumbs />
                     <div className='space-y-2'>
-                        <Heading className='lg:text-5xl'>
-                            {competition?.title}
-                        </Heading>
+                        <div className='flex flex-col items-start justify-between gap-2 lg:flex-row'>
+                            <Heading className='lg:text-5xl'>
+                                {competition?.title}
+                            </Heading>
+                            <div>
+                                <ClerkWrapper
+                                    renderSignedIn={() => (
+                                        <div>
+                                            <Button
+                                                variant='dark'
+                                                className='rounded-full'>
+                                                Join Competition
+                                            </Button>
+                                        </div>
+                                    )}
+                                    renderSignedOut={() => (
+                                        <div>
+                                            <SignInButton>
+                                                <Button
+                                                    variant='dark'
+                                                    className='rounded-full'>
+                                                    Sign In to Join
+                                                </Button>
+                                            </SignInButton>
+                                        </div>
+                                    )}
+                                />
+                            </div>
+                        </div>
                         <div className='flex gap-2 flex-wrap'>
                             {competition?.endDate ? (
                                 <Text className='text-base'>
@@ -115,6 +144,7 @@ async function page({ params }: { params: QueryParams }) {
                 <Text className='text-base max-w-xl'>
                     {competition?.description}
                 </Text>
+
                 <hr className='my-4' />
                 <div>
                     <Tabs

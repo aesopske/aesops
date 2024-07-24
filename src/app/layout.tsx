@@ -9,7 +9,7 @@ import Footer from '@/components/common/Footer'
 import NewNavbar from '@components/common/NewNavbar'
 import Providers from './_providers'
 
-function RootLayout({ children }) {
+async function RootLayout({ children }) {
     return (
         <html lang='en'>
             <head>
@@ -32,16 +32,16 @@ function RootLayout({ children }) {
                     sizes='32x32'
                 />
             </head>
-            <Providers>
-                <body className=''>
+            <body className=''>
+                <Providers>
                     <TopLoader color='#15616D' showSpinner={false} />
                     <NewNavbar previewEnabled={draftMode().isEnabled} />
                     <main>{children}</main>
                     {draftMode().isEnabled && <VisualEditing />}
                     <Footer />
                     <Analytics />
-                </body>
-            </Providers>
+                </Providers>
+            </body>
         </html>
     )
 }
