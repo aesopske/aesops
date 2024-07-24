@@ -4,7 +4,6 @@ import Link from 'next/link'
 import { Badge } from '@src/components/ui/badge'
 import { urlForImage } from '@sanity/utils/image'
 import { COMPETITION } from '@sanity/utils/types'
-import AesopLink from '@components/common/atoms/AesopLink'
 import Heading from '@components/common/atoms/Heading'
 import Text from '@components/common/atoms/Text'
 
