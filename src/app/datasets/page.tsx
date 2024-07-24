@@ -1,12 +1,33 @@
 import React from 'react'
+import HasBackgroundWrapper from '@src/components/common/HasBackgroundWrapper'
+import Search from '@src/components/common/Search'
+import Heading from '@src/components/common/atoms/Heading'
+import Text from '@src/components/common/atoms/Text'
 
-function DatasetsPage() {
+function DatasetsPage({ searchParams }) {
+    const initialSection = {
+        title: 'Datasets',
+        description: 'Search for datasets to use in your projects',
+    }
     return (
         <div className='min-h-screen'>
-            <div className='h-64 bg-brandprimary-700 relative w-full'>
-                <div></div>
-                <div className='h-16 w-full max-w-xl min-w-max bg-brand-background rounded-xl absolute -bottom-8 shadow-mde left-1/2 -translate-x-1/2 flex border-2 border-gray-100'></div>
-            </div>
+            <HasBackgroundWrapper className='h-72 relative'>
+                <div className='flex flex-col gap-2  justify-center items-center h-full'>
+                    <Heading className='font-bold text-white lg:text-5xl'>
+                        {initialSection?.title}
+                    </Heading>
+                    <Text className='text-brandaccent-50'>
+                        {initialSection?.description}
+                    </Text>
+                </div>
+                <div className='absolute -bottom-5 -translate-x-1/2 left-1/2  bg-white max-w-lg h-14 shadow-md rounded-lg w-full mx-auto flex gap-2 py-1 px-2'>
+                    <Search
+                        label='Datasets search'
+                        placeholder='Search datasets ...'
+                        search={searchParams.search}
+                    />
+                </div>
+            </HasBackgroundWrapper>
         </div>
     )
 }

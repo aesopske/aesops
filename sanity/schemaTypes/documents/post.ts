@@ -1,5 +1,5 @@
-import { defineField, defineType } from 'sanity'
 import { Rss } from 'lucide-react'
+import { defineField, defineType } from 'sanity'
 
 export default defineType({
     name: 'post',
@@ -78,9 +78,9 @@ export default defineType({
         defineField({
             name: 'author',
             title: 'Author',
-            type: 'reference',
+            type: 'array',
+            of: [{ type: 'reference', to: { type: 'author' } }],
             group: 'postContent',
-            to: { type: 'author' },
             validation: (Rule) => Rule.required(),
         }),
         defineField({

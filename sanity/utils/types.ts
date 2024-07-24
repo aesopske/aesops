@@ -166,3 +166,10 @@ export type COMPETITION_METADATA = Pick<
     COMPETITION,
     'slug' | 'title' | 'description'
 >
+
+export type HOME_SETTINGS = {
+    title: string
+    description: string
+    keywords: string
+    ogImage: SanityAsset
+}
