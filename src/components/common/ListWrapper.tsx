@@ -1,19 +1,19 @@
 import React, { Fragment } from 'react'
 import { getRandomString, getNestedValue } from '@src/utils'
 
-type ListWrapperProps = {
-    list: any[]
-    itemKey: string
+type ListWrapperProps<T> = {
+    list: T[]
+    itemKey?: string
     renderFallback?: () => React.ReactNode
-    children: (item: any, index: number) => React.ReactNode //eslint-disable-line
+    children: (item: T, index: number) => React.ReactNode //eslint-disable-line
 }
 
-function ListWrapper({
+function ListWrapper<T>({
     list,
     itemKey,
     children,
     renderFallback,
-}: ListWrapperProps) {
+}: ListWrapperProps<T>) {
     // sanitize list
     if (!Array.isArray(list) || !list.length) {
         if (typeof renderFallback === 'function') {

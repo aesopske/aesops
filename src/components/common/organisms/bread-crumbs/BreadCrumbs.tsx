@@ -1,7 +1,8 @@
 'use client'
-import { Fragment, useEffect, useState } from 'react'
-import { Slash } from 'lucide-react'
 
+import { cva } from 'class-variance-authority'
+import { Slash } from 'lucide-react'
+import { Fragment, useEffect, useState } from 'react'
 import {
     Breadcrumb,
     BreadcrumbItem,
@@ -9,11 +10,29 @@ import {
     BreadcrumbList,
     BreadcrumbSeparator,
 } from '@/components/ui/breadcrumb'
+import { getBreadcrumbs } from '@src/lib/getBreadcrumbs'
+import { cn } from '@src/lib/utils'
 import { PATH } from '@sanity/utils/types'
 import ListWrapper from '@components/common/ListWrapper'
-import { getBreadcrumbs } from '@src/lib/getBreadcrumbs'
 
-function BreadCrumbs() {
+const colorVariant = cva('', {
+    variants: {
+        color: {
+            default: 'text-brandprimary-900',
+            primary: 'text-brandprimary-700',
+            light: 'text-brandaccent-50',
+        },
+    },
+    defaultVariants: {
+        color: 'default',
+    },
+})
+
+type BreadCrumbsProps = {
+    color?: 'default' | 'primary' | 'light'
+}
+
+function BreadCrumbs({ color = 'default' }: BreadCrumbsProps) {
     const [paths, setPaths] = useState<PATH[]>([])
 
     useEffect(() => {
@@ -24,7 +43,7 @@ function BreadCrumbs() {
     }, [])
     return (
         <Breadcrumb>
-            <BreadcrumbList>
+            <BreadcrumbList className={cn(colorVariant({ color }))}>
                 <BreadcrumbItem>
                     <BreadcrumbLink
                         href='/'
@@ -33,7 +52,7 @@ function BreadCrumbs() {
                                 ? window?.location.pathname === '/'
                                 : false
                         }
-                        className='data-[active=false]:text-brandprimary-900 font-sans'>
+                        className='data-[active=false]:text-current font-sans'>
                         Home
                     </BreadcrumbLink>
                 </BreadcrumbItem>
@@ -48,7 +67,7 @@ function BreadCrumbs() {
                                     href={path.href}
                                     aria-disabled={path.active}
                                     data-active={path.active}
-                                    className='data-[active=false]:text-brandprimary-900 capitalize aria-disabled:pointer-events-none aria-disabled:text-gray-500 font-sans'>
+                                    className='data-[active=false]:text-current capitalize aria-disabled:pointer-events-none aria-disabled:text-current aria-disabled:opacity-50 font-sans'>
                                     {path.name}
                                 </BreadcrumbLink>
                             </BreadcrumbItem>

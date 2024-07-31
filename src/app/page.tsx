@@ -1,21 +1,17 @@
 import { Metadata } from 'next';
+import Hero from '@/components/common/Hero';
+import Consultancy from '@/components/new/Consultancy';
+import Datasets from '@/components/new/Datasets';
+import RecentPosts from '@/components/new/RecentPosts';
+// import HasBackgroundWrapper from '@src/components/common/HasBackgroundWrapper'
+// import Heading from '@src/components/common/atoms/Heading'
+// import Text from '@src/components/common/atoms/Text'
+import Community from '@src/components/new/Community';
+import TalkToUs from '@src/components/new/TalkToUs';
+import { sanityFetch } from '@sanity/utils/fetch';
+import { pageMetadataQuery, pageQuery } from '@sanity/utils/requests';
+import { PAGE } from '@sanity/utils/types';
 
-
-
-import Hero from '@/components/common/Hero'
-import Consultancy from '@/components/new/Consultancy'
-import Datasets from '@/components/new/Datasets'
-import RecentPosts from '@/components/new/RecentPosts'
-
-import HasBackgroundWrapper from '@src/components/common/HasBackgroundWrapper'
-import Heading from '@src/components/common/atoms/Heading'
-import Text from '@src/components/common/atoms/Text'
-import Community from '@src/components/new/Community'
-import TalkToUs from '@src/components/new/TalkToUs'
-
-import { sanityFetch } from '@sanity/utils/fetch'
-import { pageMetadataQuery, pageQuery } from '@sanity/utils/requests'
-import { PAGE } from '@sanity/utils/types'
 
 export async function generateMetadata(): Promise<Metadata> {
     const page = await sanityFetch<PAGE>({
@@ -45,11 +41,10 @@ async function Page() {
     return (
         <div className='w-full h-full min-h-screen'>
             <Hero section={page?.sections[0]} />
-            {/* <Services section={page?.sections[1]} /> */}
             <Datasets section={page?.sections[1]} />
             <Consultancy section={page?.sections[2]} />
             <Community section={page?.sections[3]} />
-            <div className='relative h-full py-20 my-10'>
+            {/* <div className='relative h-full py-20 my-10'>
                 <HasBackgroundWrapper className=' h-auto max-w-4xl flex items-center mx-auto md:rounded-3xl'>
                     <div className='max-w-lg mx-auto space-y-4 p-10 md:py-28'>
                         <Heading
@@ -68,7 +63,7 @@ async function Page() {
                         </Text>
                     </div>
                 </HasBackgroundWrapper>
-            </div>
+            </div> */}
             <RecentPosts className='px-5 xl:px-0' />
             <TalkToUs />
         </div>

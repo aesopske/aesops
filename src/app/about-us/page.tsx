@@ -7,17 +7,15 @@ import {
     ShieldCheck,
     Target,
 } from 'lucide-react'
+import React from 'react'
 import { Metadata } from 'next'
 import Image from 'next/image'
-
-import React from 'react'
-
+import Link from 'next/link'
 import ListWrapper from '@src/components/common/ListWrapper'
 import Heading from '@src/components/common/atoms/Heading'
 import Text from '@src/components/common/atoms/Text'
 import AboutMember from '@src/components/common/organisms/about-author/AboutAuthor'
 import { Badge } from '@src/components/ui/badge'
-
 import { sanityFetch } from '@sanity/utils/fetch'
 import { formatAuthor } from '@sanity/utils/formatAuthor'
 import { urlForImage } from '@sanity/utils/image'
@@ -213,16 +211,17 @@ function OurTeam({ sectionContent }: { sectionContent: SECTION }) {
                         <ListWrapper
                             list={sectionContent?.members ?? []}
                             itemKey='name'>
-                            {(item: AUTHOR) => {
+                            {(member: AUTHOR) => {
                                 return (
-                                    <div className='space-y-3 bg-brand-background p-4 rounded-lg'>
+                                    <Link
+                                        href={`/about-us/${member.slug?.current}`}>
                                         <AboutMember
                                             hideBio
                                             hidePosts
                                             largeProfile
-                                            author={formatAuthor(item)}
+                                            author={formatAuthor(member)}
                                         />
-                                    </div>
+                                    </Link>
                                 )
                             }}
                         </ListWrapper>

@@ -1,11 +1,11 @@
-import { Fragment } from 'react'
+'use client'
 
+import { Fragment, useState } from 'react'
 import ListWrapper from '@src/components/common/ListWrapper'
+import { Button } from '@src/components/ui'
 import { Avatar, AvatarFallback, AvatarImage } from '@src/components/ui/avatar'
 import { cn } from '@src/lib/utils'
-
 import { AUTHOR_PLUS, POST } from '@sanity/utils/types'
-
 import Heading from '@components/common/atoms/Heading'
 import Text from '@components/common/atoms/Text'
 import Socials from '@components/common/organisms/author-card/Socials'
@@ -24,6 +24,11 @@ function AboutAuthor({
     hidePosts,
     largeProfile,
 }: AboutAuthorProps) {
+    const [showMore, setShowMore] = useState(false)
+
+    const toggleShowMore = () => {
+        setShowMore(!showMore)
+    }
     return (
         <div className='space-y-5'>
             <div className='flex items-center w-full gap-2'>
@@ -34,7 +39,7 @@ function AboutAuthor({
                     <AvatarImage
                         src={author.photoURL}
                         alt={author?.name}
-                        className='object-cover'
+                        className='object-cover object-top'
                     />
                     <AvatarFallback>{author?.initials}</AvatarFallback>
                 </Avatar>
@@ -45,7 +50,7 @@ function AboutAuthor({
                         {author?.name}
                     </Heading>
                     {author?.isCoreMember ? (
-                        <div className='flex items-center gap-1'>
+                        <div className='flex items-center gap-1 text-gray-100'>
                             <Role role={author?.role ?? ''} />
                         </div>
                     ) : (
@@ -57,10 +62,20 @@ function AboutAuthor({
                     )}
                 </div>
                 {!author?.bio || hideBio ? null : (
-                    <div className='space-y-2 text-brandprimary-900/70'>
-                        <Text className='text-base font-light lg:text-sm'>
+                    <div className=' text-brandprimary-900/70'>
+                        <Text
+                            className={cn(
+                                'text-base font-light lg:text-sm line-clamp-4',
+                                { 'line-clamp-none': showMore },
+                            )}>
                             {author?.bio}
                         </Text>
+                        <Button
+                            variant='link'
+                            onClick={toggleShowMore}
+                            className='p-0 hover:underline underline-offset-4 hover:decoration-dashed text-brandprimary-700'>
+                            {showMore ? 'Read less...' : 'Read more...'}
+                        </Button>
                     </div>
                 )}
             </div>

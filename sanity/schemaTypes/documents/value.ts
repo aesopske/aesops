@@ -3,7 +3,7 @@ import { defineField, defineType } from 'sanity'
 
 export default defineType({
     name: 'value',
-    title: 'Value',
+    title: 'Values',
     type: 'document',
     icon: Gem,
     fields: [

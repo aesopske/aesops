@@ -1,15 +1,11 @@
-import Image from 'next/image'
 import React from 'react'
-
+import Image from 'next/image'
 import { cn } from '@src/lib/utils'
-
 import { urlForImage } from '@sanity/utils/image'
 import { SECTION } from '@sanity/utils/types'
-
 import AesopLink from '@components/common/atoms/AesopLink'
 import Heading from '@components/common/atoms/Heading'
 import Text from '@components/common/atoms/Text'
-
 import SanityCtaGroup from './molecules/SanityCtaGroup'
 
 interface HeroProps extends React.HTMLAttributes<HTMLDivElement> {
@@ -22,7 +18,7 @@ function Hero({ className, section }: HeroProps) {
         <section
             id='hero'
             className={cn(
-                'bg-brandprimary-700 relative max-h-[70vh] md:max-h-[80vh] md:h-auto lg:min-h-[70vh] lg:py-20 overflow-hidden',
+                'bg-brandprimary-700 relative max-h-screen md:min-h-[80vh] md:h-auto lg:min-h-[70vh] lg:py-20 overflow-hidden',
                 className,
             )}>
             <div className='relative isolate bg-gradient-to-b lg:bg-gradient-to-r from-brandprimary-700 from-30% via-brandprimary-700/80 to-brandprimary-700/50 px-6 lg:px-8'>
@@ -70,7 +66,7 @@ function Hero({ className, section }: HeroProps) {
                             alt={section?.image?.alt}
                             width={800}
                             height={800}
-                            className='w-full h-full object-contain object-center scale-125 relative left-5 lg:left-0'
+                            className='w-full h-full object-contain object-center scale-100 lg:scale-125 relative left-5 lg:left-0 aspect-ratio'
                         />
                     </div>
                 </div>
