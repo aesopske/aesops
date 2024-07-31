@@ -40,7 +40,7 @@ export type POST = {
     slug: {
         current: string
     }
-    author: AUTHOR
+    author: AUTHOR[]
     body: any[]
     readTime: number
     categories: CATEGORY[]

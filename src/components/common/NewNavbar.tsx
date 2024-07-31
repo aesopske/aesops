@@ -11,9 +11,9 @@ import AesopLink from './atoms/AesopLink'
 import ClerkWrapper from './organisms/clerk-wrapper/ClerkWrapper'
 
 const navigation = [
-    { name: 'Datasets', href: '/datasets', coming: false },
+    { name: 'Datasets', href: '/datasets', coming: true },
     { name: 'Competitions', href: '/competitions', coming: true },
-    { name: 'Trends', href: '/trends', coming: true },
+    // { name: 'Trends', href: '/trends', coming: true },
     { name: 'About Us', href: '/about-us', coming: false },
     { name: 'Blog', href: '/blog', coming: false },
     // { name: 'Tools', href: '/tools' },

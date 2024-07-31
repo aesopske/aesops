@@ -12,7 +12,7 @@ export const postsQuery = groq`*[_type == 'post' && !(_id in path('drafts.**'))]
         slug
     },
     "readTime":round(length(pt::text(body)) / 5 / 180 ),
-    author->{
+    author[]->{
         name,
         bio,
         image,
@@ -47,7 +47,7 @@ export const postQuery = groq`*[_type == 'post' && slug.current == $slug]{
   "readTime":round(length(pt::text(body)) / 5 / 180 ),
   excerpt,
   categories,
-  author->{
+  author[]->{
       name,
       bio,
       slug,
@@ -77,7 +77,7 @@ export const postQuery = groq`*[_type == 'post' && slug.current == $slug]{
     },
     "readTime":round(length(pt::text(body)) / 5 / 180 ),
     excerpt,
-    author->{
+    author[]->{
         name,
         bio,
         slug,
@@ -111,7 +111,7 @@ export const featuredQuery = groq`*[_type == 'post' && !(_id in path('drafts.**'
         slug
     },
     "readTime":round(length(pt::text(body)) / 5 / 180 ),
-    author->{
+    author[]->{
         name,
         bio,
         image,
@@ -143,7 +143,7 @@ export const recentQuery = groq`*[_type == 'post' && !(_id in path('drafts.**'))
         slug
     },
     "readTime":round(length(pt::text(body)) / 5 / 180 ),
-    author->{
+    author[]->{
         name,
         bio,
         image,
@@ -197,7 +197,7 @@ export const categoryQuery = groq`*[_type == 'category']{
             slug
         },
         "readTime":round(length(pt::text(body)) / 5 / 180 ),
-        author->{
+        author[]->{
             name,
             bio,
             image,
@@ -224,7 +224,7 @@ export const specificCategoryQuery = groq`*[_type == 'category' && slug.current 
             slug
         },
         "readTime":round(length(pt::text(body)) / 5 / 180 ),
-        author->{
+        author[]->{
             name,
             bio,
             image,
@@ -344,7 +344,7 @@ export const pageQuery = groq`*[_type == 'page' && slug.current == $slug]{
                 slug
             },
             "readTime":round(length(pt::text(body)) / 5 / 180 ),
-            author->{
+            author[]->{
                 name,
                 bio,
                 image,
@@ -398,7 +398,7 @@ export const memberQuery = groq`*[_type == 'author' && slug.current == $slug]{
             slug
         },
         "readTime":round(length(pt::text(body)) / 5 / 180 ),
-        author->{
+        author[]->{
             name,
             bio,
             image,

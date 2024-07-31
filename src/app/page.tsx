@@ -43,7 +43,7 @@ async function Page() {
             <Datasets section={page?.sections[1]} />
             <Consultancy section={page?.sections[2]} />
             <Community section={page?.sections[3]} />
-            <div className='relative h-full py-20 my-10'>
+            {/* <div className='relative h-full py-20 my-10'>
                 <HasBackgroundWrapper className=' h-auto max-w-4xl flex items-center mx-auto md:rounded-3xl'>
                     <div className='max-w-lg mx-auto space-y-4 p-10 md:py-28'>
                         <Heading
@@ -62,7 +62,7 @@ async function Page() {
                         </Text>
                     </div>
                 </HasBackgroundWrapper>
-            </div>
+            </div> */}
             <RecentPosts className='px-5 xl:px-0' />
             <TalkToUs />
         </div>

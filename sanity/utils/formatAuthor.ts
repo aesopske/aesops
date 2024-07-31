@@ -1,7 +1,7 @@
 import { urlForImage } from '@sanity/utils/image'
-import { AUTHOR } from '@sanity/utils/types'
+import { AUTHOR, AUTHOR_PLUS } from '@sanity/utils/types'
 
-export function formatAuthor(author: AUTHOR) {
+export function formatAuthor(author: AUTHOR): AUTHOR_PLUS {
     const formatName = (name: string) => {
         if (!name) return ''
         const nameArr = name.split(' ')

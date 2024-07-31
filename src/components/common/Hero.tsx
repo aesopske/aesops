@@ -66,7 +66,7 @@ function Hero({ className, section }: HeroProps) {
                             alt={section?.image?.alt}
                             width={800}
                             height={800}
-                            className='w-full h-full object-contain object-center scale-150 lg:scale-125 relative left-5 lg:left-0'
+                            className='w-full h-full object-contain object-center scale-100 lg:scale-125 relative left-5 lg:left-0 aspect-ratio'
                         />
                     </div>
                 </div>
