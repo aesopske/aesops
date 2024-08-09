@@ -25,7 +25,7 @@ async function FeaturedPosts({ featuredPosts }: FeaturedPostsProps) {
 
                     <PostCard
                         topPick
-                        post={firstPost}
+                        post={firstPost as MIN_POST}
                         className='relative bg-transparent border-none h-fit max-w-xl mx-auto bg-brandprimary-700 p-5 text-brandaccent-50 rounded-xl md:p-16'
                     />
                 </div>
@@ -36,7 +36,7 @@ async function FeaturedPosts({ featuredPosts }: FeaturedPostsProps) {
                             <Fragment>
                                 <PostCard
                                     hideImage
-                                    post={post}
+                                    post={post as MIN_POST}
                                     className='h-fit border-none'
                                 />
                                 <hr className='border border-gray-100 last:hidden mx-auto w-[95%]' />
