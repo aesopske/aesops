@@ -1,9 +1,7 @@
 import { Metadata } from 'next'
-
 import { sanityFetch } from '@sanity/utils/fetch'
 import { pageMetadataQuery, pageQuery } from '@sanity/utils/requests'
 import { PAGE } from '@sanity/utils/types'
-
 import HasBackgroundWrapper from '@components/common/HasBackgroundWrapper'
 import Heading from '@components/common/atoms/Heading'
 import Text from '@components/common/atoms/Text'
@@ -41,7 +39,7 @@ async function Blog({ searchParams }) {
     })
 
     return (
-        <div className='max-w-screen-2xl mx-auto my-6 space-y-10 lg:space-y-16 lg:my-12'>
+        <div className='max-w-screen-2xl mx-auto my-6 space-y-10 px-6 lg:space-y-16 lg:my-12'>
             <div className='space-y-6 px-5 lg:px-0'>
                 <IntroSection sectionContent={page?.sections[0]} />
                 <FeaturedPosts />

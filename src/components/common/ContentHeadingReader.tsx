@@ -39,7 +39,7 @@ function ContentHeadingReader({ body, className }: ContentHeadingReaderProps) {
 
 function Header({ outline }) {
     return (
-        <ol className='space-y-2'>
+        <ol className='space-y-1'>
             <ListWrapper list={outline} itemKey='slug'>
                 {(heading: any) => (
                     <li

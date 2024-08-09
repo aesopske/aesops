@@ -1,10 +1,10 @@
 import { Metadata, ResolvingMetadata } from 'next'
 import { QueryParams } from 'next-sanity'
-import Image from 'next/image'
 import { notFound } from 'next/navigation'
 import ContentHeadingReader from '@src/components/common/ContentHeadingReader'
 import ContentReader from '@src/components/common/ContentReader'
 import Share from '@src/components/common/ShareBtns'
+import ImageWithModal from '@src/components/common/molecules/image-with-modal/ImageWithModal'
 import AboutAuthor from '@src/components/common/organisms/about-author/AboutAuthor'
 import AuthorCard from '@src/components/common/organisms/author-card/AuthorCard'
 import BreadCrumbs from '@src/components/common/organisms/bread-crumbs/BreadCrumbs'
@@ -32,7 +32,7 @@ export async function generateMetadata(
     })
     const previousImages = (await parent).openGraph?.images ?? []
     return {
-        title: post?.title,
+        title: post?.title ?? '',
         description: post?.excerpt,
         openGraph: {
             title: post?.title,
@@ -97,12 +97,11 @@ async function Blog({ params }: { params: QueryParams }) {
                         />
                     </div>
                     {post?.mainImage ? (
-                        <Image
-                            width={500}
-                            height={500}
+                        <ImageWithModal
                             src={imageUrl}
-                            alt={post?.mainImage.alt}
-                            className='h-[35vh] w-full object-cover lg:rounded'
+                            showDialog={false}
+                            alt={post?.mainImage.alt || ''}
+                            caption={post.mainImage.alt || ''}
                         />
                     ) : null}
                     <div className='space-y-6 px-4 lg:px-0'>

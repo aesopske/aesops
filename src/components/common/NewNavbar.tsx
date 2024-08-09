@@ -25,7 +25,7 @@ function Navbar({ previewEnabled }: { previewEnabled: boolean }) {
 
     if (pathname?.includes('/studio')) return null
     return (
-        <header className='sticky inset-x-0 top-0 z-50 text-brandprimary-900 border-b border-brandaccent-50 bg-brand-background h-fit md:max-h-20'>
+        <header className='relative top-0 z-50 text-brandprimary-900 border-b border-brandaccent-50 bg-brand-background h-fit md:max-h-20'>
             <nav
                 className='flex items-center justify-between px-5 py-2 container-fluid max-w-screen-2xl mx-auto h-full border-b border-brandaccent-50 gap-5 md:border-none lg:py-4 2xl:px-0'
                 aria-label='Global'>

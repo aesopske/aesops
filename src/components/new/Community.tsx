@@ -1,9 +1,8 @@
 import React from 'react'
 import Image from 'next/image'
-
 import { SECTION } from '@sanity/utils/types'
-import Text from '@components/common/atoms/Text'
 import Heading from '@components/common/atoms/Heading'
+import Text from '@components/common/atoms/Text'
 import SanityCtaGroup from '@components/common/molecules/SanityCtaGroup'
 
 type CommunityProps = {
@@ -17,7 +16,9 @@ function Community({ section }: CommunityProps) {
                 <div className='mx-auto flex flex-col gap-10 container-fluid max-w-screen-2xl py-10 sm:py-40 lg:py-32'>
                     <div className='flex flex-col md:flex-row gap-5'>
                         <div className='text-left'>
-                            <Heading type='h2' className='font-bold tracking-tight max-w-lg'>
+                            <Heading
+                                type='h2'
+                                className='font-bold tracking-tight max-w-lg'>
                                 {section?.title}
                             </Heading>
                             <Text className='my-4 leading-8 text-gray-600 max-w-lg'>

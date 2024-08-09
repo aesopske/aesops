@@ -62,20 +62,22 @@ function AboutAuthor({
                     )}
                 </div>
                 {!author?.bio || hideBio ? null : (
-                    <div className=' text-brandprimary-900/70'>
+                    <div className=' text-brandprimary-900/70 relative'>
                         <Text
                             className={cn(
-                                'text-base font-light lg:text-sm line-clamp-4',
+                                'text-base font-light lg:text-sm line-clamp-6',
                                 { 'line-clamp-none': showMore },
                             )}>
-                            {author?.bio}
+                            {author?.bio} 
                         </Text>
-                        <Button
-                            variant='link'
-                            onClick={toggleShowMore}
-                            className='p-0 hover:underline underline-offset-4 hover:decoration-dashed text-brandprimary-700'>
-                            {showMore ? 'Read less...' : 'Read more...'}
-                        </Button>
+                        <div className={cn('absolute bottom-0 right-0 bg-gradient-to-b from-transparent via-brand-background to-brand-background w-full flex items-end justify-start min-h-20', {'relative min-h-0': showMore})}>
+                            <Button
+                                variant='link'
+                                onClick={toggleShowMore}
+                                className='p-0 hover:underline underline-offset-4 hover:decoration-dashed text-brandprimary-700'>
+                                {showMore ? 'Read less...' : 'Read more...'}
+                            </Button>
+                        </div>
                     </div>
                 )}
             </div>
