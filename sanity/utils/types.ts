@@ -83,10 +83,14 @@ export type PAGE = {
     }
     seoTitle: string
     seoDescription: string
+    ogimage?: SANITY_IMAGE
     sections: SECTION[]
 }
 
-export type PAGE_METADATA = Pick<PAGE, 'slug' | 'seoTitle' | 'seoDescription'>
+export type PAGE_METADATA = Pick<
+    PAGE,
+    'slug' | 'seoTitle' | 'seoDescription' | 'ogimage'
+>
 
 export type SECTION = {
     _id: string

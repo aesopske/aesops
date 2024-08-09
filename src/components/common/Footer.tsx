@@ -1,8 +1,5 @@
 'use client'
 
-import Link from 'next/link'
-import { usePathname } from 'next/navigation'
-import React from 'react'
 import {
     FaFacebook,
     FaGithub,
@@ -11,7 +8,9 @@ import {
     FaYoutube,
 } from 'react-icons/fa'
 import { FaXTwitter } from 'react-icons/fa6'
-
+import React from 'react'
+import Link from 'next/link'
+import { usePathname } from 'next/navigation'
 import Logo from './Logo'
 import AesopLink from './atoms/AesopLink'
 import Heading from './atoms/Heading'
@@ -93,7 +92,7 @@ function Footer() {
     const pathname = usePathname()
     if (pathname?.includes('/studio')) return null
     return (
-        <section className='w-full h-full pt-10 px-6 bg-gradient-to-b pb-5 from-brand-background via-brandaccent-50 to-brandprimary-700 lg:pt-32'>
+        <section className='w-full h-full pt-10 px-6 bg-gradient-to-b pb-5 from-brand-background via-brandaccent-50 to-brandprimary-700 lg:pt-56'>
             <div className='mx-auto max-w-screen-2xl grid gap-4 grid-cols-2 md:grid-cols-3 lg:grid-cols-7'>
                 <div className='w-56 h-auto col-span-2 flex items-start justify-start md:col-span-3 lg:col-span-3 lg:h-56'>
                     <Logo className='h-auto w-24 md:w-56' />

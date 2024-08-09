@@ -372,6 +372,7 @@ export const pageQuery = groq`*[_type == 'page' && slug.current == $slug]{
 export const pageMetadataQuery = groq`*[_type == 'page' && slug.current == $slug]{
     seoTitle,
     seoDescription,
+    ogimage
 }[0]`
 
 // authors query
