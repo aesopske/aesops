@@ -31,7 +31,7 @@ type Props = {
 export async function generateMetadata(
     { params }: Props,
     parent: ResolvingMetadata,
-): Promise {
+): Promise<Metadata> {
     const competition = await sanityFetch<COMPETITION>({
         query: competitionsMetadataQuery,
         params: { slug: params?.slug },

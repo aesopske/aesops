@@ -23,8 +23,8 @@ export async function POST(req: Request) {
             model: openai('gpt-4o'),
             prompt,
             maxTokens: 2000,
-            onFinish: (data) => {
-                console.log('onFinish', data)
+            onFinish: () => {
+                //TODO: add support for caching with redis or upstash
             },
         })
 
