@@ -74,7 +74,9 @@ async function Page() {
                 </HasBackgroundWrapper>
             </div> */}
             <RecentPosts className='px-5 xl:px-0' />
-            <TalkToUs />
+            <div className='md:px-6 2xl:px-0'>
+                <TalkToUs />
+            </div>
         </div>
     )
 }
