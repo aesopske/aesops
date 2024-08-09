@@ -12,7 +12,7 @@ export const DemoAuthContext = createContext<AuthContextType | null>(null)
 
 function DemoAuthProvider({ children }) {
     // check if current URL is demo URL
-    const authedHosts = ['demo.aesops.co.ke', 'localhost']
+    const authedHosts = ['demo.aesops.co.ke']
     const shouldBeAuthed =
         typeof window !== 'undefined' &&
         authedHosts.includes(window.location.hostname)

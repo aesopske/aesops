@@ -1,10 +1,10 @@
 'use client'
 
-import { Stars } from 'lucide-react'
 import { useCompletion } from 'ai/react'
 import { AnimatePresence, motion } from 'framer-motion'
+import { Stars } from 'lucide-react'
+import ReactMarkdown from 'react-markdown'
 import { useCallback, useEffect, useState } from 'react'
-
 import { Button } from '@src/components/ui'
 
 type CodeExplainProps = {
@@ -85,8 +85,10 @@ function CodeExplain({ code }: CodeExplainProps) {
                         className='w-full'>
                         <output
                             data-hidden={!!error}
-                            className='prose font-mono text-sm text-brandprimary-900 data-[hidden=true]:hidden'>
-                            {savedCompletion ? savedCompletion : completion}
+                            className='prose font-m ono text-sm text-brandprimary-900 data-[hidden=true]:hidden'>
+                            <ReactMarkdown>
+                                {savedCompletion ? savedCompletion : completion}
+                            </ReactMarkdown>
                         </output>
                         {error && isOpen ? (
                             <output className='prose text-xs text-red-500'>
