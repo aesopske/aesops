@@ -101,6 +101,7 @@ export type SECTION = {
     cta?: CTA[]
     useBody?: boolean
     image?: SANITY_IMAGE
+    featuredPosts?: MIN_POST[]
     posts?: POST[]
     members?: AUTHOR[]
     datasets?: DATASET[]

@@ -1,12 +1,11 @@
 import Link from 'next/link'
-
-import { cn } from '@src/lib/utils'
-import Text from '../../atoms/Text'
-import { titleCase } from '@src/lib/titleCase'
 import { Badge } from '@src/components/ui/badge'
+import { titleCase } from '@src/lib/titleCase'
+import { cn } from '@src/lib/utils'
 import { MIN_POST, POST } from '@sanity/utils/types'
-import AuthorCard from '../author-card/AuthorCard'
 import Heading from '@components/common/atoms/Heading'
+import Text from '../../atoms/Text'
+import AuthorCard from '../author-card/AuthorCard'
 
 type postCardProps = {
     post: POST | MIN_POST
@@ -24,13 +23,13 @@ function PostCard({
     className,
     hideCategory = false,
 }: postCardProps) {
-    const categories = post.categories ?? []
+    const categories = post?.categories.length > 0 ? post.categories : []
 
     return (
         <div
             className={cn(
                 '  bg-white border border-gray-200 p-4 rounded text-brandprimary-900 h-full space-y-6',
-                className
+                className,
             )}>
             <div className='flex gap-2 flex-wrap'>
                 {topPick && (
@@ -50,21 +49,21 @@ function PostCard({
             </div>
 
             <div className={cn('space-y-6')}>
-                <Link href={`/blog/${post.slug.current}`} passHref>
+                <Link href={`/blog/${post?.slug?.current}`} passHref>
                     <div className='flex flex-col gap-2'>
                         <Heading
                             type={topPick ? 'h2' : 'h3'}
                             className={cn('font-black')}>
-                            {titleCase(post.title)}
+                            {titleCase(post?.title)}
                         </Heading>
                         <Text
                             className={cn(
                                 'line-clamp-3 text-base text-opacity-80 max-w-xl',
                                 topPick
                                     ? 'text-base text-current text-opacity-60'
-                                    : ''
+                                    : '',
                             )}>
-                            {post.excerpt}
+                            {post?.excerpt}
                         </Text>
                     </div>
                 </Link>
@@ -78,10 +77,10 @@ function PostCard({
                 ) : (
                     <AuthorCard
                         isSmall
-                        author={post.author}
-                        readTime={post.readTime}
+                        author={post?.author}
+                        readTime={post?.readTime}
                         className='text-opacity-70 text-current'
-                        date={new Date(post.publishedAt).toDateString()}
+                        date={new Date(post?.publishedAt).toDateString()}
                     />
                 )}
             </div>
