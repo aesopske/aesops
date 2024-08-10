@@ -1,6 +1,5 @@
-import { LayoutPanelTop } from 'lucide-react';
+import { LayoutPanelTop } from 'lucide-react'
 import { defineField, defineType } from 'sanity'
-
 
 export default defineType({
     name: 'sectionContent',
@@ -55,6 +54,21 @@ export default defineType({
             type: 'array',
             description: 'Call to action for the section',
             of: [{ type: 'cta' }],
+        }),
+        defineField({
+            name: 'featuredPosts',
+            title: 'Featured Posts',
+            type: 'array',
+            description: 'Posts featured by Aesops',
+            of: [
+                {
+                    type: 'reference',
+                    to: [{ type: 'post' }],
+                    options: {
+                        filter: `_type == "post" && defined(featured) && featured == true`,
+                    },
+                },
+            ],
         }),
         defineField({
             name: 'posts',

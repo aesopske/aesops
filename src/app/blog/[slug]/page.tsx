@@ -44,6 +44,8 @@ export async function generateMetadata(
                 },
                 ...previousImages,
             ],
+            authors: post?.author?.map((author) => author.name) ?? [],
+            publishedTime: post?.publishedAt,
         },
     }
 }
@@ -79,8 +81,8 @@ async function Blog({ params }: { params: QueryParams }) {
 
     return (
         <div className='min-h-screen py-6 lg:py-12 md:px-4 xl:px-0'>
-            <div className='relative mx-auto gap-6 flex flex-col max-w-screen-2xl items-start justify-between lg:gap-x-12 lg:flex-row'>
-                <div className='hidden sticky w-full left-0 top-28 z-10 h-96 rounded lg:block lg:w-1/5'>
+            <div className='relative mx-auto gap-6 flex flex-col max-w-screen-2xl items-start justify-between lg:gap-x-12 md:px-6 lg:flex-row 2xl:px-0'>
+                <div className='hidden sticky w-full left-0 top-10 z-10 h-96 rounded lg:block lg:w-1/5'>
                     <ContentHeadingReader body={post?.body} />
                     <Share title={post?.title} />
                 </div>
@@ -111,7 +113,7 @@ async function Blog({ params }: { params: QueryParams }) {
                         </div>
                     </div>
                 </div>
-                <div className='w-full px-4 left-0 top-24 z-10 h-fit space-y-6 lg:sticky lg:px-2 lg:w-1/4'>
+                <div className='w-full px-4 left-0 top-10 z-10 h-fit space-y-6 lg:sticky lg:px-2 lg:w-1/4'>
                     <AboutAuthor author={formatAuthor(post?.author[0])} />
                     <RecentPosts posts={recentPosts} />
                 </div>

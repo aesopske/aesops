@@ -1,5 +1,5 @@
-import { defineField, defineType } from 'sanity'
 import { NotepadText } from 'lucide-react'
+import { defineField, defineType } from 'sanity'
 
 export default defineType({
     name: 'page',
@@ -48,6 +48,15 @@ export default defineType({
             type: 'text',
             group: 'seo',
             validation: (Rule) => Rule.required(),
+        }),
+        defineField({
+            name: 'ogimage',
+            title: 'OG Image',
+            type: 'image',
+            group: 'seo',
+            options: {
+                hotspot: true,
+            },
         }),
     ],
 

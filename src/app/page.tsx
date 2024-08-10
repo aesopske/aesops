@@ -1,23 +1,31 @@
-import { Metadata } from 'next';
-import Hero from '@/components/common/Hero';
-import Consultancy from '@/components/new/Consultancy';
-import Datasets from '@/components/new/Datasets';
-import RecentPosts from '@/components/new/RecentPosts';
+import { Metadata, ResolvingMetadata } from 'next'
+import Hero from '@/components/common/Hero'
+import Consultancy from '@/components/new/Consultancy'
+import Datasets from '@/components/new/Datasets'
+import RecentPosts from '@/components/new/RecentPosts'
 // import HasBackgroundWrapper from '@src/components/common/HasBackgroundWrapper'
 // import Heading from '@src/components/common/atoms/Heading'
 // import Text from '@src/components/common/atoms/Text'
-import Community from '@src/components/new/Community';
-import TalkToUs from '@src/components/new/TalkToUs';
-import { sanityFetch } from '@sanity/utils/fetch';
-import { pageMetadataQuery, pageQuery } from '@sanity/utils/requests';
-import { PAGE } from '@sanity/utils/types';
+import Community from '@src/components/new/Community'
+import TalkToUs from '@src/components/new/TalkToUs'
+import { sanityFetch } from '@sanity/utils/fetch'
+import { urlForImage } from '@sanity/utils/image'
+import { pageMetadataQuery, pageQuery } from '@sanity/utils/requests'
+import { PAGE } from '@sanity/utils/types'
 
+type Props = {}
 
-export async function generateMetadata(): Promise<Metadata> {
+export async function generateMetadata(
+    _: Props,
+    parent: ResolvingMetadata,
+): Promise<Metadata> {
     const page = await sanityFetch<PAGE>({
         query: pageMetadataQuery,
         params: { slug: 'home-page' },
     })
+
+    const previousImages = (await parent).openGraph?.images || []
+    const pageOgImage = page?.ogimage ? urlForImage(page.ogimage) : ''
 
     return {
         title: page?.seoTitle ?? 'Aesops - Unveiling Insights',
@@ -28,6 +36,7 @@ export async function generateMetadata(): Promise<Metadata> {
             title: page?.seoTitle,
             description: page?.seoDescription,
             url: `${process.env.NEXT_PUBLIC_SITE_URL}`,
+            images: [pageOgImage, ...previousImages],
         },
     }
 }
@@ -65,7 +74,9 @@ async function Page() {
                 </HasBackgroundWrapper>
             </div> */}
             <RecentPosts className='px-5 xl:px-0' />
-            <TalkToUs />
+            <div className='md:px-6 2xl:px-0'>
+                <TalkToUs />
+            </div>
         </div>
     )
 }

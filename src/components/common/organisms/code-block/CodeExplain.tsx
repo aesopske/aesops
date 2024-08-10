@@ -23,7 +23,9 @@ type CodeExplainProps = {
 function CodeExplain({ code }: CodeExplainProps) {
     const [isOpen, setIsOpen] = useState(false)
     // store the explanation session store to avoid re-explaining the same code
-    const { completion, complete, isLoading, error } = useCompletion()
+    const { completion, complete, isLoading, error } = useCompletion({
+        body: { key: code?._key },
+    })
     const { getValue, saveValue } = useSessionStore(
         code?._key || code?.code?.filename || '',
     )

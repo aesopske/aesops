@@ -1,6 +1,5 @@
 import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter'
 import * as theme from 'react-syntax-highlighter/dist/esm/styles/prism'
-
 import CodeBar from './CodeBar'
 import CodeExplain from './CodeExplain'
 
@@ -30,12 +29,10 @@ function CodeBlock({ codeContent }: CodeBlockProps) {
                 <CodeBar filename={filename} code={code} />
                 <SyntaxHighlighter
                     language={language}
-                    className='rounded-md py-0'
+                    className='py-0'
                     wrapLines
                     showLineNumbers
                     customStyle={{
-                        borderRadius: '0.5rem',
-                        fontFamily: 'Monolisa', // 'JetBrains Mono',
                         fontSize: '15px',
                         background: 'transparent',
                     }}

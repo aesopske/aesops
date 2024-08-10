@@ -1,5 +1,6 @@
 // function to title case a string while keeping a list of lowercase words to ignore
 export function titleCase(str: string) {
+    if (!str) return ''
     const ignore = [
         'and',
         'or',
