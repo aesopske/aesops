@@ -28,7 +28,7 @@ function PostCard({
     return (
         <div
             className={cn(
-                '  bg-white border border-gray-200 p-4 rounded text-brandprimary-900 h-full flex flex-col justify-between gap-y-4',
+                '  bg-white border border-gray-200 p-4 rounded-md text-brandprimary-900 h-full flex flex-col justify-between gap-y-4',
                 className,
             )}>
             <div className='space-y-4'>
