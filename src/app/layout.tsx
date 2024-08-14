@@ -2,6 +2,7 @@ import '@app/styles/global.css'
 import '@fontsource-variable/bricolage-grotesque'
 import '@fontsource-variable/lora'
 import { Analytics } from '@vercel/analytics/react'
+import { SpeedInsights } from '@vercel/speed-insights'
 import { VisualEditing } from 'next-sanity'
 import { draftMode } from 'next/headers'
 import TopLoader from 'nextjs-toploader'
@@ -39,8 +40,9 @@ async function RootLayout({ children }) {
                     <main>{children}</main>
                     {draftMode().isEnabled && <VisualEditing />}
                     <Footer />
-                    <Analytics />
                 </Providers>
+                <Analytics />
+                <SpeedInsights />
             </body>
         </html>
     )
