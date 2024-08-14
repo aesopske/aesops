@@ -30,7 +30,7 @@ function Navbar({ previewEnabled }: { previewEnabled: boolean }) {
     return (
         <header
             className={cn(
-                'sticky inset-x-0 top-0 z-50 text-brandprimary-900 border-b border-brandaccent-50 bg-brand-background h-fit md:max-h-20',
+                'sticky inset-x-0 top-0 z-50 text-brandprimary-900 border-b border-brandaccent-50 bg-brand-background h-fit md:max-h-20 shadow-sm',
                 { relative: pathnameBlog },
             )}>
             <nav

@@ -218,6 +218,7 @@ function OurTeam({ sectionContent }: { sectionContent: SECTION }) {
                                         <AboutMember
                                             hideBio
                                             hidePosts
+                                            hideSocials
                                             largeProfile
                                             author={formatAuthor(member)}
                                         />

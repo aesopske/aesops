@@ -60,7 +60,7 @@ function Hero({ className, section }: HeroProps) {
                             <SanityCtaGroup ctas={section?.cta ?? []} />
                         </div>
                     </div>
-                    <div className='h-full w-full px-8 items-center justify-center lg:flex 3xl:px-0 '>
+                    <div className='hidden h-full w-full px-8 items-center justify-center md:flex 3xl:px-0 '>
                         <Image
                             src={imageUrl ?? '/svg/datapoints.svg'}
                             alt={section?.image?.alt}
