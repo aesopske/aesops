@@ -56,6 +56,8 @@ export default defineType({
                 },
             ],
         }),
+        // TODO: add post series flow - where (we link posts that are part of a series together )
+        // Make one reference that also appears to the rest of the posts in the series
         defineField({
             name: 'categories',
             title: 'Categories',
