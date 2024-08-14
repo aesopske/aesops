@@ -35,6 +35,11 @@ const components = {
         normal: ({ children }) => (
             <p className='font-serif text-base'>{children}</p>
         ),
+        blockquote: ({ children }) => (
+            <blockquote className='font-serif text-base italic'>
+                {children}
+            </blockquote>
+        ),
     },
     types: {
         code: ({ value }) => <CodeBlock codeContent={value} />,
@@ -82,6 +87,19 @@ const components = {
         checkmarks: ({ children }) => (
             <ol className='ml-6 font-serif'>✔{children}</ol>
         ),
+    },
+    marks: {
+        link: ({ children, value }) => {
+            return (
+                <a
+                    href={value.href}
+                    target={value.blank ? '_blank' : '_self'}
+                    rel='noopener noreferrer'
+                    className='text-brandprimary-700 underline underline-offset-4 decoration-dashed'>
+                    {children}
+                </a>
+            )
+        },
     },
 } as PortableTextComponents
 
