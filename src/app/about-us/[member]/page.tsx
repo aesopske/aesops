@@ -13,7 +13,7 @@ import { urlForImage } from '@sanity/utils/image'
 import { memberMetadataQuery, memberQuery } from '@sanity/utils/requests'
 import { AUTHOR, POST } from '@sanity/utils/types'
 
-export const revalidate = 60 * 60 * 24 // 24 hours
+export const revalidate = 86400 // 24 hours
 
 type Props = {
     params: {
@@ -114,7 +114,7 @@ async function MemberPage({ params }: { params: { member: string } }) {
                     <div className='space-y-6'>
                         <Heading type='h4'>Posts by {memberData?.name}</Heading>
                         <hr className='border-gray-200 my-4' />
-                        <div className='grid grid-cols-1 gap-4 md:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4 lg:gap-10 '>
+                        <div className='grid grid-cols-1 gap-4 md:grid-cols-2 xl:grid-cols-3  lg:gap-5 '>
                             {!memberData?.posts?.length && (
                                 <Text>No posts available yet!!</Text>
                             )}

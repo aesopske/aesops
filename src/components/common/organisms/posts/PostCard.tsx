@@ -28,45 +28,50 @@ function PostCard({
     return (
         <div
             className={cn(
-                '  bg-white border border-gray-200 p-4 rounded text-brandprimary-900 h-full space-y-6',
+                '  bg-white border border-gray-200 p-4 rounded-md text-brandprimary-900 h-full flex flex-col justify-between gap-y-4',
                 className,
             )}>
-            <div className='flex gap-2 flex-wrap'>
-                {topPick && (
-                    <Badge
-                        variant='secondary'
-                        className='text-brandprimary-700 rounded-full w-fit'>
-                        Top Pick
-                    </Badge>
-                )}
-                {categories?.length > 0 || !hideCategory ? (
-                    <Badge
-                        variant='default'
-                        className='text-brandaccent-50 rounded-full w-fit'>
-                        # {categories[0]?.title}
-                    </Badge>
-                ) : null}
+            <div className='space-y-4'>
+                <div className='flex gap-2 flex-wrap'>
+                    {topPick && (
+                        <Badge
+                            variant='secondary'
+                            className='text-brandprimary-700 rounded-full w-fit'>
+                            Top Pick
+                        </Badge>
+                    )}
+                    {categories?.length > 0 || !hideCategory ? (
+                        <Badge
+                            variant='default'
+                            className='text-brandaccent-50 rounded-full w-fit'>
+                            # {categories[0]?.title}
+                        </Badge>
+                    ) : null}
+                </div>
+
+                <div className={cn('space-y-6')}>
+                    <Link href={`/blog/${post?.slug?.current}`} passHref>
+                        <div className='flex flex-col gap-2'>
+                            <Heading
+                                type={topPick ? 'h2' : 'h3'}
+                                className={cn('font-black')}>
+                                {titleCase(post?.title)}
+                            </Heading>
+                            <Text
+                                className={cn(
+                                    'line-clamp-3 text-base text-opacity-80 max-w-xl',
+                                    topPick
+                                        ? 'text-base text-current text-opacity-60'
+                                        : '',
+                                )}>
+                                {post?.excerpt}
+                            </Text>
+                        </div>
+                    </Link>
+                </div>
             </div>
 
-            <div className={cn('space-y-6')}>
-                <Link href={`/blog/${post?.slug?.current}`} passHref>
-                    <div className='flex flex-col gap-2'>
-                        <Heading
-                            type={topPick ? 'h2' : 'h3'}
-                            className={cn('font-black')}>
-                            {titleCase(post?.title)}
-                        </Heading>
-                        <Text
-                            className={cn(
-                                'line-clamp-3 text-base text-opacity-80 max-w-xl',
-                                topPick
-                                    ? 'text-base text-current text-opacity-60'
-                                    : '',
-                            )}>
-                            {post?.excerpt}
-                        </Text>
-                    </div>
-                </Link>
+            <div>
                 {hideAuthor ? (
                     <Text className='text-base text-opacity-70'>
                         <span>
