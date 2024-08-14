@@ -1,12 +1,12 @@
-import PostCard from './PostCard'
-import Categories from './Categories'
-import Text from '@components/common/atoms/Text'
-import Heading from '@components/common/atoms/Heading'
+import React from 'react'
+import { fetchCategories, fetchCategoryPosts } from '@sanity/utils/requests'
+import { CATEGORY_POST, MIN_POST, SECTION } from '@sanity/utils/types'
 import ListWrapper from '@components/common/ListWrapper'
 import AesopLink from '@components/common/atoms/AesopLink'
-import { CATEGORY_POST, MIN_POST, SECTION } from '@sanity/utils/types'
-import { fetchCategories, fetchCategoryPosts } from '@sanity/utils/requests'
-import React from 'react'
+import Heading from '@components/common/atoms/Heading'
+import Text from '@components/common/atoms/Text'
+import Categories from './Categories'
+import PostCard from './PostCard'
 
 type CategoryPostsProps = {
     search: string
@@ -22,7 +22,7 @@ async function CategoryPosts({ search, sectionContent }: CategoryPostsProps) {
     const categories = await fetchCategories()
 
     return (
-        <div className='grid grid-cols-1 order-last gap-5 px-5 lg:grid-cols-3 xl:px-0'>
+        <div className='grid grid-cols-1 order-last gap-5 px-6 lg:grid-cols-3 xl:px-0'>
             <div className='col-span-1  space-y-10 md:col-span-2'>
                 <div className='space-y-2'>
                     <Heading type='h2' className='font-bold'>

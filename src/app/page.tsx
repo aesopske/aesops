@@ -73,7 +73,7 @@ async function Page() {
                     </div>
                 </HasBackgroundWrapper>
             </div> */}
-            <RecentPosts className='px-5 xl:px-0' />
+            <RecentPosts />
             <div className='md:px-6 2xl:px-0'>
                 <TalkToUs />
             </div>

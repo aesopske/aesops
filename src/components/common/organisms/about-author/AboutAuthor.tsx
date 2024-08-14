@@ -15,6 +15,7 @@ type AboutAuthorProps = {
     author: AUTHOR_PLUS
     hideBio?: boolean
     hidePosts?: boolean
+    hideSocials?: boolean
     largeProfile?: boolean
 }
 
@@ -22,6 +23,7 @@ function AboutAuthor({
     author,
     hideBio,
     hidePosts,
+    hideSocials,
     largeProfile,
 }: AboutAuthorProps) {
     const [showMore, setShowMore] = useState(false)
@@ -68,9 +70,13 @@ function AboutAuthor({
                                 'text-base font-light lg:text-sm line-clamp-6',
                                 { 'line-clamp-none': showMore },
                             )}>
-                            {author?.bio} 
+                            {author?.bio}
                         </Text>
-                        <div className={cn('absolute bottom-0 right-0 bg-gradient-to-b from-transparent via-brand-background to-brand-background w-full flex items-end justify-start min-h-20', {'relative min-h-0': showMore})}>
+                        <div
+                            className={cn(
+                                'absolute bottom-0 right-0 bg-gradient-to-b from-transparent via-brand-background to-brand-background w-full flex items-end justify-start min-h-20',
+                                { 'relative min-h-0': showMore },
+                            )}>
                             <Button
                                 variant='link'
                                 onClick={toggleShowMore}
@@ -96,7 +102,7 @@ function AboutAuthor({
                 </div>
             )}
 
-            <Socials socials={author.socials ?? []} />
+            {hideSocials ? null : <Socials socials={author.socials ?? []} />}
         </div>
     )
 }
