@@ -59,7 +59,7 @@ async function MemberPage({ params }: { params: { member: string } }) {
     return (
         <div className='min-h-screen w-full'>
             <HasBackgroundWrapper className='h-auto min-h-48 lg:min-h-72'>
-                <div className='max-w-screen-2xl mx-auto px-6  py-10 min-h-48 lg:min-h-72 flex flex-col gap-3 justify-end items-center lg:items-start 2xl:px-0'>
+                <div className='max-w-screen-2xl mx-auto px-6  py-10 min-h-48 lg:min-h-72 flex flex-col gap-3 justify-end items-center 2xl:items-start 3xl:px-6'>
                     <div className='lg:hidden'>
                         <div className='w-36 h-36 rounded-full bg-gradient-to-br from-brandprimary-700  via-brandaccent-50 to-brandaccent-500 overflow-auto p-4 '>
                             <div className='h-full w-full'>
@@ -74,7 +74,7 @@ async function MemberPage({ params }: { params: { member: string } }) {
                         </div>
                     </div>
 
-                    <div className='space-y-1'>
+                    <div className='gap-1 flex flex-col justify-center items-center 2xl:items-start xl:pt-20 3xl:pt-0'>
                         <BreadCrumbs color='light' />
                         <Heading className='text-brandaccent-50 max-w-xl xl:text-5xl'>
                             {memberData?.name}
@@ -84,14 +84,16 @@ async function MemberPage({ params }: { params: { member: string } }) {
                                 <Role role={memberData?.role ?? ''} />
                             </div>
                         )}
+                        <div className='my-3'>
+                            <Socials
+                                socials={memberData?.socials ?? []}
+                                linkClassName='border-brandaccent-50 hover:border-brandaccent-100 text-brandaccent-50 hover:text-brandaccent-100 hover:bg-brandaccent-50/10  rounded-full'
+                            />
+                        </div>
                     </div>
-                    <Socials
-                        socials={memberData?.socials ?? []}
-                        linkClassName='border-brandaccent-50 hover:border-brandaccent-100 text-brandaccent-50 hover:text-brandaccent-100 hover:bg-brandaccent-50/10  rounded-full'
-                    />
                 </div>
             </HasBackgroundWrapper>
-            <div className='max-w-screen-2xl mx-auto px-6 2xl:px-0'>
+            <div className='max-w-screen-2xl mx-auto px-4 2xl:px-0'>
                 <div className='space-y-10 py-6 lg:py-24'>
                     <div className='space-y-4 flex flex-col items-center justify-start gap-10 lg:flex-row'>
                         <div className='hidden w-64 h-64 rounded-full bg-gradient-to-br from-brandprimary-700  via-brandaccent-50 to-brandaccent-500 overflow-auto p-4 lg:block'>
@@ -106,7 +108,7 @@ async function MemberPage({ params }: { params: { member: string } }) {
                             </div>
                         </div>
 
-                        <Text className='tracking-wide leading-loose text-justify max-w-4xl lg:w-3/4 lg:text-left '>
+                        <Text className=' leading-relaxed max-w-4xl md:pt-20 lg:w-3/4 lg:text-left lg:pt-0 '>
                             {memberData?.bio}
                         </Text>
                     </div>
@@ -114,7 +116,7 @@ async function MemberPage({ params }: { params: { member: string } }) {
                     <div className='space-y-6'>
                         <Heading type='h4'>Posts by {memberData?.name}</Heading>
                         <hr className='border-gray-200 my-4' />
-                        <div className='grid grid-cols-1 gap-4 md:grid-cols-2 xl:grid-cols-3  lg:gap-5 '>
+                        <div className='grid grid-cols-1 gap-4 md:grid-cols-2 xl:grid-cols-3 lg:gap-5 '>
                             {!memberData?.posts?.length && (
                                 <Text>No posts available yet!!</Text>
                             )}

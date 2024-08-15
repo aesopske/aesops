@@ -40,7 +40,7 @@ async function Blog({ searchParams }) {
 
     return (
         <div className='max-w-screen-2xl mx-auto my-6 space-y-10 lg:space-y-16 lg:my-12'>
-            <div className='space-y-6 px-6 lg:px-0'>
+            <div className='space-y-6 px-4 lg:px-0'>
                 <IntroSection sectionContent={page?.sections[0]} />
                 <FeaturedPosts
                     featuredPosts={page?.sections[0].featuredPosts ?? []}
@@ -52,7 +52,7 @@ async function Blog({ searchParams }) {
                 sectionContent={page?.sections[2]}
             />
             <hr className='border border-gray-100 max-w-3xl' />
-            <div className='px-6 xl:px-0 space-y-20'>
+            <div className='px-4 xl:px-0 space-y-20'>
                 <PostList />
             </div>
             <TalkToUs />

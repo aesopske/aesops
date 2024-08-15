@@ -1,11 +1,8 @@
 import React from 'react'
-
 import { cn } from '@src/lib/utils'
-
 import { sanityFetch } from '@sanity/utils/fetch'
 import { recentQuery } from '@sanity/utils/requests'
 import { MIN_POST } from '@sanity/utils/types'
-
 import ListWrapper from '@components/common/ListWrapper'
 import AesopLink from '@components/common/atoms/AesopLink'
 import Heading from '@components/common/atoms/Heading'
@@ -21,9 +18,9 @@ async function RecentPosts({ className }: RecentPostsProps) {
 
     return (
         <section id='recent-posts' className={cn('w-full', className)}>
-            <div className='mx-auto flex flex-col gap-10 max-w-screen-2xl py-10 px-6 lg:py-20 2xl:px-0'>
+            <div className='mx-auto flex flex-col gap-10 max-w-screen-2xl py-10 px-4 lg:py-20 2xl:px-0'>
                 <div className='text-left'>
-                    <Heading className='text-4xl font-bold tracking-tight'>
+                    <Heading type='h2' className='font-bold tracking-tight'>
                         Recent Posts
                     </Heading>
                     <Text className='my-4 leading-8 text-gray-600 max-w-xl'>
