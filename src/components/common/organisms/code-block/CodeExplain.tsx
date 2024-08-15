@@ -4,7 +4,7 @@ import { useCompletion } from 'ai/react'
 import { AnimatePresence, motion } from 'framer-motion'
 import { Stars } from 'lucide-react'
 import ReactMarkdown from 'react-markdown'
-import { useCallback, useEffect, useState } from 'react'
+import { useCallback, useState } from 'react'
 import { Button } from '@src/components/ui'
 
 type CodeExplainProps = {
@@ -26,24 +26,6 @@ function CodeExplain({ code }: CodeExplainProps) {
     const { completion, complete, isLoading, error } = useCompletion({
         body: { key: code?._key },
     })
-
-    console.log('error', error)
-    // const { getValue, saveValue } = useSessionStore(
-    //     code?._key || code?.code?.filename || '',
-    // )
-
-    // useEffect(() => {
-    //     if (completion) {
-    //         // debounce saving, so we don't save on every key stroke
-    //         const timeout = setTimeout(() => {
-    //             saveValue(completion)
-    //         }, 5000)
-
-    //         return () => clearTimeout(timeout)
-    //     }
-    // }, [completion, saveValue])
-
-    // const savedCompletion = getValue()
 
     return (
         <div className='flex min-h-10 flex-col items-start gap-4 bg-brandaccent-50 px-4 py-2'>
@@ -101,32 +83,6 @@ function CodeExplain({ code }: CodeExplainProps) {
             </AnimatePresence>
         </div>
     )
-}
-
-function useSessionStore(key: string) {
-    const updatedKey = `_code_${key}`
-    const getValue = useCallback(() => {
-        if (typeof window === 'undefined') return
-        const value = sessionStorage?.getItem(updatedKey)
-        return value ? JSON.parse(value) : null
-    }, [updatedKey])
-
-    const saveValue = useCallback(
-        (value: unknown) => {
-            // find key in session storage
-            if (typeof window === 'undefined') return
-            const sessionStore = getValue()
-            if (sessionStore) {
-                // remove the key
-                sessionStorage.removeItem(updatedKey)
-            }
-            // create the key
-            sessionStorage.setItem(updatedKey, JSON.stringify(value))
-        },
-        [getValue, updatedKey],
-    )
-
-    return { getValue, saveValue }
 }
 
 export default CodeExplain
