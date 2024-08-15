@@ -26,22 +26,24 @@ function CodeExplain({ code }: CodeExplainProps) {
     const { completion, complete, isLoading, error } = useCompletion({
         body: { key: code?._key },
     })
-    const { getValue, saveValue } = useSessionStore(
-        code?._key || code?.code?.filename || '',
-    )
 
-    useEffect(() => {
-        if (completion) {
-            // debounce saving, so we don't save on every key stroke
-            const timeout = setTimeout(() => {
-                saveValue(completion)
-            }, 5000)
+    console.log('error', error)
+    // const { getValue, saveValue } = useSessionStore(
+    //     code?._key || code?.code?.filename || '',
+    // )
 
-            return () => clearTimeout(timeout)
-        }
-    }, [completion, saveValue])
+    // useEffect(() => {
+    //     if (completion) {
+    //         // debounce saving, so we don't save on every key stroke
+    //         const timeout = setTimeout(() => {
+    //             saveValue(completion)
+    //         }, 5000)
 
-    const savedCompletion = getValue()
+    //         return () => clearTimeout(timeout)
+    //     }
+    // }, [completion, saveValue])
+
+    // const savedCompletion = getValue()
 
     return (
         <div className='flex min-h-10 flex-col items-start gap-4 bg-brandaccent-50 px-4 py-2'>
@@ -50,12 +52,12 @@ function CodeExplain({ code }: CodeExplainProps) {
                 variant='outline'
                 disabled={isLoading}
                 data-loading={isLoading}
-                className='group flex h-8 items-center gap-2 rounded-full border-brandprimary-900 bg-transparent data-[open=true]:bg-brandprimary-900 data-[open=true]:text-brandaccent-50 hover:bg-brandprimary-900 hover:text-brandaccent-50'
+                className='group flex h-8 items-center gap-2 rounded-full border-brandprimary-900 bg-transparent data-[open=true]:bg-brandprimary-900 data-[open=true]:text-brandaccent-50 hover:bg-brandprimary-900 hover:text-brandaccent-50 transition-all duration-200 ease-in-out'
                 onClick={() => {
                     if (isOpen) return setIsOpen(false)
 
                     // check if we have a saved explanation
-                    if (savedCompletion) {
+                    if (completion) {
                         setIsOpen(!isOpen)
                         return
                     }
@@ -66,7 +68,7 @@ function CodeExplain({ code }: CodeExplainProps) {
                         code?.code?.language === 'sh'
                             ? 'bash'
                             : code?.code?.language
-                    const prompt = `Give a short explanation the following ${language} code: \n\n${code?.code?.code}`
+                    const prompt = `Explain briefly in point form the following ${language} code: \n\n${code?.code?.code}`
                     complete(prompt)
                 }}>
                 <Stars
@@ -75,7 +77,6 @@ function CodeExplain({ code }: CodeExplainProps) {
                 />
                 {isOpen ? 'Close' : 'Explain'}
             </Button>
-
             <AnimatePresence initial={false} mode='wait'>
                 {isOpen && (
                     <motion.div
@@ -88,9 +89,7 @@ function CodeExplain({ code }: CodeExplainProps) {
                         <output
                             data-hidden={!!error}
                             className='prose font-m ono text-sm text-brandprimary-900 data-[hidden=true]:hidden'>
-                            <ReactMarkdown>
-                                {savedCompletion ? savedCompletion : completion}
-                            </ReactMarkdown>
+                            <ReactMarkdown>{completion}</ReactMarkdown>
                         </output>
                         {error && isOpen ? (
                             <output className='prose text-xs text-red-500'>
