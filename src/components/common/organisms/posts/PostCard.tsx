@@ -52,9 +52,7 @@ function PostCard({
                 <div className={cn('space-y-6')}>
                     <Link href={`/blog/${post?.slug?.current}`} passHref>
                         <div className='flex flex-col gap-2'>
-                            <Heading
-                                type={topPick ? 'h2' : 'h3'}
-                                className={cn('font-black')}>
+                            <Heading type={topPick ? 'h2' : 'h3'}>
                                 {titleCase(post?.title)}
                             </Heading>
                             <Text

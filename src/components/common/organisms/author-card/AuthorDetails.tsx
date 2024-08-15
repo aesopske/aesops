@@ -27,10 +27,11 @@ function AuthorDetails({
             renderTrigger={() => (
                 <Avatar
                     className={cn(
-                        'object-cover',
                         isSmall && 'w-8 h-8',
                         isSmaller && 'w-6 h-6',
-                        isMultiple && 'p-[2px]',
+                        'object-cover shadow-sm bg-brandprimary-700 text-brandaccent-50 z-0 rounded-full',
+                        isMultiple &&
+                            'p-[2px] border-none bg-white shadow-none',
                     )}>
                     <AvatarImage
                         alt={author?.name}

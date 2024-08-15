@@ -22,7 +22,7 @@ async function CategoryPosts({ search, sectionContent }: CategoryPostsProps) {
     const categories = await fetchCategories()
 
     return (
-        <div className='grid grid-cols-1 order-last gap-5 px-6 lg:grid-cols-3 xl:px-0'>
+        <div className='grid grid-cols-1 order-last gap-5 px-4 lg:grid-cols-3 xl:px-0'>
             <div className='col-span-1  space-y-10 md:col-span-2'>
                 <div className='space-y-2'>
                     <Heading type='h2' className='font-bold'>

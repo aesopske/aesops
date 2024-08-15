@@ -12,7 +12,7 @@ type CommunityProps = {
 function Community({ section }: CommunityProps) {
     return (
         <div className=''>
-            <div className='relative isolate px-6 lg:px-8'>
+            <div className='relative isolate px-4 lg:px-8'>
                 <div className='mx-auto flex flex-col gap-10 container-fluid max-w-screen-2xl py-10 sm:py-40 lg:py-32'>
                     <div className='flex flex-col md:flex-row gap-5'>
                         <div className='text-left'>

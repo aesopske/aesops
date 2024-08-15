@@ -6,7 +6,7 @@ import HasBackgroundWrapper from '@components/common/HasBackgroundWrapper'
 import Heading from '@components/common/atoms/Heading'
 import Text from '@components/common/atoms/Text'
 import SanityCtaGroup from '@components/common/molecules/SanityCtaGroup'
-import CategoryPosts from '@components/common/organisms/posts/CategoryPosts'
+// import CategoryPosts from '@components/common/organisms/posts/CategoryPosts'
 import FeaturedPosts from '@components/common/organisms/posts/FeaturedPosts'
 import PostList from '@components/common/organisms/posts/PostList'
 import TalkToUs from '@components/new/TalkToUs'
@@ -32,7 +32,7 @@ export async function generateMetadata(): Promise<Metadata> {
     }
 }
 
-async function Blog({ searchParams }) {
+async function Blog() {
     const page = await sanityFetch<PAGE>({
         query: pageQuery,
         params: { slug: 'blogs' },
@@ -40,19 +40,21 @@ async function Blog({ searchParams }) {
 
     return (
         <div className='max-w-screen-2xl mx-auto my-6 space-y-10 lg:space-y-16 lg:my-12'>
-            <div className='space-y-6 px-6 lg:px-0'>
+            <div className='space-y-6 px-4 lg:px-0'>
                 <IntroSection sectionContent={page?.sections[0]} />
                 <FeaturedPosts
                     featuredPosts={page?.sections[0].featuredPosts ?? []}
                 />
             </div>
             <ContributionSection sectionContent={page?.sections[1]} />
+            {/*
+            //TODO: maybe only show the popular categories to avoid posts duplication
             <CategoryPosts
                 search={searchParams?.category}
                 sectionContent={page?.sections[2]}
-            />
+            />*/}
             <hr className='border border-gray-100 max-w-3xl' />
-            <div className='px-6 xl:px-0 space-y-20'>
+            <div className='px-4 xl:px-0 space-y-20'>
                 <PostList />
             </div>
             <TalkToUs />
