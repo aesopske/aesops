@@ -6,7 +6,7 @@ import HasBackgroundWrapper from '@components/common/HasBackgroundWrapper'
 import Heading from '@components/common/atoms/Heading'
 import Text from '@components/common/atoms/Text'
 import SanityCtaGroup from '@components/common/molecules/SanityCtaGroup'
-import CategoryPosts from '@components/common/organisms/posts/CategoryPosts'
+// import CategoryPosts from '@components/common/organisms/posts/CategoryPosts'
 import FeaturedPosts from '@components/common/organisms/posts/FeaturedPosts'
 import PostList from '@components/common/organisms/posts/PostList'
 import TalkToUs from '@components/new/TalkToUs'
@@ -32,7 +32,7 @@ export async function generateMetadata(): Promise<Metadata> {
     }
 }
 
-async function Blog({ searchParams }) {
+async function Blog() {
     const page = await sanityFetch<PAGE>({
         query: pageQuery,
         params: { slug: 'blogs' },
@@ -47,7 +47,9 @@ async function Blog({ searchParams }) {
                 />
             </div>
             <ContributionSection sectionContent={page?.sections[1]} />
-            {/*<CategoryPosts
+            {/*
+            //TODO: maybe only show the popular categories to avoid posts duplication
+            <CategoryPosts
                 search={searchParams?.category}
                 sectionContent={page?.sections[2]}
             />*/}
