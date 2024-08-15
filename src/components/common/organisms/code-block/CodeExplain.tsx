@@ -4,7 +4,7 @@ import { useCompletion } from 'ai/react'
 import { AnimatePresence, motion } from 'framer-motion'
 import { Stars } from 'lucide-react'
 import ReactMarkdown from 'react-markdown'
-import { useCallback, useState } from 'react'
+import { useState } from 'react'
 import { Button } from '@src/components/ui'
 
 type CodeExplainProps = {
