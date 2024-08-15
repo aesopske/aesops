@@ -95,7 +95,7 @@ const components = {
                     href={value.href}
                     target={value.blank ? '_blank' : '_self'}
                     rel='noopener noreferrer'
-                    className='text-brandprimary-700 underline underline-offset-4 decoration-dashed'>
+                    className='text-brandprimary-700 underline underline-offset-4 decoration-dashed font-medium'>
                     {children}
                 </a>
             )
