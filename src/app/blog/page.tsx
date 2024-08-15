@@ -47,10 +47,10 @@ async function Blog({ searchParams }) {
                 />
             </div>
             <ContributionSection sectionContent={page?.sections[1]} />
-            <CategoryPosts
+            {/*<CategoryPosts
                 search={searchParams?.category}
                 sectionContent={page?.sections[2]}
-            />
+            />*/}
             <hr className='border border-gray-100 max-w-3xl' />
             <div className='px-4 xl:px-0 space-y-20'>
                 <PostList />
