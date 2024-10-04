@@ -2,6 +2,7 @@ import AesopLink from '@components/common/atoms/AesopLink'
 import Heading from '@components/common/atoms/Heading'
 import Text from '@components/common/atoms/Text'
 import { Button } from '../ui'
+import SubscriptionForm from './SubscriptionForm'
 
 function TalkToUs() {
     return (
@@ -18,16 +19,7 @@ function TalkToUs() {
                         Stay up to date with the latest news and updates.
                     </Text>
                 </div>
-                <form className='flex flex-col space-y-4'>
-                    <input
-                        type='email'
-                        placeholder='Enter your email'
-                        className='p-2 rounded-md'
-                    />
-                    <Button className='bg-brandaccent-500 text-white p-2 rounded-md'>
-                        Subscribe
-                    </Button>
-                </form>
+                <SubscriptionForm />
                 <Text className='text-white'>
                     By subscribing, you agree to our{' '}
                     <AesopLink

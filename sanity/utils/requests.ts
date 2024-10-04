@@ -459,3 +459,49 @@ export const competitionsMetadataQuery = groq`*[_type == 'competition' && slug.c
     title,
     description,
 }[0]`
+
+// Trends query
+export const trendsQuery = groq`*[_type == 'project' && !(_id in path('drafts.**'))]{
+  ...
+  author[]->{
+      name,
+      bio,
+      image,
+      slug,
+      isCoreMember,
+      socials,
+      role
+  }
+  }[]`
+
+export const trendQuery = groq`*[_type == 'project' && slug.current == $slug]{
+  ...,
+  author[]->{
+      name,
+      bio,
+      image,
+      slug,
+      isCoreMember,
+      socials,
+      role
+  }
+  }[0]`
+
+export const trendsMetadataQuery = groq`*[_type == 'project' && slug.current == $slug]{
+  title,
+  slug,
+  image,
+  }[0]`
+
+export const featuredTrendsQuery = groq`*[_type == 'project' && featured == true]{
+  ...,
+  author[]->{
+      name,
+      bio,
+      image,
+      slug,
+      isCoreMember,
+      socials,
+      role
+  }
+  }[]`

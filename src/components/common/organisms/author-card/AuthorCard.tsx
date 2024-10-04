@@ -15,6 +15,13 @@ type AuthorCardProps = {
     isSmall?: boolean
     hideDetails?: boolean
     hideCoAuthor?: boolean
+    avatarBackground?:
+        | 'default'
+        | 'primary'
+        | 'secondary'
+        | 'dark'
+        | 'light'
+        | 'transparent'
 } & React.HTMLAttributes<HTMLDivElement>
 
 function AuthorCard({
@@ -24,6 +31,7 @@ function AuthorCard({
     readTime,
     className,
     hideDetails,
+    avatarBackground = 'default',
     hideCoAuthor = true,
 }: AuthorCardProps) {
     const authors =
@@ -35,7 +43,11 @@ function AuthorCard({
 
     return (
         <div className={cn('flex items-center gap-2', className)}>
-            <GroupAvatar group={authors} hideDetails={hideDetails} />
+            <GroupAvatar
+                group={authors}
+                hideDetails={hideDetails}
+                background={avatarBackground}
+            />
 
             <div className='flex flex-1 flex-col items-start justify-between gap-0'>
                 <Heading

@@ -178,3 +178,20 @@ export type HOME_SETTINGS = {
     keywords: string
     ogImage: SanityAsset
 }
+
+// Trend types
+export type TREND = {
+    _id: string
+    title: string
+    slug: {
+        current: string
+    }
+    description: string
+    image: SANITY_IMAGE
+    endpoint: string
+    author: AUTHOR[]
+    featured: boolean
+    publishedAt: string
+    _createdAt: string
+    _updatedAt: string
+}

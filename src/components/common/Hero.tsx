@@ -6,7 +6,9 @@ import { SECTION } from '@sanity/utils/types'
 import AesopLink from '@components/common/atoms/AesopLink'
 import Heading from '@components/common/atoms/Heading'
 import Text from '@components/common/atoms/Text'
-import SanityCtaGroup from './molecules/SanityCtaGroup'
+import SubscriptionForm from '../new/SubscriptionForm'
+
+// import SanityCtaGroup from './molecules/SanityCtaGroup'
 
 interface HeroProps extends React.HTMLAttributes<HTMLDivElement> {
     section: SECTION
@@ -18,10 +20,10 @@ function Hero({ className, section }: HeroProps) {
         <section
             id='hero'
             className={cn(
-                'bg-brandprimary-700 relative max-h-screen md:min-h-[80vh] md:h-auto lg:min-h-[70vh] lg:py-20 overflow-hidden',
+                'bg-brandprimary-700 relative max-h-screen md:min-h-[80vh] md:h-auto lg:max-h-[60vh] lg:py-20 overflow-hidden flex items-center justify-center',
                 className,
             )}>
-            <div className='relative isolate bg-gradient-to-b lg:bg-gradient-to-r from-brandprimary-700 from-30% via-brandprimary-700/80 to-brandprimary-700/50 px-6 lg:px-8'>
+            <div className='relative isolate bg-gradient-to-b lg:bg-gradient-to-r from-brandprimary-700 from-30% via-brandprimary-700/80 to-brandprimary-700/50 px-6 lg:px-8 bg-green-200 w-full'>
                 <div
                     className='absolute inset-x-0 -top-40 -z-10 transform-gpu overflow-hidden blur-3xl sm:-top-80'
                     aria-hidden='true'>
@@ -50,14 +52,19 @@ function Hero({ className, section }: HeroProps) {
                                 </AesopLink>
                             </div>
                         </div>
-                        <div className='text-left max-w-2xl'>
+                        <div className='text-left max-w-xl'>
                             <Heading className='font-black tracking-tight text-gray-100 xl:text-6xl'>
                                 {section?.title}
                             </Heading>
                             <Text className='my-4 lg:my-8 leading-8 text-brandaccent-50'>
                                 {section?.description}
                             </Text>
-                            <SanityCtaGroup ctas={section?.cta ?? []} />
+                            <div className='max-w-md space-y-3'>
+                                <Heading type='h5' className='text-white'>
+                                    Join our community
+                                </Heading>
+                                <SubscriptionForm dir='row' />
+                            </div>
                         </div>
                     </div>
                     <div className='hidden h-full w-full px-8 items-center justify-center md:flex 3xl:px-0 '>

@@ -1,6 +1,6 @@
-import { cn } from '@/lib/utils'
 import { cva } from 'class-variance-authority'
 import React, { createElement, forwardRef } from 'react'
+import { cn } from '@/lib/utils'
 
 export const textVariants = cva('text-gray-900 tracking-normal font-sans', {
     variants: {
@@ -23,6 +23,7 @@ export const textVariants = cva('text-gray-900 tracking-normal font-sans', {
             a: 'text-base font-normal',
             li: 'text-base font-normal',
             label: 'text-base font-normal',
+            pre: 'text-sm font-normal font-mono whitespace-pre-wrap',
         },
     },
     defaultVariants: {
@@ -32,7 +33,7 @@ export const textVariants = cva('text-gray-900 tracking-normal font-sans', {
 })
 
 type TextProps = {
-    as?: 'p' | 'span' | 'strong' | 'em' | 'small' | 'a' | 'li' | 'label'
+    as?: 'p' | 'span' | 'strong' | 'em' | 'small' | 'a' | 'li' | 'label' | 'pre'
     variant?:
         | 'default'
         | 'muted'
