@@ -37,8 +37,6 @@ export async function invoke<T>({
 
     const BASE_URL = env.NEXT_PUBLIC_AESOPS_API_URL
 
-    console.log('BASE_URL', BASE_URL)
-
     if (!BASE_URL && useBaseUrl) {
         throw new Error('BASE_URL is not defined')
     }

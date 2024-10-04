@@ -10,7 +10,7 @@ import { urlForImage } from '@sanity/utils/image'
 import { featuredTrendsQuery } from '@sanity/utils/requests'
 import { TREND } from '@sanity/utils/types'
 
-async function TrendsPage({ searchParams }) {
+async function TrendsPage() {
     const featuredTrends = await sanityFetch<TREND[]>({
         query: featuredTrendsQuery,
     })

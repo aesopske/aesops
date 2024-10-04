@@ -135,7 +135,7 @@ const chartConfig = {
     },
 } satisfies ChartConfig
 
-function AreasChart({ info, data, filters }) {
+function AreasChart() {
     const [type, setType] = React.useState('')
 
     return (

@@ -1,6 +1,5 @@
 'use client'
 
-import { X } from 'lucide-react'
 import qs from 'query-string'
 import React, { useMemo } from 'react'
 import { usePathname, useRouter, useSearchParams } from 'next/navigation'

@@ -1,7 +1,6 @@
 import AesopLink from '@components/common/atoms/AesopLink'
 import Heading from '@components/common/atoms/Heading'
 import Text from '@components/common/atoms/Text'
-import { Button } from '../ui'
 import SubscriptionForm from './SubscriptionForm'
 
 function TalkToUs() {
