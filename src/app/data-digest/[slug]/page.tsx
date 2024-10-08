@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { Suspense } from 'react'
 import { ResolvingMetadata, Metadata } from 'next'
 import Image from 'next/image'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
@@ -47,13 +47,13 @@ export async function generateMetadata(
 }
 
 export async function generateStaticParams() {
-    const posts = await sanityFetch<PROJECT[]>({
+    const projects = await sanityFetch<PROJECT[]>({
         stega: false,
         query: trendsQuery,
         perspective: 'published',
     })
 
-    return posts.map((post) => ({
+    return projects.map((post) => ({
         slug: post.slug?.current,
     }))
 }
@@ -109,12 +109,20 @@ async function DataDigestItem({ params }) {
                         value='overview'
                         aria-disabled={!trend?.endpoint}
                         className='py-4 '>
-                        {trend?.endpoint ? (
-                            <VisualizationSelector
-                                endpoint={trend?.endpoint}
-                                project={trend?.slug.current}
-                            />
-                        ) : null}
+                        <Suspense
+                            fallback={
+                                <div className='flex gap-4'>
+                                    <div className='h-96 bg-gray-100 rounded-md animate-pulse'></div>
+                                    <div className='h-96 bg-gray-100 rounded-md animate-pulse'></div>
+                                </div>
+                            }>
+                            {trend?.endpoint ? (
+                                <VisualizationSelector
+                                    endpoint={trend?.endpoint}
+                                    project={trend?.slug.current}
+                                />
+                            ) : null}
+                        </Suspense>
                     </TabsContent>
                     <TabsContent value='about' className='py-4'>
                         <div className='max-w-xl w-full'>
