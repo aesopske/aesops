@@ -9,8 +9,8 @@ import { Button } from '@src/components/ui'
 
 type CodeExplainProps = {
     code: {
-        _key?: string
-        _type?: string
+        _key?: string | null
+        _type?: string | null
         allowAIExplain?: boolean
         code: {
             language: string
@@ -50,7 +50,7 @@ function CodeExplain({ code }: CodeExplainProps) {
                         code?.code?.language === 'sh'
                             ? 'bash'
                             : code?.code?.language
-                    const prompt = `Explain briefly in point form the following ${language} code: \n\n${code?.code?.code}`
+                    const prompt = `Explain briefly in point form and without an introduction or conclusion, the following ${language} code: \n\n${code?.code?.code}`
                     complete(prompt)
                 }}>
                 <Stars

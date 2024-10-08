@@ -1,6 +1,5 @@
 import { StickyNote } from 'lucide-react'
 import { defineField, defineType } from 'sanity'
-
 import NotesPreview from '@src/components/sanity/NotesPreview'
 
 export default defineType({
@@ -10,6 +9,11 @@ export default defineType({
     type: 'object',
     fields: [
         defineField({
+            title: 'Note Title',
+            name: 'noteTitle',
+            type: 'string',
+        }),
+        defineField({
             name: 'note',
             title: 'Your note',
             type: 'blockContent',
@@ -17,7 +21,7 @@ export default defineType({
         }),
     ],
     preview: {
-        select: { note: 'note' },
+        select: { title: 'noteTitle', note: 'note' },
     },
     components: {
         preview: NotesPreview,

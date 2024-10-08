@@ -13,7 +13,7 @@ type ConsultancyProps = {
 function Consultancy({ section }: ConsultancyProps) {
     return (
         <section id='consultancy' className='bg-brandaccent-50/50'>
-            <div className='mx-auto px-4 max-w-screen-2xl space-y-10 py-10 lg:py-28 2xl:px-0'>
+            <div className='mx-auto px-4 max-w-screen-lg lg:max-w-screen-xl 2xl:max-w-screen-2xl space-y-10 py-10 lg:py-28 2xl:px-0'>
                 <div className='mx-auto flex flex-col items-end gap-10 md:flex-row'>
                     <div className='w-full h-80 px-6 lg:w-1/2 lg:px-0'>
                         <Image

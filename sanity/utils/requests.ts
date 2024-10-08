@@ -2,6 +2,17 @@ import { groq } from 'next-sanity'
 import { CATEGORY, CATEGORY_POST, MIN_POST, POST } from '@sanity/utils/types'
 import { client } from './client'
 
+// subqueries
+const author = groq`{
+    name,
+    bio,
+    image,
+    slug,
+    isCoreMember,
+    socials,
+    role
+}`
+
 export const postsQuery = groq`*[_type == 'post' && !(_id in path('drafts.**'))] | order(publishedAt desc){
     title,
     slug,
@@ -12,15 +23,7 @@ export const postsQuery = groq`*[_type == 'post' && !(_id in path('drafts.**'))]
         slug
     },
     "readTime":round(length(pt::text(body)) / 5 / 180 ),
-    author[]->{
-        name,
-        bio,
-        image,
-        slug,
-        isCoreMember,
-        socials,
-        role
-    }
+    author[]->${author},
   }`
 
 export const getPosts = async () => {
@@ -77,15 +80,7 @@ export const postQuery = groq`*[_type == 'post' && slug.current == $slug]{
     },
     "readTime":round(length(pt::text(body)) / 5 / 180 ),
     excerpt,
-    author[]->{
-        name,
-        bio,
-        slug,
-        image,
-        isCoreMember,
-        role,
-        socials,
-    }
+    author[]->${author}
 }
 }[0]`
 
@@ -378,6 +373,18 @@ export const pageQuery = groq`*[_type == 'page' && slug.current == $slug]{
         datasets[]->{
             ...
         },
+        projects[]->{
+            ...,
+            author[]->{
+                name,
+                bio,
+                image,
+                slug,
+                isCoreMember,
+                socials,
+                role
+            }
+        },
         members[]->{
             name,
             bio,
@@ -459,3 +466,53 @@ export const competitionsMetadataQuery = groq`*[_type == 'competition' && slug.c
     title,
     description,
 }[0]`
+
+// Trends query
+export const trendsQuery = groq`*[_type == 'project' && !(_id in path('drafts.**'))]{
+  ...
+  title,
+  slug,
+  publishedAt,
+  author[]->${author}
+  }[]`
+
+const description = groq`{
+  ...,
+  _type == 'blockLink' => @->{
+    _type == 'post'=> {
+      title,
+      slug,
+      mainImage,
+      publishedAt,
+      excerpt,
+      author[]->${author},
+      categories[]->{
+        ...
+      },
+      "isPost": true
+    },
+    _type == 'project' => @->{
+      ...,
+      "isPost": false,
+      author[]->${author}
+    }
+  },
+}`
+
+export const trendQuery = groq`*[_type == 'project' && slug.current == $slug]{
+  ...,
+  description[] ${description},
+  author[]->${author}
+  }[0]`
+
+export const trendsMetadataQuery = groq`*[_type == 'project' && slug.current == $slug]{
+  title,
+  slug,
+  image,
+  }[0]`
+
+export const featuredTrendsQuery = groq`*[_type == 'project' && featured == true]{
+  ...,
+  description[] ${description},
+  author[]->${author}
+  }[]`

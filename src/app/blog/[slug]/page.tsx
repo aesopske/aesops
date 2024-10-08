@@ -81,7 +81,7 @@ async function Blog({ params }: { params: QueryParams }) {
 
     return (
         <div className='min-h-screen py-6 lg:py-12 md:px-4 xl:px-0'>
-            <div className='relative mx-auto gap-6 flex flex-col max-w-screen-2xl items-start justify-between lg:gap-x-12 md:px-6 lg:flex-row 2xl:px-0'>
+            <div className='relative mx-auto gap-6 flex flex-col max-w-screen-lg lg:max-w-screen-xl 2xl:max-w-screen-2xl items-start justify-between lg:gap-x-12 md:px-6 lg:flex-row 2xl:px-0'>
                 <div className='hidden sticky w-full left-0 top-10 z-10 h-96 rounded lg:block lg:w-1/5'>
                     <ContentHeadingReader body={post?.body} />
                     <Share title={post?.title} />

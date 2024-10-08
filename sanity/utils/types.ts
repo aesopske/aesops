@@ -49,6 +49,7 @@ export type POST = {
     excerpt: string
     headings: string[]
     recentPosts: MIN_POST[]
+    isPost?: boolean
 }
 
 export type MIN_POST = Pick<
@@ -61,6 +62,7 @@ export type MIN_POST = Pick<
     | 'excerpt'
     | 'author'
     | 'categories'
+    | 'isPost'
 >
 
 export type PATH = {
@@ -107,6 +109,7 @@ export type SECTION = {
     datasets?: DATASET[]
     values?: VALUE[]
     services?: SERVICE[]
+    projects?: PROJECT[]
 }
 
 export type CTA = {
@@ -177,4 +180,22 @@ export type HOME_SETTINGS = {
     description: string
     keywords: string
     ogImage: SanityAsset
+}
+
+// Trend types
+export type PROJECT = {
+    _id: string
+    title: string
+    slug: {
+        current: string
+    }
+    description: string
+    image: SANITY_IMAGE
+    endpoint: string
+    author: AUTHOR[]
+    featured: boolean
+    publishedAt: string
+    _createdAt: string
+    _updatedAt: string
+    isPost?: boolean
 }

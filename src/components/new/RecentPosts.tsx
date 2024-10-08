@@ -18,7 +18,7 @@ async function RecentPosts({ className }: RecentPostsProps) {
 
     return (
         <section id='recent-posts' className={cn('w-full', className)}>
-            <div className='mx-auto flex flex-col gap-10 max-w-screen-2xl py-10 px-4 lg:py-20 2xl:px-0'>
+            <div className='mx-auto flex flex-col gap-10 max-w-screen-lg lg:max-w-screen-xl 2xl:max-w-screen-2xl py-10 px-4 lg:py-20 2xl:px-0'>
                 <div className='text-left'>
                     <Heading type='h2' className='font-bold tracking-tight'>
                         Recent Posts

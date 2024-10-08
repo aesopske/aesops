@@ -1,15 +1,10 @@
-import { cva } from 'class-variance-authority'
+import { cva, type VariantProps } from 'class-variance-authority'
 import React from 'react'
 import { cn } from '@src/lib/utils'
 import { AUTHOR_PLUS } from '@sanity/utils/types'
 import AuthorDetails, {
     AUTHOR_DETAIL_PROPS,
 } from '../organisms/author-card/AuthorDetails'
-
-type GroupAvatarProps = {
-    group: AUTHOR_PLUS[]
-    background?: 'default' | 'light' | 'primary' | 'secondary'
-} & AUTHOR_DETAIL_PROPS
 
 const backgroundVariants = cva(
     'flex items-center w-fit h-fit p-0 rounded-full z-10',
@@ -20,6 +15,8 @@ const backgroundVariants = cva(
                 light: 'bg-brandaccent-50',
                 primary: 'bg-brandprimary-700',
                 secondary: 'bg-brandaccent-500',
+                dark: 'bg-brandprimary-900',
+                transparent: 'bg-transparent',
             },
         },
         defaultVariants: {
@@ -27,6 +24,12 @@ const backgroundVariants = cva(
         },
     },
 )
+
+interface GroupAvatarProps
+    extends AUTHOR_DETAIL_PROPS,
+        VariantProps<typeof backgroundVariants> {
+    group: AUTHOR_PLUS[]
+}
 
 function GroupAvatar({
     group,
@@ -38,11 +41,15 @@ function GroupAvatar({
             {group.map((author) => (
                 <div
                     key={author.name}
-                    className={cn(backgroundVariants({ background }))}>
+                    className={cn(
+                        'bg-blue-400',
+                        backgroundVariants({ background }),
+                    )}>
                     <AuthorDetails
                         {...props}
                         author={author}
                         isMultiple={group.length > 1}
+                        className='bg-transparent'
                     />
                 </div>
             ))}

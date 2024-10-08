@@ -1,5 +1,6 @@
 import { Code, Stars } from 'lucide-react'
 import { defineType, defineField } from 'sanity'
+import CodePreview from '@src/components/sanity/CodePreview'
 
 export default defineType({
     title: 'Code Block',
@@ -13,6 +14,19 @@ export default defineType({
             type: 'code',
             options: {
                 withFilename: true,
+                language: 'text',
+                languageAlternatives: [
+                    { title: 'JavaScript', value: 'javascript' },
+                    { title: 'TypeScript', value: 'typescript' },
+                    { title: 'Python', value: 'python' },
+                    { title: 'HTML', value: 'html' },
+                    { title: 'CSS', value: 'css' },
+                    { title: 'JSON', value: 'json' },
+                    { title: 'Markdown', value: 'markdown' },
+                    { title: 'Bash', value: 'sh', mode: 'shell' },
+                    { title: 'R', value: 'r', mode: 'r' },
+                    { title: 'Plain Text', value: 'text' },
+                ],
             },
         }),
         defineField({
@@ -22,4 +36,23 @@ export default defineType({
             icon: Stars,
         }),
     ],
+    components: {
+        preview: CodePreview,
+    },
+    preview: {
+        select: {
+            code: 'code',
+            allowAIExplain: 'allowAIExplain',
+        },
+        prepare({ code, allowAIExplain }) {
+            return {
+                title: code ? `${code.filename}` : 'Code Block',
+                subtitle: allowAIExplain ? 'With AI Explain' : '',
+                codeContent: {
+                    code,
+                    allowAIExplain,
+                },
+            }
+        },
+    },
 })

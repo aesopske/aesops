@@ -42,7 +42,15 @@ export default defineConfig({
             title: 'Preview',
             previewUrl: `${baseURL}/api/preview/enable`,
         }),
-        codeInput(),
+        codeInput({
+            codeModes: [
+                {
+                    name: 'r',
+                    loader: () =>
+                        import('codemirror-lang-r').then(({ r }) => r()),
+                },
+            ],
+        }),
         table(),
         unsplashImageAsset(),
     ],

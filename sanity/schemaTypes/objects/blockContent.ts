@@ -1,5 +1,14 @@
-import { Code, Frame, Play, StickyNote, Table } from 'lucide-react'
+import {
+    Code,
+    ExternalLink,
+    Frame,
+    Link2,
+    Play,
+    StickyNote,
+    Table,
+} from 'lucide-react'
 import { defineArrayMember, defineType } from 'sanity'
+import BlockLinkPreview from '@src/components/sanity/BlockLinkPreview'
 
 /**
  * This is the schema type for block content used in the post document type
@@ -66,6 +75,16 @@ export default defineType({
         // You can add additional types here. Note that you can't use
         // primitive types such as 'string' and 'number' in the same array
         // as a block type.
+        defineArrayMember({
+            name: 'blockLink',
+            title: 'Block Link',
+            type: 'reference',
+            icon: () => '🔗',
+            to: [{ type: 'post' }, { type: 'project' }],
+            components: {
+                preview: BlockLinkPreview,
+            },
+        }),
         defineArrayMember({
             type: 'image',
             options: { hotspot: true },

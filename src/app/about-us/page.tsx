@@ -63,7 +63,7 @@ function OurStory({ sectionContent }: { sectionContent: SECTION }) {
         <section
             id='about'
             className='min-h-96 bg-brandprimary-700 text-brandaccent-50'>
-            <div className='max-w-screen-2xl px-6 grid grid-cols-1 md:grid-cols-2 col-span-2 mx-auto md:gap-4 h-full 2xl:px-0'>
+            <div className='max-w-screen-lg lg:max-w-screen-xl 2xl:max-w-screen-2xl px-6 grid grid-cols-1 md:grid-cols-2 col-span-2 mx-auto md:gap-4 h-full 2xl:px-0'>
                 <div className='space-y-4 text-brandaccent-50 py-6 lg:py-24 '>
                     <Badge variant='secondary' className='rounded-full'>
                         Our Story
@@ -118,7 +118,7 @@ function OurMissionVision({
 }) {
     return (
         <section id='mission-vision' className='my-4'>
-            <div className='max-w-screen-2xl grid grid-cols-1 md:grid-cols-2 col-span-2 mx-auto px-6 2xl:px-0'>
+            <div className='max-w-screen-lg lg:max-w-screen-xl 2xl:max-w-screen-2xl grid grid-cols-1 md:grid-cols-2 col-span-2 mx-auto px-6 2xl:px-0'>
                 <div className='space-y-4 py-6 lg:py-24'>
                     <div className='w-20 h-20 rounded-full bg-brandaccent-100 p-4 text-brandprimary-700'>
                         <Rocket className='h-full w-full' />
@@ -159,7 +159,7 @@ function OurValues({ sectionContent }: { sectionContent: SECTION }) {
 
     return (
         <section id='values' className='bg-brandaccent-50'>
-            <div className='max-w-screen-2xl col-span-2 mx-auto px-6 2xl:px-0'>
+            <div className='max-w-screen-lg lg:max-w-screen-xl 2xl:max-w-screen-2xl col-span-2 mx-auto px-6 2xl:px-0'>
                 <div className='space-y-6 py-6 lg:py-24'>
                     <Badge className='rounded-full'>Our Values</Badge>
                     <Heading type='h2' className='text-current max-w-md'>
@@ -198,7 +198,7 @@ function OurValues({ sectionContent }: { sectionContent: SECTION }) {
 function OurTeam({ sectionContent }: { sectionContent: SECTION }) {
     return (
         <section id='team'>
-            <div className='max-w-screen-2xl col-span-2 mx-auto px-6 2xl:px-0'>
+            <div className='max-w-screen-lg lg:max-w-screen-xl 2xl:max-w-screen-2xl col-span-2 mx-auto px-6 2xl:px-0'>
                 <div className='space-y-6 py-6 lg:py-24'>
                     <div className='space-y-4 max-w-xl'>
                         <Badge className='rounded-full'>Our Team</Badge>
