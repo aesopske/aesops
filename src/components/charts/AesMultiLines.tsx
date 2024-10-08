@@ -53,11 +53,12 @@ function AesMultiLines({
                 <ChartContainer config={config}>
                     <LineChart
                         accessibilityLayer
-                        // data={data}
+                        data={data}
                         margin={{
                             left: 12,
                             right: 12,
-                        }}>
+                        }}
+                        height={150}>
                         <CartesianGrid vertical={false} />
                         {XAxisKey ? (
                             <XAxis
@@ -70,12 +71,17 @@ function AesMultiLines({
                             />
                         ) : null}
                         <YAxis width={20} tickLine={false} axisLine={false} />
-                        <ChartTooltip
-                            cursor={false}
-                            content={<ChartTooltipContent />}
-                        />
                         {Object.keys(config).map((key) => (
                             <Fragment key={key}>
+                                <ChartTooltip
+                                    cursor={false}
+                                    content={
+                                        <ChartTooltipContent
+                                            className='w-full p-5'
+                                            hideLabel
+                                        />
+                                    }
+                                />
                                 <Line
                                     dataKey={key}
                                     type='monotone'

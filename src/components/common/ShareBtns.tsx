@@ -1,12 +1,11 @@
 'use client'
 
-import React, { useEffect, useState } from 'react'
 import { Check, Copy, Facebook, Twitter } from 'lucide-react'
 import { FaWhatsapp } from 'react-icons/fa'
-
+import React, { useEffect, useState } from 'react'
 import { cn } from '@/lib/utils'
-import { Button, buttonVariants } from '../ui'
 import useCopy from '@src/hooks/useCopy'
+import { Button, buttonVariants } from '../ui'
 import Heading from './atoms/Heading'
 
 type ShareProps = {
@@ -46,7 +45,7 @@ function Share({ title, className }: ShareProps) {
     return (
         <div className={cn('relative self-center space-y-2', className)}>
             <Heading type='h6' className='capitalize font-semibold'>
-                Share:
+                Share
             </Heading>
             <div className='flex gap-2 w-full'>
                 {shares.map((share) => (

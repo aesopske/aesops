@@ -49,6 +49,7 @@ export type POST = {
     excerpt: string
     headings: string[]
     recentPosts: MIN_POST[]
+    isPost?: boolean
 }
 
 export type MIN_POST = Pick<
@@ -61,6 +62,7 @@ export type MIN_POST = Pick<
     | 'excerpt'
     | 'author'
     | 'categories'
+    | 'isPost'
 >
 
 export type PATH = {
@@ -107,6 +109,7 @@ export type SECTION = {
     datasets?: DATASET[]
     values?: VALUE[]
     services?: SERVICE[]
+    projects?: PROJECT[]
 }
 
 export type CTA = {
@@ -180,7 +183,7 @@ export type HOME_SETTINGS = {
 }
 
 // Trend types
-export type TREND = {
+export type PROJECT = {
     _id: string
     title: string
     slug: {
@@ -194,4 +197,5 @@ export type TREND = {
     publishedAt: string
     _createdAt: string
     _updatedAt: string
+    isPost?: boolean
 }

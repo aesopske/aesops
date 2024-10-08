@@ -4,7 +4,9 @@ import { urlForImage } from '@sanity/utils/image'
 import Heading from '@components/common/atoms/Heading'
 import CodeBlock from '@components/common/organisms/code-block/CodeBlock'
 import IframeEmbed from '@components/common/organisms/iframe-embed/IframeEmbed'
+import AesopLink from './atoms/AesopLink'
 import ImageWithModal from './molecules/image-with-modal/ImageWithModal'
+import BlockLinkView from './organisms/BlockLinkView'
 import PostNote from './organisms/post-note/PostNote'
 import TableBlock from './organisms/table-block/TableBlock'
 import YouTubeEmbed from './organisms/youtube-embed/YouTubeEmbed'
@@ -73,6 +75,9 @@ const components = {
         note: ({ value }) => {
             return <PostNote content={value} />
         },
+        blockLink: ({ value }) => {
+            return <BlockLinkView content={value} />
+        },
     },
     list: {
         // Ex. 1: customizing common list types
@@ -99,6 +104,18 @@ const components = {
                     {children}
                 </a>
             )
+        },
+        internalLink: ({ children, value }) => {
+            console.log('internalLink', value)
+            return null
+            // return (
+            //     <AesopLink
+            //         passHref
+            //         href={value.href}
+            //         className='text-sm bg-brandprimary-500'>
+            //         {children}
+            //     </AesopLink>
+            // )
         },
     },
 } as PortableTextComponents

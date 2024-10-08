@@ -1,7 +1,8 @@
 'use client'
 
-import qs from 'query-string'
+import { useQuery } from '@tanstack/react-query'
 import React from 'react'
+import { useSearchParams } from 'next/navigation'
 import {
     Table,
     TableBody,
@@ -14,24 +15,24 @@ import {
     Card,
     CardContent,
     CardDescription,
-    CardFooter,
     CardHeader,
 } from '@src/components/ui/card'
-import useFetch from '@src/hooks/useFetch'
+import { invoke } from '@src/lib/invoke'
 import Heading from '@components/common/atoms/Heading'
 import Text from '@components/common/atoms/Text'
 import AesLines from '../charts/AesLines'
-import AesMultiLines from '../charts/AesMultiLines'
 import ListWrapper from '../common/ListWrapper'
 import FilterBlock from '../organisms/FilterBlock'
 
 function OilPrices({ endpoint }) {
     return (
         <div className='grid grid-cols-1 xl:grid-cols-5 gap-8'>
-            <div className='order-1 col-span-1 xl:order-none xl:col-span-3 flex flex-col gap-10'>
-                <MultiLines endpoint={`${endpoint}/townprices`} />
-                <Lines1 endpoint={`${endpoint}/townprices`} />
-                <Lines1 endpoint={`${endpoint}/average-prices`} />
+            <div className='order-1 col-span-1 xl:order-none xl:col-span-3 flex flex-col gap-8'>
+                <Lines endpoint={`${endpoint}/townprices`} />
+                <Lines
+                    usesParams={false}
+                    endpoint={`${endpoint}/average-prices`}
+                />
             </div>
             <div className='col-span-1 xl:col-span-2 w-full'>
                 <PredictionTable endpoint={`${endpoint}/prediction`} />
@@ -49,6 +50,8 @@ type Prediction = {
 }
 
 type PredResponse = {
+    title: string
+    description: string
     data: Prediction[]
     type: string
     columns: {
@@ -58,12 +61,22 @@ type PredResponse = {
 }
 
 function PredictionTable({ endpoint }: { endpoint: string }) {
-    const { data, error, loading } = useFetch<PredResponse>({ endpoint })
+    const { data, error, isRefetching, isLoading } = useQuery({
+        queryKey: [endpoint],
+        queryFn: async () => {
+            const response = await invoke({
+                endpoint,
+            })
 
-    const currencyFormatter = new Intl.NumberFormat('en-KE', {
-        style: 'currency',
-        currency: 'KES',
-        maximumFractionDigits: 2,
+            if (response.error) {
+                throw new Error(response.error)
+            }
+
+            return response.res as PredResponse
+        },
+        placeholderData: (prev) => prev,
+        refetchOnMount: false,
+        refetchOnWindowFocus: false,
     })
 
     if (error) {
@@ -75,23 +88,17 @@ function PredictionTable({ endpoint }: { endpoint: string }) {
         )
     }
 
-    if (loading && !data) {
+    if (isLoading && !data) {
         return (
             <div className='w-full min-h-96 bg-white animate-pulse rounded-md' />
         )
     }
 
-    if (data?.type !== 'table') {
-        return null
-    }
-
     return (
-        <Card>
+        <Card className={isRefetching ? 'animate-pulse' : ''}>
             <CardHeader>
-                <Heading type='h4'>Prediction Table</Heading>
-                <CardDescription>
-                    Our prediction for the next 3 months.
-                </CardDescription>
+                <Heading type='h4'>{data?.title ?? ''}</Heading>
+                <CardDescription>{data?.description ?? ''}</CardDescription>
             </CardHeader>
             <CardContent className='space-y-3'>
                 <Table>
@@ -119,28 +126,11 @@ function PredictionTable({ endpoint }: { endpoint: string }) {
                                     <ListWrapper
                                         list={data?.columns ?? []}
                                         keyExtractor={(col) => col?.value}>
-                                        {(col) => {
-                                            const value = item[col.value]
-
-                                            if (
-                                                col.value === 'PMS' ||
-                                                col.value === 'AGO' ||
-                                                col.value === 'DPK'
-                                            ) {
-                                                return (
-                                                    <TableCell>
-                                                        {currencyFormatter.format(
-                                                            value,
-                                                        )}
-                                                    </TableCell>
-                                                )
-                                            }
-                                            return (
-                                                <TableCell>
-                                                    {item[col.value]}
-                                                </TableCell>
-                                            )
-                                        }}
+                                        {(col) => (
+                                            <TableCell>
+                                                {item[col.value]}
+                                            </TableCell>
+                                        )}
                                     </ListWrapper>
                                 </TableRow>
                             )}
@@ -148,11 +138,6 @@ function PredictionTable({ endpoint }: { endpoint: string }) {
                     </TableBody>
                 </Table>
             </CardContent>
-            <CardFooter>
-                <Text className='text-sm text-center w-full text-gray-400'>
-                    Predictions based on Aesops models
-                </Text>
-            </CardFooter>
         </Card>
     )
 }
@@ -160,10 +145,10 @@ function PredictionTable({ endpoint }: { endpoint: string }) {
 const generateConfig = (colums: string[]) => {
     const colors = [
         'hsl(var(--aeschart-2))',
-        'hsl(var(--aeschart-3))',
         'hsl(var(--aeschart-6))',
-        'hsl(var(--aeschart-7))',
+        'hsl(var(--aeschart-3))',
         'hsl(var(--aeschart-8))',
+        'hsl(var(--aeschart-7))',
         'hsl(var(--aeschart-9))',
     ]
 
@@ -172,13 +157,14 @@ const generateConfig = (colums: string[]) => {
             label: field,
             color: colors[idx % colors.length], // cycle through colors
         }
-
         return config
     }, {})
 }
 
 type AVGPRICES_RESPONSE = {
     type: string
+    title: string
+    description: string
     data: any[]
     columns: string[]
     filters: {
@@ -189,12 +175,37 @@ type AVGPRICES_RESPONSE = {
     }[]
 }
 
-function Lines1({ endpoint }: { endpoint: string }) {
-    const { data, error, loading, fetch } = useFetch<AVGPRICES_RESPONSE>({
-        endpoint,
+function Lines({
+    endpoint,
+    usesParams = true,
+}: {
+    endpoint: string
+    usesParams?: boolean
+}) {
+    // check of the url has
+    const searchParams = useSearchParams()
+    const params = usesParams ? searchParams.toString() : ''
+
+    const { data, error, isRefetching, isLoading } = useQuery({
+        queryKey: [endpoint, params],
+        queryFn: async () => {
+            const response = await invoke({
+                endpoint:
+                    usesParams && params ? `${endpoint}?${params}` : endpoint,
+            })
+
+            if (response.error) {
+                throw new Error(response.error)
+            }
+
+            return response.res as AVGPRICES_RESPONSE
+        },
+        placeholderData: (prev) => prev,
+        refetchOnMount: false,
+        refetchOnWindowFocus: false,
     })
 
-    if (loading && !data) {
+    if (isLoading && !data) {
         return (
             <div className='w-full min-h-96 bg-white animate-pulse rounded-md' />
         )
@@ -212,8 +223,9 @@ function Lines1({ endpoint }: { endpoint: string }) {
     const config = generateConfig(data?.columns ?? [])
     return (
         <AesLines
-            title='Average Prices'
-            description='Average Fuel Prices, Exchange Rate, and Price Per Barrel Over Time (KES)'
+            title={data?.title ?? ''}
+            description={data?.description ?? ''}
+            className={isRefetching ? 'animate-pulse' : ''}
             data={data?.data ?? []}
             config={config}
             XAxisKey='Year'
@@ -228,91 +240,6 @@ function Lines1({ endpoint }: { endpoint: string }) {
                                     <FilterBlock
                                         type={filter.type}
                                         data={filter.data}
-                                        onRefetch={async (data) => {
-                                            const queryString = qs.stringify(
-                                                {
-                                                    [filter?.label]: data,
-                                                },
-                                                {
-                                                    skipNull: true,
-                                                    skipEmptyString: true,
-                                                },
-                                            )
-
-                                            // fetch results from the same endpoint with the new query string
-                                            await fetch({
-                                                endpoint: `${endpoint}?${queryString}`,
-                                            })
-                                        }}
-                                        initialValue={filter.initialValue}
-                                        selectProps={{
-                                            label: filter.label,
-                                        }}
-                                    />
-                                </div>
-                            )}
-                        </ListWrapper>
-                    </div>
-                ) : null
-            }
-        />
-    )
-}
-function MultiLines({ endpoint }: { endpoint: string }) {
-    const { data, error, loading, fetch } = useFetch<AVGPRICES_RESPONSE>({
-        endpoint,
-    })
-
-    if (loading && !data) {
-        return (
-            <div className='w-full min-h-96 bg-white animate-pulse rounded-md' />
-        )
-    }
-
-    if (error) {
-        return (
-            <div className='text-red-600 bg-red-50 p-5 rounded-md space-y-2'>
-                <Heading type='h4'>Something went wrong</Heading>
-                <Text as='pre'>{JSON.stringify(error, null, 3)}</Text>
-            </div>
-        )
-    }
-
-    const config = generateConfig(data?.columns ?? [])
-    return (
-        <AesMultiLines
-            title='Average Prices'
-            description='Average Fuel Prices, Exchange Rate, and Price Per Barrel Over Time (KES)'
-            data={data?.data ?? []}
-            config={config}
-            XAxisKey='Year'
-            renderFilters={
-                data?.filters ? (
-                    <div className='w-full  mb-4 py-2 flex gap-2 items-start'>
-                        <ListWrapper
-                            list={data?.filters}
-                            keyExtractor={(filter) => filter?.label}>
-                            {(filter) => (
-                                <div className='flex items-center gap-4'>
-                                    <FilterBlock
-                                        type={filter.type}
-                                        data={filter.data}
-                                        onRefetch={async (data) => {
-                                            const queryString = qs.stringify(
-                                                {
-                                                    [filter?.label]: data,
-                                                },
-                                                {
-                                                    skipNull: true,
-                                                    skipEmptyString: true,
-                                                },
-                                            )
-
-                                            // fetch results from the same endpoint with the new query string
-                                            await fetch({
-                                                endpoint: `${endpoint}?${queryString}`,
-                                            })
-                                        }}
                                         initialValue={filter.initialValue}
                                         selectProps={{
                                             label: filter.label,

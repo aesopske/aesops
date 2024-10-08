@@ -20,7 +20,7 @@ interface FilterBlockProps {
     initialValue?: string
     data: { value: string; label: string }[]
     selectProps?: any
-    onRefetch?: (data: any) => void // eslint-disable-line
+    onRefetch?: (data: any, query?: string) => void // eslint-disable-line
 }
 
 function FilterBlock({
@@ -57,7 +57,7 @@ function FilterBlock({
 interface SelectFilterProps {
     label: string
     initialValue?: string
-    onRefetch?: (data: string | string[]) => void // eslint-disable-line
+    onRefetch?: (data: string | string[], query?: string) => void // eslint-disable-line
     options: { value: string; label: string }[]
 }
 
@@ -79,7 +79,7 @@ function SelectFilter({
         router.push(pathname + '?' + query, { scroll: false })
 
         // handle data refetching
-        if (onRefetch) onRefetch(value)
+        if (onRefetch) onRefetch(value, query)
     }
 
     return (
@@ -126,16 +126,21 @@ function MultiSelectFilter({
         router.push(pathname + '?' + query, { scroll: false })
 
         // handle data refetching
-        if (onRefetch) onRefetch(value)
+        if (onRefetch) onRefetch(value, query)
     }
 
     const queryString = searchParams.toString()
 
     const selectedOptions = useMemo(() => {
-        if (!queryString && initialValue) return [initialValue]
+        const initialIsArray = Array.isArray(initialValue)
+        if (!queryString && initialValue) {
+            return initialIsArray ? initialValue : [initialValue]
+        }
         const parsedValues = qs.parse(queryString)
 
-        if (!parsedValues[label] && initialValue) return [initialValue]
+        if (!parsedValues[label] && initialValue) {
+            return initialIsArray ? initialValue : [initialValue]
+        }
         if (!parsedValues[label]) return []
 
         if (Array.isArray(parsedValues[label])) return parsedValues[label]

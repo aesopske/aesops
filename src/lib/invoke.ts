@@ -4,8 +4,8 @@ import { env } from '@src/env'
 export const headers = {
     'Content-Type': 'application/json',
     Accept: 'application/json',
-    'Access-Control-Allow-Origin': env.NEXT_PUBLIC_AESOPS_API_URL,
-    'Access-Control-Allow-Credentials': 'true',
+    // 'Access-Control-Allow-Origin': env.NEXT_PUBLIC_AESOPS_API_URL,
+    // 'Access-Control-Allow-Credentials': 'true',
 }
 
 export type InvokeOptions = {

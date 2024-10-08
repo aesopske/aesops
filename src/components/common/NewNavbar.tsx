@@ -12,9 +12,10 @@ import AesopLink from './atoms/AesopLink'
 import ClerkWrapper from './organisms/clerk-wrapper/ClerkWrapper'
 
 const navigation = [
-    { name: 'Datasets', href: '/datasets', coming: true },
-    { name: 'Competitions', href: '/competitions', coming: false },
-    { name: 'Trends', href: '/trends', coming: false },
+    // { name: 'Datasets', href: '/datasets', coming: true },
+    // { name: 'Competitions', href: '/competitions', coming: true },
+    { name: 'Home', href: '/', coming: false },
+    { name: 'Data Digest', href: '/data-digest', coming: false },
     { name: 'About Us', href: '/about-us', coming: false },
     { name: 'Blog', href: '/blog', coming: false },
     // { name: 'Tools', href: '/tools' },
@@ -23,9 +24,7 @@ const navigation = [
 function Navbar({ previewEnabled }: { previewEnabled: boolean }) {
     const { isOpen, onToggle } = useDisclosure(false)
     const pathname = usePathname()
-
     const pathnameBlog = pathname?.includes('/blog/')
-
     if (pathname?.includes('/studio')) return null
     return (
         <header
@@ -34,25 +33,26 @@ function Navbar({ previewEnabled }: { previewEnabled: boolean }) {
                 { relative: pathnameBlog },
             )}>
             <nav
-                className='flex items-center justify-between px-5 py-2 container-fluid max-w-screen-2xl mx-auto h-full border-b border-brandaccent-50 gap-5 md:border-none lg:py-4 2xl:px-0'
+                className='flex items-center justify-between px-5 py-2 mx-auto h-full border-b border-brandaccent-50 gap-5 md:border-none lg:py-4 lg:px-0 max-w-screen-lg lg:max-w-screen-xl 2xl:max-w-screen-2xl'
                 aria-label='Global'>
                 <Logo />
 
                 <div className='flex items-center gap-5'>
                     <div className='hidden lg:flex lg:items-center lg:gap-x-6 font-sans'>
                         {navigation.map((item) => (
-                            <a
+                            <AesopLink
                                 key={item.name}
                                 href={item.href}
                                 aria-disabled={item.coming}
-                                className='relative text-sm font-semibold leading-6 aria-disabled:opacity-50 aria-disabled:pointer-events-none w-fit'>
+                                data-active={pathname === item.href}
+                                className='relative text-sm font-normal leading-6 aria-disabled:opacity-50 aria-disabled:pointer-events-none w-fit data-[active=true]:underline underline-offset-8 decoration-dotted'>
                                 {item.name}
                                 {item.coming ? (
                                     <sup className='w-full bg-brandaccent-500 text-brandprimary-900 rounded px-2 py-[1px]'>
                                         Coming soon
                                     </sup>
                                 ) : null}
-                            </a>
+                            </AesopLink>
                         ))}
                     </div>
                     <ClerkWrapper
@@ -102,20 +102,20 @@ function Navbar({ previewEnabled }: { previewEnabled: boolean }) {
                         animate={{ opacity: 1, height: 'auto' }}
                         exit={{ opacity: 0, height: 0 }}
                         transition={{ duration: 0.2, delayChildren: 0.4 }}
-                        className='flex flex-col gap-4 bg-brand-background shadow-md py-4 px-8 font-sans lg:hidden'>
+                        className='flex flex-col gap-4 bg-brand-background shadow-md py-4 px-6 font-sans lg:hidden'>
                         {navigation.map((item) => (
-                            <a
+                            <AesopLink
                                 key={item.name}
                                 href={item.href}
                                 aria-disabled={item.coming}
-                                className='relative text-base font-semibold leading-6 aria-disabled:opacity-50 aria-disabled:pointer-events-none'>
+                                className='relative text-base font-normal leading-6 aria-disabled:opacity-50 aria-disabled:pointer-events-none'>
                                 {item.name}
                                 {item.coming ? (
                                     <sup className='w-full bg-brandaccent-500 text-brandprimary-900 rounded px-2 py-[1px]'>
                                         Coming soon
                                     </sup>
                                 ) : null}
-                            </a>
+                            </AesopLink>
                         ))}
                     </motion.div>
                 ) : null}

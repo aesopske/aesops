@@ -1,10 +1,13 @@
 'use client'
 
+import { Menu } from 'lucide-react'
 import React from 'react'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
+import useDisclosure from '@src/hooks/useDisclosure'
 import { cn } from '@src/lib/utils'
 import parseOutline from '@sanity/utils/parseOutline'
+import { Button } from '../ui/button'
 import ListWrapper from './ListWrapper'
 import Heading from './atoms/Heading'
 
@@ -13,11 +16,22 @@ type ContentHeadingReaderProps = {
 } & React.HTMLAttributes<HTMLDivElement>
 
 function ContentHeadingReader({ body, className }: ContentHeadingReaderProps) {
+    const { isOpen, onToggle } = useDisclosure(false)
     const outline = body ? parseOutline(body) : []
 
     if (!outline || outline.length === 0) return null
     return (
-        <div className={cn('hidden space-y-3 mb-4 md:block', className)}>
+        <div className={cn('hidden space-y-3 mb-4 lg:block', className)}>
+            {/* <div className='flex items-center gap-3'>
+                <Button
+                    onClick={onToggle}
+                    variant='dark'
+                    size='icon'
+                    className='flex items-center space-x-2 text-sm font-sans font-normal rounded-full'>
+                    <Menu size={16} />
+                </Button>
+                <span>On this page</span>
+            </div> */}
             <Heading type='h4' className='font-semibold'>
                 On this page
             </Heading>
@@ -44,7 +58,7 @@ function Header({ outline }) {
                                 hash: heading.slug,
                             }}
                             passHref
-                            className='text-base font-sans font-normal text-brandprimary-900'>
+                            className='text-sm font-sans font-normal text-brandprimary-900'>
                             {heading?.text}
                         </Link>
                         <div className='pl-2 list-decimal space-y-2'>

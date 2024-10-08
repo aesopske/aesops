@@ -56,7 +56,7 @@ function AuthorCard({
                         'font-bold capitalize',
                         isSmall && 'text-sm',
                     )}>
-                    {mainAuthor?.name.toLowerCase()}
+                    {mainAuthor?.name?.toLowerCase()}
                 </Heading>
                 <div
                     className={cn('flex items-center w-full', {

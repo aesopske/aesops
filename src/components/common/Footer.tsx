@@ -18,30 +18,34 @@ import Text from './atoms/Text'
 
 function Footer() {
     const links = [
+        // {
+        //     label: 'Datasets',
+        //     link: '/datasets',
+        // },
+        // {
+        //     label: 'Competitions',
+        //     link: '/competitions',
+        // },
+        // {
+        //     label: 'Community',
+        //     link: '/community',
+        // },
         {
-            label: 'Datasets',
-            link: '/datasets',
+            label: 'Home',
+            link: '/',
         },
         {
-            label: 'Competitions',
-            link: '/competitions',
-        },
-        {
-            label: 'Community',
-            link: '/community',
-        },
-        {
-            label: 'Trends',
-            link: '/trends',
+            label: 'Data Digest',
+            link: '/data-digest',
         },
         {
             label: 'About Us',
-            link: '/aboutus',
+            link: '/about-us',
         },
     ]
     const resources = [
         {
-            label: 'Blog',
+            label: 'Blogs',
             link: '/blog',
         },
         {
@@ -93,7 +97,7 @@ function Footer() {
     if (pathname?.includes('/studio')) return null
     return (
         <section className='w-full h-full pt-10 px-6 bg-gradient-to-b pb-5 from-brand-background via-brandaccent-50 to-brandprimary-700 lg:pt-56'>
-            <div className='mx-auto max-w-screen-2xl grid gap-4 grid-cols-2 md:grid-cols-3 lg:grid-cols-7'>
+            <div className='mx-auto max-w-screen-lg lg:max-w-screen-xl 2xl:max-w-screen-2xl grid gap-4 grid-cols-2 md:grid-cols-3 lg:grid-cols-7'>
                 <div className='w-56 h-auto col-span-2 flex items-start justify-start md:col-span-3 lg:col-span-3 lg:h-56'>
                     <Logo className='h-auto w-24 md:w-56' />
                 </div>

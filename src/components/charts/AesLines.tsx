@@ -18,7 +18,7 @@ import {
     ChartLegend,
 } from '@/components/ui/chart'
 
-interface AesLinesProps {
+interface AesLinesProps extends React.HTMLAttributes<HTMLDivElement> {
     title: string
     description: string
     data: Record<string, any>[]
@@ -36,6 +36,7 @@ function AesLines({
     description,
     renderFooter,
     renderFilters,
+    ...props
 }: AesLinesProps) {
     // check that the data and config are valid and return null if not
     if (!data || !config) {
@@ -43,7 +44,7 @@ function AesLines({
     }
 
     return (
-        <Card>
+        <Card className={props.className}>
             <CardHeader>
                 <CardTitle>{title}</CardTitle>
                 <CardDescription>{description}</CardDescription>

@@ -23,7 +23,7 @@ function Hero({ className, section }: HeroProps) {
                 'bg-brandprimary-700 relative max-h-screen md:min-h-[80vh] md:h-auto lg:max-h-[60vh] lg:py-20 overflow-hidden flex items-center justify-center',
                 className,
             )}>
-            <div className='relative isolate bg-gradient-to-b lg:bg-gradient-to-r from-brandprimary-700 from-30% via-brandprimary-700/80 to-brandprimary-700/50 px-6 lg:px-8 bg-green-200 w-full'>
+            <div className='relative isolate bg-gradient-to-b lg:bg-gradient-to-r from-brandprimary-700 from-30% via-brandprimary-700/80 to-brandprimary-700/50 px-6 lg:px-8 w-full'>
                 <div
                     className='absolute inset-x-0 -top-40 -z-10 transform-gpu overflow-hidden blur-3xl sm:-top-80'
                     aria-hidden='true'>
@@ -35,10 +35,10 @@ function Hero({ className, section }: HeroProps) {
                         }}
                     />
                 </div>
-                <div className='mx-auto max-w-screen-2xl flex flex-col h-auto lg:flex-row lg:items-center lg:justify-between lg:gap-10'>
+                <div className='mx-auto max-w-screen-lg lg:max-w-screen-xl 2xl:max-w-screen-2xl flex flex-col h-auto lg:flex-row lg:items-center lg:justify-between lg:gap-10'>
                     <div className='w-full space-y-3 py-10 lg:py-24'>
                         <div className='sm:mb-8 sm:flex sm:justify-start'>
-                            <div className='relative text-xs rounded-full px-3 py-1 font-sans leading-6 text-white ring-2 ring-gray-100/10 hover:ring-gray-200/20 lg:text-sm '>
+                            <div className='relative text-xs rounded-full px-3 py-1 font-sans leading-6 text-white ring-2 ring-gray-100/10 hover:ring-gray-200/20 lg:text-sm w-fit '>
                                 Welcome to aesops&apos; new website.{' '}
                                 <AesopLink
                                     href='/blog'
@@ -52,14 +52,14 @@ function Hero({ className, section }: HeroProps) {
                                 </AesopLink>
                             </div>
                         </div>
-                        <div className='text-left max-w-xl'>
+                        <div className='text-left max-w-xl  w-full '>
                             <Heading className='font-black tracking-tight text-gray-100 xl:text-6xl'>
                                 {section?.title}
                             </Heading>
                             <Text className='my-4 lg:my-8 leading-8 text-brandaccent-50'>
                                 {section?.description}
                             </Text>
-                            <div className='max-w-md space-y-3'>
+                            <div className='max-w-md space-y-3 w-full'>
                                 <Heading type='h5' className='text-white'>
                                     Join our community
                                 </Heading>
@@ -67,7 +67,7 @@ function Hero({ className, section }: HeroProps) {
                             </div>
                         </div>
                     </div>
-                    <div className='hidden h-full w-full px-8 items-center justify-center md:flex 3xl:px-0 '>
+                    <div className='hidden h-full w-full px-8 items-center justify-center xl:flex 3xl:px-0 '>
                         <Image
                             src={imageUrl ?? '/svg/datapoints.svg'}
                             alt={section?.image?.alt}
