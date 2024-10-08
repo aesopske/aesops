@@ -4,7 +4,6 @@ import { urlForImage } from '@sanity/utils/image'
 import Heading from '@components/common/atoms/Heading'
 import CodeBlock from '@components/common/organisms/code-block/CodeBlock'
 import IframeEmbed from '@components/common/organisms/iframe-embed/IframeEmbed'
-import AesopLink from './atoms/AesopLink'
 import ImageWithModal from './molecules/image-with-modal/ImageWithModal'
 import BlockLinkView from './organisms/BlockLinkView'
 import PostNote from './organisms/post-note/PostNote'
@@ -105,17 +104,9 @@ const components = {
                 </a>
             )
         },
-        internalLink: ({ children, value }) => {
-            console.log('internalLink', value)
-            return null
-            // return (
-            //     <AesopLink
-            //         passHref
-            //         href={value.href}
-            //         className='text-sm bg-brandprimary-500'>
-            //         {children}
-            //     </AesopLink>
-            // )
+        internalLink: ({ children }) => {
+            //TODO: Implement internal link
+            return <p>{children}</p>
         },
     },
 } as PortableTextComponents
