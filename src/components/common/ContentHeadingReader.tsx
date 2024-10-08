@@ -1,13 +1,13 @@
 'use client'
 
-import { Menu } from 'lucide-react'
+// import { Menu } from 'lucide-react'
 import React from 'react'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
-import useDisclosure from '@src/hooks/useDisclosure'
+// import useDisclosure from '@src/hooks/useDisclosure'
 import { cn } from '@src/lib/utils'
 import parseOutline from '@sanity/utils/parseOutline'
-import { Button } from '../ui/button'
+// import { Button } from '../ui/button'
 import ListWrapper from './ListWrapper'
 import Heading from './atoms/Heading'
 
@@ -16,7 +16,7 @@ type ContentHeadingReaderProps = {
 } & React.HTMLAttributes<HTMLDivElement>
 
 function ContentHeadingReader({ body, className }: ContentHeadingReaderProps) {
-    const { isOpen, onToggle } = useDisclosure(false)
+    // const { isOpen, onToggle } = useDisclosure(false)
     const outline = body ? parseOutline(body) : []
 
     if (!outline || outline.length === 0) return null
