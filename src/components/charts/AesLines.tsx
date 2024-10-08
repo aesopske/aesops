@@ -45,11 +45,11 @@ function AesLines({
 
     return (
         <Card className={props.className}>
-            <CardHeader>
+            <CardHeader className='px-3 md:px-6'>
                 <CardTitle>{title}</CardTitle>
                 <CardDescription>{description}</CardDescription>
             </CardHeader>
-            <CardContent>
+            <CardContent className='px-3 md:px-6'>
                 <div>{renderFilters ? renderFilters : null}</div>
                 <ChartContainer config={config}>
                     <LineChart

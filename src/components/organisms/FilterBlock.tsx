@@ -86,7 +86,7 @@ function SelectFilter({
         <Select
             value={searchParams.get(label) ?? initialValue ?? ''}
             onValueChange={(evt) => handleSelect(evt)}>
-            <SelectTrigger className='w-[180px] h-8 shadow-sm rounded-md'>
+            <SelectTrigger className='w-full lg:w-[180px] h-8 shadow-sm rounded-md'>
                 <SelectValue placeholder={`Select ${label}`} className='h-10' />
             </SelectTrigger>
             <SelectContent>
@@ -155,7 +155,7 @@ function MultiSelectFilter({
             renderTrigger={() => (
                 <Button
                     variant='outline'
-                    className='h-8 w-[180px] shadow-sm rounded-md justify-between border-gray-300/80 px-2 hover:bg-gray-50 hover:text-black'>
+                    className='h-8 w-full lg:w-[180px] shadow-sm rounded-md justify-between border-gray-300/80 px-2 hover:bg-gray-50 hover:text-black space-x-2'>
                     <span>Select {label}</span>
                     {selectedOptions.length > 0 && (
                         <Badge variant='outline'>

@@ -9,12 +9,12 @@ import AuthorCard from '@src/components/common/organisms/author-card/AuthorCard'
 import { sanityFetch } from '@sanity/utils/fetch'
 import { urlForImage } from '@sanity/utils/image'
 import { pageMetadataQuery, pageQuery } from '@sanity/utils/requests'
-import { PAGE } from '@sanity/utils/types'
+import { PAGE, PAGE_METADATA } from '@sanity/utils/types'
 
 export const revalidate = 60 // 1 minute
 
 export async function generateMetadata(): Promise<Metadata> {
-    const page = await sanityFetch<PAGE>({
+    const page = await sanityFetch<PAGE_METADATA>({
         query: pageMetadataQuery,
         params: { slug: 'data-digest' },
     })
@@ -23,11 +23,19 @@ export async function generateMetadata(): Promise<Metadata> {
         title: page?.seoTitle ?? 'Data Digest',
         description:
             page?.seoDescription ??
-            'Dive deep into the world of data analysis, visualization, and insights. Whether you’re a seasoned data scientist or just beginning your journey in the field, our blog is your go-to resource for all things data.',
+            'Discover the latest data insights, trends, and analysis from the world of data science and analytics.',
         openGraph: {
             title: page?.seoTitle,
             description: page?.seoDescription,
             url: `${process.env.NEXT_PUBLIC_SITE_URL}/${page?.slug?.current}`,
+            images: [
+                {
+                    width: 800,
+                    height: 600,
+                    alt: page?.ogimage?.alt,
+                    url: page?.ogimage ? urlForImage(page?.ogimage) : '',
+                },
+            ],
         },
     }
 }
@@ -51,7 +59,7 @@ async function DataDigestPage() {
                             list={page?.sections[0]?.projects ?? []}
                             keyExtractor={(project) => project?.title}>
                             {(project) => (
-                                <div className='h-auto bg-white shadow-sm rounded-md overflow-hidden odd:col-span-2'>
+                                <div className='h-auto bg-white shadow-sm rounded-md overflow-hidden md:odd:col-span-2'>
                                     <div className='h-full w-full space-y-4'>
                                         <Image
                                             src={urlForImage(project?.image)}
@@ -67,7 +75,7 @@ async function DataDigestPage() {
                                                 className='text-primary-500 font-bold'>
                                                 {project?.title}
                                             </Heading>
-                                            <div className='flex items-center justify-between py-2 border-t border-gray-100'>
+                                            <div className='flex flex-col gap-2 w-full items-start justify-between py-2 border-t border-gray-100 md:flex-row md:items-center'>
                                                 <AuthorCard
                                                     isSmall
                                                     author={

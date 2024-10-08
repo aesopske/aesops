@@ -37,7 +37,7 @@ function MultiSelectDropdown({
                     ? renderTrigger()
                     : renderTrigger}
             </DropdownMenuTrigger>
-            <DropdownMenuContent className='w-56'>
+            <DropdownMenuContent className='w-auto lg:min-w-48'>
                 <DropdownMenuLabel>Appearance</DropdownMenuLabel>
                 <DropdownMenuSeparator />
                 <ListWrapper

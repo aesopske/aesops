@@ -26,8 +26,8 @@ import FilterBlock from '../organisms/FilterBlock'
 
 function OilPrices({ endpoint }) {
     return (
-        <div className='grid grid-cols-1 xl:grid-cols-5 gap-8'>
-            <div className='order-1 col-span-1 xl:order-none xl:col-span-3 flex flex-col gap-8'>
+        <div className='grid grid-cols-1 xl:grid-cols-5 gap-4 lg:gap-8'>
+            <div className='order-1 col-span-1 xl:order-none xl:col-span-3 flex flex-col gap-4 lg:gap-8'>
                 <Lines endpoint={`${endpoint}/townprices`} />
                 <Lines
                     usesParams={false}
@@ -96,11 +96,11 @@ function PredictionTable({ endpoint }: { endpoint: string }) {
 
     return (
         <Card className={isRefetching ? 'animate-pulse' : ''}>
-            <CardHeader>
+            <CardHeader className='px-3 md:px-6'>
                 <Heading type='h4'>{data?.title ?? ''}</Heading>
                 <CardDescription>{data?.description ?? ''}</CardDescription>
             </CardHeader>
-            <CardContent className='space-y-3'>
+            <CardContent className='space-y-3 px-3 md:px-6'>
                 <Table>
                     <TableHeader>
                         <TableRow>
@@ -223,15 +223,15 @@ function Lines({
     const config = generateConfig(data?.columns ?? [])
     return (
         <AesLines
+            XAxisKey='Year'
+            config={config}
             title={data?.title ?? ''}
             description={data?.description ?? ''}
             className={isRefetching ? 'animate-pulse' : ''}
             data={data?.data ?? []}
-            config={config}
-            XAxisKey='Year'
             renderFilters={
                 data?.filters ? (
-                    <div className='w-full  mb-4 py-2 flex gap-2 items-start'>
+                    <div className='w-full mb-4 py-2 flex gap-2 items-start flex-wrap'>
                         <ListWrapper
                             list={data?.filters}
                             keyExtractor={(filter) => filter?.label}>
