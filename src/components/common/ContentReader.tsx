@@ -34,10 +34,10 @@ const components = {
         h5: ({ children }) => <BlockHeading type='h6'>{children}</BlockHeading>,
 
         normal: ({ children }) => (
-            <p className='font-serif text-base'>{children}</p>
+            <p className='font-serif text-base leading-relaxed'>{children}</p>
         ),
         blockquote: ({ children }) => (
-            <blockquote className='font-serif text-base italic'>
+            <blockquote className='font-serif text-base my-4 border-l-2 px-2 border-brandprimary-600'>
                 {children}
             </blockquote>
         ),

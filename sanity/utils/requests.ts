@@ -509,6 +509,8 @@ export const trendsMetadataQuery = groq`*[_type == 'project' && slug.current == 
   title,
   slug,
   image,
+  publishedAt,
+  author[]->${author}
   }[0]`
 
 export const featuredTrendsQuery = groq`*[_type == 'project' && featured == true]{
