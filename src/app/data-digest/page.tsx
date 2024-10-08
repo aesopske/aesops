@@ -5,6 +5,7 @@ import ListWrapper from '@src/components/common/ListWrapper'
 import AesopLink from '@src/components/common/atoms/AesopLink'
 import Heading from '@src/components/common/atoms/Heading'
 import Text from '@src/components/common/atoms/Text'
+import WakeupCall from '@src/components/common/molecules/WakeupCall'
 import AuthorCard from '@src/components/common/organisms/author-card/AuthorCard'
 import { sanityFetch } from '@sanity/utils/fetch'
 import { urlForImage } from '@sanity/utils/image'
@@ -48,6 +49,7 @@ async function DataDigestPage() {
 
     return (
         <div className='min-h-screen'>
+            <WakeupCall />
             <div className='max-w-screen-lg lg:max-w-screen-xl 2xl:max-w-screen-2xl mx-auto space-y-12 px-5 py-5 xl:px-0 w-full'>
                 <div className='space-y-6'>
                     <div className='max-w-lg space-y-3'>

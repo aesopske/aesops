@@ -10,6 +10,10 @@ export const env = createEnv({
         CLERK_SECRET_KEY: z.string({
             message: 'CLERK_SECRET_KEY is required',
         }),
+        RESEND_API_KEY: z.string({ message: 'RESEND_API_KEY is required' }),
+        RESEND_AUDIENCE_ID: z.string({
+            message: 'RESEND_AUDIENCE_ID is required',
+        }),
     },
     client: {
         NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY: z.string({
@@ -26,5 +30,7 @@ export const env = createEnv({
         NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY:
             process.env.NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY,
         NEXT_PUBLIC_DEMO_CREDENTIALS: process.env.NEXT_PUBLIC_DEMO_CREDENTIALS,
+        RESEND_API_KEY: process.env.RESEND_API_KEY,
+        RESEND_AUDIENCE_ID: process.env.RESEND_AUDIENCE_ID,
     },
 })
