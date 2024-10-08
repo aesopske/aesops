@@ -21,7 +21,7 @@ type Response = {
 function ProjectSelector(props: StringInputProps) {
     const { onChange, value } = props
 
-    const { data, error, isLoading, refetch } = useQuery({
+    const { data, error, isLoading, refetch, isRefetching } = useQuery({
         queryKey: ['projects'],
         queryFn: async () => {
             const response = await invoke<Response>({
@@ -71,7 +71,12 @@ function ProjectSelector(props: StringInputProps) {
                     )}
                 </ListWrapper>
             </Select>
-            <Button mode='ghost' text='Refresh' onClick={() => refetch()} />
+            <Button
+                mode='ghost'
+                text='Refresh'
+                onClick={() => refetch()}
+                disabled={isLoading || isRefetching}
+            />
         </Flex>
     )
 }
