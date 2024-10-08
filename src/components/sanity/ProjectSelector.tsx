@@ -1,7 +1,8 @@
 'use client'
 
+import { useQuery } from '@tanstack/react-query'
 import { StringInputProps, set, unset } from 'sanity'
-import React, { useCallback, useEffect, useState } from 'react'
+import React from 'react'
 import { invoke } from '@src/lib/invoke'
 import { Select, Card, Spinner, Text, Button, Flex } from '@sanity/ui'
 import ListWrapper from '../common/ListWrapper'
@@ -14,14 +15,28 @@ type Project = {
 }
 
 type Response = {
-    res: {
-        projects: Project[]
-    }
+    projects: Project[]
 }
 
 function ProjectSelector(props: StringInputProps) {
     const { onChange, value } = props
-    const { data, error, fetchProjects, loading } = useProjects()
+
+    const { data, error, isLoading, refetch } = useQuery({
+        queryKey: ['projects'],
+        queryFn: async () => {
+            const response = await invoke<Response>({
+                endpoint: '/projects/all',
+            })
+
+            if (response.error) {
+                throw new Error(response?.error ?? 'An error occurred')
+            }
+
+            return response?.res?.projects as Project[]
+        },
+        refetchOnWindowFocus: false,
+        placeholderData: (prev) => (prev ? prev : []),
+    })
 
     const handleChange = React.useCallback(
         (event: React.FormEvent<HTMLSelectElement> | undefined) => {
@@ -38,17 +53,17 @@ function ProjectSelector(props: StringInputProps) {
             </Card>
         )
 
-    if (!data && loading)
+    if (!data && isLoading)
         return (
             <Card tone='default' {...cardProps}>
                 <Spinner />
             </Card>
         )
     return (
-        <Flex gap={4}>
+        <Flex gap={2}>
             <Select onChange={handleChange} value={value}>
                 <option value=''>Select a project</option>
-                <ListWrapper list={data} itemKey='name'>
+                <ListWrapper list={data ?? []} itemKey='name'>
                     {(item) => (
                         <option key={item?.name} value={item?.link}>
                             {item?.name}
@@ -56,51 +71,9 @@ function ProjectSelector(props: StringInputProps) {
                     )}
                 </ListWrapper>
             </Select>
-            <Button
-                tone='default'
-                loading={loading}
-                text='Fetch projects'
-                onClick={fetchProjects}
-                disabled={loading || data?.length > 0}
-            />
+            <Button mode='ghost' text='Refresh' onClick={() => refetch()} />
         </Flex>
     )
-}
-
-function useProjects() {
-    const [projects, setProjects] = useState<Project[]>([])
-    const [error, setError] = useState<Error | null>(null)
-    const [loading, setLoading] = useState(false)
-
-    const fetchProjects = useCallback(async () => {
-        if (projects.length > 0) return
-        try {
-            setLoading(true)
-            const response = await invoke<Response>({
-                endpoint: '/projects/all',
-            })
-
-            if (response?.error) {
-                const error = new Error(response?.error?.message)
-                throw error
-            }
-
-            setProjects(response?.res?.projects)
-        } catch (error) {
-            setError(error)
-            setProjects((prev) => prev)
-        } finally {
-            setLoading(false)
-        }
-    }, [projects.length])
-
-    useEffect(() => {
-        if (!error) return
-        setTimeout(() => {
-            setError(null)
-        }, 5000)
-    }, [error])
-    return { error, data: projects, fetchProjects, loading }
 }
 
 export default ProjectSelector
