@@ -6,7 +6,8 @@ import { SECTION } from '@sanity/utils/types'
 import AesopLink from '@components/common/atoms/AesopLink'
 import Heading from '@components/common/atoms/Heading'
 import Text from '@components/common/atoms/Text'
-import SubscriptionForm from '../new/SubscriptionForm'
+
+// import SubscriptionForm from '../new/SubscriptionForm'
 
 // import SanityCtaGroup from './molecules/SanityCtaGroup'
 
@@ -61,9 +62,15 @@ function Hero({ className, section }: HeroProps) {
                             </Text>
                             <div className='max-w-md space-y-3 w-full'>
                                 <Heading type='h5' className='text-white'>
-                                    Join our community
+                                    Get the latest news and updates.
                                 </Heading>
-                                <SubscriptionForm dir='row' />
+                                <AesopLink
+                                    type='button'
+                                    variant='secondary'
+                                    href='/#subscribe'>
+                                    Join our community &rarr;
+                                </AesopLink>
+                                {/* <SubscriptionForm dir='row' /> */}
                             </div>
                         </div>
                     </div>

@@ -198,4 +198,5 @@ export type PROJECT = {
     _createdAt: string
     _updatedAt: string
     isPost?: boolean
+    seoDescription: string
 }

@@ -167,6 +167,7 @@ type AVGPRICES_RESPONSE = {
     description: string
     data: any[]
     columns: string[]
+    XAxisKey: string
     filters: {
         label: string
         type: string
@@ -223,9 +224,9 @@ function Lines({
     const config = generateConfig(data?.columns ?? [])
     return (
         <AesLines
-            XAxisKey='Year'
             config={config}
             title={data?.title ?? ''}
+            XAxisKey={data?.XAxisKey ?? ''}
             description={data?.description ?? ''}
             className={isRefetching ? 'animate-pulse' : ''}
             data={data?.data ?? []}

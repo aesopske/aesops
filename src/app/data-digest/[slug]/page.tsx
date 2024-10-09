@@ -9,7 +9,11 @@ import BreadCrumbs from '@src/components/common/organisms/bread-crumbs/BreadCrum
 import VisualizationSelector from '@src/components/organisms/VisualizationSelector'
 import { sanityFetch } from '@sanity/utils/fetch'
 import { urlForImage } from '@sanity/utils/image'
-import { trendQuery, trendsQuery } from '@sanity/utils/requests'
+import {
+    trendQuery,
+    trendsMetadataQuery,
+    trendsQuery,
+} from '@sanity/utils/requests'
 import { PROJECT } from '@sanity/utils/types'
 
 type Props = {
@@ -23,7 +27,7 @@ export async function generateMetadata(
     parent: ResolvingMetadata,
 ): Promise<Metadata> {
     const page = await sanityFetch<PROJECT>({
-        query: trendQuery,
+        query: trendsMetadataQuery,
         params: { slug: params?.slug },
     })
     const previousImages = (await parent).openGraph?.images ?? []
@@ -32,7 +36,7 @@ export async function generateMetadata(
         description: page?.title,
         openGraph: {
             title: page?.title,
-            description: page?.title,
+            description: page?.seoDescription ?? '',
             images: [
                 {
                     url: page?.image ? urlForImage(page?.image) : '',

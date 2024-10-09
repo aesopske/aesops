@@ -18,10 +18,10 @@ export const subscribe = async (details: SubscribeDetails) => {
     // check if contact already exists
 
     return resend.contacts.create({
-        email: details.email,
         firstName: '',
         lastName: '',
         unsubscribed: false,
+        email: details.email,
         audienceId: env.RESEND_AUDIENCE_ID,
     })
 }

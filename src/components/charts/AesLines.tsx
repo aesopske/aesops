@@ -16,6 +16,7 @@ import {
     ChartTooltip,
     ChartTooltipContent,
     ChartLegend,
+    ChartLegendContent,
 } from '@/components/ui/chart'
 
 interface AesLinesProps extends React.HTMLAttributes<HTMLDivElement> {
@@ -70,7 +71,19 @@ function AesLines({
                                 tickFormatter={(value) => value}
                             />
                         ) : null}
-                        <YAxis width={20} tickLine={false} axisLine={false} />
+                        <YAxis
+                            width={20}
+                            tickLine={false}
+                            axisLine={false}
+                            domain={['auto', 'auto']}
+                            tickFormatter={(value) => {
+                                if (typeof value === 'number') {
+                                    // make it 2 decimal places
+                                    return value.toFixed(0)
+                                }
+                                return value
+                            }}
+                        />
                         <ChartTooltip
                             cursor={false}
                             content={<ChartTooltipContent />}
@@ -90,7 +103,10 @@ function AesLines({
                             </Fragment>
                         ))}
 
-                        <ChartLegend className='mt-4' />
+                        <ChartLegend
+                            className='mt-4'
+                            content={<ChartLegendContent />}
+                        />
                     </LineChart>
                 </ChartContainer>
             </CardContent>
