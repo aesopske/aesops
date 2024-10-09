@@ -33,7 +33,7 @@ export async function generateMetadata(
     const previousImages = (await parent).openGraph?.images ?? []
     return {
         title: page?.title ?? '',
-        description: page?.title,
+        description: page?.seoDescription ?? '',
         openGraph: {
             title: page?.title,
             description: page?.seoDescription ?? '',
