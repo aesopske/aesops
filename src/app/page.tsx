@@ -12,6 +12,7 @@ import { sanityFetch } from '@sanity/utils/fetch'
 import { urlForImage } from '@sanity/utils/image'
 import { pageMetadataQuery, pageQuery } from '@sanity/utils/requests'
 import { PAGE } from '@sanity/utils/types'
+import WakeupCall from '@components/common/molecules/WakeupCall'
 
 type Props = {}
 
@@ -49,6 +50,7 @@ async function Page() {
 
     return (
         <div className='w-full h-full min-h-screen'>
+            <WakeupCall />
             <Hero section={page?.sections[0]} />
             <Datasets section={page?.sections[1]} />
             <Consultancy section={page?.sections[2]} />

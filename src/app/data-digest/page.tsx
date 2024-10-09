@@ -1,16 +1,15 @@
 import React from 'react'
 import { Metadata } from 'next'
 import Image from 'next/image'
-import ListWrapper from '@src/components/common/ListWrapper'
-import AesopLink from '@src/components/common/atoms/AesopLink'
-import Heading from '@src/components/common/atoms/Heading'
-import Text from '@src/components/common/atoms/Text'
-import WakeupCall from '@src/components/common/molecules/WakeupCall'
-import AuthorCard from '@src/components/common/organisms/author-card/AuthorCard'
 import { sanityFetch } from '@sanity/utils/fetch'
 import { urlForImage } from '@sanity/utils/image'
 import { pageMetadataQuery, pageQuery } from '@sanity/utils/requests'
 import { PAGE, PAGE_METADATA } from '@sanity/utils/types'
+import ListWrapper from '@components/common/ListWrapper'
+import AesopLink from '@components/common/atoms/AesopLink'
+import Heading from '@components/common/atoms/Heading'
+import Text from '@components/common/atoms/Text'
+import AuthorCard from '@components/common/organisms/author-card/AuthorCard'
 
 export const revalidate = 60 // 1 minute
 
@@ -49,7 +48,6 @@ async function DataDigestPage() {
 
     return (
         <div className='min-h-screen'>
-            <WakeupCall />
             <div className='max-w-screen-lg lg:max-w-screen-xl 2xl:max-w-screen-2xl mx-auto space-y-12 px-5 py-5 xl:px-0 w-full'>
                 <div className='space-y-6'>
                     <div className='max-w-lg space-y-3'>
