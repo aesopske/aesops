@@ -13,6 +13,7 @@ export default defineType({
         {
             name: 'projectContent',
             title: 'Project Content',
+            default: true,
         },
         {
             name: 'actions',
@@ -97,6 +98,14 @@ export default defineType({
             group: 'actions',
             description: 'Is this project featured?',
             initialValue: false,
+        }),
+        defineField({
+            type: 'text',
+            group: 'seo',
+            name: 'seoDescription',
+            title: 'SEO Description',
+            description: 'The description for the project',
+            validation: (Rule) => Rule.required(),
         }),
     ],
 })
