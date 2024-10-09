@@ -1,12 +1,13 @@
-import { Code, Stars } from 'lucide-react'
+import { Stars } from 'lucide-react'
 import { defineType, defineField } from 'sanity'
 import CodePreview from '@src/components/sanity/CodePreview'
+import { CodeBlockIcon } from '@sanity/icons'
 
 export default defineType({
     title: 'Code Block',
     name: 'codeBlock',
     type: 'object',
-    icon: Code,
+    icon: CodeBlockIcon,
     fields: [
         defineField({
             title: 'Code',
