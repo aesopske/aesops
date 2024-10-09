@@ -5,7 +5,9 @@ import SubscriptionForm from './SubscriptionForm'
 
 function TalkToUs() {
     return (
-        <section className='bg-brandprimary-700 h-auto pb-10 container mx-auto max-w-screen-lg lg:max-w-screen-xl 2xl:max-w-screen-2xl grid grid-cols-1 md:grid-cols-2 gap-5 p-0 md:h-96 md:pb-0 xl:rounded-3xl'>
+        <section
+            id='subscribe'
+            className='bg-brandprimary-700 h-auto pb-10 container mx-auto max-w-screen-lg lg:max-w-screen-xl 2xl:max-w-screen-2xl grid grid-cols-1 md:grid-cols-2 gap-5 p-0 md:h-96 md:pb-0 xl:rounded-3xl'>
             <div className="bg-[url('/svg/quadpattern.svg')] h-28 w-full bg-no-repeat bg-center bg-cover cols-span-1 md:h-full" />
             <div className='w-full py-0 px-5 space-y-4 md:py-20 md:px-10 lg:px-12 lg:max-w-xl '>
                 <div>

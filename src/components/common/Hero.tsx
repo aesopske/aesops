@@ -61,9 +61,15 @@ function Hero({ className, section }: HeroProps) {
                             </Text>
                             <div className='max-w-md space-y-3 w-full'>
                                 <Heading type='h5' className='text-white'>
-                                    Join our community
+                                    Get the latest news and updates.
                                 </Heading>
-                                <SubscriptionForm dir='row' />
+                                <AesopLink
+                                    type='button'
+                                    variant='secondary'
+                                    href='/#subscribe'>
+                                    Join our community &rarr;
+                                </AesopLink>
+                                {/* <SubscriptionForm dir='row' /> */}
                             </div>
                         </div>
                     </div>

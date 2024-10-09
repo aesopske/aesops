@@ -50,6 +50,6 @@
         @apply scroll-smooth text-lg bg-brand-background;
     }
     body {
-        @apply bg-brand-background text-brand-foreground;
+        @apply bg-brand-background text-brand-foreground scroll-smooth;
     }
 }
