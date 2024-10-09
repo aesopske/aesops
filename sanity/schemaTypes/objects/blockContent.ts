@@ -1,14 +1,13 @@
-import {
-    Code,
-    ExternalLink,
-    Frame,
-    Link2,
-    Play,
-    StickyNote,
-    Table,
-} from 'lucide-react'
 import { defineArrayMember, defineType } from 'sanity'
 import BlockLinkPreview from '@src/components/sanity/BlockLinkPreview'
+import {
+    CodeBlockIcon,
+    PlayIcon,
+    BlockElementIcon,
+    ImageIcon,
+    ThListIcon,
+    BillIcon,
+} from '@sanity/icons'
 
 /**
  * This is the schema type for block content used in the post document type
@@ -87,6 +86,7 @@ export default defineType({
         }),
         defineArrayMember({
             type: 'image',
+            icon: ImageIcon,
             options: { hotspot: true },
             fields: [
                 {
@@ -102,14 +102,14 @@ export default defineType({
             type: 'codeBlock',
             name: 'code',
             title: 'Code',
-            icon: Code,
+            icon: CodeBlockIcon,
         }),
 
         // Adding a YouTube embed
         defineArrayMember({
             type: 'youTube',
             name: 'youTube',
-            icon: Play,
+            icon: PlayIcon,
             title: 'YouTube Embed',
         }),
 
@@ -118,7 +118,7 @@ export default defineType({
             type: 'iframeEmbed',
             name: 'iframeEmbed',
             title: 'Iframe Embed',
-            icon: Frame,
+            icon: BlockElementIcon,
         }),
 
         // Adding a table block
@@ -126,7 +126,7 @@ export default defineType({
             type: 'tableBlock',
             name: 'tableBlock',
             title: 'Table Block',
-            icon: Table,
+            icon: ThListIcon,
         }),
 
         // Adding notes block
@@ -134,7 +134,7 @@ export default defineType({
             type: 'note',
             name: 'note',
             title: 'Note',
-            icon: StickyNote,
+            icon: BillIcon,
         }),
     ],
 })

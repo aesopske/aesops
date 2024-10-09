@@ -1,6 +1,5 @@
 import { Play } from 'lucide-react'
 import { defineType, defineField } from 'sanity'
-
 import YouTubePreview from '@src/components/sanity/YouTubePreview'
 
 export default defineType({
@@ -10,18 +9,18 @@ export default defineType({
     type: 'object',
     fields: [
         defineField({
-            name: 'url',
-            type: 'url',
-            title: 'YouTube URL',
-        }),
-        defineField({
             name: 'title',
             type: 'string',
             title: 'Title',
         }),
+        defineField({
+            name: 'url',
+            type: 'url',
+            title: 'YouTube URL',
+        }),
     ],
     preview: {
-        select: { title: 'url' },
+        select: { title: 'title', subtitle: 'url' },
     },
     components: {
         preview: YouTubePreview,

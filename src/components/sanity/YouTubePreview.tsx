@@ -1,19 +1,27 @@
 'use client'
 
-import type { PreviewProps } from 'sanity'
-import { Flex, Text } from '@sanity/ui'
 import YouTubePlayer from 'react-player/youtube'
+import type { PreviewProps } from 'sanity'
+import { Stack, Text } from '@sanity/ui'
 
 function YouTubePreview(props: PreviewProps) {
-    const { title: url } = props
+    const { subtitle: url } = props
     return (
-        <Flex align='center' justify='center' padding={4}>
-            {typeof url === 'string' ? (
-                <YouTubePlayer url={url} />
-            ) : (
-                <Text>Missing YouTube URL</Text>
-            )}
-        </Flex>
+        <Stack padding={2} width='full'>
+            {props.renderDefault(props)}
+            <div className='mt-2 w-full'>
+                {typeof url === 'string' ? (
+                    <YouTubePlayer
+                        url={url}
+                        wrapper={({ children }) => (
+                            <div className='h-72 w-full'>{children}</div>
+                        )}
+                    />
+                ) : (
+                    <Text>Missing YouTube URL</Text>
+                )}
+            </div>
+        </Stack>
     )
 }
 export default YouTubePreview
