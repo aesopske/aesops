@@ -42,6 +42,10 @@ function Footer() {
             label: 'About Us',
             link: '/about-us',
         },
+        {
+            label: 'Sitemap',
+            link: '/sitemap.xml',
+        },
     ]
     const resources = [
         {
