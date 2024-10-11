@@ -108,13 +108,13 @@ function Footer() {
 
                 <div className='flex flex-col gap-4'>
                     <Heading type='h4'>Company</Heading>
-                    <div className='flex flex-col gap-2 text-sm'>
+                    <div className='flex flex-col gap-3 text-sm'>
                         {links.map((link) => (
                             <Link
                                 passHref
                                 key={link.label}
                                 href={link?.link || ''}
-                                className='cursor-pointer border-b border-dashed pb-1 border-gray-400 w-fit font-sans'>
+                                className='cursor-pointer w-fit font-sans'>
                                 {link.label}
                             </Link>
                         ))}
@@ -123,13 +123,13 @@ function Footer() {
 
                 <div className='flex flex-col gap-4'>
                     <Heading type='h4'>Resources</Heading>
-                    <div className='flex flex-col gap-2 text-sm'>
+                    <div className='flex flex-col gap-3 text-sm'>
                         {resources.map((link) => (
                             <Link
                                 passHref
                                 key={link.label}
                                 href={link?.link || ''}
-                                className='cursor-pointer border-b border-dashed pb-1 border-gray-400 w-fit font-sans'>
+                                className='cursor-pointer w-fit font-sans'>
                                 {link.label}
                             </Link>
                         ))}
@@ -138,13 +138,13 @@ function Footer() {
                 <div className='flex flex-col gap-4'>
                     <Heading type='h4'>Legal</Heading>
 
-                    <div className='flex flex-col gap-2 text-sm'>
+                    <div className='flex flex-col gap-3 text-sm'>
                         {legal.map((leg) => (
                             <AesopLink
                                 href={leg?.href}
                                 key={leg.label}
                                 target='_blank'
-                                className='cursor-pointer border-b border-dashed pb-1 border-gray-400 w-fit font-sans'
+                                className='cursor-pointer w-fit font-sans'
                                 rel='noopener noreferrer'>
                                 {leg.label}
                             </AesopLink>

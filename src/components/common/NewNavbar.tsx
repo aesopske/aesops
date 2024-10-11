@@ -39,21 +39,33 @@ function Navbar({ previewEnabled }: { previewEnabled: boolean }) {
 
                 <div className='flex items-center gap-5'>
                     <div className='hidden lg:flex lg:items-center lg:gap-x-6 font-sans'>
-                        {navigation.map((item) => (
-                            <AesopLink
-                                key={item.name}
-                                href={item.href}
-                                aria-disabled={item.coming}
-                                data-active={pathname === item.href}
-                                className='relative text-sm font-normal leading-6 aria-disabled:opacity-50 aria-disabled:pointer-events-none w-fit data-[active=true]:underline underline-offset-8 decoration-dotted'>
-                                {item.name}
-                                {item.coming ? (
-                                    <sup className='w-full bg-brandaccent-500 text-brandprimary-900 rounded px-2 py-[1px]'>
-                                        Coming soon
-                                    </sup>
-                                ) : null}
-                            </AesopLink>
-                        ))}
+                        {navigation.map((item) => {
+                            let isActive = false
+                            if (item.href === '/') {
+                                isActive = pathname === item.href
+                            } else {
+                                // remove the initial slash from the pathname
+                                const pathnameWithoutSlash = pathname.slice(1)
+                                isActive = pathnameWithoutSlash?.includes(
+                                    item.href.slice(1),
+                                )
+                            }
+                            return (
+                                <AesopLink
+                                    key={item.name}
+                                    href={item.href}
+                                    aria-disabled={item.coming}
+                                    data-active={isActive}
+                                    className='relative text-sm font-normal leading-6 aria-disabled:opacity-50 aria-disabled:pointer-events-none w-fit data-[active=true]:underline underline-offset-8 decoration-dotted'>
+                                    {item.name}
+                                    {item.coming ? (
+                                        <sup className='w-full bg-brandaccent-500 text-brandprimary-900 rounded px-2 py-[1px]'>
+                                            Coming soon
+                                        </sup>
+                                    ) : null}
+                                </AesopLink>
+                            )
+                        })}
                     </div>
                     <ClerkWrapper
                         renderSignedIn={() => (

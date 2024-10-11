@@ -1,28 +1,13 @@
 import { PortableText, PortableTextComponents } from '@portabletext/react'
-import speakingUrl from 'speakingurl'
 import { urlForImage } from '@sanity/utils/image'
-import Heading from '@components/common/atoms/Heading'
 import CodeBlock from '@components/common/organisms/code-block/CodeBlock'
 import IframeEmbed from '@components/common/organisms/iframe-embed/IframeEmbed'
+import BlockHeading from './molecules/BlockHeading'
 import ImageWithModal from './molecules/image-with-modal/ImageWithModal'
 import BlockLinkView from './organisms/BlockLinkView'
 import PostNote from './organisms/post-note/PostNote'
 import TableBlock from './organisms/table-block/TableBlock'
 import YouTubeEmbed from './organisms/youtube-embed/YouTubeEmbed'
-
-function BlockHeading({ children, type }) {
-    const url = children[0]?.props?.text
-        ? children[0]?.props?.text
-        : children[0]
-
-    const id = speakingUrl(url ?? '')
-
-    return (
-        <Heading id={id} type={type}>
-            {children}
-        </Heading>
-    )
-}
 
 const components = {
     block: {
