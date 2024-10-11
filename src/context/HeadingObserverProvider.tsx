@@ -18,9 +18,8 @@ function HeadingObserverProvider({ children }: { children: React.ReactNode }) {
     useEffect(() => {
         ref.current = new IntersectionObserver(
             (entries) => {
-                console.log(entries)
                 const newHeadingsInView = entries
-                    .filter((entry) => entry.isVisible)
+                    .filter((entry) => entry.isIntersecting)
                     .map((entry) => entry.target.id)
                 setHeadingsInView(newHeadingsInView)
             },

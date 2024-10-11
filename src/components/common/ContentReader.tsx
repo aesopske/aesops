@@ -1,7 +1,5 @@
 import { PortableText, PortableTextComponents } from '@portabletext/react'
-import speakingUrl from 'speakingurl'
 import { urlForImage } from '@sanity/utils/image'
-import Heading from '@components/common/atoms/Heading'
 import CodeBlock from '@components/common/organisms/code-block/CodeBlock'
 import IframeEmbed from '@components/common/organisms/iframe-embed/IframeEmbed'
 import BlockHeading from './molecules/BlockHeading'
