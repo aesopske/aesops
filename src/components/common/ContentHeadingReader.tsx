@@ -61,11 +61,11 @@ function Header({ outline }) {
                             className='text-sm font-sans font-normal text-brandprimary-900'>
                             {heading?.text}
                         </Link>
-                        <div className='pl-2 list-decimal space-y-2'>
+                        <p className='pl-3 list-decimal space-y-2'>
                             {heading?.subheadings?.length > 0 && (
                                 <Header outline={heading.subheadings} />
                             )}
-                        </div>
+                        </p>
                     </li>
                 )}
             </ListWrapper>

@@ -59,15 +59,15 @@ function BreadCrumbs({ color = 'default' }: BreadCrumbsProps) {
                 <BreadcrumbSeparator>
                     <Slash size={16} />
                 </BreadcrumbSeparator>
-                <ListWrapper list={paths} itemKey='name'>
-                    {(path: PATH) => (
+                <ListWrapper list={paths} keyExtractor={(path) => path.name}>
+                    {(path) => (
                         <Fragment>
                             <BreadcrumbItem>
                                 <BreadcrumbLink
                                     href={path.href}
                                     aria-disabled={path.active}
                                     data-active={path.active}
-                                    className='data-[active=false]:text-current capitalize aria-disabled:pointer-events-none aria-disabled:text-current aria-disabled:opacity-50 font-sans'>
+                                    className='data-[active=false]:text-current capitalize aria-disabled:pointer-events-none aria-disabled:text-current aria-disabled:opacity-60 font-sans'>
                                     {path.name}
                                 </BreadcrumbLink>
                             </BreadcrumbItem>
