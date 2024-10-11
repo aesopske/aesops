@@ -64,6 +64,7 @@
         "nextjs-toploader": "^1.6.12",
         "openai": "^4.55.1",
         "plaiceholder": "^3.0.0",
+        "posthog-js": "^1.167.0",
         "prisma": "^5.18.0",
         "promise": "^8.3.0",
         "query-string": "^9.1.0",

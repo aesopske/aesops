@@ -3,6 +3,7 @@
 import { useCompletion } from 'ai/react'
 import { AnimatePresence, motion } from 'framer-motion'
 import { Stars } from 'lucide-react'
+import posthog from 'posthog-js'
 import ReactMarkdown from 'react-markdown'
 import { useState } from 'react'
 import { Button } from '@src/components/ui'
@@ -38,6 +39,7 @@ function CodeExplain({ code }: CodeExplainProps) {
                 onClick={() => {
                     if (isOpen) return setIsOpen(false)
 
+                    posthog.capture('code_explain', { code: code?.code?.code })
                     // check if we have a saved explanation
                     if (completion) {
                         setIsOpen(!isOpen)
