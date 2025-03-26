@@ -33,7 +33,7 @@ function Navbar({ previewEnabled }: { previewEnabled: boolean }) {
                 { relative: pathnameBlog },
             )}>
             <nav
-                className='flex items-center justify-between px-5 py-2 mx-auto h-full border-b border-brandaccent-50 gap-5 md:border-none lg:py-4 lg:px-0 max-w-screen-lg lg:max-w-screen-xl 2xl:max-w-screen-2xl'
+                className='flex items-center justify-between px-5 py-2 mx-auto h-full border-b border-brandaccent-50 gap-5 md:border-none lg:py-4 2xl:px-0 max-w-screen-lg lg:max-w-screen-xl 2xl:max-w-screen-2xl'
                 aria-label='Global'>
                 <Logo />
 
