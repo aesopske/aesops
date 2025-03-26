@@ -1,6 +1,7 @@
 'use client'
 
 import { useQuery } from '@tanstack/react-query'
+import { Lightbulb } from 'lucide-react'
 import React from 'react'
 import { useSearchParams } from 'next/navigation'
 import {
@@ -15,6 +16,7 @@ import {
     Card,
     CardContent,
     CardDescription,
+    CardFooter,
     CardHeader,
 } from '@src/components/ui/card'
 import { invoke } from '@src/lib/invoke'
@@ -23,6 +25,7 @@ import Text from '@components/common/atoms/Text'
 import AesLines from '../charts/AesLines'
 import ListWrapper from '../common/ListWrapper'
 import FilterBlock from '../organisms/FilterBlock'
+import { Separator } from '../ui/separator'
 
 function OilPrices({ endpoint }) {
     return (
@@ -138,6 +141,13 @@ function PredictionTable({ endpoint }: { endpoint: string }) {
                     </TableBody>
                 </Table>
             </CardContent>
+            <Separator className='mb-4' />
+            <CardFooter>
+                <Lightbulb className='text-brandaccent-300  mr-2' />
+                <Text className='text-sm italic'>
+                    Based on Aesops&apos; oil prices prediction model.
+                </Text>
+            </CardFooter>
         </Card>
     )
 }
