@@ -8,6 +8,7 @@ import AesopLink from '@components/common/atoms/AesopLink'
 import Heading from '@components/common/atoms/Heading'
 import Text from '@components/common/atoms/Text'
 import PostCard from '@components/common/organisms/posts/PostCard'
+import Animate from '../common/atoms/Animate'
 
 type RecentPostsProps = {} & React.HTMLProps<HTMLDivElement>
 
@@ -19,7 +20,7 @@ async function RecentPosts({ className }: RecentPostsProps) {
     return (
         <section id='recent-posts' className={cn('w-full', className)}>
             <div className='mx-auto flex flex-col gap-10 max-w-screen-lg lg:max-w-screen-xl 2xl:max-w-screen-2xl py-10 px-4 lg:py-20 2xl:px-0'>
-                <div className='text-left'>
+                <Animate dir='up' className='text-left'>
                     <Heading type='h2' className='font-bold tracking-tight'>
                         Recent Posts
                     </Heading>
@@ -32,10 +33,14 @@ async function RecentPosts({ className }: RecentPostsProps) {
                             View All Posts &rarr;
                         </AesopLink>
                     </Text>
-                </div>
+                </Animate>
                 <div className='grid grid-cols-1 gap-3 md:grid-cols-2 lg:grid-cols-3'>
                     <ListWrapper list={posts ?? []} itemKey='_key'>
-                        {(post: MIN_POST) => <PostCard post={post} />}
+                        {(post, idx) => (
+                            <Animate dir='up' duration={0.5 + idx * 0.1}>
+                                <PostCard post={post} />
+                            </Animate>
+                        )}
                     </ListWrapper>
                 </div>
             </div>

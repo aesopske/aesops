@@ -3,6 +3,7 @@ import Hero from '@/components/common/Hero'
 import Consultancy from '@/components/new/Consultancy'
 import Datasets from '@/components/new/Datasets'
 import RecentPosts from '@/components/new/RecentPosts'
+import Animate from '@src/components/common/atoms/Animate'
 // import HasBackgroundWrapper from '@src/components/common/HasBackgroundWrapper'
 // import Heading from '@src/components/common/atoms/Heading'
 // import Text from '@src/components/common/atoms/Text'
@@ -76,9 +77,9 @@ async function Page() {
                 </HasBackgroundWrapper>
             </div> */}
             <RecentPosts />
-            <div className='md:px-6 2xl:px-0'>
+            <Animate dir='up' duration={0.8} className='md:px-6 2xl:px-0'>
                 <TalkToUs />
-            </div>
+            </Animate>
         </div>
     )
 }

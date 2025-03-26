@@ -8,13 +8,11 @@ import {
     TableCellsMerge,
 } from 'lucide-react'
 import React from 'react'
-
 import { SERVICE } from '@sanity/utils/types'
-
 import Heading from '@components/common/atoms/Heading'
 import Text from '@components/common/atoms/Text'
-
 import ListWrapper from '../common/ListWrapper'
+import Animate from '../common/atoms/Animate'
 
 type ServicesProps = {
     services: SERVICE[]
@@ -32,26 +30,29 @@ function Services({ services }: ServicesProps) {
     }
     return (
         <section id='services'>
-                <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 relative'>
-                    <ListWrapper itemKey='title' list={services ?? []}>
-                        {(item: SERVICE) => {
-                            const icon = icons[item?.icon]
-                            return (
-                                <div className='space-y-3 bg-brand-background p-4 rounded-lg'>
-                                    <span className='text-brandprimary-700'>
-                                        {icon}
-                                    </span>
-                                    <Heading type='h4' className='text-current'>
-                                        {item?.title}
-                                    </Heading>
-                                    <Text className='text-current font-light'>
-                                        {item?.description}
-                                    </Text>
-                                </div>
-                            )
-                        }}
-                    </ListWrapper>
-                </div>
+            <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 relative'>
+                <ListWrapper itemKey='title' list={services ?? []}>
+                    {(item, idx) => {
+                        const icon = icons[item?.icon]
+                        return (
+                            <Animate
+                                dir='up'
+                                duration={0.5 + idx * 0.1}
+                                className='space-y-3 bg-brand-background p-4 rounded-lg'>
+                                <span className='text-brandprimary-700'>
+                                    {icon}
+                                </span>
+                                <Heading type='h4' className='text-current'>
+                                    {item?.title}
+                                </Heading>
+                                <Text className='text-current font-light'>
+                                    {item?.description}
+                                </Text>
+                            </Animate>
+                        )
+                    }}
+                </ListWrapper>
+            </div>
         </section>
     )
 }
