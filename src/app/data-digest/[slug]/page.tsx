@@ -69,7 +69,10 @@ async function DataDigestItem({ params }) {
     })
 
     return (
-        <div className='min-h-screen xl:py-10'>
+        <div className='min-h-screen xl:py-10 space-y-4'>
+            <div className='md:max-w-screen-xl 2xl:max-w-screen-2xl md:mx-auto 2xl:px-0'>
+                <BreadCrumbs color='default' />
+            </div>
             <div className='relative w-full bg-brandaccent-50 overflow-hidden md:max-w-screen-xl 2xl:max-w-screen-2xl md:mx-auto xl:rounded-lg h-72 lg:h-96 2xl:px-0'>
                 <Image
                     src={urlForImage(trend?.image) ?? ''}
@@ -79,12 +82,12 @@ async function DataDigestItem({ params }) {
                     unoptimized
                     className='object-cover w-full h-full object-center-center'
                 />
-                <div className='bg-gradient-to-b from-transparent via-black/40 to-black/90 absolute top-0 w-full h-full flex flex-col justify-end p-6'>
+                <div className='bg-gradient-to-b from-transparent via-black/20 to-black/80 absolute top-0 w-full h-full flex flex-col justify-end p-6'>
                     <div className='space-y-4 max-w-2xl'>
-                        <BreadCrumbs color='light' />
                         <Heading type='h2' className='text-white'>
                             {trend?.title}
                         </Heading>
+
                         <AuthorCard
                             isSmall
                             author={trend?.author}

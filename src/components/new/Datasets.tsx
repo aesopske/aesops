@@ -1,6 +1,7 @@
 import React from 'react'
 import Image from 'next/image'
 import { SECTION } from '@sanity/utils/types'
+import Animate from '../common/atoms/Animate'
 // import DatasetsList from './DatasetsList'
 import Heading from '../common/atoms/Heading'
 import Text from '../common/atoms/Text'
@@ -16,7 +17,7 @@ function Datasets({ section }: DatasetsProps) {
             <div className='relative isolate px-6 lg:px-8'>
                 <div className='mx-auto flex flex-col gap-10 max-w-screen-lg lg:max-w-screen-xl 2xl:max-w-screen-2xl py-6 sm:py-40 lg:py-36'>
                     <div className='flex flex-col-reverse md:flex-row gap-5'>
-                        <div className='text-left'>
+                        <Animate dir='up' className='text-left'>
                             <Heading
                                 type='h2'
                                 className='font-bold tracking-tight max-w-lg'>
@@ -26,8 +27,11 @@ function Datasets({ section }: DatasetsProps) {
                                 {section?.description}
                             </Text>
                             <SanityCtaGroup ctas={section?.cta ?? []} />
-                        </div>
-                        <div className='w-full h-76 px-5 md:w-1/2'>
+                        </Animate>
+                        <Animate
+                            dir='up'
+                            duration={0.8}
+                            className='w-full h-76 px-20 md:w-1/2'>
                             <Image
                                 alt='consultancy-hero'
                                 src='/svg/dataset.svg'
@@ -36,7 +40,7 @@ function Datasets({ section }: DatasetsProps) {
                                 className='w-full h-full object-contain object-center rounded-xl'
                                 unoptimized
                             />
-                        </div>
+                        </Animate>
                     </div>
                     {/* <DatasetsList /> */}
                 </div>

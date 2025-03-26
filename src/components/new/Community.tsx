@@ -4,6 +4,7 @@ import { SECTION } from '@sanity/utils/types'
 import Heading from '@components/common/atoms/Heading'
 import Text from '@components/common/atoms/Text'
 import SanityCtaGroup from '@components/common/molecules/SanityCtaGroup'
+import Animate from '../common/atoms/Animate'
 
 type CommunityProps = {
     section: SECTION
@@ -15,7 +16,7 @@ function Community({ section }: CommunityProps) {
             <div className='relative isolate px-4 lg:px-8'>
                 <div className='mx-auto flex flex-col gap-10 max-w-screen-lg lg:max-w-screen-xl 2xl:max-w-screen-2xl py-10 sm:py-40 lg:py-32'>
                     <div className='flex flex-col md:flex-row gap-5'>
-                        <div className='text-left'>
+                        <Animate dir='up' className='text-left'>
                             <Heading
                                 type='h2'
                                 className='font-bold tracking-tight max-w-lg'>
@@ -25,9 +26,12 @@ function Community({ section }: CommunityProps) {
                                 {section?.description}
                             </Text>
                             <SanityCtaGroup ctas={section?.cta ?? []} />
-                        </div>
+                        </Animate>
 
-                        <div className='w-full h-80 px-6 lg:w-1/2 lg:px-0'>
+                        <Animate
+                            dir='up'
+                            duration={0.8}
+                            className='w-full h-80 px-6 lg:w-1/2 lg:px-0'>
                             <Image
                                 alt='consultancy-hero'
                                 src='/svg/learning.svg'
@@ -36,7 +40,7 @@ function Community({ section }: CommunityProps) {
                                 className='w-full h-full object-contain object-center rounded-xl'
                                 unoptimized
                             />
-                        </div>
+                        </Animate>
                     </div>
                     {/* <div>
                         <Heading type='h3'>Top pick events</Heading>

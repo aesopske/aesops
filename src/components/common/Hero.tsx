@@ -6,6 +6,7 @@ import { SECTION } from '@sanity/utils/types'
 import AesopLink from '@components/common/atoms/AesopLink'
 import Heading from '@components/common/atoms/Heading'
 import Text from '@components/common/atoms/Text'
+import Animate from './atoms/Animate'
 
 // import SubscriptionForm from '../new/SubscriptionForm'
 
@@ -37,7 +38,9 @@ function Hero({ className, section }: HeroProps) {
                     />
                 </div>
                 <div className='mx-auto max-w-screen-lg lg:max-w-screen-xl 2xl:max-w-screen-2xl flex flex-col h-auto lg:flex-row lg:items-center lg:justify-between lg:gap-10'>
-                    <div className='w-full space-y-3 py-10 lg:py-24'>
+                    <Animate
+                        dir='up'
+                        className='w-full space-y-3 py-10 lg:py-24'>
                         <div className='sm:mb-8 sm:flex sm:justify-start'>
                             <div className='relative text-xs rounded-full px-3 py-1 font-sans leading-6 text-white ring-2 ring-gray-100/10 hover:ring-gray-200/20 lg:text-sm w-fit '>
                                 Welcome to aesops&apos; new website.{' '}
@@ -73,8 +76,10 @@ function Hero({ className, section }: HeroProps) {
                                 {/* <SubscriptionForm dir='row' /> */}
                             </div>
                         </div>
-                    </div>
-                    <div className='hidden h-full w-full px-8 items-center justify-center xl:flex 3xl:px-0 '>
+                    </Animate>
+                    <Animate
+                        dir='down'
+                        className='hidden h-full w-full px-8 items-center justify-center xl:flex 3xl:px-0 '>
                         <Image
                             src={imageUrl ?? '/svg/datapoints.svg'}
                             alt={section?.image?.alt}
@@ -82,7 +87,7 @@ function Hero({ className, section }: HeroProps) {
                             height={800}
                             className='w-full h-full object-contain object-center scale-100 lg:scale-125 relative left-5 lg:left-0 aspect-ratio'
                         />
-                    </div>
+                    </Animate>
                 </div>
 
                 <div

@@ -1,6 +1,7 @@
 import React from 'react'
 import Image from 'next/image'
 import { SECTION } from '@sanity/utils/types'
+import Animate from '../common/atoms/Animate'
 import Heading from '../common/atoms/Heading'
 import Text from '../common/atoms/Text'
 import SanityCtaGroup from '../common/molecules/SanityCtaGroup'
@@ -15,7 +16,9 @@ function Consultancy({ section }: ConsultancyProps) {
         <section id='consultancy' className='bg-brandaccent-50/50'>
             <div className='mx-auto px-4 max-w-screen-lg lg:max-w-screen-xl 2xl:max-w-screen-2xl space-y-10 py-10 lg:py-28 2xl:px-0'>
                 <div className='mx-auto flex flex-col items-end gap-10 md:flex-row'>
-                    <div className='w-full h-80 px-6 lg:w-1/2 lg:px-0'>
+                    <Animate
+                        dir='up'
+                        className='w-full h-80 px-6 lg:w-1/2 lg:px-0'>
                         <Image
                             alt='consultancy-hero'
                             src='/svg/understand.svg'
@@ -24,8 +27,8 @@ function Consultancy({ section }: ConsultancyProps) {
                             className='w-full h-full object-contain object-center rounded-xl'
                             unoptimized
                         />
-                    </div>
-                    <div className='w-full text-left lg:w-1/2'>
+                    </Animate>
+                    <Animate dir='up' className='w-full text-left lg:w-1/2'>
                         <Heading
                             type='h2'
                             className='font-bold tracking-tight max-w-lg'>
@@ -35,7 +38,7 @@ function Consultancy({ section }: ConsultancyProps) {
                             {section?.description}
                         </Text>
                         <SanityCtaGroup ctas={section?.cta ?? []} />
-                    </div>
+                    </Animate>
                 </div>
                 <div className='w-full'>
                     <Services services={section?.services ?? []} />
