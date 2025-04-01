@@ -1,9 +1,9 @@
 'use client'
 
 import { useQuery } from '@tanstack/react-query'
-import { Lightbulb } from 'lucide-react'
-import React from 'react'
-import { useSearchParams } from 'next/navigation'
+import { Lightbulb, X } from 'lucide-react'
+import { ErrorBoundary } from 'react-error-boundary'
+import React, { useEffect, useState } from 'react'
 import {
     Table,
     TableBody,
@@ -19,21 +19,25 @@ import {
     CardFooter,
     CardHeader,
 } from '@src/components/ui/card'
+import useManageFilterParams from '@src/hooks/useManageFilterParams'
 import { invoke } from '@src/lib/invoke'
 import Heading from '@components/common/atoms/Heading'
 import Text from '@components/common/atoms/Text'
 import AesLines from '../charts/AesLines'
+import ErrorHandler from '../common/ErrorHandler'
 import ListWrapper from '../common/ListWrapper'
+import DDExplain from '../common/organisms/dd-explain/DDExplain'
 import FilterBlock from '../organisms/FilterBlock'
+import { Button } from '../ui'
 import { Separator } from '../ui/separator'
 
 function OilPrices({ endpoint }) {
     return (
         <div className='grid grid-cols-1 xl:grid-cols-5 gap-4 lg:gap-8'>
             <div className='order-1 col-span-1 xl:order-none xl:col-span-3 flex flex-col gap-4 lg:gap-8'>
-                <Lines endpoint={`${endpoint}/townprices`} />
+                <Lines key='townprices' endpoint={`${endpoint}/townprices`} />
                 <Lines
-                    usesParams={false}
+                    key='average-prices'
                     endpoint={`${endpoint}/average-prices`}
                 />
             </div>
@@ -182,8 +186,10 @@ type AVGPRICES_RESPONSE = {
         label: string
         type: string
         initialValue?: string
+        placeholder?: string
         data: { label: string; value: string }[]
     }[]
+    filterPrefix?: string
 }
 
 function Lines({
@@ -193,10 +199,12 @@ function Lines({
     endpoint: string
     usesParams?: boolean
 }) {
-    // check of the url has
-    const searchParams = useSearchParams()
-    const params = usesParams ? searchParams.toString() : ''
+    const [filterPrefix, setFilterPrefix] = useState('')
 
+    const { params, cleanParams, resetFilters } =
+        useManageFilterParams(filterPrefix)
+
+    // filter out params based on the filter key
     const { data, error, isRefetching, isLoading } = useQuery({
         queryKey: [endpoint, params],
         queryFn: async () => {
@@ -211,10 +219,19 @@ function Lines({
 
             return response.res as AVGPRICES_RESPONSE
         },
+
         placeholderData: (prev) => prev,
         refetchOnMount: false,
         refetchOnWindowFocus: false,
     })
+
+    useEffect(() => {
+        if (data?.filterPrefix) {
+            setFilterPrefix(data.filterPrefix)
+        }
+    }, [data?.filterPrefix])
+
+    // refetch once we get the prefix and the params are not undefined only when the page is refreshed
 
     if (isLoading && !data) {
         return (
@@ -232,6 +249,7 @@ function Lines({
     }
 
     const config = generateConfig(data?.columns ?? [])
+    const cleanedParams = cleanParams(params, data?.filterPrefix)
     return (
         <AesLines
             config={config}
@@ -254,13 +272,38 @@ function Lines({
                                         initialValue={filter.initialValue}
                                         selectProps={{
                                             label: filter.label,
+                                            placeholder:
+                                                filter?.placeholder ?? null,
+                                            filterPrefix:
+                                                data?.filterPrefix ?? null,
                                         }}
                                     />
                                 </div>
                             )}
                         </ListWrapper>
+
+                        {cleanedParams && (
+                            <Button
+                                className='h-8 bg-brandaccent-50/60 text-semibold text-black hover:bg-brandaccent-50/90'
+                                onClick={resetFilters}>
+                                <X className='size-4 mr-1' /> Reset filters
+                            </Button>
+                        )}
                     </div>
                 ) : null
+            }
+            renderFooter={
+                <div className='w-full min-h-9 rounded-xl overflow-hidden'>
+                    <ErrorBoundary FallbackComponent={ErrorHandler}>
+                        <DDExplain
+                            title={data?.title ?? ''}
+                            columns={data?.columns ?? []}
+                            XAxisKey={data?.XAxisKey ?? ''}
+                            description={data?.description ?? ''}
+                            data={JSON.stringify(data?.data)}
+                        />
+                    </ErrorBoundary>
+                </div>
             }
         />
     )
