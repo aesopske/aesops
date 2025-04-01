@@ -201,7 +201,7 @@ function Lines({
 }) {
     const [filterPrefix, setFilterPrefix] = useState('')
 
-    const { params, cleanParams, resetFilters } =
+    const { params, cleanedParams, resetFilters } =
         useManageFilterParams(filterPrefix)
 
     // filter out params based on the filter key
@@ -249,7 +249,6 @@ function Lines({
     }
 
     const config = generateConfig(data?.columns ?? [])
-    const cleanedParams = cleanParams(params, data?.filterPrefix)
     return (
         <AesLines
             config={config}
