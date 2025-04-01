@@ -2,7 +2,8 @@
 
 import qs from 'query-string'
 import React, { useMemo } from 'react'
-import { usePathname, useRouter, useSearchParams } from 'next/navigation'
+import { usePathname, useRouter } from 'next/navigation'
+import useManageFilterParams from '@src/hooks/useManageFilterParams'
 import MultiSelectDropdown from '@components/common/molecules/MultiSelectDropdown'
 import ListWrapper from '../common/ListWrapper'
 import { Button } from '../ui'
@@ -57,6 +58,8 @@ function FilterBlock({
 interface SelectFilterProps {
     label: string
     initialValue?: string
+    placeholder?: string
+    filterPrefix?: string
     onRefetch?: (data: string | string[], query?: string) => void // eslint-disable-line
     options: { value: string; label: string }[]
 }
@@ -65,17 +68,20 @@ function SelectFilter({
     label,
     options,
     onRefetch,
+    placeholder,
     initialValue,
+    ...rest
 }: SelectFilterProps) {
     const router = useRouter()
     const pathname = usePathname()
-    const searchParams = useSearchParams()
+    const { defaultParams } = useManageFilterParams(rest.filterPrefix)
 
     const handleSelect = (value: string) => {
-        const params = searchParams.toString()
-            ? qs.parse(searchParams.toString())
+        const urlParams = defaultParams
+            ? qs.parse(defaultParams.toString())
             : {}
-        const query = qs.stringify({ ...params, [label]: value })
+        const paramKey = `${rest.filterPrefix}:${label}`
+        const query = qs.stringify({ ...urlParams, [paramKey]: value })
         router.push(pathname + '?' + query, { scroll: false })
 
         // handle data refetching
@@ -84,10 +90,17 @@ function SelectFilter({
 
     return (
         <Select
-            value={searchParams.get(label) ?? initialValue ?? ''}
+            value={
+                defaultParams.get(`${rest.filterPrefix}:${label}`) ??
+                initialValue ??
+                ''
+            }
             onValueChange={(evt) => handleSelect(evt)}>
             <SelectTrigger className='w-full lg:w-[180px] h-8 shadow-sm rounded-md'>
-                <SelectValue placeholder={`Select ${label}`} className='h-10' />
+                <SelectValue
+                    className='h-10'
+                    placeholder={placeholder ?? `Select ${label}`}
+                />
             </SelectTrigger>
             <SelectContent>
                 <ListWrapper
@@ -108,20 +121,26 @@ function MultiSelectFilter({
     label,
     options,
     onRefetch,
+    placeholder,
     initialValue,
+    ...rest
 }: SelectFilterProps) {
     const router = useRouter()
     const pathname = usePathname()
-    const searchParams = useSearchParams()
+
+    const { defaultParams, params, cleanedParams } = useManageFilterParams(
+        rest.filterPrefix,
+    )
 
     const handleSelect = (value: string[]) => {
-        const params = searchParams.toString()
-            ? qs.parse(searchParams.toString())
+        const urlParams = defaultParams.toString()
+            ? qs.parse(defaultParams.toString())
             : {}
 
+        const paramKey = `${rest.filterPrefix}:${label}`
         const query = qs.stringify({
-            ...params,
-            [label]: value,
+            ...urlParams,
+            [paramKey]: value,
         })
         router.push(pathname + '?' + query, { scroll: false })
 
@@ -129,14 +148,12 @@ function MultiSelectFilter({
         if (onRefetch) onRefetch(value, query)
     }
 
-    const queryString = searchParams.toString()
-
     const selectedOptions = useMemo(() => {
         const initialIsArray = Array.isArray(initialValue)
-        if (!queryString && initialValue) {
+        if (!params && initialValue) {
             return initialIsArray ? initialValue : [initialValue]
         }
-        const parsedValues = qs.parse(queryString)
+        const parsedValues = qs.parse(cleanedParams ?? '')
 
         if (!parsedValues[label] && initialValue) {
             return initialIsArray ? initialValue : [initialValue]
@@ -145,7 +162,7 @@ function MultiSelectFilter({
 
         if (Array.isArray(parsedValues[label])) return parsedValues[label]
         return [parsedValues[label]]
-    }, [queryString, initialValue, label])
+    }, [params, initialValue, label, cleanedParams])
 
     return (
         <MultiSelectDropdown
@@ -156,7 +173,7 @@ function MultiSelectFilter({
                 <Button
                     variant='outline'
                     className='h-8 w-full lg:w-[180px] shadow-sm rounded-md justify-between border-gray-300/80 px-2 hover:bg-gray-50 hover:text-black space-x-2'>
-                    <span>Select {label}</span>
+                    <span>{placeholder ?? `Select ${label}`}</span>
                     {selectedOptions.length > 0 && (
                         <Badge variant='outline'>
                             {selectedOptions.length}
