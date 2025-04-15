@@ -96,10 +96,10 @@ function DDExplain({
                         animate={{ opacity: 1, height: 'auto' }}
                         exit={{ opacity: 0, height: '0px' }}
                         transition={{ duration: 0.3 }}
-                        className='w-full'>
+                        className='w-full px-4'>
                         <output
                             data-hidden={!!error}
-                            className='prose font-m ono text-sm text-brandprimary-900 data-[hidden=true]:hidden'>
+                            className='prose font-serif text-sm text-brandprimary-900 data-[hidden=true]:hidden'>
                             <ReactMarkdown>{completion}</ReactMarkdown>
                         </output>
                         {error && isOpen ? (

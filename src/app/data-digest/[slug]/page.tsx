@@ -4,6 +4,7 @@ import Image from 'next/image'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
 import ContentReader from '@src/components/common/ContentReader'
 import Heading from '@src/components/common/atoms/Heading'
+import ComingSoon from '@src/components/common/molecules/ComingSoon'
 import AuthorCard from '@src/components/common/organisms/author-card/AuthorCard'
 import BreadCrumbs from '@src/components/common/organisms/bread-crumbs/BreadCrumbs'
 import VisualizationSelector from '@src/components/organisms/VisualizationSelector'
@@ -98,22 +99,29 @@ async function DataDigestItem({ params }) {
                 </div>
             </div>
             <div className='px-4 space-y-4 max-w-screen-xl mx-auto py-10 2xl:px-0 2xl:max-w-screen-2xl'>
-                <Tabs defaultValue='overview' className='w-full rounded-md'>
-                    <TabsList className='bg-brandaccent-50/80 py-6 px-2 rounded-full shadow-sm gap-4'>
+                <Tabs
+                    defaultValue='chartsoverview'
+                    className='w-full rounded-md'>
+                    <TabsList className='bg-brandaccent-50/80 py-6 px-2 rounded-full shadow-sm gap-2'>
                         <TabsTrigger
-                            value='overview'
+                            value='chartsoverview'
                             className='capitalize data-[state=active]:bg-brandprimary-900 data-[state=active]:text-brandaccent-50 text-sm font-sans font-normal text-gray-900 rounded-full hover:bg-brandaccent-100/50'>
-                            Overview
+                            Charts & Overview
                         </TabsTrigger>
                         <TabsTrigger
                             value='about'
                             className='capitalize data-[state=active]:bg-brandprimary-900 data-[state=active]:text-brandaccent-50 text-sm font-sans-sans font-normal text-gray-900 hover:bg-brandaccent-100/50 rounded-full'>
-                            About the Topic
+                            Topic Details
+                        </TabsTrigger>
+                        <TabsTrigger
+                            value='dataset'
+                            className='capitalize data-[state=active]:bg-brandprimary-900 data-[state=active]:text-brandaccent-50 text-sm font-sans-sans font-normal text-gray-900 hover:bg-brandaccent-100/50 rounded-full'>
+                            Dataset
                         </TabsTrigger>
                     </TabsList>
 
                     <TabsContent
-                        value='overview'
+                        value='chartsoverview'
                         aria-disabled={!trend?.endpoint}
                         className='py-4 '>
                         <Suspense
@@ -135,6 +143,9 @@ async function DataDigestItem({ params }) {
                         <div className='max-w-xl w-full'>
                             <ContentReader content={trend?.description} />
                         </div>
+                    </TabsContent>
+                    <TabsContent value='dataset' className='py-4'>
+                        <ComingSoon showIcon='construction' />
                     </TabsContent>
                 </Tabs>
             </div>

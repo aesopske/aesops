@@ -108,7 +108,7 @@ function PredictionTable({ endpoint }: { endpoint: string }) {
                 <CardDescription>{data?.description ?? ''}</CardDescription>
             </CardHeader>
             <CardContent className='space-y-3 px-3 md:px-6'>
-                <Table>
+                <Table className='rounded-lg overflow-hidden'>
                     <TableHeader>
                         <TableRow>
                             <ListWrapper
@@ -191,6 +191,8 @@ type AVGPRICES_RESPONSE = {
     }[]
     filterPrefix?: string
 }
+
+//TODO: Implement ResponsiveFilters component
 
 function Lines({
     endpoint,
@@ -283,9 +285,12 @@ function Lines({
 
                         {cleanedParams && (
                             <Button
-                                className='h-8 bg-brandaccent-50/60 text-semibold text-black hover:bg-brandaccent-50/90'
+                                size='icon'
+                                type='button'
+                                title='Reset Filters'
+                                className='size-8 bg-brandaccent-50/60 text-semibold text-black hover:bg-brandaccent-50/90'
                                 onClick={resetFilters}>
-                                <X className='size-4 mr-1' /> Reset filters
+                                <X className='size-4' />
                             </Button>
                         )}
                     </div>
@@ -298,8 +303,8 @@ function Lines({
                             title={data?.title ?? ''}
                             columns={data?.columns ?? []}
                             XAxisKey={data?.XAxisKey ?? ''}
-                            description={data?.description ?? ''}
                             data={JSON.stringify(data?.data)}
+                            description={data?.description ?? ''}
                         />
                     </ErrorBoundary>
                 </div>

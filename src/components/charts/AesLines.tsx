@@ -60,7 +60,12 @@ function AesLines({
                             left: 12,
                             right: 12,
                         }}>
-                        <CartesianGrid vertical={false} />
+                        <CartesianGrid
+                            vertical={true}
+                            horizontal={true}
+                            strokeDasharray='4 4'
+                            strokeDashoffset='0'
+                        />
                         {XAxisKey ? (
                             <XAxis
                                 height={45}
@@ -69,11 +74,12 @@ function AesLines({
                                 axisLine={false}
                                 dataKey={XAxisKey}
                                 tickFormatter={(value) => value}
+                                label={{ value: XAxisKey, position: 'bottom' }}
                             />
                         ) : null}
                         <YAxis
                             width={20}
-                            tickLine={false}
+                            tickLine={true}
                             axisLine={false}
                             domain={['auto', 'auto']}
                             tickFormatter={(value) => {
@@ -85,7 +91,7 @@ function AesLines({
                             }}
                         />
                         <ChartTooltip
-                            cursor={false}
+                            cursor={true}
                             content={<ChartTooltipContent />}
                         />
                         {Object.keys(config).map((key) => (
