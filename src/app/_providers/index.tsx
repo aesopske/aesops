@@ -1,7 +1,6 @@
 'use client'
 
 import { ClerkProvider } from '@clerk/nextjs'
-import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools'
 import posthog from 'posthog-js'
 import { PostHogProvider } from 'posthog-js/react'
