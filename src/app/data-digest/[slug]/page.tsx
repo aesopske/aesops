@@ -4,10 +4,11 @@ import Image from 'next/image'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
 import ContentReader from '@src/components/common/ContentReader'
 import Heading from '@src/components/common/atoms/Heading'
-import ComingSoon from '@src/components/common/molecules/ComingSoon'
+// import ComingSoon from '@src/components/common/molecules/ComingSoon'
 import AuthorCard from '@src/components/common/organisms/author-card/AuthorCard'
 import BreadCrumbs from '@src/components/common/organisms/bread-crumbs/BreadCrumbs'
 import VisualizationSelector from '@src/components/organisms/VisualizationSelector'
+import OilPricesDataset from '@src/components/templates/OilPricesDataset'
 import { sanityFetch } from '@sanity/utils/fetch'
 import { urlForImage } from '@sanity/utils/image'
 import {
@@ -122,7 +123,7 @@ async function DataDigestItem({ params }) {
 
                     <TabsContent
                         value='chartsoverview'
-                        aria-disabled={!trend?.endpoint}
+                        // aria-disabled={!trend?.endpoint}
                         className='py-4 '>
                         <Suspense
                             fallback={
@@ -145,7 +146,8 @@ async function DataDigestItem({ params }) {
                         </div>
                     </TabsContent>
                     <TabsContent value='dataset' className='py-4'>
-                        <ComingSoon showIcon='construction' />
+                        <OilPricesDataset />
+                        {/* <ComingSoon showIcon='construction' /> */}
                     </TabsContent>
                 </Tabs>
             </div>

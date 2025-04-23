@@ -1,6 +1,5 @@
 'use client'
 
-import { useQuery } from '@tanstack/react-query'
 import { Lightbulb, X } from 'lucide-react'
 import { ErrorBoundary } from 'react-error-boundary'
 import React, { useEffect, useState } from 'react'
@@ -12,6 +11,7 @@ import {
     TableHeader,
     TableRow,
 } from '@/components/ui/table'
+import { api } from '@src/app/_trpc/client'
 import {
     Card,
     CardContent,
@@ -20,7 +20,7 @@ import {
     CardHeader,
 } from '@src/components/ui/card'
 import useManageFilterParams from '@src/hooks/useManageFilterParams'
-import { invoke } from '@src/lib/invoke'
+import { cn } from '@src/lib/utils'
 import Heading from '@components/common/atoms/Heading'
 import Text from '@components/common/atoms/Text'
 import AesLines from '../charts/AesLines'
@@ -31,60 +31,25 @@ import FilterBlock from '../organisms/FilterBlock'
 import { Button } from '../ui'
 import { Separator } from '../ui/separator'
 
-function OilPrices({ endpoint }) {
+function OilPrices() {
     return (
-        <div className='grid grid-cols-1 xl:grid-cols-5 gap-4 lg:gap-8'>
-            <div className='order-1 col-span-1 xl:order-none xl:col-span-3 flex flex-col gap-4 lg:gap-8'>
-                <Lines key='townprices' endpoint={`${endpoint}/townprices`} />
-                <Lines
-                    key='average-prices'
-                    endpoint={`${endpoint}/average-prices`}
-                />
+        <div className='grid grid-cols-1 xl:grid-cols-6 gap-4 lg:gap-8'>
+            <div className='order-1 col-span-3 xl:order-none xl:col-span-6 grid grid-cols-2 gap-4 lg:gap-8'>
+                <AvgTowns />
+                <AvgPrices />
             </div>
-            <div className='col-span-1 xl:col-span-2 w-full'>
-                <PredictionTable endpoint={`${endpoint}/prediction`} />
+            <div className='col-span-1 xl:col-span-3 w-full'>
+                <PredictionTable />
             </div>
         </div>
     )
 }
 
-type Prediction = {
-    Month: string
-    year: number
-    PMS: number
-    AGO: number
-    DPK: number
-}
-
-type PredResponse = {
-    title: string
-    description: string
-    data: Prediction[]
-    type: string
-    columns: {
-        label: string
-        value: string
-    }[]
-}
-
-function PredictionTable({ endpoint }: { endpoint: string }) {
-    const { data, error, isRefetching, isLoading } = useQuery({
-        queryKey: [endpoint],
-        queryFn: async () => {
-            const response = await invoke({
-                endpoint,
-            })
-
-            if (response.error) {
-                throw new Error(response.error)
-            }
-
-            return response.res as PredResponse
-        },
-        placeholderData: (prev) => prev,
-        refetchOnMount: false,
-        refetchOnWindowFocus: false,
-    })
+function PredictionTable() {
+    const { data, error, isRefetching, isLoading } =
+        api.oilPrices.getPredictions.useQuery(undefined, {
+            placeholderData: (prev) => prev,
+        })
 
     if (error) {
         return (
@@ -102,7 +67,7 @@ function PredictionTable({ endpoint }: { endpoint: string }) {
     }
 
     return (
-        <Card className={isRefetching ? 'animate-pulse' : ''}>
+        <Card className={cn(isRefetching ? 'animate-pulse' : '')}>
             <CardHeader className='px-3 md:px-6'>
                 <Heading type='h4'>{data?.title ?? ''}</Heading>
                 <CardDescription>{data?.description ?? ''}</CardDescription>
@@ -127,7 +92,7 @@ function PredictionTable({ endpoint }: { endpoint: string }) {
                     <TableBody>
                         <ListWrapper
                             list={data?.data ?? []}
-                            keyExtractor={(pred) => pred?.Month}>
+                            keyExtractor={(pred) => pred?.month ?? ''}>
                             {(item) => (
                                 <TableRow>
                                     <ListWrapper
@@ -151,6 +116,7 @@ function PredictionTable({ endpoint }: { endpoint: string }) {
                 <Text className='text-sm italic'>
                     Based on Aesops&apos; oil prices prediction model.
                 </Text>
+                {/* <pre>{JSON.stringify(predictions.data, null, 2)}</pre> */}
             </CardFooter>
         </Card>
     )
@@ -175,65 +141,23 @@ const generateConfig = (colums: string[]) => {
     }, {})
 }
 
-type AVGPRICES_RESPONSE = {
-    type: string
-    title: string
-    description: string
-    data: any[]
-    columns: string[]
-    XAxisKey: string
-    filters: {
-        label: string
-        type: string
-        initialValue?: string
-        placeholder?: string
-        data: { label: string; value: string }[]
-    }[]
-    filterPrefix?: string
-}
-
-//TODO: Implement ResponsiveFilters component
-
-function Lines({
-    endpoint,
-    usesParams = true,
-}: {
-    endpoint: string
-    usesParams?: boolean
-}) {
+function AvgTowns() {
     const [filterPrefix, setFilterPrefix] = useState('')
 
-    const { params, cleanedParams, resetFilters } =
+    const { cleanedParams, resetFilters, parsedParams } =
         useManageFilterParams(filterPrefix)
 
-    // filter out params based on the filter key
-    const { data, error, isRefetching, isLoading } = useQuery({
-        queryKey: [endpoint, params],
-        queryFn: async () => {
-            const response = await invoke({
-                endpoint:
-                    usesParams && params ? `${endpoint}?${params}` : endpoint,
-            })
-
-            if (response.error) {
-                throw new Error(response.error)
-            }
-
-            return response.res as AVGPRICES_RESPONSE
-        },
-
-        placeholderData: (prev) => prev,
-        refetchOnMount: false,
-        refetchOnWindowFocus: false,
-    })
+    const { data, error, isLoading, isRefetching } =
+        api.oilPrices.avgMonthlyPrices.useQuery(
+            { filters: parsedParams ?? {} },
+            { placeholderData: (prevData) => prevData },
+        )
 
     useEffect(() => {
         if (data?.filterPrefix) {
             setFilterPrefix(data.filterPrefix)
         }
     }, [data?.filterPrefix])
-
-    // refetch once we get the prefix and the params are not undefined only when the page is refreshed
 
     if (isLoading && !data) {
         return (
@@ -282,15 +206,108 @@ function Lines({
                                 </div>
                             )}
                         </ListWrapper>
-
                         {cleanedParams && (
                             <Button
-                                size='icon'
                                 type='button'
                                 title='Reset Filters'
-                                className='size-8 bg-brandaccent-50/60 text-semibold text-black hover:bg-brandaccent-50/90'
+                                className='h-8 w-auto px-4 bg-brandaccent-50/60 text-semibold text-black hover:bg-brandaccent-50/90'
                                 onClick={resetFilters}>
-                                <X className='size-4' />
+                                <X className='size-4 mr-2' />
+                                Clear Filters
+                            </Button>
+                        )}
+                    </div>
+                ) : null
+            }
+            renderFooter={
+                <div className='w-full min-h-9 rounded-xl overflow-hidden'>
+                    <ErrorBoundary FallbackComponent={ErrorHandler}>
+                        <DDExplain
+                            title={data?.title ?? ''}
+                            columns={data?.columns ?? []}
+                            XAxisKey={data?.XAxisKey ?? ''}
+                            data={JSON.stringify(data?.data)}
+                            description={data?.description ?? ''}
+                        />
+                    </ErrorBoundary>
+                </div>
+            }
+        />
+    )
+}
+function AvgPrices() {
+    const [filterPrefix, setFilterPrefix] = useState('')
+
+    const { cleanedParams, resetFilters, parsedParams } =
+        useManageFilterParams(filterPrefix)
+
+    const { data, error, isRefetching, isLoading } =
+        api.oilPrices.getAveragePrices.useQuery(
+            { filters: parsedParams ?? {} },
+            { placeholderData: (prevData) => prevData },
+        )
+
+    useEffect(() => {
+        if (data?.filterPrefix) {
+            setFilterPrefix(data.filterPrefix)
+        }
+    }, [data?.filterPrefix])
+
+    if (isLoading && !data) {
+        return (
+            <div className='w-full min-h-96 bg-white animate-pulse rounded-md' />
+        )
+    }
+
+    if (error) {
+        return (
+            <div className='text-red-600 bg-red-50 p-5 rounded-md space-y-2'>
+                <Heading type='h4'>Something went wrong</Heading>
+                <Text as='pre'>{JSON.stringify(error, null, 3)}</Text>
+            </div>
+        )
+    }
+
+    const config = generateConfig(data?.columns ?? [])
+    return (
+        <AesLines
+            config={config}
+            title={data?.title ?? ''}
+            XAxisKey={data?.XAxisKey ?? ''}
+            description={data?.description ?? ''}
+            className={isRefetching ? 'animate-pulse' : ''}
+            data={data?.data ?? []}
+            renderFilters={
+                data?.filters ? (
+                    <div className='w-full mb-4 py-2 flex gap-2 items-start flex-wrap'>
+                        <ListWrapper
+                            list={data?.filters}
+                            keyExtractor={(filter) => filter?.label}>
+                            {(filter) => (
+                                <div className='flex items-center gap-4'>
+                                    <FilterBlock
+                                        type={filter.type}
+                                        data={filter.data}
+                                        initialValue={filter.initialValue}
+                                        selectProps={{
+                                            label: filter.label,
+                                            placeholder:
+                                                filter?.placeholder ?? null,
+                                            filterPrefix:
+                                                data?.filterPrefix ?? null,
+                                        }}
+                                    />
+                                </div>
+                            )}
+                        </ListWrapper>
+                        {cleanedParams && (
+                            <Button
+                                type='button'
+                                title='Reset Filters'
+                                className='h-8 w-auto px-4 bg-brandaccent-50/60 text-semibold text-black hover:bg-brandaccent-50/90'
+                                onClick={resetFilters}>
+                                <X className='size-4 mr-2' />
+                                Clear Filters
                             </Button>
                         )}
                     </div>

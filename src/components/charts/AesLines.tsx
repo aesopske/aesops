@@ -49,13 +49,15 @@ function AesLines({
             <CardHeader className='px-3 md:px-6'>
                 <CardTitle>{title}</CardTitle>
                 <CardDescription>{description}</CardDescription>
+                <div>{renderFilters ? renderFilters : null}</div>
             </CardHeader>
             <CardContent className='px-3 md:px-6'>
-                <div>{renderFilters ? renderFilters : null}</div>
                 <ChartContainer config={config}>
                     <LineChart
                         accessibilityLayer
                         data={data}
+                        height={500}
+                        width={800}
                         margin={{
                             left: 12,
                             right: 12,

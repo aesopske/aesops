@@ -1,52 +1,33 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
-// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
-// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
-
 generator client {
   provider = "prisma-client-js"
+  output   = "../generated/prisma-client"
 }
 
 datasource db {
-  provider = "mongodb"
+  provider = "postgresql"
   url      = env("DATABASE_URL")
 }
 
-model Post {
-  id        String   @id @default(auto()) @map("_id") @db.ObjectId
-  title     String
-  createdAt DateTime @default(now())
-
-  comments Comment[]
+model oil_prices {
+  id      Int       @id @default(autoincrement())
+  Date    DateTime? @db.Timestamp(6)
+  Towns   String?   @db.VarChar
+  County  String?   @db.VarChar
+  Pms     Float?
+  Ago     Float?
+  Dpk     Float?
+  Year    Int?
+  Month   String?   @db.VarChar
+  Exrates Float?
+  Ppb     Float?
 }
 
-model User {
-  id       String    @id @default(auto()) @map("_id") @db.ObjectId
-  name     String
-  comments Comment[]
-  likes     Like[]
-}
-
-model Comment {
-  id        String   @id @default(auto()) @map("_id") @db.ObjectId
-  content   String
-  createdAt DateTime @default(now())
-  postId    String   @map("postId") @db.ObjectId
-  post      Post     @relation(fields: [postId], references: [id], onDelete: Cascade)
-  userId    String   @map("userId") @db.ObjectId
-  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
-
-  parent   Comment?  @relation(name: "ParentChild", fields: [parentId], references: [id], onDelete: NoAction, onUpdate: NoAction)
-  children Comment[] @relation("ParentChild")
-  parentId String?   @map("parentId") @db.ObjectId
-  likes     Like[]
-}
-
-model Like {
-  id        String  @id @default(auto()) @map("_id") @db.ObjectId
-  user      User    @relation(fields: [userId], references: [id], onDelete: Cascade)
-  comment   Comment @relation(fields: [commentId], references: [id], onDelete: Cascade)
-  userId    String  @map("userId") @db.ObjectId
-  commentId String  @map("commentId") @db.ObjectId
+model predictions {
+  id              Int       @id @default(autoincrement())
+  month           String?   @db.VarChar
+  year            Int?
+  PMS             Float?
+  AGO             Float?
+  DPK             Float?
+  prediction_date DateTime? @db.Timestamp(6)
 }
