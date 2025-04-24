@@ -178,62 +178,50 @@ function MultiSelectFilter({
             value={selectedOptions as string[]}
             onValueChange={(val) => handleSelect(val)}
             renderTrigger={() => (
-                <>
-                    <Button
-                        size='sm'
-                        variant='outline'
-                        className='h-8 border-dashed border-gray-500 hover:bg-gray-100/60 hover:text-black'>
-                        <PlusCircle className='mr-2 h-4 w-4' />
-                        {placeholder}
-                        {selectedOptions?.length > 0 && (
-                            <>
-                                <Separator
-                                    orientation='vertical'
-                                    className='mx-2 h-4'
-                                />
-                                <Badge
-                                    variant='secondary'
-                                    className='rounded-sm px-1 font-normal lg:hidden'>
-                                    {selectedOptions.length}
-                                </Badge>
-                                <div className='hidden space-x-1 lg:flex'>
-                                    {selectedOptions.length > 2 ? (
-                                        <Badge
-                                            variant='secondary'
-                                            className='rounded-sm px-1 font-normal'>
-                                            {selectedOptions.length} selected
-                                        </Badge>
-                                    ) : (
-                                        options
-                                            .filter((option) =>
-                                                selectedOptions.includes(
-                                                    option.value,
-                                                ),
-                                            )
-                                            .map((option) => (
-                                                <Badge
-                                                    variant='secondary'
-                                                    key={option.value}
-                                                    className='rounded-sm px-1 font-normal'>
-                                                    {option.label}
-                                                </Badge>
-                                            ))
-                                    )}
-                                </div>
-                            </>
-                        )}
-                    </Button>
-                    {/* <Button
-                        variant='outline'
-                        className='h-8 w-full lg:w-[180px] shadow-sm rounded-md justify-between border-gray-300/80 px-2 hover:bg-gray-50 hover:text-black space-x-2'>
-                        <span>{placeholder ?? `Select ${label}`}</span>
-                        {selectedOptions.length > 0 && (
-                            <Badge variant='outline'>
+                <Button
+                    size='sm'
+                    variant='outline'
+                    className='h-8 border-dashed border-gray-500 hover:bg-gray-100/60 hover:text-black'>
+                    <PlusCircle className='mr-2 h-4 w-4' />
+                    {placeholder}
+                    {selectedOptions?.length > 0 && (
+                        <>
+                            <Separator
+                                orientation='vertical'
+                                className='mx-2 h-4'
+                            />
+                            <Badge
+                                variant='secondary'
+                                className='rounded-sm px-1 font-normal lg:hidden'>
                                 {selectedOptions.length}
                             </Badge>
-                        )}
-                    </Button> */}
-                </>
+                            <div className='hidden space-x-1 lg:flex'>
+                                {selectedOptions.length > 2 ? (
+                                    <Badge
+                                        variant='secondary'
+                                        className='rounded-sm px-1 font-normal'>
+                                        {selectedOptions.length} selected
+                                    </Badge>
+                                ) : (
+                                    options
+                                        .filter((option) =>
+                                            selectedOptions.includes(
+                                                option.value,
+                                            ),
+                                        )
+                                        .map((option) => (
+                                            <Badge
+                                                variant='secondary'
+                                                key={option.value}
+                                                className='rounded-sm px-1 font-normal'>
+                                                {option.label}
+                                            </Badge>
+                                        ))
+                                )}
+                            </div>
+                        </>
+                    )}
+                </Button>
             )}
         />
     )

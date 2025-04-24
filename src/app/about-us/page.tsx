@@ -9,6 +9,7 @@ import {
 } from 'lucide-react'
 import React from 'react'
 import { Metadata } from 'next'
+import { draftMode } from 'next/headers'
 import Image from 'next/image'
 import Link from 'next/link'
 import ListWrapper from '@src/components/common/ListWrapper'
@@ -40,9 +41,11 @@ export async function generateMetadata(): Promise<Metadata> {
 }
 
 async function AboutUs() {
+    const { isEnabled } = await draftMode()
     const page = await sanityFetch<PAGE>({
         query: pageQuery,
         params: { slug: 'about-us' },
+        draftMode: isEnabled,
     })
     return (
         <div className='min-h-screen'>

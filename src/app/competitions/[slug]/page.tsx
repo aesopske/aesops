@@ -23,18 +23,17 @@ import {
 import { COMPETITION } from '@sanity/utils/types'
 
 type Props = {
-    params: {
-        slug: string
-    }
+    params: Promise<{ slug: string }>
 }
 
 export async function generateMetadata(
     { params }: Props,
     parent: ResolvingMetadata,
 ): Promise<Metadata> {
+    const { slug } = await params
     const competition = await sanityFetch<COMPETITION>({
+        params: { slug },
         query: competitionsMetadataQuery,
-        params: { slug: params?.slug },
     })
     const previousImages = (await parent).openGraph?.images ?? []
     return {
@@ -56,10 +55,10 @@ export async function generateMetadata(
     }
 }
 
-async function page({ params }: { params: QueryParams }) {
-    const slug = params?.slug
+async function page({ params }: { params: Promise<QueryParams> }) {
+    const { slug } = await params
 
-    if (!slug) return null
+    if (!slug) return notFound()
 
     const competition = await sanityFetch<COMPETITION>({
         query: competitionQuery,

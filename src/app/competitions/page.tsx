@@ -1,4 +1,5 @@
 import { SignedIn, SignedOut } from '@clerk/nextjs'
+import { draftMode } from '@node_modules/next/headers'
 import { Metadata } from 'next'
 import HasBackgroundWrapper from '@src/components/common/HasBackgroundWrapper'
 import ListWrapper from '@src/components/common/ListWrapper'
@@ -37,23 +38,24 @@ export async function generateMetadata(): Promise<Metadata> {
 }
 
 async function Competitions({ searchParams }) {
+    const { search } = await searchParams
+    const { isEnabled } = await draftMode()
     const page = await sanityFetch<PAGE>({
         query: pageQuery,
-        params: {
-            slug: 'competitions',
-        },
+        draftMode: isEnabled,
+        params: { slug: 'competitions' },
     })
 
     const initialSection = page?.sections?.[0]
 
     const params = {
         limit: 8,
-        search: searchParams?.search ?? '',
+        search: search ?? '',
     }
 
     const competitions = await sanityFetch<COMPETITION[]>({
         query: competitionsQuery,
-        params: searchParams?.search ? params : {},
+        params: search ? params : {},
     })
 
     return (
@@ -71,7 +73,7 @@ async function Competitions({ searchParams }) {
                     <Search
                         label='Competitions search'
                         placeholder='Search competitions ...'
-                        search={searchParams.search}
+                        search={search}
                     />
                 </div>
             </HasBackgroundWrapper>
@@ -95,7 +97,7 @@ async function Competitions({ searchParams }) {
                     </SignedIn>
                 </div>
 
-                {searchParams.search ? (
+                {search ? (
                     <div className='space-y-4'>
                         <Heading type='h3' className='font-bold'>
                             Search Results
@@ -103,7 +105,7 @@ async function Competitions({ searchParams }) {
                         <hr />
                         <div
                             className={cn('grid grid-cols-4 gap-4', {
-                                'grid-cols-1': searchParams.search,
+                                'grid-cols-1': search,
                             })}>
                             <ListWrapper
                                 list={[]}

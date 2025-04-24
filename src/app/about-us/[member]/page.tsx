@@ -1,5 +1,6 @@
 import React, { Fragment } from 'react'
 import { ResolvingMetadata, Metadata } from 'next'
+import { draftMode } from 'next/headers'
 import Image from 'next/image'
 import HasBackgroundWrapper from '@src/components/common/HasBackgroundWrapper'
 import ListWrapper from '@src/components/common/ListWrapper'
@@ -16,30 +17,29 @@ import { AUTHOR, POST } from '@sanity/utils/types'
 export const revalidate = 86400 // 24 hours
 
 type Props = {
-    params: {
-        member: string
-    }
+    params: Promise<{ member: string }>
 }
 
 export async function generateMetadata(
     { params }: Props,
     parent: ResolvingMetadata,
 ): Promise<Metadata> {
-    const member = await sanityFetch<AUTHOR>({
+    const { member } = await params
+    const response = await sanityFetch<AUTHOR>({
         query: memberMetadataQuery,
-        params: { slug: params?.member },
+        params: { slug: member },
     })
     const previousImages = (await parent).openGraph?.images ?? []
     return {
-        title: member?.name,
-        description: member?.bio,
+        title: response?.name,
+        description: response?.bio,
         openGraph: {
-            title: member?.name,
-            description: member?.bio,
+            title: response?.name,
+            description: response?.bio,
             images: [
                 {
-                    url: member?.image ? urlForImage(member?.image) : '',
-                    alt: member?.image?.alt ?? '',
+                    url: response?.image ? urlForImage(response?.image) : '',
+                    alt: response?.image?.alt ?? '',
                 },
                 ...previousImages,
             ],
@@ -47,11 +47,13 @@ export async function generateMetadata(
     }
 }
 
-async function MemberPage({ params }: { params: { member: string } }) {
-    const member = params.member
+async function MemberPage({ params }: { params: Promise<{ member: string }> }) {
+    const member = (await params).member
+    const { isEnabled } = await draftMode()
     const memberData = await sanityFetch<AUTHOR>({
         query: memberQuery,
         params: { slug: member },
+        draftMode: isEnabled,
     })
 
     const imageUrl = memberData?.image ? urlForImage(memberData?.image) : ''

@@ -22,7 +22,7 @@ function HoverCard({
     }
     return (
         <HoverCardComponent>
-            <HoverCardTrigger>
+            <HoverCardTrigger asChild>
                 {renderTrigger ? renderTrigger() : null}
             </HoverCardTrigger>
             <HoverCardContent className='bg-brand-background'>

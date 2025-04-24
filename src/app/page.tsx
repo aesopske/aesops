@@ -1,3 +1,4 @@
+import { draftMode } from '@node_modules/next/headers'
 import { Metadata, ResolvingMetadata } from 'next'
 import Hero from '@/components/common/Hero'
 import Consultancy from '@/components/new/Consultancy'
@@ -44,8 +45,10 @@ export async function generateMetadata(
 }
 
 async function Page() {
+    const { isEnabled } = await draftMode()
     const page = await sanityFetch<PAGE>({
         query: pageQuery,
+        draftMode: isEnabled,
         params: { slug: 'home-page' },
     })
 

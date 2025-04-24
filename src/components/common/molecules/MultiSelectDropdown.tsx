@@ -36,7 +36,7 @@ function MultiSelectDropdown({
     return (
         <>
             <Popover>
-                <PopoverTrigger>
+                <PopoverTrigger asChild>
                     {typeof renderTrigger === 'function'
                         ? renderTrigger()
                         : renderTrigger}

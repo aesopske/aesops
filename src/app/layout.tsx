@@ -11,6 +11,7 @@ import NewNavbar from '@components/common/NewNavbar'
 import Providers from './_providers'
 
 async function RootLayout({ children }) {
+    const { isEnabled } = await draftMode()
     return (
         <html lang='en'>
             <head>
@@ -36,9 +37,9 @@ async function RootLayout({ children }) {
             <body className=''>
                 <Providers>
                     <TopLoader color='#15616D' showSpinner={false} />
-                    <NewNavbar previewEnabled={draftMode().isEnabled} />
+                    <NewNavbar previewEnabled={isEnabled} />
                     <main>{children}</main>
-                    {draftMode().isEnabled && <VisualEditing />}
+                    {isEnabled && <VisualEditing />}
                     <Footer />
                 </Providers>
                 <Analytics />

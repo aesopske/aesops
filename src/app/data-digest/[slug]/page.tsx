@@ -1,5 +1,6 @@
 import React, { Suspense } from 'react'
 import { ResolvingMetadata, Metadata } from 'next'
+import { draftMode } from 'next/headers'
 import Image from 'next/image'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
 import ContentReader from '@src/components/common/ContentReader'
@@ -19,18 +20,17 @@ import {
 import { PROJECT } from '@sanity/utils/types'
 
 type Props = {
-    params: {
-        slug: string
-    }
+    params: Promise<{ slug: string }>
 }
 
 export async function generateMetadata(
     { params }: Props,
     parent: ResolvingMetadata,
 ): Promise<Metadata> {
+    const { slug } = await params
     const page = await sanityFetch<PROJECT>({
         query: trendsMetadataQuery,
-        params: { slug: params?.slug },
+        params: { slug },
     })
     const previousImages = (await parent).openGraph?.images ?? []
     return {
@@ -65,9 +65,12 @@ export async function generateStaticParams() {
 }
 
 async function DataDigestItem({ params }) {
+    const { slug } = await params
+    const { isEnabled } = await draftMode()
     const trend = await sanityFetch<PROJECT>({
         query: trendQuery,
-        params: { slug: params?.slug },
+        params: { slug },
+        draftMode: isEnabled,
     })
 
     return (

@@ -1,5 +1,6 @@
 import { Metadata, ResolvingMetadata } from 'next'
 import { QueryParams } from 'next-sanity'
+import { draftMode } from 'next/headers'
 import { notFound } from 'next/navigation'
 import ContentHeadingReader from '@src/components/common/ContentHeadingReader'
 import ContentReader from '@src/components/common/ContentReader'
@@ -17,18 +18,17 @@ import { POST } from '@sanity/utils/types'
 import Heading from '@components/common/atoms/Heading'
 
 type Props = {
-    params: {
-        slug: string
-    }
+    params: Promise<{ slug: string }>
 }
 
 export async function generateMetadata(
     { params }: Props,
     parent: ResolvingMetadata,
 ): Promise<Metadata> {
+    const { slug } = await params
     const post = await sanityFetch<POST>({
         query: postQuery,
-        params: { slug: params?.slug },
+        params: { slug },
     })
     const previousImages = (await parent).openGraph?.images ?? []
     return {
@@ -52,9 +52,7 @@ export async function generateMetadata(
 
 export async function generateStaticParams() {
     const posts = await sanityFetch<POST[]>({
-        stega: false,
         query: postsQuery,
-        perspective: 'published',
     })
 
     return posts.map((post) => ({
@@ -62,14 +60,16 @@ export async function generateStaticParams() {
     }))
 }
 
-async function Blog({ params }: { params: QueryParams }) {
-    const slug = params?.slug
+async function Blog({ params }: { params: Promise<QueryParams> }) {
+    const { slug } = await params
+    const { isEnabled } = await draftMode()
 
     if (!slug) return null
 
     const post = await sanityFetch<POST>({
         query: postQuery,
         params: { slug },
+        draftMode: isEnabled,
     })
 
     if (!post) {

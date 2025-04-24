@@ -1,9 +1,8 @@
+import { client } from '~sanity/utils/client'
 import { draftMode } from 'next/headers'
 import { redirect } from 'next/navigation'
-import { validatePreviewUrl } from '@sanity/preview-url-secret'
-
 import { env } from '@/env'
-import { client } from '~sanity/utils/client'
+import { validatePreviewUrl } from '@sanity/preview-url-secret'
 
 const clientWithToken = client.withConfig({
     token: env.SANITY_API_READ_TOKEN,
@@ -16,13 +15,18 @@ export async function GET(request: Request) {
             request.url,
         )
 
+        const { enable } = await draftMode()
+
         if (!isValid) {
             return new Response('Invalid secret', { status: 401 })
         }
 
-        draftMode().enable()
+        enable()
         redirect(redirectTo)
     } catch (error) {
-        return new Response('Internal server error', { status: 500 })
+        return new Response(
+            `Internal server error \n ${JSON.stringify(error)}`,
+            { status: 500 },
+        )
     }
 }

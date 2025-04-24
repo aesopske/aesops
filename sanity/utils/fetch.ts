@@ -1,7 +1,5 @@
 import 'server-only'
-import { draftMode } from 'next/headers'
-import type { ClientPerspective, QueryParams } from 'next-sanity'
-
+import type { QueryParams } from 'next-sanity'
 import { env } from '@src/env'
 import { client } from './client'
 
@@ -10,20 +8,18 @@ export const token = env.SANITY_API_READ_TOKEN
 type FetchOptions = {
     query: string
     params?: QueryParams
-    perspective?: Omit<ClientPerspective, 'raw'>
-    stega?: boolean
+    draftMode?: boolean
 }
 
 export async function sanityFetch<QueryResponse>({
     query,
     params = {},
-    perspective = draftMode().isEnabled ? 'previewDrafts' : 'published',
-    stega = perspective === 'previewDrafts' ||
-        process.env.VERCEL_ENV === 'preview',
+    draftMode = false,
 }: FetchOptions) {
-    if (perspective === 'previewDrafts') {
+    const perspect = draftMode ? 'previewDrafts' : 'published'
+    if (perspect === 'previewDrafts') {
         return client.fetch<QueryResponse>(query, params, {
-            stega,
+            stega: true || process.env.VERCEL_ENV === 'preview',
             perspective: 'previewDrafts',
             token,
             useCdn: false,
@@ -32,7 +28,7 @@ export async function sanityFetch<QueryResponse>({
     }
 
     return client.fetch<QueryResponse>(query, params, {
-        stega,
+        stega: false || process.env.VERCEL_ENV == 'preview',
         perspective: 'published',
         token,
         useCdn: true,

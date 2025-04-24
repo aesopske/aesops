@@ -1,10 +1,9 @@
-import { Metadata } from 'next'
 import React from 'react'
-
+import { Metadata } from 'next'
+import { draftMode } from 'next/headers'
 import ContentHeadingReader from '@src/components/common/ContentHeadingReader'
 import ContentReader from '@src/components/common/ContentReader'
 import Heading from '@src/components/common/atoms/Heading'
-
 import { sanityFetch } from '@sanity/utils/fetch'
 import { pageMetadataQuery, pageQuery } from '@sanity/utils/requests'
 import { PAGE, PAGE_METADATA } from '@sanity/utils/types'
@@ -29,8 +28,10 @@ export async function generateMetadata(): Promise<Metadata> {
 }
 
 async function Contribute() {
+    const { isEnabled } = await draftMode()
     const page = await sanityFetch<PAGE>({
         query: pageQuery,
+        draftMode: isEnabled,
         params: { slug: 'blog-contribution-guide' },
     })
 

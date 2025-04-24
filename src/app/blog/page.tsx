@@ -1,4 +1,5 @@
 import { Metadata } from 'next'
+import { draftMode } from 'next/headers'
 import { sanityFetch } from '@sanity/utils/fetch'
 import { pageMetadataQuery, pageQuery } from '@sanity/utils/requests'
 import { PAGE } from '@sanity/utils/types'
@@ -33,8 +34,10 @@ export async function generateMetadata(): Promise<Metadata> {
 }
 
 async function Blog() {
+    const { isEnabled } = await draftMode()
     const page = await sanityFetch<PAGE>({
         query: pageQuery,
+        draftMode: isEnabled,
         params: { slug: 'blogs' },
     })
 
