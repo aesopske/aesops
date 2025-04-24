@@ -81,12 +81,12 @@ async function Blog({ params }: { params: Promise<QueryParams> }) {
 
     return (
         <div className='min-h-screen py-6 lg:py-12 md:px-4 xl:px-0'>
-            <div className='relative mx-auto gap-6 flex flex-col max-w-screen-lg lg:max-w-screen-xl 2xl:max-w-screen-2xl items-start justify-between lg:gap-x-12 md:px-6 lg:flex-row 2xl:px-0'>
-                <div className='hidden sticky w-full left-0 top-10 z-10 h-96 rounded lg:block lg:w-1/5'>
+            <div className='relative mx-auto gap-6 flex flex-col max-w-(--breakpoint-lg) lg:max-w-(--breakpoint-xl) 2xl:max-w-(--breakpoint-2xl) items-start justify-between lg:gap-x-12 md:px-6 lg:flex-row 2xl:px-0'>
+                <div className='hidden sticky w-full left-0 top-10 z-10 h-96 rounded-sm lg:block lg:w-1/5'>
                     <ContentHeadingReader body={post?.body} />
                     <Share title={post?.title} />
                 </div>
-                <div className='mx-auto w-full max-w-screen-2xl space-y-5 lg:w-1/2'>
+                <div className='mx-auto w-full max-w-(--breakpoint-2xl) space-y-5 lg:w-1/2'>
                     <div className='space-y-2 px-4 lg:px-0'>
                         <BreadCrumbs />
                         <Heading>{post?.title}</Heading>

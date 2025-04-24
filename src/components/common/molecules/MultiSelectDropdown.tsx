@@ -75,7 +75,7 @@ function MultiSelectDropdown({
                                             }}>
                                             <div
                                                 className={cn(
-                                                    'mr-2 flex size-5  items-center justify-center rounded border border-gray-400 border-dashed',
+                                                    'mr-2 flex size-5  items-center justify-center rounded-sm border border-gray-400 border-dashed',
                                                     isSelected
                                                         ? 'bg-transparent text-gray-500 p-1'
                                                         : 'opacity-50 [&_svg]:invisible',

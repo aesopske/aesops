@@ -74,7 +74,7 @@ function AboutAuthor({
                         </Text>
                         <div
                             className={cn(
-                                'absolute bottom-0 right-0 bg-gradient-to-b from-transparent via-brand-background to-brand-background w-full flex items-end justify-start min-h-20',
+                                'absolute bottom-0 right-0 bg-linear-to-b from-transparent via-brand-background to-brand-background w-full flex items-end justify-start min-h-20',
                                 { 'relative min-h-0': showMore },
                             )}>
                             <Button

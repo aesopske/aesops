@@ -98,7 +98,7 @@ function SelectFilter({
                 ''
             }
             onValueChange={(evt) => handleSelect(evt)}>
-            <SelectTrigger className='w-full lg:w-[180px] h-8 shadow-sm rounded-md border-dashed border-gray-500'>
+            <SelectTrigger className='w-full lg:w-[180px] h-8 shadow-xs rounded-md border-dashed border-gray-500'>
                 <SelectValue
                     className='h-10'
                     placeholder={placeholder ?? `Select ${label}`}
@@ -192,14 +192,14 @@ function MultiSelectFilter({
                             />
                             <Badge
                                 variant='secondary'
-                                className='rounded-sm px-1 font-normal lg:hidden'>
+                                className='rounded-xs px-1 font-normal lg:hidden'>
                                 {selectedOptions.length}
                             </Badge>
                             <div className='hidden space-x-1 lg:flex'>
                                 {selectedOptions.length > 2 ? (
                                     <Badge
                                         variant='secondary'
-                                        className='rounded-sm px-1 font-normal'>
+                                        className='rounded-xs px-1 font-normal'>
                                         {selectedOptions.length} selected
                                     </Badge>
                                 ) : (
@@ -213,7 +213,7 @@ function MultiSelectFilter({
                                             <Badge
                                                 variant='secondary'
                                                 key={option.value}
-                                                className='rounded-sm px-1 font-normal'>
+                                                className='rounded-xs px-1 font-normal'>
                                                 {option.label}
                                             </Badge>
                                         ))

@@ -75,10 +75,10 @@ async function DataDigestItem({ params }) {
 
     return (
         <div className='min-h-screen xl:py-10 space-y-4'>
-            <div className='md:max-w-screen-xl 2xl:max-w-screen-2xl md:mx-auto 2xl:px-0'>
+            <div className='md:max-w-(--breakpoint-xl) 2xl:max-w-(--breakpoint-2xl) md:mx-auto 2xl:px-0'>
                 <BreadCrumbs color='default' />
             </div>
-            <div className='relative w-full bg-brandaccent-50 overflow-hidden md:max-w-screen-xl 2xl:max-w-screen-2xl md:mx-auto xl:rounded-lg h-72 lg:h-96 2xl:px-0'>
+            <div className='relative w-full bg-brandaccent-50 overflow-hidden md:max-w-(--breakpoint-xl) 2xl:max-w-(--breakpoint-2xl) md:mx-auto xl:rounded-lg h-72 lg:h-96 2xl:px-0'>
                 <Image
                     src={urlForImage(trend?.image) ?? ''}
                     alt={trend?.image.alt}
@@ -87,7 +87,7 @@ async function DataDigestItem({ params }) {
                     unoptimized
                     className='object-cover w-full h-full object-center-center'
                 />
-                <div className='bg-gradient-to-b from-transparent via-black/20 to-black/80 absolute top-0 w-full h-full flex flex-col justify-end p-6'>
+                <div className='bg-linear-to-b from-transparent via-black/20 to-black/80 absolute top-0 w-full h-full flex flex-col justify-end p-6'>
                     <div className='space-y-4 max-w-2xl'>
                         <Heading type='h2' className='text-white'>
                             {trend?.title}
@@ -102,11 +102,11 @@ async function DataDigestItem({ params }) {
                     </div>
                 </div>
             </div>
-            <div className='px-4 space-y-4 max-w-screen-xl mx-auto py-10 2xl:px-0 2xl:max-w-screen-2xl'>
+            <div className='px-4 space-y-4 max-w-(--breakpoint-xl) mx-auto py-10 2xl:px-0 2xl:max-w-(--breakpoint-2xl)'>
                 <Tabs
                     defaultValue='chartsoverview'
                     className='w-full rounded-md'>
-                    <TabsList className='bg-brandaccent-50/80 py-6 px-2 rounded-full shadow-sm gap-2'>
+                    <TabsList className='bg-brandaccent-50/80 py-6 px-2 rounded-full shadow-xs gap-2'>
                         <TabsTrigger
                             value='chartsoverview'
                             className='capitalize data-[state=active]:bg-brandprimary-900 data-[state=active]:text-brandaccent-50 text-sm font-sans font-normal text-gray-900 rounded-full hover:bg-brandaccent-100/50'>

@@ -77,7 +77,7 @@ async function Competitions({ searchParams }) {
                     />
                 </div>
             </HasBackgroundWrapper>
-            <div className='my-20 max-w-screen-2xl mx-auto h-full space-y-6'>
+            <div className='my-20 max-w-(--breakpoint-2xl) mx-auto h-full space-y-6'>
                 <div className='bg-brandaccent-50 min-h-20 p-5 rounded-md'>
                     <SignedOut>
                         <div className='w-full flex items-center justify-between'>

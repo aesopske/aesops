@@ -6,7 +6,7 @@ import Text from '@components/common/atoms/Text'
 function ImageWithModal({ src, alt, caption, showDialog = true }) {
     return (
         <Dialog>
-            <div className='w-auto mx-auto h-auto bg-brandaccent-50/50 md:rounded-lg overflow-hidden shadow-sm'>
+            <div className='w-auto mx-auto h-auto bg-brandaccent-50/50 md:rounded-lg overflow-hidden shadow-xs'>
                 <DialogTrigger className='w-full h-full p-0'>
                     <AesopImage
                         width={500}
@@ -17,7 +17,7 @@ function ImageWithModal({ src, alt, caption, showDialog = true }) {
                     />
                 </DialogTrigger>
                 {showDialog && (
-                    <DialogContent className='max-w-screen-xl min-h-96'>
+                    <DialogContent className='max-w-(--breakpoint-xl) min-h-96'>
                         <AesopImage
                             width={500}
                             height={300}

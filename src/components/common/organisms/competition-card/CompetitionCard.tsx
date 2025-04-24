@@ -10,7 +10,7 @@ import Text from '@components/common/atoms/Text'
 function CompetitionCard({ competition }: { competition: COMPETITION }) {
     const imageUrl = urlForImage(competition.mainImage) ?? ''
     return (
-        <div className='bg-white h-auto w-full rounded-md shadow-sm flex flex-col justify-between gap-2 align-start overflow-hidden'>
+        <div className='bg-white h-auto w-full rounded-md shadow-xs flex flex-col justify-between gap-2 align-start overflow-hidden'>
             <div>
                 <div className='h-48 w-full'>
                     <Image

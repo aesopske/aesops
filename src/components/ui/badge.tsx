@@ -3,16 +3,16 @@ import { type VariantProps, cva } from 'class-variance-authority'
 import * as React from 'react'
 
 const badgeVariants = cva(
-    'inline-flex items-center rounded-md border px-2.5 py-0.5 text-xs font-semibold transition-colors focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 font-sans',
+    'inline-flex items-center rounded-md border px-2.5 py-0.5 text-xs font-semibold transition-colors focus:outline-hidden focus:ring-2 focus:ring-ring focus:ring-offset-2 font-sans',
     {
         variants: {
             variant: {
                 default:
-                    'border-transparent bg-brandprimary-900 text-brandaccent-50 shadow hover:bg-brandprimary-800',
+                    'border-transparent bg-brandprimary-900 text-brandaccent-50 shadow-sm hover:bg-brandprimary-800',
                 secondary:
                     'border-transparent bg-brandaccent-50 text-brandprimary-700 hover:bg-secondary/80',
                 destructive:
-                    'border-transparent bg-destructive text-destructive-foreground shadow hover:bg-destructive/80',
+                    'border-transparent bg-destructive text-destructive-foreground shadow-sm hover:bg-destructive/80',
                 outline: 'text-foreground',
             },
         },

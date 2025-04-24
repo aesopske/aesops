@@ -14,7 +14,7 @@ function Community({ section }: CommunityProps) {
     return (
         <div className=''>
             <div className='relative isolate px-4 lg:px-8'>
-                <div className='mx-auto flex flex-col gap-10 max-w-screen-lg lg:max-w-screen-xl 2xl:max-w-screen-2xl py-10 sm:py-40 lg:py-32'>
+                <div className='mx-auto flex flex-col gap-10 max-w-(--breakpoint-lg) lg:max-w-(--breakpoint-xl) 2xl:max-w-(--breakpoint-2xl) py-10 sm:py-40 lg:py-32'>
                     <div className='flex flex-col md:flex-row gap-5'>
                         <Animate dir='up' className='text-left'>
                             <Heading

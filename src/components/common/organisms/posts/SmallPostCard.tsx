@@ -20,7 +20,7 @@ function SmallPostCard({ post, hideAuthor, className }: SmallPostCardProps) {
         <Link href={`/blog/${post.slug.current}`} passHref>
             <div
                 className={cn(
-                    'bg-white border border-gray-200 p-4 rounded space-y-4',
+                    'bg-white border border-gray-200 p-4 rounded-sm space-y-4',
                     className
                 )}>
                 <div className='flex gap-2 flex-wrap'>

@@ -42,7 +42,7 @@ async function Blog() {
     })
 
     return (
-        <div className='max-w-screen-lg lg:max-w-screen-xl 2xl:max-w-screen-2xl mx-auto my-6 space-y-10 lg:space-y-16 lg:my-12'>
+        <div className='max-w-(--breakpoint-lg) lg:max-w-(--breakpoint-xl) 2xl:max-w-(--breakpoint-2xl) mx-auto my-6 space-y-10 lg:space-y-16 lg:my-12'>
             <div className='space-y-6 px-4 lg:px-0'>
                 <IntroSection sectionContent={page?.sections[0]} />
                 <FeaturedPosts

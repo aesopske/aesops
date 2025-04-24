@@ -31,7 +31,7 @@ function AuthorDetails({
                     className={cn(
                         isSmall && 'w-8 h-8',
                         isSmaller && 'w-6 h-6',
-                        'object-cover shadow-sm z-0 rounded-full',
+                        'object-cover shadow-xs z-0 rounded-full',
                         isMultiple && 'p-[2px] border-none shadow-none',
                         className,
                     )}>

@@ -48,7 +48,7 @@ async function DataDigestPage() {
 
     return (
         <div className='min-h-screen'>
-            <div className='max-w-screen-lg lg:max-w-screen-xl 2xl:max-w-screen-2xl mx-auto space-y-12 px-5 py-5 xl:px-0 w-full'>
+            <div className='max-w-(--breakpoint-lg) lg:max-w-(--breakpoint-xl) 2xl:max-w-(--breakpoint-2xl) mx-auto space-y-12 px-5 py-5 xl:px-0 w-full'>
                 <div className='space-y-6'>
                     <div className='max-w-lg space-y-3'>
                         <Heading type='h2'>{page?.sections[0]?.title}</Heading>
@@ -59,7 +59,7 @@ async function DataDigestPage() {
                             list={page?.sections[0]?.projects ?? []}
                             keyExtractor={(project) => project?.title}>
                             {(project) => (
-                                <div className='h-auto bg-white shadow-sm rounded-md overflow-hidden md:odd:col-span-2'>
+                                <div className='h-auto bg-white shadow-xs rounded-md overflow-hidden md:odd:col-span-2'>
                                     <div className='h-full w-full space-y-4'>
                                         <Image
                                             src={urlForImage(project?.image)}

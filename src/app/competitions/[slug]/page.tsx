@@ -85,7 +85,7 @@ async function page({ params }: { params: Promise<QueryParams> }) {
                     className='object-cover w-full h-full'
                 />
             </div>
-            <div className='p-4 space-y-5 max-w-screen-2xl mx-auto py-10'>
+            <div className='p-4 space-y-5 max-w-(--breakpoint-2xl) mx-auto py-10'>
                 <div className='space-y-4'>
                     <BreadCrumbs />
                     <div className='space-y-2'>
@@ -149,7 +149,7 @@ async function page({ params }: { params: Promise<QueryParams> }) {
                     <Tabs
                         defaultValue={competition?.tabs?.[0]?.title.toLowerCase()}
                         className='w-full max-w-3xl rounded-md'>
-                        <TabsList className='bg-brandaccent-50/80 py-6 px-2 rounded-full shadow-sm'>
+                        <TabsList className='bg-brandaccent-50/80 py-6 px-2 rounded-full shadow-xs'>
                             <ListWrapper
                                 list={competition.tabs ?? []}
                                 keyExtractor={(tab, idx) =>
@@ -170,7 +170,7 @@ async function page({ params }: { params: Promise<QueryParams> }) {
                             {(item) => (
                                 <TabsContent
                                     value={item.title.toLowerCase()}
-                                    className='py-8 bg-brandaccent-50/50 rounded-lg px-6 shadow-sm'>
+                                    className='py-8 bg-brandaccent-50/50 rounded-lg px-6 shadow-xs'>
                                     <div className='space-y-4'>
                                         <ContentReader content={item.content} />
                                     </div>

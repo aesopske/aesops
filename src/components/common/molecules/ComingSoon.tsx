@@ -23,7 +23,7 @@ function ComingSoon({
     return (
         <div
             className={`flex h-full w-full items-center justify-start ${className}`}>
-            <Card className='max-w-md border-dashed bg-background/50 text-center shadow-sm'>
+            <Card className='max-w-md border-dashed bg-background/50 text-center shadow-xs'>
                 <CardHeader className='pb-2'>
                     {showIcon !== 'none' && (
                         <div className='mb-2 flex justify-center'>

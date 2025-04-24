@@ -61,9 +61,9 @@ async function MemberPage({ params }: { params: Promise<{ member: string }> }) {
     return (
         <div className='min-h-screen w-full'>
             <HasBackgroundWrapper className='h-auto min-h-48 lg:min-h-72'>
-                <div className='max-w-screen-2xl mx-auto px-6  py-10 min-h-48 lg:min-h-72 flex flex-col gap-3 justify-end items-center 2xl:items-start 3xl:px-6'>
+                <div className='max-w-(--breakpoint-2xl) mx-auto px-6  py-10 min-h-48 lg:min-h-72 flex flex-col gap-3 justify-end items-center 2xl:items-start 3xl:px-6'>
                     <div className='lg:hidden'>
-                        <div className='w-36 h-36 rounded-full bg-gradient-to-br from-brandprimary-700  via-brandaccent-50 to-brandaccent-500 overflow-auto p-4 '>
+                        <div className='w-36 h-36 rounded-full bg-linear-to-br from-brandprimary-700  via-brandaccent-50 to-brandaccent-500 overflow-auto p-4 '>
                             <div className='h-full w-full'>
                                 <Image
                                     src={imageUrl}
@@ -95,10 +95,10 @@ async function MemberPage({ params }: { params: Promise<{ member: string }> }) {
                     </div>
                 </div>
             </HasBackgroundWrapper>
-            <div className='max-w-screen-2xl mx-auto px-4 2xl:px-0'>
+            <div className='max-w-(--breakpoint-2xl) mx-auto px-4 2xl:px-0'>
                 <div className='space-y-10 py-6 lg:py-24'>
                     <div className='space-y-4 flex flex-col items-center justify-start gap-10 lg:flex-row'>
-                        <div className='hidden w-64 h-64 rounded-full bg-gradient-to-br from-brandprimary-700  via-brandaccent-50 to-brandaccent-500 overflow-auto p-4 lg:block'>
+                        <div className='hidden w-64 h-64 rounded-full bg-linear-to-br from-brandprimary-700  via-brandaccent-50 to-brandaccent-500 overflow-auto p-4 lg:block'>
                             <div className='h-full w-full'>
                                 <Image
                                     src={imageUrl}

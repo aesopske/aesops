@@ -124,12 +124,12 @@ function PredictionTable() {
 
 const generateConfig = (colums: string[]) => {
     const colors = [
-        'hsl(var(--aeschart-2))',
-        'hsl(var(--aeschart-6))',
-        'hsl(var(--aeschart-3))',
-        'hsl(var(--aeschart-8))',
-        'hsl(var(--aeschart-7))',
-        'hsl(var(--aeschart-9))',
+        'var(--aeschart-2)',
+        'var(--aeschart-6)',
+        'var(--aeschart-3)',
+        'var(--aeschart-8)',
+        'var(--aeschart-7)',
+        'var(--aeschart-9)',
     ]
 
     return colums.reduce((config, field, idx) => {
@@ -176,63 +176,66 @@ function AvgTowns() {
 
     const config = generateConfig(data?.columns ?? [])
     return (
-        <AesLines
-            config={config}
-            title={data?.title ?? ''}
-            XAxisKey={data?.XAxisKey ?? ''}
-            description={data?.description ?? ''}
-            className={isRefetching ? 'animate-pulse' : ''}
-            data={data?.data ?? []}
-            renderFilters={
-                data?.filters ? (
-                    <div className='w-full mb-4 py-2 flex gap-2 items-start flex-wrap'>
-                        <ListWrapper
-                            list={data?.filters}
-                            keyExtractor={(filter) => filter?.label}>
-                            {(filter) => (
-                                <div className='flex items-center gap-4'>
-                                    <FilterBlock
-                                        type={filter.type}
-                                        data={filter.data}
-                                        initialValue={filter.initialValue}
-                                        selectProps={{
-                                            label: filter.label,
-                                            placeholder:
-                                                filter?.placeholder ?? null,
-                                            filterPrefix:
-                                                data?.filterPrefix ?? null,
-                                        }}
-                                    />
-                                </div>
+        <>
+            <AesLines
+                config={config}
+                title={data?.title ?? ''}
+                XAxisKey={data?.XAxisKey ?? ''}
+                description={data?.description ?? ''}
+                className={isRefetching ? 'animate-pulse' : ''}
+                data={data?.data ?? []}
+                renderFilters={
+                    data?.filters ? (
+                        <div className='w-full mb-4 py-2 flex gap-2 items-start flex-wrap'>
+                            <ListWrapper
+                                list={data?.filters}
+                                keyExtractor={(filter) => filter?.label}>
+                                {(filter) => (
+                                    <div className='flex items-center gap-4'>
+                                        <FilterBlock
+                                            type={filter.type}
+                                            data={filter.data}
+                                            initialValue={filter.initialValue}
+                                            selectProps={{
+                                                label: filter.label,
+                                                placeholder:
+                                                    filter?.placeholder ?? null,
+                                                filterPrefix:
+                                                    data?.filterPrefix ?? null,
+                                            }}
+                                        />
+                                    </div>
+                                )}
+                            </ListWrapper>
+                            {cleanedParams && (
+                                <Button
+                                    type='button'
+                                    title='Reset Filters'
+                                    className='h-8 w-auto px-4 bg-brandaccent-50/60 text-semibold text-black hover:bg-brandaccent-50/90'
+                                    onClick={resetFilters}>
+                                    <X className='size-4 mr-2' />
+                                    Clear Filters
+                                </Button>
                             )}
-                        </ListWrapper>
-                        {cleanedParams && (
-                            <Button
-                                type='button'
-                                title='Reset Filters'
-                                className='h-8 w-auto px-4 bg-brandaccent-50/60 text-semibold text-black hover:bg-brandaccent-50/90'
-                                onClick={resetFilters}>
-                                <X className='size-4 mr-2' />
-                                Clear Filters
-                            </Button>
-                        )}
+                        </div>
+                    ) : null
+                }
+                renderFooter={
+                    <div className='w-full min-h-9 rounded-xl overflow-hidden'>
+                        <ErrorBoundary FallbackComponent={ErrorHandler}>
+                            <DDExplain
+                                title={data?.title ?? ''}
+                                columns={data?.columns ?? []}
+                                XAxisKey={data?.XAxisKey ?? ''}
+                                data={JSON.stringify(data?.data)}
+                                description={data?.description ?? ''}
+                            />
+                        </ErrorBoundary>
                     </div>
-                ) : null
-            }
-            renderFooter={
-                <div className='w-full min-h-9 rounded-xl overflow-hidden'>
-                    <ErrorBoundary FallbackComponent={ErrorHandler}>
-                        <DDExplain
-                            title={data?.title ?? ''}
-                            columns={data?.columns ?? []}
-                            XAxisKey={data?.XAxisKey ?? ''}
-                            data={JSON.stringify(data?.data)}
-                            description={data?.description ?? ''}
-                        />
-                    </ErrorBoundary>
-                </div>
-            }
-        />
+                }
+            />
+            <pre>{JSON.stringify(data, null, 3)}</pre>
+        </>
     )
 }
 function AvgPrices() {
