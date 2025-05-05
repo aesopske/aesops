@@ -36,7 +36,7 @@ function AuthorCard({
 }: AuthorCardProps) {
     const authors =
         author?.length > 0 ? author.map((auth) => formatAuthor(auth)) : []
-    const formattedDate = format(date, 'MMM dd, yyyy')
+    const formattedDate = format(new Date(date), 'MMM dd, yyyy')
 
     const mainAuthor = authors[0]
     const otherAuthors = hideCoAuthor ? [] : authors.slice(1)

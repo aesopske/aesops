@@ -3,9 +3,10 @@
 import { Loader } from 'lucide-react'
 import { useFormStatus } from 'react-dom'
 import React from 'react'
-import { Button, ButtonProps } from '@components/ui/button'
+import { Button } from '@components/ui/button'
 
-interface SubmitBtnProps extends ButtonProps {}
+interface SubmitBtnProps
+    extends React.ButtonHTMLAttributes<HTMLButtonElement> {}
 
 function SubmitBtn(props: SubmitBtnProps) {
     const { pending } = useFormStatus()
