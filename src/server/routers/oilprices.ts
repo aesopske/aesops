@@ -1,4 +1,3 @@
-import { format } from 'date-fns'
 import { z } from 'zod'
 import { toSentenceCase } from '@src/lib/utils'
 import { createTRPCRouter, publicProcedure } from '../trpc'
@@ -57,37 +56,6 @@ export const oilPricesRouter = createTRPCRouter({
     getDatasetPreview: publicProcedure.query(async ({ ctx }) => {
         const oilPrices = await ctx.db.oil_prices.findMany({
             take: 20,
-            select: {
-                id: true,
-                Month: true,
-                Year: true,
-                Pms: true,
-                Dpk: true,
-                Ago: true,
-                Ppb: true,
-                Exrates: true,
-                Date: true,
-            },
-        })
-
-        // format the prices
-        const formattedPrices = oilPrices.map((price) => {
-            const ksh = new Intl.NumberFormat('en-GB', {
-                style: 'currency',
-                currency: 'KES',
-            })
-
-            const formattedDate = format(price.Date ?? new Date(), 'dd/MM/yyyy')
-
-            return {
-                ...price,
-                Pms: ksh.format(price.Pms ?? 0),
-                Dpk: ksh.format(price.Dpk ?? 0),
-                Ago: ksh.format(price.Ago ?? 0),
-                Ppb: ksh.format(price.Ppb ?? 0),
-                Exrates: ksh.format(price.Exrates ?? 0),
-                Date: formattedDate,
-            }
         })
 
         const columns = Object.keys(oilPrices[0]).map((key) => ({
@@ -97,7 +65,7 @@ export const oilPricesRouter = createTRPCRouter({
         return {
             title: 'Oil Prices Data Preview',
             description: 'Preview of the oil prices dataset',
-            data: formattedPrices,
+            data: oilPrices,
             columns: columns,
             type: 'table',
         }

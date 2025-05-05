@@ -1,7 +1,7 @@
 'use client'
 
 import { CartesianGrid, Line, LineChart, XAxis, YAxis } from 'recharts'
-import React, { Fragment } from 'react'
+import React from 'react'
 import {
     Card,
     CardContent,
@@ -22,7 +22,7 @@ import {
 interface AesLinesProps extends React.HTMLAttributes<HTMLDivElement> {
     title: string
     description: string
-    data: Record<string, any>[]
+    data: any[]
     XAxisKey: string
     config: ChartConfig
     renderFooter?: React.ReactNode | null
@@ -47,30 +47,26 @@ function AesLines({
     return (
         <Card className={props.className}>
             <CardHeader className='px-3 md:px-6'>
-                <CardTitle>{title}</CardTitle>
-                <CardDescription>{description}</CardDescription>
+                <CardTitle className='font-sans text-lg lg:text-2xl '>
+                    {title}
+                </CardTitle>
+                <CardDescription className='font-sans'>
+                    {description}
+                </CardDescription>
                 <div>{renderFilters ? renderFilters : null}</div>
             </CardHeader>
             <CardContent className='px-3 md:px-6'>
                 <ChartContainer config={config}>
-                    <LineChart
-                        accessibilityLayer
-                        data={data}
-                        height={500}
-                        width={800}
-                        margin={{
-                            left: 12,
-                            right: 12,
-                        }}>
+                    <LineChart accessibilityLayer data={data}>
                         <CartesianGrid
                             vertical={true}
                             horizontal={true}
                             strokeDasharray='4 4'
-                            strokeDashoffset='0'
+                            strokeDashoffset='4'
                         />
                         {XAxisKey ? (
                             <XAxis
-                                height={45}
+                                height={40}
                                 tickMargin={8}
                                 tickLine={false}
                                 axisLine={false}
@@ -80,8 +76,8 @@ function AesLines({
                             />
                         ) : null}
                         <YAxis
-                            width={20}
-                            tickLine={true}
+                            width={25}
+                            tickLine={false}
                             axisLine={false}
                             domain={['auto', 'auto']}
                             tickFormatter={(value) => {
@@ -96,19 +92,19 @@ function AesLines({
                             cursor={true}
                             content={<ChartTooltipContent />}
                         />
+
                         {Object.keys(config).map((key) => (
-                            <Fragment key={key}>
-                                <Line
-                                    dataKey={key}
-                                    type='monotone'
-                                    stroke={config[key].color}
-                                    strokeWidth={2}
-                                    dot={{
-                                        fill: config[key].color,
-                                        strokeWidth: 0,
-                                    }}
-                                />
-                            </Fragment>
+                            <Line
+                                key={key}
+                                dataKey={key}
+                                type='monotone'
+                                stroke={config[key].color}
+                                strokeWidth={2}
+                                dot={{
+                                    fill: config[key].color,
+                                    strokeWidth: 0,
+                                }}
+                            />
                         ))}
 
                         <ChartLegend

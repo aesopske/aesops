@@ -1,16 +1,7 @@
 'use client'
 
-import { Lightbulb, X } from 'lucide-react'
-import { ErrorBoundary } from 'react-error-boundary'
-import React, { useEffect, useState } from 'react'
-import {
-    Table,
-    TableBody,
-    TableCell,
-    TableHead,
-    TableHeader,
-    TableRow,
-} from '@/components/ui/table'
+import Heading from '@components/common/atoms/Heading'
+import Text from '@components/common/atoms/Text'
 import { api } from '@src/app/_trpc/client'
 import {
     Card,
@@ -21,8 +12,17 @@ import {
 } from '@src/components/ui/card'
 import useManageFilterParams from '@src/hooks/useManageFilterParams'
 import { cn } from '@src/lib/utils'
-import Heading from '@components/common/atoms/Heading'
-import Text from '@components/common/atoms/Text'
+import { Lightbulb, X } from 'lucide-react'
+import React, { useEffect, useState } from 'react'
+import { ErrorBoundary } from 'react-error-boundary'
+import {
+    Table,
+    TableBody,
+    TableCell,
+    TableHead,
+    TableHeader,
+    TableRow,
+} from '@/components/ui/table'
 import AesLines from '../charts/AesLines'
 import ErrorHandler from '../common/ErrorHandler'
 import ListWrapper from '../common/ListWrapper'
@@ -30,20 +30,6 @@ import DDExplain from '../common/organisms/dd-explain/DDExplain'
 import FilterBlock from '../organisms/FilterBlock'
 import { Button } from '../ui'
 import { Separator } from '../ui/separator'
-
-function OilPrices() {
-    return (
-        <div className='grid grid-cols-1 xl:grid-cols-6 gap-4 lg:gap-8'>
-            <div className='order-1 col-span-3 xl:order-none xl:col-span-6 grid grid-cols-2 gap-4 lg:gap-8'>
-                <AvgTowns />
-                <AvgPrices />
-            </div>
-            <div className='col-span-1 xl:col-span-3 w-full'>
-                <PredictionTable />
-            </div>
-        </div>
-    )
-}
 
 function PredictionTable() {
     const { data, error, isRefetching, isLoading } =
@@ -73,9 +59,9 @@ function PredictionTable() {
                 <CardDescription>{data?.description ?? ''}</CardDescription>
             </CardHeader>
             <CardContent className='space-y-3 px-3 md:px-6'>
-                <Table className='rounded-lg overflow-hidden'>
-                    <TableHeader>
-                        <TableRow>
+                <Table className='rounded overflow-hidden'>
+                    <TableHeader className='bg-brandaccent-50/40'>
+                        <TableRow className='border-b-2 border-dashed'>
                             <ListWrapper
                                 list={data?.columns ?? []}
                                 keyExtractor={(col) => col?.label}>
@@ -94,12 +80,12 @@ function PredictionTable() {
                             list={data?.data ?? []}
                             keyExtractor={(pred) => pred?.month ?? ''}>
                             {(item) => (
-                                <TableRow>
+                                <TableRow className='border-b-2 border-dashed'>
                                     <ListWrapper
                                         list={data?.columns ?? []}
                                         keyExtractor={(col) => col?.value}>
                                         {(col) => (
-                                            <TableCell>
+                                            <TableCell className='border-x-2 first:border-l-0 last:border-r-0 border-dashed h-10'>
                                                 {item[col.value]}
                                             </TableCell>
                                         )}
@@ -110,13 +96,12 @@ function PredictionTable() {
                     </TableBody>
                 </Table>
             </CardContent>
-            <Separator className='mb-4' />
+            <Separator className='mb-2' />
             <CardFooter>
                 <Lightbulb className='text-brandaccent-300  mr-2' />
                 <Text className='text-sm italic'>
                     Based on Aesops&apos; oil prices prediction model.
                 </Text>
-                {/* <pre>{JSON.stringify(predictions.data, null, 2)}</pre> */}
             </CardFooter>
         </Card>
     )
@@ -141,6 +126,7 @@ const generateConfig = (colums: string[]) => {
     }, {})
 }
 
+//  average prices by towns
 function AvgTowns() {
     const [filterPrefix, setFilterPrefix] = useState('')
 
@@ -211,10 +197,10 @@ function AvgTowns() {
                                 <Button
                                     type='button'
                                     title='Reset Filters'
-                                    className='h-8 w-auto px-4 bg-brandaccent-50/60 text-semibold text-black hover:bg-brandaccent-50/90'
+                                    className='h-8 w-auto px-4 bg-brandaccent-50/60 font-normal font-sans text-gray-700 hover:bg-brandaccent-50/90'
                                     onClick={resetFilters}>
-                                    <X className='size-4 mr-2' />
-                                    Clear Filters
+                                    <X className='size-4' />
+                                    Reset filters
                                 </Button>
                             )}
                         </div>
@@ -234,10 +220,11 @@ function AvgTowns() {
                     </div>
                 }
             />
-            <pre>{JSON.stringify(data, null, 3)}</pre>
         </>
     )
 }
+
+//  average prices
 function AvgPrices() {
     const [filterPrefix, setFilterPrefix] = useState('')
 
@@ -307,10 +294,10 @@ function AvgPrices() {
                             <Button
                                 type='button'
                                 title='Reset Filters'
-                                className='h-8 w-auto px-4 bg-brandaccent-50/60 text-semibold text-black hover:bg-brandaccent-50/90'
+                                className='h-8 w-auto px-4 bg-brandaccent-50/60 font-normal font-sans text-black hover:bg-brandaccent-50/90'
                                 onClick={resetFilters}>
-                                <X className='size-4 mr-2' />
-                                Clear Filters
+                                <X className='size-4' />
+                                Reset filters
                             </Button>
                         )}
                     </div>
@@ -330,6 +317,26 @@ function AvgPrices() {
                 </div>
             }
         />
+    )
+}
+
+function OilPrices() {
+    return (
+        <div className='grid grid-cols-1 xl:grid-cols-5 gap-4 lg:gap-8'>
+            <div className='order-1 col-span-1 xl:order-none xl:col-span-3 flex flex-col gap-4 lg:gap-8'>
+                <ErrorBoundary FallbackComponent={ErrorHandler}>
+                    <AvgTowns />
+                </ErrorBoundary>
+                <ErrorBoundary FallbackComponent={ErrorHandler}>
+                    <AvgPrices />
+                </ErrorBoundary>
+            </div>
+            <div className='col-span-1 xl:col-span-2 w-full'>
+                <ErrorBoundary FallbackComponent={ErrorHandler}>
+                    <PredictionTable />
+                </ErrorBoundary>
+            </div>
+        </div>
     )
 }
 

@@ -98,9 +98,8 @@ function SelectFilter({
                 ''
             }
             onValueChange={(evt) => handleSelect(evt)}>
-            <SelectTrigger className='w-full lg:w-[180px] h-8 shadow-xs rounded-md border-dashed border-gray-500'>
+            <SelectTrigger className='w-full lg:w-[180px] max-h-8 shadow-xs rounded-md border-dashed border-gray-500'>
                 <SelectValue
-                    className='h-10'
                     placeholder={placeholder ?? `Select ${label}`}
                 />
             </SelectTrigger>
@@ -181,7 +180,7 @@ function MultiSelectFilter({
                 <Button
                     size='sm'
                     variant='outline'
-                    className='h-8 border-dashed border-gray-500 hover:bg-gray-100/60 hover:text-black'>
+                    className='border-dashed border-gray-500 hover:bg-gray-100/60 hover:text-black'>
                     <PlusCircle className='mr-2 h-4 w-4' />
                     {placeholder}
                     {selectedOptions?.length > 0 && (

@@ -12,8 +12,12 @@ import Community from '@src/components/new/Community'
 import TalkToUs from '@src/components/new/TalkToUs'
 import { sanityFetch } from '@sanity/utils/fetch'
 import { urlForImage } from '@sanity/utils/image'
-import { pageMetadataQuery, pageQuery } from '@sanity/utils/requests'
-import { PAGE } from '@sanity/utils/types'
+import {
+    pageMetadataQuery,
+    pageQuery,
+    recentQuery,
+} from '@sanity/utils/requests'
+import { MIN_POST, PAGE } from '@sanity/utils/types'
 import WakeupCall from '@components/common/molecules/WakeupCall'
 
 type Props = {}
@@ -52,6 +56,10 @@ async function Page() {
         params: { slug: 'home-page' },
     })
 
+    const posts = await sanityFetch<MIN_POST[]>({
+        query: recentQuery,
+    })
+
     return (
         <div className='w-full h-full min-h-screen'>
             <WakeupCall />
@@ -79,7 +87,7 @@ async function Page() {
                     </div>
                 </HasBackgroundWrapper>
             </div> */}
-            <RecentPosts />
+            <RecentPosts posts={posts} />
             <Animate dir='up' duration={0.8} className='md:px-6 2xl:px-0'>
                 <TalkToUs />
             </Animate>

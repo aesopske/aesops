@@ -3,21 +3,5 @@
     "singleQuote": true,
     "jsxBracketSameLine": true,
     "jsxSingleQuote": true,
-    "semi": false,
-
-    "plugins": ["@trivago/prettier-plugin-sort-imports"],
-    "importOrder": [
-        "^react$",
-        "^next",
-        "^next-sanity",
-        "^@/(.*)$",
-        "^@src/(.*)$",
-        "^@sanity/(.*)$",
-        "^@components/(.*)$",
-        "^@utils/(.*)$",
-        "^[./]"
-    ],
-    "importOrderSeparation": false,
-    "importOrderSortSpecifiers": false,
-    "importOrderByLength": false
+    "semi": false
 }

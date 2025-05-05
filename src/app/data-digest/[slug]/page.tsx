@@ -54,9 +54,7 @@ export async function generateMetadata(
 
 export async function generateStaticParams() {
     const projects = await sanityFetch<PROJECT[]>({
-        stega: false,
         query: trendsQuery,
-        perspective: 'published',
     })
 
     return projects.map((post) => ({
@@ -74,11 +72,11 @@ async function DataDigestItem({ params }) {
     })
 
     return (
-        <div className='min-h-screen xl:py-10 space-y-4'>
-            <div className='md:max-w-(--breakpoint-xl) 2xl:max-w-(--breakpoint-2xl) md:mx-auto 2xl:px-0'>
+        <div className='min-h-screen xl:py-8 space-y-4'>
+            <div className='px-6 pt-4 md:max-w-(--breakpoint-xl) 2xl:max-w-(--breakpoint-2xl) md:mx-auto 2xl:px-0 md:pt-0'>
                 <BreadCrumbs color='default' />
             </div>
-            <div className='relative w-full bg-brandaccent-50 overflow-hidden md:max-w-(--breakpoint-xl) 2xl:max-w-(--breakpoint-2xl) md:mx-auto xl:rounded-lg h-72 lg:h-96 2xl:px-0'>
+            <div className='relative w-full bg-brandaccent-50 overflow-hidden md:max-w-screen-xl 2xl:max-w-(--breakpoint-2xl) md:mx-auto 2xl:rounded-lg h-72 lg:h-96 2xl:px-0'>
                 <Image
                     src={urlForImage(trend?.image) ?? ''}
                     alt={trend?.image.alt}
@@ -109,17 +107,17 @@ async function DataDigestItem({ params }) {
                     <TabsList className='bg-brandaccent-50/80 py-6 px-2 rounded-full shadow-xs gap-2'>
                         <TabsTrigger
                             value='chartsoverview'
-                            className='capitalize data-[state=active]:bg-brandprimary-900 data-[state=active]:text-brandaccent-50 text-sm font-sans font-normal text-gray-900 rounded-full hover:bg-brandaccent-100/50'>
+                            className='capitalize data-[state=active]:bg-brandprimary-900 data-[state=active]:text-brandaccent-50 text-sm font-sans font-normal text-gray-900 rounded-full hover:bg-brandaccent-100/50 p-4'>
                             Charts & Overview
                         </TabsTrigger>
                         <TabsTrigger
                             value='about'
-                            className='capitalize data-[state=active]:bg-brandprimary-900 data-[state=active]:text-brandaccent-50 text-sm font-sans-sans font-normal text-gray-900 hover:bg-brandaccent-100/50 rounded-full'>
+                            className='capitalize data-[state=active]:bg-brandprimary-900 data-[state=active]:text-brandaccent-50 text-sm font-sans-sans font-normal text-gray-900 hover:bg-brandaccent-100/50 rounded-full p-4'>
                             Topic Details
                         </TabsTrigger>
                         <TabsTrigger
                             value='dataset'
-                            className='capitalize data-[state=active]:bg-brandprimary-900 data-[state=active]:text-brandaccent-50 text-sm font-sans-sans font-normal text-gray-900 hover:bg-brandaccent-100/50 rounded-full'>
+                            className='capitalize data-[state=active]:bg-brandprimary-900 data-[state=active]:text-brandaccent-50 text-sm font-sans-sans font-normal text-gray-900 hover:bg-brandaccent-100/50 rounded-full p-4'>
                             Dataset
                         </TabsTrigger>
                     </TabsList>
