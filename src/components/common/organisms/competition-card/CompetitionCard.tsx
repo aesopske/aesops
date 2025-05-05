@@ -68,14 +68,21 @@ function CompetitionCard({ competition }: { competition: COMPETITION }) {
                 </AesopLink> */}
                 <div className='space-x-1'>
                     <Text as='small' className='text-sm'>
-                        From {format(competition.startDate, 'dd MMM yyyy')}{' '}
+                        From{' '}
+                        {format(
+                            new Date(competition?.startDate),
+                            'dd MMM yyyy',
+                        )}{' '}
                         &bull;{' '}
                     </Text>
 
                     {competition.endDate ? (
                         <Text as='small' className='text-sm'>
                             {competition.endDate
-                                ? format(competition.endDate, 'dd MMM yyyy')
+                                ? format(
+                                      new Date(competition.endDate),
+                                      'dd MMM yyyy',
+                                  )
                                 : 'Ongoing'}
                         </Text>
                     ) : (

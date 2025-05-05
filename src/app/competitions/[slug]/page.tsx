@@ -97,9 +97,7 @@ async function page({ params }: { params: Promise<QueryParams> }) {
                                 <ClerkWrapper
                                     renderSignedIn={() => (
                                         <div>
-                                            <Button
-                                                variant='dark'
-                                                className='rounded-full'>
+                                            <Button className='rounded-full'>
                                                 Join Competition
                                             </Button>
                                         </div>
@@ -107,9 +105,7 @@ async function page({ params }: { params: Promise<QueryParams> }) {
                                     renderSignedOut={() => (
                                         <div>
                                             <SignInButton>
-                                                <Button
-                                                    variant='dark'
-                                                    className='rounded-full'>
+                                                <Button className='rounded-full'>
                                                     Sign In to Join
                                                 </Button>
                                             </SignInButton>
@@ -123,7 +119,7 @@ async function page({ params }: { params: Promise<QueryParams> }) {
                                 <Text className='text-base'>
                                     Ends &bull;{' '}
                                     {format(
-                                        competition?.endDate,
+                                        new Date(competition?.endDate),
                                         'dd MMM yyyy',
                                     )}
                                 </Text>
@@ -134,7 +130,10 @@ async function page({ params }: { params: Promise<QueryParams> }) {
                             )}
                             <Text className='text-base '>
                                 Started &bull;{' '}
-                                {format(competition?.startDate, 'dd MMM yyyy')}
+                                {format(
+                                    new Date(competition?.startDate),
+                                    'dd MMM yyyy',
+                                )}
                             </Text>
                         </div>
                     </div>
