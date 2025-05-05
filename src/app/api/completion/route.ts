@@ -1,5 +1,4 @@
 import { google } from '@ai-sdk/google'
-// import { openai } from '@ai-sdk/openai'
 import { Redis } from '@upstash/redis'
 import { streamText, formatDataStreamPart } from 'ai'
 
@@ -23,7 +22,6 @@ export async function POST(req: Request) {
         }
 
         const response = streamText({
-            // model: openai('gpt-4o'),
             model: google('gemini-2.0-flash-exp'),
             prompt,
             maxRetries: 3,

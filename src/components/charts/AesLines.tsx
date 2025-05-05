@@ -1,7 +1,7 @@
 'use client'
 
 import { CartesianGrid, Line, LineChart, XAxis, YAxis } from 'recharts'
-import React, { Fragment } from 'react'
+import React from 'react'
 import {
     Card,
     CardContent,
@@ -22,7 +22,7 @@ import {
 interface AesLinesProps extends React.HTMLAttributes<HTMLDivElement> {
     title: string
     description: string
-    data: Record<string, any>[]
+    data: any[]
     XAxisKey: string
     config: ChartConfig
     renderFooter?: React.ReactNode | null
@@ -47,32 +47,36 @@ function AesLines({
     return (
         <Card className={props.className}>
             <CardHeader className='px-3 md:px-6'>
-                <CardTitle>{title}</CardTitle>
-                <CardDescription>{description}</CardDescription>
+                <CardTitle className='font-sans text-lg lg:text-2xl '>
+                    {title}
+                </CardTitle>
+                <CardDescription className='font-sans'>
+                    {description}
+                </CardDescription>
+                <div>{renderFilters ? renderFilters : null}</div>
             </CardHeader>
             <CardContent className='px-3 md:px-6'>
-                <div>{renderFilters ? renderFilters : null}</div>
                 <ChartContainer config={config}>
-                    <LineChart
-                        accessibilityLayer
-                        data={data}
-                        margin={{
-                            left: 12,
-                            right: 12,
-                        }}>
-                        <CartesianGrid vertical={false} />
+                    <LineChart accessibilityLayer data={data}>
+                        <CartesianGrid
+                            vertical={true}
+                            horizontal={true}
+                            strokeDasharray='4 4'
+                            strokeDashoffset='4'
+                        />
                         {XAxisKey ? (
                             <XAxis
-                                height={45}
+                                height={40}
                                 tickMargin={8}
                                 tickLine={false}
                                 axisLine={false}
                                 dataKey={XAxisKey}
                                 tickFormatter={(value) => value}
+                                label={{ value: XAxisKey, position: 'bottom' }}
                             />
                         ) : null}
                         <YAxis
-                            width={20}
+                            width={25}
                             tickLine={false}
                             axisLine={false}
                             domain={['auto', 'auto']}
@@ -85,22 +89,22 @@ function AesLines({
                             }}
                         />
                         <ChartTooltip
-                            cursor={false}
+                            cursor={true}
                             content={<ChartTooltipContent />}
                         />
+
                         {Object.keys(config).map((key) => (
-                            <Fragment key={key}>
-                                <Line
-                                    dataKey={key}
-                                    type='monotone'
-                                    stroke={config[key].color}
-                                    strokeWidth={2}
-                                    dot={{
-                                        fill: config[key].color,
-                                        strokeWidth: 0,
-                                    }}
-                                />
-                            </Fragment>
+                            <Line
+                                key={key}
+                                dataKey={key}
+                                type='monotone'
+                                stroke={config[key].color}
+                                strokeWidth={2}
+                                dot={{
+                                    fill: config[key].color,
+                                    strokeWidth: 0,
+                                }}
+                            />
                         ))}
 
                         <ChartLegend

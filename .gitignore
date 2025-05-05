@@ -37,3 +37,6 @@ yarn-error.log*
 #rss
 rss
 node_modules
+
+# remove generate prisma folder
+/generated

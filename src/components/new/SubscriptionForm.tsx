@@ -51,7 +51,9 @@ function SubscriptionForm({ dir, className }: SubscriptionFormProps) {
                         setEmail('')
                     }
                 } catch (error) {
-                    alert('An error occurred. Please try again later.')
+                    alert(
+                        `An error occurred. Please try again later. \n ${JSON.stringify(error, null, 2)}`,
+                    )
                 } finally {
                     setPending(false)
                 }

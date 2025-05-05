@@ -36,9 +36,11 @@ function GroupAvatar({
     background = 'default',
     ...props
 }: GroupAvatarProps) {
+    // reverse the group since the main author is at the beginning.
+    const reversedGroup = group.reverse()
     return (
         <div className='flex -space-x-4 overflow-hidden'>
-            {group.map((author) => (
+            {reversedGroup.map((author) => (
                 <div
                     key={author.name}
                     className={cn(

@@ -1,5 +1,6 @@
 'use client'
 
+import { PlusCircle } from 'lucide-react'
 import qs from 'query-string'
 import React, { useMemo } from 'react'
 import { usePathname, useRouter } from 'next/navigation'
@@ -15,10 +16,11 @@ import {
     SelectTrigger,
     SelectValue,
 } from '../ui/select'
+import { Separator } from '../ui/separator'
 
 interface FilterBlockProps {
     type: string
-    initialValue?: string
+    initialValue?: string | string[] | number | null | undefined
     data: { value: string; label: string }[]
     selectProps?: any
     onRefetch?: (data: any, query?: string) => void // eslint-disable-line
@@ -96,9 +98,8 @@ function SelectFilter({
                 ''
             }
             onValueChange={(evt) => handleSelect(evt)}>
-            <SelectTrigger className='w-full lg:w-[180px] h-8 shadow-sm rounded-md'>
+            <SelectTrigger className='w-full lg:w-[180px] max-h-8 shadow-xs rounded-md border-dashed border-gray-500'>
                 <SelectValue
-                    className='h-10'
                     placeholder={placeholder ?? `Select ${label}`}
                 />
             </SelectTrigger>
@@ -134,15 +135,21 @@ function MultiSelectFilter({
 
     const handleSelect = (value: string[]) => {
         const urlParams = defaultParams.toString()
-            ? qs.parse(defaultParams.toString())
+            ? qs.parse(defaultParams.toString(), { arrayFormat: 'bracket' })
             : {}
-
         const paramKey = `${rest.filterPrefix}:${label}`
-        const query = qs.stringify({
-            ...urlParams,
-            [paramKey]: value,
+
+        // set the new filter value
+        urlParams[paramKey] = value
+
+        // check if value is already in the params
+        const query = qs.stringify(urlParams, {
+            arrayFormat: 'bracket',
+            skipNull: true,
+            skipEmptyString: true,
         })
-        router.push(pathname + '?' + query, { scroll: false })
+
+        router.push(`${pathname}?${query}`, { scroll: false })
 
         // handle data refetching
         if (onRefetch) onRefetch(value, query)
@@ -171,13 +178,47 @@ function MultiSelectFilter({
             onValueChange={(val) => handleSelect(val)}
             renderTrigger={() => (
                 <Button
+                    size='sm'
                     variant='outline'
-                    className='h-8 w-full lg:w-[180px] shadow-sm rounded-md justify-between border-gray-300/80 px-2 hover:bg-gray-50 hover:text-black space-x-2'>
-                    <span>{placeholder ?? `Select ${label}`}</span>
-                    {selectedOptions.length > 0 && (
-                        <Badge variant='outline'>
-                            {selectedOptions.length}
-                        </Badge>
+                    className='border-dashed border-gray-500 hover:bg-gray-100/60 hover:text-black'>
+                    <PlusCircle className='mr-2 h-4 w-4' />
+                    {placeholder}
+                    {selectedOptions?.length > 0 && (
+                        <>
+                            <Separator
+                                orientation='vertical'
+                                className='mx-2 h-4'
+                            />
+                            <Badge
+                                variant='secondary'
+                                className='rounded-xs px-1 font-normal lg:hidden'>
+                                {selectedOptions.length}
+                            </Badge>
+                            <div className='hidden space-x-1 lg:flex'>
+                                {selectedOptions.length > 2 ? (
+                                    <Badge
+                                        variant='secondary'
+                                        className='rounded-xs px-1 font-normal'>
+                                        {selectedOptions.length} selected
+                                    </Badge>
+                                ) : (
+                                    options
+                                        .filter((option) =>
+                                            selectedOptions.includes(
+                                                option.value,
+                                            ),
+                                        )
+                                        .map((option) => (
+                                            <Badge
+                                                variant='secondary'
+                                                key={option.value}
+                                                className='rounded-xs px-1 font-normal'>
+                                                {option.label}
+                                            </Badge>
+                                        ))
+                                )}
+                            </div>
+                        </>
                     )}
                 </Button>
             )}

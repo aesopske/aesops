@@ -1,13 +1,13 @@
 'use client'
 
 import { ClerkProvider } from '@clerk/nextjs'
-import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools'
 import posthog from 'posthog-js'
 import { PostHogProvider } from 'posthog-js/react'
 import React from 'react'
 import { usePathname } from 'next/navigation'
 import { env } from '@src/env'
+import TRPCProvider from '../_trpc/Provider'
 import DemoAuthProvider from './DemoAuthProvider'
 
 // import { ThemeProvider } from 'next-themes'
@@ -35,10 +35,9 @@ if (typeof window !== 'undefined' && env.NEXT_PUBLIC_POSTHOG_KEY) {
 
 function Providers({ children }: ProvidersProps) {
     const pathname = usePathname()
-    const [queryClient] = React.useState(() => new QueryClient())
 
     return (
-        <QueryClientProvider client={queryClient}>
+        <TRPCProvider>
             <ReactQueryDevtools />
             <DemoAuthProvider>
                 <PostHogProvider client={posthog}>
@@ -47,7 +46,7 @@ function Providers({ children }: ProvidersProps) {
                     </ClerkProvider>
                 </PostHogProvider>
             </DemoAuthProvider>
-        </QueryClientProvider>
+        </TRPCProvider>
     )
 }
 

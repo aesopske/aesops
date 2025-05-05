@@ -10,7 +10,7 @@ import Text from '@components/common/atoms/Text'
 function CompetitionCard({ competition }: { competition: COMPETITION }) {
     const imageUrl = urlForImage(competition.mainImage) ?? ''
     return (
-        <div className='bg-white h-auto w-full rounded-md shadow-sm flex flex-col justify-between gap-2 align-start overflow-hidden'>
+        <div className='bg-white h-auto w-full rounded-md shadow-xs flex flex-col justify-between gap-2 align-start overflow-hidden'>
             <div>
                 <div className='h-48 w-full'>
                     <Image
@@ -68,14 +68,21 @@ function CompetitionCard({ competition }: { competition: COMPETITION }) {
                 </AesopLink> */}
                 <div className='space-x-1'>
                     <Text as='small' className='text-sm'>
-                        From {format(competition.startDate, 'dd MMM yyyy')}{' '}
+                        From{' '}
+                        {format(
+                            new Date(competition?.startDate),
+                            'dd MMM yyyy',
+                        )}{' '}
                         &bull;{' '}
                     </Text>
 
                     {competition.endDate ? (
                         <Text as='small' className='text-sm'>
                             {competition.endDate
-                                ? format(competition.endDate, 'dd MMM yyyy')
+                                ? format(
+                                      new Date(competition.endDate),
+                                      'dd MMM yyyy',
+                                  )
                                 : 'Ongoing'}
                         </Text>
                     ) : (

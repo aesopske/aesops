@@ -1,5 +1,6 @@
 import React, { Fragment } from 'react'
 import { ResolvingMetadata, Metadata } from 'next'
+import { draftMode } from 'next/headers'
 import Image from 'next/image'
 import HasBackgroundWrapper from '@src/components/common/HasBackgroundWrapper'
 import ListWrapper from '@src/components/common/ListWrapper'
@@ -16,30 +17,29 @@ import { AUTHOR, POST } from '@sanity/utils/types'
 export const revalidate = 86400 // 24 hours
 
 type Props = {
-    params: {
-        member: string
-    }
+    params: Promise<{ member: string }>
 }
 
 export async function generateMetadata(
     { params }: Props,
     parent: ResolvingMetadata,
 ): Promise<Metadata> {
-    const member = await sanityFetch<AUTHOR>({
+    const { member } = await params
+    const response = await sanityFetch<AUTHOR>({
         query: memberMetadataQuery,
-        params: { slug: params?.member },
+        params: { slug: member },
     })
     const previousImages = (await parent).openGraph?.images ?? []
     return {
-        title: member?.name,
-        description: member?.bio,
+        title: response?.name,
+        description: response?.bio,
         openGraph: {
-            title: member?.name,
-            description: member?.bio,
+            title: response?.name,
+            description: response?.bio,
             images: [
                 {
-                    url: member?.image ? urlForImage(member?.image) : '',
-                    alt: member?.image?.alt ?? '',
+                    url: response?.image ? urlForImage(response?.image) : '',
+                    alt: response?.image?.alt ?? '',
                 },
                 ...previousImages,
             ],
@@ -47,11 +47,13 @@ export async function generateMetadata(
     }
 }
 
-async function MemberPage({ params }: { params: { member: string } }) {
-    const member = params.member
+async function MemberPage({ params }: { params: Promise<{ member: string }> }) {
+    const member = (await params).member
+    const { isEnabled } = await draftMode()
     const memberData = await sanityFetch<AUTHOR>({
         query: memberQuery,
         params: { slug: member },
+        draftMode: isEnabled,
     })
 
     const imageUrl = memberData?.image ? urlForImage(memberData?.image) : ''
@@ -59,9 +61,9 @@ async function MemberPage({ params }: { params: { member: string } }) {
     return (
         <div className='min-h-screen w-full'>
             <HasBackgroundWrapper className='h-auto min-h-48 lg:min-h-72'>
-                <div className='max-w-screen-2xl mx-auto px-6  py-10 min-h-48 lg:min-h-72 flex flex-col gap-3 justify-end items-center 2xl:items-start 3xl:px-6'>
+                <div className='max-w-(--breakpoint-2xl) mx-auto px-6  py-10 min-h-48 lg:min-h-72 flex flex-col gap-3 justify-end items-center 2xl:items-start 3xl:px-6'>
                     <div className='lg:hidden'>
-                        <div className='w-36 h-36 rounded-full bg-gradient-to-br from-brandprimary-700  via-brandaccent-50 to-brandaccent-500 overflow-auto p-4 '>
+                        <div className='w-36 h-36 rounded-full bg-linear-to-br from-brandprimary-700  via-brandaccent-50 to-brandaccent-500 overflow-auto p-4 '>
                             <div className='h-full w-full'>
                                 <Image
                                     src={imageUrl}
@@ -93,10 +95,10 @@ async function MemberPage({ params }: { params: { member: string } }) {
                     </div>
                 </div>
             </HasBackgroundWrapper>
-            <div className='max-w-screen-2xl mx-auto px-4 2xl:px-0'>
+            <div className='max-w-(--breakpoint-2xl) mx-auto px-4 2xl:px-0'>
                 <div className='space-y-10 py-6 lg:py-24'>
                     <div className='space-y-4 flex flex-col items-center justify-start gap-10 lg:flex-row'>
-                        <div className='hidden w-64 h-64 rounded-full bg-gradient-to-br from-brandprimary-700  via-brandaccent-50 to-brandaccent-500 overflow-auto p-4 lg:block'>
+                        <div className='hidden w-64 h-64 rounded-full bg-linear-to-br from-brandprimary-700  via-brandaccent-50 to-brandaccent-500 overflow-auto p-4 lg:block'>
                             <div className='h-full w-full'>
                                 <Image
                                     src={imageUrl}

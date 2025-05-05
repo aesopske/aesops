@@ -41,7 +41,7 @@ function Search({ placeholder, search, label }) {
                         placeholder={placeholder}
                         value={searchTerm}
                         onChange={(e) => setSearchTerm(e.target.value)}
-                        className='w-full h-full bg-transparent text-brandprimary-900 font-semibold pl-4 col-span-2 outline-none ring-0'
+                        className='w-full h-full bg-transparent text-brandprimary-900 font-semibold pl-4 col-span-2 outline-hidden ring-0'
                     />
                     {searchTerm ? (
                         <Button

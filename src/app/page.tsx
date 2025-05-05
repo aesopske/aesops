@@ -1,3 +1,4 @@
+import { draftMode } from '@node_modules/next/headers'
 import { Metadata, ResolvingMetadata } from 'next'
 import Hero from '@/components/common/Hero'
 import Consultancy from '@/components/new/Consultancy'
@@ -11,8 +12,12 @@ import Community from '@src/components/new/Community'
 import TalkToUs from '@src/components/new/TalkToUs'
 import { sanityFetch } from '@sanity/utils/fetch'
 import { urlForImage } from '@sanity/utils/image'
-import { pageMetadataQuery, pageQuery } from '@sanity/utils/requests'
-import { PAGE } from '@sanity/utils/types'
+import {
+    pageMetadataQuery,
+    pageQuery,
+    recentQuery,
+} from '@sanity/utils/requests'
+import { MIN_POST, PAGE } from '@sanity/utils/types'
 import WakeupCall from '@components/common/molecules/WakeupCall'
 
 type Props = {}
@@ -44,9 +49,15 @@ export async function generateMetadata(
 }
 
 async function Page() {
+    const { isEnabled } = await draftMode()
     const page = await sanityFetch<PAGE>({
         query: pageQuery,
+        draftMode: isEnabled,
         params: { slug: 'home-page' },
+    })
+
+    const posts = await sanityFetch<MIN_POST[]>({
+        query: recentQuery,
     })
 
     return (
@@ -76,7 +87,7 @@ async function Page() {
                     </div>
                 </HasBackgroundWrapper>
             </div> */}
-            <RecentPosts />
+            <RecentPosts posts={posts} />
             <Animate dir='up' duration={0.8} className='md:px-6 2xl:px-0'>
                 <TalkToUs />
             </Animate>

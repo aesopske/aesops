@@ -25,7 +25,7 @@ function useManageFilterParams(filterPrefix: string | undefined) {
 
     const cleanParams = useCallback(
         (data: string) => {
-            if (!data || !filterPrefix) return
+            if (!data || !filterPrefix) return ''
 
             const params = qs.parse(data) as Record<string, any>
 
@@ -60,7 +60,12 @@ function useManageFilterParams(filterPrefix: string | undefined) {
         params = qs.stringify(parsedParams)
     }
 
-    const cleanedParams = cleanParams(params)
+    const cleanedParams = cleanParams(params) ?? ''
+
+    const parsedParams = useMemo(() => {
+        const cleaned = cleanParams(params)
+        return qs.parse(cleaned, { arrayFormat: 'bracket' })
+    }, [params, cleanParams])
 
     return {
         params,
@@ -68,6 +73,7 @@ function useManageFilterParams(filterPrefix: string | undefined) {
         resetFilters,
         cleanedParams,
         defaultParams: searchParams,
+        parsedParams,
     }
 }
 

@@ -1,10 +1,9 @@
-import { Metadata } from 'next'
 import React from 'react'
-
+import { Metadata } from 'next'
+import { draftMode } from 'next/headers'
 import ContentHeadingReader from '@src/components/common/ContentHeadingReader'
 import ContentReader from '@src/components/common/ContentReader'
 import Heading from '@src/components/common/atoms/Heading'
-
 import { sanityFetch } from '@sanity/utils/fetch'
 import { pageMetadataQuery, pageQuery } from '@sanity/utils/requests'
 import { PAGE, PAGE_METADATA } from '@sanity/utils/types'
@@ -29,8 +28,10 @@ export async function generateMetadata(): Promise<Metadata> {
 }
 
 async function Contribute() {
+    const { isEnabled } = await draftMode()
     const page = await sanityFetch<PAGE>({
         query: pageQuery,
+        draftMode: isEnabled,
         params: { slug: 'blog-contribution-guide' },
     })
 
@@ -39,17 +40,17 @@ async function Contribute() {
     return (
         <div>
             <div className='min-h-[20vh] bg-brandprimary-700 flex items-center'>
-                <div className='max-w-screen-2xl mx-auto flex items-center px-5 py-5 xl:px-0 w-full'>
+                <div className='max-w-(--breakpoint-2xl) mx-auto flex items-center px-5 py-5 xl:px-0 w-full'>
                     <Heading className='text-brandaccent-50 max-w-xl'>
                         {section?.title}
                     </Heading>
                 </div>
             </div>
 
-            <div className='relative max-w-screen-xl mx-auto px-5 py-10 lg:py-20 xl:px-0 grid grid-cols-1 lg:grid-cols-3 gap-5'>
+            <div className='relative max-w-(--breakpoint-xl) mx-auto px-5 py-10 lg:py-20 xl:px-0 grid grid-cols-1 lg:grid-cols-3 gap-5'>
                 <ContentHeadingReader
                     body={section?.descriptionContent}
-                    className='sticky top-28 z-10 h-96 rounded lg:block'
+                    className='sticky top-28 z-10 h-96 rounded-sm lg:block'
                 />
 
                 <div className='space-y-5 lg:col-span-2'>

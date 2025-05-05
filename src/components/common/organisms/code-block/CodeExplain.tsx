@@ -1,6 +1,6 @@
 'use client'
 
-import { useCompletion } from 'ai/react'
+import { useCompletion } from '@ai-sdk/react'
 import { AnimatePresence, motion } from 'framer-motion'
 import { Stars } from 'lucide-react'
 import posthog from 'posthog-js'
@@ -25,7 +25,7 @@ function CodeExplain({ code }: CodeExplainProps) {
     const [isOpen, setIsOpen] = useState(false)
     // store the explanation session store to avoid re-explaining the same code
     const { completion, complete, isLoading, error } = useCompletion({
-        body: { key: code?._key },
+        body: { key: code?._key, useCache: true },
     })
 
     return (
@@ -72,7 +72,7 @@ function CodeExplain({ code }: CodeExplainProps) {
                         className='w-full'>
                         <output
                             data-hidden={!!error}
-                            className='prose font-m ono text-sm text-brandprimary-900 data-[hidden=true]:hidden'>
+                            className='prose font-mono text-sm text-brandprimary-900 data-[hidden=true]:hidden'>
                             <ReactMarkdown>{completion}</ReactMarkdown>
                         </output>
                         {error && isOpen ? (

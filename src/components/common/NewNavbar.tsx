@@ -29,11 +29,11 @@ function Navbar({ previewEnabled }: { previewEnabled: boolean }) {
     return (
         <header
             className={cn(
-                'sticky inset-x-0 top-0 z-50 text-brandprimary-900 border-b border-brandaccent-50 bg-brand-background h-fit md:max-h-20 shadow-sm',
+                'sticky inset-x-0 top-0 z-50 text-brandprimary-900 border-b border-brandaccent-50 bg-brand-background h-fit md:max-h-20 shadow-xs',
                 { relative: pathnameBlog },
             )}>
             <nav
-                className='flex items-center justify-between px-5 py-2 mx-auto h-full border-b border-brandaccent-50 gap-5 md:border-none lg:py-4 2xl:px-0 max-w-screen-lg lg:max-w-screen-xl 2xl:max-w-screen-2xl'
+                className='flex items-center justify-between px-5 py-2 mx-auto h-full border-b border-brandaccent-50 gap-5 md:border-none lg:py-4 2xl:px-0 max-w-(--breakpoint-lg) lg:max-w-(--breakpoint-xl) 2xl:max-w-(--breakpoint-2xl)'
                 aria-label='Global'>
                 <Logo />
 
@@ -59,7 +59,7 @@ function Navbar({ previewEnabled }: { previewEnabled: boolean }) {
                                     className='relative text-sm font-normal leading-6 aria-disabled:opacity-50 aria-disabled:pointer-events-none w-fit data-[active=true]:underline underline-offset-8 decoration-dotted'>
                                     {item.name}
                                     {item.coming ? (
-                                        <sup className='w-full bg-brandaccent-500 text-brandprimary-900 rounded px-2 py-[1px]'>
+                                        <sup className='w-full bg-brandaccent-500 text-brandprimary-900 rounded-sm px-2 py-[1px]'>
                                             Coming soon
                                         </sup>
                                     ) : null}
@@ -123,7 +123,7 @@ function Navbar({ previewEnabled }: { previewEnabled: boolean }) {
                                 className='relative text-base font-normal leading-6 aria-disabled:opacity-50 aria-disabled:pointer-events-none'>
                                 {item.name}
                                 {item.coming ? (
-                                    <sup className='w-full bg-brandaccent-500 text-brandprimary-900 rounded px-2 py-[1px]'>
+                                    <sup className='w-full bg-brandaccent-500 text-brandprimary-900 rounded-sm px-2 py-[1px]'>
                                         Coming soon
                                     </sup>
                                 ) : null}

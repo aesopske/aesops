@@ -23,18 +23,17 @@ import {
 import { COMPETITION } from '@sanity/utils/types'
 
 type Props = {
-    params: {
-        slug: string
-    }
+    params: Promise<{ slug: string }>
 }
 
 export async function generateMetadata(
     { params }: Props,
     parent: ResolvingMetadata,
 ): Promise<Metadata> {
+    const { slug } = await params
     const competition = await sanityFetch<COMPETITION>({
+        params: { slug },
         query: competitionsMetadataQuery,
-        params: { slug: params?.slug },
     })
     const previousImages = (await parent).openGraph?.images ?? []
     return {
@@ -56,10 +55,10 @@ export async function generateMetadata(
     }
 }
 
-async function page({ params }: { params: QueryParams }) {
-    const slug = params?.slug
+async function page({ params }: { params: Promise<QueryParams> }) {
+    const { slug } = await params
 
-    if (!slug) return null
+    if (!slug) return notFound()
 
     const competition = await sanityFetch<COMPETITION>({
         query: competitionQuery,
@@ -86,7 +85,7 @@ async function page({ params }: { params: QueryParams }) {
                     className='object-cover w-full h-full'
                 />
             </div>
-            <div className='p-4 space-y-5 max-w-screen-2xl mx-auto py-10'>
+            <div className='p-4 space-y-5 max-w-(--breakpoint-2xl) mx-auto py-10'>
                 <div className='space-y-4'>
                     <BreadCrumbs />
                     <div className='space-y-2'>
@@ -98,9 +97,7 @@ async function page({ params }: { params: QueryParams }) {
                                 <ClerkWrapper
                                     renderSignedIn={() => (
                                         <div>
-                                            <Button
-                                                variant='dark'
-                                                className='rounded-full'>
+                                            <Button className='rounded-full'>
                                                 Join Competition
                                             </Button>
                                         </div>
@@ -108,9 +105,7 @@ async function page({ params }: { params: QueryParams }) {
                                     renderSignedOut={() => (
                                         <div>
                                             <SignInButton>
-                                                <Button
-                                                    variant='dark'
-                                                    className='rounded-full'>
+                                                <Button className='rounded-full'>
                                                     Sign In to Join
                                                 </Button>
                                             </SignInButton>
@@ -124,7 +119,7 @@ async function page({ params }: { params: QueryParams }) {
                                 <Text className='text-base'>
                                     Ends &bull;{' '}
                                     {format(
-                                        competition?.endDate,
+                                        new Date(competition?.endDate),
                                         'dd MMM yyyy',
                                     )}
                                 </Text>
@@ -135,7 +130,10 @@ async function page({ params }: { params: QueryParams }) {
                             )}
                             <Text className='text-base '>
                                 Started &bull;{' '}
-                                {format(competition?.startDate, 'dd MMM yyyy')}
+                                {format(
+                                    new Date(competition?.startDate),
+                                    'dd MMM yyyy',
+                                )}
                             </Text>
                         </div>
                     </div>
@@ -150,7 +148,7 @@ async function page({ params }: { params: QueryParams }) {
                     <Tabs
                         defaultValue={competition?.tabs?.[0]?.title.toLowerCase()}
                         className='w-full max-w-3xl rounded-md'>
-                        <TabsList className='bg-brandaccent-50/80 py-6 px-2 rounded-full shadow-sm'>
+                        <TabsList className='bg-brandaccent-50/80 py-6 px-2 rounded-full shadow-xs'>
                             <ListWrapper
                                 list={competition.tabs ?? []}
                                 keyExtractor={(tab, idx) =>
@@ -171,7 +169,7 @@ async function page({ params }: { params: QueryParams }) {
                             {(item) => (
                                 <TabsContent
                                     value={item.title.toLowerCase()}
-                                    className='py-8 bg-brandaccent-50/50 rounded-lg px-6 shadow-sm'>
+                                    className='py-8 bg-brandaccent-50/50 rounded-lg px-6 shadow-xs'>
                                     <div className='space-y-4'>
                                         <ContentReader content={item.content} />
                                     </div>
