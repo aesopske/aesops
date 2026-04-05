@@ -1,7 +1,7 @@
 import React from 'react'
 import Image, { ImageProps } from 'next/image'
 
-import { cn } from '@apps/web/src/lib/utils'
+import { cn } from '@/lib/utils'
 
 interface AesopsImageProps extends ImageProps {
     width: number | undefined

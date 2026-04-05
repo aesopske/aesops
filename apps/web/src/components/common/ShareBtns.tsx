@@ -3,8 +3,8 @@
 import { Check, Copy, Facebook, Twitter } from 'lucide-react'
 import { FaWhatsapp } from 'react-icons/fa'
 import React, { useEffect, useState } from 'react'
-import { cn } from '@apps/web/src/lib/utils'
-import useCopy from '@apps/web/src/hooks/useCopy'
+import { cn } from '@/lib/utils'
+import useCopy from '@/hooks/useCopy'
 import { Button, buttonVariants } from '../ui'
 import Heading from './atoms/Heading'
 

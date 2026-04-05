@@ -1,5 +1,5 @@
 import axios, { AxiosError, Method, AxiosRequestHeaders } from 'axios'
-import { env } from '@apps/web/src/env'
+import { env } from '@/env'
 
 export const headers = {
     'Content-Type': 'application/json',

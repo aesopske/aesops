@@ -1,11 +1,11 @@
 import { format } from 'date-fns'
 import Image from 'next/image'
 import Link from 'next/link'
-import { Badge } from '@apps/web/src/components/ui/badge'
-import { urlForImage } from '@apps/web/sanity/utils/image'
-import { COMPETITION } from '@apps/web/sanity/utils/types'
-import Heading from '@apps/web/src/components/common/atoms/Heading'
-import Text from '@apps/web/src/components/common/atoms/Text'
+import { Badge } from '@components/ui/badge'
+import { urlForImage } from '~sanity/utils/image'
+import { COMPETITION } from '~sanity/utils/types'
+import Heading from '@components/common/atoms/Heading'
+import Text from '@components/common/atoms/Text'
 
 function CompetitionCard({ competition }: { competition: COMPETITION }) {
     const imageUrl = urlForImage(competition.mainImage) ?? ''

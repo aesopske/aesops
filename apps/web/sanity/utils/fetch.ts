@@ -1,6 +1,6 @@
 import 'server-only'
 import type { QueryParams } from 'next-sanity'
-import { env } from '@src/env'
+import { env } from '@/env'
 import { client } from './client'
 
 export const token = env.SANITY_API_READ_TOKEN

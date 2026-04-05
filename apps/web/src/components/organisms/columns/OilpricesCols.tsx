@@ -2,8 +2,8 @@
 
 import { ColumnDef } from '@tanstack/react-table'
 import { format } from 'date-fns'
-import Text from '@apps/web/src/components/common/atoms/Text'
-import { oil_pricesModel } from '@apps/web/src/types/zod-prisma'
+import Text from '@components/common/atoms/Text'
+import { oil_pricesModel } from '@/types/zod-prisma'
 import { z } from 'zod'
 import DataTableColumnHeader from '../DataTableColumnHeader'
 

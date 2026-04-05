@@ -6,7 +6,7 @@ import { Stars } from 'lucide-react'
 import posthog from 'posthog-js'
 import ReactMarkdown from 'react-markdown'
 import { useEffect, useState } from 'react'
-import { Button } from '@apps/web/src/components/ui'
+import { Button } from '@components/ui'
 
 type DDExplainProps = {
     data: string

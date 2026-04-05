@@ -1,7 +1,7 @@
 import { MetadataRoute } from 'next'
-import { sanityFetch } from '@apps/web/sanity/utils/fetch'
-import { postsQuery } from '@apps/web/sanity/utils/requests'
-import { POST } from '@apps/web/sanity/utils/types'
+import { sanityFetch } from '~sanity/utils/fetch'
+import { postsQuery } from '~sanity/utils/requests'
+import { POST } from '~sanity/utils/types'
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     const BASE_URL = 'https://aesops.co.ke'

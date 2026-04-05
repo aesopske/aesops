@@ -6,8 +6,8 @@ import {
     DrawerHeader,
     DrawerTitle,
     DrawerTrigger,
-} from '@apps/web/src/components/ui/drawer'
-import useDisclosure from '@apps/web/src/hooks/useDisclosure'
+} from '@components/ui/drawer'
+import useDisclosure from '@/hooks/useDisclosure'
 
 type ToggledProps = {
     children: React.ReactNode

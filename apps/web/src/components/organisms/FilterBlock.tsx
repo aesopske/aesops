@@ -4,8 +4,8 @@ import { PlusCircle } from 'lucide-react'
 import qs from 'query-string'
 import React, { useMemo } from 'react'
 import { usePathname, useRouter } from 'next/navigation'
-import useManageFilterParams from '@apps/web/src/hooks/useManageFilterParams'
-import MultiSelectDropdown from '@apps/web/src/components/common/molecules/MultiSelectDropdown'
+import useManageFilterParams from '@/hooks/useManageFilterParams'
+import MultiSelectDropdown from '@components/common/molecules/MultiSelectDropdown'
 import ListWrapper from '../common/ListWrapper'
 import { Button } from '../ui'
 import { Badge } from '../ui/badge'
@@ -99,9 +99,7 @@ function SelectFilter({
             }
             onValueChange={(evt) => handleSelect(evt)}>
             <SelectTrigger className='w-full lg:w-[180px] max-h-8 shadow-xs rounded-md border-dashed border-gray-500'>
-                <SelectValue
-                    placeholder={placeholder ?? `Select ${label}`}
-                />
+                <SelectValue placeholder={placeholder ?? `Select ${label}`} />
             </SelectTrigger>
             <SelectContent>
                 <ListWrapper

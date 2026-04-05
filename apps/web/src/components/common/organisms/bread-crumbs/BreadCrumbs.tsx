@@ -9,11 +9,11 @@ import {
     BreadcrumbLink,
     BreadcrumbList,
     BreadcrumbSeparator,
-} from '@apps/web/src/components/ui/breadcrumb'
-import { getBreadcrumbs } from '@apps/web/src/lib/getBreadcrumbs'
-import { cn } from '@apps/web/src/lib/utils'
-import { PATH } from '@apps/web/sanity/utils/types'
-import ListWrapper from '@apps/web/src/components/common/ListWrapper'
+} from '@components/ui/breadcrumb'
+import { getBreadcrumbs } from '@/lib/getBreadcrumbs'
+import { cn } from '@/lib/utils'
+import { PATH } from '~sanity/utils/types'
+import ListWrapper from '@components/common/ListWrapper'
 
 const colorVariant = cva('', {
     variants: {

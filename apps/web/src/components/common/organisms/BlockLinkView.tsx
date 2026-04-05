@@ -1,5 +1,5 @@
 import React from 'react'
-import { MIN_POST, PROJECT } from '@apps/web/sanity/utils/types'
+import { MIN_POST, PROJECT } from '~sanity/utils/types'
 import SmallPostCard from './posts/SmallPostCard'
 
 interface BlockLinkProps {

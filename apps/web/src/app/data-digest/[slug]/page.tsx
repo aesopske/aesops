@@ -2,22 +2,22 @@ import React, { Suspense } from 'react'
 import { ResolvingMetadata, Metadata } from 'next'
 import { draftMode } from 'next/headers'
 import Image from 'next/image'
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@apps/web/src/components/ui/tabs'
-import ContentReader from '@apps/web/src/components/common/ContentReader'
-import Heading from '@apps/web/src/components/common/atoms/Heading'
-// import ComingSoon from '@src/components/common/molecules/ComingSoon'
-import AuthorCard from '@apps/web/src/components/common/organisms/author-card/AuthorCard'
-import BreadCrumbs from '@apps/web/src/components/common/organisms/bread-crumbs/BreadCrumbs'
-import VisualizationSelector from '@apps/web/src/components/organisms/VisualizationSelector'
-import OilPricesDataset from '@apps/web/src/components/templates/OilPricesDataset'
-import { sanityFetch } from '@apps/web/sanity/utils/fetch'
-import { urlForImage } from '@apps/web/sanity/utils/image'
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@components/ui/tabs'
+import ContentReader from '@components/common/ContentReader'
+import Heading from '@components/common/atoms/Heading'
+// import ComingSoon from '@components/common/molecules/ComingSoon'
+import AuthorCard from '@components/common/organisms/author-card/AuthorCard'
+import BreadCrumbs from '@components/common/organisms/bread-crumbs/BreadCrumbs'
+import VisualizationSelector from '@components/organisms/VisualizationSelector'
+import OilPricesDataset from '@components/templates/OilPricesDataset'
+import { sanityFetch } from '~sanity/utils/fetch'
+import { urlForImage } from '~sanity/utils/image'
 import {
     trendQuery,
     trendsMetadataQuery,
     trendsQuery,
-} from '@apps/web/sanity/utils/requests'
-import { PROJECT } from '@apps/web/sanity/utils/types'
+} from '~sanity/utils/requests'
+import { PROJECT } from '~sanity/utils/types'
 
 type Props = {
     params: Promise<{ slug: string }>
@@ -104,7 +104,7 @@ async function DataDigestItem({ params }) {
                 <Tabs
                     defaultValue='chartsoverview'
                     className='w-full rounded-md'>
-                    <TabsList className='bg-brandaccent-50/80 py-6 px-2 rounded-full shadow-xs gap-2'>
+                    <TabsList className='bg-brandaccent-50/80 py-6 rounded-full shadow-xs gap-2 w-fit'>
                         <TabsTrigger
                             value='chartsoverview'
                             className='capitalize data-[state=active]:bg-brandprimary-900 data-[state=active]:text-brandaccent-50 text-sm font-sans font-normal text-gray-900 rounded-full hover:bg-brandaccent-100/50 p-4'>
@@ -148,7 +148,6 @@ async function DataDigestItem({ params }) {
                     </TabsContent>
                     <TabsContent value='dataset' className='py-4'>
                         <OilPricesDataset />
-                        {/* <ComingSoon showIcon='construction' /> */}
                     </TabsContent>
                 </Tabs>
             </div>

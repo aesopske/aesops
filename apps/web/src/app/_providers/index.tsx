@@ -6,7 +6,7 @@ import posthog from 'posthog-js'
 import { PostHogProvider } from 'posthog-js/react'
 import React from 'react'
 import { usePathname } from 'next/navigation'
-import { env } from '@apps/web/src/env'
+import { env } from '@/env'
 import TRPCProvider from '../_trpc/Provider'
 import DemoAuthProvider from './DemoAuthProvider'
 

@@ -9,7 +9,7 @@ import {
     CardFooter,
     CardHeader,
     CardTitle,
-} from '@apps/web/src/components/ui/card'
+} from '@components/ui/card'
 import {
     ChartConfig,
     ChartContainer,
@@ -17,7 +17,7 @@ import {
     ChartTooltipContent,
     ChartLegend,
     ChartLegendContent,
-} from '@apps/web/src/components/ui/chart'
+} from '@components/ui/chart'
 
 interface AesAreaProps extends React.HTMLAttributes<HTMLDivElement> {
     title: string

@@ -1,7 +1,7 @@
 import { StickyNote } from 'lucide-react'
 import React from 'react'
-import ContentReader from '@apps/web/src/components/common/ContentReader'
-import Heading from '@apps/web/src/components/common/atoms/Heading'
+import ContentReader from '@components/common/ContentReader'
+import Heading from '@components/common/atoms/Heading'
 
 function PostNote({ content }) {
     return (

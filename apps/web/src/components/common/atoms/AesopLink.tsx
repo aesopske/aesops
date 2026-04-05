@@ -1,7 +1,7 @@
 import { cva } from 'class-variance-authority'
 import React from 'react'
 import Link, { LinkProps } from 'next/link'
-import { cn } from '@apps/web/src/lib/utils'
+import { cn } from '@/lib/utils'
 
 type defaultProps = {
     type?: 'default' | 'button'

@@ -7,8 +7,8 @@ import {
     ClerkLoaded,
 } from '@clerk/nextjs'
 import React from 'react'
-import Text from '@apps/web/src/components/common/atoms/Text'
-import { Button } from '@apps/web/src/components/ui'
+import Text from '@components/common/atoms/Text'
+import { Button } from '@components/ui'
 
 function AuthNav() {
     return (

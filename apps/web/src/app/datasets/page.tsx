@@ -1,8 +1,8 @@
 import React from 'react'
-import HasBackgroundWrapper from '@apps/web/src/components/common/HasBackgroundWrapper'
-import Search from '@apps/web/src/components/common/Search'
-import Heading from '@apps/web/src/components/common/atoms/Heading'
-import Text from '@apps/web/src/components/common/atoms/Text'
+import HasBackgroundWrapper from '@components/common/HasBackgroundWrapper'
+import Search from '@components/common/Search'
+import Heading from '@components/common/atoms/Heading'
+import Text from '@components/common/atoms/Text'
 
 function DatasetsPage({ searchParams }) {
     const initialSection = {

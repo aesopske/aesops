@@ -2,7 +2,7 @@
 
 import { motion, type MotionProps, useInView } from 'framer-motion'
 import React from 'react'
-import useScrollDirection from '@apps/web/src/hooks/useScrollDirection'
+import useScrollDirection from '@/hooks/useScrollDirection'
 
 type AnimateDirection = 'right' | 'left' | 'up' | 'down'
 

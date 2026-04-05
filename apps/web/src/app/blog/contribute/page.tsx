@@ -1,12 +1,12 @@
 import React from 'react'
 import { Metadata } from 'next'
 import { draftMode } from 'next/headers'
-import ContentHeadingReader from '@apps/web/src/components/common/ContentHeadingReader'
-import ContentReader from '@apps/web/src/components/common/ContentReader'
-import Heading from '@apps/web/src/components/common/atoms/Heading'
-import { sanityFetch } from '@apps/web/sanity/utils/fetch'
-import { pageMetadataQuery, pageQuery } from '@apps/web/sanity/utils/requests'
-import { PAGE, PAGE_METADATA } from '@apps/web/sanity/utils/types'
+import ContentHeadingReader from '@components/common/ContentHeadingReader'
+import ContentReader from '@components/common/ContentReader'
+import Heading from '@components/common/atoms/Heading'
+import { sanityFetch } from '~sanity/utils/fetch'
+import { pageMetadataQuery, pageQuery } from '~sanity/utils/requests'
+import { PAGE, PAGE_METADATA } from '~sanity/utils/types'
 
 export async function generateMetadata(): Promise<Metadata> {
     const meta = await sanityFetch<PAGE_METADATA>({

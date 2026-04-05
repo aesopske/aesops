@@ -2,7 +2,7 @@
 
 import Cookie from 'js-cookie'
 import { createContext } from 'react'
-import { env } from '@apps/web/src/env'
+import { env } from '@/env'
 
 type AuthContextType = {
     isAuthenticated: boolean

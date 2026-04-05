@@ -1,7 +1,7 @@
 import { cva, type VariantProps } from 'class-variance-authority'
 import React from 'react'
-import { cn } from '@apps/web/src/lib/utils'
-import { AUTHOR_PLUS } from '@apps/web/sanity/utils/types'
+import { cn } from '@/lib/utils'
+import { AUTHOR_PLUS } from '~sanity/utils/types'
 import AuthorDetails, {
     AUTHOR_DETAIL_PROPS,
 } from '../organisms/author-card/AuthorDetails'

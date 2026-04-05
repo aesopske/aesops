@@ -8,9 +8,9 @@ import {
     TableCellsMerge,
 } from 'lucide-react'
 import React from 'react'
-import { SERVICE } from '@apps/web/sanity/utils/types'
-import Heading from '@apps/web/src/components/common/atoms/Heading'
-import Text from '@apps/web/src/components/common/atoms/Text'
+import { SERVICE } from '~sanity/utils/types'
+import Heading from '@components/common/atoms/Heading'
+import Text from '@components/common/atoms/Text'
 import ListWrapper from '../common/ListWrapper'
 import Animate from '../common/atoms/Animate'
 

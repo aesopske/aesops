@@ -1,10 +1,10 @@
 import React from 'react'
 import Image from 'next/image'
-import { SECTION } from '@apps/web/sanity/utils/types'
-import Animate from '../common/atoms/Animate'
-import Heading from '../common/atoms/Heading'
-import Text from '../common/atoms/Text'
-import SanityCtaGroup from '../common/molecules/SanityCtaGroup'
+import { SECTION } from '~sanity/utils/types'
+import Animate from '@components/common/atoms/Animate'
+import Heading from '@components/common/atoms/Heading'
+import Text from '@components/common/atoms/Text'
+import SanityCtaGroup from '@components/common/molecules/SanityCtaGroup'
 import Services from './Services'
 
 type ConsultancyProps = {

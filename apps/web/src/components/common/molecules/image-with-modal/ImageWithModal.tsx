@@ -1,7 +1,7 @@
 import { ImageIcon } from 'lucide-react'
-import { Dialog, DialogContent, DialogTrigger } from '@apps/web/src/components/ui/dialog'
-import AesopImage from '@apps/web/src/components/common/AesopImage'
-import Text from '@apps/web/src/components/common/atoms/Text'
+import { Dialog, DialogContent, DialogTrigger } from '@components/ui/dialog'
+import AesopImage from '@components/common/AesopImage'
+import Text from '@components/common/atoms/Text'
 
 function ImageWithModal({ src, alt, caption, showDialog = true }) {
     return (

@@ -1,5 +1,5 @@
 import { Frame } from 'lucide-react'
-import Text from '@apps/web/src/components/common/atoms/Text'
+import Text from '@components/common/atoms/Text'
 
 function IframeEmbed({ content }) {
     return (

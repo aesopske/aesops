@@ -1,5 +1,5 @@
 import { defineType } from 'sanity'
-import BlockLinkPreview from '@src/components/sanity/BlockLinkPreview'
+import BlockLinkPreview from '@components/sanity/BlockLinkPreview'
 
 export default defineType({
     name: 'blockLink',

@@ -1,10 +1,10 @@
 import React from 'react'
 import Image from 'next/image'
-import { SECTION } from '@apps/web/sanity/utils/types'
-import Heading from '@apps/web/src/components/common/atoms/Heading'
-import Text from '@apps/web/src/components/common/atoms/Text'
-import SanityCtaGroup from '@apps/web/src/components/common/molecules/SanityCtaGroup'
-import Animate from '../common/atoms/Animate'
+import { SECTION } from '~sanity/utils/types'
+import Heading from '@components/common/atoms/Heading'
+import Text from '@components/common/atoms/Text'
+import SanityCtaGroup from '@components/common/molecules/SanityCtaGroup'
+import Animate from '@components/common/atoms/Animate'
 
 type CommunityProps = {
     section: SECTION

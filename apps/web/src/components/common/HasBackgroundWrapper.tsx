@@ -1,4 +1,4 @@
-import { cn } from '@apps/web/src/lib/utils'
+import { cn } from '@/lib/utils'
 import React, { Fragment } from 'react'
 
 type HasBackgroundWrapperProps = {} & React.HTMLAttributes<HTMLDivElement>
@@ -10,7 +10,10 @@ function HasBackgroundWrapper({
 }: HasBackgroundWrapperProps) {
     return (
         <div
-            className={cn('relative h-auto w-full bg-brandprimary-700', className)}
+            className={cn(
+                'relative h-auto w-full bg-brandprimary-700',
+                className,
+            )}
             {...props}>
             <div className='hidden absolute -left-5 -top-20 p-20  w-28 h-28  rounded-full bg-brand-background md:left-0 md:-top-24 md:w-32 md:h-32 md:p-24 md:block'>
                 <div className='absolute bg-brandprimary-700 h-24 w-24 self-center rounded-full -translate-x-1/2 -translate-y-1/2 md:w-28 md:h-28'></div>

@@ -1,7 +1,7 @@
 'use client'
 
 import React from 'react'
-import { invoke, InvokeOptions } from '@apps/web/src/lib/invoke'
+import { invoke, InvokeOptions } from '@/lib/invoke'
 
 interface FetchResult<T> {
     loading: boolean

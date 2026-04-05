@@ -3,9 +3,9 @@
 import { useQuery } from '@tanstack/react-query'
 import { StringInputProps, set, unset } from 'sanity'
 import React from 'react'
-import { invoke } from '@apps/web/src/lib/invoke'
+import { invoke } from '@/lib/invoke'
 import { Select, Card, Spinner, Text, Button, Flex } from '@sanity/ui'
-import ListWrapper from '../common/ListWrapper'
+import ListWrapper from '@components/common/ListWrapper'
 
 const cardProps = { shadow: 1, padding: 4, radius: 2 }
 

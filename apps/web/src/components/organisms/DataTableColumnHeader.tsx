@@ -1,15 +1,15 @@
 import { Column } from '@tanstack/react-table'
 import { ArrowDown, ArrowUp, ChevronsUpDown, EyeOff } from 'lucide-react'
 
-import { cn } from '@apps/web/src/lib/utils'
-import { Button } from '../ui/button'
+import { cn } from '@/lib/utils'
+import { Button } from '@components/ui/button'
 import {
     DropdownMenu,
     DropdownMenuContent,
     DropdownMenuItem,
     DropdownMenuSeparator,
     DropdownMenuTrigger,
-} from '../ui/dropdown-menu'
+} from '@components/ui/dropdown-menu'
 import React from 'react'
 
 interface DataTableColumnHeaderProps<TData, TValue>

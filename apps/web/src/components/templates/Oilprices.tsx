@@ -1,17 +1,17 @@
 'use client'
 
-import Heading from '@apps/web/src/components/common/atoms/Heading'
-import Text from '@apps/web/src/components/common/atoms/Text'
-import { api } from '@apps/web/src/app/_trpc/client'
+import Heading from '@components/common/atoms/Heading'
+import Text from '@components/common/atoms/Text'
+import { api } from '@app/_trpc/client'
 import {
     Card,
     CardContent,
     CardDescription,
     CardFooter,
     CardHeader,
-} from '@apps/web/src/components/ui/card'
-import useManageFilterParams from '@apps/web/src/hooks/useManageFilterParams'
-import { cn } from '@apps/web/src/lib/utils'
+} from '@components/ui/card'
+import useManageFilterParams from '@/hooks/useManageFilterParams'
+import { cn } from '@/lib/utils'
 import { Lightbulb, X } from 'lucide-react'
 import React, { useEffect, useState } from 'react'
 import { ErrorBoundary } from 'react-error-boundary'
@@ -22,7 +22,7 @@ import {
     TableHead,
     TableHeader,
     TableRow,
-} from '@apps/web/src/components/ui/table'
+} from '@components/ui/table'
 import AesLines from '../charts/AesLines'
 import ErrorHandler from '../common/ErrorHandler'
 import ListWrapper from '../common/ListWrapper'

@@ -1,7 +1,7 @@
-import HoverCard from '@apps/web/src/components/common/molecules/HoverCard'
-import { Avatar, AvatarFallback, AvatarImage } from '@apps/web/src/components/ui/avatar'
-import { cn } from '@apps/web/src/lib/utils'
-import { AUTHOR_PLUS } from '@apps/web/sanity/utils/types'
+import HoverCard from '@components/common/molecules/HoverCard'
+import { Avatar, AvatarFallback, AvatarImage } from '@components/ui/avatar'
+import { cn } from '@/lib/utils'
+import { AUTHOR_PLUS } from '~sanity/utils/types'
 import AboutAuthor from '../about-author/AboutAuthor'
 
 type AuthorDetailsProps = {

@@ -8,8 +8,8 @@ import {
     TableHead,
     TableHeader,
     TableRow,
-} from '@apps/web/src/components/ui/table'
-import Text from '@apps/web/src/components/common/atoms/Text'
+} from '@components/ui/table'
+import Text from '@components/common/atoms/Text'
 
 function TableBlock({ content }) {
     const headerRow = content?.table?.rows[0] ?? []

@@ -1,24 +1,21 @@
-import { draftMode } from '@node_modules/next/headers'
+import { draftMode } from 'next/headers'
 import { Metadata, ResolvingMetadata } from 'next'
-import Hero from '@apps/web/src/components/common/Hero'
-import Consultancy from '@apps/web/src/components/new/Consultancy'
-import Datasets from '@apps/web/src/components/new/Datasets'
-import RecentPosts from '@apps/web/src/components/new/RecentPosts'
-import Animate from '@apps/web/src/components/common/atoms/Animate'
-// import HasBackgroundWrapper from '@src/components/common/HasBackgroundWrapper'
-// import Heading from '@src/components/common/atoms/Heading'
-// import Text from '@src/components/common/atoms/Text'
-import Community from '@apps/web/src/components/new/Community'
-import TalkToUs from '@apps/web/src/components/new/TalkToUs'
-import { sanityFetch } from '@apps/web/sanity/utils/fetch'
-import { urlForImage } from '@apps/web/sanity/utils/image'
+import Hero from '@components/common/Hero'
+import Consultancy from '@components/new/Consultancy'
+import Datasets from '@components/new/Datasets'
+import RecentPosts from '@components/new/RecentPosts'
+import Animate from '@components/common/atoms/Animate'
+import Community from '@components/new/Community'
+import TalkToUs from '@components/new/TalkToUs'
+import { sanityFetch } from '~sanity/utils/fetch'
+import { urlForImage } from '~sanity/utils/image'
 import {
     pageMetadataQuery,
     pageQuery,
     recentQuery,
-} from '@apps/web/sanity/utils/requests'
-import { MIN_POST, PAGE } from '@apps/web/sanity/utils/types'
-import WakeupCall from '@apps/web/src/components/common/molecules/WakeupCall'
+} from '~sanity/utils/requests'
+import { MIN_POST, PAGE } from '~sanity/utils/types'
+import WakeupCall from '@components/common/molecules/WakeupCall'
 
 type Props = {}
 

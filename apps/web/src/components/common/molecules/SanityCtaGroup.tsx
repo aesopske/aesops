@@ -1,9 +1,9 @@
-import AesopLink from '@apps/web/src/components/common/atoms/AesopLink'
+import AesopLink from '@components/common/atoms/AesopLink'
 import React, { Fragment } from 'react'
 
-import { cn } from '@apps/web/src/lib/utils'
+import { cn } from '@/lib/utils'
 
-import { CTA } from '@apps/web/sanity/utils/types'
+import { CTA } from '~sanity/utils/types'
 
 import ListWrapper from '../ListWrapper'
 

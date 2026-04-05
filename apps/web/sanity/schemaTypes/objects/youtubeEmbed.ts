@@ -1,6 +1,6 @@
 import { Play } from 'lucide-react'
 import { defineType, defineField } from 'sanity'
-import YouTubePreview from '@src/components/sanity/YouTubePreview'
+import YouTubePreview from '@components/sanity/YouTubePreview'
 
 export default defineType({
     name: 'youTube',

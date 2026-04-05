@@ -6,8 +6,8 @@ import { SpeedInsights } from '@vercel/speed-insights/react'
 import { VisualEditing } from 'next-sanity'
 import { draftMode } from 'next/headers'
 import TopLoader from 'nextjs-toploader'
-import Footer from '@apps/web/src/components/common/Footer'
-import NewNavbar from '@apps/web/src/components/common/NewNavbar'
+import Footer from '@components/common/Footer'
+import NewNavbar from '@components/common/NewNavbar'
 import Providers from './_providers'
 
 async function RootLayout({ children }) {

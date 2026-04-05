@@ -1,8 +1,8 @@
 'use client'
 
 import { Download } from 'lucide-react'
-import { api } from '@apps/web/src/app/_trpc/client'
-import { cn } from '@apps/web/src/lib/utils'
+import { api } from '@app/_trpc/client'
+import { cn } from '@/lib/utils'
 import Heading from '../common/atoms/Heading'
 import Text from '../common/atoms/Text'
 import { Button } from '../ui'

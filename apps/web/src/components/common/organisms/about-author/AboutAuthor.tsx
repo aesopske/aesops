@@ -1,15 +1,15 @@
 'use client'
 
 import { Fragment, useState } from 'react'
-import ListWrapper from '@apps/web/src/components/common/ListWrapper'
-import { Button } from '@apps/web/src/components/ui'
-import { Avatar, AvatarFallback, AvatarImage } from '@apps/web/src/components/ui/avatar'
-import { cn } from '@apps/web/src/lib/utils'
-import { AUTHOR_PLUS, POST } from '@apps/web/sanity/utils/types'
-import Heading from '@apps/web/src/components/common/atoms/Heading'
-import Text from '@apps/web/src/components/common/atoms/Text'
-import Socials from '@apps/web/src/components/common/organisms/author-card/Socials'
-import SmallPostCard from '@apps/web/src/components/common/organisms/posts/SmallPostCard'
+import ListWrapper from '@components/common/ListWrapper'
+import { Button } from '@components/ui'
+import { Avatar, AvatarFallback, AvatarImage } from '@components/ui/avatar'
+import { cn } from '@/lib/utils'
+import { AUTHOR_PLUS, POST } from '~sanity/utils/types'
+import Heading from '@components/common/atoms/Heading'
+import Text from '@components/common/atoms/Text'
+import Socials from '@components/common/organisms/author-card/Socials'
+import SmallPostCard from '@components/common/organisms/posts/SmallPostCard'
 
 type AboutAuthorProps = {
     author: AUTHOR_PLUS

@@ -5,7 +5,7 @@ import gfm from 'remark-gfm'
 import rehypeRaw from 'rehype-raw'
 import MarkDown from 'react-markdown'
 
-import { cn } from '@apps/web/src/lib/utils'
+import { cn } from '@/lib/utils'
 import Text from './atoms/Text'
 import Heading from './atoms/Heading'
 import Image from 'next/image'

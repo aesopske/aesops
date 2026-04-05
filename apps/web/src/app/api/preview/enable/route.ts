@@ -1,7 +1,7 @@
-import { client } from '@apps/web/sanity/utils/client'
+import { client } from '~sanity/utils/client'
 import { draftMode } from 'next/headers'
 import { redirect } from 'next/navigation'
-import { env } from '@apps/web/src/env'
+import { env } from '@/env'
 import { validatePreviewUrl } from '@sanity/preview-url-secret'
 
 const clientWithToken = client.withConfig({

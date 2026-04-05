@@ -1,7 +1,7 @@
-import { MIN_POST } from '@apps/web/sanity/utils/types'
+import { MIN_POST } from '~sanity/utils/types'
 import SmallPostCard from './SmallPostCard'
-import ListWrapper from '@apps/web/src/components/common/ListWrapper'
-import Heading from '@apps/web/src/components/common/atoms/Heading'
+import ListWrapper from '@components/common/ListWrapper'
+import Heading from '@components/common/atoms/Heading'
 
 function RecentPosts({ posts }: { posts: MIN_POST[] }) {
     if (!posts || posts.length === 0) return null

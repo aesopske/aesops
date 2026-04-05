@@ -9,13 +9,9 @@ import {
     CommandInput,
     CommandItem,
     CommandList,
-} from '@apps/web/src/components/ui/command'
-import {
-    Popover,
-    PopoverContent,
-    PopoverTrigger,
-} from '@apps/web/src/components/ui/popover'
-import { cn } from '@apps/web/src/lib/utils'
+} from '@components/ui/command'
+import { Popover, PopoverContent, PopoverTrigger } from '@components/ui/popover'
+import { cn } from '@/lib/utils'
 
 type MultiSelectDropdownProps = {
     value: string[]

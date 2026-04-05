@@ -1,12 +1,12 @@
 import React from 'react'
-import { cn } from '@apps/web/src/lib/utils'
-import { MIN_POST } from '@apps/web/sanity/utils/types'
-import ListWrapper from '@apps/web/src/components/common/ListWrapper'
-import AesopLink from '@apps/web/src/components/common/atoms/AesopLink'
-import Heading from '@apps/web/src/components/common/atoms/Heading'
-import Text from '@apps/web/src/components/common/atoms/Text'
-import PostCard from '@apps/web/src/components/common/organisms/posts/PostCard'
-import Animate from '../common/atoms/Animate'
+import { cn } from '@/lib/utils'
+import { MIN_POST } from '~sanity/utils/types'
+import ListWrapper from '@components/common/ListWrapper'
+import AesopLink from '@components/common/atoms/AesopLink'
+import Heading from '@components/common/atoms/Heading'
+import Text from '@components/common/atoms/Text'
+import PostCard from '@components/common/organisms/posts/PostCard'
+import Animate from '@components/common/atoms/Animate'
 
 type RecentPostsProps = { posts: MIN_POST[] } & React.HTMLProps<HTMLDivElement>
 

@@ -1,12 +1,12 @@
 import Link from 'next/link'
-import Heading from '@apps/web/src/components/common/atoms/Heading'
-import { MIN_POST, POST } from '@apps/web/sanity/utils/types'
+import Heading from '@components/common/atoms/Heading'
+import { MIN_POST, POST } from '~sanity/utils/types'
 import AuthorCard from '../author-card/AuthorCard'
-import { cn } from '@apps/web/src/lib/utils'
+import { cn } from '@/lib/utils'
 import { format } from 'date-fns'
-import { titleCase } from '@apps/web/src/lib/titleCase'
-import { Badge } from '@apps/web/src/components/ui/badge'
-import Text from '@apps/web/src/components/common/atoms/Text'
+import { titleCase } from '@/lib/titleCase'
+import { Badge } from '@components/ui/badge'
+import Text from '@components/common/atoms/Text'
 
 type SmallPostCardProps = {
     post: POST | MIN_POST
@@ -21,7 +21,7 @@ function SmallPostCard({ post, hideAuthor, className }: SmallPostCardProps) {
             <div
                 className={cn(
                     'bg-white border border-gray-200 p-4 rounded-sm space-y-4',
-                    className
+                    className,
                 )}>
                 <div className='flex gap-2 flex-wrap'>
                     {categories?.length > 0 ? (
@@ -49,7 +49,7 @@ function SmallPostCard({ post, hideAuthor, className }: SmallPostCardProps) {
                             <span>
                                 {format(
                                     new Date(post?.publishedAt),
-                                    'MMM dd, yyyy'
+                                    'MMM dd, yyyy',
                                 )}
                             </span>{' '}
                             &bull; <span>{post?.readTime} min read</span>

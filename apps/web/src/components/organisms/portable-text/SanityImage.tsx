@@ -1,7 +1,7 @@
 import React from 'react'
 import Image from 'next/image'
 
-import { urlFor } from '@apps/web/src/utils'
+import { urlFor } from '@/utils'
 import { getImageDimensions } from '@sanity/asset-utils'
 
 function SanityImage({ value, isInline }) {
@@ -19,7 +19,7 @@ function SanityImage({ value, isInline }) {
             sizes={width !== undefined ? `${Math.round(width)}px` : '100vw'}
             style={{
                 display: isInline ? 'inline-block' : 'block',
-                aspectRatio: width/ height,
+                aspectRatio: width / height,
             }}
         />
     )

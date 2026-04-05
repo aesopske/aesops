@@ -1,7 +1,7 @@
 import { Frame } from 'lucide-react'
 import { defineType, defineField } from 'sanity'
 
-import IframePreview from '@src/components/sanity/IframePreview'
+import IframePreview from '@components/sanity/IframePreview'
 
 export default defineType({
     name: 'iframeEmbed',

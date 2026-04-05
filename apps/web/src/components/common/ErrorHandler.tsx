@@ -1,6 +1,6 @@
 import React from 'react'
 import { OctagonX } from 'lucide-react'
-import { Alert, AlertDescription, AlertTitle } from '@apps/web/src/components/ui/alert'
+import { Alert, AlertDescription, AlertTitle } from '@components/ui/alert'
 
 function ErrorHandler({ error }) {
     return (

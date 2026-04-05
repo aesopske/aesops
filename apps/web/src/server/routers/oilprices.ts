@@ -1,5 +1,5 @@
 import { z } from 'zod'
-import { toSentenceCase } from '@apps/web/src/lib/utils'
+import { toSentenceCase } from '@/lib/utils'
 import { createTRPCRouter, publicProcedure } from '../trpc'
 
 const avgMonthlyPricesSchema = z

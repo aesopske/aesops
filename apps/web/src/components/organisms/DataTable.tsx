@@ -23,8 +23,8 @@ import {
     TableHeader,
     TableRow,
     TableFooter,
-} from '@apps/web/src/components/ui/table'
-import { Button } from '@apps/web/src/components/ui/button'
+} from '@components/ui/table'
+import { Button } from '@components/ui/button'
 import { ChevronLeftIcon, ChevronRightIcon } from 'lucide-react'
 import {
     Select,

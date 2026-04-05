@@ -1,10 +1,9 @@
-'use client';
+'use client'
 
-import { X, Linkedin, Github, Globe } from 'lucide-react';
-import { buttonVariants } from '@apps/web/src/components/ui';
-import { cn } from '@apps/web/src/lib/utils';
-import { SOCIAL } from '@apps/web/sanity/utils/types';
-
+import { X, Linkedin, Github, Globe } from 'lucide-react'
+import { buttonVariants } from '@components/ui'
+import { cn } from '@/lib/utils'
+import { SOCIAL } from '~sanity/utils/types'
 
 const socialIcons = {
     twitter: <X className='w-full h-full' />,

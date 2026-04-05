@@ -2,7 +2,7 @@
 
 import { Play } from 'lucide-react'
 import ReactPlayer from 'react-player'
-import Text from '@apps/web/src/components/common/atoms/Text'
+import Text from '@components/common/atoms/Text'
 
 function YouTubeEmbed({ content }) {
     return (

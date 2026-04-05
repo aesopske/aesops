@@ -2,7 +2,7 @@
 
 import { PreviewProps } from 'sanity'
 import React from 'react'
-import Text from '@apps/web/src/components/common/atoms/Text'
+import Text from '@components/common/atoms/Text'
 
 type NotesProps = {
     note: string

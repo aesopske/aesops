@@ -5,7 +5,7 @@ import {
     CardDescription,
     CardHeader,
     CardTitle,
-} from '@apps/web/src/components/ui/card'
+} from '@components/ui/card'
 
 interface ComingSoonProps {
     title?: string

@@ -1,6 +1,6 @@
-import AesopLink from '@apps/web/src/components/common/atoms/AesopLink'
-import Heading from '@apps/web/src/components/common/atoms/Heading'
-import Text from '@apps/web/src/components/common/atoms/Text'
+import AesopLink from '@components/common/atoms/AesopLink'
+import Heading from '@components/common/atoms/Heading'
+import Text from '@components/common/atoms/Text'
 import SubscriptionForm from './SubscriptionForm'
 
 function TalkToUs() {

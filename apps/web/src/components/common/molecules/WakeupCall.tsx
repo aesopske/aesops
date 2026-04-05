@@ -1,7 +1,7 @@
 'use client'
 
 import { useQuery } from '@tanstack/react-query'
-import { invoke } from '@apps/web/src/lib/invoke'
+import { invoke } from '@/lib/invoke'
 
 function WakeupCall() {
     useQuery({

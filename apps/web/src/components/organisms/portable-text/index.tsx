@@ -1,7 +1,7 @@
 import { PortableText as RPText } from '@portabletext/react'
 
 import SanityImage from './SanityImage'
-import Heading from '@apps/web/src/components/common/atoms/Heading'
+import Heading from '@components/common/atoms/Heading'
 
 const components = {
     types: {

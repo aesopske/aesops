@@ -1,6 +1,6 @@
 import { Stars } from 'lucide-react'
 import { defineType, defineField } from 'sanity'
-import CodePreview from '@src/components/sanity/CodePreview'
+import CodePreview from '@components/sanity/CodePreview'
 import { CodeBlockIcon } from '@sanity/icons'
 
 export default defineType({

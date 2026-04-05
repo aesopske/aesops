@@ -2,13 +2,13 @@
 
 import React from 'react'
 import { useRouter } from 'next/navigation'
-import { CATEGORY } from '@apps/web/sanity/utils/types'
+import { CATEGORY } from '~sanity/utils/types'
 
-import { cn } from '@apps/web/src/lib/utils'
+import { cn } from '@/lib/utils'
 import Heading from '../../atoms/Heading'
 import ListWrapper from '../../ListWrapper'
-import { Button } from '@apps/web/src/components/ui'
-import { Badge } from '@apps/web/src/components/ui/badge'
+import { Button } from '@components/ui'
+import { Badge } from '@components/ui/badge'
 
 type CategoriesProps = {
     search: string

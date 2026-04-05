@@ -1,5 +1,5 @@
 import React, { Fragment } from 'react'
-import { getRandomString, getNestedValue } from '@apps/web/src/utils'
+import { getRandomString, getNestedValue } from '@/utils'
 
 type ListWrapperProps<T> = {
     list: T[]

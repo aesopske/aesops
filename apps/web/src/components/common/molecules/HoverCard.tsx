@@ -3,7 +3,7 @@ import {
     HoverCardContent,
     HoverCardTrigger,
     HoverCard as HoverCardComponent,
-} from '@apps/web/src/components/ui/hover-card'
+} from '@components/ui/hover-card'
 
 type HoverCardProps = {
     hideDetails?: boolean

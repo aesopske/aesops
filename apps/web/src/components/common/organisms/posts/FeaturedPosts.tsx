@@ -1,6 +1,6 @@
 import { Fragment } from 'react'
-import { MIN_POST } from '@apps/web/sanity/utils/types'
-import Heading from '@apps/web/src/components/common/atoms/Heading'
+import { MIN_POST } from '~sanity/utils/types'
+import Heading from '@components/common/atoms/Heading'
 import ListWrapper from '../../ListWrapper'
 import PostCard from './PostCard'
 

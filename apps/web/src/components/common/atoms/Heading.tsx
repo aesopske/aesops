@@ -1,6 +1,6 @@
 import { cva } from 'class-variance-authority'
 import React, { createElement } from 'react'
-import { cn } from '@apps/web/src/lib/utils'
+import { cn } from '@/lib/utils'
 
 const headingVariants = cva('font-sans tracking-tight font-heading', {
     variants: {

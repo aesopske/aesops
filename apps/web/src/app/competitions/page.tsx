@@ -1,22 +1,22 @@
 import { SignedIn, SignedOut } from '@clerk/nextjs'
-import { draftMode } from '@node_modules/next/headers'
+import { draftMode } from 'next/headers'
 import { Metadata } from 'next'
-import HasBackgroundWrapper from '@apps/web/src/components/common/HasBackgroundWrapper'
-import ListWrapper from '@apps/web/src/components/common/ListWrapper'
-import Search from '@apps/web/src/components/common/Search'
-import Heading from '@apps/web/src/components/common/atoms/Heading'
-import Text from '@apps/web/src/components/common/atoms/Text'
-import AuthNav from '@apps/web/src/components/common/organisms/auth-nav/AuthNav'
-import CompetitionCard from '@apps/web/src/components/common/organisms/competition-card/CompetitionCard'
-import CompetitionProfile from '@apps/web/src/components/common/organisms/competition-profile/CompetitionProfile'
-import { cn } from '@apps/web/src/lib/utils'
-import { sanityFetch } from '@apps/web/sanity/utils/fetch'
+import HasBackgroundWrapper from '@components/common/HasBackgroundWrapper'
+import ListWrapper from '@components/common/ListWrapper'
+import Search from '@components/common/Search'
+import Heading from '@components/common/atoms/Heading'
+import Text from '@components/common/atoms/Text'
+import AuthNav from '@components/common/organisms/auth-nav/AuthNav'
+import CompetitionCard from '@components/common/organisms/competition-card/CompetitionCard'
+import CompetitionProfile from '@components/common/organisms/competition-profile/CompetitionProfile'
+import { cn } from '@/lib/utils'
+import { sanityFetch } from '~sanity/utils/fetch'
 import {
     competitionsQuery,
     pageMetadataQuery,
     pageQuery,
-} from '@apps/web/sanity/utils/requests'
-import { COMPETITION, PAGE } from '@apps/web/sanity/utils/types'
+} from '~sanity/utils/requests'
+import { COMPETITION, PAGE } from '~sanity/utils/types'
 
 export const revalidate = 60 // 60 seconds
 
