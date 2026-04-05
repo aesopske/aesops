@@ -1,5 +1,10 @@
 import { groq } from 'next-sanity'
-import { CATEGORY, CATEGORY_POST, MIN_POST, POST } from '@apps/web/sanity/utils/types'
+import {
+    CATEGORY,
+    CATEGORY_POST,
+    MIN_POST,
+    POST,
+} from '@apps/web/sanity/utils/types'
 import { client } from './client'
 
 // subqueries
@@ -445,26 +450,6 @@ export const memberMetadataQuery = groq`*[_type == 'author' && slug.current == $
   bio,
   image,
   slug,
-}[0]`
-
-// Competitions query
-export const competitionsQuery = groq`*[_type == 'competition' && !(_id in path('drafts.**'))]{
-    title,
-    description,
-    slug,
-    mainImage,
-    startDate,
-    endDate,
-    featured
-}[]`
-
-export const competitionQuery = groq`*[_type == 'competition' && slug.current == $slug]{
-    ...
-}[0]`
-
-export const competitionsMetadataQuery = groq`*[_type == 'competition' && slug.current == $slug]{
-    title,
-    description,
 }[0]`
 
 // Trends query

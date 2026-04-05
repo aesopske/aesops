@@ -13,7 +13,6 @@ import ClerkWrapper from './organisms/clerk-wrapper/ClerkWrapper'
 
 const navigation = [
     // { name: 'Datasets', href: '/datasets', coming: true },
-    // { name: 'Competitions', href: '/competitions', coming: true },
     { name: 'Home', href: '/', coming: false },
     { name: 'Data Digest', href: '/data-digest', coming: false },
     { name: 'About Us', href: '/about-us', coming: false },

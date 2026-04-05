@@ -22,10 +22,7 @@ function Footer() {
         //     label: 'Datasets',
         //     link: '/datasets',
         // },
-        // {
-        //     label: 'Competitions',
-        //     link: '/competitions',
-        // },
+
         // {
         //     label: 'Community',
         //     link: '/community',
