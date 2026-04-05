@@ -1,6 +1,22 @@
 {
     "$schema": "https://turbo.build/schema.json",
     "ui": "stream",
+    "globalEnv": [
+        "OPENAI_API_KEY",
+        "SANITY_API_READ_TOKEN",
+        "CLERK_SECRET_KEY",
+        "RESEND_API_KEY",
+        "RESEND_AUDIENCE_ID",
+        "NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY",
+        "NEXT_PUBLIC_DEMO_CREDENTIALS",
+        "NEXT_PUBLIC_AESOPS_API_URL",
+        "NEXT_PUBLIC_POSTHOG_KEY",
+        "NEXT_PUBLIC_POSTHOG_HOST",
+        "NEXT_PUBLIC_SANITY_API_VERSION",
+        "NEXT_PUBLIC_SANITY_DATASET",
+        "NEXT_PUBLIC_SANITY_PROJECT_ID",
+        "NEXT_PUBLIC_SITE_URL"
+    ],
     "tasks": {
         "build": {
             "dependsOn": ["^build", "generate"],
