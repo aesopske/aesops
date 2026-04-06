@@ -21,6 +21,7 @@ function Logo({ className }: LogoProps) {
                     alt='Aesops Logo'
                     className='hidden h-full w-full md:block'
                     src='/logo.svg'
+                    loading='eager'
                 />
                 <Image
                     width={200}
@@ -28,6 +29,7 @@ function Logo({ className }: LogoProps) {
                     alt='Aesops Logo'
                     className='h-full w-full md:hidden'
                     src='/logo-mark.svg'
+                    loading='eager'
                 />
             </Link>
         </div>

@@ -8,7 +8,6 @@ import useDisclosure from '@/hooks/useDisclosure'
 import { cn } from '@/lib/utils'
 import Logo from './Logo'
 import AesopLink from './atoms/AesopLink'
-import ClerkWrapper from './organisms/clerk-wrapper/ClerkWrapper'
 
 const navigation = [
     // { name: 'Datasets', href: '/datasets', coming: true },
@@ -65,33 +64,6 @@ function Navbar({ previewEnabled }: { previewEnabled: boolean }) {
                             )
                         })}
                     </div>
-                    <ClerkWrapper
-                        renderSignedIn={() => (
-                            <div className='border border-brandprimary-900 p-2 px-4 rounded-full flex'>
-                                <div className='flex lg:hidden'>
-                                    <Hamburger
-                                        toggled={isOpen}
-                                        onToggle={onToggle}
-                                        color='#000'
-                                        size={20}
-                                    />
-                                </div>
-                            </div>
-                        )}
-                        renderSignedOut={() => (
-                            <div className='flex lg:hidden'>
-                                <Hamburger
-                                    toggled={isOpen}
-                                    onToggle={onToggle}
-                                    color='#000'
-                                    size={20}
-                                />
-                            </div>
-                        )}
-                        renderLoading={() => (
-                            <span className='animate-pulse min-h-10 rounded-full w-36 bg-brandaccent-100/50' />
-                        )}
-                    />
                 </div>
                 {previewEnabled && (
                     <AesopLink
