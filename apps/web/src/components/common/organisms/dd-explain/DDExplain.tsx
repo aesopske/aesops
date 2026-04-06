@@ -3,7 +3,6 @@
 import { useCompletion } from '@ai-sdk/react'
 import { AnimatePresence, motion } from 'framer-motion'
 import { Stars } from 'lucide-react'
-import posthog from 'posthog-js'
 import ReactMarkdown from 'react-markdown'
 import { useEffect, useState } from 'react'
 import { Button } from '@components/ui'
@@ -50,11 +49,6 @@ function DDExplain({
                 onClick={() => {
                     if (isOpen && !useRefreshCache) return setIsOpen(false)
                     if (!isOpen) setIsOpen(true)
-
-                    posthog.capture('data_digest_explain', {
-                        title,
-                    })
-
                     // check if we have a saved explanation
                     if (completion && !useRefreshCache) {
                         setIsOpen(!isOpen)
