@@ -27,7 +27,8 @@
         "GOOGLE_GENERATIVE_AI_API_KEY",
         "ENABLE_EXPERIMENTAL_COREPACK",
         "DATABASE_URL",
-        "LOGTAIL_URL"
+        "LOGTAIL_URL",
+        "GA_TRACKING_ID "
     ],
     "tasks": {
         "build": {
