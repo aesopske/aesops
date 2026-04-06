@@ -13,7 +13,21 @@
         "NEXT_PUBLIC_SANITY_API_VERSION",
         "NEXT_PUBLIC_SANITY_DATASET",
         "NEXT_PUBLIC_SANITY_PROJECT_ID",
-        "NEXT_PUBLIC_SITE_URL"
+        "NEXT_PUBLIC_SITE_URL",
+        "DASHBOARD_URL",
+        "LOGTAIL_SOURCE_TOKEN",
+        "CLOUDINARY_NAME",
+        "HUGGING_FACE_ACCESS_TOKEN",
+        "CLERK_SECRET_KEY",
+        "KV_URL",
+        "KV_REST_API_READ_ONLY_TOKEN",
+        "REDIS_URL",
+        "KV_REST_API_TOKEN",
+        "KV_REST_API_URL",
+        "GOOGLE_GENERATIVE_AI_API_KEY",
+        "ENABLE_EXPERIMENTAL_COREPACK",
+        "DATABASE_URL",
+        "LOGTAIL_URL"
     ],
     "tasks": {
         "build": {

@@ -5,7 +5,6 @@ const nextConfig: NextConfig = {
     env: {
         BASE_URL: process.env.BASE_API_URL,
         DASHBOARD_URL: process.env.DASHBOARD_URL,
-        GA_TRACKING_ID: process.env.GA_TRACKING_ID,
         SITE_URL: process.env.SITE_URL,
         SLACK_WEBHOOK: process.env.SLACK_WEBHOOK,
         HUGGING_FACE_ACCESS_TOKEN: process.env.HUGGING_FACE_ACCESS_TOKEN,
