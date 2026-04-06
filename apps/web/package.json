@@ -7,7 +7,8 @@
         "build": "next build",
         "start": "next start",
         "lint": "next lint",
-        "generate": "prisma generate"
+        "generate": "prisma generate",
+        "postinstall": "prisma generate"
     },
     "dependencies": {
         "@ai-sdk/google": "^1.2.14",
