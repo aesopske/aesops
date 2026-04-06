@@ -1,6 +1,5 @@
 'use client'
 
-import { UserButton } from '@clerk/nextjs'
 import { AnimatePresence, motion } from 'framer-motion'
 import Hamburger from 'hamburger-react'
 import { Eye } from 'lucide-react'
@@ -69,7 +68,6 @@ function Navbar({ previewEnabled }: { previewEnabled: boolean }) {
                     <ClerkWrapper
                         renderSignedIn={() => (
                             <div className='border border-brandprimary-900 p-2 px-4 rounded-full flex'>
-                                <UserButton showName />
                                 <div className='flex lg:hidden'>
                                     <Hamburger
                                         toggled={isOpen}

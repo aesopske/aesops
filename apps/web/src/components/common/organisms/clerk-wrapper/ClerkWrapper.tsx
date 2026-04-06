@@ -1,4 +1,3 @@
-import { ClerkLoaded, ClerkLoading, SignedIn, SignedOut } from '@clerk/nextjs'
 import React from 'react'
 
 type ClerkWrapperProps = {
@@ -13,13 +12,13 @@ function ClerkWrapper({
     renderLoading,
 }: ClerkWrapperProps) {
     return (
-        <>
-            <ClerkLoading>{renderLoading && renderLoading()}</ClerkLoading>
-            <ClerkLoaded>
-                <SignedIn>{renderSignedIn && renderSignedIn()}</SignedIn>
-                <SignedOut>{renderSignedOut && renderSignedOut()}</SignedOut>
-            </ClerkLoaded>
-        </>
+        <div>
+            <div>{renderLoading && renderLoading()}</div>
+            <div>
+                <div>{renderSignedIn && renderSignedIn()}</div>
+                <div>{renderSignedOut && renderSignedOut()}</div>
+            </div>
+        </div>
     )
 }
 

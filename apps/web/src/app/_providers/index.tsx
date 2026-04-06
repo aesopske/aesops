@@ -1,6 +1,5 @@
 'use client'
 
-import { ClerkProvider } from '@clerk/nextjs'
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools'
 import posthog from 'posthog-js'
 import { PostHogProvider } from 'posthog-js/react'
@@ -40,11 +39,7 @@ function Providers({ children }: ProvidersProps) {
         <TRPCProvider>
             <ReactQueryDevtools />
             <DemoAuthProvider>
-                <PostHogProvider client={posthog}>
-                    <ClerkProvider afterSignOutUrl={pathname}>
-                        {children}
-                    </ClerkProvider>
-                </PostHogProvider>
+                <PostHogProvider client={posthog}>{children}</PostHogProvider>
             </DemoAuthProvider>
         </TRPCProvider>
     )

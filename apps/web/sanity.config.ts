@@ -3,7 +3,6 @@
  */
 import { defineConfig } from 'sanity'
 import { unsplashImageAsset } from 'sanity-plugin-asset-source-unsplash'
-import { vercelDeployTool } from 'sanity-plugin-vercel-deploy'
 import { presentationTool } from 'sanity/presentation'
 import { structureTool } from 'sanity/structure'
 import { codeInput } from '@sanity/code-input'
@@ -34,9 +33,6 @@ export default defineConfig({
         // Vision is a tool that lets you query your content with GROQ in the studio
         // https://www.sanity.io/docs/the-vision-plugin
         visionTool({ defaultApiVersion: apiVersion }),
-        vercelDeployTool({
-            title: 'Deploy',
-        }),
         presentationTool({
             name: 'preview',
             title: 'Preview',
