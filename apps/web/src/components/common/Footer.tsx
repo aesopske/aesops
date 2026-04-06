@@ -32,10 +32,6 @@ function Footer() {
             link: '/',
         },
         {
-            label: 'Data Digest',
-            link: '/data-digest',
-        },
-        {
             label: 'About Us',
             link: '/about-us',
         },

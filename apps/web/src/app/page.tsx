@@ -15,7 +15,6 @@ import {
     recentQuery,
 } from '~sanity/utils/requests'
 import { MIN_POST, PAGE } from '~sanity/utils/types'
-import WakeupCall from '@components/common/molecules/WakeupCall'
 
 type Props = {}
 
@@ -59,31 +58,10 @@ async function Page() {
 
     return (
         <div className='w-full h-full min-h-screen'>
-            <WakeupCall />
             <Hero section={page?.sections[0]} />
             <Datasets section={page?.sections[1]} />
             <Consultancy section={page?.sections[2]} />
             <Community section={page?.sections[3]} />
-            {/* <div className='relative h-full py-20 my-10'>
-                <HasBackgroundWrapper className=' h-auto max-w-4xl flex items-center mx-auto md:rounded-3xl'>
-                    <div className='max-w-lg mx-auto space-y-4 p-10 md:py-28'>
-                        <Heading
-                            type='h2'
-                            className='text-brandaccent-50 text-2xl'>
-                            What our clients say.
-                        </Heading>
-                        <Text className='text-brandaccent-50'>
-                            &quot;Aesop has been a great partner in helping us
-                            understand our data. Their team of experts have
-                            provided us with actionable insights that have
-                            helped us make informed decisions.&quot;
-                        </Text>
-                        <Text className='text-brandaccent-50 font-bold'>
-                            John Doe, CEO, Aesops Ltd
-                        </Text>
-                    </div>
-                </HasBackgroundWrapper>
-            </div> */}
             <RecentPosts posts={posts} />
             <Animate dir='up' duration={0.8} className='md:px-6 2xl:px-0'>
                 <TalkToUs />

@@ -43,17 +43,5 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
             lastModified: new Date(),
         },
         ...postUrls,
-        {
-            url: `${BASE_URL}/data-digest`,
-            changeFrequency: 'monthly',
-            priority: 1,
-            lastModified: new Date(),
-        },
-        {
-            url: `${BASE_URL}/data-digest/oilprices`,
-            changeFrequency: 'monthly',
-            priority: 1,
-            lastModified: new Date(),
-        },
     ]
 }

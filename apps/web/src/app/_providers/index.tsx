@@ -6,7 +6,6 @@ import { PostHogProvider } from 'posthog-js/react'
 import React from 'react'
 import { usePathname } from 'next/navigation'
 import { env } from '@/env'
-import TRPCProvider from '../_trpc/Provider'
 import DemoAuthProvider from './DemoAuthProvider'
 
 // import { ThemeProvider } from 'next-themes'
@@ -36,12 +35,11 @@ function Providers({ children }: ProvidersProps) {
     const pathname = usePathname()
 
     return (
-        <TRPCProvider>
-            <ReactQueryDevtools />
+        <>
             <DemoAuthProvider>
                 <PostHogProvider client={posthog}>{children}</PostHogProvider>
             </DemoAuthProvider>
-        </TRPCProvider>
+        </>
     )
 }
 
