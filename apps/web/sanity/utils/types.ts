@@ -109,7 +109,6 @@ export type SECTION = {
     datasets?: DATASET[]
     values?: VALUE[]
     services?: SERVICE[]
-    projects?: PROJECT[]
 }
 
 export type CTA = {
@@ -152,23 +151,4 @@ export type HOME_SETTINGS = {
     description: string
     keywords: string
     ogImage: SanityAsset
-}
-
-// Trend types
-export type PROJECT = {
-    _id: string
-    title: string
-    slug: {
-        current: string
-    }
-    description: string
-    image: SANITY_IMAGE
-    endpoint: string
-    author: AUTHOR[]
-    featured: boolean
-    publishedAt: string
-    _createdAt: string
-    _updatedAt: string
-    isPost?: boolean
-    seoDescription: string
 }

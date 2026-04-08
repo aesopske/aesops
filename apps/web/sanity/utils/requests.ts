@@ -378,18 +378,6 @@ export const pageQuery = groq`*[_type == 'page' && slug.current == $slug]{
         datasets[]->{
             ...
         },
-        projects[]->{
-            ...,
-            author[]->{
-                name,
-                bio,
-                image,
-                slug,
-                isCoreMember,
-                socials,
-                role
-            }
-        },
         members[]->{
             name,
             bio,
@@ -452,15 +440,6 @@ export const memberMetadataQuery = groq`*[_type == 'author' && slug.current == $
   slug,
 }[0]`
 
-// Trends query
-export const trendsQuery = groq`*[_type == 'project' && !(_id in path('drafts.**'))]{
-  ...
-  title,
-  slug,
-  publishedAt,
-  author[]->${author}
-  }[]`
-
 const description = groq`{
   ...,
   _type == 'blockLink' => @->{
@@ -475,32 +454,6 @@ const description = groq`{
         ...
       },
       "isPost": true
-    },
-    _type == 'project' => @->{
-      ...,
-      "isPost": false,
-      author[]->${author}
     }
   },
 }`
-
-export const trendQuery = groq`*[_type == 'project' && slug.current == $slug]{
-  ...,
-  description[] ${description},
-  author[]->${author}
-  }[0]`
-
-export const trendsMetadataQuery = groq`*[_type == 'project' && slug.current == $slug]{
-  title,
-  slug,
-  image,
-  seoDescription,
-  publishedAt,
-  author[]->${author}
-  }[0]`
-
-export const featuredTrendsQuery = groq`*[_type == 'project' && featured == true]{
-  ...,
-  description[] ${description},
-  author[]->${author}
-  }[]`
