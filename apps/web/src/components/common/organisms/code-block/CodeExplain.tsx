@@ -3,7 +3,6 @@
 import { useCompletion } from '@ai-sdk/react'
 import { AnimatePresence, motion } from 'framer-motion'
 import { Stars } from 'lucide-react'
-import posthog from 'posthog-js'
 import ReactMarkdown from 'react-markdown'
 import { useState } from 'react'
 import { Button } from '@components/ui'
@@ -38,8 +37,6 @@ function CodeExplain({ code }: CodeExplainProps) {
                 className='group flex h-8 items-center gap-2 rounded-full border-brandprimary-900 bg-transparent data-[open=true]:bg-brandprimary-900 data-[open=true]:text-brandaccent-50 hover:bg-brandprimary-900 hover:text-brandaccent-50 transition-all duration-200 ease-in-out'
                 onClick={() => {
                     if (isOpen) return setIsOpen(false)
-
-                    posthog.capture('code_explain', { code: code?.code?.code })
                     // check if we have a saved explanation
                     if (completion) {
                         setIsOpen(!isOpen)

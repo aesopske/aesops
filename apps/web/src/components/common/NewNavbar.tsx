@@ -12,7 +12,6 @@ import AesopLink from './atoms/AesopLink'
 const navigation = [
     // { name: 'Datasets', href: '/datasets', coming: true },
     { name: 'Home', href: '/', coming: false },
-    { name: 'Data Digest', href: '/data-digest', coming: false },
     { name: 'About Us', href: '/about-us', coming: false },
     { name: 'Blog', href: '/blog', coming: false },
     // { name: 'Tools', href: '/tools' },

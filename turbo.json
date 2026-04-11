@@ -26,13 +26,12 @@
         "KV_REST_API_URL",
         "GOOGLE_GENERATIVE_AI_API_KEY",
         "ENABLE_EXPERIMENTAL_COREPACK",
-        "DATABASE_URL",
         "LOGTAIL_URL",
         "GA_TRACKING_ID "
     ],
     "tasks": {
         "build": {
-            "dependsOn": ["^build", "generate"],
+            "dependsOn": ["^build"],
             "inputs": ["$TURBO_DEFAULT$", ".env*"],
             "outputs": [".next/**", "!.next/cache/**", "dist/**"]
         },
@@ -43,10 +42,6 @@
         "dev": {
             "cache": false,
             "persistent": true
-        },
-        "generate": {
-            "dependsOn": ["^generate"],
-            "outputs": ["generated/**"]
         }
     }
 }

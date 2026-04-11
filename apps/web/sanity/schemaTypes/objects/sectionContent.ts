@@ -98,13 +98,7 @@ export default defineType({
             description: 'Aesops values',
             of: [{ type: 'reference', to: [{ type: 'value' }] }],
         }),
-        defineField({
-            name: 'projects',
-            title: 'Projects',
-            type: 'array',
-            description: 'Projects by Aesops',
-            of: [{ type: 'reference', to: [{ type: 'project' }] }],
-        }),
+
         defineField({
             name: 'members',
             title: 'Members',

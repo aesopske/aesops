@@ -1,29 +1,20 @@
 'use client'
 
-// import all the project visualization components and depending on the project render the appropriate component
-import React, { useMemo } from 'react'
-import OilPrices from '../templates/Oilprices'
+import React from 'react'
 
 interface VisualizationSelectorProps {
     project: string
     endpoint: string
 }
 
+/**
+ * VisualizationSelector is a component that renders different project visualizations.
+ * Currently, all previous visualizations have been removed.
+ */
 function VisualizationSelector({
     project,
     endpoint,
 }: VisualizationSelectorProps) {
-    const ProjectComponent = useMemo(() => {
-        const projectComponents = {
-            'oil-prices': OilPrices,
-        }
-        return projectComponents[project]
-    }, [project])
-
-    if (ProjectComponent && endpoint) {
-        return <ProjectComponent endpoint={endpoint} />
-    }
-
     return null
 }
 

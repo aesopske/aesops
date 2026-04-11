@@ -22,12 +22,9 @@
   "pnpm": {
     "ignoredBuiltDependencies": [
       "@parcel/watcher",
-      "@prisma/client",
-      "@prisma/engines",
       "@vercel/speed-insights",
       "core-js",
       "esbuild",
-      "prisma",
       "sharp"
     ]
   }
