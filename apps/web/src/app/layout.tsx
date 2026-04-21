@@ -1,4 +1,4 @@
-import '@app/styles/global.css'
+import '@repo/ui/global.css'
 import '@fontsource-variable/bricolage-grotesque'
 import '@fontsource-variable/lora'
 import { Analytics } from '@vercel/analytics/react'

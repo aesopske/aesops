@@ -39,6 +39,14 @@
             "dependsOn": ["^lint"],
             "inputs": ["$TURBO_DEFAULT$"]
         },
+        "format": {
+            "dependsOn": ["^format"],
+            "inputs": ["$TURBO_DEFAULT$"]
+        },
+        "typecheck": {
+            "dependsOn": ["^typecheck"],
+            "inputs": ["$TURBO_DEFAULT$"]
+        },
         "dev": {
             "cache": false,
             "persistent": true
