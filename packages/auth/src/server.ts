@@ -1,6 +1,6 @@
-import { betterAuth } from "better-auth";
-import { drizzleAdapter } from "better-auth/adapters/drizzle";
-import { db, schema } from "@aesops/db";
+import { betterAuth } from 'better-auth'
+import { drizzleAdapter } from 'better-auth/adapters/drizzle'
+import { db, schema } from '@repo/db'
 
 /**
  * Better Auth Server Instance
@@ -9,7 +9,7 @@ import { db, schema } from "@aesops/db";
  */
 export const auth = betterAuth({
     database: drizzleAdapter(db, {
-        provider: "pg",
+        provider: 'pg',
         schema: schema,
     }),
     /**
@@ -28,14 +28,14 @@ export const auth = betterAuth({
     advanced: {
         crossSubDomainCookies: {
             enabled: true,
-            domain: process.env.NEXT_PUBLIC_ROOT_DOMAIN || "yourstartup.ke",
+            domain: process.env.NEXT_PUBLIC_ROOT_DOMAIN || 'yourstartup.ke',
         },
     },
     /**
      * Security: Allowed Redirect Origins
      */
     trustedOrigins: [
-        `https://auth.${process.env.NEXT_PUBLIC_ROOT_DOMAIN || "yourstartup.ke"}`,
-        `https://*.${process.env.NEXT_PUBLIC_ROOT_DOMAIN || "yourstartup.ke"}`,
+        `https://auth.${process.env.NEXT_PUBLIC_ROOT_DOMAIN || 'yourstartup.ke'}`,
+        `https://*.${process.env.NEXT_PUBLIC_ROOT_DOMAIN || 'yourstartup.ke'}`,
     ],
-});
+})
