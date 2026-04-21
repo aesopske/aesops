@@ -11,7 +11,7 @@ import { useState } from 'react'
  *
  * Uses the reusable LoginForm from @aesops/ui and the isolated Better Auth client.
  */
-export function LoginPage(): React.JSX.Element {
+export default function LoginPage(): React.JSX.Element {
     const [isLoading, setIsLoading] = useState(false)
 
     const handleGithubLogin = async () => {
