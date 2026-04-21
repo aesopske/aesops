@@ -10,7 +10,7 @@ export const metadata: Metadata = {
     description: 'Centralized Authentication for Aesops Ecosystem',
 }
 
-export function RootLayout({
+export default function RootLayout({
     children,
 }: Readonly<{
     children: React.JSX.Element
