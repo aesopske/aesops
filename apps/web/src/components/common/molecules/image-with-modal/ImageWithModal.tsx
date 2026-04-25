@@ -3,7 +3,17 @@ import { Dialog, DialogContent, DialogTrigger } from '@components/ui/dialog'
 import AesopImage from '@components/common/AesopImage'
 import Text from '@components/common/atoms/Text'
 
-function ImageWithModal({ src, alt, caption, showDialog = true }) {
+function ImageWithModal({
+    src,
+    alt,
+    caption,
+    showDialog = true,
+}: {
+    src: string
+    alt?: string
+    caption?: string
+    showDialog?: boolean
+}) {
     return (
         <Dialog>
             <div className='w-auto mx-auto h-auto bg-brandaccent-50/50 md:rounded-lg overflow-hidden shadow-xs'>

@@ -2,7 +2,7 @@ import { Metadata } from 'next'
 import { draftMode } from 'next/headers'
 import { sanityFetch } from '~sanity/utils/fetch'
 import { pageMetadataQuery, pageQuery } from '~sanity/utils/requests'
-import { PAGE } from '~sanity/utils/types'
+import { PAGE, SECTION } from '~sanity/utils/types'
 import HasBackgroundWrapper from '@components/common/HasBackgroundWrapper'
 import Heading from '@components/common/atoms/Heading'
 import Text from '@components/common/atoms/Text'
@@ -44,17 +44,17 @@ async function Blog() {
     return (
         <div className='max-w-(--breakpoint-lg) lg:max-w-(--breakpoint-xl) 2xl:max-w-(--breakpoint-2xl) mx-auto my-6 space-y-10 lg:space-y-16 lg:my-12'>
             <div className='space-y-6 px-4 lg:px-0'>
-                <IntroSection sectionContent={page?.sections[0]} />
+                <IntroSection sectionContent={page?.sections[0]!} />
                 <FeaturedPosts
-                    featuredPosts={page?.sections[0].featuredPosts ?? []}
+                    featuredPosts={page?.sections[0]!.featuredPosts ?? []}
                 />
             </div>
-            <ContributionSection sectionContent={page?.sections[1]} />
+            <ContributionSection sectionContent={page?.sections[1]!} />
             {/*
             //TODO: maybe only show the popular categories to avoid posts duplication
             <CategoryPosts
                 search={searchParams?.category}
-                sectionContent={page?.sections[2]}
+                sectionContent={page?.sections[2]!}
             />*/}
             <hr className='border border-gray-100 max-w-3xl' />
             <div className='px-4 xl:px-0 space-y-20'>
@@ -65,7 +65,7 @@ async function Blog() {
     )
 }
 
-function IntroSection({ sectionContent }) {
+function IntroSection({ sectionContent }: { sectionContent: SECTION }) {
     return (
         <div className='max-w-2xl space-y-3 '>
             <Heading type='h1'>{sectionContent?.title}</Heading>
@@ -74,7 +74,7 @@ function IntroSection({ sectionContent }) {
     )
 }
 
-function ContributionSection({ sectionContent }) {
+function ContributionSection({ sectionContent }: { sectionContent: SECTION }) {
     return (
         <div className='relative h-full py-8 md:py-24'>
             <HasBackgroundWrapper className=' h-auto max-w-4xl flex items-center mx-auto lg:rounded-3xl'>

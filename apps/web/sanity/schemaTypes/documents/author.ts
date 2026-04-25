@@ -79,7 +79,6 @@ export default defineType({
             type: 'boolean',
             initialValue: false,
         }),
-
         defineField({
             name: 'role',
             title: 'Role',

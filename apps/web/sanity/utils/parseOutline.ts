@@ -2,11 +2,11 @@ import speakingUrl from 'speakingurl'
 
 export const getChildrenText = (props: any) => {
     return props?.children.map((node: any) => {
-        return typeof node === 'string' ? node : node.text ?? ''
+        return typeof node === 'string' ? node : (node.text ?? '')
     })
 }
 
-const filter = (ast, match) =>
+const filter = (ast: any[], match: (node: any) => boolean): any[] =>
     ast.reduce((acc, node) => {
         if (match(node)) acc.push(node)
         if (node.children) acc.push(...filter(node.children, match))

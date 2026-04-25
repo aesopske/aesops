@@ -11,7 +11,7 @@ import {
 } from '@components/ui/table'
 import Text from '@components/common/atoms/Text'
 
-function TableBlock({ content }) {
+function TableBlock({ content }: { content: any }) {
     const headerRow = content?.table?.rows[0] ?? []
     const rows = content?.table?.rows.slice(1) ?? []
     return (

@@ -33,7 +33,7 @@ function Services({ services }: ServicesProps) {
             <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 relative'>
                 <ListWrapper itemKey='title' list={services ?? []}>
                     {(item, idx) => {
-                        const icon = icons[item?.icon]
+                        const icon = icons[item?.icon as keyof typeof icons]
                         return (
                             <Animate
                                 dir='up'

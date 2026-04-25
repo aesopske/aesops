@@ -35,7 +35,7 @@ function useFetch<T>({
             }
             setData(response.res as T)
         } catch (err) {
-            setError(err.message)
+            setError(err instanceof Error ? err : new Error(String(err)))
         } finally {
             setLoading(false)
         }

@@ -94,7 +94,7 @@ export const getPostBySlug = async (slug: string) => {
         const post = await client.fetch<POST>(postQuery, { slug })
         return post
     } catch (error) {
-        throw new Error(error)
+        throw new Error(String(error))
     }
 }
 

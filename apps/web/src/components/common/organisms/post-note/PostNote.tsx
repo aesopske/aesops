@@ -3,7 +3,7 @@ import React from 'react'
 import ContentReader from '@components/common/ContentReader'
 import Heading from '@components/common/atoms/Heading'
 
-function PostNote({ content }) {
+function PostNote({ content }: { content: any }) {
     return (
         <div className='rounded-lg p-6 space-y-6 bg-brandprimary-50 text-brandprimary-800'>
             <Heading type='h3' className='flex items-center gap-2 font-bold'>

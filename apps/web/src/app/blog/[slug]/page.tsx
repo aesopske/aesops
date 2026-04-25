@@ -1,5 +1,5 @@
 import { Metadata, ResolvingMetadata } from 'next'
-import { QueryParams } from 'next-sanity'
+type QueryParams = Record<string, unknown>
 import { draftMode } from 'next/headers'
 import { notFound } from 'next/navigation'
 import ContentHeadingReader from '@components/common/ContentHeadingReader'
@@ -44,7 +44,9 @@ export async function generateMetadata(
                 },
                 ...previousImages,
             ],
-            authors: post?.author?.map((author) => author.name) ?? [],
+            authors:
+                post?.author?.map((author: { name: string }) => author.name) ??
+                [],
             publishedTime: post?.publishedAt,
         },
     }
@@ -114,7 +116,7 @@ async function Blog({ params }: { params: Promise<QueryParams> }) {
                     </div>
                 </div>
                 <div className='w-full px-4 left-0 top-10 z-10 h-fit space-y-6 lg:sticky lg:px-2 lg:w-1/4'>
-                    <AboutAuthor author={formatAuthor(post?.author[0])} />
+                    <AboutAuthor author={formatAuthor(post?.author[0]!)} />
                     <RecentPosts posts={recentPosts} />
                 </div>
             </div>

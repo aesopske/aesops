@@ -8,9 +8,18 @@
     "access": "public"
   },
   "exports": {
-    "./eslint/base": "./eslint/base.js",
-    "./eslint/next-js": "./eslint/next.js",
-    "./eslint/react-internal": "./eslint/react-internal.js",
+    "./eslint/base": {
+      "types": "./eslint/base.d.ts",
+      "default": "./eslint/base.js"
+    },
+    "./eslint/next-js": {
+      "types": "./eslint/next.d.ts",
+      "default": "./eslint/next.js"
+    },
+    "./eslint/react-internal": {
+      "types": "./eslint/react-internal.d.ts",
+      "default": "./eslint/react-internal.js"
+    },
     "./base.json": "./tsc/base.json",
     "./nextjs.json": "./tsc/nextjs.json",
     "./react-library.json": "./tsc/react-library.json"

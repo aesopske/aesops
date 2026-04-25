@@ -1,7 +1,7 @@
 import { ArrowUp } from 'lucide-react'
 import { AnimatePresence, motion } from 'framer-motion'
 
-function Backtop({ scroll }) {
+function Backtop({ scroll }: { scroll: boolean }) {
     const backToTop = () => {
         window.scrollTo(0, 0)
     }

@@ -97,7 +97,7 @@ function SelectFilter({
                 initialValue ??
                 ''
             }
-            onValueChange={(evt) => handleSelect(evt)}>
+            onValueChange={(evt: string) => handleSelect(evt)}>
             <SelectTrigger className='w-full lg:w-[180px] max-h-8 shadow-xs rounded-md border-dashed border-gray-500'>
                 <SelectValue placeholder={placeholder ?? `Select ${label}`} />
             </SelectTrigger>

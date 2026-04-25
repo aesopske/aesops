@@ -30,7 +30,9 @@ function ListWrapper<T>({
                     ? keyExtractor(item, index)
                     : getRandomString('AES-LST', 12)
                 if (itemKey) {
-                    key = getNestedValue(item, itemKey) ?? key
+                    key =
+                        (getNestedValue(item, itemKey) as string | number) ??
+                        key
                 }
 
                 return <Fragment key={key}>{children(item, index)}</Fragment>

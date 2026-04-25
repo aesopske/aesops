@@ -1,7 +1,7 @@
 'use client'
 
 import * as React from 'react'
-import * as DropdownMenuPrimitive from '@radix-ui/react-dropdown-menu'
+import { DropdownMenu as DropdownMenuPrimitive } from 'radix-ui'
 import { CheckIcon, ChevronRightIcon, CircleIcon } from 'lucide-react'
 
 import { cn } from '@/lib/utils'
@@ -24,13 +24,23 @@ function DropdownMenuPortal({
 }
 
 function DropdownMenuTrigger({
+    children,
+    className,
     ...props
-}: React.ComponentProps<typeof DropdownMenuPrimitive.Trigger>) {
+}: React.ComponentProps<typeof DropdownMenuPrimitive.Trigger> & {
+    children?: React.ReactNode
+    className?: string
+    asChild?: boolean
+}) {
     return (
         <DropdownMenuPrimitive.Trigger
             data-slot='dropdown-menu-trigger'
-            {...props}
-        />
+            className={className}
+            {...(props as React.ComponentProps<
+                typeof DropdownMenuPrimitive.Trigger
+            >)}>
+            {children}
+        </DropdownMenuPrimitive.Trigger>
     )
 }
 

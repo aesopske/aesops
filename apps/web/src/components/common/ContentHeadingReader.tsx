@@ -43,7 +43,7 @@ function ContentHeadingReader({ body, className }: ContentHeadingReaderProps) {
     )
 }
 
-function Header({ outline }) {
+function Header({ outline }: { outline: any[] }) {
     const pathname = usePathname()
     return (
         <ol className='space-y-1'>
@@ -61,11 +61,11 @@ function Header({ outline }) {
                             className='text-sm font-sans font-normal text-brandprimary-900'>
                             {heading?.text}
                         </Link>
-                        <p className='pl-3 list-decimal space-y-2'>
+                        <div className='pl-3 space-y-2'>
                             {heading?.subheadings?.length > 0 && (
                                 <Header outline={heading.subheadings} />
                             )}
-                        </p>
+                        </div>
                     </li>
                 )}
             </ListWrapper>

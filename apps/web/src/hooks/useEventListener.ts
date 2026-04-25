@@ -1,9 +1,11 @@
 import { useEffect, useRef } from 'react'
 
 function useEventListener(
-    event,
-    cb,
-    element = typeof window !== 'undefined' ? window : null
+    event: string,
+    cb: (e: Event) => void,
+    element: Window | HTMLElement | null = typeof window !== 'undefined'
+        ? window
+        : null,
 ) {
     const callbackRef = useRef(cb)
 
@@ -13,7 +15,7 @@ function useEventListener(
 
     useEffect(() => {
         if (element === null) return
-        const handler = (e) => callbackRef.current(e)
+        const handler = (e: Event) => callbackRef.current(e)
         element.addEventListener(event, handler)
 
         return () => element.removeEventListener(event, handler)

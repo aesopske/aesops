@@ -8,6 +8,7 @@
             "@components/*": ["./src/components/*"],
             "@app/*": ["./src/app/*"],
             "@apps/web/*": ["./*"],
+            "@repo/ui/*": ["../../packages/ui/src/*"],
         },
     },
     "include": [

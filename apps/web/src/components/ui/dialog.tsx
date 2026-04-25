@@ -1,7 +1,7 @@
 'use client'
 
 import * as React from 'react'
-import * as DialogPrimitive from '@radix-ui/react-dialog'
+import { Dialog as DialogPrimitive } from 'radix-ui'
 import { XIcon } from 'lucide-react'
 
 import { cn } from '@/lib/utils'
@@ -13,9 +13,23 @@ function Dialog({
 }
 
 function DialogTrigger({
+    children,
+    className,
     ...props
-}: React.ComponentProps<typeof DialogPrimitive.Trigger>) {
-    return <DialogPrimitive.Trigger data-slot='dialog-trigger' {...props} />
+}: React.ButtonHTMLAttributes<HTMLButtonElement> & {
+    asChild?: boolean
+    children?: React.ReactNode
+}) {
+    return (
+        <DialogPrimitive.Trigger
+            data-slot='dialog-trigger'
+            className={className}
+            {...(props as React.ComponentProps<
+                typeof DialogPrimitive.Trigger
+            >)}>
+            {children}
+        </DialogPrimitive.Trigger>
+    )
 }
 
 function DialogPortal({
