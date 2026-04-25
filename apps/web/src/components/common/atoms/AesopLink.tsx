@@ -6,7 +6,7 @@ import { cn } from '@/lib/utils'
 type defaultProps = {
     type?: 'default' | 'button'
     variant?: 'default' | 'primary' | 'secondary' | 'dark'
-    children: React.ReactNode
+    children: string | React.ReactNode
     className?: string
 }
 
@@ -65,7 +65,7 @@ function AesopLink({
             href={href as string}
             className={cn(linkVariants({ variant, type }), className)}
             {...restProps}>
-            {children}
+            {typeof children === 'string' ? children : ''}
         </Link>
     )
 }

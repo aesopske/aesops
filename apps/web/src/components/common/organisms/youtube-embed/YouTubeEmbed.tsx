@@ -4,7 +4,7 @@ import { Play } from 'lucide-react'
 import ReactPlayer from 'react-player'
 import Text from '@components/common/atoms/Text'
 
-function YouTubeEmbed({ content }) {
+function YouTubeEmbed({ content }: { content: any }) {
     return (
         <div className='bg-brandaccent-50 rounded-md overflow-hidden'>
             <ReactPlayer

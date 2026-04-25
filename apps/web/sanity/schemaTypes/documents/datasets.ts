@@ -53,7 +53,6 @@ export default defineType({
             type: 'array',
             of: [{ type: 'reference', to: [{ type: 'category' }] }],
         }),
-
         defineField({
             name: 'author',
             title: 'Author',

@@ -1,0 +1,6 @@
+@import '@repo/ui/globals.css';
+
+/*make the background --brand-background*/
+body {
+    background-color: var(--brand-background);
+}

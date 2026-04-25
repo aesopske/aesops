@@ -1,4 +1,3 @@
-import { type SchemaTypeDefinition } from 'sanity'
 import author from './schemaTypes/documents/author'
 import category from './schemaTypes/documents/category'
 import dataset from './schemaTypes/documents/datasets'
@@ -20,7 +19,7 @@ import youtubeEmbed from './schemaTypes/objects/youtubeEmbed'
 
 // import customUrl from './schemaTypes/objects/customUrl'
 
-export const schema: { types: SchemaTypeDefinition[] } = {
+export const schema = {
     types: [
         // documents
         siteSettings,

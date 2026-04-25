@@ -1,22 +1,29 @@
 {
-  "name": "aesops-monorepo",
+  "name": "aesops",
+  "version": "0.0.1",
   "private": true,
   "packageManager": "pnpm@10.10.0",
+  "engines": {
+    "node": ">=20"
+  },
   "scripts": {
     "build": "turbo build",
     "dev": "turbo dev",
     "lint": "turbo lint",
-    "format": "prettier --write \"**/*.{ts,tsx,md}\"",
+    "start": "turbo start",
+    "format": "turbo format",
     "prepare": "husky",
-    "check-types": "tsc --noEmit"
+    "typecheck": "turbo typecheck"
   },
   "devDependencies": {
     "@commitlint/cli": "^19.8.0",
     "@commitlint/config-conventional": "^19.8.0",
+    "@repo/config": "workspace:*",
     "eslint": "9.26.0",
     "husky": "^9.1.7",
     "prettier": "^3.5.3",
-    "turbo": "^2.9.3",
+    "prettier-plugin-tailwindcss": "^0.7.2",
+    "turbo": "^2.9.6",
     "typescript": "^5.8.3"
   },
   "pnpm": {

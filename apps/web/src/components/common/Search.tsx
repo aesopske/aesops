@@ -5,7 +5,15 @@ import React, { useState } from 'react'
 import { useRouter, usePathname } from 'next/navigation'
 import { Button } from '../ui'
 
-function Search({ placeholder, search, label }) {
+function Search({
+    placeholder,
+    search,
+    label,
+}: {
+    placeholder: string
+    search?: string
+    label: string
+}) {
     const router = useRouter()
     const pathname = usePathname()
 

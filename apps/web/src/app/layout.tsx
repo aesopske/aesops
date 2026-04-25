@@ -1,4 +1,4 @@
-import '@app/styles/global.css'
+import './styles/globals.css'
 import '@fontsource-variable/bricolage-grotesque'
 import '@fontsource-variable/lora'
 import { Analytics } from '@vercel/analytics/react'
@@ -10,7 +10,7 @@ import Footer from '@components/common/Footer'
 import NewNavbar from '@components/common/NewNavbar'
 import Providers from './_providers'
 
-async function RootLayout({ children }) {
+async function RootLayout({ children }: { children: React.ReactNode }) {
     const { isEnabled } = await draftMode()
     return (
         <html lang='en'>

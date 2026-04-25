@@ -1,7 +1,7 @@
 'use client'
 
 import * as React from 'react'
-import * as AlertDialogPrimitive from '@radix-ui/react-alert-dialog'
+import { AlertDialog as AlertDialogPrimitive } from 'radix-ui'
 
 import { cn } from '@/lib/utils'
 import { buttonVariants } from '@components/ui/button'
@@ -13,13 +13,23 @@ function AlertDialog({
 }
 
 function AlertDialogTrigger({
+    children,
+    className,
     ...props
-}: React.ComponentProps<typeof AlertDialogPrimitive.Trigger>) {
+}: React.ComponentProps<typeof AlertDialogPrimitive.Trigger> & {
+    children?: React.ReactNode
+    className?: string
+    asChild?: boolean
+}) {
     return (
         <AlertDialogPrimitive.Trigger
             data-slot='alert-dialog-trigger'
-            {...props}
-        />
+            className={className}
+            {...(props as React.ComponentProps<
+                typeof AlertDialogPrimitive.Trigger
+            >)}>
+            {children}
+        </AlertDialogPrimitive.Trigger>
     )
 }
 

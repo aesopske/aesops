@@ -1,13 +1,17 @@
-import { PortableText as RPText } from '@portabletext/react'
+import {
+    PortableText as RPText,
+    PortableTextComponents,
+    PortableTextBlock,
+} from '@portabletext/react'
 
 import SanityImage from './SanityImage'
 import Heading from '@components/common/atoms/Heading'
 
-const components = {
+const components: PortableTextComponents = {
     types: {
         image: SanityImage,
     },
-    blocks: {
+    block: {
         h1: ({ children }) => <Heading>{children}</Heading>,
         h2: ({ children }) => <Heading type='h2'>{children}</Heading>,
         h3: ({ children }) => <Heading type='h3'>{children}</Heading>,
@@ -15,7 +19,7 @@ const components = {
     },
 }
 
-function PortableText({ content }) {
+function PortableText({ content }: { content: PortableTextBlock[] }) {
     return <RPText value={content} components={components} />
 }
 export default PortableText

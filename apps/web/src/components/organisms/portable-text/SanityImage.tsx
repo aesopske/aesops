@@ -4,7 +4,7 @@ import Image from 'next/image'
 import { urlFor } from '@/utils'
 import { getImageDimensions } from '@sanity/asset-utils'
 
-function SanityImage({ value, isInline }) {
+function SanityImage({ value, isInline }: { value: any; isInline: boolean }) {
     const { width, height } = getImageDimensions(value)
     const url = urlFor(value).width(600).url()
     const blurDataURL = urlFor(value).width(24).height(24).blur(10).url()

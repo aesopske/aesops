@@ -1,7 +1,7 @@
 'use client'
 
 import Cookie from 'js-cookie'
-import { createContext } from 'react'
+import React, { createContext } from 'react'
 import { env } from '@/env'
 
 type AuthContextType = {
@@ -10,7 +10,7 @@ type AuthContextType = {
 
 export const DemoAuthContext = createContext<AuthContextType | null>(null)
 
-function DemoAuthProvider({ children }) {
+function DemoAuthProvider({ children }: { children: React.ReactNode }) {
     // check if current URL is demo URL
     const authedHosts = ['demo.aesops.co.ke']
     const shouldBeAuthed =

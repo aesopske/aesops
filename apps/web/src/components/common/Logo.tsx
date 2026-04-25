@@ -1,38 +1,23 @@
 import React from 'react'
-import Image from 'next/image'
 import Link from 'next/link'
+import { Logo as SharedLogo } from '@repo/ui/components/logo'
 import { cn } from '@/lib/utils'
 
 type LogoProps = {
     className?: string
 } & React.HTMLAttributes<HTMLDivElement>
 
-function Logo({ className }: LogoProps) {
+function Logo({ className, ...props }: LogoProps) {
     return (
-        <div className='flex lg:flex-1'>
+        <div className={cn('flex lg:flex-1', className)} {...props}>
             <Link
                 href='/'
-                className={cn('h-10 w-10 md:h-10 md:w-auto xl:h-12', className)}
+                className='h-10 w-10 md:h-10 md:w-auto xl:h-12'
                 passHref>
-                <span className='sr-only'>Aesops</span>
-                <Image
-                    width={200}
-                    height={200}
-                    alt='Aesops Logo'
-                    className='hidden h-full w-full md:block'
-                    src='/logo.svg'
-                    loading='eager'
-                />
-                <Image
-                    width={200}
-                    height={200}
-                    alt='Aesops Logo'
-                    className='h-full w-full md:hidden'
-                    src='/logo-mark.svg'
-                    loading='eager'
-                />
+                <SharedLogo className='h-full w-auto' />
             </Link>
         </div>
     )
 }
+
 export default Logo

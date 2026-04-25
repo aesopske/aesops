@@ -4,14 +4,12 @@ import { env } from '@/env'
 export const headers = {
     'Content-Type': 'application/json',
     Accept: 'application/json',
-    // 'Access-Control-Allow-Origin': env.NEXT_PUBLIC_AESOPS_API_URL,
-    // 'Access-Control-Allow-Credentials': 'true',
 }
 
 export type InvokeOptions = {
     method?: Method
     endpoint: string
-    data?: Record<string, any>
+    data?: Record<string, unknown>
     options?: {
         headers?: AxiosRequestHeaders
     }
@@ -24,6 +22,11 @@ export type InvokeResponse<T> = Promise<{
     error: string | null
 }>
 
+type ApiErrorData = {
+    message?: string
+    detail?: string
+}
+
 export async function invoke<T>({
     data,
     options,
@@ -31,9 +34,7 @@ export async function invoke<T>({
     method = 'GET',
     useBaseUrl = true,
 }: InvokeOptions): InvokeResponse<T> {
-    const config = {
-        headers,
-    }
+    const config = { headers }
 
     const BASE_URL = env.NEXT_PUBLIC_AESOPS_API_URL
 
@@ -41,13 +42,10 @@ export async function invoke<T>({
         throw new Error('BASE_URL is not defined')
     }
 
-    let REQUEST_URL = endpoint
+    const REQUEST_URL = useBaseUrl ? `${BASE_URL}${endpoint}` : endpoint
 
-    if (useBaseUrl) {
-        REQUEST_URL = `${BASE_URL}${endpoint}`
-    }
+    const { headers: optionHeaders, ...opts } = options ?? {}
 
-    const { headers: optionHeaders, ...opts } = options || {}
     try {
         const { data: res, status } = await axios({
             method,
@@ -64,11 +62,11 @@ export async function invoke<T>({
         return { res, status, error: null }
     } catch (error) {
         if (error instanceof AxiosError) {
-            if (error?.response) {
-                if (error.response.data.message || error.response.data.detail) {
-                    const message =
-                        error.response.data.message ||
-                        error.response.data.detail
+            if (error.response) {
+                const responseData = error.response.data as ApiErrorData
+                const message = responseData?.message ?? responseData?.detail
+
+                if (message) {
                     return {
                         res: null,
                         status: error.response.status,
@@ -79,27 +77,32 @@ export async function invoke<T>({
                 return {
                     res: null,
                     status: error.response.status,
-                    error: error.response.data,
+                    error: String(error.response.data),
                 }
-            } else if (error.request) {
+            }
+
+            if (error.request) {
                 return {
                     res: null,
-                    status: error.response?.status,
-                    error: 'Error: No response received from the request',
+                    status: undefined,
+                    error: 'No response received from the server',
                 }
-            } else {
-                return {
-                    res: null,
-                    status: error.response?.status,
-                    error: error.message,
-                }
+            }
+
+            return {
+                res: null,
+                status: undefined,
+                error: error.message,
             }
         }
 
         return {
             res: null,
-            status: error.response?.status,
-            error: error.message,
+            status: undefined,
+            error:
+                error instanceof Error
+                    ? error.message
+                    : 'An unexpected error occurred',
         }
     }
 }

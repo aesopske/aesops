@@ -49,13 +49,13 @@ async function AboutUs() {
     })
     return (
         <div className='min-h-screen'>
-            <OurStory sectionContent={page?.sections[0]} />
+            <OurStory sectionContent={page?.sections[0]!} />
             <OurMissionVision
-                mission={page?.sections[1]}
-                vision={page?.sections[2]}
+                mission={page?.sections[1]!}
+                vision={page?.sections[2]!}
             />
-            <OurValues sectionContent={page?.sections[3]} />
-            <OurTeam sectionContent={page?.sections[4]} />
+            <OurValues sectionContent={page?.sections[3]!} />
+            <OurTeam sectionContent={page?.sections[4]!} />
         </div>
     )
 }
@@ -173,7 +173,8 @@ function OurValues({ sectionContent }: { sectionContent: SECTION }) {
                             itemKey='title'
                             list={sectionContent?.values ?? []}>
                             {(item: VALUE) => {
-                                const icon = icons[item?.icon]
+                                const icon =
+                                    icons[item?.icon as keyof typeof icons]
                                 return (
                                     <div className='space-y-3 bg-brand-background p-4 rounded-lg'>
                                         <span className='text-brandprimary-700'>

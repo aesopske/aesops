@@ -1,7 +1,7 @@
 import { Frame } from 'lucide-react'
 import Text from '@components/common/atoms/Text'
 
-function IframeEmbed({ content }) {
+function IframeEmbed({ content }: { content: any }) {
     return (
         <div className='bg-brandaccent-50 rounded-md overflow-hidden'>
             <iframe

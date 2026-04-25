@@ -4,7 +4,7 @@ import { Button } from '@components/ui'
 import { Copy, Check } from 'lucide-react'
 import { useEffect, useState } from 'react'
 
-function CodeBar({ filename, code }) {
+function CodeBar({ filename, code }: { filename: string; code: string }) {
     const [copied, setCopied] = useState(false)
 
     useEffect(() => {

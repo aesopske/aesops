@@ -1,5 +1,5 @@
 {
-    "$schema": "https://turbo.build/schema.json",
+    "$schema": "https://v2-9-6.turborepo.dev/schema.json",
     "ui": "stream",
     "globalEnv": [
         "OPENAI_API_KEY",
@@ -37,6 +37,14 @@
         },
         "lint": {
             "dependsOn": ["^lint"],
+            "inputs": ["$TURBO_DEFAULT$"]
+        },
+        "format": {
+            "dependsOn": ["^format"],
+            "inputs": ["$TURBO_DEFAULT$"]
+        },
+        "typecheck": {
+            "dependsOn": ["^typecheck"],
             "inputs": ["$TURBO_DEFAULT$"]
         },
         "dev": {

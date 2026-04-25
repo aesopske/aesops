@@ -4,7 +4,7 @@ import Search from '@components/common/Search'
 import Heading from '@components/common/atoms/Heading'
 import Text from '@components/common/atoms/Text'
 
-function DatasetsPage({ searchParams }) {
+function DatasetsPage({ searchParams }: { searchParams: { search?: string } }) {
     const initialSection = {
         title: 'Datasets',
         description: 'Search for datasets to use in your projects',

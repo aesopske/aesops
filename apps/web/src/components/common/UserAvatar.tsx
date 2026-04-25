@@ -18,7 +18,7 @@ function UserAvatar({ user }: UserAvatarProps) {
     const firstLastNameLetters = () => {
         if (user) {
             const name = user?.name.split(' ')
-            return name[0][0] + name[1][0]
+            return name[0]![0]! + name[1]![0]!
         }
         return ''
     }

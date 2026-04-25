@@ -58,10 +58,10 @@ async function Page() {
 
     return (
         <div className='w-full h-full min-h-screen'>
-            <Hero section={page?.sections[0]} />
-            <Datasets section={page?.sections[1]} />
-            <Consultancy section={page?.sections[2]} />
-            <Community section={page?.sections[3]} />
+            <Hero section={page?.sections[0]!} />
+            <Datasets section={page?.sections[1]!} />
+            <Consultancy section={page?.sections[2]!} />
+            <Community section={page?.sections[3]!} />
             <RecentPosts posts={posts} />
             <Animate dir='up' duration={0.8} className='md:px-6 2xl:px-0'>
                 <TalkToUs />
