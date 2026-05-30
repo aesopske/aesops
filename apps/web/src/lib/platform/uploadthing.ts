@@ -38,16 +38,26 @@ export const fileRouter = {
             }),
         )
         .middleware(async ({ req, input }) => {
+            type Input = {
+                name: string
+                grouped: boolean
+                description: unknown
+                license?: string
+                groupId?: string
+                parentId?: string
+                files: Record<string, Record<string, unknown>>
+            }
+            const i = input as Input
             const session = await auth.api.getSession({ headers: req.headers })
             return {
                 uploadedBy: session?.user.id ?? null,
-                name: input.name,
-                grouped: input.grouped,
-                description: input.description,
-                license: input.license ?? null,
-                groupId: input.groupId ?? null,
-                parentId: input.parentId ?? null,
-                filesMetadata: input.files,
+                name: i.name,
+                grouped: i.grouped,
+                description: i.description,
+                license: i.license ?? null,
+                groupId: i.groupId ?? null,
+                parentId: i.parentId ?? null,
+                filesMetadata: i.files,
             }
         })
         .onUploadComplete(async ({ metadata, file }) => {
