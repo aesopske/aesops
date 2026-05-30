@@ -3,17 +3,15 @@
     "ui": "stream",
     "globalEnv": [
         "GEMINI_API_KEY",
-        "SANITY_API_READ_TOKEN",
-        "SANITY_API_WRITE_TOKEN",
-        "NEXT_PUBLIC_AESOPS_API_URL",
+        "SANITY_API_TOKEN",
         "NEXT_PUBLIC_SANITY_API_VERSION",
         "NEXT_PUBLIC_SANITY_DATASET",
         "NEXT_PUBLIC_SANITY_PROJECT_ID",
         "NEXT_PUBLIC_SITE_URL",
-        "DASHBOARD_URL",
         "ENABLE_EXPERIMENTAL_COREPACK",
         "DATABASE_URL",
-        "UPLOADTHING_TOKEN"
+        "UPLOADTHING_TOKEN",
+        "UPLOADTHING_SECRET_TOKEN"
     ],
     "tasks": {
         "build": {
