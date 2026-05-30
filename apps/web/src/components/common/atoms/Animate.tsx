@@ -1,76 +1,66 @@
 'use client'
 
-import { motion, type MotionProps, useInView } from 'framer-motion'
 import React from 'react'
-import useScrollDirection from '@/hooks/useScrollDirection'
 
 type AnimateDirection = 'right' | 'left' | 'up' | 'down'
 
 type AnimateProps = {
-    dir: AnimateDirection
+    dir?: AnimateDirection
     duration?: number
     children: React.ReactNode
     threshold?: number
     respondToScroll?: boolean
     useObserver?: boolean
     initiallyVisible?: boolean
-} & React.HTMLAttributes<HTMLDivElement> &
-    MotionProps
+} & React.HTMLAttributes<HTMLDivElement>
 
 function Animate({
     children,
     dir = 'up',
     duration = 0.5,
     threshold = 0.2,
-    respondToScroll = true,
     useObserver = true,
     initiallyVisible = false,
+    style,
     ...props
 }: AnimateProps) {
-    const ref = React.useRef(null)
-    const isInView = useInView(ref, {
-        once: true,
-        amount: threshold,
-        margin: '10px',
-    })
+    const ref = React.useRef<HTMLDivElement>(null)
+    const [isVisible, setIsVisible] = React.useState(initiallyVisible)
 
-    const scrollDirection = useScrollDirection()
+    React.useEffect(() => {
+        if (!useObserver) {
+            setIsVisible(initiallyVisible)
+            return
+        }
+        const el = ref.current
+        if (!el) return
+        const observer = new IntersectionObserver(
+            (entries) => { const entry = entries[0]; if (entry?.isIntersecting) { setIsVisible(true); observer.disconnect() } },
+            { threshold, rootMargin: '10px' },
+        )
+        observer.observe(el)
+        return () => observer.disconnect()
+    }, [useObserver, initiallyVisible, threshold])
 
-    const getAnimationDirection = (): AnimateDirection => {
-        if (!respondToScroll || !scrollDirection) return dir
-
-        // When the scroll direction is up, we want to animate in the opposite direction
-        if (scrollDirection === 'up') return dir === 'up' ? 'down' : 'up'
-        return dir
+    const translateMap: Record<AnimateDirection, string> = {
+        up: 'translateY(40px)',
+        down: 'translateY(-40px)',
+        left: 'translateX(40px)',
+        right: 'translateX(-40px)',
     }
-
-    const animationDir = getAnimationDirection()
-
-    const variants = {
-        hidden: {
-            opacity: 0,
-            x: dir === 'left' ? 70 : dir === 'right' ? -70 : 0,
-            y: animationDir === 'up' ? 70 : animationDir === 'down' ? -70 : 0,
-        },
-        visible: {
-            opacity: 1,
-            x: 0,
-            y: 0,
-        },
-    }
-
-    const shouldBeVisible = useObserver ? isInView : initiallyVisible
 
     return (
-        <motion.div
+        <div
             ref={ref}
-            initial='hidden'
-            animate={shouldBeVisible ? 'visible' : 'hidden'}
-            variants={variants}
-            transition={{ duration }}
+            style={{
+                transition: `opacity ${duration}s ease, transform ${duration}s ease`,
+                opacity: isVisible ? 1 : 0,
+                transform: isVisible ? 'translate(0,0)' : translateMap[dir],
+                ...style,
+            }}
             {...props}>
             {children}
-        </motion.div>
+        </div>
     )
 }
 

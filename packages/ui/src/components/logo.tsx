@@ -15,7 +15,7 @@ interface LogoProps extends React.HTMLAttributes<HTMLDivElement> {
  */
 export function Logo({ className, variant, ...props }: LogoProps) {
     const id = React.useId().replace(/:/g, '')
-    const markGradientId = `logo_mark_gradient_${id}`
+    const markBlobClipId = `logo_mark_blob_clip_${id}`
     const fullGradientId = `logo_full_gradient_${id}`
     const fullShadowId = `logo_full_shadow_${id}`
 
@@ -23,39 +23,30 @@ export function Logo({ className, variant, ...props }: LogoProps) {
         <div className={cn('flex items-center', className)} {...props}>
             <div className='sr-only'>Aesops</div>
 
-            {/* Logo Mark (Circle Gradient) */}
+            {/* Logo Mark (Organic blob + circle) */}
             {(variant === 'mark' || !variant) && (
                 <svg
-                    width='250'
-                    height='250'
-                    viewBox='0 0 250 250'
+                    width='200'
+                    height='265'
+                    viewBox='0 0 200 265'
                     fill='none'
                     xmlns='http://www.w3.org/2000/svg'
                     className={cn('h-full w-auto', !variant && 'md:hidden')}>
-                    <circle
-                        cx='125'
-                        cy='125'
-                        r='90'
-                        stroke={`url(#${markGradientId})`}
-                        strokeWidth='70'
-                    />
                     <defs>
-                        <linearGradient
-                            id={markGradientId}
-                            x1='52.381'
-                            y1='27.381'
-                            x2='210.119'
-                            y2='220.833'
-                            gradientUnits='userSpaceOnUse'>
-                            <stop stopColor='#001524' />
-                            <stop offset='0.1' stopColor='#15616D' />
-                            <stop offset='0.255' stopColor='#87A59E' />
-                            <stop offset='0.5' stopColor='#FFECD1' />
-                            <stop offset='0.745' stopColor='#FFB467' />
-                            <stop offset='0.905' stopColor='#FF7D00' />
-                            <stop offset='1' stopColor='#BC5308' />
-                        </linearGradient>
+                        {/* clipPath cuts a gap circle from the blob, avoiding CSS-filter/mask conflicts */}
+                        <clipPath id={markBlobClipId}>
+                            <path
+                                fillRule='evenodd'
+                                d='M -10,-10 H 210 V 275 H -10 Z M 45,210 A 55,55 0 1 0 155,210 A 55,55 0 1 0 45,210 Z'
+                            />
+                        </clipPath>
                     </defs>
+                    <path
+                        d='M 90,12 C 140,10 178,44 180,82 C 182,118 166,146 153,158 C 140,168 118,168 104,172 C 90,176 66,174 46,160 C 26,146 12,118 12,84 C 12,50 44,14 90,12 Z'
+                        fill='#0A2533'
+                        clipPath={`url(#${markBlobClipId})`}
+                    />
+                    <circle cx='100' cy='210' r='48' fill='#0A2533' />
                 </svg>
             )}
 
