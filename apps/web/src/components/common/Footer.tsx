@@ -1,187 +1,160 @@
 'use client'
 
-import {
-    FaFacebook,
-    FaGithub,
-    FaLinkedin,
-    FaTiktok,
-    FaYoutube,
-} from 'react-icons/fa'
+import { FaGithub, FaLinkedin, FaYoutube } from 'react-icons/fa'
 import { FaXTwitter } from 'react-icons/fa6'
 import React from 'react'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import Logo from './Logo'
-import AesopLink from './atoms/AesopLink'
-import Heading from './atoms/Heading'
-import Text from './atoms/Text'
+
+const platform = [
+    { label: 'Blog', href: '/blog' },
+    { label: 'Datasets', href: 'http://localhost:3001' },
+    { label: 'About Us', href: '/about-us' },
+]
+
+const resources = [
+    { label: 'Write for Aesops', href: '/blog/contribute' },
+    { label: 'Sitemap', href: '/sitemap.xml' },
+    { label: 'Home', href: '/' },
+]
+
+const company = [
+    { label: 'About Us', href: '/about-us' },
+    { label: 'Contact', href: '/contact' },
+    { label: 'Privacy Policy', href: '/privacy-policy' },
+]
+
+const socials = [
+    {
+        label: 'X / Twitter',
+        href: 'https://twitter.com/Aesopsk',
+        Icon: FaXTwitter,
+    },
+    {
+        label: 'LinkedIn',
+        href: 'https://www.linkedin.com/company/aesops/',
+        Icon: FaLinkedin,
+    },
+    {
+        label: 'GitHub',
+        href: 'https://github.com/aesopske',
+        Icon: FaGithub,
+    },
+    {
+        label: 'YouTube',
+        href: 'https://www.youtube.com/@aesops7379',
+        Icon: FaYoutube,
+    },
+]
+
+const legal = [
+    { label: 'Privacy Policy', href: '/privacy-policy' },
+    { label: 'Terms of Service', href: '/terms' },
+]
 
 function Footer() {
-    const links = [
-        // {
-        //     label: 'Datasets',
-        //     link: '/datasets',
-        // },
-
-        // {
-        //     label: 'Community',
-        //     link: '/community',
-        // },
-        {
-            label: 'Home',
-            link: '/',
-        },
-        {
-            label: 'About Us',
-            link: '/about-us',
-        },
-        {
-            label: 'Sitemap',
-            link: '/sitemap.xml',
-        },
-    ]
-    const resources = [
-        {
-            label: 'Blogs',
-            link: '/blog',
-        },
-        {
-            label: 'Write for Aesops',
-            link: '/blog/contribute',
-        },
-    ]
-    const socials = [
-        {
-            label: 'LinkedIn',
-            href: 'https://www.linkedin.com/company/aesops/',
-            icon: <FaLinkedin className='w-full h-full' />,
-        },
-        {
-            label: 'Github',
-            href: 'https://github.com/aesopske',
-            icon: <FaGithub className='w-full h-full' />,
-        },
-        {
-            label: 'Twitter',
-            href: 'https://twitter.com/Aesopsk',
-            icon: <FaXTwitter className='w-full h-full' />,
-        },
-        {
-            label: 'Facebook',
-            href: 'https://facebook.com/aesopske',
-            icon: <FaFacebook className='w-full h-full' />,
-        },
-        {
-            label: 'TikTok',
-            href: 'https://facebook.com/aesopske',
-            icon: <FaTiktok className='w-full h-full' />,
-        },
-        {
-            label: 'YouTube',
-            href: 'www.youtube.com/@aesops7379',
-            icon: <FaYoutube className='w-full h-full' />,
-        },
-    ]
-
-    const legal = [
-        {
-            label: 'Privacy Policy',
-            href: `/privacy-policy`,
-        },
-    ]
-
     const pathname = usePathname()
     if (pathname?.includes('/studio')) return null
+
+    const year = new Date().getFullYear()
+
     return (
-        <section className='w-full h-full pt-10 px-6 bg-linear-to-b pb-5 from-brand-background via-brandaccent-50 to-brandprimary-700 lg:pt-56'>
-            <div className='mx-auto max-w-(--breakpoint-lg) lg:max-w-(--breakpoint-xl) 2xl:max-w-(--breakpoint-2xl) grid gap-4 grid-cols-2 md:grid-cols-3 lg:grid-cols-7'>
-                <div className='w-56 h-auto col-span-2 flex items-start justify-start md:col-span-3 lg:col-span-3 lg:h-56'>
-                    <Logo className='h-auto w-24 md:w-56' />
+        <footer className='w-full bg-primary px-6 pt-16 pb-8'>
+            <div className='mx-auto max-w-(--breakpoint-md) lg:max-w-(--breakpoint-lg) 2xl:max-w-(--breakpoint-xl)'>
+                <div className='grid grid-cols-1 gap-12 lg:grid-cols-[1.8fr_2.2fr] lg:gap-16'>
+                    <div className='flex flex-col gap-6'>
+                        <Logo className='brightness-0 invert' />
+                        <p className='text-primary-foreground/70 text-sm leading-relaxed max-w-xs font-sans'>
+                            Aesops is a pioneering data organisation in Kenya,
+                            collecting, curating, and disseminating data to
+                            drive data-driven decision-making and innovation.
+                        </p>
+                        <div className='flex items-center gap-4'>
+                            {socials.map(({ label, href, Icon }) => (
+                                <a
+                                    key={label}
+                                    href={href}
+                                    target='_blank'
+                                    rel='noopener noreferrer'
+                                    aria-label={label}
+                                    className='text-primary-foreground/60 hover:text-primary-foreground transition-colors'>
+                                    <Icon className='w-5 h-5' />
+                                </a>
+                            ))}
+                        </div>
+                    </div>
+
+                    <div className='grid grid-cols-2 gap-8 sm:grid-cols-3'>
+                        <div className='flex flex-col gap-4'>
+                            <span className='font-sans font-semibold text-primary-foreground text-sm'>
+                                Platform
+                            </span>
+                            <div className='flex flex-col gap-3'>
+                                {platform.map(({ label, href }) => (
+                                    <Link
+                                        key={label}
+                                        href={href}
+                                        className='text-primary-foreground/60 hover:text-primary-foreground text-sm font-sans transition-colors w-fit'>
+                                        {label}
+                                    </Link>
+                                ))}
+                            </div>
+                        </div>
+
+                        <div className='flex flex-col gap-4'>
+                            <span className='font-sans font-semibold text-primary-foreground text-sm'>
+                                Resources
+                            </span>
+                            <div className='flex flex-col gap-3'>
+                                {resources.map(({ label, href }) => (
+                                    <Link
+                                        key={label}
+                                        href={href}
+                                        className='text-primary-foreground/60 hover:text-primary-foreground text-sm font-sans transition-colors w-fit'>
+                                        {label}
+                                    </Link>
+                                ))}
+                            </div>
+                        </div>
+
+                        <div className='flex flex-col gap-4'>
+                            <span className='font-sans font-semibold text-primary-foreground text-sm'>
+                                Company
+                            </span>
+                            <div className='flex flex-col gap-3'>
+                                {company.map(({ label, href }) => (
+                                    <Link
+                                        key={label}
+                                        href={href}
+                                        className='text-primary-foreground/60 hover:text-primary-foreground text-sm font-sans transition-colors w-fit'>
+                                        {label}
+                                    </Link>
+                                ))}
+                            </div>
+                        </div>
+                    </div>
                 </div>
 
-                <div className='flex flex-col gap-4'>
-                    <Heading type='h4'>Company</Heading>
-                    <div className='flex flex-col gap-3 text-sm'>
-                        {links.map((link) => (
+                <hr className='my-10 border-primary-foreground/20' />
+
+                <div className='flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between'>
+                    <p className='text-primary-foreground/60 text-sm font-sans'>
+                        © {year} Aesops. All rights reserved.
+                    </p>
+                    <div className='flex items-center gap-5'>
+                        {legal.map(({ label, href }) => (
                             <Link
-                                passHref
-                                key={link.label}
-                                href={link?.link || ''}
-                                className='cursor-pointer w-fit font-sans'>
-                                {link.label}
+                                key={label}
+                                href={href}
+                                className='text-primary-foreground/60 hover:text-primary-foreground text-sm font-sans underline underline-offset-4 transition-colors'>
+                                {label}
                             </Link>
-                        ))}
-                    </div>
-                </div>
-
-                <div className='flex flex-col gap-4'>
-                    <Heading type='h4'>Resources</Heading>
-                    <div className='flex flex-col gap-3 text-sm'>
-                        {resources.map((link) => (
-                            <Link
-                                passHref
-                                key={link.label}
-                                href={link?.link || ''}
-                                className='cursor-pointer w-fit font-sans'>
-                                {link.label}
-                            </Link>
-                        ))}
-                    </div>
-                </div>
-                <div className='flex flex-col gap-4'>
-                    <Heading type='h4'>Legal</Heading>
-
-                    <div className='flex flex-col gap-3 text-sm'>
-                        {legal.map((leg) => (
-                            <AesopLink
-                                href={leg?.href}
-                                key={leg.label}
-                                target='_blank'
-                                className='cursor-pointer w-fit font-sans'
-                                rel='noopener noreferrer'>
-                                {leg.label}
-                            </AesopLink>
-                        ))}
-                    </div>
-                </div>
-
-                <div className='flex flex-col gap-4'>
-                    <Heading type='h4'>Engage With Us</Heading>
-                    <div className='flex flex-col gap-2'>
-                        {socials.map((social) => (
-                            <AesopLink
-                                isExternal
-                                target='_blank'
-                                key={social.label}
-                                href={social.href}
-                                rel='noopener noreferrer'
-                                className='flex items-center gap-2'>
-                                <span className='w-8 h-8 p-1.5 border border-transparent  rounded-full'>
-                                    {social.icon}
-                                </span>
-
-                                <Text as='span' className='text-sm'>
-                                    {social.label}
-                                </Text>
-                            </AesopLink>
                         ))}
                     </div>
                 </div>
             </div>
-
-            <hr className='my-8 border border-brandprimary-700/10 max-w-3xl mx-auto' />
-
-            <Text className='text-center w-full capitalize my-4 text-white'>
-                all rights reserved
-                <Link
-                    href='/'
-                    className='border-b  border-dashed border-gray-400 ml-2'>
-                    Aesops
-                </Link>
-                <span className='mx-1'>&copy;</span>
-                <span>{new Date().getFullYear()}</span>
-            </Text>
-        </section>
+        </footer>
     )
 }
 

@@ -1,84 +1,78 @@
 'use client'
 
-import { cva } from 'class-variance-authority'
-import { Slash } from 'lucide-react'
+import { ChevronRight } from 'lucide-react'
 import { Fragment, useEffect, useState } from 'react'
 import {
     Breadcrumb,
     BreadcrumbItem,
     BreadcrumbLink,
     BreadcrumbList,
+    BreadcrumbPage,
     BreadcrumbSeparator,
 } from '@components/ui/breadcrumb'
 import { getBreadcrumbs } from '@/lib/getBreadcrumbs'
 import { cn } from '@/lib/utils'
 import { PATH } from '~sanity/utils/types'
-import ListWrapper from '@components/common/ListWrapper'
-
-const colorVariant = cva('', {
-    variants: {
-        color: {
-            default: 'text-brandprimary-900',
-            primary: 'text-brandprimary-700',
-            light: 'text-brandaccent-50',
-        },
-    },
-    defaultVariants: {
-        color: 'default',
-    },
-})
 
 type BreadCrumbsProps = {
-    color?: 'default' | 'primary' | 'light'
+    color?: 'default' | 'light'
+    className?: string
 }
 
-function BreadCrumbs({ color = 'default' }: BreadCrumbsProps) {
+function BreadCrumbs({ color = 'default', className }: BreadCrumbsProps) {
     const [paths, setPaths] = useState<PATH[]>([])
 
     useEffect(() => {
-        if (typeof window === 'undefined') return
         const path = window.location.pathname
-        const breadcrumbs = getBreadcrumbs(path)
-        setPaths(breadcrumbs)
+        setPaths(getBreadcrumbs(path))
     }, [])
+
+    const isLight = color === 'light'
+
+    const linkClass = isLight
+        ? 'text-primary-foreground/50 hover:text-primary-foreground/90 transition-colors duration-150'
+        : 'text-muted-foreground hover:text-foreground transition-colors duration-150'
+
+    const pageClass = isLight ? 'text-primary-foreground/75' : 'text-foreground/70'
+
+    const separatorClass = isLight ? 'text-primary-foreground/25' : 'text-border'
+
     return (
-        <Breadcrumb>
-            <BreadcrumbList className={cn(colorVariant({ color }))}>
+        <Breadcrumb className={className}>
+            <BreadcrumbList className='text-sm font-mono tracking-wide gap-1 sm:gap-1 flex-nowrap'>
                 <BreadcrumbItem>
-                    <BreadcrumbLink
-                        href='/'
-                        data-active={
-                            typeof window !== 'undefined'
-                                ? window?.location.pathname === '/'
-                                : false
-                        }
-                        className='data-[active=false]:text-current font-sans'>
+                    <BreadcrumbLink href='/' className={linkClass}>
                         Home
                     </BreadcrumbLink>
                 </BreadcrumbItem>
-                <BreadcrumbSeparator>
-                    <Slash size={16} />
-                </BreadcrumbSeparator>
-                <ListWrapper list={paths} keyExtractor={(path) => path.name}>
-                    {(path) => (
-                        <Fragment>
-                            <BreadcrumbItem>
+
+                {paths.map((path) => (
+                    <Fragment key={path.name}>
+                        <BreadcrumbSeparator className={separatorClass}>
+                            <ChevronRight className='w-3 h-3' />
+                        </BreadcrumbSeparator>
+                        <BreadcrumbItem>
+                            {path.active ? (
+                                <BreadcrumbPage
+                                    className={cn(
+                                        pageClass,
+                                        'text-sm font-mono capitalize',
+                                    )}>
+                                    {path.name}
+                                </BreadcrumbPage>
+                            ) : (
                                 <BreadcrumbLink
                                     href={path.href}
-                                    aria-disabled={path.active}
-                                    data-active={path.active}
-                                    className='data-[active=false]:text-current capitalize aria-disabled:pointer-events-none aria-disabled:text-current aria-disabled:opacity-60 font-sans'>
+                                    className={cn(linkClass, 'capitalize')}>
                                     {path.name}
                                 </BreadcrumbLink>
-                            </BreadcrumbItem>
-                            <BreadcrumbSeparator className='last:hidden'>
-                                <Slash size={16} />
-                            </BreadcrumbSeparator>
-                        </Fragment>
-                    )}
-                </ListWrapper>
+                            )}
+                        </BreadcrumbItem>
+                    </Fragment>
+                ))}
             </BreadcrumbList>
         </Breadcrumb>
     )
 }
+
 export default BreadCrumbs

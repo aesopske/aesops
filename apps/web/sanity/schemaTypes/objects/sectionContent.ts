@@ -106,8 +106,8 @@ export default defineType({
             of: [
                 {
                     type: 'reference',
-                    to: [{ type: 'author' }],
-                    options: { filter: 'isCoreMember' },
+                    to: [{ type: 'team' }],
+                    options: { filter: 'showOnPage == true' },
                 },
             ],
             description: 'Members of the section',

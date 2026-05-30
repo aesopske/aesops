@@ -12,7 +12,7 @@ export function formatAuthor(author: AUTHOR): AUTHOR_PLUS {
             .join('')
     }
 
-    const photoURL = author?.image ? urlForImage(author?.image) : ''
+    const photoURL = author?.image ? (urlForImage(author?.image) ?? '') : ''
 
     return {
         ...author,

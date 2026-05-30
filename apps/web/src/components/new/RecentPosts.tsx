@@ -18,7 +18,7 @@ function RecentPosts({ posts, className }: RecentPostsProps) {
                     <Heading type='h2' className='font-bold tracking-tight'>
                         Recent Posts
                     </Heading>
-                    <Text className='my-4 leading-8 text-gray-600 max-w-xl'>
+                    <Text className='my-4 leading-8 text-muted-foreground max-w-xl'>
                         Stay updated with the latest stories and insights about
                         data science and technology from us and our community.
                     </Text>

@@ -1,4 +1,5 @@
 @import '@repo/ui/globals.css';
+@source "../../../../../node_modules/streamdown/dist/*.js";
 
 /*make the background --brand-background*/
 body {

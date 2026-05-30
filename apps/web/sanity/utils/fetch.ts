@@ -4,7 +4,7 @@ import { client } from './client'
 
 type QueryParams = Record<string, unknown>
 
-export const token = env.SANITY_API_READ_TOKEN
+export const token = env.SANITY_API_TOKEN
 
 type FetchOptions = {
     query: string

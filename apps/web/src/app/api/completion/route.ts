@@ -1,18 +1,46 @@
-import { google } from '@ai-sdk/google'
-import { Redis } from '@upstash/redis'
+import { createGoogleGenerativeAI } from '@ai-sdk/google'
+import { createClient } from 'next-sanity'
+import { groq } from 'next-sanity'
 import { streamText, formatDataStreamPart } from 'ai'
+import { env } from '@/env'
+import { apiVersion, dataset, projectId } from '~sanity/env'
+import { client } from '~sanity/utils/client'
 
-export const dynamic = 'force-dynamic' // force dynamic rendering
+const google = createGoogleGenerativeAI({ apiKey: env.GEMINI_API_KEY })
 
-export const maxDuration = 30 // allow streamText to run for upto 30 seconds
+export const dynamic = 'force-dynamic'
+export const maxDuration = 30
 
-const kv = Redis.fromEnv()
+// Write-capable client — only active when SANITY_API_WRITE_TOKEN is set
+const writeClient = env.SANITY_API_TOKEN
+    ? createClient({
+          projectId,
+          dataset,
+          apiVersion,
+          useCdn: false,
+          token: env.SANITY_API_TOKEN,
+      })
+    : null
+
+const CACHE_TTL_HOURS = 6
+
+// Sanity document IDs allow: letters, digits, hyphens, underscores
+function cacheDocId(key: string) {
+    return `aicache-${key.replace(/[^a-zA-Z0-9-]/g, '_')}`
+}
 
 export async function POST(req: Request) {
-    try {
-        const { key, prompt, useCache, useRefreshCache } = await req.json()
+    const { key, prompt, useCache, useRefreshCache } = await req.json()
 
-        const cached = useRefreshCache ? null : await kv.get<string | null>(key)
+    const docId = key ? cacheDocId(key) : null
+
+    // Cache read — TTL enforced in GROQ via dateTime comparison
+    if (docId && !useRefreshCache) {
+        const cached = await client
+            .fetch<
+                string | null
+            >(groq`*[_type == "aiCache" && _id == $id && dateTime(expiresAt) > dateTime(now())][0].value`, { id: docId })
+            .catch(() => null)
 
         if (cached !== null) {
             return new Response(formatDataStreamPart('text', cached), {
@@ -20,24 +48,28 @@ export async function POST(req: Request) {
                 headers: { 'Content-Type': 'text/plain' },
             })
         }
-
-        const response = streamText({
-            model: google('gemini-2.0-flash-exp'),
-            prompt,
-            maxRetries: 3,
-            maxTokens: 2000,
-            onFinish: async ({ text }) => {
-                // caching with @vercel/kv
-                if (useCache) {
-                    await kv.set<string>(key, text)
-                    await kv.expire(key, 60 * 60 * 6) // 6 hours
-                }
-            },
-        })
-
-        return response.toDataStreamResponse()
-    } catch (error) {
-        // Check if the error is an APIError
-        throw error
     }
+
+    const response = streamText({
+        model: google('gemini-2.5-flash'),
+        prompt,
+        maxRetries: 3,
+        maxTokens: 2000,
+        onFinish: async ({ text }) => {
+            if (!useCache || !docId || !writeClient) return
+            const expiresAt = new Date(
+                Date.now() + CACHE_TTL_HOURS * 60 * 60 * 1000,
+            ).toISOString()
+            await writeClient
+                .createOrReplace({
+                    _type: 'aiCache',
+                    _id: docId,
+                    value: text,
+                    expiresAt,
+                })
+                .catch(console.error)
+        },
+    })
+
+    return response.toDataStreamResponse()
 }

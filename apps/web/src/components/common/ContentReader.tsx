@@ -1,4 +1,5 @@
 import { PortableText, PortableTextComponents } from '@portabletext/react'
+import type { PortableTextBlock } from '@portabletext/react'
 import { urlForImage } from '~sanity/utils/image'
 import CodeBlock from '@components/common/organisms/code-block/CodeBlock'
 import IframeEmbed from '@components/common/organisms/iframe-embed/IframeEmbed'
@@ -13,38 +14,32 @@ const components = {
     block: {
         h1: ({ children }) => <BlockHeading type='h2'>{children}</BlockHeading>,
         h2: ({ children }) => <BlockHeading type='h3'>{children}</BlockHeading>,
-
         h3: ({ children }) => <BlockHeading type='h4'>{children}</BlockHeading>,
         h4: ({ children }) => <BlockHeading type='h5'>{children}</BlockHeading>,
         h5: ({ children }) => <BlockHeading type='h6'>{children}</BlockHeading>,
 
         normal: ({ children }) => (
-            <p className='font-serif text-base leading-relaxed'>{children}</p>
+            <p className='font-serif text-base lg:text-lg leading-[1.85] text-foreground'>
+                {children}
+            </p>
         ),
         blockquote: ({ children }) => (
-            <blockquote className='font-serif text-base my-4 border-l-2 px-2 border-brandprimary-600'>
+            <blockquote className='my-6 pl-4 border-l-2 border-primary/40 text-muted-foreground font-serif text-base lg:text-lg leading-relaxed italic'>
                 {children}
             </blockquote>
         ),
     },
     types: {
         code: ({ value }) => <CodeBlock codeContent={value} />,
-        youTube: ({ value }) => {
-            return (
-                <YouTubeEmbed
-                    content={{ url: value?.url, title: value?.title }}
-                />
-            )
-        },
-        iframeEmbed: ({ value }) => {
-            return (
-                <IframeEmbed
-                    content={{ src: value?.url, title: value?.title }}
-                />
-            )
-        },
+        youTube: ({ value }) => (
+            <YouTubeEmbed content={{ url: value?.url, title: value?.title }} />
+        ),
+        iframeEmbed: ({ value }) => (
+            <IframeEmbed content={{ src: value?.url, title: value?.title }} />
+        ),
         image: ({ value }) => {
-            const src = value ? urlForImage(value) : ''
+            const src = value ? (urlForImage(value) ?? '') : ''
+            if (!src) return null
             return (
                 <ImageWithModal
                     src={src}
@@ -53,51 +48,58 @@ const components = {
                 />
             )
         },
-        tableBlock: ({ value }) => {
-            return <TableBlock content={value} />
-        },
-        note: ({ value }) => {
-            return <PostNote content={value} />
-        },
-        blockLink: ({ value }) => {
-            return <BlockLinkView content={value} />
-        },
+        tableBlock: ({ value }) => <TableBlock content={value} />,
+        note: ({ value }) => <PostNote content={value} />,
+        blockLink: ({ value }) => <BlockLinkView content={value} />,
     },
     list: {
-        // Ex. 1: customizing common list types
         bullet: ({ children }) => (
-            <ul className='list-disc ml-6 font-serif'>{children}</ul>
+            <ul className='my-4 ml-6 list-disc space-y-1.5 font-serif text-base lg:text-lg leading-relaxed text-foreground'>
+                {children}
+            </ul>
         ),
         number: ({ children }) => (
-            <ol className='list-decimal ml-6 font-serif'>{children}</ol>
+            <ol className='my-4 ml-6 list-decimal space-y-1.5 font-serif text-base lg:text-lg leading-relaxed text-foreground'>
+                {children}
+            </ol>
         ),
-
-        // Ex. 2: rendering custom lists
         checkmarks: ({ children }) => (
-            <ol className='ml-6 font-serif'>✔{children}</ol>
+            <ol className='my-4 ml-6 space-y-1.5 font-serif text-base lg:text-lg leading-relaxed text-foreground'>
+                {children}
+            </ol>
         ),
     },
     marks: {
-        link: ({ children, value }) => {
-            return (
-                <a
-                    href={value.href}
-                    target={value.blank ? '_blank' : '_self'}
-                    rel='noopener noreferrer'
-                    className='text-brandprimary-700 underline underline-offset-4 decoration-dashed font-medium'>
-                    {children}
-                </a>
-            )
-        },
-        internalLink: ({ children }) => {
-            //TODO: Implement internal link
-            return <p>{children}</p>
-        },
+        link: ({ children, value }) => (
+            <a
+                href={value.href}
+                target={value.blank ? '_blank' : '_self'}
+                rel='noopener noreferrer'
+                className='text-primary underline underline-offset-4 decoration-primary/40 hover:decoration-primary transition-colors duration-150 font-medium'>
+                {children}
+            </a>
+        ),
+        internalLink: ({ children }) => <span>{children}</span>,
+        strong: ({ children }) => (
+            <strong className='font-semibold text-foreground'>{children}</strong>
+        ),
+        em: ({ children }) => (
+            <em className='italic text-foreground/80'>{children}</em>
+        ),
+        code: ({ children }) => (
+            <code className='font-mono text-sm bg-muted text-foreground px-1.5 py-0.5 rounded-md'>
+                {children}
+            </code>
+        ),
     },
 } as PortableTextComponents
 
-function ContentReader({ content }: { content: any }) {
-    return <PortableText value={content} components={components} />
+function ContentReader({ content }: { content: PortableTextBlock[] }) {
+    return (
+        <div className='space-y-5'>
+            <PortableText value={content} components={components} />
+        </div>
+    )
 }
 
 export default ContentReader

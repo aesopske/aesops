@@ -12,8 +12,13 @@ function Logo({ className, ...props }: LogoProps) {
         <div className={cn('flex lg:flex-1', className)} {...props}>
             <Link
                 href='/'
-                className='h-10 w-10 md:h-10 md:w-auto xl:h-12'
+                className='h-8 w-8 md:h-8 md:w-auto xl:h-10'
                 passHref>
+                {/*<img
+                    src='/aesops-logo-mark.svg'
+                    alt='logo'
+                    className='h-full w-auto'
+                />*/}
                 <SharedLogo className='h-full w-auto' />
             </Link>
         </div>

@@ -1,84 +1,71 @@
 'use client'
 
-import { Check, Copy, Facebook, Twitter } from 'lucide-react'
-import { FaWhatsapp } from 'react-icons/fa'
-import React, { useEffect, useState } from 'react'
+import { Check, Copy, Twitter } from 'lucide-react'
+import { FaWhatsapp, FaLinkedinIn } from 'react-icons/fa'
+import React, { useSyncExternalStore } from 'react'
 import { cn } from '@/lib/utils'
 import useCopy from '@/hooks/useCopy'
-import { Button, buttonVariants } from '../ui'
-import Heading from './atoms/Heading'
 
 type ShareProps = {
     title: string
 } & React.HTMLProps<HTMLDivElement>
 
 function Share({ title, className }: ShareProps) {
-    const [newUrl, setnewUrl] = useState('')
+    const newUrl = useSyncExternalStore(
+        () => () => {},
+        () => encodeURIComponent(window.location.href),
+        () => '',
+    )
     const { copied, onCopy } = useCopy()
-
-    useEffect(() => {
-        if (typeof window !== undefined) {
-            const url = window.location.href
-            const encoded = encodeURIComponent(url)
-            setnewUrl(encoded)
-        }
-    }, [])
 
     const shares = [
         {
-            href: `https://www.facebook.com/sharer/sharer.php?u=${newUrl}&quote=${title}&display=page&caption=${title}`,
-            icon: <Facebook className='w-full h-full' />,
-            label: 'Facebook',
+            href: `http://twitter.com/share?url=${newUrl}&text=${title}&hashtags=aesopske&via=Aesopsk`,
+            icon: <Twitter className='w-3.5 h-3.5' />,
+            label: 'Twitter / X',
         },
         {
-            href: `http://twitter.com/share?url=${newUrl}\n&text=${title}&hashtags=aesopske&via=Aesopsk`,
-            icon: <Twitter className='w-full h-full' />,
-            label: 'Twitter',
+            href: `https://www.linkedin.com/sharing/share-offsite/?url=${newUrl}`,
+            icon: <FaLinkedinIn className='w-3.5 h-3.5' />,
+            label: 'LinkedIn',
         },
         {
             href: `whatsapp://send?text=${newUrl} ${title}`,
-            icon: <FaWhatsapp className='w-full h-full' />,
-            label: 'Whatsapp',
+            icon: <FaWhatsapp className='w-3.5 h-3.5' />,
+            label: 'WhatsApp',
         },
     ]
 
     return (
-        <div className={cn('relative self-center space-y-2', className)}>
-            <Heading type='h6' className='capitalize font-semibold'>
+        <div className={cn('flex flex-col gap-2', className)}>
+            <span className='text-[10px] font-mono font-medium tracking-[0.18em] uppercase text-muted-foreground'>
                 Share
-            </Heading>
-            <div className='flex gap-2 w-full'>
+            </span>
+            <div className='flex items-center gap-1.5'>
                 {shares.map((share) => (
                     <a
+                        key={share.label}
                         title={share.label}
                         href={share.href}
-                        key={share?.label}
                         target='_blank'
-                        className={cn(
-                            buttonVariants({
-                                variant: 'outline',
-                                className:
-                                    'rounded-full border border-brandprimary-900/50 text-brandprimary-900 hover:text-brandaccent-50 w-9 h-9 p-2 flex items-center justify-center',
-                            }),
-                        )}
-                        rel='noreferrer noopener'>
+                        rel='noreferrer noopener'
+                        className='w-8 h-8 flex items-center justify-center rounded-lg border border-border text-muted-foreground hover:border-primary/40 hover:text-primary hover:bg-primary/4 transition-all duration-200'>
                         {share.icon}
                     </a>
                 ))}
-                <Button
-                    title={`Copy ${title}`}
-                    data-active={copied}
-                    onClick={() => {
-                        onCopy(decodeURIComponent(newUrl))
-                    }}
-                    variant='outline'
-                    className='rounded-full border border-brandprimary-900/50 text-brandprimary-900 hover:text-brandaccent-50 w-9 h-9 p-2 flex items-center justify-center data-[active=true]:bg-brandprimary-900 data-[active=true]:text-brandaccent-50'>
+                <button
+                    title={`Copy link`}
+                    onClick={() => onCopy(decodeURIComponent(newUrl))}
+                    className={cn(
+                        'w-8 h-8 flex items-center justify-center rounded-lg border border-border text-muted-foreground hover:border-primary/40 hover:text-primary hover:bg-primary/4 transition-all duration-200',
+                        copied && 'border-primary/40 bg-primary/4 text-primary',
+                    )}>
                     {copied ? (
-                        <Check className='w-full h-full' />
+                        <Check className='w-3.5 h-3.5' />
                     ) : (
-                        <Copy className='w-full h-full' />
+                        <Copy className='w-3.5 h-3.5' />
                     )}
-                </Button>
+                </button>
             </div>
         </div>
     )

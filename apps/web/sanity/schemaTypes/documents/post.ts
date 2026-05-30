@@ -95,6 +95,26 @@ export default defineType({
             title: 'Keywords',
             type: 'string',
             group: 'seo',
+            description: 'Comma-separated list of keywords',
+        }),
+        defineField({
+            name: 'seoTitle',
+            title: 'SEO Title',
+            type: 'string',
+            group: 'seo',
+        }),
+        defineField({
+            name: 'seoDescription',
+            title: 'SEO Description',
+            type: 'text',
+            group: 'seo',
+        }),
+        defineField({
+            name: 'ogimage',
+            title: 'OG Image',
+            type: 'image',
+            group: 'seo',
+            options: { hotspot: true },
         }),
         defineField({
             name: 'featured',
@@ -108,12 +128,13 @@ export default defineType({
     preview: {
         select: {
             title: 'title',
-            author: 'author.name',
+            teamName: 'author.0.teamMember.name',
+            extName: 'author.0.name',
             media: 'mainImage',
         },
-        prepare(selection) {
-            const { author } = selection
-            return { ...selection, subtitle: author && `by ${author}` }
+        prepare({ title, teamName, extName, media }) {
+            const authorName = teamName ?? extName
+            return { title, subtitle: authorName ? `by ${authorName}` : undefined, media }
         },
     },
 })

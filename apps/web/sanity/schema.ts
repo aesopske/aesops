@@ -1,4 +1,15 @@
+import heroBlock from './schemaTypes/blocks/heroBlock'
+import blogListBlock from './schemaTypes/blocks/blogListBlock'
+import featuredPostsBlock from './schemaTypes/blocks/featuredPostsBlock'
+import pageHeroBlock from './schemaTypes/blocks/pageHeroBlock'
+import recentPostsBlock from './schemaTypes/blocks/recentPostsBlock'
+import featuresBlock from './schemaTypes/blocks/featuresBlock'
+import ourStoryBlock from './schemaTypes/blocks/ourStoryBlock'
+import missionVisionBlock from './schemaTypes/blocks/missionVisionBlock'
+import ourValuesBlock from './schemaTypes/blocks/ourValuesBlock'
+import ourTeamBlock from './schemaTypes/blocks/ourTeamBlock'
 import author from './schemaTypes/documents/author'
+import team from './schemaTypes/documents/team'
 import category from './schemaTypes/documents/category'
 import dataset from './schemaTypes/documents/datasets'
 import page from './schemaTypes/documents/page'
@@ -27,7 +38,20 @@ export const schema = {
         post,
         dataset,
         author,
+        team,
         category,
+
+        // blocks
+        heroBlock,
+        pageHeroBlock,
+        blogListBlock,
+        featuredPostsBlock,
+        recentPostsBlock,
+        featuresBlock,
+        ourStoryBlock,
+        missionVisionBlock,
+        ourValuesBlock,
+        ourTeamBlock,
 
         // objects
         blockContent,

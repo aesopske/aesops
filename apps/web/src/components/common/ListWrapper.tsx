@@ -5,8 +5,8 @@ type ListWrapperProps<T> = {
     list: T[]
     itemKey?: string
     renderFallback?: () => React.ReactNode
-    keyExtractor?: (item: T, index: number) => string | number //eslint-disable-line
-    children: (item: T, index: number) => React.ReactNode //eslint-disable-line
+    keyExtractor?: (item: T, index: number) => string | number
+    children: (item: T, index: number) => React.ReactNode
 }
 
 function ListWrapper<T>({
