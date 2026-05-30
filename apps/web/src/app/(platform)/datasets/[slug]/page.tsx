@@ -31,7 +31,7 @@ type Props = { params: Promise<{ slug: string }> }
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
     const { slug } = await params
     try {
-        const doc = await api.documents.getById({ id })
+        const doc = await api.documents.getById({ id: slug })
         return { title: `${doc.name} | Aesops Datasets` }
     } catch {
         return { title: 'Dataset | Aesops Datasets' }
