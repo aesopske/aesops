@@ -101,11 +101,9 @@ function ColumnRow({ col }: { col: ColumnStats }) {
 }
 
 export function DocumentList() {
-    const { data: documents, isLoading, isError } = trpc.documents.list.useQuery()
+    const { data: documents, isLoading, isError } = trpc.documents.list.useQuery(undefined)
     const utils = trpc.useUtils()
-    const deleteMutation = trpc.documents.delete.useMutation({
-        onSuccess: () => utils.documents.list.invalidate(),
-    })
+    const deleteMutation = trpc.documents.delete.useMutation()
     const [expanded, setExpanded] = useState<Set<string>>(new Set())
 
     const toggle = (id: string) =>
@@ -121,7 +119,7 @@ export function DocumentList() {
 
     return (
         <ul className='divide-y divide-gray-200 rounded-lg border border-gray-200'>
-            {documents.map((doc) => {
+            {(documents as NonNullable<typeof documents>).map((doc: NonNullable<typeof documents>[number]) => {
                 const isOpen = expanded.has(doc.id)
                 const meta = doc.metadata as DocumentMetadata | null
 
@@ -147,7 +145,7 @@ export function DocumentList() {
                                 </p>
                             </div>
                             <button
-                                onClick={() => deleteMutation.mutate({ id: doc.id })}
+                                onClick={() => deleteMutation.mutate({ id: doc.id }, { onSuccess: () => utils.documents.list.invalidate() })}
                                 disabled={deleteMutation.isPending}
                                 className='shrink-0 rounded p-1 text-gray-400 hover:bg-red-50 hover:text-red-500 disabled:opacity-50'
                                 aria-label='Delete document'

@@ -1,7 +1,6 @@
 'use client'
 
 import { useCompletion } from '@ai-sdk/react'
-import { AnimatePresence, motion } from 'framer-motion'
 import { Sparkles } from 'lucide-react'
 import ReactMarkdown from 'react-markdown'
 import { useState } from 'react'
@@ -57,28 +56,21 @@ function CodeExplain({ code }: CodeExplainProps) {
                 </button>
             </div>
 
-            <AnimatePresence initial={false}>
-                {isOpen && (
-                    <motion.div
-                        initial={{ opacity: 0, height: 0 }}
-                        animate={{ opacity: 1, height: 'auto' }}
-                        exit={{ opacity: 0, height: 0 }}
-                        transition={{ duration: 0.25, ease: 'easeInOut' }}
-                        className='overflow-hidden'>
-                        <div className='px-4 pb-4'>
-                            {error ? (
-                                <p className='text-xs font-mono text-[#9d0006]'>
-                                    {error.message}
-                                </p>
-                            ) : (
-                                <div className='prose prose-sm max-w-none font-mono text-xs text-[#504945] leading-relaxed [&_ul]:list-disc [&_ul]:pl-4 [&_ul]:space-y-1 [&_li]:text-[#504945] [&_p]:text-[#504945] [&_strong]:text-[#3c3836]'>
-                                    <ReactMarkdown>{completion}</ReactMarkdown>
-                                </div>
-                            )}
-                        </div>
-                    </motion.div>
-                )}
-            </AnimatePresence>
+            {isOpen && (
+                <div className='overflow-hidden'>
+                    <div className='px-4 pb-4'>
+                        {error ? (
+                            <p className='text-xs font-mono text-[#9d0006]'>
+                                {error.message}
+                            </p>
+                        ) : (
+                            <div className='prose prose-sm max-w-none font-mono text-xs text-[#504945] leading-relaxed [&_ul]:list-disc [&_ul]:pl-4 [&_ul]:space-y-1 [&_li]:text-[#504945] [&_p]:text-[#504945] [&_strong]:text-[#3c3836]'>
+                                <ReactMarkdown>{completion}</ReactMarkdown>
+                            </div>
+                        )}
+                    </div>
+                </div>
+            )}
         </div>
     )
 }

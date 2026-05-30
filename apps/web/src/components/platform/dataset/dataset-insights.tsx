@@ -65,7 +65,7 @@ export function DatasetInsights({ datasetId, cachedInsights }: Props) {
 
                 {hasResult && (
                     <div className='prose prose-sm max-w-none dark:prose-invert prose-p:leading-relaxed prose-li:my-0.5 prose-ul:my-1'>
-                        <Streamdown mode={isLoading ? 'streaming' : 'normal'}>
+                        <Streamdown mode={isLoading ? 'streaming' : 'static'}>
                             {displayText}
                         </Streamdown>
                         {isLoading && (

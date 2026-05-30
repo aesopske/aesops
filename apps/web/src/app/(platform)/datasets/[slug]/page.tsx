@@ -65,7 +65,7 @@ export default async function DatasetPage({ params }: Props) {
             ? await api.documents.listRevisions({ parentId: doc.id })
             : []
     const revisionCount = revisions.length
-    const latestRevisionAt = revisions.length > 0 ? revisions[revisions.length - 1].createdAt : null
+    const latestRevisionAt = revisions.length > 0 ? revisions.at(-1)!.createdAt : null
 
     const meta = doc.metadata as DocumentMetadata | null
     const isExcel =
