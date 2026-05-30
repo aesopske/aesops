@@ -1,5 +1,12 @@
 import { SanityAsset } from '@sanity/image-url/lib/types/types'
 
+export type NAV_LINK = {
+    _key: string
+    name: string
+    href: string
+    comingSoon?: boolean
+}
+
 export type CATEGORY = {
     title: string
     slug: {
@@ -16,7 +23,22 @@ export type SOCIAL = {
 
 export type SANITY_IMAGE = SanityAsset
 
+export type TEAM = {
+    name: string
+    slug: {
+        current: string
+    }
+    bio?: string
+    image: SANITY_IMAGE
+    posts?: POST[]
+    socials?: SOCIAL[]
+    showOnPage?: boolean
+    role?: string
+}
+
+// Resolved author shape returned by GROQ (fields coalesced from team member or external fields)
 export type AUTHOR = {
+    isExternal?: boolean
     name: string
     slug: {
         current: string
@@ -75,18 +97,134 @@ export type CATEGORY_POST = {
     posts: MIN_POST[]
 } & CATEGORY
 
+// Block types
+export type HeroBlock = {
+    _key: string
+    _type: 'heroBlock'
+    title: string
+    description?: string
+    image?: SANITY_IMAGE
+    cta?: CTA[]
+}
+
+export type BlogListBlock = {
+    _key: string
+    _type: 'blogListBlock'
+    heading?: string
+    description?: string
+}
+
+export type FeaturedPostsBlock = {
+    _key: string
+    _type: 'featuredPostsBlock'
+    heading?: string
+    posts: MIN_POST[]
+}
+
+export type PageHeroBlock = {
+    _key: string
+    _type: 'pageHeroBlock'
+    label?: string
+    heading: string
+    description?: string
+    textAlign?: 'left' | 'center' | 'right'
+    backgroundColor?: 'primary' | 'dark' | 'accent' | 'light'
+}
+
+export type FeatureItem = {
+    _key: string
+    icon?: string
+    title: string
+    description: string
+    link?: string
+    linkLabel?: string
+}
+
+export type FeaturesBlock = {
+    _key: string
+    _type: 'featuresBlock'
+    overline?: string
+    heading?: string
+    description?: string
+    image?: SANITY_IMAGE
+    variant?: 'light' | 'dark'
+    features?: FeatureItem[]
+    ctaLabel?: string
+    ctaLink?: string
+}
+
+export type RecentPostsBlock = {
+    _key: string
+    _type: 'recentPostsBlock'
+    heading?: string
+    description?: string
+    count?: number
+}
+
+export type OurStoryBlock = {
+    _key: string
+    _type: 'ourStoryBlock'
+    heading: string
+    description?: string
+    image?: SANITY_IMAGE & { alt?: string }
+}
+
+export type MissionVisionBlock = {
+    _key: string
+    _type: 'missionVisionBlock'
+    missionTitle: string
+    missionDescription?: string
+    visionTitle: string
+    visionDescription?: string
+}
+
+export type ValueItem = {
+    _key: string
+    icon?: string
+    value: string
+    description: string
+}
+
+export type OurValuesBlock = {
+    _key: string
+    _type: 'ourValuesBlock'
+    heading?: string
+    description?: string
+}
+
+export type OurTeamBlock = {
+    _key: string
+    _type: 'ourTeamBlock'
+    heading?: string
+    description?: string
+}
+
+export type PageBlock = HeroBlock | PageHeroBlock | BlogListBlock | FeaturedPostsBlock | RecentPostsBlock | FeaturesBlock | OurStoryBlock | MissionVisionBlock | OurValuesBlock | OurTeamBlock
+
+export type HOME_PAGE = Omit<PAGE, 'sections'> & {
+    sections: PageBlock[]
+}
+
 // Page types
 export type PAGE = {
     _id: string
     _type: string
     title: string
-    slug: {
-        current: string
-    }
+    slug: { current: string }
+    pageType?: 'page' | 'blog' | 'legal'
     seoTitle: string
     seoDescription: string
     ogimage?: SANITY_IMAGE
     sections: SECTION[]
+    // blog-type fields
+    mainImage?: SANITY_IMAGE
+    excerpt?: string
+    publishedAt?: string
+    readTime?: number
+    body?: any[]
+    author?: AUTHOR[]
+    categories?: CATEGORY[]
+    featured?: boolean
 }
 
 export type PAGE_METADATA = Pick<
@@ -109,7 +247,6 @@ export type SECTION = {
     datasets?: DATASET[]
     values?: VALUE[]
     services?: SERVICE[]
-    projects?: PROJECT[]
 }
 
 export type CTA = {
@@ -152,23 +289,4 @@ export type HOME_SETTINGS = {
     description: string
     keywords: string
     ogImage: SanityAsset
-}
-
-// Trend types
-export type PROJECT = {
-    _id: string
-    title: string
-    slug: {
-        current: string
-    }
-    description: string
-    image: SANITY_IMAGE
-    endpoint: string
-    author: AUTHOR[]
-    featured: boolean
-    publishedAt: string
-    _createdAt: string
-    _updatedAt: string
-    isPost?: boolean
-    seoDescription: string
 }

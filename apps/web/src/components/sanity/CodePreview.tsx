@@ -6,18 +6,20 @@ import CodeBlock, {
 } from '../common/organisms/code-block/CodeBlock'
 
 type CodePreviewProps = {
-    codeContent: CodeContentTypes
+    codeContent?: CodeContentTypes
 } & PreviewCodeProps
 
 function CodePreview(props: CodePreviewProps) {
     return (
         <Stack padding={2}>
             {props.renderDefault(props)}
-            <CodeBlock
-                hideCodebar
-                hideCodeExplain
-                codeContent={props.codeContent}
-            />
+            {props.codeContent && (
+                <CodeBlock
+                    hideCodebar
+                    hideCodeExplain
+                    codeContent={props.codeContent}
+                />
+            )}
         </Stack>
     )
 }

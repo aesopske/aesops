@@ -8,10 +8,24 @@ export default defineType({
     type: 'document',
     fields: [
         defineField({
+            name: 'isExternal',
+            title: 'External author',
+            type: 'boolean',
+            initialValue: false,
+            description: 'Enable if this author is not a member of the team',
+        }),
+        defineField({
+            name: 'teamMember',
+            title: 'Team Member',
+            type: 'reference',
+            to: [{ type: 'team' }],
+            hidden: ({ document }) => !!document?.isExternal,
+        }),
+        defineField({
             name: 'name',
             title: 'Name',
             type: 'string',
-            validation: (Rule) => Rule.required(),
+            hidden: ({ document }) => !document?.isExternal,
         }),
         defineField({
             name: 'slug',
@@ -21,6 +35,7 @@ export default defineType({
                 source: 'name',
                 maxLength: 96,
             },
+            hidden: ({ document }) => !document?.isExternal,
         }),
         defineField({
             name: 'image',
@@ -36,11 +51,13 @@ export default defineType({
                     title: 'Alternative Text',
                 },
             ],
+            hidden: ({ document }) => !document?.isExternal,
         }),
         defineField({
             name: 'bio',
             title: 'Bio',
             type: 'text',
+            hidden: ({ document }) => !document?.isExternal,
         }),
         defineField({
             name: 'socials',
@@ -72,32 +89,22 @@ export default defineType({
                     ],
                 },
             ],
-        }),
-        defineField({
-            name: 'isCoreMember',
-            title: 'Is a core team member',
-            type: 'boolean',
-            initialValue: false,
-        }),
-
-        defineField({
-            name: 'role',
-            title: 'Role',
-            type: 'string',
-            hidden: ({ document }) => !document?.isCoreMember,
+            hidden: ({ document }) => !document?.isExternal,
         }),
     ],
     preview: {
         select: {
-            title: 'name',
-            media: 'image',
-            subtitle: 'slug.current',
+            teamName: 'teamMember.name',
+            extName: 'name',
+            isExternal: 'isExternal',
+            teamMedia: 'teamMember.image',
+            extMedia: 'image',
         },
-        prepare(selection) {
+        prepare({ teamName, extName, isExternal, teamMedia, extMedia }) {
             return {
-                title: selection.title,
-                subtitle: `/${selection.subtitle}`,
-                media: selection.media,
+                title: isExternal ? extName : teamName,
+                subtitle: isExternal ? 'External Author' : 'Team Member',
+                media: isExternal ? extMedia : teamMedia,
             }
         },
     },

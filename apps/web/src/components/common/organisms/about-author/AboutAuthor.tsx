@@ -52,19 +52,19 @@ function AboutAuthor({
                         {author?.name}
                     </Heading>
                     {author?.isCoreMember ? (
-                        <div className='flex items-center gap-1 text-gray-100'>
+                        <div className='flex items-center gap-1 text-foreground'>
                             <Role role={author?.role ?? ''} />
                         </div>
                     ) : (
                         <div className='flex items-center gap-1'>
-                            <Text as='span' className='text-sm text-gray-500'>
+                            <Text as='span' className='text-sm text-muted-foreground'>
                                 Community Member
                             </Text>
                         </div>
                     )}
                 </div>
                 {!author?.bio || hideBio ? null : (
-                    <div className=' text-brandprimary-900/70 relative'>
+                    <div className='text-foreground/70 relative'>
                         <Text
                             className={cn(
                                 'text-base font-light lg:text-sm line-clamp-6',
@@ -74,13 +74,13 @@ function AboutAuthor({
                         </Text>
                         <div
                             className={cn(
-                                'absolute bottom-0 right-0 bg-linear-to-b from-transparent via-brand-background to-brand-background w-full flex items-end justify-start min-h-20',
+                                'absolute bottom-0 right-0 bg-linear-to-b from-transparent via-background to-background w-full flex items-end justify-start min-h-20',
                                 { 'relative min-h-0': showMore },
                             )}>
                             <Button
                                 variant='link'
                                 onClick={toggleShowMore}
-                                className='p-0 hover:underline underline-offset-4 hover:decoration-dashed text-brandprimary-700'>
+                                className='p-0 hover:underline underline-offset-4 hover:decoration-dashed text-primary'>
                                 {showMore ? 'Read less...' : 'Read more...'}
                             </Button>
                         </div>
@@ -114,7 +114,7 @@ function Role({ role }: { role: string }) {
     const splitRole = role.split('|')
 
     return Array.isArray(splitRole) ? (
-        <Text as='span' className='text-sm text-gray-500'>
+        <Text as='span' className='text-sm text-muted-foreground'>
             {splitRole.map((role: string, idx: number) => (
                 <Fragment key={role}>
                     {role}{' '}
@@ -123,7 +123,7 @@ function Role({ role }: { role: string }) {
             ))}
         </Text>
     ) : (
-        <Text as='span' className='text-sm text-gray-500'>
+        <Text as='span' className='text-sm text-muted-foreground'>
             {role}
         </Text>
     )

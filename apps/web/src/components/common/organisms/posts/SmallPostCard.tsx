@@ -17,55 +17,55 @@ type SmallPostCardProps = {
 function SmallPostCard({ post, hideAuthor, className }: SmallPostCardProps) {
     const categories = post.categories ?? []
     return (
-        <Link href={`/blog/${post.slug.current}`} passHref>
-            <div
-                className={cn(
-                    'bg-white border border-gray-200 p-4 rounded-sm space-y-4',
-                    className,
-                )}>
-                <div className='flex gap-2 flex-wrap'>
-                    {categories?.length > 0 ? (
-                        <Badge
-                            variant='default'
-                            className='text-xs text-brandaccent-50 rounded-full'>
-                            # {categories[0]?.title}
-                        </Badge>
-                    ) : null}
-                </div>
-                <div className='space-y-3'>
+        <div
+            className={cn(
+                'bg-white border border-gray-200 p-4 rounded-sm space-y-4',
+                className,
+            )}>
+            <div className='flex gap-2 flex-wrap'>
+                {categories?.length > 0 ? (
+                    <Badge
+                        variant='default'
+                        className='text-xs text-brandaccent-50 rounded-full'>
+                        # {categories[0]?.title}
+                    </Badge>
+                ) : null}
+            </div>
+            <div className='space-y-3'>
+                <Link href={`/blog/${post.slug.current}`}>
                     <Heading
                         type='h4'
                         className='font-black hover:underline hover:decoration-dotted underline-offset-8'>
                         {titleCase(post.title)}
                     </Heading>
-                    <Text className='line-clamp-3 text-base text-brandprimary-900/70 lg:text-sm'>
-                        {post.excerpt}
-                    </Text>
-                </div>
-
-                <div>
-                    {hideAuthor && (
-                        <Text className='text-sm text-gray-500'>
-                            <span>
-                                {format(
-                                    new Date(post?.publishedAt),
-                                    'MMM dd, yyyy',
-                                )}
-                            </span>{' '}
-                            &bull; <span>{post?.readTime} min read</span>
-                        </Text>
-                    )}
-                    {!hideAuthor && (
-                        <AuthorCard
-                            isSmall
-                            author={post.author}
-                            readTime={post.readTime}
-                            date={new Date(post.publishedAt).toDateString()}
-                        />
-                    )}
-                </div>
+                </Link>
+                <Text className='line-clamp-3 text-base text-brandprimary-900/70 lg:text-sm'>
+                    {post.excerpt}
+                </Text>
             </div>
-        </Link>
+
+            <div>
+                {hideAuthor && (
+                    <Text className='text-sm text-gray-500'>
+                        <span>
+                            {format(
+                                new Date(post?.publishedAt),
+                                'MMM dd, yyyy',
+                            )}
+                        </span>{' '}
+                        &bull; <span>{post?.readTime} min read</span>
+                    </Text>
+                )}
+                {!hideAuthor && (
+                    <AuthorCard
+                        isSmall
+                        author={post.author}
+                        readTime={post.readTime}
+                        date={new Date(post.publishedAt).toDateString()}
+                    />
+                )}
+            </div>
+        </div>
     )
 }
 export default SmallPostCard

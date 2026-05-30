@@ -5,11 +5,18 @@ import React from 'react'
 // import { useHeadingObserver } from '@/context/HeadingObserverProvider'
 import Heading from '@components/common/atoms/Heading'
 
-function BlockHeading({ children, type }) {
+function BlockHeading({
+    children,
+    type,
+}: {
+    children: React.ReactNode
+    type?: 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6'
+}) {
     // const { ref, headingsInView } = useHeadingObserver()
-    const url = children[0]?.props?.text
-        ? children[0]?.props?.text
-        : children[0]
+    const childArray = React.Children.toArray(children)
+    const url = (childArray[0] as any)?.props?.text
+        ? (childArray[0] as any)?.props?.text
+        : childArray[0]
 
     const id = speakingUrl(url ?? '')
 

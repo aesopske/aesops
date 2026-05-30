@@ -79,7 +79,7 @@ export default defineType({
             title: 'Block Link',
             type: 'reference',
             icon: () => '🔗',
-            to: [{ type: 'post' }, { type: 'project' }],
+            to: [{ type: 'post' }],
             components: {
                 preview: BlockLinkPreview,
             },

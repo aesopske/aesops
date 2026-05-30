@@ -5,10 +5,15 @@ export default defineType({
     title: 'Page Sections',
     type: 'array',
     of: [
-        defineArrayMember({
-            name: 'section',
-            title: 'Section',
-            type: 'sectionContent',
-        }),
+        defineArrayMember({ type: 'heroBlock' }),
+        defineArrayMember({ type: 'pageHeroBlock' }),
+        defineArrayMember({ type: 'blogListBlock' }),
+        defineArrayMember({ type: 'featuredPostsBlock' }),
+        defineArrayMember({ type: 'recentPostsBlock' }),
+        defineArrayMember({ type: 'featuresBlock' }),
+        defineArrayMember({ type: 'ourStoryBlock' }),
+        defineArrayMember({ type: 'missionVisionBlock' }),
+        defineArrayMember({ type: 'ourValuesBlock' }),
+        defineArrayMember({ type: 'ourTeamBlock' }),
     ],
 })

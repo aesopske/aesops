@@ -1,4 +1,5 @@
 import { defineField, defineType } from 'sanity'
+import type { StringRule } from '@sanity/types'
 
 export default defineType({
     name: 'cta',
@@ -9,7 +10,7 @@ export default defineType({
             name: 'label',
             title: 'Label',
             type: 'string',
-            validation: (Rule) => Rule.required(),
+            validation: (Rule: StringRule) => Rule.required(),
         }),
         defineField({
             name: 'isExternal',

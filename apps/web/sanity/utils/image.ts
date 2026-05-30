@@ -9,5 +9,6 @@ const imageBuilder = createImageUrlBuilder({
 })
 
 export const urlForImage = (source: SanityAsset) => {
+    if (!source?.asset) return null
     return imageBuilder?.image(source).auto('format').fit('max').url()
 }

@@ -5,20 +5,21 @@ import React from 'react'
 import Text from '@components/common/atoms/Text'
 
 type NotesProps = {
-    note: string
-    title: string
+    note?: string
 } & PreviewProps
 
 function Notes(props: NotesProps) {
-    let { note } = props
+    const { note } = props
 
     return (
         <div className='rounded-lg p-2 space-y-2'>
             {props.renderDefault(props)}
 
-            <Text className='text-sm dark:text-gray-400 text-gray-700'>
-                {note}
-            </Text>
+            {note && (
+                <Text className='text-sm dark:text-gray-400 text-gray-700'>
+                    {note}
+                </Text>
+            )}
         </div>
     )
 }

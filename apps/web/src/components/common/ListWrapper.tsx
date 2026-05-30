@@ -5,8 +5,8 @@ type ListWrapperProps<T> = {
     list: T[]
     itemKey?: string
     renderFallback?: () => React.ReactNode
-    keyExtractor?: (item: T, index: number) => string | number //eslint-disable-line
-    children: (item: T, index: number) => React.ReactNode //eslint-disable-line
+    keyExtractor?: (item: T, index: number) => string | number
+    children: (item: T, index: number) => React.ReactNode
 }
 
 function ListWrapper<T>({
@@ -30,7 +30,9 @@ function ListWrapper<T>({
                     ? keyExtractor(item, index)
                     : getRandomString('AES-LST', 12)
                 if (itemKey) {
-                    key = getNestedValue(item, itemKey) ?? key
+                    key =
+                        (getNestedValue(item, itemKey) as string | number) ??
+                        key
                 }
 
                 return <Fragment key={key}>{children(item, index)}</Fragment>

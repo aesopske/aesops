@@ -1,10 +1,19 @@
-import { type SchemaTypeDefinition } from 'sanity'
+import heroBlock from './schemaTypes/blocks/heroBlock'
+import blogListBlock from './schemaTypes/blocks/blogListBlock'
+import featuredPostsBlock from './schemaTypes/blocks/featuredPostsBlock'
+import pageHeroBlock from './schemaTypes/blocks/pageHeroBlock'
+import recentPostsBlock from './schemaTypes/blocks/recentPostsBlock'
+import featuresBlock from './schemaTypes/blocks/featuresBlock'
+import ourStoryBlock from './schemaTypes/blocks/ourStoryBlock'
+import missionVisionBlock from './schemaTypes/blocks/missionVisionBlock'
+import ourValuesBlock from './schemaTypes/blocks/ourValuesBlock'
+import ourTeamBlock from './schemaTypes/blocks/ourTeamBlock'
 import author from './schemaTypes/documents/author'
+import team from './schemaTypes/documents/team'
 import category from './schemaTypes/documents/category'
 import dataset from './schemaTypes/documents/datasets'
 import page from './schemaTypes/documents/page'
 import post from './schemaTypes/documents/post'
-import project from './schemaTypes/documents/project'
 import service from './schemaTypes/documents/service'
 import siteSettings from './schemaTypes/documents/siteSettings'
 import values from './schemaTypes/documents/value'
@@ -21,7 +30,7 @@ import youtubeEmbed from './schemaTypes/objects/youtubeEmbed'
 
 // import customUrl from './schemaTypes/objects/customUrl'
 
-export const schema: { types: SchemaTypeDefinition[] } = {
+export const schema = {
     types: [
         // documents
         siteSettings,
@@ -29,8 +38,20 @@ export const schema: { types: SchemaTypeDefinition[] } = {
         post,
         dataset,
         author,
+        team,
         category,
-        project,
+
+        // blocks
+        heroBlock,
+        pageHeroBlock,
+        blogListBlock,
+        featuredPostsBlock,
+        recentPostsBlock,
+        featuresBlock,
+        ourStoryBlock,
+        missionVisionBlock,
+        ourValuesBlock,
+        ourTeamBlock,
 
         // objects
         blockContent,

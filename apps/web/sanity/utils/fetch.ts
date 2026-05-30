@@ -1,9 +1,10 @@
 import 'server-only'
-import type { QueryParams } from 'next-sanity'
 import { env } from '@/env'
 import { client } from './client'
 
-export const token = env.SANITY_API_READ_TOKEN
+type QueryParams = Record<string, unknown>
+
+export const token = env.SANITY_API_TOKEN
 
 type FetchOptions = {
     query: string
@@ -15,7 +16,7 @@ export async function sanityFetch<QueryResponse>({
     query,
     params = {},
     draftMode = false,
-}: FetchOptions) {
+}: FetchOptions): Promise<QueryResponse> {
     const perspect = draftMode ? 'previewDrafts' : 'published'
     if (perspect === 'previewDrafts') {
         return client.fetch<QueryResponse>(query, params, {

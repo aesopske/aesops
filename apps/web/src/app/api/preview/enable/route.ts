@@ -5,7 +5,7 @@ import { env } from '@/env'
 import { validatePreviewUrl } from '@sanity/preview-url-secret'
 
 const clientWithToken = client.withConfig({
-    token: env.SANITY_API_READ_TOKEN,
+    token: env.SANITY_API_TOKEN,
 })
 
 export async function GET(request: Request) {

@@ -1,5 +1,5 @@
 {
-    "$schema": "https://turbo.build/schema.json",
+    "$schema": "https://v2-9-6.turborepo.dev/schema.json",
     "ui": "stream",
     "globalEnv": [
         "OPENAI_API_KEY",
@@ -26,13 +26,12 @@
         "KV_REST_API_URL",
         "GOOGLE_GENERATIVE_AI_API_KEY",
         "ENABLE_EXPERIMENTAL_COREPACK",
-        "DATABASE_URL",
         "LOGTAIL_URL",
         "GA_TRACKING_ID "
     ],
     "tasks": {
         "build": {
-            "dependsOn": ["^build", "generate"],
+            "dependsOn": ["^build"],
             "inputs": ["$TURBO_DEFAULT$", ".env*"],
             "outputs": [".next/**", "!.next/cache/**", "dist/**"]
         },
@@ -40,13 +39,17 @@
             "dependsOn": ["^lint"],
             "inputs": ["$TURBO_DEFAULT$"]
         },
+        "format": {
+            "dependsOn": ["^format"],
+            "inputs": ["$TURBO_DEFAULT$"]
+        },
+        "typecheck": {
+            "dependsOn": ["^typecheck"],
+            "inputs": ["$TURBO_DEFAULT$"]
+        },
         "dev": {
             "cache": false,
             "persistent": true
-        },
-        "generate": {
-            "dependsOn": ["^generate"],
-            "outputs": ["generated/**"]
         }
     }
 }

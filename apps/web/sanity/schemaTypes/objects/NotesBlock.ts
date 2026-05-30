@@ -1,5 +1,6 @@
 import { StickyNote } from 'lucide-react'
 import { defineField, defineType } from 'sanity'
+
 import NotesPreview from '@components/sanity/NotesPreview'
 
 export default defineType({

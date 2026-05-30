@@ -1,47 +1,46 @@
 'use client'
 
-import { ReactQueryDevtools } from '@tanstack/react-query-devtools'
-import posthog from 'posthog-js'
-import { PostHogProvider } from 'posthog-js/react'
-import React from 'react'
-import { usePathname } from 'next/navigation'
-import { env } from '@/env'
-import TRPCProvider from '../_trpc/Provider'
+import React, { useState } from 'react'
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
+import { httpBatchLink } from '@trpc/client'
+import superjson from 'superjson'
+import { trpc } from '@/trpc/react'
 import DemoAuthProvider from './DemoAuthProvider'
 
-// import { ThemeProvider } from 'next-themes'
-
-type ProvidersProps = {
-    children: React.ReactNode
-}
-
-// setup posthog only in production ie the env variables are only available in production
-if (typeof window !== 'undefined' && env.NEXT_PUBLIC_POSTHOG_KEY) {
-    posthog.set_config({
-        autocapture: false,
-        capture_pageleave: false,
-    })
-    posthog.init(env.NEXT_PUBLIC_POSTHOG_KEY ?? '', {
-        api_host: env.NEXT_PUBLIC_POSTHOG_HOST,
-        person_profiles: 'identified_only',
-        autocapture: {
-            dom_event_allowlist: ['click'],
-            url_ignorelist: ['localhost', 'aesops.co.ke./studio/'],
-            element_allowlist: ['button', 'a', 'select'],
+function makeQueryClient() {
+    return new QueryClient({
+        defaultOptions: {
+            queries: {
+                staleTime: 60 * 1000,
+                retry: false,
+                refetchOnWindowFocus: false,
+            },
         },
     })
 }
 
-function Providers({ children }: ProvidersProps) {
-    const pathname = usePathname()
+let browserQueryClient: QueryClient | undefined
+
+function getQueryClient() {
+    if (typeof window === 'undefined') return makeQueryClient()
+    if (!browserQueryClient) browserQueryClient = makeQueryClient()
+    return browserQueryClient
+}
+
+function Providers({ children }: { children: React.ReactNode }) {
+    const queryClient = getQueryClient()
+    const [trpcClient] = useState(() =>
+        trpc.createClient({
+            links: [httpBatchLink({ url: '/api/trpc', transformer: superjson })],
+        }),
+    )
 
     return (
-        <TRPCProvider>
-            <ReactQueryDevtools />
-            <DemoAuthProvider>
-                <PostHogProvider client={posthog}>{children}</PostHogProvider>
-            </DemoAuthProvider>
-        </TRPCProvider>
+        <trpc.Provider client={trpcClient} queryClient={queryClient}>
+            <QueryClientProvider client={queryClient}>
+                <DemoAuthProvider>{children}</DemoAuthProvider>
+            </QueryClientProvider>
+        </trpc.Provider>
     )
 }
 

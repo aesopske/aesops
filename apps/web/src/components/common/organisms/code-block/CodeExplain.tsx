@@ -2,11 +2,9 @@
 
 import { useCompletion } from '@ai-sdk/react'
 import { AnimatePresence, motion } from 'framer-motion'
-import { Stars } from 'lucide-react'
-import posthog from 'posthog-js'
+import { Sparkles } from 'lucide-react'
 import ReactMarkdown from 'react-markdown'
 import { useState } from 'react'
-import { Button } from '@components/ui'
 
 type CodeExplainProps = {
     code: {
@@ -23,63 +21,61 @@ type CodeExplainProps = {
 
 function CodeExplain({ code }: CodeExplainProps) {
     const [isOpen, setIsOpen] = useState(false)
-    // store the explanation session store to avoid re-explaining the same code
     const { completion, complete, isLoading, error } = useCompletion({
         body: { key: code?._key, useCache: true },
     })
 
+    const handleClick = () => {
+        if (isOpen) return setIsOpen(false)
+        setIsOpen(true)
+        if (completion) return
+        const language =
+            code?.code?.language === 'sh' ? 'bash' : code?.code?.language
+        complete(
+            `Explain briefly in point form, without an introduction or conclusion, the following ${language} code:\n\n${code?.code?.code}`,
+        )
+    }
+
     return (
-        <div className='flex min-h-10 flex-col items-start gap-4 bg-brandaccent-50 px-4 py-2'>
-            <Button
-                data-open={isOpen}
-                variant='outline'
-                disabled={isLoading}
-                data-loading={isLoading}
-                className='group flex h-8 items-center gap-2 rounded-full border-brandprimary-900 bg-transparent data-[open=true]:bg-brandprimary-900 data-[open=true]:text-brandaccent-50 hover:bg-brandprimary-900 hover:text-brandaccent-50 transition-all duration-200 ease-in-out'
-                onClick={() => {
-                    if (isOpen) return setIsOpen(false)
+        <div className='border-t border-[#d5c4a1] bg-brandaccent-50'>
+            <div className='flex items-center gap-3 px-4 py-3'>
+                <button
+                    onClick={handleClick}
+                    disabled={isLoading}
+                    className='inline-flex items-center gap-1.5 text-xs font-mono font-medium tracking-wide text-[#7c6f64] hover:text-[#3c3836] transition-colors duration-150 disabled:opacity-40'>
+                    <Sparkles
+                        size={12}
+                        className={
+                            isLoading ? 'animate-pulse text-[#79740e]' : ''
+                        }
+                    />
+                    {isLoading
+                        ? 'Explaining…'
+                        : isOpen
+                          ? 'Hide explanation'
+                          : 'Explain with AI'}
+                </button>
+            </div>
 
-                    posthog.capture('code_explain', { code: code?.code?.code })
-                    // check if we have a saved explanation
-                    if (completion) {
-                        setIsOpen(!isOpen)
-                        return
-                    }
-
-                    // open the panel and stream the generated explanation
-                    setIsOpen(!isOpen)
-                    const language =
-                        code?.code?.language === 'sh'
-                            ? 'bash'
-                            : code?.code?.language
-                    const prompt = `Explain briefly in point form and without an introduction or conclusion, the following ${language} code: \n\n${code?.code?.code}`
-                    complete(prompt)
-                }}>
-                <Stars
-                    size={16}
-                    className='group-data-[loading=true]:animate-pulse'
-                />
-                {isOpen ? 'Close' : 'Explain'}
-            </Button>
-            <AnimatePresence initial={false} mode='wait'>
+            <AnimatePresence initial={false}>
                 {isOpen && (
                     <motion.div
-                        key={isOpen ? 'explanation' : 'no-explanation'}
                         initial={{ opacity: 0, height: 0 }}
                         animate={{ opacity: 1, height: 'auto' }}
-                        exit={{ opacity: 0, height: '0px' }}
-                        transition={{ duration: 0.3 }}
-                        className='w-full'>
-                        <output
-                            data-hidden={!!error}
-                            className='prose font-mono text-sm text-brandprimary-900 data-[hidden=true]:hidden'>
-                            <ReactMarkdown>{completion}</ReactMarkdown>
-                        </output>
-                        {error && isOpen ? (
-                            <output className='prose text-xs text-red-500'>
-                                {error?.message}
-                            </output>
-                        ) : null}
+                        exit={{ opacity: 0, height: 0 }}
+                        transition={{ duration: 0.25, ease: 'easeInOut' }}
+                        className='overflow-hidden'>
+                        <div className='px-4 pb-4'>
+                            {error ? (
+                                <p className='text-xs font-mono text-[#9d0006]'>
+                                    {error.message}
+                                </p>
+                            ) : (
+                                <div className='prose prose-sm max-w-none font-mono text-xs text-[#504945] leading-relaxed [&_ul]:list-disc [&_ul]:pl-4 [&_ul]:space-y-1 [&_li]:text-[#504945] [&_p]:text-[#504945] [&_strong]:text-[#3c3836]'>
+                                    <ReactMarkdown>{completion}</ReactMarkdown>
+                                </div>
+                            )}
+                        </div>
                     </motion.div>
                 )}
             </AnimatePresence>

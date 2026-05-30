@@ -25,7 +25,9 @@ function Socials({
                     return key === social?.name?.toLowerCase()
                 })
 
-                const icon = iconKey ? socialIcons[iconKey] : null
+                const icon = iconKey
+                    ? socialIcons[iconKey as keyof typeof socialIcons]
+                    : null
                 return (
                     <a
                         title={social.name}

@@ -10,6 +10,10 @@ const groups = [
         title: 'Socials',
         name: 'socials',
     },
+    {
+        title: 'Navigation',
+        name: 'navigation',
+    },
 ]
 
 export default defineType({
@@ -52,6 +56,38 @@ export default defineType({
             group: 'socials',
             type: 'array',
             of: [{ type: 'externalLink' }],
+        }),
+        defineField({
+            name: 'navLinks',
+            title: 'Navigation Links',
+            group: 'navigation',
+            type: 'array',
+            of: [
+                {
+                    type: 'object',
+                    fields: [
+                        defineField({
+                            name: 'name',
+                            title: 'Label',
+                            type: 'string',
+                            validation: (Rule) => Rule.required(),
+                        }),
+                        defineField({
+                            name: 'href',
+                            title: 'URL',
+                            description: 'Use a relative path for internal links (e.g. /about-us)',
+                            type: 'string',
+                            validation: (Rule) => Rule.required(),
+                        }),
+                        defineField({
+                            name: 'comingSoon',
+                            title: 'Coming Soon',
+                            type: 'boolean',
+                            initialValue: false,
+                        }),
+                    ],
+                },
+            ],
         }),
     ],
 })
