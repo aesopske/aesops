@@ -38,3 +38,10 @@ yarn-error.log*
 
 #rss
 rss
+
+# local planned-features backlog (not tracked)
+FEATURES.md
+
+# Zip files
+*.tar.gz
+*.zip
