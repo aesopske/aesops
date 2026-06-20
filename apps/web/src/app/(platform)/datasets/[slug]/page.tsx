@@ -154,7 +154,18 @@ export default async function DatasetPage({ params }: Props) {
                                     Edit
                                 </Link>
                             )}
-                            <AuthGate isLoggedIn={isLoggedIn}>
+                            <AuthGate
+                                isLoggedIn={isLoggedIn}
+                                fallback={
+                                    <a
+                                        href={`/sign-in?from=/datasets/${doc.slug ?? doc.id}`}
+                                        className='inline-flex items-center gap-2 rounded-lg bg-primary-foreground px-4 py-2.5 text-sm font-medium text-primary transition-opacity hover:opacity-90'
+                                    >
+                                        <Download size={15} />
+                                        Download
+                                    </a>
+                                }
+                            >
                                 <a
                                     href={`/api/download/${doc.id}`}
                                     className='inline-flex items-center gap-2 rounded-lg bg-primary-foreground px-4 py-2.5 text-sm font-medium text-primary transition-opacity hover:opacity-90'
@@ -216,19 +227,16 @@ export default async function DatasetPage({ params }: Props) {
             <DatasetPageLayout
                 left={
                     <>
-                        <AuthGate isLoggedIn={isLoggedIn}>
-                            {meta && (
-                                <section>
-                                    <SectionHeading label='AI insights' />
-                                    <div className='mt-4'>
-                                        <DatasetInsights
-                                            datasetId={doc.id}
-                                            cachedInsights={doc.aiInsights ?? null}
-                                        />
-                                    </div>
-                                </section>
-                            )}
-                        </AuthGate>
+                        {meta && (
+                            <section>
+                                <SectionHeading label='AI insights' />
+                                <div className='mt-4'>
+                                    <DatasetInsights
+                                        cachedInsights={doc.aiInsights ?? null}
+                                    />
+                                </div>
+                            </section>
+                        )}
 
                         {doc.parentId === null && revisions.length > 0 && (
                             <DatasetVersionHistory documentId={doc.id} revisions={revisions} />
