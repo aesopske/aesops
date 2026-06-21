@@ -9,7 +9,14 @@ function OurStoryBlock({ block }: { block: OurStoryBlockType }) {
     const imageUrl = block.image ? urlForImage(block.image) : null
 
     return (
-        <section id='about' className='min-h-96 bg-brandprimary-700 text-brandaccent-50'>
+        <section id='about' className='relative overflow-hidden min-h-96 bg-brandprimary-700 text-brandaccent-50'>
+            <div
+                className='absolute inset-0 opacity-[0.06]'
+                style={{
+                    backgroundImage: 'radial-gradient(circle, white 1px, transparent 1px)',
+                    backgroundSize: '22px 22px',
+                }}
+            />
             <div className='max-w-(--breakpoint-lg) lg:max-w-(--breakpoint-xl) 2xl:max-w-(--breakpoint-2xl) px-6 grid grid-cols-1 md:grid-cols-2 col-span-2 mx-auto md:gap-4 h-full 2xl:px-0'>
                 <div className='space-y-4 text-brandaccent-50 py-6 lg:py-24'>
                     <Badge variant='secondary' className='rounded-full'>

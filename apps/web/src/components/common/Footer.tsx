@@ -60,7 +60,14 @@ function Footer() {
     const year = new Date().getFullYear()
 
     return (
-        <footer className='w-full bg-primary px-6 pt-16 pb-8'>
+        <footer className='relative overflow-hidden w-full bg-primary px-6 pt-16 pb-8'>
+            <div
+                className='absolute inset-0 opacity-[0.06]'
+                style={{
+                    backgroundImage: 'radial-gradient(circle, white 1px, transparent 1px)',
+                    backgroundSize: '22px 22px',
+                }}
+            />
             <div className='mx-auto max-w-(--breakpoint-md) lg:max-w-(--breakpoint-lg) 2xl:max-w-(--breakpoint-xl)'>
                 <div className='grid grid-cols-1 gap-12 lg:grid-cols-[1.8fr_2.2fr] lg:gap-16'>
                     <div className='flex flex-col gap-6'>

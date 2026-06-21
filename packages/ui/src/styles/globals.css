@@ -11,7 +11,7 @@
 
 /*
   Design System — Muted earth tones
-  Cool: #0A2533, #2D6A73, #9BB3AC, #D4D9CC, #F7F3EA
+  Cool: #0A2533, #155f6b, #9BB3AC, #D4D9CC, #F7F3EA
   Warm: #E8C9A0, #D4956A, #A67852, #6B4A3A
   Font: Bricolage Grotesque (sans/heading), Lora (serif), Geist Mono (mono)
   Source: b_foazAyqGIPs/app/globals.css
@@ -25,7 +25,7 @@
         --popover: #FFFCF8;
         --popover-foreground: #0A2533;
 
-        --primary: #2D6A73;
+        --primary: #155f6b;
         --primary-foreground: #F8F3ED;
 
         --secondary: #EDE8E0;
@@ -48,9 +48,9 @@
 
         --border: #E5DED4;
         --input: #F0EBE4;
-        --ring: #2D6A73;
+        --ring: #155f6b;
 
-        --chart-1: #2D6A73;
+        --chart-1: #155f6b;
         --chart-2: #D4956A;
         --chart-3: #9BB3AC;
         --chart-4: #A67852;
@@ -60,12 +60,12 @@
 
         --sidebar: #FFFCF8;
         --sidebar-foreground: #0A2533;
-        --sidebar-primary: #2D6A73;
+        --sidebar-primary: #155f6b;
         --sidebar-primary-foreground: #F8F3ED;
         --sidebar-accent: #F0EBE4;
         --sidebar-accent-foreground: #0A2533;
         --sidebar-border: #E5DED4;
-        --sidebar-ring: #2D6A73;
+        --sidebar-ring: #155f6b;
 
         /* Legacy brand colors — kept for backward compatibility */
         --brand-background: #F8F3ED;
@@ -115,7 +115,7 @@
         --primary: #D4956A;
         --primary-foreground: #0A2533;
 
-        --secondary: #2D6A73;
+        --secondary: #155f6b;
         --secondary-foreground: #F0EBE4;
 
         --muted: #153545;

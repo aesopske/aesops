@@ -61,7 +61,7 @@ export default function DatasetsPage() {
                 </div>
             </section>
 
-            <div className='mx-auto max-w-6xl px-6 py-8'>
+            <div className='mx-auto max-w-6xl px-6 py-20'>
                 <DatasetBrowser />
             </div>
         </main>
