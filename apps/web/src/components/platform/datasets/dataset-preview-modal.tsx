@@ -1,6 +1,6 @@
 'use client'
 
-import { useRouter } from 'next/navigation'
+import { redirect, RedirectType } from 'next/navigation'
 import {
     FileSpreadsheet,
     FileText,
@@ -52,7 +52,6 @@ export function DatasetPreviewModal({
     doc,
     onCloseAction,
 }: DatasetPreviewModalProps) {
-    const router = useRouter()
     const revisionCount = doc?.revisionCount ?? 0
 
     const meta = doc?.metadata as DocumentMetadata | null
@@ -89,8 +88,8 @@ export function DatasetPreviewModal({
                                 Uploaded {doc ? timeAgo(doc.createdAt) : ''}
                                 {revisionCount > 0 && (
                                     <span className='inline-flex items-center gap-1 rounded-full bg-muted px-2 py-0.5 font-mono text-xs text-muted-foreground'>
-                                        <GitBranch size={11} />
-                                        v{revisionCount + 1}
+                                        <GitBranch size={11} />v
+                                        {revisionCount + 1}
                                     </span>
                                 )}
                             </DialogDescription>
@@ -155,8 +154,10 @@ export function DatasetPreviewModal({
                     {doc && (
                         <button
                             onClick={() => {
-                                router.push(`/datasets/${doc.slug ?? doc.id}`)
-                                onCloseAction()
+                                redirect(
+                                    `/datasets/${doc.slug ?? doc.id}`,
+                                    RedirectType.push,
+                                )
                             }}
                             className='inline-flex shrink-0 items-center gap-2 rounded-lg bg-primary px-5 py-2.5 text-sm font-medium text-primary-foreground transition-colors hover:bg-primary/90'>
                             View dataset

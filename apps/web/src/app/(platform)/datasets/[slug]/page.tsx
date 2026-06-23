@@ -22,6 +22,7 @@ import { DatasetChatWidget } from '@/components/platform/dataset/dataset-chat-wi
 import { DatasetVersionHistory } from '@/components/platform/dataset/dataset-version-history'
 import { DatasetPageLayout } from '@/components/platform/dataset/dataset-page-layout'
 import { DatasetVisualizations } from '@/components/platform/dataset/dataset-visualizations'
+import { RelatedDiscussions } from '@/components/platform/community/related-discussions'
 import { formatBytes, timeAgo } from '@/lib/platform/format'
 import type { DocumentMetadata } from '@repo/db/schema'
 import BreadCrumbs from '@/components/common/organisms/bread-crumbs/BreadCrumbs'
@@ -65,7 +66,8 @@ export default async function DatasetPage({ params }: Props) {
             ? await api.documents.listRevisions({ parentId: doc.id })
             : []
     const revisionCount = revisions.length
-    const latestRevisionAt = revisions.length > 0 ? revisions.at(-1)!.createdAt : null
+    const latestRevisionAt =
+        revisions.length > 0 ? revisions.at(-1)!.createdAt : null
 
     const meta = doc.metadata as DocumentMetadata | null
     const isExcel =
@@ -148,8 +150,7 @@ export default async function DatasetPage({ params }: Props) {
                             {isOwner && (
                                 <Link
                                     href={`/datasets/${doc.slug ?? doc.id}/edit`}
-                                    className='inline-flex items-center gap-2 rounded-lg border border-primary-foreground/30 bg-primary-foreground/10 px-4 py-2.5 text-sm font-medium text-primary-foreground transition-colors hover:bg-primary-foreground/20'
-                                >
+                                    className='inline-flex items-center gap-2 rounded-lg border border-primary-foreground/30 bg-primary-foreground/10 px-4 py-2.5 text-sm font-medium text-primary-foreground transition-colors hover:bg-primary-foreground/20'>
                                     <Pencil size={15} />
                                     Edit
                                 </Link>
@@ -159,17 +160,14 @@ export default async function DatasetPage({ params }: Props) {
                                 fallback={
                                     <a
                                         href={`/sign-in?from=/datasets/${doc.slug ?? doc.id}`}
-                                        className='inline-flex items-center gap-2 rounded-lg bg-primary-foreground px-4 py-2.5 text-sm font-medium text-primary transition-opacity hover:opacity-90'
-                                    >
+                                        className='inline-flex items-center gap-2 rounded-lg bg-primary-foreground px-4 py-2.5 text-sm font-medium text-primary transition-opacity hover:opacity-90'>
                                         <Download size={15} />
                                         Download
                                     </a>
-                                }
-                            >
+                                }>
                                 <a
                                     href={`/api/download/${doc.id}`}
-                                    className='inline-flex items-center gap-2 rounded-lg bg-primary-foreground px-4 py-2.5 text-sm font-medium text-primary transition-opacity hover:opacity-90'
-                                >
+                                    className='inline-flex items-center gap-2 rounded-lg bg-primary-foreground px-4 py-2.5 text-sm font-medium text-primary transition-opacity hover:opacity-90'>
                                     <Download size={15} />
                                     Download
                                 </a>
@@ -239,13 +237,47 @@ export default async function DatasetPage({ params }: Props) {
                         )}
 
                         {doc.parentId === null && revisions.length > 0 && (
-                            <DatasetVersionHistory documentId={doc.id} revisions={revisions} />
+                            <DatasetVersionHistory
+                                documentId={doc.id}
+                                revisions={revisions}
+                            />
+                        )}
+
+                        <section>
+                            <SectionHeading label='Community discussions' />
+                            <div className='mt-4 overflow-hidden rounded-xl border border-border bg-card shadow-sm'>
+                                <div className='p-6'>
+                                    <RelatedDiscussions
+                                        datasetId={doc.id}
+                                        datasetSlug={doc.slug ?? null}
+                                        datasetName={doc.name}
+                                    />
+                                </div>
+                            </div>
+                        </section>
+                    </>
+                }
+                right={
+                    <>
+                        {meta && (
+                            <section>
+                                <SectionHeading label='Data overview' />
+                                <div className='mt-4 overflow-hidden rounded-xl border border-border bg-card shadow-sm'>
+                                    <div className='p-6'>
+                                        <DatasetVisualizations meta={meta} />
+                                    </div>
+                                </div>
+                            </section>
                         )}
 
                         <section>
                             <SectionHeading
                                 label='Column schema'
-                                aside={meta ? `${meta.columnCount} columns` : undefined}
+                                aside={
+                                    meta
+                                        ? `${meta.columnCount} columns`
+                                        : undefined
+                                }
                             />
                             <div className='mt-4 overflow-hidden rounded-xl border border-border bg-card shadow-sm'>
                                 {meta ? (
@@ -260,18 +292,6 @@ export default async function DatasetPage({ params }: Props) {
                             </div>
                         </section>
                     </>
-                }
-                right={
-                    meta ? (
-                        <section>
-                            <SectionHeading label='Data overview' />
-                            <div className='mt-4 overflow-hidden rounded-xl border border-border bg-card shadow-sm'>
-                                <div className='p-6'>
-                                    <DatasetVisualizations meta={meta} />
-                                </div>
-                            </div>
-                        </section>
-                    ) : null
                 }
             />
 

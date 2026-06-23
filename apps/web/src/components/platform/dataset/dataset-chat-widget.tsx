@@ -18,7 +18,7 @@ type Props = {
 
 export function DatasetChatWidget({ datasetId, initialMessages }: Props) {
     const hasHistory = !!initialMessages?.length
-    const [isOpen, setIsOpen] = useState(hasHistory)
+    const [isOpen, setIsOpen] = useState(false)
     const mounted = useSyncExternalStore(
         () => () => {},
         () => true,
