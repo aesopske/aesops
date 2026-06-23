@@ -5,6 +5,7 @@ import { publicProcedure, protectedProcedure, router } from '@/trpc/init'
 import {
     db,
     threads,
+    comments,
     users,
     documents,
     and,
@@ -250,6 +251,14 @@ export const communityRouter = router({
                     message: 'You do not own this thread',
                 })
 
+            await db
+                .delete(comments)
+                .where(
+                    and(
+                        eq(comments.entityType, 'discussion'),
+                        eq(comments.entityId, input.threadId),
+                    ),
+                )
             await db.delete(threads).where(eq(threads.id, input.threadId))
             return { deleted: input.threadId }
         }),
