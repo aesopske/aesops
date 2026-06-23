@@ -1,8 +1,8 @@
 'use client'
 
-import { BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer } from 'recharts'
+import { BarChart, Bar, XAxis, YAxis, LabelList, Tooltip, ResponsiveContainer } from 'recharts'
 import type { ColumnStats } from '@repo/db/schema'
-import { C, TOOLTIP_STYLE, TICK_STYLE } from '@/lib/platform/chart-theme'
+import { C, TOOLTIP_STYLE } from '@/lib/platform/chart-theme'
 import { DatasetCompletenessBar } from './dataset-completeness-bar'
 
 const LABEL_MAX = 16
@@ -25,7 +25,8 @@ export function DatasetCategoricalChart({ col, totalRows }: Props) {
         full: tv.value,
     }))
 
-    const height = Math.min(col.topValues.length * 32 + 24, 180)
+    const barHeight = 28
+    const height = Math.min(data.length * barHeight + 24, 180)
 
     return (
         <div>
@@ -44,17 +45,9 @@ export function DatasetCategoricalChart({ col, totalRows }: Props) {
                 </div>
             )}
             <ResponsiveContainer width='100%' height={height}>
-                <BarChart data={data} layout='vertical' margin={{ top: 4, right: 8, bottom: 4, left: 4 }}>
-                    <XAxis type='number' tick={TICK_STYLE} axisLine={false} tickLine={false} />
-                    <YAxis
-                        type='category'
-                        dataKey='name'
-                        width={110}
-                        tick={TICK_STYLE}
-                        axisLine={false}
-                        tickLine={false}
-                    />
-                    <Bar dataKey='count' fill={C.c1} radius={[0, 3, 3, 0]} maxBarSize={18} />
+                <BarChart data={data} layout='vertical' margin={{ top: 0, right: 40, bottom: 0, left: 0 }}>
+                    <XAxis type='number' hide />
+                    <YAxis dataKey='name' type='category' hide />
                     <Tooltip
                         contentStyle={TOOLTIP_STYLE}
                         formatter={(count) => {
@@ -63,6 +56,22 @@ export function DatasetCategoricalChart({ col, totalRows }: Props) {
                         }}
                         labelFormatter={(_, payload) => payload?.[0]?.payload?.full ?? ''}
                     />
+                    <Bar dataKey='count' fill={C.c1} radius={[0, 3, 3, 0]} maxBarSize={18}>
+                        <LabelList
+                            dataKey='name'
+                            position='insideLeft'
+                            offset={6}
+                            fill='var(--primary-foreground)'
+                            fontSize={11}
+                            fontWeight={500}
+                        />
+                        <LabelList
+                            dataKey='count'
+                            position='right'
+                            fill='var(--muted-foreground)'
+                            fontSize={11}
+                        />
+                    </Bar>
                 </BarChart>
             </ResponsiveContainer>
             <DatasetCompletenessBar nullPercent={col.nullPercent} />
