@@ -19,8 +19,6 @@ export function BlogPostSelect({ selectedId, onChange }: Props) {
     const { data: posts, isLoading } =
         trpc.community.listBlogPosts.useQuery(undefined)
 
-    console.log({ selectedId, posts })
-
     return (
         <select
             className='w-full rounded-md border border-input bg-background px-3 py-2 text-sm disabled:opacity-50'

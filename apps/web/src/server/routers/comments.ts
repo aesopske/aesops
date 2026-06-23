@@ -25,7 +25,6 @@ export const commentsRouter = router({
     list: publicProcedure
         .input(z.object({ entityType, entityId: z.string() }))
         .query(async ({ input }) => {
-            console.log(input)
             return db
                 .select({
                     id: comments.id,

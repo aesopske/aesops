@@ -27,7 +27,6 @@ function BlogPageDetail({
     currentUserId,
     currentPath,
 }: Props) {
-    console.log(page)
     const imageUrl = page.mainImage
         ? (urlForImage(page.mainImage) ?? null)
         : null

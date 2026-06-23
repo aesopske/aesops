@@ -25,17 +25,17 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 export default async function ThreadPage({ params }: Props) {
     const { threadId } = await params
 
-    const [session, data, comments] = await Promise.all([
+    const [session, data] = await Promise.all([
         auth.api.getSession({ headers: await headers() }),
         api.community.getThread({ threadId }).catch(() => null),
-        api.comments
-            .list({ entityType: 'discussion', entityId: threadId })
-            .catch(() => []),
     ])
 
     if (!data) notFound()
-    console.log(comments)
     const { thread } = data
+
+    const comments = await api.comments
+        .list({ entityType: 'discussion', entityId: thread.id })
+        .catch(() => [])
     const isOwner = !!session && thread.userId === session.user.id
 
     const initials = thread.authorName
