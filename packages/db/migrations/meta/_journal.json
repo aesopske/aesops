@@ -1,20 +1,48 @@
 {
-  "version": "7",
-  "dialect": "postgresql",
-  "entries": [
-    {
-      "idx": 0,
-      "version": "7",
-      "when": 1779780663532,
-      "tag": "0000_black_sinister_six",
-      "breakpoints": true
-    },
-    {
-      "idx": 1,
-      "version": "7",
-      "when": 1780041131217,
-      "tag": "0001_calm_freak",
-      "breakpoints": true
-    }
-  ]
+    "version": "7",
+    "dialect": "postgresql",
+    "entries": [
+        {
+            "idx": 0,
+            "version": "7",
+            "when": 1779780663532,
+            "tag": "0000_black_sinister_six",
+            "breakpoints": true
+        },
+        {
+            "idx": 1,
+            "version": "7",
+            "when": 1780041131217,
+            "tag": "0001_calm_freak",
+            "breakpoints": true
+        },
+        {
+            "idx": 2,
+            "version": "7",
+            "when": 1782057709632,
+            "tag": "0002_ordinary_the_hunter",
+            "breakpoints": true
+        },
+        {
+            "idx": 3,
+            "version": "7",
+            "when": 1782064803934,
+            "tag": "0003_amusing_squadron_sinister",
+            "breakpoints": true
+        },
+        {
+            "idx": 4,
+            "version": "7",
+            "when": 1782119773051,
+            "tag": "0004_polymorphic_comments",
+            "breakpoints": true
+        },
+        {
+            "idx": 5,
+            "version": "7",
+            "when": 1782200000000,
+            "tag": "0005_reset_comments",
+            "breakpoints": true
+        }
+    ]
 }
