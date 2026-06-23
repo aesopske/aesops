@@ -8,9 +8,10 @@ import { usePathname } from 'next/navigation'
 import Logo from './Logo'
 
 const platform = [
-    { label: 'Blog', href: '/blog' },
     { label: 'Datasets', href: 'http://localhost:3001' },
     { label: 'About Us', href: '/about-us' },
+    { label: 'Community', href: '/community' },
+    { label: 'Blog', href: '/blog' },
 ]
 
 const resources = [
@@ -64,14 +65,18 @@ function Footer() {
             <div
                 className='absolute inset-0 opacity-[0.06]'
                 style={{
-                    backgroundImage: 'radial-gradient(circle, white 1px, transparent 1px)',
+                    backgroundImage:
+                        'radial-gradient(circle, white 1px, transparent 1px)',
                     backgroundSize: '22px 22px',
                 }}
             />
             <div className='mx-auto max-w-(--breakpoint-md) lg:max-w-(--breakpoint-lg) 2xl:max-w-(--breakpoint-xl)'>
                 <div className='grid grid-cols-1 gap-12 lg:grid-cols-[1.8fr_2.2fr] lg:gap-16'>
                     <div className='flex flex-col gap-6'>
-                        <Logo className='brightness-0 invert' />
+                        {/* Mobile: gradient mark */}
+                        <img src='/logo-mark.svg' alt='Aesops' className='h-9 w-9 md:hidden' />
+                        {/* Desktop: full text logo inverted white */}
+                        <Logo className='brightness-0 invert hidden md:flex' />
                         <p className='text-primary-foreground/70 text-sm leading-relaxed max-w-xs font-sans'>
                             Aesops is a pioneering data organisation in Kenya,
                             collecting, curating, and disseminating data to
