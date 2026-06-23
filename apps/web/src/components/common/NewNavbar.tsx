@@ -10,11 +10,13 @@ function WebNavbar({
     navLinks,
     rightSlot,
     navAlign,
+    logoMarkSrc,
 }: {
     previewEnabled: boolean
     navLinks?: NavLink[]
     rightSlot?: React.ReactNode
     navAlign?: 'center' | 'right'
+    logoMarkSrc?: string
 }) {
     const pathname = usePathname()
 
@@ -26,6 +28,7 @@ function WebNavbar({
             rightSlot={rightSlot}
             navAlign={navAlign}
             previewEnabled={previewEnabled}
+            logoMarkSrc={logoMarkSrc}
             className={pathname?.includes('/blog/') ? 'relative' : undefined}
         />
     )
