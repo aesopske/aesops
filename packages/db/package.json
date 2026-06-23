@@ -13,6 +13,8 @@
     "db:migrate": "drizzle-kit migrate",
     "db:push": "drizzle-kit push",
     "db:studio": "drizzle-kit studio",
+    "db:reset-comments": "node --env-file=.env scripts/reset-comments.mjs",
+        "db:add-thread-slug": "node --env-file=.env scripts/add-thread-slug.mjs",
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {
