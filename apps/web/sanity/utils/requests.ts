@@ -307,6 +307,7 @@ export const featuredDatasetQuery = groq`*[_type == 'dataset' && featured == tru
 
 // fetch page by slug
 export const pageQuery = groq`*[_type == 'page' && slug.current == $slug]{
+    _id,
     title,
     slug,
     pageType,

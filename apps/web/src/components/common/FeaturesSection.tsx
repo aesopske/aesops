@@ -1,10 +1,9 @@
-import Image from 'next/image'
 import { ArrowRight, BarChart2, BookOpen, Database, Download, FileText, Search, Shield, Sparkles, Table, Upload, Users, Zap } from 'lucide-react'
 import TransitionLink from '@components/common/atoms/TransitionLink'
 import Animate from '@components/common/atoms/Animate'
 import { cn } from '@/lib/utils'
 import { FeaturesBlock } from '~sanity/utils/types'
-import { urlForImage } from '~sanity/utils/image'
+import DataAccessibilityViz from './DataAccessibilityViz'
 import type { LucideIcon } from 'lucide-react'
 
 const ICON_MAP: Record<string, LucideIcon> = {
@@ -22,24 +21,6 @@ const ICON_MAP: Record<string, LucideIcon> = {
     shield: Shield,
 }
 
-const ICON_COLORS = [
-    'bg-primary/10 text-primary',
-    'bg-accent/15 text-accent',
-    'bg-[#5A8A7A]/15 text-[#5A8A7A]',
-    'bg-primary/10 text-primary',
-    'bg-accent/15 text-accent',
-    'bg-[#5A8A7A]/15 text-[#5A8A7A]',
-]
-
-const ICON_COLORS_DARK = [
-    'bg-white/10 text-primary-foreground',
-    'bg-accent/20 text-accent',
-    'bg-white/10 text-primary-foreground',
-    'bg-accent/20 text-accent',
-    'bg-white/10 text-primary-foreground',
-    'bg-accent/20 text-accent',
-]
-
 type FeaturesSectionProps = {
     block: FeaturesBlock
 }
@@ -51,10 +32,32 @@ function FeaturesSection({ block }: FeaturesSectionProps) {
     return (
         <section
             className={cn(
-                'w-full py-16 lg:py-20',
+                'relative w-full overflow-hidden py-16 lg:py-20',
                 isDark ? 'bg-[#0A2533]' : 'bg-background',
             )}>
-            <div className='mx-auto max-w-(--breakpoint-md) lg:max-w-(--breakpoint-lg) 2xl:max-w-(--breakpoint-xl) px-6 lg:px-8'>
+            {/* Dot-grid texture */}
+            <div
+                aria-hidden
+                className='absolute inset-0 opacity-[0.05]'
+                style={{
+                    backgroundImage: isDark
+                        ? 'radial-gradient(circle, white 1px, transparent 1px)'
+                        : 'radial-gradient(circle, #155f6b 1px, transparent 1px)',
+                    backgroundSize: '22px 22px',
+                }}
+            />
+            {/* Soft glow */}
+            <div
+                aria-hidden
+                className={cn(
+                    'pointer-events-none absolute -top-24 h-96 w-96 rounded-full blur-3xl',
+                    isDark
+                        ? 'right-0 bg-accent/10'
+                        : 'left-1/4 bg-primary/[0.07]',
+                )}
+            />
+
+            <div className='relative z-10 mx-auto max-w-(--breakpoint-md) lg:max-w-(--breakpoint-lg) 2xl:max-w-(--breakpoint-xl) px-6 lg:px-8'>
                 {/* Section header */}
                 <Animate dir='up' className='mb-12'>
                     <div className={cn(
@@ -115,17 +118,9 @@ function FeaturesSection({ block }: FeaturesSectionProps) {
                             )}
                         </div>
 
-                        {/* Optional image */}
-                        {block.image && urlForImage(block.image) && (
-                            <div className='w-full max-w-lg'>
-                                <Image
-                                    src={urlForImage(block.image)!}
-                                    alt={block.heading ?? ''}
-                                    width={600}
-                                    height={500}
-                                    className='w-full h-auto object-contain'
-                                />
-                            </div>
+                        {/* Data-accessibility viz for the Problem block; falls back for other light blocks */}
+                        {block.image && !isDark && (
+                            <DataAccessibilityViz />
                         )}
                     </div>
                 </Animate>
@@ -133,7 +128,10 @@ function FeaturesSection({ block }: FeaturesSectionProps) {
                 {/* Feature grid */}
                 <div
                     className={cn(
-                        'grid gap-4',
+                        'grid gap-px',
+                        isDark
+                            ? 'rounded-2xl overflow-hidden bg-white/[0.06]'
+                            : 'rounded-2xl overflow-hidden bg-border',
                         features.length <= 2
                             ? 'grid-cols-1 md:grid-cols-2'
                             : features.length === 3
@@ -142,63 +140,65 @@ function FeaturesSection({ block }: FeaturesSectionProps) {
                     )}>
                     {features.map((feature, idx) => {
                         const IconComponent = ICON_MAP[feature.icon ?? 'database'] ?? Database
-                        const colorClass = isDark
-                            ? ICON_COLORS_DARK[idx % ICON_COLORS_DARK.length]
-                            : ICON_COLORS[idx % ICON_COLORS.length]
 
-                        const card = (
-                            <div
-                                className={cn(
-                                    'group relative flex flex-col gap-4 p-6 rounded-xl border h-full overflow-hidden transition-all duration-300',
-                                    isDark
-                                        ? 'bg-white/[0.04] border-white/[0.08] hover:bg-white/[0.07] hover:border-white/[0.14]'
-                                        : 'bg-card border-border hover:border-primary/40 hover:shadow-[0_4px_24px_-4px_rgba(0,0,0,0.08)]',
-                                )}>
-                                {/* Left accent on hover */}
-                                <div
-                                    className={cn(
-                                        'absolute left-0 top-0 bottom-0 w-[2px] origin-bottom scale-y-0 group-hover:scale-y-100 transition-transform duration-300 rounded-r',
-                                        isDark ? 'bg-accent' : 'bg-primary',
-                                    )}
-                                />
+                        const card = isDark ? (
+                            /* ── Platform / dark card ── */
+                            <div className='group relative flex flex-col gap-5 p-7 h-full overflow-hidden transition-all duration-300 bg-[#0A2533] hover:bg-[#0d2d3e]'>
+                                {/* top highlight line — appears on hover */}
+                                <div className='absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-white/25 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-400' />
 
-                                <div
-                                    className={cn(
-                                        'w-10 h-10 rounded-lg flex items-center justify-center shrink-0',
-                                        colorClass,
-                                    )}>
+                                {/* Icon */}
+                                <div className='w-11 h-11 rounded-xl flex items-center justify-center shrink-0 bg-white/[0.07] text-primary-foreground transition-all duration-300 group-hover:bg-accent/20 group-hover:text-accent'>
                                     <IconComponent className='w-5 h-5' />
                                 </div>
 
                                 <div className='flex flex-col gap-2 flex-1'>
-                                    <h3
-                                        className={cn(
-                                            'font-sans font-semibold text-base tracking-tight leading-snug transition-colors duration-200',
-                                            isDark
-                                                ? 'text-white group-hover:text-accent'
-                                                : 'text-foreground group-hover:text-primary',
-                                        )}>
+                                    <h3 className='font-sans font-semibold text-base tracking-tight leading-snug text-white/90 transition-colors duration-200 group-hover:text-white'>
                                         {feature.title}
                                     </h3>
-                                    <p
-                                        className={cn(
-                                            'text-sm leading-relaxed flex-1',
-                                            isDark ? 'text-white/50' : 'text-muted-foreground',
-                                        )}>
+                                    <p className='text-sm leading-relaxed flex-1 text-white/45 group-hover:text-white/60 transition-colors duration-200'>
                                         {feature.description}
                                     </p>
                                 </div>
 
                                 {feature.link && (
-                                    <span
-                                        className={cn(
-                                            'inline-flex items-center gap-1.5 text-[11px] font-mono font-medium mt-auto transition-all duration-200 group-hover:gap-2',
-                                            isDark ? 'text-accent/70' : 'text-primary/70',
-                                        )}>
+                                    <span className='inline-flex items-center gap-1.5 text-[11px] font-mono font-medium mt-auto text-accent/60 group-hover:text-accent transition-all duration-200 group-hover:gap-2.5'>
                                         {feature.linkLabel ?? 'Learn more'}
                                         <ArrowRight className='w-3 h-3' />
                                     </span>
                                 )}
+                            </div>
+                        ) : (
+                            /* ── Problem / light card — editorial stark ── */
+                            <div className='group relative flex flex-col gap-5 p-7 h-full overflow-hidden bg-background transition-all duration-300'>
+                                {/* muted index — top right */}
+                                <span className='absolute right-6 top-5 font-mono text-4xl font-bold leading-none select-none text-foreground/[0.05] transition-colors duration-300 group-hover:text-primary/[0.12]'>
+                                    {String(idx + 1).padStart(2, '0')}
+                                </span>
+
+                                {/* Icon — small, no box */}
+                                <div className='w-9 h-9 rounded-lg flex items-center justify-center shrink-0 bg-primary/8 text-primary transition-all duration-300 group-hover:bg-primary/14'>
+                                    <IconComponent className='w-4 h-4' />
+                                </div>
+
+                                <div className='flex flex-col gap-2 flex-1'>
+                                    <h3 className='font-sans font-semibold text-base tracking-tight leading-snug text-foreground transition-colors duration-200 group-hover:text-primary'>
+                                        {feature.title}
+                                    </h3>
+                                    <p className='text-sm leading-relaxed flex-1 text-muted-foreground'>
+                                        {feature.description}
+                                    </p>
+                                </div>
+
+                                {feature.link && (
+                                    <span className='inline-flex items-center gap-1.5 text-[11px] font-mono font-medium mt-auto text-primary/60 group-hover:text-primary transition-all duration-200 group-hover:gap-2.5'>
+                                        {feature.linkLabel ?? 'Learn more'}
+                                        <ArrowRight className='w-3 h-3' />
+                                    </span>
+                                )}
+
+                                {/* bottom accent line — scales in on hover */}
+                                <div className='absolute bottom-0 left-0 right-0 h-[2px] origin-left scale-x-0 group-hover:scale-x-100 transition-transform duration-400 bg-gradient-to-r from-primary/70 via-primary/40 to-transparent' />
                             </div>
                         )
 
@@ -208,9 +208,7 @@ function FeaturesSection({ block }: FeaturesSectionProps) {
                                 dir='up'
                                 duration={0.45 + idx * 0.06}>
                                 {feature.link ? (
-                                    <TransitionLink
-                                        href={feature.link}
-                                        className='block h-full'>
+                                    <TransitionLink href={feature.link} className='block h-full'>
                                         {card}
                                     </TransitionLink>
                                 ) : (

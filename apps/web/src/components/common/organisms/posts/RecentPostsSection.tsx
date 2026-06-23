@@ -13,8 +13,18 @@ async function RecentPostsSection({ block }: RecentPostsSectionProps) {
     const posts = await getRecentPosts(block.count ?? 6)
 
     return (
-        <section className='bg-background py-12 lg:py-16'>
-            <div className='mx-auto max-w-(--breakpoint-md) lg:max-w-(--breakpoint-lg) 2xl:max-w-(--breakpoint-xl) px-6 lg:px-8'>
+        <section className='relative overflow-hidden bg-background py-12 lg:py-16'>
+            {/* Dot-grid texture */}
+            <div
+                aria-hidden
+                className='absolute inset-0 opacity-[0.05]'
+                style={{
+                    backgroundImage:
+                        'radial-gradient(circle, #155f6b 1px, transparent 1px)',
+                    backgroundSize: '22px 22px',
+                }}
+            />
+            <div className='relative z-10 mx-auto max-w-(--breakpoint-md) lg:max-w-(--breakpoint-lg) 2xl:max-w-(--breakpoint-xl) px-6 lg:px-8'>
                 <Animate dir='up' className='mb-8'>
                     <div className='flex items-end justify-between gap-4 flex-wrap'>
                         <div className='space-y-1.5'>

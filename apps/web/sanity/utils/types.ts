@@ -199,7 +199,17 @@ export type OurTeamBlock = {
     description?: string
 }
 
-export type PageBlock = HeroBlock | PageHeroBlock | BlogListBlock | FeaturedPostsBlock | RecentPostsBlock | FeaturesBlock | OurStoryBlock | MissionVisionBlock | OurValuesBlock | OurTeamBlock
+export type AiShowcaseBlock = {
+    _key: string
+    _type: 'aiShowcaseBlock'
+    overline?: string
+    heading?: string
+    description?: string
+    ctaLabel?: string
+    ctaLink?: string
+}
+
+export type PageBlock = HeroBlock | PageHeroBlock | BlogListBlock | FeaturedPostsBlock | RecentPostsBlock | FeaturesBlock | OurStoryBlock | MissionVisionBlock | OurValuesBlock | OurTeamBlock | AiShowcaseBlock
 
 export type HOME_PAGE = Omit<PAGE, 'sections'> & {
     sections: PageBlock[]

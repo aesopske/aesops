@@ -1,7 +1,9 @@
-import { draftMode } from 'next/headers'
+import { draftMode, headers } from 'next/headers'
 import { notFound } from 'next/navigation'
 import { Metadata, ResolvingMetadata } from 'next'
 import { groq } from 'next-sanity'
+import { auth } from '@repo/auth'
+import { api } from '@/trpc/server'
 import PageBuilder from '@components/common/PageBuilder'
 import BlogPageDetail from '@components/common/organisms/posts/BlogPageDetail'
 import { sanityFetch } from '~sanity/utils/fetch'
@@ -73,7 +75,22 @@ async function Page({ params }: Props) {
     if (!page) notFound()
 
     if ((page as unknown as PAGE).pageType === 'blog') {
-        return <BlogPageDetail page={page as unknown as PAGE} />
+        const blog = page as unknown as PAGE
+        const [session, comments] = await Promise.all([
+            auth.api.getSession({ headers: await headers() }),
+            api.comments
+                .list({ entityType: 'blog', entityId: blog._id })
+                .catch(() => []),
+        ])
+        return (
+            <BlogPageDetail
+                page={blog}
+                comments={comments}
+                isLoggedIn={!!session}
+                currentUserId={session?.user.id ?? null}
+                currentPath={`/${slug}`}
+            />
+        )
     }
 
     return (
