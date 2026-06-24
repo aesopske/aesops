@@ -1,6 +1,7 @@
 'use client'
 
-import { FileSpreadsheet, FileText, Pencil, Trash2 } from 'lucide-react'
+import { useState } from 'react'
+import { FileSpreadsheet, FileText, Pencil, Trash2, Check, X } from 'lucide-react'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
 import { trpc } from '@/trpc/react'
@@ -37,8 +38,13 @@ function extractDescription(raw: unknown): string {
 function DatasetRow({ doc }: { doc: Doc }) {
     const utils = trpc.useUtils()
     const router = useRouter()
+    const [confirming, setConfirming] = useState(false)
 
-    const deleteMutation = trpc.documents.delete.useMutation()
+    const deleteMutation = trpc.documents.delete.useMutation({
+        onSuccess: () => {
+            utils.documents.listMineRoots.invalidate()
+        },
+    })
 
     const meta = doc.metadata as DocumentMetadata | null
     const isExcel = doc.mimeType.includes('excel') || doc.mimeType.includes('spreadsheet')
@@ -89,26 +95,44 @@ function DatasetRow({ doc }: { doc: Doc }) {
                 </div>
 
                 <div className='flex shrink-0 items-center gap-1'>
-                    <button
-                        onClick={() => router.push(`/datasets/${doc.slug ?? doc.id}/edit`)}
-                        className='rounded p-1.5 text-muted-foreground transition hover:bg-muted hover:text-foreground'
-                        aria-label='Edit dataset'
-                    >
-                        <Pencil size={14} />
-                    </button>
-                    <button
-                        onClick={() =>
-                            deleteMutation.mutate(
-                                { id: doc.id },
-                                { onSuccess: () => utils.documents.listMine.invalidate() },
-                            )
-                        }
-                        disabled={deleteMutation.isPending}
-                        className='rounded p-1.5 text-muted-foreground transition hover:bg-destructive/10 hover:text-destructive disabled:opacity-50'
-                        aria-label='Delete dataset'
-                    >
-                        <Trash2 size={14} />
-                    </button>
+                    {confirming ? (
+                        <>
+                            <span className='mr-1 text-xs text-destructive'>Delete?</span>
+                            <button
+                                onClick={() => deleteMutation.mutate({ id: doc.id })}
+                                disabled={deleteMutation.isPending}
+                                className='rounded p-1.5 text-destructive transition hover:bg-destructive/10 disabled:opacity-50'
+                                aria-label='Confirm delete'
+                            >
+                                <Check size={14} />
+                            </button>
+                            <button
+                                onClick={() => setConfirming(false)}
+                                disabled={deleteMutation.isPending}
+                                className='rounded p-1.5 text-muted-foreground transition hover:bg-muted hover:text-foreground disabled:opacity-50'
+                                aria-label='Cancel delete'
+                            >
+                                <X size={14} />
+                            </button>
+                        </>
+                    ) : (
+                        <>
+                            <button
+                                onClick={() => router.push(`/datasets/${doc.slug ?? doc.id}/edit`)}
+                                className='rounded p-1.5 text-muted-foreground transition hover:bg-muted hover:text-foreground'
+                                aria-label='Edit dataset'
+                            >
+                                <Pencil size={14} />
+                            </button>
+                            <button
+                                onClick={() => setConfirming(true)}
+                                className='rounded p-1.5 text-muted-foreground transition hover:bg-destructive/10 hover:text-destructive'
+                                aria-label='Delete dataset'
+                            >
+                                <Trash2 size={14} />
+                            </button>
+                        </>
+                    )}
                 </div>
             </div>
         </li>

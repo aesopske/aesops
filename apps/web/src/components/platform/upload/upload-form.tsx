@@ -56,6 +56,7 @@ export function UploadForm({ files, parentId, lockedName, onComplete, onCancel }
                 pendingInsights.current = null
             }
             utils.documents.list.invalidate()
+            utils.documents.listMineRoots.invalidate()
             onComplete()
         },
         onUploadError: (err) => setUploadError(err.message),
