@@ -40,11 +40,7 @@ function DatasetRow({ doc }: { doc: Doc }) {
     const router = useRouter()
     const [confirming, setConfirming] = useState(false)
 
-    const deleteMutation = trpc.documents.delete.useMutation({
-        onSuccess: () => {
-            utils.documents.listMineRoots.invalidate()
-        },
-    })
+    const deleteMutation = trpc.documents.delete.useMutation()
 
     const meta = doc.metadata as DocumentMetadata | null
     const isExcel = doc.mimeType.includes('excel') || doc.mimeType.includes('spreadsheet')
@@ -99,7 +95,10 @@ function DatasetRow({ doc }: { doc: Doc }) {
                         <>
                             <span className='mr-1 text-xs text-destructive'>Delete?</span>
                             <button
-                                onClick={() => deleteMutation.mutate({ id: doc.id })}
+                                onClick={() => deleteMutation.mutate(
+                                    { id: doc.id },
+                                    { onSuccess: () => utils.documents.listMineRoots.invalidate() },
+                                )}
                                 disabled={deleteMutation.isPending}
                                 className='rounded p-1.5 text-destructive transition hover:bg-destructive/10 disabled:opacity-50'
                                 aria-label='Confirm delete'
