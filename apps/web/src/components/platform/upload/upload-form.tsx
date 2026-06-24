@@ -1,12 +1,13 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useRef } from 'react'
 import { useForm, Controller } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { trpc } from '@/trpc/react'
 import { useUploadThing } from '@/lib/platform/uploadthing-components'
 import { extractMetadata } from '@/lib/platform/metadata'
 import { uploadFormSchema, type UploadFormValues } from '@/lib/schemas/dataset'
+import type { DocumentMetadata } from '@repo/db/schema'
 import { LICENSES } from '@/lib/constants/licenses'
 import { RichTextEditor } from '@/components/shared/rich-text-editor'
 import { Toggle } from '@/components/shared/toggle'
@@ -29,9 +30,31 @@ type UploadFormProps = {
 export function UploadForm({ files, parentId, lockedName, onComplete, onCancel }: UploadFormProps) {
     const utils = trpc.useUtils()
     const [uploadError, setUploadError] = useState<string | null>(null)
+    const pendingInsights = useRef<{
+        entries: Record<string, DocumentMetadata>
+        grouped: boolean
+        name: string
+    } | null>(null)
 
     const { startUpload, isUploading } = useUploadThing('documentUploader', {
-        onClientUploadComplete: () => {
+        onClientUploadComplete: (res) => {
+            const pending = pendingInsights.current
+            if (pending) {
+                res.forEach((file) => {
+                    const documentId = file.serverData?.documentId
+                    const fileName = file.serverData?.fileName
+                    const metadata = fileName ? pending.entries[fileName] : undefined
+                    const docName = pending.grouped ? pending.name : (fileName ?? '')
+                    if (documentId && metadata) {
+                        fetch('/api/ai/insights', {
+                            method: 'POST',
+                            headers: { 'Content-Type': 'application/json' },
+                            body: JSON.stringify({ documentId, docName, metadata }),
+                        }).catch(() => {})
+                    }
+                })
+                pendingInsights.current = null
+            }
             utils.documents.list.invalidate()
             onComplete()
         },
@@ -70,6 +93,12 @@ export function UploadForm({ files, parentId, lockedName, onComplete, onCancel }
                 }),
             )
             const groupId = values.grouped && files.length > 1 ? crypto.randomUUID() : undefined
+
+            pendingInsights.current = {
+                entries: Object.fromEntries(entries) as Record<string, DocumentMetadata>,
+                grouped: values.grouped,
+                name: values.name,
+            }
 
             await startUpload(files, {
                 name: values.name,

@@ -122,7 +122,7 @@ export function DatasetCard({ doc, selected, onPreview }: DatasetCardProps) {
 
     return (
         <Link
-            href={`/dataset/${doc.id}`}
+            href={`/datasets/${doc.slug ?? doc.id}`}
             className={`group block overflow-hidden rounded-xl border bg-card shadow-sm transition-shadow hover:shadow-md focus:outline-none focus-visible:ring-2 focus-visible:ring-ring ${
                 selected ? 'border-primary ring-1 ring-primary' : 'border-border'
             }`}

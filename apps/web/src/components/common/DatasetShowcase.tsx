@@ -119,85 +119,34 @@ function DatasetShowcase() {
                     </span>
                 </div>
 
-                <svg viewBox='0 0 240 120' className='w-full' aria-hidden='true'>
-                    {[80, 60].map((left, i) => (
-                        <g key={i}>
-                            {[60, 45, 30, 15, 0].map((y) => (
-                                <line
-                                    key={y}
-                                    x1={left - 4}
-                                    y1={y}
-                                    x2={left + 94}
-                                    y2={y}
-                                    stroke='rgba(120,130,130,0.1)'
-                                    strokeWidth='1'
-                                />
-                            ))}
+                <svg viewBox='0 0 220 110' className='w-full' aria-hidden='true'>
+                    {[
+                        { h: 30, l: 'Jan' },
+                        { h: 48, l: 'Feb' },
+                        { h: 26, l: 'Mar' },
+                        { h: 60, l: 'Apr' },
+                        { h: 42, l: 'May' },
+                        { h: 66, l: 'Jun' },
+                    ].map((bar, j) => (
+                        <g key={j}>
+                            <rect
+                                x={j * 32 + 10}
+                                y={100 - bar.h}
+                                width='20'
+                                height={bar.h}
+                                rx='4'
+                                fill='#2D6A73'
+                                opacity='0.75'
+                            />
                             <text
-                                x={left - 8}
-                                y={5}
-                                textAnchor='end'
-                                fontSize='8'
+                                x={j * 32 + 20}
+                                y={107}
+                                textAnchor='middle'
+                                fontSize='9'
                                 fontFamily='monospace'
                                 fill='rgba(92,107,110,0.6)'>
-                                {i === 0 ? '60k' : ''}
+                                {bar.l}
                             </text>
-                            <text
-                                x={left - 8}
-                                y={20}
-                                textAnchor='end'
-                                fontSize='8'
-                                fontFamily='monospace'
-                                fill='rgba(92,107,110,0.6)'>
-                                {i === 0 ? '40k' : ''}
-                            </text>
-                            <text
-                                x={left - 8}
-                                y={35}
-                                textAnchor='end'
-                                fontSize='8'
-                                fontFamily='monospace'
-                                fill='rgba(92,107,110,0.6)'>
-                                {i === 0 ? '20k' : ''}
-                            </text>
-                            <text
-                                x={left - 8}
-                                y={50}
-                                textAnchor='end'
-                                fontSize='8'
-                                fontFamily='monospace'
-                                fill='rgba(92,107,110,0.6)'>
-                                {i === 0 ? '0' : ''}
-                            </text>
-                            {[
-                                { h: 32, l: 'Jan' },
-                                { h: 52, l: 'Feb' },
-                                { h: 28, l: 'Mar' },
-                                { h: 65, l: 'Apr' },
-                                { h: 45, l: 'May' },
-                                { h: 72, l: 'Jun' },
-                            ].map((bar, j) => (
-                                <g key={j}>
-                                    <rect
-                                        x={left + j * 15}
-                                        y={55 - bar.h}
-                                        width='9'
-                                        height={bar.h}
-                                        rx='3'
-                                        fill={i === 0 ? '#2D6A73' : '#9BB3AC'}
-                                        opacity={i === 0 ? 0.7 : 0.35}
-                                    />
-                                    <text
-                                        x={left + j * 15 + 4.5}
-                                        y={69}
-                                        textAnchor='middle'
-                                        fontSize='7'
-                                        fontFamily='monospace'
-                                        fill='rgba(92,107,110,0.6)'>
-                                        {bar.l}
-                                    </text>
-                                </g>
-                            ))}
                         </g>
                     ))}
                 </svg>
