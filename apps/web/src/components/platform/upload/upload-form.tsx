@@ -59,7 +59,15 @@ export function UploadForm({ files, parentId, lockedName, onComplete, onCancel }
             utils.documents.listMineRoots.invalidate()
             onComplete()
         },
-        onUploadError: (err) => setUploadError(err.message),
+        onUploadError: (err) => {
+            const friendlyMessages: Record<string, string> = {
+                UPLOAD_FAILED: 'Upload failed after the file was received. The file may already be saved — please refresh before retrying.',
+                BAD_REQUEST: 'Upload rejected: invalid file or missing fields.',
+                NOT_FOUND: 'Upload route not found. Please refresh the page.',
+            }
+            const code = (err as { code?: string }).code ?? ''
+            setUploadError(friendlyMessages[code] ?? err.message ?? 'Upload failed. Please try again.')
+        },
     })
 
     const isMultiple = files.length > 1
