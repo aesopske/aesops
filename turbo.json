@@ -11,7 +11,7 @@
         "ENABLE_EXPERIMENTAL_COREPACK",
         "DATABASE_URL",
         "UPLOADTHING_TOKEN",
-        "UPLOADTHING_SECRET_TOKEN"
+        "GOOGLE_GENERATIVE_AI_API_KEY"
     ],
     "tasks": {
         "build": {
