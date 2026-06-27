@@ -1,12 +1,13 @@
 'use client'
 
 import { useState } from 'react'
-import { FileSpreadsheet, FileText, Pencil, Trash2, Check, X } from 'lucide-react'
+import { FileSpreadsheet, FileText, Pencil, Trash2, Check, X, Eye } from 'lucide-react'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
 import { trpc } from '@/trpc/react'
 import { formatBytes, timeAgo } from '@/lib/platform/format'
 import type { DocumentMetadata } from '@repo/db/schema'
+import { DatasetPreviewModal } from '@/app/(platform)/profile/_components/dataset-preview-modal'
 
 type Doc = {
     id: string
@@ -19,6 +20,7 @@ type Doc = {
     description: unknown
     license: string | null
     metadata: unknown
+    aiInsights: string | null
     revisionCount: number
     latestRevisionAt: Date | null
 }
@@ -39,6 +41,7 @@ function DatasetRow({ doc }: { doc: Doc }) {
     const utils = trpc.useUtils()
     const router = useRouter()
     const [confirming, setConfirming] = useState(false)
+    const [previewing, setPreviewing] = useState(false)
 
     const deleteMutation = trpc.documents.delete.useMutation()
 
@@ -48,6 +51,7 @@ function DatasetRow({ doc }: { doc: Doc }) {
 
     return (
         <li className='overflow-hidden'>
+            <DatasetPreviewModal doc={doc} open={previewing} onOpenChange={setPreviewing} />
             <div className='flex items-center gap-3 px-4 py-3.5'>
                 <div
                     className={`shrink-0 rounded-lg p-2 ${isExcel ? 'bg-success/10 text-success' : 'bg-primary/10 text-primary'}`}
@@ -116,6 +120,13 @@ function DatasetRow({ doc }: { doc: Doc }) {
                         </>
                     ) : (
                         <>
+                            <button
+                                onClick={() => setPreviewing(true)}
+                                className='rounded p-1.5 text-muted-foreground transition hover:bg-muted hover:text-foreground'
+                                aria-label='Preview dataset'
+                            >
+                                <Eye size={14} />
+                            </button>
                             <button
                                 onClick={() => router.push(`/datasets/${doc.slug ?? doc.id}/edit`)}
                                 className='rounded p-1.5 text-muted-foreground transition hover:bg-muted hover:text-foreground'
