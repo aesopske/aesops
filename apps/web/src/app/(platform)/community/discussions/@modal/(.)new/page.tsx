@@ -16,7 +16,7 @@ export default function NewThreadModal() {
 
     return (
         <Dialog open onOpenChange={(open: boolean) => { if (!open) router.back() }}>
-            <DialogContent className='sm:max-w-xl'>
+            <DialogContent aria-describedby={undefined} className='sm:max-w-xl'>
                 <DialogHeader>
                     <DialogTitle>Start a discussion</DialogTitle>
                     <DialogDescription>
