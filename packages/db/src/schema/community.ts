@@ -3,8 +3,10 @@ import {
     index,
     integer,
     pgTable,
+    smallint,
     text,
     timestamp,
+    unique,
     type AnyPgColumn,
 } from 'drizzle-orm/pg-core'
 import { users } from './auth'
@@ -60,11 +62,33 @@ export const comments = pgTable(
         }),
         body: text('body').notNull(),
         isAiResponse: boolean('is_ai_response').notNull().default(false),
+        voteScore: integer('vote_score').notNull().default(0),
         createdAt: timestamp('created_at').notNull().defaultNow(),
     },
     (t) => [
         index('idx_comments_entity').on(t.entityType, t.entityId),
         index('idx_comments_parent_id').on(t.parentId),
         index('idx_comments_user_id').on(t.userId),
+    ],
+)
+
+export const commentVotes = pgTable(
+    'comment_votes',
+    {
+        id: text('id')
+            .primaryKey()
+            .$defaultFn(() => crypto.randomUUID()),
+        userId: text('user_id')
+            .notNull()
+            .references(() => users.id, { onDelete: 'cascade' }),
+        commentId: text('comment_id')
+            .notNull()
+            .references(() => comments.id, { onDelete: 'cascade' }),
+        value: smallint('value').notNull(), // 1 (upvote) or -1 (downvote)
+        createdAt: timestamp('created_at').notNull().defaultNow(),
+    },
+    (t) => [
+        unique('uniq_comment_votes_user_comment').on(t.userId, t.commentId),
+        index('idx_comment_votes_comment').on(t.commentId),
     ],
 )

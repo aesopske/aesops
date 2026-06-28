@@ -142,6 +142,8 @@ export function CommentForm({
                             authorName: 'Aisops',
                             authorImage: null,
                             authorUsername: null,
+                            voteScore: 0,
+                            userVote: null,
                         })
                     }
                 }

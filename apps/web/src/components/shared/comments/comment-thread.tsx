@@ -1,6 +1,7 @@
 'use client'
 
 import { useMemo, useState } from 'react'
+import { trpc } from '@/trpc/react'
 import { CommentNode } from './comment-node'
 import { CommentForm } from './comment-form'
 
@@ -16,6 +17,8 @@ export type Comment = {
     authorName: string | null
     authorImage: string | null
     authorUsername: string | null
+    voteScore: number
+    userVote: 1 | -1 | null
 }
 
 type Props = {
@@ -58,6 +61,45 @@ export function CommentThread({
 
     const childrenMap = useMemo(() => buildChildrenMap(comments), [comments])
     const topLevel = childrenMap.get(null) ?? []
+
+    const voteMutation = trpc.comments.vote.useMutation()
+
+    function handleVote(commentId: string, value: 1 | -1) {
+        // Optimistic update before the round-trip
+        setComments((prev) =>
+            prev.map((c) => {
+                if (c.id !== commentId) return c
+                const prevVote = c.userVote
+                const newVote = prevVote === value ? null : value
+                const scoreDelta =
+                    prevVote === value
+                        ? -value
+                        : prevVote
+                          ? value * 2
+                          : value
+                return {
+                    ...c,
+                    voteScore: c.voteScore + scoreDelta,
+                    userVote: newVote,
+                }
+            }),
+        )
+
+        voteMutation.mutate(
+            { commentId, value },
+            {
+                onSuccess: (data: { voteScore: number; userVote: 1 | -1 | null }) => {
+                    setComments((prev) =>
+                        prev.map((c) =>
+                            c.id === commentId
+                                ? { ...c, voteScore: data.voteScore, userVote: data.userVote }
+                                : c,
+                        ),
+                    )
+                },
+            },
+        )
+    }
 
     function handleDeleted(deletedId: string) {
         setComments((prev) => {
@@ -122,12 +164,14 @@ export function CommentThread({
                             childrenMap={childrenMap}
                             depth={0}
                             currentUserId={currentUserId}
+                            isLoggedIn={isLoggedIn}
                             onDeleted={handleDeleted}
                             onReply={(c) =>
                                 setActiveReplyId(
                                     activeReplyId === c.id ? null : c.id,
                                 )
                             }
+                            onVote={handleVote}
                             renderReplyForm={renderReplyForm}
                         />
                     ))}

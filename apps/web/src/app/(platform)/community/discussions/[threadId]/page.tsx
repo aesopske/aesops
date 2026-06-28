@@ -34,7 +34,7 @@ export default async function ThreadPage({ params }: Props) {
     const { thread } = data
 
     const comments = await api.comments
-        .list({ entityType: 'discussion', entityId: thread.id })
+        .list({ entityType: 'discussion', entityId: thread.id, currentUserId: session?.user.id })
         .catch(() => [])
     const isOwner = !!session && thread.userId === session.user.id
 

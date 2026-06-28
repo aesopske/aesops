@@ -2,7 +2,6 @@
 
 import { useState } from 'react'
 import type { ReactNode } from 'react'
-import { ChevronDown, ChevronRight } from 'lucide-react'
 import { CommentItem } from './comment-item'
 import type { Comment } from './comment-thread'
 
@@ -13,8 +12,10 @@ type Props = {
     childrenMap: Map<string | null, Comment[]>
     depth: number
     currentUserId: string | null
+    isLoggedIn: boolean
     onDeleted: (commentId: string) => void
     onReply: (comment: Comment) => void
+    onVote: (commentId: string, value: 1 | -1) => void
     renderReplyForm: (commentId: string) => ReactNode
 }
 
@@ -23,8 +24,10 @@ export function CommentNode({
     childrenMap,
     depth,
     currentUserId,
+    isLoggedIn,
     onDeleted,
     onReply,
+    onVote,
     renderReplyForm,
 }: Props) {
     const children = childrenMap.get(comment.id) ?? []
@@ -40,44 +43,33 @@ export function CommentNode({
             <CommentItem
                 comment={comment}
                 currentUserId={currentUserId}
+                isLoggedIn={isLoggedIn}
                 onDeleted={onDeleted}
                 onReply={() => onReply(comment)}
+                onVote={(value) => onVote(comment.id, value)}
+                replyCount={children.length}
+                repliesCollapsed={collapsed}
+                onToggleReplies={() => setCollapsed((c) => !c)}
             />
 
             {renderReplyForm(comment.id)}
 
-            {children.length > 0 && (
+            {children.length > 0 && !collapsed && (
                 <div className='mt-3 space-y-4'>
-                    <button
-                        type='button'
-                        onClick={() => setCollapsed((c) => !c)}
-                        className='flex items-center gap-1 text-xs font-medium text-primary hover:underline underline-offset-2'>
-                        {collapsed ? (
-                            <ChevronRight size={13} />
-                        ) : (
-                            <ChevronDown size={13} />
-                        )}
-                        {collapsed
-                            ? `View ${children.length} ${children.length === 1 ? 'reply' : 'replies'}`
-                            : 'Hide replies'}
-                    </button>
-
-                    {!collapsed && (
-                        <div className='space-y-4'>
-                            {children.map((child) => (
-                                <CommentNode
-                                    key={child.id}
-                                    comment={child}
-                                    childrenMap={childrenMap}
-                                    depth={depth + 1}
-                                    currentUserId={currentUserId}
-                                    onDeleted={onDeleted}
-                                    onReply={onReply}
-                                    renderReplyForm={renderReplyForm}
-                                />
-                            ))}
-                        </div>
-                    )}
+                    {children.map((child) => (
+                        <CommentNode
+                            key={child.id}
+                            comment={child}
+                            childrenMap={childrenMap}
+                            depth={depth + 1}
+                            currentUserId={currentUserId}
+                            isLoggedIn={isLoggedIn}
+                            onDeleted={onDeleted}
+                            onReply={onReply}
+                            onVote={onVote}
+                            renderReplyForm={renderReplyForm}
+                        />
+                    ))}
                 </div>
             )}
         </div>

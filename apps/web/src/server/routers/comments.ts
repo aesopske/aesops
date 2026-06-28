@@ -1,7 +1,7 @@
 import { z } from 'zod'
 import { TRPCError } from '@trpc/server'
 import { publicProcedure, protectedProcedure, router } from '@/trpc/init'
-import { db, comments, threads, users, and, asc, eq, count } from '@repo/db'
+import { db, comments, commentVotes, threads, users, and, asc, eq, count, sql } from '@repo/db'
 
 const entityType = z.enum(['discussion', 'blog'])
 
@@ -23,9 +23,9 @@ async function recountThread(threadId: string) {
 
 export const commentsRouter = router({
     list: publicProcedure
-        .input(z.object({ entityType, entityId: z.string() }))
+        .input(z.object({ entityType, entityId: z.string(), currentUserId: z.string().optional() }))
         .query(async ({ input }) => {
-            return db
+            const rows = await db
                 .select({
                     id: comments.id,
                     body: comments.body,
@@ -33,9 +33,18 @@ export const commentsRouter = router({
                     isAiResponse: comments.isAiResponse,
                     createdAt: comments.createdAt,
                     userId: comments.userId,
+                    voteScore: comments.voteScore,
                     authorName: users.name,
                     authorImage: users.image,
                     authorUsername: users.username,
+                    userVote: input.currentUserId
+                        ? sql<number | null>`(
+                            SELECT value FROM comment_votes
+                            WHERE user_id = ${input.currentUserId}
+                              AND comment_id = ${comments.id}
+                            LIMIT 1
+                          )`
+                        : sql<null>`NULL`,
                 })
                 .from(comments)
                 .leftJoin(users, eq(comments.userId, users.id))
@@ -46,6 +55,11 @@ export const commentsRouter = router({
                     ),
                 )
                 .orderBy(asc(comments.createdAt))
+
+            return rows.map((r) => ({
+                ...r,
+                userVote: (r.userVote as 1 | -1 | null) ?? null,
+            }))
         }),
 
     count: publicProcedure
@@ -92,7 +106,86 @@ export const commentsRouter = router({
                     .where(eq(threads.id, input.entityId))
             }
 
-            return comment
+            // Enrich with author + vote fields so the optimistic UI insert matches
+            // the shape returned by `list` — without this the fresh comment
+            // renders as "Anonymous" with stale vote state until a refetch.
+            return {
+                ...comment,
+                authorName: ctx.session.user.name ?? null,
+                authorImage: ctx.session.user.image ?? null,
+                authorUsername: ctx.session.user.username ?? null,
+                voteScore: 0,
+                userVote: null as 1 | -1 | null,
+            }
+        }),
+
+    vote: protectedProcedure
+        .input(
+            z.object({
+                commentId: z.string(),
+                value: z.union([z.literal(1), z.literal(-1)]),
+            }),
+        )
+        .mutation(async ({ input, ctx }) => {
+            const [existing] = await db
+                .select({ value: commentVotes.value })
+                .from(commentVotes)
+                .where(
+                    and(
+                        eq(commentVotes.userId, ctx.session.user.id),
+                        eq(commentVotes.commentId, input.commentId),
+                    ),
+                )
+                .limit(1)
+
+            let scoreDelta = 0
+            let userVote: 1 | -1 | null = null
+
+            if (existing) {
+                if (existing.value === input.value) {
+                    // Same vote → toggle off
+                    await db
+                        .delete(commentVotes)
+                        .where(
+                            and(
+                                eq(commentVotes.userId, ctx.session.user.id),
+                                eq(commentVotes.commentId, input.commentId),
+                            ),
+                        )
+                    scoreDelta = -input.value
+                    userVote = null
+                } else {
+                    // Opposite vote → flip
+                    await db
+                        .update(commentVotes)
+                        .set({ value: input.value })
+                        .where(
+                            and(
+                                eq(commentVotes.userId, ctx.session.user.id),
+                                eq(commentVotes.commentId, input.commentId),
+                            ),
+                        )
+                    scoreDelta = input.value * 2
+                    userVote = input.value
+                }
+            } else {
+                // New vote
+                await db.insert(commentVotes).values({
+                    userId: ctx.session.user.id,
+                    commentId: input.commentId,
+                    value: input.value,
+                })
+                scoreDelta = input.value
+                userVote = input.value
+            }
+
+            const [updated] = await db
+                .update(comments)
+                .set({ voteScore: sql`${comments.voteScore} + ${scoreDelta}` })
+                .where(eq(comments.id, input.commentId))
+                .returning({ voteScore: comments.voteScore })
+
+            return { voteScore: updated?.voteScore ?? 0, userVote }
         }),
 
     delete: protectedProcedure

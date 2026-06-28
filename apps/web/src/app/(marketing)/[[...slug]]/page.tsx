@@ -76,12 +76,10 @@ async function Page({ params }: Props) {
 
     if ((page as unknown as PAGE).pageType === 'blog') {
         const blog = page as unknown as PAGE
-        const [session, comments] = await Promise.all([
-            auth.api.getSession({ headers: await headers() }),
-            api.comments
-                .list({ entityType: 'blog', entityId: blog._id })
-                .catch(() => []),
-        ])
+        const session = await auth.api.getSession({ headers: await headers() })
+        const comments = await api.comments
+            .list({ entityType: 'blog', entityId: blog._id, currentUserId: session?.user.id })
+            .catch(() => [])
         return (
             <BlogPageDetail
                 page={blog}
