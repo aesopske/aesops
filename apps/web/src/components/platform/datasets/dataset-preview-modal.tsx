@@ -64,6 +64,7 @@ export function DatasetPreviewModal({
             open={!!doc}
             onOpenChange={(open: boolean) => !open && onCloseAction()}>
             <DialogContent
+                aria-describedby={undefined}
                 showCloseButton
                 className='w-[calc(100vw-2rem)] max-w-5xl sm:max-w-[900px] md:max-w-[1100px] p-0 gap-0 overflow-hidden flex flex-col max-h-[88vh]'>
                 {/* branded top stripe */}

@@ -54,7 +54,7 @@ export default async function PlatformLayout({
                 navAlign='right'
             />
             <main className='min-h-screen'>{children}</main>
-            <Footer />
+            {!user && <Footer />}
         </NuqsAdapter>
     )
 }

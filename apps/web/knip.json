@@ -1,0 +1,13 @@
+{
+  "$schema": "https://unpkg.com/knip@5/schema.json",
+  "entry": ["sanity/schema.ts"],
+  "project": ["src/**/*.{ts,tsx}", "sanity/**/*.{ts,tsx}"],
+  "ignoreDependencies": [
+    "eslint-config-next",
+    "prettier",
+    "husky",
+    "tw-animate-css",
+    "@tailwindcss/typography",
+    "@tailwindcss/container-queries"
+  ]
+}

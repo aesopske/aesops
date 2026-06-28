@@ -16,10 +16,7 @@ export function DatasetInsights({ cachedInsights }: Props) {
                 <div className='flex h-6 w-6 items-center justify-center rounded-md bg-accent/20 text-accent-foreground'>
                     <Sparkles size={13} />
                 </div>
-                <h2 className='font-medium text-foreground'>AI Insights</h2>
-                <span className='rounded-full bg-accent/10 px-2 py-0.5 text-xs text-accent-foreground'>
-                    Gemini
-                </span>
+                <h2 className='font-medium text-foreground'>Insights</h2>
             </div>
 
             <div className='px-6 py-5'>
@@ -29,7 +26,8 @@ export function DatasetInsights({ cachedInsights }: Props) {
                     </div>
                 ) : (
                     <p className='text-sm text-muted-foreground'>
-                        Insights are generated automatically when a dataset is uploaded or updated.
+                        Insights are generated automatically when a dataset is
+                        uploaded or updated.
                     </p>
                 )}
             </div>

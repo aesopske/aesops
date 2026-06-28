@@ -41,6 +41,11 @@ export function Navbar({
         return () => window.removeEventListener('scroll', onScroll)
     }, [])
 
+    useEffect(() => {
+        document.body.style.overflow = isOpen ? 'hidden' : ''
+        return () => { document.body.style.overflow = '' }
+    }, [isOpen])
+
     const isGreen = !scrolled
 
     const navItems = navLinks.map((item) => {
@@ -184,41 +189,43 @@ export function Navbar({
                 </nav>
             </header>
 
-            {/* Mobile menu — fixed overlay, does not push content down */}
+            {/* Mobile menu — full-screen frosted overlay */}
             {navLinks.length > 0 && isOpen && (
                 <div
                     className={cn(
-                        'fixed inset-x-0 top-16 z-40 flex flex-col gap-0.5 px-4 py-3 font-sans shadow-lg lg:hidden',
+                        'fixed inset-0 z-40 flex flex-col pt-16 px-6 pb-8 font-sans lg:hidden supports-backdrop-filter:backdrop-blur-lg',
                         isGreen
-                            ? 'bg-primary'
-                            : 'bg-brand-background border-b border-border/60',
+                            ? 'bg-primary/80'
+                            : 'bg-brand-background/85',
                     )}>
-                    {navLinks.map((item) => (
-                        <Link
-                            key={item._key}
-                            href={item.comingSoon ? '#' : item.href}
-                            onClick={() => setIsOpen(false)}
-                            aria-disabled={item.comingSoon}
-                            className={cn(
-                                'rounded-md px-3 py-2.5 text-sm transition-colors aria-disabled:opacity-40 aria-disabled:pointer-events-none',
-                                isGreen
-                                    ? 'text-primary-foreground/80 hover:text-primary-foreground hover:bg-primary-foreground/10'
-                                    : 'text-muted-foreground hover:text-foreground hover:bg-accent/5',
-                            )}>
-                            {item.name}
-                            {item.comingSoon && (
-                                <span
-                                    className={cn(
-                                        'ml-1.5 rounded px-1.5 py-px text-[10px] font-medium',
-                                        isGreen
-                                            ? 'bg-primary-foreground/15 text-primary-foreground/80'
-                                            : 'bg-accent/15 text-accent',
-                                    )}>
-                                    Soon
-                                </span>
-                            )}
-                        </Link>
-                    ))}
+                    <nav className='flex flex-col gap-1 pt-6'>
+                        {navLinks.map((item) => (
+                            <Link
+                                key={item._key}
+                                href={item.comingSoon ? '#' : item.href}
+                                onClick={() => setIsOpen(false)}
+                                aria-disabled={item.comingSoon}
+                                className={cn(
+                                    'rounded-lg px-3 py-3 text-2xl font-medium transition-colors aria-disabled:opacity-40 aria-disabled:pointer-events-none',
+                                    isGreen
+                                        ? 'text-primary-foreground/80 hover:text-primary-foreground hover:bg-primary-foreground/10'
+                                        : 'text-foreground/70 hover:text-foreground hover:bg-accent/5',
+                                )}>
+                                {item.name}
+                                {item.comingSoon && (
+                                    <span
+                                        className={cn(
+                                            'ml-2 rounded px-1.5 py-px text-[10px] font-medium align-middle',
+                                            isGreen
+                                                ? 'bg-primary-foreground/15 text-primary-foreground/80'
+                                                : 'bg-accent/15 text-accent',
+                                        )}>
+                                        Soon
+                                    </span>
+                                )}
+                            </Link>
+                        ))}
+                    </nav>
                 </div>
             )}
         </NavbarContext>

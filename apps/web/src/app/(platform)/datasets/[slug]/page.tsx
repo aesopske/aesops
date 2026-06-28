@@ -75,7 +75,7 @@ export default async function DatasetPage({ params }: Props) {
     const fileType = isExcel ? 'Excel' : 'CSV'
 
     return (
-        <main className='flex flex-col'>
+        <main className={`relative flex flex-col overflow-x-auto`}>
             {/* ── Hero ── */}
             <section className='relative flex-none overflow-hidden bg-primary'>
                 {/* dot-grid texture */}
@@ -117,18 +117,18 @@ export default async function DatasetPage({ params }: Props) {
                     <BreadCrumbs color='light' className='mb-8' />
 
                     {/* file identity */}
-                    <div className='flex items-start justify-between gap-6'>
-                        <div className='flex items-start gap-5 min-w-0'>
+                    <div className='flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between sm:gap-6'>
+                        <div className='flex items-start gap-4 min-w-0'>
                             <div
-                                className={`shrink-0 rounded-xl p-3.5 ${isExcel ? 'bg-success/20 text-success' : 'bg-primary-foreground/15 text-primary-foreground'}`}>
+                                className={`shrink-0 rounded-xl p-3 sm:p-3.5 ${isExcel ? 'bg-success/20 text-success' : 'bg-primary-foreground/15 text-primary-foreground'}`}>
                                 {isExcel ? (
-                                    <FileSpreadsheet size={26} />
+                                    <FileSpreadsheet size={22} />
                                 ) : (
-                                    <FileText size={26} />
+                                    <FileText size={22} />
                                 )}
                             </div>
                             <div className='min-w-0'>
-                                <h1 className='font-sans font-light text-3xl md:text-4xl lg:text-5xl tracking-tight leading-[1.1] text-primary-foreground'>
+                                <h1 className='break-words font-sans font-light text-2xl sm:text-3xl md:text-4xl lg:text-5xl tracking-tight leading-[1.1] text-primary-foreground'>
                                     {doc.name}
                                 </h1>
                                 <p className='mt-2 text-sm text-primary-foreground/55'>
@@ -146,7 +146,7 @@ export default async function DatasetPage({ params }: Props) {
                             </div>
                         </div>
 
-                        <div className='flex shrink-0 items-center gap-2'>
+                        <div className='flex shrink-0 items-center gap-2 sm:mt-1'>
                             {isOwner && (
                                 <Link
                                     href={`/datasets/${doc.slug ?? doc.id}/edit`}
@@ -158,12 +158,12 @@ export default async function DatasetPage({ params }: Props) {
                             <AuthGate
                                 isLoggedIn={isLoggedIn}
                                 fallback={
-                                    <a
+                                    <Link
                                         href={`/sign-in?from=/datasets/${doc.slug ?? doc.id}`}
                                         className='inline-flex items-center gap-2 rounded-lg bg-primary-foreground px-4 py-2.5 text-sm font-medium text-primary transition-opacity hover:opacity-90'>
                                         <Download size={15} />
                                         Download
-                                    </a>
+                                    </Link>
                                 }>
                                 <a
                                     href={`/api/download/${doc.id}`}
@@ -227,7 +227,7 @@ export default async function DatasetPage({ params }: Props) {
                     <>
                         {meta && (
                             <section>
-                                <SectionHeading label='AI insights' />
+                                <SectionHeading label='Insights' />
                                 <div className='mt-4'>
                                     <DatasetInsights
                                         cachedInsights={doc.aiInsights ?? null}
