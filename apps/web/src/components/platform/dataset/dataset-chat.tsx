@@ -7,7 +7,9 @@ import { SendHorizonal, RotateCcw, Copy, Check } from 'lucide-react'
 import { cn } from '@repo/ui/lib/utils'
 import { DatasetChartBlock } from '@/components/platform/dataset/dataset-chart-block'
 
-const CHART_RENDERERS: CustomRenderer[] = [{ component: DatasetChartBlock, language: 'chart' }]
+const CHART_RENDERERS: CustomRenderer[] = [
+    { component: DatasetChartBlock, language: 'chart' },
+]
 
 function CopyButton({ text }: { text: string }) {
     const [copied, setCopied] = useState(false)
@@ -52,7 +54,16 @@ export function DatasetChat({ datasetId, initialMessages, className }: Props) {
     const scrollRef = useRef<HTMLDivElement>(null)
     const textareaRef = useRef<HTMLTextAreaElement>(null)
 
-    const { messages, input, handleInputChange, handleSubmit, isLoading, error, append, setInput } = useChat({
+    const {
+        messages,
+        input,
+        handleInputChange,
+        handleSubmit,
+        isLoading,
+        error,
+        append,
+        setInput,
+    } = useChat({
         api: '/api/ai/chat',
         body: { datasetId },
         initialMessages,
@@ -88,9 +99,15 @@ export function DatasetChat({ datasetId, initialMessages, className }: Props) {
     }
 
     return (
-        <div className={cn('flex flex-col overflow-hidden rounded-xl border border-border bg-card shadow-sm', className)}>
+        <div
+            className={cn(
+                'flex flex-col overflow-hidden rounded-xl border border-border bg-card shadow-sm',
+                className,
+            )}>
             {/* messages */}
-            <div ref={scrollRef} className='flex-1 min-h-0 overflow-y-auto px-6 py-5'>
+            <div
+                ref={scrollRef}
+                className='flex-1 min-h-0 overflow-y-auto px-6 py-5'>
                 {messages.length === 0 ? (
                     <div className='flex h-full flex-col items-center justify-center gap-5 text-center'>
                         <div>
@@ -98,7 +115,8 @@ export function DatasetChat({ datasetId, initialMessages, className }: Props) {
                                 Ask anything about this dataset
                             </p>
                             <p className='mt-1 text-xs text-muted-foreground'>
-                                Ask for exact counts, filtered rows, or a chart — computed from the full dataset.
+                                Ask for exact counts, filtered rows, or a chart
+                                — computed from the full dataset.
                             </p>
                         </div>
                         <div className='flex flex-wrap justify-center gap-2'>
@@ -114,44 +132,51 @@ export function DatasetChat({ datasetId, initialMessages, className }: Props) {
                     </div>
                 ) : (
                     <div className='space-y-4'>
-                        {messages.filter((m) => m.content.trim()).map((m) => (
-                            <div
-                                key={m.id}
-                                className={`flex flex-col ${m.role === 'user' ? 'items-end' : 'items-start'}`}>
+                        {messages
+                            .filter((m) => m.content.trim())
+                            .map((m) => (
                                 <div
-                                    className={`rounded-2xl px-4 py-3 text-sm ${
-                                        m.role === 'user'
-                                            ? 'max-w-[82%] rounded-tr-sm bg-primary/10 text-foreground'
-                                            : 'w-full rounded-tl-sm bg-muted/60 text-foreground'
-                                    }`}>
-                                    {m.role === 'user' ? (
-                                        <p className='whitespace-pre-wrap leading-relaxed'>
-                                            {m.content}
-                                        </p>
-                                    ) : (
-                                        <div className='prose prose-sm max-w-none dark:prose-invert prose-p:leading-relaxed prose-p:my-1 prose-headings:font-medium'>
-                                            <Streamdown mode='streaming' plugins={{ renderers: CHART_RENDERERS }}>
+                                    key={m.id}
+                                    className={`flex flex-col ${m.role === 'user' ? 'items-end' : 'items-start'}`}>
+                                    <div
+                                        className={`rounded-2xl px-4 py-3 text-sm ${
+                                            m.role === 'user'
+                                                ? 'max-w-[82%] rounded-tr-sm bg-primary/10 text-foreground'
+                                                : 'w-full rounded-tl-sm bg-muted/60 text-foreground'
+                                        }`}>
+                                        {m.role === 'user' ? (
+                                            <p className='whitespace-pre-wrap leading-relaxed'>
                                                 {m.content}
-                                            </Streamdown>
+                                            </p>
+                                        ) : (
+                                            <div className='prose prose-sm max-w-none dark:prose-invert prose-p:leading-relaxed prose-p:my-1 prose-headings:font-medium'>
+                                                <Streamdown
+                                                    mode='streaming'
+                                                    plugins={{
+                                                        renderers:
+                                                            CHART_RENDERERS,
+                                                    }}>
+                                                    {m.content}
+                                                </Streamdown>
+                                            </div>
+                                        )}
+                                    </div>
+                                    {m.role === 'user' && (
+                                        <div className='mt-1 flex items-center gap-3'>
+                                            <button
+                                                onClick={() => {
+                                                    setInput(m.content)
+                                                    textareaRef.current?.focus()
+                                                }}
+                                                className='flex items-center gap-1 text-[10px] text-muted-foreground/60 transition-colors hover:text-muted-foreground'>
+                                                <RotateCcw size={10} />
+                                                Retry
+                                            </button>
+                                            <CopyButton text={m.content} />
                                         </div>
                                     )}
                                 </div>
-                                {m.role === 'user' && (
-                                    <div className='mt-1 flex items-center gap-3'>
-                                        <button
-                                            onClick={() => {
-                                                setInput(m.content)
-                                                textareaRef.current?.focus()
-                                            }}
-                                            className='flex items-center gap-1 text-[10px] text-muted-foreground/60 transition-colors hover:text-muted-foreground'>
-                                            <RotateCcw size={10} />
-                                            Retry
-                                        </button>
-                                        <CopyButton text={m.content} />
-                                    </div>
-                                )}
-                            </div>
-                        ))}
+                            ))}
 
                         {isLoading && (
                             <div className='flex justify-start'>
@@ -161,7 +186,9 @@ export function DatasetChat({ datasetId, initialMessages, className }: Props) {
                                             <span
                                                 key={i}
                                                 className='h-1.5 w-1.5 rounded-full bg-muted-foreground/50 animate-bounce'
-                                                style={{ animationDelay: `${i * 0.15}s` }}
+                                                style={{
+                                                    animationDelay: `${i * 0.15}s`,
+                                                }}
                                             />
                                         ))}
                                     </div>
@@ -171,17 +198,22 @@ export function DatasetChat({ datasetId, initialMessages, className }: Props) {
 
                         {error && (
                             <div className='rounded-lg border border-destructive/30 bg-destructive/5 px-4 py-3'>
-                                <p className='text-sm font-medium text-destructive'>Request failed</p>
-                                <p className='mt-0.5 text-xs text-destructive/80'>{error.message}</p>
+                                <p className='text-sm font-medium text-destructive'>
+                                    Request failed
+                                </p>
+                                <p className='mt-0.5 text-xs text-destructive/80'>
+                                    {error.message}
+                                </p>
                             </div>
                         )}
-
                     </div>
                 )}
             </div>
 
             {/* input */}
-            <form onSubmit={handleFormSubmit} className='border-t border-border'>
+            <form
+                onSubmit={handleFormSubmit}
+                className='border-t border-border rounded-t-xl'>
                 <div className='relative px-4 pt-3 pb-1'>
                     <textarea
                         ref={textareaRef}
@@ -191,7 +223,11 @@ export function DatasetChat({ datasetId, initialMessages, className }: Props) {
                         placeholder='Ask a question about this dataset…'
                         rows={1}
                         className='w-full resize-none bg-transparent pr-11 text-sm leading-relaxed placeholder:text-muted-foreground focus:outline-none'
-                        style={{ minHeight: '24px', maxHeight: '192px', overflowY: 'auto' }}
+                        style={{
+                            minHeight: '28px',
+                            maxHeight: '192px',
+                            overflowY: 'auto',
+                        }}
                     />
                     <button
                         type='submit'
@@ -201,7 +237,8 @@ export function DatasetChat({ datasetId, initialMessages, className }: Props) {
                     </button>
                 </div>
                 <p className='px-4 pb-3 text-[10px] text-muted-foreground'>
-                    Counts and charts are computed live from the full dataset · Enter to send
+                    Counts and charts are computed live from the full dataset ·
+                    Enter to send
                 </p>
             </form>
         </div>

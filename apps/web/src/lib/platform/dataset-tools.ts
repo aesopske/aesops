@@ -64,7 +64,7 @@ export function buildDatasetTools(doc: QueryableDoc) {
 
         aggregate: tool({
             description:
-                'Group the dataset by a column and compute a metric per group. Use for exact counts ("how many X"), totals, and averages — and to produce data for charts. Default metric is row count. Returns [{ key, value }] sorted descending.',
+                'Group the dataset by a column and compute a metric per group. Use for exact counts ("how many X"), totals, averages, and medians — and to produce data for charts. Default metric is row count. Returns [{ key, value }] sorted descending.',
             parameters: z.object({
                 groupBy: z.string().describe('Exact column name to group by.'),
                 datePart: z
@@ -74,7 +74,7 @@ export function buildDatasetTools(doc: QueryableDoc) {
                 metric: z
                     .object({
                         column: z.string().describe('Numeric column to aggregate.'),
-                        fn: z.enum(['sum', 'avg', 'min', 'max']),
+                        fn: z.enum(['sum', 'avg', 'min', 'max', 'median']),
                     })
                     .optional()
                     .describe('Omit to count rows per group.'),

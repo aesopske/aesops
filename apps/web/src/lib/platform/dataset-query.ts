@@ -101,7 +101,7 @@ export function queryRows(
     return { rows: limit === 0 ? [] : projected.slice(0, limit), matched: filtered.length }
 }
 
-export type AggregateFn = 'count' | 'sum' | 'avg' | 'min' | 'max'
+export type AggregateFn = 'count' | 'sum' | 'avg' | 'min' | 'max' | 'median'
 export type DatePart = 'year' | 'month' | 'month_year' | 'quarter'
 
 const MONTH_NAMES = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
@@ -134,7 +134,7 @@ export function aggregate(
     opts: {
         groupBy: string
         datePart?: DatePart
-        metric?: { column: string; fn: Exclude<AggregateFn, 'count'> }
+        metric?: { column: string; fn: Exclude<AggregateFn, 'count' | 'median'> | 'median' }
         limit?: number
         rowFilters?: Filter[]
     },
@@ -177,6 +177,13 @@ export function aggregate(
                 case 'max':
                     value = nums.length ? Math.max(...nums) : 0
                     break
+                case 'median': {
+                    if (!nums.length) { value = 0; break }
+                    const s = [...nums].sort((a, b) => a - b)
+                    const mid = Math.floor(s.length / 2)
+                    value = s.length % 2 === 0 ? (s[mid - 1]! + s[mid]!) / 2 : s[mid]!
+                    break
+                }
             }
         }
         return { key, value: round(value) }
