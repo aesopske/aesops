@@ -8,6 +8,8 @@ import Link from 'next/link'
 import { useQueryState } from 'nuqs'
 import { authClient } from '@/lib/auth-client'
 import { GitHubSignInButton } from '@/components/platform/auth/github-sign-in-button'
+import { GoogleSignInButton } from '@/components/platform/auth/google-sign-in-button'
+import { sanitizeReturnTo } from '@/lib/platform/return-to'
 
 const schema = z.object({
     email: z.string().email('Enter a valid email'),
@@ -21,6 +23,7 @@ export function SignInForm() {
     const [isPending, startTransition] = useTransition()
     const [error, setError] = useState<string | null>(null)
     const [from] = useQueryState('from')
+    const returnTo = sanitizeReturnTo(from, '/datasets')
 
     const form = useForm<FormValues>({
         resolver: zodResolver(schema),
@@ -37,8 +40,7 @@ export function SignInForm() {
             if (error) {
                 setError(error.message ?? 'Sign in failed')
             } else {
-                const redirect = from && from.startsWith('/') ? from : '/datasets'
-                router.push(redirect)
+                router.push(returnTo)
                 router.refresh()
             }
         })
@@ -46,7 +48,10 @@ export function SignInForm() {
 
     return (
         <div className='space-y-4'>
-            <GitHubSignInButton callbackURL={from && from.startsWith('/') ? from : '/datasets'} />
+            <div className='space-y-2'>
+                <GoogleSignInButton callbackURL={returnTo} />
+                <GitHubSignInButton callbackURL={returnTo} />
+            </div>
 
             <div className='relative'>
                 <div className='absolute inset-0 flex items-center'>

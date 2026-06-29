@@ -6,8 +6,13 @@ import { Navbar } from '@repo/ui/components/navbar'
 import { UserDropdown } from '@/components/platform/nav/user-dropdown'
 import { AuthNavLinks } from '@/components/platform/nav/auth-nav-links'
 import { getNavLinks } from '~sanity/utils/requests'
+import Footer from '@/components/common/Footer'
 
-export default async function PlatformLayout({ children }: { children: React.ReactNode }) {
+export default async function PlatformLayout({
+    children,
+}: {
+    children: React.ReactNode
+}) {
     const [session, navLinks] = await Promise.all([
         auth.api.getSession({ headers: await headers() }),
         getNavLinks(),
@@ -43,8 +48,13 @@ export default async function PlatformLayout({ children }: { children: React.Rea
 
     return (
         <NuqsAdapter>
-            <Navbar navLinks={navLinks} rightSlot={rightSlot} navAlign='right' />
-            <main>{children}</main>
+            <Navbar
+                navLinks={navLinks}
+                rightSlot={rightSlot}
+                navAlign='right'
+            />
+            <main className='min-h-screen'>{children}</main>
+            {!user && <Footer />}
         </NuqsAdapter>
     )
 }

@@ -42,6 +42,7 @@ export default async function MarketingLayout({ children }: { children: React.Re
                 navLinks={navLinks}
                 rightSlot={rightSlot}
                 navAlign='right'
+                logoMarkSrc='/logo-mark.svg'
             />
             <main>{children}</main>
             <Footer />

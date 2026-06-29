@@ -27,7 +27,7 @@ function ImageWithModal({
                     />
                 </DialogTrigger>
                 {showDialog && (
-                    <DialogContent className='max-w-(--breakpoint-xl) min-h-96'>
+                    <DialogContent aria-describedby={undefined} className='max-w-(--breakpoint-xl) min-h-96'>
                         <AesopImage
                             width={500}
                             height={300}

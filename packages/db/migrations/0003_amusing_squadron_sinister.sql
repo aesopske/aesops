@@ -1,0 +1,1 @@
+ALTER TABLE "replies" ADD COLUMN "reply_to_id" text;

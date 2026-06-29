@@ -29,7 +29,7 @@ function TeamMemberCard({ member }: { member: TEAM }) {
     const socials = (member.socials ?? []).filter((s) => s.url)
 
     return (
-        <div className='relative group flex flex-col bg-card border border-border rounded-xl overflow-hidden transition-all duration-300 hover:shadow-md hover:border-primary/30 hover:-translate-y-1'>
+        <div className='relative group flex flex-col bg-card border border-border rounded-2xl overflow-hidden transition-all duration-300 hover:border-primary/40'>
             {/* Stretched link covers the whole card; socials sit above it via z-index */}
             {slug && (
                 <Link
@@ -41,7 +41,7 @@ function TeamMemberCard({ member }: { member: TEAM }) {
             )}
 
             {/* Image / placeholder */}
-            <div className='relative aspect-[4/3] w-full overflow-hidden'>
+            <div className='relative h-36 w-full overflow-hidden'>
                 {photoURL ? (
                     <Image
                         fill
@@ -52,7 +52,7 @@ function TeamMemberCard({ member }: { member: TEAM }) {
                     />
                 ) : (
                     <div className='w-full h-full bg-primary flex items-center justify-center'>
-                        <span className='text-primary-foreground text-4xl font-semibold tracking-wide select-none'>
+                        <span className='text-primary-foreground text-3xl font-semibold tracking-wide select-none'>
                             {initials}
                         </span>
                     </div>

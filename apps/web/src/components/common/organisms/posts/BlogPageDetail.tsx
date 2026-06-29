@@ -1,13 +1,32 @@
 import Image from 'next/image'
-import { Clock } from 'lucide-react'
+import Link from 'next/link'
+import { Clock, MessageSquare } from 'lucide-react'
 import ContentReader from '@components/common/ContentReader'
 import ContentHeadingReader from '@components/common/ContentHeadingReader'
 import Share from '@components/common/ShareBtns'
+import {
+    CommentThread,
+    type Comment,
+} from '@components/shared/comments/comment-thread'
 import { urlForImage } from '~sanity/utils/image'
 import { PAGE } from '~sanity/utils/types'
 import BreadCrumbs from '../bread-crumbs/BreadCrumbs'
 
-function BlogPageDetail({ page }: { page: PAGE }) {
+type Props = {
+    page: PAGE
+    comments: Comment[]
+    isLoggedIn: boolean
+    currentUserId: string | null
+    currentPath: string
+}
+
+function BlogPageDetail({
+    page,
+    comments,
+    isLoggedIn,
+    currentUserId,
+    currentPath,
+}: Props) {
     const imageUrl = page.mainImage
         ? (urlForImage(page.mainImage) ?? null)
         : null
@@ -34,7 +53,7 @@ function BlogPageDetail({ page }: { page: PAGE }) {
                 />
                 <div className='absolute inset-0 bg-gradient-to-b from-black/10 via-transparent to-black/25' />
 
-                <div className='relative z-10 mx-auto max-w-(--breakpoint-md) lg:max-w-(--breakpoint-lg) px-6 lg:px-8 pt-8 pb-10 lg:pt-10 lg:pb-14'>
+                <div className='relative z-10 mx-auto max-w-(--breakpoint-md) lg:max-w-(--breakpoint-lg) 2xl:max-w-(--breakpoint-xl) px-6 lg:px-8 pt-8 pb-10 lg:pt-10 lg:pb-14'>
                     <BreadCrumbs color='light' className='mb-8' />
 
                     <div className='grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 items-center'>
@@ -55,7 +74,7 @@ function BlogPageDetail({ page }: { page: PAGE }) {
                                 {page.title}
                             </h1>
 
-                            <div className='flex flex-wrap items-center gap-2 text-xs text-primary-foreground/55 pt-2 border-t border-white/[0.12]'>
+                            <div className='flex flex-wrap items-center gap-x-2 gap-y-1.5 text-xs text-primary-foreground/55 pt-2 border-t border-white/[0.12]'>
                                 {page.author?.[0]?.name && (
                                     <span className='text-primary-foreground/80 font-medium capitalize font-sans'>
                                         {page.author[0].name}
@@ -85,6 +104,13 @@ function BlogPageDetail({ page }: { page: PAGE }) {
                                     </>
                                 ) : null}
                             </div>
+
+                            <Link
+                                href={`/community/discussions/new?blogId=${page._id}&blogSlug=${encodeURIComponent(page.slug?.current ?? '')}&blogTitle=${encodeURIComponent(page.title)}`}
+                                className='inline-flex w-fit items-center gap-1.5 rounded-lg border border-primary-foreground/30 bg-primary-foreground/10 px-3 py-2 text-xs font-medium text-primary-foreground transition-colors hover:bg-primary-foreground/20'>
+                                <MessageSquare size={13} />
+                                Start a discussion
+                            </Link>
                         </div>
 
                         {/* Right: cover image */}
@@ -106,10 +132,10 @@ function BlogPageDetail({ page }: { page: PAGE }) {
 
             {/* ── Article body ──────────────────────────────── */}
             <section className='bg-background py-12 lg:py-16'>
-                <div className='mx-auto max-w-(--breakpoint-md) lg:max-w-(--breakpoint-lg) px-6 lg:px-8'>
+                <div className='mx-auto max-w-(--breakpoint-md) lg:max-w-(--breakpoint-lg) 2xl:max-w-(--breakpoint-xl) px-6 lg:px-8'>
                     <div className='flex gap-10 lg:gap-16 items-start'>
                         {/* Sticky sidebar: share + TOC */}
-                        <aside className='hidden lg:flex flex-col gap-6 sticky top-8 w-48 shrink-0'>
+                        <aside className='hidden lg:flex flex-col gap-6 sticky top-8 w-64 shrink-0'>
                             <Share title={page.title} />
                             <ContentHeadingReader body={page.body} />
                         </aside>
@@ -122,6 +148,22 @@ function BlogPageDetail({ page }: { page: PAGE }) {
                                 <Share title={page.title} />
                             </div>
                         </article>
+                    </div>
+                </div>
+            </section>
+
+            {/* ── Comments ──────────────────────────────────── */}
+            <section className='bg-background pb-16 lg:pb-20'>
+                <div className='mx-auto max-w-(--breakpoint-md) lg:max-w-(--breakpoint-lg) px-6 lg:px-8'>
+                    <div className='border-t border-border pt-10'>
+                        <CommentThread
+                            entityType='blog'
+                            entityId={page._id}
+                            initialComments={comments}
+                            isLoggedIn={isLoggedIn}
+                            currentUserId={currentUserId}
+                            currentPath={currentPath}
+                        />
                     </div>
                 </div>
             </section>

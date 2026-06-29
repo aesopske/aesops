@@ -8,6 +8,8 @@ import Link from 'next/link'
 import { useQueryState } from 'nuqs'
 import { authClient } from '@/lib/auth-client'
 import { GitHubSignInButton } from '@/components/platform/auth/github-sign-in-button'
+import { GoogleSignInButton } from '@/components/platform/auth/google-sign-in-button'
+import { sanitizeReturnTo } from '@/lib/platform/return-to'
 
 const schema = z.object({
     name: z.string().min(1, 'Name is required'),
@@ -22,6 +24,7 @@ export function SignUpForm() {
     const [isPending, startTransition] = useTransition()
     const [error, setError] = useState<string | null>(null)
     const [from] = useQueryState('from')
+    const returnTo = sanitizeReturnTo(from, '/profile')
 
     const form = useForm<FormValues>({
         resolver: zodResolver(schema),
@@ -39,8 +42,7 @@ export function SignUpForm() {
             if (error) {
                 setError(error.message ?? 'Sign up failed')
             } else {
-                const redirect = from && from.startsWith('/') ? from : '/profile'
-                router.push(redirect)
+                router.push(returnTo)
                 router.refresh()
             }
         })
@@ -48,7 +50,10 @@ export function SignUpForm() {
 
     return (
         <div className='space-y-4'>
-            <GitHubSignInButton callbackURL={from && from.startsWith('/') ? from : '/profile'} label='Sign up with GitHub' />
+            <div className='space-y-2'>
+                <GoogleSignInButton callbackURL={returnTo} label='Sign up with Google' />
+                <GitHubSignInButton callbackURL={returnTo} label='Sign up with GitHub' />
+            </div>
 
             <div className='relative'>
                 <div className='absolute inset-0 flex items-center'>

@@ -3,7 +3,7 @@
 import { useTransition } from 'react'
 import { useRouter } from 'next/navigation'
 import Link from 'next/link'
-import { Upload, LayoutGrid, LogOut, Database } from 'lucide-react'
+import { Upload, LayoutGrid, LogOut, Database, MessageSquare } from 'lucide-react'
 import { Avatar, AvatarFallback, AvatarImage } from '@repo/ui/components/avatar'
 import { Button } from '@repo/ui/components/button'
 import {
@@ -68,6 +68,12 @@ export function UserDropdown({ name, email, image, initials }: Props) {
                         <Link href='/datasets' className='flex items-center gap-2.5'>
                             <Database size={14} className='text-muted-foreground' />
                             Datasets
+                        </Link>
+                    </DropdownMenuItem>
+                    <DropdownMenuItem asChild className='hover:bg-primary/10 focus:bg-primary/10'>
+                        <Link href='/community' className='flex items-center gap-2.5'>
+                            <MessageSquare size={14} className='text-muted-foreground' />
+                            Community
                         </Link>
                     </DropdownMenuItem>
                     <DropdownMenuItem asChild className='hover:bg-primary/10 focus:bg-primary/10'>

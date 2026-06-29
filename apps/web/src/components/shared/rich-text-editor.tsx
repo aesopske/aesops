@@ -1,5 +1,6 @@
 'use client'
 
+import { useEffect, useRef } from 'react'
 import { useEditor, EditorContent } from '@tiptap/react'
 import type { Editor } from '@tiptap/core'
 import StarterKit from '@tiptap/starter-kit'
@@ -22,24 +23,57 @@ const cmd = (editor: Editor) => editor.chain() as unknown as Chain
 
 type Props = {
     initialContent?: unknown
-    onChange: (json: unknown) => void
+    placeholder?: string
+    minHeight?: string
+    allowCode?: boolean
+    onChange?: (json: unknown) => void
+    onChangeHtml?: (html: string, isEmpty: boolean) => void
+    onCmdEnter?: () => void
+    editorRef?: React.MutableRefObject<Editor | null>
 }
 
-export function RichTextEditor({ initialContent, onChange }: Props) {
+export function RichTextEditor({ initialContent, placeholder, minHeight = 'min-h-[140px]', allowCode = false, onChange, onChangeHtml, onCmdEnter, editorRef }: Props) {
+    const onCmdEnterRef = useRef(onCmdEnter)
+    onCmdEnterRef.current = onCmdEnter
+
     const editor = useEditor({
         immediatelyRender: false,
         extensions: [
-            StarterKit.configure({ codeBlock: false, code: false, blockquote: false, horizontalRule: false }),
-            Placeholder.configure({ placeholder: 'Describe the dataset — its origin, intended use, and any caveats…' }),
+            StarterKit.configure({
+                codeBlock: false,
+                blockquote: false,
+                horizontalRule: false,
+                code: allowCode
+                    ? { HTMLAttributes: { class: 'font-mono bg-primary/10 text-primary px-2 py-0.5 rounded-full text-xs font-medium not-italic' } }
+                    : false,
+            }),
+            Placeholder.configure({
+                placeholder: placeholder ?? 'Describe the dataset — its origin, intended use, and any caveats…',
+            }),
         ],
         content: (initialContent as object | undefined) ?? undefined,
         editorProps: {
-            attributes: { class: 'min-h-[140px] px-3 py-2.5 text-sm text-foreground outline-none' },
+            attributes: { class: `${minHeight} px-3 py-2.5 text-sm text-foreground outline-none` },
+            handleKeyDown(_view: unknown, event: KeyboardEvent) {
+                if (event.key === 'Enter' && (event.metaKey || event.ctrlKey)) {
+                    onCmdEnterRef.current?.()
+                    return true
+                }
+                return false
+            },
         },
         onUpdate({ editor }: { editor: Editor }) {
-            onChange(editor.getJSON())
+            onChange?.(editor.getJSON())
+            onChangeHtml?.(editor.getHTML(), editor.isEmpty)
         },
     })
+
+    // keep editorRef in sync
+    const editorRefStable = useRef(editorRef)
+    editorRefStable.current = editorRef
+    useEffect(() => {
+        if (editorRef) editorRef.current = editor ?? null
+    }, [editor, editorRef])
 
     if (!editor) return null
 

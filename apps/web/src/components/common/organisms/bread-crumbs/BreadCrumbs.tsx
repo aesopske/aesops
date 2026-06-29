@@ -51,12 +51,12 @@ function BreadCrumbs({ color = 'default', className }: BreadCrumbsProps) {
                         <BreadcrumbSeparator className={separatorClass}>
                             <ChevronRight className='w-3 h-3' />
                         </BreadcrumbSeparator>
-                        <BreadcrumbItem>
+                        <BreadcrumbItem className='min-w-0'>
                             {path.active ? (
                                 <BreadcrumbPage
                                     className={cn(
                                         pageClass,
-                                        'text-sm font-mono capitalize',
+                                        'text-sm font-mono capitalize max-w-[160px] sm:max-w-[280px] truncate block',
                                     )}>
                                     {path.name}
                                 </BreadcrumbPage>
