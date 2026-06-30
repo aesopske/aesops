@@ -7,6 +7,9 @@ import { db, chatMessages } from '@repo/db'
 import type { DocumentMetadata } from '@repo/db/schema'
 import { buildDatasetTools } from '@/lib/platform/dataset-tools'
 
+export const maxDuration = 60
+export const dynamic = 'force-dynamic'
+
 const bodySchema = z.object({
     datasetId: z.string(),
     messages: z.array(
