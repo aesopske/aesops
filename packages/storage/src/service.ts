@@ -1,7 +1,19 @@
 import 'server-only'
 import { and, asc, desc, eq, ilike, inArray, isNull, or, sql } from 'drizzle-orm'
 import { db, documents } from '@repo/db'
-import type { StorageProvider, CreateDocumentInput } from './providers/types'
+import type {
+    StorageProvider,
+    CreateDocumentInput,
+    CreateUploadUrlInput,
+    SignedDownloadOptions,
+} from './providers/types'
+
+type DownloadableDoc = {
+    provider: string
+    storageKey: string
+    url: string
+    name: string
+}
 
 function slugify(name: string): string {
     return name
@@ -13,9 +25,40 @@ function slugify(name: string): string {
 
 export class DocumentService {
     constructor(
-        private readonly provider: StorageProvider,
+        private readonly providers: Record<string, StorageProvider>,
+        private readonly uploadProviderName: string,
         private readonly database: typeof db = db,
     ) {}
+
+    private resolveProvider(name: string): StorageProvider {
+        const provider = this.providers[name]
+        if (!provider)
+            throw new Error(`No storage provider registered for '${name}'`)
+        return provider
+    }
+
+    /** Presign a direct client upload using the current upload provider. */
+    createUploadUrl(input: CreateUploadUrlInput) {
+        return this.resolveProvider(this.uploadProviderName).createUploadUrl(input)
+    }
+
+    /** Signed, short-lived URL to read the raw object (e.g. server-side parsing). */
+    async resolveReadUrl(
+        doc: { provider: string; storageKey: string; url: string },
+        opts?: SignedDownloadOptions,
+    ): Promise<string> {
+        // Legacy UploadThing files are public; serve the stored URL directly.
+        if (doc.provider === 'uploadthing') return doc.url
+        return this.resolveProvider(doc.provider).getSignedDownloadUrl(doc.storageKey, opts)
+    }
+
+    /** Browser download URL; sets Content-Disposition to the document name. */
+    resolveDownloadUrl(
+        doc: DownloadableDoc,
+        opts?: SignedDownloadOptions,
+    ): Promise<string> {
+        return this.resolveReadUrl(doc, { downloadName: doc.name, ...opts })
+    }
 
     private async generateUniqueSlug(name: string): Promise<string> {
         const base = slugify(name) || 'dataset'
@@ -42,7 +85,7 @@ export class DocumentService {
                 storageKey: input.storageKey,
                 size: input.size,
                 mimeType: input.mimeType,
-                provider: this.provider.name,
+                provider: input.provider ?? this.uploadProviderName,
                 uploadedBy: input.uploadedBy ?? null,
                 metadata: input.metadata ?? null,
                 description: input.description ?? null,
@@ -196,7 +239,7 @@ export class DocumentService {
         })
         if (!doc) throw new Error(`Document not found: ${id}`)
 
-        await this.provider.delete([doc.storageKey])
+        await this.resolveProvider(doc.provider).delete([doc.storageKey])
         await this.database.delete(documents).where(eq(documents.id, id))
     }
 }

@@ -77,6 +77,7 @@ export const fileRouter = {
             })
         })
         .onUploadComplete(async ({ metadata, file }) => {
+            console.log(file)
             const f = file as unknown as UploadedFile
             console.log('[upload] onUploadComplete', {
                 file: f.name,
@@ -106,6 +107,7 @@ export const fileRouter = {
                     storageKey: f.key,
                     size: f.size,
                     mimeType: f.type,
+                    provider: 'uploadthing',
                     uploadedBy: metadata.uploadedBy,
                     metadata: fileMetadata,
                     description: metadata.description,

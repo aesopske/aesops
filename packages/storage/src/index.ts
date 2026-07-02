@@ -1,12 +1,24 @@
 import 'server-only'
 import { UploadThingProvider } from './providers/uploadthing'
+import { R2Provider } from './providers/r2'
 import { DocumentService } from './service'
 
-export type { StorageProvider, CreateDocumentInput } from './providers/types'
+export type {
+    StorageProvider,
+    CreateDocumentInput,
+    CreateUploadUrlInput,
+    CreateUploadUrlResult,
+    SignedDownloadOptions,
+} from './providers/types'
 export { DocumentService } from './service'
 export { UploadThingProvider } from './providers/uploadthing'
+export { R2Provider } from './providers/r2'
 
-// Singleton using the UploadThing provider — swap by instantiating DocumentService
-// with a different StorageProvider implementation.
-const provider = new UploadThingProvider()
-export const documentService = new DocumentService(provider)
+// Provider registry keyed by the `documents.provider` column. New uploads go to
+// R2; legacy UploadThing documents remain readable via their stored public URL.
+const providers = {
+    uploadthing: new UploadThingProvider(),
+    r2: new R2Provider(),
+}
+
+export const documentService = new DocumentService(providers, 'r2')

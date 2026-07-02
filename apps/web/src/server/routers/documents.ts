@@ -2,8 +2,97 @@ import { z } from 'zod'
 import { TRPCError } from '@trpc/server'
 import { publicProcedure, protectedProcedure, router } from '@/trpc/init'
 import { documentService } from '@repo/storage'
+import type { DocumentMetadata } from '@repo/db/schema'
+import { computeMetadataDiff } from '@/lib/platform/metadata-diff'
+
+const MAX_UPLOAD_BYTES = 32 * 1024 * 1024
+const ALLOWED_MIME = [
+    'text/csv',
+    'application/vnd.ms-excel',
+    'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+] as const
+
+function safeKeySegment(name: string): string {
+    return name.replace(/[^a-zA-Z0-9._-]+/g, '-').replace(/^-+|-+$/g, '').slice(0, 120) || 'file'
+}
 
 export const documentsRouter = router({
+    // Presign a direct-to-R2 upload. The client PUTs bytes to `uploadUrl`, then
+    // calls `register` to persist the document row.
+    createUpload: protectedProcedure
+        .input(
+            z.object({
+                fileName: z.string().min(1),
+                contentType: z.enum(ALLOWED_MIME),
+                size: z.number().int().positive().max(MAX_UPLOAD_BYTES),
+            }),
+        )
+        .mutation(async ({ input, ctx }) => {
+            const key = `datasets/${ctx.session.user.id}/${crypto.randomUUID()}/${safeKeySegment(input.fileName)}`
+            const presigned = await documentService.createUploadUrl({
+                key,
+                contentType: input.contentType,
+                contentLength: input.size,
+            })
+            return presigned
+        }),
+
+    // Persist a document after its bytes have been uploaded to R2. Mirrors the
+    // legacy UploadThing `onUploadComplete` handler.
+    register: protectedProcedure
+        .input(
+            z.object({
+                key: z.string().min(1),
+                objectUrl: z.string().min(1),
+                fileName: z.string().min(1),
+                size: z.number().int().positive().max(MAX_UPLOAD_BYTES),
+                contentType: z.enum(ALLOWED_MIME),
+                name: z.string().min(1),
+                grouped: z.boolean(),
+                description: z.any().optional(),
+                license: z.string().nullish(),
+                groupId: z.string().nullish(),
+                parentId: z.string().nullish(),
+                metadata: z.any().nullish(),
+            }),
+        )
+        .mutation(async ({ input, ctx }) => {
+            const fileMetadata = (input.metadata ?? null) as DocumentMetadata | null
+            const docName = input.grouped ? input.name : input.fileName
+
+            const metadataDiff =
+                input.parentId && fileMetadata
+                    ? await (async () => {
+                          const parent = await documentService
+                              .getById(input.parentId!)
+                              .catch(() => null)
+                          if (!parent?.metadata) return null
+                          return computeMetadataDiff(
+                              parent.metadata as DocumentMetadata,
+                              fileMetadata,
+                          )
+                      })()
+                    : null
+
+            const doc = await documentService.create({
+                name: docName,
+                url: input.objectUrl,
+                storageKey: input.key,
+                size: input.size,
+                mimeType: input.contentType,
+                provider: 'r2',
+                uploadedBy: ctx.session.user.id,
+                metadata: fileMetadata,
+                description: input.description,
+                license: input.license ?? null,
+                groupId: input.groupId ?? null,
+                aiInsights: null,
+                parentId: input.parentId ?? null,
+                metadataDiff,
+            })
+            return { documentId: doc.id, fileName: input.fileName }
+        }),
+
     list: publicProcedure
         .input(z.object({ query: z.string().optional() }).optional())
         .query(({ input }) =>

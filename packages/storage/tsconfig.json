@@ -3,7 +3,8 @@
     "compilerOptions": {
         "baseUrl": ".",
         "module": "ESNext",
-        "moduleResolution": "Bundler"
+        "moduleResolution": "Bundler",
+        "preserveSymlinks": false
     },
     "include": ["**/*.ts"],
     "exclude": ["node_modules"]

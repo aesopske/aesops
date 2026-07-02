@@ -1,13 +1,11 @@
 'use client'
 
-import { useState, useRef } from 'react'
+import { useState } from 'react'
 import { useForm, Controller } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { trpc } from '@/trpc/react'
-import { useUploadThing } from '@/lib/platform/uploadthing-components'
 import { extractMetadata } from '@/lib/platform/metadata'
 import { uploadFormSchema, type UploadFormValues } from '@/lib/schemas/dataset'
-import type { DocumentMetadata } from '@repo/db/schema'
 import { LICENSES } from '@/lib/constants/licenses'
 import { RichTextEditor } from '@/components/shared/rich-text-editor'
 import { Toggle } from '@/components/shared/toggle'
@@ -17,6 +15,23 @@ export { LICENSES }
 function defaultName(files: File[]) {
     if (files.length === 1) return files[0]!.name.replace(/\.[^.]+$/, '')
     return ''
+}
+
+const CONTENT_TYPES = {
+    csv: 'text/csv',
+    xls: 'application/vnd.ms-excel',
+    xlsx: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+} as const
+
+type AllowedContentType = (typeof CONTENT_TYPES)[keyof typeof CONTENT_TYPES]
+
+// Browsers report inconsistent MIME types for CSV/Excel; derive from the
+// extension so it always matches the values the server accepts.
+function resolveContentType(file: File): AllowedContentType {
+    const allowed = Object.values(CONTENT_TYPES) as string[]
+    if (allowed.includes(file.type)) return file.type as AllowedContentType
+    const ext = file.name.toLowerCase().split('.').pop() ?? ''
+    return CONTENT_TYPES[ext as keyof typeof CONTENT_TYPES] ?? CONTENT_TYPES.csv
 }
 
 type UploadFormProps = {
@@ -30,45 +45,7 @@ type UploadFormProps = {
 export function UploadForm({ files, parentId, lockedName, onComplete, onCancel }: UploadFormProps) {
     const utils = trpc.useUtils()
     const [uploadError, setUploadError] = useState<string | null>(null)
-    const pendingInsights = useRef<{
-        entries: Record<string, DocumentMetadata>
-        grouped: boolean
-        name: string
-    } | null>(null)
-
-    const { startUpload, isUploading } = useUploadThing('documentUploader', {
-        onClientUploadComplete: (res) => {
-            const pending = pendingInsights.current
-            if (pending) {
-                res.forEach((file) => {
-                    const documentId = file.serverData?.documentId
-                    const fileName = file.serverData?.fileName
-                    const metadata = fileName ? pending.entries[fileName] : undefined
-                    const docName = pending.grouped ? pending.name : (fileName ?? '')
-                    if (documentId && metadata) {
-                        fetch('/api/ai/insights', {
-                            method: 'POST',
-                            headers: { 'Content-Type': 'application/json' },
-                            body: JSON.stringify({ documentId, docName, metadata }),
-                        }).catch(() => {})
-                    }
-                })
-                pendingInsights.current = null
-            }
-            utils.documents.list.invalidate()
-            utils.documents.listMineRoots.invalidate()
-            onComplete()
-        },
-        onUploadError: (err) => {
-            const friendlyMessages: Record<string, string> = {
-                UPLOAD_FAILED: 'Upload failed after the file was received. The file may already be saved — please refresh before retrying.',
-                BAD_REQUEST: 'Upload rejected: invalid file or missing fields.',
-                NOT_FOUND: 'Upload route not found. Please refresh the page.',
-            }
-            const code = (err as { code?: string }).code ?? ''
-            setUploadError(friendlyMessages[code] ?? err.message ?? 'Upload failed. Please try again.')
-        },
-    })
+    const [isUploading, setIsUploading] = useState(false)
 
     const isMultiple = files.length > 1
 
@@ -94,32 +71,71 @@ export function UploadForm({ files, parentId, lockedName, onComplete, onCancel }
 
     const onSubmit = async (values: UploadFormValues) => {
         setUploadError(null)
+        setIsUploading(true)
         try {
-            const entries = await Promise.all(
-                files.map(async (file) => {
-                    const buffer = await file.arrayBuffer()
-                    return [file.name, extractMetadata(buffer)] as const
-                }),
-            )
-            const groupId = values.grouped && files.length > 1 ? crypto.randomUUID() : undefined
+            const groupId =
+                values.grouped && files.length > 1 ? crypto.randomUUID() : undefined
 
-            pendingInsights.current = {
-                entries: Object.fromEntries(entries) as Record<string, DocumentMetadata>,
-                grouped: values.grouped,
-                name: values.name,
+            for (const file of files) {
+                const buffer = await file.arrayBuffer()
+                const metadata = extractMetadata(buffer)
+                const contentType = resolveContentType(file)
+
+                const presigned = await utils.client.documents.createUpload.mutate({
+                    fileName: file.name,
+                    contentType,
+                    size: file.size,
+                })
+
+                const putRes = await fetch(presigned.url, {
+                    method: 'PUT',
+                    headers: presigned.headers,
+                    body: file,
+                })
+                if (!putRes.ok) {
+                    throw new Error('Upload failed while sending the file to storage.')
+                }
+
+                const registered = await utils.client.documents.register.mutate({
+                    key: presigned.key,
+                    objectUrl: presigned.objectUrl,
+                    fileName: file.name,
+                    size: file.size,
+                    contentType,
+                    name: values.name,
+                    grouped: values.grouped,
+                    description: values.description,
+                    license: values.license,
+                    groupId,
+                    parentId,
+                    metadata,
+                })
+
+                const docName = values.grouped ? values.name : file.name
+                fetch('/api/ai/insights', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        documentId: registered.documentId,
+                        docName,
+                        metadata,
+                    }),
+                }).catch(() => {})
+
+                // Generate the derived Parquet artifact (query substrate) in the
+                // background; the dataset is usable from the original file meanwhile.
+                fetch(`/api/datasets/${registered.documentId}/parquet`, {
+                    method: 'POST',
+                }).catch(() => {})
             }
 
-            await startUpload(files, {
-                name: values.name,
-                grouped: values.grouped,
-                description: values.description,
-                license: values.license,
-                groupId,
-                parentId,
-                files: Object.fromEntries(entries),
-            })
+            utils.documents.list.invalidate()
+            utils.documents.listMineRoots.invalidate()
+            onComplete()
         } catch (err) {
             setUploadError(err instanceof Error ? err.message : 'Upload failed.')
+        } finally {
+            setIsUploading(false)
         }
     }
 
