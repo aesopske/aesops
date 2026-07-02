@@ -56,6 +56,11 @@ export class DocumentService {
         return doc!
     }
 
+    /** Signed URL for a derived Parquet object (always on the upload provider). */
+    getParquetUrl(parquetKey: string, opts?: SignedDownloadOptions) {
+        return this.resolveProvider(this.uploadProviderName).getSignedDownloadUrl(parquetKey, opts)
+    }
+
     /** Signed, short-lived URL to read the raw object (e.g. server-side parsing). */
     async resolveReadUrl(
         doc: { provider: string; storageKey: string; url: string },

@@ -1,218 +1,205 @@
-import * as XLSX from 'xlsx'
+import type { ColumnStats } from '@repo/db/schema'
 
-// On-demand row access for AI tools. Fetches the public file URL, parses with
-// the same xlsx path as extractMetadata, and runs in-memory queries. No
-// persisted artifact — works retroactively on every existing dataset.
+// Query primitives run as DuckDB SQL over a dataset's Parquet artifact. Only the
+// matched/aggregated slice crosses the wire — no whole-file load. Column names
+// are validated against the known schema (identifiers can't be parameterized),
+// and all values are escaped, so tool input can't inject SQL.
 
-export type QueryableDoc = {
-    url: string
-    storageKey: string
-    size: number
-}
-
-type Row = Record<string, unknown>
-
-const MAX_BYTES = 10 * 1024 * 1024 // 10MB — guard against serverless timeouts
-const CACHE_TTL_MS = 5 * 60 * 1000
-const CACHE_MAX = 20
-
-const cache = new Map<string, { rows: Row[]; at: number }>()
-
-export class DatasetTooLargeError extends Error {
-    constructor(public readonly size: number) {
-        super(`Dataset is too large to query inline (${size} bytes)`)
-        this.name = 'DatasetTooLargeError'
-    }
-}
-
-export async function loadRows(doc: QueryableDoc): Promise<Row[]> {
-    if (doc.size > MAX_BYTES) throw new DatasetTooLargeError(doc.size)
-
-    const cached = cache.get(doc.storageKey)
-    if (cached && Date.now() - cached.at < CACHE_TTL_MS) return cached.rows
-
-    const res = await fetch(doc.url)
-    if (!res.ok) throw new Error(`Failed to fetch dataset file (${res.status})`)
-    const buffer = await res.arrayBuffer()
-
-    const workbook = XLSX.read(buffer, { type: 'buffer', cellDates: true })
-    const sheetName = workbook.SheetNames[0]!
-    const sheet = workbook.Sheets[sheetName]!
-    const rows = XLSX.utils.sheet_to_json<Row>(sheet, { defval: null })
-
-    if (cache.size >= CACHE_MAX) {
-        const oldest = [...cache.entries()].sort((a, b) => a[1].at - b[1].at)[0]
-        if (oldest) cache.delete(oldest[0])
-    }
-    cache.set(doc.storageKey, { rows, at: Date.now() })
-
-    return rows
-}
-
-// ─── query primitives ─────────────────────────────────────────────────────────
+export type Row = Record<string, unknown>
 
 export type FilterOp = 'eq' | 'neq' | 'contains' | 'gt' | 'gte' | 'lt' | 'lte' | 'in'
 export type Filter = { column: string; op: FilterOp; value: string }
+export type AggregateFn = 'count' | 'sum' | 'avg' | 'min' | 'max' | 'median'
+export type DatePart = 'year' | 'month' | 'month_year' | 'quarter'
 
-function norm(v: unknown): string {
-    return String(v ?? '').trim().toLowerCase()
+export type DatasetQuery = {
+    run: (sql: string) => Row[]
+    /** FROM-clause reference, e.g. read_parquet('…') */
+    ref: string
+    columns: ColumnStats[]
 }
 
-function matches(cell: unknown, op: FilterOp, value: string | number): boolean {
-    switch (op) {
+export class UnknownColumnError extends Error {
+    constructor(public readonly column: string) {
+        super(`Unknown column: "${column}"`)
+        this.name = 'UnknownColumnError'
+    }
+}
+
+function clamp(n: number, lo: number, hi: number): number {
+    return Math.min(Math.max(n, lo), hi)
+}
+
+function ident(col: string, dq: DatasetQuery): string {
+    if (!dq.columns.some((c) => c.name === col)) throw new UnknownColumnError(col)
+    return `"${col.replace(/"/g, '""')}"`
+}
+
+function lit(v: string): string {
+    return `'${v.replace(/'/g, "''")}'`
+}
+
+// Textual, null-safe, trimmed+lowercased form of a column — mirrors the old norm()
+function txt(colSql: string): string {
+    return `lower(trim(coalesce(CAST(${colSql} AS VARCHAR), '')))`
+}
+
+function num(colSql: string): string {
+    return `TRY_CAST(${colSql} AS DOUBLE)`
+}
+
+function buildFilter(f: Filter, dq: DatasetQuery): string {
+    const col = ident(f.column, dq)
+    const v = f.value.trim().toLowerCase()
+    switch (f.op) {
         case 'eq':
-            return norm(cell) === norm(value) || Number(cell) === Number(value)
+            return `(${txt(col)} = ${lit(v)} OR ${num(col)} = TRY_CAST(${lit(f.value)} AS DOUBLE))`
         case 'neq':
-            return norm(cell) !== norm(value)
-        case 'contains':
-            return norm(cell).includes(norm(value))
+            return `${txt(col)} <> ${lit(v)}`
+        case 'contains': {
+            const esc = v.replace(/[\\%_]/g, (m) => `\\${m}`)
+            return `${txt(col)} LIKE ${lit(`%${esc}%`)} ESCAPE '\\'`
+        }
         case 'gt':
-            return Number(cell) > Number(value)
+            return `${num(col)} > TRY_CAST(${lit(f.value)} AS DOUBLE)`
         case 'gte':
-            return Number(cell) >= Number(value)
+            return `${num(col)} >= TRY_CAST(${lit(f.value)} AS DOUBLE)`
         case 'lt':
-            return Number(cell) < Number(value)
+            return `${num(col)} < TRY_CAST(${lit(f.value)} AS DOUBLE)`
         case 'lte':
-            return Number(cell) <= Number(value)
+            return `${num(col)} <= TRY_CAST(${lit(f.value)} AS DOUBLE)`
         case 'in': {
-            const values = String(value).split(',').map((v) => v.trim().toLowerCase())
-            return values.includes(norm(cell))
+            const items = f.value.split(',').map((s) => lit(s.trim().toLowerCase()))
+            return `${txt(col)} IN (${items.join(', ')})`
         }
     }
 }
 
+function whereClause(filters: Filter[] | undefined, dq: DatasetQuery): string {
+    if (!filters?.length) return ''
+    return `WHERE ${filters.map((f) => buildFilter(f, dq)).join(' AND ')}`
+}
+
 export function queryRows(
-    rows: Row[],
+    dq: DatasetQuery,
     opts: { filters?: Filter[]; columns?: string[]; limit?: number } = {},
 ): { rows: Row[]; matched: number } {
-    const limit = opts.limit === 0 ? 0 : Math.min(Math.max(opts.limit ?? 20, 1), 100)
-    const filtered = opts.filters?.length
-        ? rows.filter((row) => opts.filters!.every((f) => matches(row[f.column], f.op, f.value)))
-        : rows
+    const limit = opts.limit === 0 ? 0 : clamp(opts.limit ?? 20, 1, 100)
+    const where = whereClause(opts.filters, dq)
 
-    const projected = opts.columns?.length
-        ? filtered.map((row) => {
-              const out: Row = {}
-              for (const col of opts.columns!) out[col] = row[col] ?? null
-              return out
-          })
-        : filtered
+    const matched = Number(
+        dq.run(`SELECT count(*)::INT AS n FROM ${dq.ref} ${where}`)[0]?.n ?? 0,
+    )
 
-    return { rows: limit === 0 ? [] : projected.slice(0, limit), matched: filtered.length }
+    let rows: Row[] = []
+    if (limit > 0) {
+        const sel = opts.columns?.length
+            ? opts.columns.map((c) => ident(c, dq)).join(', ')
+            : '*'
+        rows = dq.run(`SELECT ${sel} FROM ${dq.ref} ${where} LIMIT ${limit}`)
+    }
+    return { rows, matched }
 }
 
-export type AggregateFn = 'count' | 'sum' | 'avg' | 'min' | 'max' | 'median'
-export type DatePart = 'year' | 'month' | 'month_year' | 'quarter'
-
-const MONTH_NAMES = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
-const MONTH_ORDER: Record<string, number> = Object.fromEntries(MONTH_NAMES.map((m, i) => [m, i]))
-
-function extractDatePart(raw: unknown, part: DatePart): string {
-    // Handles JS Date (from xlsx cellDates), ISO strings, and "Jan 2025"-style strings
-    let d: Date | null = null
-    if (raw instanceof Date && !isNaN(raw.getTime())) {
-        d = raw
-    } else if (typeof raw === 'string') {
-        const parsed = new Date(raw)
-        if (!isNaN(parsed.getTime())) d = parsed
-    }
-    if (!d) return String(raw ?? '∅')
-    switch (part) {
-        case 'year':       return String(d.getFullYear())
-        case 'month':      return MONTH_NAMES[d.getMonth()]!
-        case 'month_year': return `${MONTH_NAMES[d.getMonth()]} ${d.getFullYear()}`
-        case 'quarter':    return `Q${Math.floor(d.getMonth() / 3) + 1} ${d.getFullYear()}`
-    }
+// Parses a column into a TIMESTAMP, tolerating ISO plus common textual/numeric
+// date formats — mirrors the leniency of the old JS `new Date(...)` path.
+function tsExpr(colSql: string): string {
+    return `coalesce(TRY_CAST(${colSql} AS TIMESTAMP), TRY_STRPTIME(CAST(${colSql} AS VARCHAR), ['%b %Y', '%B %Y', '%b %d, %Y', '%B %d, %Y', '%d-%m-%Y', '%d/%m/%Y', '%m/%d/%Y', '%Y-%m-%d']))`
 }
 
-function round(n: number): number {
-    return Number.isInteger(n) ? n : +n.toFixed(4)
+function keyExpr(colSql: string, datePart?: DatePart): string {
+    if (!datePart) return `coalesce(CAST(${colSql} AS VARCHAR), '∅')`
+    const ts = tsExpr(colSql)
+    let expr: string
+    switch (datePart) {
+        case 'year':
+            expr = `CAST(year(${ts}) AS VARCHAR)`
+            break
+        case 'month':
+            expr = `strftime(${ts}, '%b')`
+            break
+        case 'month_year':
+            expr = `strftime(${ts}, '%b %Y')`
+            break
+        case 'quarter':
+            expr = `('Q' || CAST(quarter(${ts}) AS VARCHAR) || ' ' || CAST(year(${ts}) AS VARCHAR))`
+            break
+    }
+    // Unparseable → fall back to the raw value, then ∅ for null
+    return `coalesce(${expr}, CAST(${colSql} AS VARCHAR), '∅')`
+}
+
+function metricExpr(dq: DatasetQuery, metric?: { column: string; fn: AggregateFn }): string {
+    if (!metric) return 'count(*)::INT'
+    const c = num(ident(metric.column, dq))
+    const agg =
+        metric.fn === 'sum' ? `sum(${c})`
+        : metric.fn === 'avg' ? `avg(${c})`
+        : metric.fn === 'min' ? `min(${c})`
+        : metric.fn === 'max' ? `max(${c})`
+        : `median(${c})`
+    return `round(coalesce(${agg}, 0), 4)::DOUBLE`
 }
 
 export function aggregate(
-    rows: Row[],
+    dq: DatasetQuery,
     opts: {
-        groupBy: string
+        groupBy: string | string[]
         datePart?: DatePart
-        metric?: { column: string; fn: Exclude<AggregateFn, 'count' | 'median'> | 'median' }
+        metric?: { column: string; fn: Exclude<AggregateFn, 'count'> }
         limit?: number
         rowFilters?: Filter[]
     },
 ): { key: string; value: number }[] {
-    const limit = opts.limit === 0 ? 0 : Math.min(Math.max(opts.limit ?? 20, 1), 5000)
-    const source = opts.rowFilters?.length
-        ? rows.filter((row) => opts.rowFilters!.every((f) => matches(row[f.column], f.op, f.value)))
-        : rows
-    const groups = new Map<string, number[]>()
+    const limit = opts.limit === 0 ? 0 : clamp(opts.limit ?? 20, 1, 5000)
+    if (limit === 0) return []
 
-    for (const row of source) {
-        const key = opts.datePart
-            ? extractDatePart(row[opts.groupBy], opts.datePart)
-            : String(row[opts.groupBy] ?? '∅')
-        const bucket = groups.get(key) ?? []
-        if (opts.metric) {
-            const n = Number(row[opts.metric.column])
-            if (Number.isFinite(n)) bucket.push(n)
-        } else {
-            bucket.push(1)
-        }
-        groups.set(key, bucket)
-    }
+    const groupCols = Array.isArray(opts.groupBy) ? opts.groupBy : [opts.groupBy]
+    const keyExprs = groupCols.map((c) => keyExpr(ident(c, dq), opts.datePart))
+    const keySql =
+        keyExprs.length === 1 ? keyExprs[0]! : `concat_ws(' | ', ${keyExprs.join(', ')})`
 
-    const result = [...groups.entries()].map(([key, nums]) => {
-        let value: number
-        if (!opts.metric) {
-            value = nums.length
-        } else {
-            switch (opts.metric.fn) {
-                case 'sum':
-                    value = nums.reduce((a, b) => a + b, 0)
-                    break
-                case 'avg':
-                    value = nums.length ? nums.reduce((a, b) => a + b, 0) / nums.length : 0
-                    break
-                case 'min':
-                    value = nums.length ? Math.min(...nums) : 0
-                    break
-                case 'max':
-                    value = nums.length ? Math.max(...nums) : 0
-                    break
-                case 'median': {
-                    if (!nums.length) { value = 0; break }
-                    const s = [...nums].sort((a, b) => a - b)
-                    const mid = Math.floor(s.length / 2)
-                    value = s.length % 2 === 0 ? (s[mid - 1]! + s[mid]!) / 2 : s[mid]!
-                    break
-                }
-            }
-        }
-        return { key, value: round(value) }
-    })
+    const where = whereClause(opts.rowFilters, dq)
+    const valSql = metricExpr(dq, opts.metric)
 
-    // For month grouping, sort chronologically so charts render in calendar order
-    const sorted = opts.datePart === 'month'
-        ? result.sort((a, b) => (MONTH_ORDER[a.key] ?? 0) - (MONTH_ORDER[b.key] ?? 0))
-        : result.sort((a, b) => b.value - a.value)
-    return limit === 0 ? [] : sorted.slice(0, limit)
+    // Date groupings sort chronologically so time axes read left-to-right; every
+    // other grouping sorts by value descending. For multi-column date groupings
+    // (e.g. ["Town", <date>]) only the date column parses, so coalescing the
+    // per-column timestamps yields that group's date. `month` is the sole
+    // exception: it buckets by month-of-year across years, so it orders Jan…Dec.
+    const groupTs = `coalesce(${groupCols.map((c) => tsExpr(ident(c, dq))).join(', ')})`
+    const order =
+        opts.datePart === 'month'
+            ? `ORDER BY min(month(${groupTs})) NULLS LAST`
+            : opts.datePart
+              ? `ORDER BY min(${groupTs}) NULLS LAST`
+              : `ORDER BY v DESC`
+
+    const sql = `SELECT ${keySql} AS k, ${valSql} AS v FROM ${dq.ref} ${where} GROUP BY ${keySql} ${order} LIMIT ${limit}`
+    return dq.run(sql).map((r) => ({ key: String(r.k ?? '∅'), value: Number(r.v ?? 0) }))
 }
 
 export function distinctValues(
-    rows: Row[],
+    dq: DatasetQuery,
     opts: { column: string; limit?: number },
 ): { total: number; values: { value: string; count: number }[] } {
-    const limit = opts.limit === 0 ? 0 : Math.min(Math.max(opts.limit ?? 50, 1), 200)
-    const freq = new Map<string, number>()
+    const limit = opts.limit === 0 ? 0 : clamp(opts.limit ?? 50, 1, 200)
+    const col = ident(opts.column, dq)
+    const notEmpty = `${col} IS NOT NULL AND CAST(${col} AS VARCHAR) <> ''`
 
-    for (const row of rows) {
-        const v = row[opts.column]
-        if (v === null || v === undefined || v === '') continue
-        const key = String(v)
-        freq.set(key, (freq.get(key) ?? 0) + 1)
-    }
+    const total = Number(
+        dq.run(
+            `SELECT count(DISTINCT CAST(${col} AS VARCHAR))::INT AS n FROM ${dq.ref} WHERE ${notEmpty}`,
+        )[0]?.n ?? 0,
+    )
 
-    const sorted = [...freq.entries()].sort((a, b) => b[1] - a[1])
-    return {
-        total: sorted.length,
-        values: limit === 0 ? [] : sorted.slice(0, limit).map(([value, count]) => ({ value, count })),
+    let values: { value: string; count: number }[] = []
+    if (limit > 0) {
+        values = dq
+            .run(
+                `SELECT CAST(${col} AS VARCHAR) AS value, count(*)::INT AS count FROM ${dq.ref} WHERE ${notEmpty} GROUP BY 1 ORDER BY count DESC LIMIT ${limit}`,
+            )
+            .map((r) => ({ value: String(r.value), count: Number(r.count) }))
     }
+    return { total, values }
 }

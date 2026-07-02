@@ -8,7 +8,7 @@ import { db, threads, comments, asc, and, eq, sql } from '@repo/db'
 import type { DocumentMetadata } from '@repo/db/schema'
 import { sanityFetch } from '~sanity/utils/fetch'
 import { buildDatasetTools } from '@/lib/platform/dataset-tools'
-import type { QueryableDoc } from '@/lib/platform/dataset-query'
+import { openDataset, type OpenableDoc } from '@/lib/platform/dataset-source'
 
 function stripHtml(html: string) {
     return html.replace(/<[^>]*>/g, '').trim()
@@ -55,7 +55,7 @@ const bodySchema = z.object({
 
 const blogQuery = groq`*[_id == $id][0]{ title, "text": pt::text(body) }`
 
-type EntityContext = { system: string; doc?: QueryableDoc } | null
+type EntityContext = { system: string; doc?: OpenableDoc } | null
 
 async function discussionContext(entityId: string): Promise<EntityContext> {
     const [thread] = await db
@@ -66,7 +66,7 @@ async function discussionContext(entityId: string): Promise<EntityContext> {
     if (!thread) return null
 
     let datasetContext = ''
-    let queryableDoc: QueryableDoc | undefined
+    let queryableDoc: OpenableDoc | undefined
     if (thread.linkedDatasetId) {
         const doc = await documentService
             .getById(thread.linkedDatasetId)
@@ -193,7 +193,16 @@ export async function POST(req: Request) {
 
     const system = `${ctx.system}${chain.length > 0 ? `\n\nComment thread leading to this mention (oldest first):\n${history}` : ''}`
 
-    const tools = ctx.doc ? buildDatasetTools(ctx.doc) : undefined
+    let dataset: Awaited<ReturnType<typeof openDataset>> = null
+    if (ctx.doc) {
+        try {
+            dataset = await openDataset(ctx.doc)
+        } catch (err) {
+            console.error('[ai/comment-reply] failed to open dataset:', err)
+        }
+    }
+
+    const tools = dataset ? buildDatasetTools(dataset.dq) : undefined
 
     const result = streamText({
         model: google('gemini-2.5-flash'),
@@ -208,6 +217,7 @@ export async function POST(req: Request) {
         maxSteps: tools ? 6 : 1,
         maxTokens: 1200,
         onFinish: async ({ text }) => {
+            dataset?.release()
             await db
                 .insert(comments)
                 .values({
