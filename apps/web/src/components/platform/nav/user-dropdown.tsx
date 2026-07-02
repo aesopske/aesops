@@ -1,7 +1,7 @@
 'use client'
 
 import { useTransition } from 'react'
-import { useRouter } from 'next/navigation'
+import { usePathname, useRouter } from 'next/navigation'
 import Link from 'next/link'
 import { Upload, LayoutGrid, LogOut, Database, MessageSquare } from 'lucide-react'
 import { Avatar, AvatarFallback, AvatarImage } from '@repo/ui/components/avatar'
@@ -25,12 +25,15 @@ type Props = {
 
 export function UserDropdown({ name, email, image, initials }: Props) {
     const router = useRouter()
+    const pathname = usePathname()
     const [isPending, startTransition] = useTransition()
 
     function handleSignOut() {
         startTransition(async () => {
             await authClient.signOut()
-            router.push('/sign-in')
+            // Redirect back to the page we came from — if it still requires a
+            // session, that page's own auth guard takes over from here.
+            router.push(pathname)
             router.refresh()
         })
     }
