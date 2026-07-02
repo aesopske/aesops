@@ -7,8 +7,8 @@ import { Save, UploadCloud } from 'lucide-react'
 import Link from 'next/link'
 import { trpc } from '@/trpc/react'
 import { editFormSchema, type EditFormValues } from '@/lib/schemas/dataset'
-import { LICENSES } from '@/lib/constants/licenses'
 import { RichTextEditor } from '@/components/shared/rich-text-editor'
+import { LicenseSelect } from '@/components/shared/license-select'
 
 type Doc = { id: string; slug: string | null; name: string; description: unknown; license: string | null }
 
@@ -82,15 +82,13 @@ export function EditForm({ doc }: { doc: Doc }) {
                 <label htmlFor='ds-license' className='block text-sm font-medium text-foreground'>
                     License
                 </label>
-                <select
-                    id='ds-license'
-                    {...register('license')}
-                    className='w-full rounded-lg border border-border bg-card px-3 py-2.5 text-sm outline-none transition focus:border-ring focus:ring-1 focus:ring-ring/50'
-                >
-                    {LICENSES.map((l) => (
-                        <option key={l.value} value={l.value}>{l.label}</option>
-                    ))}
-                </select>
+                <Controller
+                    name='license'
+                    control={control}
+                    render={({ field }) => (
+                        <LicenseSelect id='ds-license' value={field.value ?? ''} onChange={field.onChange} />
+                    )}
+                />
             </div>
 
             {updateMutation.error && (

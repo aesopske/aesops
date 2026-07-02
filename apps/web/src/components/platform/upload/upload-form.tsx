@@ -6,11 +6,9 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import { trpc } from '@/trpc/react'
 import { extractMetadata } from '@/lib/platform/metadata'
 import { uploadFormSchema, type UploadFormValues } from '@/lib/schemas/dataset'
-import { LICENSES } from '@/lib/constants/licenses'
 import { RichTextEditor } from '@/components/shared/rich-text-editor'
 import { Toggle } from '@/components/shared/toggle'
-
-export { LICENSES }
+import { LicenseSelect } from '@/components/shared/license-select'
 
 function defaultName(files: File[]) {
     if (files.length === 1) return files[0]!.name.replace(/\.[^.]+$/, '')
@@ -204,15 +202,13 @@ export function UploadForm({ files, parentId, lockedName, onComplete, onCancel }
                 <label htmlFor='ds-license' className='block text-sm font-medium text-foreground'>
                     License
                 </label>
-                <select
-                    id='ds-license'
-                    {...register('license')}
-                    className='w-full rounded-lg border border-border bg-card px-3 py-2.5 text-sm outline-none transition focus:border-ring focus:ring-1 focus:ring-ring/50'
-                >
-                    {LICENSES.map((l) => (
-                        <option key={l.value} value={l.value}>{l.label}</option>
-                    ))}
-                </select>
+                <Controller
+                    name='license'
+                    control={control}
+                    render={({ field }) => (
+                        <LicenseSelect id='ds-license' value={field.value ?? ''} onChange={field.onChange} />
+                    )}
+                />
             </div>
 
             {uploadError && (
