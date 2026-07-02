@@ -46,6 +46,8 @@ export const documents = pgTable('documents', {
     name: text('name').notNull(),
     url: text('url').notNull(),
     storageKey: text('storage_key').notNull(),
+    // derived Parquet artifact (query/version substrate); null until generated
+    parquetKey: text('parquet_key'),
     size: integer('size').notNull(),
     mimeType: text('mime_type').notNull(),
     // which provider stored this file — keeps urls/keys portable across providers

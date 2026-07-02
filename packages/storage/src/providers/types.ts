@@ -34,6 +34,8 @@ export interface StorageProvider {
     createUploadUrl(input: CreateUploadUrlInput): Promise<CreateUploadUrlResult>
     /** Short-lived authenticated download URL for a private object. */
     getSignedDownloadUrl(key: string, opts?: SignedDownloadOptions): Promise<string>
+    /** Server-side write of an object (e.g. derived Parquet). Returns object ref. */
+    putObject(key: string, body: Uint8Array, contentType: string): Promise<{ key: string; objectUrl: string }>
 }
 
 export type CreateDocumentInput = {

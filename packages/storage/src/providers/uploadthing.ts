@@ -32,6 +32,12 @@ export class UploadThingProvider implements StorageProvider {
         )
     }
 
+    async putObject(): Promise<{ key: string; objectUrl: string }> {
+        throw new Error(
+            'UploadThingProvider does not support server-side object writes. Use R2Provider.',
+        )
+    }
+
     async delete(keys: string[]): Promise<void> {
         const result = await this.utapi.deleteFiles(keys)
         if (!result.success) {

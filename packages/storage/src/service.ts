@@ -42,6 +42,20 @@ export class DocumentService {
         return this.resolveProvider(this.uploadProviderName).createUploadUrl(input)
     }
 
+    /** Server-side object write using the current upload provider. */
+    putObject(key: string, body: Uint8Array, contentType: string) {
+        return this.resolveProvider(this.uploadProviderName).putObject(key, body, contentType)
+    }
+
+    async setParquetKey(id: string, parquetKey: string) {
+        const [doc] = await this.database
+            .update(documents)
+            .set({ parquetKey, updatedAt: new Date() })
+            .where(eq(documents.id, id))
+            .returning()
+        return doc!
+    }
+
     /** Signed, short-lived URL to read the raw object (e.g. server-side parsing). */
     async resolveReadUrl(
         doc: { provider: string; storageKey: string; url: string },

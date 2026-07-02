@@ -86,6 +86,24 @@ export class R2Provider implements StorageProvider {
         return getSignedUrl(client, command, { expiresIn: opts?.expiresIn ?? DEFAULT_EXPIRY })
     }
 
+    async putObject(
+        key: string,
+        body: Uint8Array,
+        contentType: string,
+    ): Promise<{ key: string; objectUrl: string }> {
+        const { client, bucket, endpoint } = this.config()
+        const command = new PutObjectCommand({
+            Bucket: bucket,
+            Key: key,
+            Body: body,
+            ContentType: contentType,
+        })
+        await (client as unknown as {
+            send: (c: typeof command) => Promise<unknown>
+        }).send(command)
+        return { key, objectUrl: `${endpoint}/${bucket}/${key}` }
+    }
+
     async delete(keys: string[]): Promise<void> {
         if (keys.length === 0) return
         const { client, bucket } = this.config()
