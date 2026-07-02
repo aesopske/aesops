@@ -16,6 +16,12 @@ function safeKeySegment(name: string): string {
     return name.replace(/[^a-zA-Z0-9._-]+/g, '-').replace(/^-+|-+$/g, '').slice(0, 120) || 'file'
 }
 
+// Strips a trailing file extension (e.g. ".csv", ".xlsx") from a name derived
+// from an uploaded filename, so it doesn't leak into the stored name or slug.
+function stripExtension(name: string): string {
+    return name.replace(/\.[^./]+$/, '')
+}
+
 export const documentsRouter = router({
     // Presign a direct-to-R2 upload. The client PUTs bytes to `uploadUrl`, then
     // calls `register` to persist the document row.
@@ -37,8 +43,7 @@ export const documentsRouter = router({
             return presigned
         }),
 
-    // Persist a document after its bytes have been uploaded to R2. Mirrors the
-    // legacy UploadThing `onUploadComplete` handler.
+    // Persist a document after its bytes have been uploaded to R2.
     register: protectedProcedure
         .input(
             z.object({
@@ -58,7 +63,18 @@ export const documentsRouter = router({
         )
         .mutation(async ({ input, ctx }) => {
             const fileMetadata = (input.metadata ?? null) as DocumentMetadata | null
-            const docName = input.grouped ? input.name : input.fileName
+
+            // The name field reflects user intent (typed name, or the parent's
+            // locked name for a revision); fall back to the raw filename only
+            // when it's blank, e.g. independent multi-file uploads.
+            const typedName = input.name.trim()
+            let docName = stripExtension(typedName.length > 0 ? typedName : input.fileName)
+
+            if (input.parentId) {
+                const revisions = await documentService.listRevisions(input.parentId)
+                const versionNumber = revisions.length + 2
+                docName = `${docName} v${versionNumber}`
+            }
 
             const metadataDiff =
                 input.parentId && fileMetadata
