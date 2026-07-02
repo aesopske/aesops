@@ -2,11 +2,17 @@ import { createGoogleGenerativeAI } from '@ai-sdk/google'
 import { createClient } from 'next-sanity'
 import { groq } from 'next-sanity'
 import { streamText, formatDataStreamPart } from 'ai'
+import { captureException } from '@sentry/core'
 import { env } from '@/env'
 import { apiVersion, dataset, projectId } from '~sanity/env'
 import { client } from '~sanity/utils/client'
+import { recordAiUsage } from '@/lib/platform/ai-usage'
+import { logger } from '@/lib/platform/logger'
 
 const google = createGoogleGenerativeAI({ apiKey: env.GEMINI_API_KEY })
+
+const ROUTE = 'completion'
+const MODEL = 'gemini-2.5-flash'
 
 export const dynamic = 'force-dynamic'
 export const maxDuration = 30
@@ -50,12 +56,21 @@ export async function POST(req: Request) {
         }
     }
 
+    const startedAt = Date.now()
+
     const response = streamText({
-        model: google('gemini-2.5-flash'),
+        model: google(MODEL),
         prompt,
         maxRetries: 3,
         maxTokens: 2000,
-        onFinish: async ({ text }) => {
+        onFinish: async ({ text, usage }) => {
+            recordAiUsage({
+                route: ROUTE,
+                model: MODEL,
+                latencyMs: Date.now() - startedAt,
+                success: true,
+                usage,
+            })
             if (!useCache || !docId || !writeClient) return
             const expiresAt = new Date(
                 Date.now() + CACHE_TTL_HOURS * 60 * 60 * 1000,
@@ -67,9 +82,23 @@ export async function POST(req: Request) {
                     value: text,
                     expiresAt,
                 })
-                .catch(console.error)
+                .catch((err) => logger.error(ROUTE, 'failed to write cache doc', { err: String(err) }))
         },
     })
 
-    return response.toDataStreamResponse()
+    return response.toDataStreamResponse({
+        getErrorMessage: (err) => {
+            const msg = err instanceof Error ? err.message : String(err)
+            captureException(err, { tags: { route: ROUTE } })
+            logger.error(ROUTE, msg)
+            recordAiUsage({
+                route: ROUTE,
+                model: MODEL,
+                latencyMs: Date.now() - startedAt,
+                success: false,
+                errorMessage: msg,
+            })
+            return msg
+        },
+    })
 }

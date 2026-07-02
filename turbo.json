@@ -11,7 +11,14 @@
         "ENABLE_EXPERIMENTAL_COREPACK",
         "DATABASE_URL",
         "UPLOADTHING_TOKEN",
-        "GOOGLE_GENERATIVE_AI_API_KEY"
+        "GOOGLE_GENERATIVE_AI_API_KEY",
+        "NEXT_RUNTIME",
+        "NODE_ENV",
+        "SENTRY_DSN",
+        "SENTRY_ORG",
+        "SENTRY_PROJECT",
+        "SENTRY_AUTH_TOKEN",
+        "NEXT_PUBLIC_SENTRY_DSN"
     ],
     "tasks": {
         "build": {

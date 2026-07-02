@@ -19,7 +19,7 @@ export async function generateInsights(
     name: string,
     meta: DocumentMetadata,
     description?: unknown,
-): Promise<string> {
+): Promise<{ text: string; usage: Awaited<ReturnType<typeof generateText>>['usage'] }> {
     const descriptionText = description ? tiptapToPlainText(description).trim() : ''
     const columnSummary = meta.columns
         .map((col) => {
@@ -38,7 +38,7 @@ export async function generateInsights(
         ? JSON.stringify(meta.sampleRows.slice(0, 5), null, 2)
         : 'Not available'
 
-    const { text } = await generateText({
+    const { text, usage } = await generateText({
         model: google('gemini-2.5-flash'),
         providerOptions: {
             google: { thinkingConfig: { thinkingBudget: 0 } },
@@ -64,5 +64,5 @@ Each bullet must be a single clear, specific sentence. No sub-bullets. No sectio
         maxTokens: 1200,
     })
 
-    return text
+    return { text, usage }
 }

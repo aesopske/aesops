@@ -1,5 +1,6 @@
 import { streamText } from 'ai'
 import { google } from '@ai-sdk/google'
+import { captureException } from '@sentry/core'
 import { groq } from 'next-sanity'
 import { z } from 'zod'
 import { auth } from '@repo/auth'
@@ -9,6 +10,11 @@ import type { DocumentMetadata } from '@repo/db/schema'
 import { sanityFetch } from '~sanity/utils/fetch'
 import { buildDatasetTools } from '@/lib/platform/dataset-tools'
 import { openDataset, type OpenableDoc } from '@/lib/platform/dataset-source'
+import { recordAiUsage } from '@/lib/platform/ai-usage'
+import { logger } from '@/lib/platform/logger'
+
+const ROUTE = 'ai/comment-reply'
+const MODEL = 'gemini-2.5-flash'
 
 function stripHtml(html: string) {
     return html.replace(/<[^>]*>/g, '').trim()
@@ -198,14 +204,17 @@ export async function POST(req: Request) {
         try {
             dataset = await openDataset(ctx.doc)
         } catch (err) {
-            console.error('[ai/comment-reply] failed to open dataset:', err)
+            captureException(err, { tags: { route: ROUTE } })
+            logger.error(ROUTE, 'failed to open dataset', { err: String(err) })
         }
     }
 
     const tools = dataset ? buildDatasetTools(dataset.dq) : undefined
+    const startedAt = Date.now()
+    const userId = session.user.id
 
     const result = streamText({
-        model: google('gemini-2.5-flash'),
+        model: google(MODEL),
         system,
         messages: [
             {
@@ -216,8 +225,16 @@ export async function POST(req: Request) {
         tools,
         maxSteps: tools ? 6 : 1,
         maxTokens: 1200,
-        onFinish: async ({ text }) => {
+        onFinish: async ({ text, usage }) => {
             dataset?.release()
+            recordAiUsage({
+                route: ROUTE,
+                model: MODEL,
+                userId,
+                latencyMs: Date.now() - startedAt,
+                success: true,
+                usage,
+            })
             await db
                 .insert(comments)
                 .values({
@@ -229,10 +246,9 @@ export async function POST(req: Request) {
                     isAiResponse: true,
                 })
                 .catch((err) => {
-                    console.error(
-                        '[ai/comment-reply] failed to save AI reply:',
-                        err instanceof Error ? err.message : err,
-                    )
+                    logger.error(ROUTE, 'failed to save AI reply', {
+                        err: err instanceof Error ? err.message : String(err),
+                    })
                 })
 
             if (entityType === 'discussion') {
@@ -248,7 +264,16 @@ export async function POST(req: Request) {
     return result.toDataStreamResponse({
         getErrorMessage: (err) => {
             const msg = err instanceof Error ? err.message : String(err)
-            console.error('[ai/comment-reply]', msg)
+            captureException(err, { tags: { route: ROUTE } })
+            logger.error(ROUTE, msg)
+            recordAiUsage({
+                route: ROUTE,
+                model: MODEL,
+                userId,
+                latencyMs: Date.now() - startedAt,
+                success: false,
+                errorMessage: msg,
+            })
             return msg
         },
     })
