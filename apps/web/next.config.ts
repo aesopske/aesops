@@ -2,14 +2,6 @@ import { NextConfig } from 'next'
 
 const nextConfig: NextConfig = {
     reactStrictMode: true,
-    env: {
-        BASE_URL: process.env.BASE_API_URL,
-        DASHBOARD_URL: process.env.DASHBOARD_URL,
-        SITE_URL: process.env.SITE_URL,
-        SLACK_WEBHOOK: process.env.SLACK_WEBHOOK,
-        HUGGING_FACE_ACCESS_TOKEN: process.env.HUGGING_FACE_ACCESS_TOKEN,
-        OPENAI_API_KEY: process.env.OPENAI_API_KEY,
-    },
     images: {
         remotePatterns: [
             {
