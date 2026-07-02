@@ -108,7 +108,7 @@ ${meta.sampleRows?.length ? `\nSample data (first ${Math.min(meta.sampleRows.len
 You have tools that query the full linked dataset on demand:
 - think — call this FIRST for any question involving time periods, multi-step reasoning, or combined filters. Write your plan before calling data tools.
 - aggregate — group by a column and count/sum/avg/min/max/median. Supports datePart ("year", "month", "month_year", "quarter") to extract date parts from a date column. Use rowFilters to pre-filter rows (e.g. year=2025) before grouping.
-- query_rows — fetch real rows with optional filters. Use for row-level lookups and listing specific entries.
+- query_rows — fetch real rows with optional filters and sorting. Use for row-level lookups, listing specific entries, and finding the first/last row (orderBy + limit:1).
 - distinct_values — list the unique values of a column with counts, beyond the few shown above.
 
 IMPORTANT: The tool names above are internal implementation details. NEVER mention them in your responses. When you hit a limitation, describe it in plain user-facing language only.

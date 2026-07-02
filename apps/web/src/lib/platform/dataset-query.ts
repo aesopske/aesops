@@ -82,7 +82,12 @@ function whereClause(filters: Filter[] | undefined, dq: DatasetQuery): string {
 
 export function queryRows(
     dq: DatasetQuery,
-    opts: { filters?: Filter[]; columns?: string[]; limit?: number } = {},
+    opts: {
+        filters?: Filter[]
+        columns?: string[]
+        limit?: number
+        orderBy?: { column: string; direction?: 'asc' | 'desc' }
+    } = {},
 ): { rows: Row[]; matched: number } {
     const limit = opts.limit === 0 ? 0 : clamp(opts.limit ?? 20, 1, 100)
     const where = whereClause(opts.filters, dq)
@@ -96,7 +101,10 @@ export function queryRows(
         const sel = opts.columns?.length
             ? opts.columns.map((c) => ident(c, dq)).join(', ')
             : '*'
-        rows = dq.run(`SELECT ${sel} FROM ${dq.ref} ${where} LIMIT ${limit}`)
+        const order = opts.orderBy
+            ? `ORDER BY ${sortExpr(ident(opts.orderBy.column, dq))} ${opts.orderBy.direction === 'desc' ? 'DESC' : 'ASC'} NULLS LAST`
+            : ''
+        rows = dq.run(`SELECT ${sel} FROM ${dq.ref} ${where} ${order} LIMIT ${limit}`)
     }
     return { rows, matched }
 }
@@ -105,6 +113,14 @@ export function queryRows(
 // date formats — mirrors the leniency of the old JS `new Date(...)` path.
 function tsExpr(colSql: string): string {
     return `coalesce(TRY_CAST(${colSql} AS TIMESTAMP), TRY_STRPTIME(CAST(${colSql} AS VARCHAR), ['%b %Y', '%B %Y', '%b %d, %Y', '%B %d, %Y', '%d-%m-%Y', '%d/%m/%Y', '%m/%d/%Y', '%Y-%m-%d']))`
+}
+
+// Orders rows chronologically when the column parses as a date, numerically
+// otherwise — lets callers sort by date or by magnitude without knowing the
+// column's underlying type upfront. Both branches resolve to DOUBLE (epoch
+// seconds for dates) so they coalesce without a type mismatch.
+function sortExpr(colSql: string): string {
+    return `coalesce(epoch(${tsExpr(colSql)}), TRY_CAST(${colSql} AS DOUBLE))`
 }
 
 function keyExpr(colSql: string, datePart?: DatePart): string {

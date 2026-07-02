@@ -34,7 +34,7 @@ export function buildDatasetTools(dq: DatasetQuery) {
 
         query_rows: tool({
             description:
-                'Return real rows from the dataset, optionally filtered by column conditions. Use for row-level lookups and listing specific entries. Returns up to `limit` rows plus the total number of matching rows.',
+                'Return real rows from the dataset, optionally filtered and sorted. Use for row-level lookups, listing specific entries, and finding the first/last (earliest/latest by date, or highest/lowest by a numeric column) — sort with orderBy and pass limit:1. Rows are capped at 100 per call regardless of the limit passed; the response always includes the true total matched count. Never request a large limit to fetch most/all of a dataset — use orderBy + a small limit, or aggregate, instead.',
             parameters: z.object({
                 filters: z
                     .array(filterSchema)
@@ -44,11 +44,21 @@ export function buildDatasetTools(dq: DatasetQuery) {
                     .array(z.string())
                     .optional()
                     .describe('Subset of columns to return. Omit for all columns.'),
-                limit: z.number().int().min(0).max(100).optional().describe('Max rows to return (default 20). Pass 0 to return only the matched count with no rows.'),
+                orderBy: z
+                    .object({
+                        column: z.string().describe('Exact column name to sort by.'),
+                        direction: z
+                            .enum(['asc', 'desc'])
+                            .optional()
+                            .describe('Sort direction (default asc). Use "asc" for earliest/first/lowest, "desc" for latest/last/highest.'),
+                    })
+                    .optional()
+                    .describe('Sort before applying limit. Combine with limit:1 to fetch a single endpoint row — e.g. the earliest and latest rows for a growth-rate or ROI calculation.'),
+                limit: z.number().int().min(0).optional().describe('Max rows to return (default 20, hard-capped at 100). Pass 0 to return only the matched count with no rows.'),
             }),
-            execute: async ({ filters, columns, limit }) => {
+            execute: async ({ filters, columns, orderBy, limit }) => {
                 try {
-                    return queryRows(dq, { filters, columns, limit })
+                    return queryRows(dq, { filters, columns, orderBy, limit })
                 } catch (err) {
                     return friendlyError(err)
                 }
@@ -79,7 +89,7 @@ export function buildDatasetTools(dq: DatasetQuery) {
                     .array(filterSchema)
                     .optional()
                     .describe('Filter rows before grouping (AND-combined). Use op "in" with a comma-separated value to match a list, e.g. "Nairobi,Mombasa,Nakuru".'),
-                limit: z.number().int().min(0).max(5000).optional().describe('Max groups to return (default 20). Set higher for 2D groupBy or date columns with many unique values.'),
+                limit: z.number().int().min(0).optional().describe('Max groups to return (default 20, hard-capped at 5000). Set higher for 2D groupBy or date columns with many unique values.'),
             }),
             execute: async ({ groupBy, datePart, metric, rowFilters, limit }) => {
                 try {
@@ -95,7 +105,7 @@ export function buildDatasetTools(dq: DatasetQuery) {
                 'List the unique values of a column with their counts (beyond the top few in the schema summary). Use to discover what values exist before filtering.',
             parameters: z.object({
                 column: z.string().describe('Exact column name.'),
-                limit: z.number().int().min(0).max(200).optional().describe('Max values to return (default 50). Pass 0 to return only the total count.'),
+                limit: z.number().int().min(0).optional().describe('Max values to return (default 50, hard-capped at 200). Pass 0 to return only the total count.'),
             }),
             execute: async ({ column, limit }) => {
                 try {
