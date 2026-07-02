@@ -7,6 +7,9 @@ import {
     Line,
     AreaChart,
     Area,
+    PieChart,
+    Pie,
+    Cell,
     XAxis,
     YAxis,
     CartesianGrid,
@@ -21,7 +24,7 @@ import { C, TOOLTIP_STYLE, TICK_STYLE } from '@/lib/platform/chart-theme'
 const PALETTE = [C.c1, C.c2, C.c3, C.c4, C.c5]
 
 type InlineChartConfig = {
-    chartType: 'bar' | 'line' | 'area'
+    chartType: 'bar' | 'line' | 'area' | 'pie' | 'donut'
     title?: string
     xKey: string
     series: { key: string; label?: string }[]
@@ -43,7 +46,11 @@ function isValidConfig(c: unknown): c is InlineChartConfig {
     if (!c || typeof c !== 'object') return false
     const cfg = c as Partial<InlineChartConfig>
     return (
-        (cfg.chartType === 'bar' || cfg.chartType === 'line' || cfg.chartType === 'area') &&
+        (cfg.chartType === 'bar' ||
+            cfg.chartType === 'line' ||
+            cfg.chartType === 'area' ||
+            cfg.chartType === 'pie' ||
+            cfg.chartType === 'donut') &&
         typeof cfg.xKey === 'string' &&
         Array.isArray(cfg.series) &&
         cfg.series.length > 0 &&
@@ -94,6 +101,42 @@ export function DatasetChartBlock({ code, isIncomplete }: Props) {
 
     const { chartType, title, xKey, series, data } = config
     const showLegend = series.length > 1
+
+    if (chartType === 'pie' || chartType === 'donut') {
+        const valueKey = series[0]!.key
+        return (
+            <Shell title={title}>
+                <div style={{ width: '100%', height: 256 }}>
+                    <ResponsiveContainer
+                        width='100%'
+                        height='100%'
+                        initialDimension={{ width: 320, height: 256 }}
+                    >
+                        <PieChart>
+                            <Pie
+                                data={data}
+                                dataKey={valueKey}
+                                nameKey={xKey}
+                                cx='50%'
+                                cy='50%'
+                                outerRadius={90}
+                                innerRadius={chartType === 'donut' ? 55 : 0}
+                                paddingAngle={chartType === 'donut' ? 2 : 0}
+                                stroke='var(--card)'
+                                strokeWidth={2}
+                            >
+                                {data.map((_, i) => (
+                                    <Cell key={i} fill={PALETTE[i % PALETTE.length]} />
+                                ))}
+                            </Pie>
+                            <Tooltip contentStyle={TOOLTIP_STYLE} />
+                            <Legend wrapperStyle={{ fontSize: 11 }} />
+                        </PieChart>
+                    </ResponsiveContainer>
+                </div>
+            </Shell>
+        )
+    }
 
     const sharedAxes = (
         <>
