@@ -21,7 +21,7 @@ export async function POST(req: NextRequest) {
     }
 
     try {
-        const insights = await generateInsights(docName, metadata)
+        const insights = await generateInsights(docName, metadata, doc.description)
         await documentService.saveInsights(documentId, insights)
         return NextResponse.json({ ok: true })
     } catch (err) {

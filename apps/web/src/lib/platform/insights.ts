@@ -2,7 +2,25 @@ import { generateText } from 'ai'
 import { google } from '@ai-sdk/google'
 import type { DocumentMetadata } from '@repo/db/schema'
 
-export async function generateInsights(name: string, meta: DocumentMetadata): Promise<string> {
+// Descriptions are stored as Tiptap/ProseMirror JSON; flatten to plain text
+// for the prompt. Marks (bold, italic, …) are dropped, block boundaries become
+// newlines.
+const BLOCK_TYPES = new Set(['paragraph', 'heading', 'listItem'])
+
+function tiptapToPlainText(node: unknown): string {
+    if (!node || typeof node !== 'object') return ''
+    const n = node as { type?: string; text?: string; content?: unknown[] }
+    if (n.text) return n.text
+    const inner = (n.content ?? []).map(tiptapToPlainText).join('')
+    return n.type && BLOCK_TYPES.has(n.type) ? `${inner}\n` : inner
+}
+
+export async function generateInsights(
+    name: string,
+    meta: DocumentMetadata,
+    description?: unknown,
+): Promise<string> {
+    const descriptionText = description ? tiptapToPlainText(description).trim() : ''
     const columnSummary = meta.columns
         .map((col) => {
             const parts = [`  - ${col.name} (${col.dtype})`]
@@ -29,7 +47,7 @@ export async function generateInsights(name: string, meta: DocumentMetadata): Pr
 
 Dataset: ${name}
 Rows: ${meta.rowCount.toLocaleString()} · Columns: ${meta.columnCount}${meta.analyzedSheet ? ` · Sheet: ${meta.analyzedSheet}` : ''}
-
+${descriptionText ? `\nDescription provided by the uploader:\n${descriptionText}\n` : ''}
 Columns:
 ${columnSummary}
 
