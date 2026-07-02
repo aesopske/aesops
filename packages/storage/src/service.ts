@@ -66,8 +66,6 @@ export class DocumentService {
         doc: { provider: string; storageKey: string; url: string },
         opts?: SignedDownloadOptions,
     ): Promise<string> {
-        // Legacy UploadThing files are public; serve the stored URL directly.
-        if (doc.provider === 'uploadthing') return doc.url
         return this.resolveProvider(doc.provider).getSignedDownloadUrl(doc.storageKey, opts)
     }
 

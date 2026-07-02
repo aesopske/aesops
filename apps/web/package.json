@@ -48,7 +48,6 @@
     "@trpc/server": "^11.1.2",
     "@types/react": "^19.1.2",
     "@types/speakingurl": "^13.0.6",
-    "@uploadthing/react": "^7.3.3",
     "@vercel/analytics": "^1.5.0",
     "@vercel/speed-insights": "^1.2.0",
     "ai": "^4.3.13",
@@ -80,7 +79,6 @@
     "styled-components": "^6.4.1",
     "superjson": "^2.2.2",
     "tailwind-merge": "^3.2.0",
-    "uploadthing": "^7.7.4",
     "web-worker": "^1.5.0",
     "xlsx": "^0.18.5",
     "zod": "3.25.76"

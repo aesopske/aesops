@@ -16,8 +16,7 @@
     "@repo/db": "workspace:*",
     "@repo/env": "workspace:*",
     "drizzle-orm": "^0.43.1",
-    "server-only": "^0.0.1",
-    "uploadthing": "^7.7.2"
+    "server-only": "^0.0.1"
   },
   "devDependencies": {
     "@repo/config": "workspace:*",
