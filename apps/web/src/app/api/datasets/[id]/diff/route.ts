@@ -1,8 +1,12 @@
 import { type NextRequest, NextResponse } from 'next/server'
 import { headers } from 'next/headers'
+import { captureException } from '@sentry/core'
 import { auth } from '@repo/auth'
 import { documentService } from '@repo/storage'
 import { diffVersions } from '@/lib/platform/dataset-diff'
+import { logger } from '@/lib/platform/logger'
+
+const ROUTE = 'datasets/diff'
 
 export const maxDuration = 60
 
@@ -75,11 +79,11 @@ export async function GET(
         }
         return NextResponse.json(diff)
     } catch (err) {
-        console.error(
-            '[datasets/diff] failed for',
-            `${fromId}..${toId}`,
-            err instanceof Error ? err.message : err,
-        )
+        captureException(err, { tags: { route: ROUTE } })
+        logger.error(ROUTE, err instanceof Error ? err.message : String(err), {
+            from: fromId,
+            to: toId,
+        })
         return NextResponse.json({ error: 'Diff failed' }, { status: 500 })
     }
 }

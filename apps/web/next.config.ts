@@ -31,6 +31,12 @@ const nextConfig: NextConfig = {
     // Keep DuckDB-WASM out of the bundle so its .wasm / worker files stay on
     // disk and require.resolve works at runtime (and they get traced for deploy).
     serverExternalPackages: ['@duckdb/duckdb-wasm'],
+    // The dist path is resolved dynamically at runtime (duckdb.ts), so Next's
+    // output file tracer can't see it statically — include it explicitly or
+    // the .cjs/.wasm/.worker files are missing from the deployed Lambda.
+    outputFileTracingIncludes: {
+        '/api/**/*': ['./node_modules/@duckdb/duckdb-wasm/dist/**'],
+    },
 }
 
 export default withSentryConfig(nextConfig, {
