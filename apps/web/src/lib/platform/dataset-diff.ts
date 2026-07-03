@@ -54,22 +54,23 @@ export async function diffVersions(
             }
         }
 
-        // Both Parquet files are registered in the same DuckDB instance (shared
-        // connection), so one query can reference both refs. EXCEPT matches by
-        // position, so both SELECTs list the common columns explicitly.
+        // Each ref is a read_parquet('<signed-url>') the remote executor can
+        // read directly, so one query can reference both regardless of which
+        // dataset's run() executes it. EXCEPT matches by position, so both
+        // SELECTs list the common columns explicitly.
         const run = from.dq.run
         const cols = common.map(quoteIdent).join(', ')
         const addedSet = `SELECT ${cols} FROM ${to.dq.ref} EXCEPT ALL SELECT ${cols} FROM ${from.dq.ref}`
         const removedSet = `SELECT ${cols} FROM ${from.dq.ref} EXCEPT ALL SELECT ${cols} FROM ${to.dq.ref}`
 
-        const addedCount = Number(
-            run(`SELECT count(*)::INT AS n FROM (${addedSet})`)[0]?.n ?? 0,
-        )
-        const removedCount = Number(
-            run(`SELECT count(*)::INT AS n FROM (${removedSet})`)[0]?.n ?? 0,
-        )
-        const addedRows = run(`SELECT * FROM (${addedSet}) LIMIT ${SAMPLE_LIMIT}`)
-        const removedRows = run(`SELECT * FROM (${removedSet}) LIMIT ${SAMPLE_LIMIT}`)
+        const [addedCountResult, removedCountResult, addedRows, removedRows] = await Promise.all([
+            run(`SELECT count(*)::INT AS n FROM (${addedSet})`),
+            run(`SELECT count(*)::INT AS n FROM (${removedSet})`),
+            run(`SELECT * FROM (${addedSet}) LIMIT ${SAMPLE_LIMIT}`),
+            run(`SELECT * FROM (${removedSet}) LIMIT ${SAMPLE_LIMIT}`),
+        ])
+        const addedCount = Number(addedCountResult[0]?.n ?? 0)
+        const removedCount = Number(removedCountResult[0]?.n ?? 0)
 
         return {
             commonColumns: common,

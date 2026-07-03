@@ -12,6 +12,16 @@ export const env = createEnv({
         SANITY_API_TOKEN: z.string({
             message: 'SANITY_API_TOKEN is required',
         }),
+        // Remote DuckDB query executor (native DuckDB on Python/Vercel) — see
+        // apps/duckdb-executor. Replaces the in-process @duckdb/duckdb-wasm
+        // instance, which couldn't reliably autoload extensions in this
+        // Lambda sandbox.
+        DUCKDB_EXECUTOR_URL: z.string({
+            message: 'DUCKDB_EXECUTOR_URL is required',
+        }),
+        DUCKDB_EXECUTOR_SECRET: z.string({
+            message: 'DUCKDB_EXECUTOR_SECRET is required',
+        }),
     },
     client: {
         NEXT_PUBLIC_DEMO_CREDENTIALS: z.string().optional(),
@@ -25,5 +35,7 @@ export const env = createEnv({
         GEMINI_API_KEY: process.env.GEMINI_API_KEY,
         GOOGLE_GENERATIVE_AI_API_KEY: process.env.GOOGLE_GENERATIVE_AI_API_KEY,
         SANITY_API_TOKEN: process.env.SANITY_API_TOKEN,
+        DUCKDB_EXECUTOR_URL: process.env.DUCKDB_EXECUTOR_URL,
+        DUCKDB_EXECUTOR_SECRET: process.env.DUCKDB_EXECUTOR_SECRET,
     },
 })

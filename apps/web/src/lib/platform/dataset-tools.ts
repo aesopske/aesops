@@ -58,7 +58,7 @@ export function buildDatasetTools(dq: DatasetQuery) {
             }),
             execute: async ({ filters, columns, orderBy, limit }) => {
                 try {
-                    return queryRows(dq, { filters, columns, orderBy, limit })
+                    return await queryRows(dq, { filters, columns, orderBy, limit })
                 } catch (err) {
                     return friendlyError(err)
                 }
@@ -93,7 +93,7 @@ export function buildDatasetTools(dq: DatasetQuery) {
             }),
             execute: async ({ groupBy, datePart, metric, rowFilters, limit }) => {
                 try {
-                    return { groups: aggregate(dq, { groupBy, datePart: datePart as DatePart | undefined, metric, rowFilters, limit }) }
+                    return { groups: await aggregate(dq, { groupBy, datePart: datePart as DatePart | undefined, metric, rowFilters, limit }) }
                 } catch (err) {
                     return friendlyError(err)
                 }
@@ -109,7 +109,7 @@ export function buildDatasetTools(dq: DatasetQuery) {
             }),
             execute: async ({ column, limit }) => {
                 try {
-                    return { values: distinctValues(dq, { column, limit }) }
+                    return { values: await distinctValues(dq, { column, limit }) }
                 } catch (err) {
                     return friendlyError(err)
                 }

@@ -25,20 +25,22 @@ export function ThreadSourceBadge({
 }: Props) {
     const spanCls =
         variant === 'dark'
-            ? 'inline-flex items-center gap-1.5 rounded-full border border-primary-foreground/20 bg-primary-foreground/10 px-2.5 py-0.5 text-xs text-primary-foreground/70'
-            : 'inline-flex items-center gap-1.5 rounded-full border border-border px-2.5 py-0.5 text-xs text-muted-foreground'
+            ? 'inline-flex max-w-full min-w-0 items-center gap-1.5 rounded-full border border-primary-foreground/20 bg-primary-foreground/10 px-2.5 py-0.5 text-xs text-primary-foreground/70'
+            : 'inline-flex max-w-full min-w-0 items-center gap-1.5 rounded-full border border-border px-2.5 py-0.5 text-xs text-muted-foreground'
     const linkCls =
         variant === 'dark'
-            ? 'hover:underline underline-offset-2 hover:text-primary-foreground'
-            : 'hover:underline underline-offset-2 hover:text-foreground'
+            ? 'min-w-0 truncate hover:underline underline-offset-2 hover:text-primary-foreground'
+            : 'min-w-0 truncate hover:underline underline-offset-2 hover:text-foreground'
 
     if (linkedDatasetId && linkedDatasetName) {
         const href = `/datasets/${linkedDatasetSlug ?? linkedDatasetId}`
         return (
             <span className={spanCls}>
-                <Database size={10} />
+                <Database size={10} className='shrink-0' />
                 {isStatic ? (
-                    <span>{linkedDatasetName}</span>
+                    <span className='min-w-0 truncate'>
+                        {linkedDatasetName}
+                    </span>
                 ) : (
                     <Link href={href} className={linkCls}>
                         {linkedDatasetName}
@@ -52,9 +54,11 @@ export function ThreadSourceBadge({
         const href = linkedBlogSlug ? `/${linkedBlogSlug}` : '#'
         return (
             <span className={spanCls}>
-                <BookOpen size={10} />
+                <BookOpen size={10} className='shrink-0' />
                 {isStatic ? (
-                    <span>{linkedBlogTitle}</span>
+                    <span className='min-w-0 truncate'>
+                        {linkedBlogTitle}
+                    </span>
                 ) : (
                     <Link href={href} className={linkCls}>
                         {linkedBlogTitle}

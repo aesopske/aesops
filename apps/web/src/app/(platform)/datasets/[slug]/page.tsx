@@ -62,6 +62,10 @@ export default async function DatasetPage({ params }: Props) {
           })
         : []
 
+    const topQuestions = isLoggedIn
+        ? await api.documents.topQuestions({ datasetId: doc.id })
+        : []
+
     const revisions =
         doc.parentId === null
             ? await api.documents.listRevisions({ parentId: doc.id })
@@ -316,6 +320,7 @@ export default async function DatasetPage({ params }: Props) {
                 <DatasetChatWidget
                     datasetId={doc.id}
                     initialMessages={chatHistory}
+                    suggestedQuestions={topQuestions.map((q) => q.question)}
                 />
             )}
         </main>

@@ -71,22 +71,30 @@ export function DatasetBrowser() {
                 {/* Search sidebar — full width on mobile, sidebar on lg+ */}
                 <aside className='w-full shrink-0 lg:w-72 lg:sticky lg:top-[4.5rem]'>
                     <div className='space-y-4'>
-                        <div className='relative'>
-                            <div className='pointer-events-none absolute inset-y-0 left-3 flex items-center'>
-                                <Search
-                                    size={14}
-                                    className='text-muted-foreground'
+                        <div className='space-y-1.5'>
+                            <label
+                                htmlFor='dataset-search'
+                                className='px-0.5 text-[11px] font-medium uppercase tracking-wider text-muted-foreground'>
+                                Search datasets
+                            </label>
+                            <div className='relative'>
+                                <div className='pointer-events-none absolute inset-y-0 left-3 flex items-center'>
+                                    <Search
+                                        size={14}
+                                        className='text-muted-foreground'
+                                    />
+                                </div>
+                                <input
+                                    id='dataset-search'
+                                    type='search'
+                                    placeholder='Search datasets…'
+                                    value={query}
+                                    onChange={(e) =>
+                                        setQuery(e.target.value || null)
+                                    }
+                                    className='h-11 w-full rounded-lg border border-border bg-card pl-9 pr-3 text-sm outline-none transition placeholder:text-muted-foreground focus:border-ring focus:ring-2 focus:ring-ring/20'
                                 />
                             </div>
-                            <input
-                                type='search'
-                                placeholder='Search datasets…'
-                                value={query}
-                                onChange={(e) =>
-                                    setQuery(e.target.value || null)
-                                }
-                                className='h-9 w-full rounded-lg border border-border bg-card pl-9 pr-3 text-sm outline-none transition placeholder:text-muted-foreground focus:border-ring focus:ring-2 focus:ring-ring/20'
-                            />
                         </div>
 
                         {!isLoading && documents !== undefined && (

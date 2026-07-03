@@ -30,7 +30,7 @@ export default async function DiscussionsPage() {
                 />
                 <div className='relative mx-auto max-w-6xl px-6 py-16 lg:py-20'>
                     <BreadCrumbs color='light' className='mb-8' />
-                    <div className='flex items-end justify-between gap-4'>
+                    <div className='flex flex-col items-start gap-4 sm:flex-row sm:items-end sm:justify-between'>
                         <div className='space-y-2'>
                             <h1 className='text-3xl font-semibold tracking-tight'>
                                 Discussions

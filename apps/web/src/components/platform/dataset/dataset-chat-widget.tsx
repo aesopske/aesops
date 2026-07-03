@@ -20,9 +20,14 @@ type StoredMessage = {
 type Props = {
     datasetId: string
     initialMessages?: StoredMessage[]
+    suggestedQuestions?: string[]
 }
 
-export function DatasetChatWidget({ datasetId, initialMessages }: Props) {
+export function DatasetChatWidget({
+    datasetId,
+    initialMessages,
+    suggestedQuestions,
+}: Props) {
     const [isOpen, setIsOpen] = useState(false)
     const [drawerOpen, setDrawerOpen] = useState(false)
     const mounted = useSyncExternalStore(
@@ -54,11 +59,16 @@ export function DatasetChatWidget({ datasetId, initialMessages }: Props) {
                                 Ask the data
                             </DrawerTitle>
                         </div>
+                        <p className='mt-1 text-[10px] text-muted-foreground'>
+                            Counts and charts are computed live from the full
+                            dataset · Enter to send
+                        </p>
                     </DrawerHeader>
                     <div className='flex min-h-0 flex-1 flex-col overflow-hidden'>
                         <DatasetChat
                             datasetId={datasetId}
                             initialMessages={initialMessages}
+                            suggestedQuestions={suggestedQuestions}
                             className='flex-1 min-h-0 rounded-none border-0 shadow-none'
                         />
                     </div>
@@ -86,6 +96,13 @@ export function DatasetChatWidget({ datasetId, initialMessages }: Props) {
                         <ChevronUp size={15} />
                     )}
                 </button>
+
+                {isOpen && (
+                    <p className='border-b border-border px-4 py-2 text-[10px] text-muted-foreground'>
+                        Counts and charts are computed live from the full
+                        dataset · Enter to send
+                    </p>
+                )}
 
                 <div
                     className={`flex flex-col overflow-hidden transition-all duration-200 ease-in-out ${

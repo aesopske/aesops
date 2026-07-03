@@ -13,15 +13,18 @@ export type AggregateFn = 'count' | 'sum' | 'avg' | 'min' | 'max' | 'median'
 export type DatePart = 'year' | 'month' | 'month_year' | 'quarter'
 
 export type DatasetQuery = {
-    run: (sql: string) => Row[]
+    run: (sql: string) => Promise<Row[]>
     /** FROM-clause reference, e.g. read_parquet('…') */
     ref: string
     columns: ColumnStats[]
 }
 
 export class UnknownColumnError extends Error {
-    constructor(public readonly column: string) {
-        super(`Unknown column: "${column}"`)
+    constructor(
+        public readonly column: string,
+        availableColumns: string[],
+    ) {
+        super(`Unknown column: "${column}". Available columns: ${availableColumns.map((c) => `"${c}"`).join(', ')}`)
         this.name = 'UnknownColumnError'
     }
 }
@@ -31,7 +34,11 @@ function clamp(n: number, lo: number, hi: number): number {
 }
 
 function ident(col: string, dq: DatasetQuery): string {
-    if (!dq.columns.some((c) => c.name === col)) throw new UnknownColumnError(col)
+    if (!dq.columns.some((c) => c.name === col))
+        throw new UnknownColumnError(
+            col,
+            dq.columns.map((c) => c.name),
+        )
     return `"${col.replace(/"/g, '""')}"`
 }
 
@@ -80,7 +87,7 @@ function whereClause(filters: Filter[] | undefined, dq: DatasetQuery): string {
     return `WHERE ${filters.map((f) => buildFilter(f, dq)).join(' AND ')}`
 }
 
-export function queryRows(
+export async function queryRows(
     dq: DatasetQuery,
     opts: {
         filters?: Filter[]
@@ -88,24 +95,24 @@ export function queryRows(
         limit?: number
         orderBy?: { column: string; direction?: 'asc' | 'desc' }
     } = {},
-): { rows: Row[]; matched: number } {
+): Promise<{ rows: Row[]; matched: number }> {
     const limit = opts.limit === 0 ? 0 : clamp(opts.limit ?? 20, 1, 100)
     const where = whereClause(opts.filters, dq)
 
-    const matched = Number(
-        dq.run(`SELECT count(*)::INT AS n FROM ${dq.ref} ${where}`)[0]?.n ?? 0,
-    )
+    const sel = opts.columns?.length
+        ? opts.columns.map((c) => ident(c, dq)).join(', ')
+        : '*'
+    const order = opts.orderBy
+        ? `ORDER BY ${sortExpr(ident(opts.orderBy.column, dq))} ${opts.orderBy.direction === 'desc' ? 'DESC' : 'ASC'} NULLS LAST`
+        : ''
 
-    let rows: Row[] = []
-    if (limit > 0) {
-        const sel = opts.columns?.length
-            ? opts.columns.map((c) => ident(c, dq)).join(', ')
-            : '*'
-        const order = opts.orderBy
-            ? `ORDER BY ${sortExpr(ident(opts.orderBy.column, dq))} ${opts.orderBy.direction === 'desc' ? 'DESC' : 'ASC'} NULLS LAST`
-            : ''
-        rows = dq.run(`SELECT ${sel} FROM ${dq.ref} ${where} ${order} LIMIT ${limit}`)
-    }
+    const [countResult, rows] = await Promise.all([
+        dq.run(`SELECT count(*)::INT AS n FROM ${dq.ref} ${where}`),
+        limit > 0
+            ? dq.run(`SELECT ${sel} FROM ${dq.ref} ${where} ${order} LIMIT ${limit}`)
+            : Promise.resolve([]),
+    ])
+    const matched = Number(countResult[0]?.n ?? 0)
     return { rows, matched }
 }
 
@@ -157,7 +164,7 @@ function metricExpr(dq: DatasetQuery, metric?: { column: string; fn: AggregateFn
     return `round(coalesce(${agg}, 0), 4)::DOUBLE`
 }
 
-export function aggregate(
+export async function aggregate(
     dq: DatasetQuery,
     opts: {
         groupBy: string | string[]
@@ -166,7 +173,7 @@ export function aggregate(
         limit?: number
         rowFilters?: Filter[]
     },
-): { key: string; value: number }[] {
+): Promise<{ key: string; value: number }[]> {
     const limit = opts.limit === 0 ? 0 : clamp(opts.limit ?? 20, 1, 5000)
     if (limit === 0) return []
 
@@ -192,30 +199,27 @@ export function aggregate(
               : `ORDER BY v DESC`
 
     const sql = `SELECT ${keySql} AS k, ${valSql} AS v FROM ${dq.ref} ${where} GROUP BY ${keySql} ${order} LIMIT ${limit}`
-    return dq.run(sql).map((r) => ({ key: String(r.k ?? '∅'), value: Number(r.v ?? 0) }))
+    const rows = await dq.run(sql)
+    return rows.map((r) => ({ key: String(r.k ?? '∅'), value: Number(r.v ?? 0) }))
 }
 
-export function distinctValues(
+export async function distinctValues(
     dq: DatasetQuery,
     opts: { column: string; limit?: number },
-): { total: number; values: { value: string; count: number }[] } {
+): Promise<{ total: number; values: { value: string; count: number }[] }> {
     const limit = opts.limit === 0 ? 0 : clamp(opts.limit ?? 50, 1, 200)
     const col = ident(opts.column, dq)
     const notEmpty = `${col} IS NOT NULL AND CAST(${col} AS VARCHAR) <> ''`
 
-    const total = Number(
-        dq.run(
-            `SELECT count(DISTINCT CAST(${col} AS VARCHAR))::INT AS n FROM ${dq.ref} WHERE ${notEmpty}`,
-        )[0]?.n ?? 0,
-    )
-
-    let values: { value: string; count: number }[] = []
-    if (limit > 0) {
-        values = dq
-            .run(
-                `SELECT CAST(${col} AS VARCHAR) AS value, count(*)::INT AS count FROM ${dq.ref} WHERE ${notEmpty} GROUP BY 1 ORDER BY count DESC LIMIT ${limit}`,
-            )
-            .map((r) => ({ value: String(r.value), count: Number(r.count) }))
-    }
+    const [countResult, valueRows] = await Promise.all([
+        dq.run(`SELECT count(DISTINCT CAST(${col} AS VARCHAR))::INT AS n FROM ${dq.ref} WHERE ${notEmpty}`),
+        limit > 0
+            ? dq.run(
+                  `SELECT CAST(${col} AS VARCHAR) AS value, count(*)::INT AS count FROM ${dq.ref} WHERE ${notEmpty} GROUP BY 1 ORDER BY count DESC LIMIT ${limit}`,
+              )
+            : Promise.resolve([]),
+    ])
+    const total = Number(countResult[0]?.n ?? 0)
+    const values = valueRows.map((r) => ({ value: String(r.value), count: Number(r.count) }))
     return { total, values }
 }

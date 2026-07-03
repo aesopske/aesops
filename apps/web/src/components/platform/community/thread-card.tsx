@@ -39,7 +39,7 @@ export function ThreadCard({ thread }: { thread: Thread }) {
             className='block group rounded-lg border border-border bg-card p-5 hover:border-primary/40 transition-colors'>
             <div className='flex items-start justify-between gap-4'>
                 <div className='min-w-0 flex-1 space-y-1.5'>
-                    <h3 className='font-medium text-md text-foreground group-hover:text-primary transition-colors line-clamp-2'>
+                    <h3 className='font-medium text-lg text-foreground group-hover:text-primary transition-colors line-clamp-2'>
                         {thread.title}
                     </h3>
                     <p className='text-sm text-muted-foreground line-clamp-2'>

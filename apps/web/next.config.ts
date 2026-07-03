@@ -28,9 +28,6 @@ const nextConfig: NextConfig = {
         ],
     },
     transpilePackages: ['@repo/ui'],
-    // Keep DuckDB-WASM out of the bundle so its .wasm / worker files stay on
-    // disk and require.resolve works at runtime (and they get traced for deploy).
-    serverExternalPackages: ['@duckdb/duckdb-wasm'],
 }
 
 export default withSentryConfig(nextConfig, {

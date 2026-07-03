@@ -47,6 +47,11 @@ export class DocumentService {
         return this.resolveProvider(this.uploadProviderName).putObject(key, body, contentType)
     }
 
+    /** Server-side object delete using the current upload provider. */
+    deleteObject(key: string) {
+        return this.resolveProvider(this.uploadProviderName).delete([key])
+    }
+
     async setParquetKey(id: string, parquetKey: string) {
         const [doc] = await this.database
             .update(documents)
