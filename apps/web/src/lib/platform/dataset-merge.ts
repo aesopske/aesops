@@ -50,7 +50,7 @@ export async function mergeDatasetAsCsv(
 		const cols = common.map(quoteIdent).join(', ')
 		const unionClauses = opened.map((o) => `SELECT ${cols} FROM ${o.ds!.dq.ref}`).join(' UNION ALL ')
 
-		const rows = run(`SELECT DISTINCT * FROM (${unionClauses})`)
+		const rows = await run(`SELECT DISTINCT * FROM (${unionClauses})`)
 
 		return rowsToCsv(rows, common)
 	} finally {
