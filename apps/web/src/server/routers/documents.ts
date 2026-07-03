@@ -56,6 +56,7 @@ export const documentsRouter = router({
                 grouped: z.boolean(),
                 description: z.any().optional(),
                 license: z.string().nullish(),
+                source: z.string().nullish(),
                 groupId: z.string().nullish(),
                 parentId: z.string().nullish(),
                 metadata: z.any().nullish(),
@@ -101,6 +102,7 @@ export const documentsRouter = router({
                 metadata: fileMetadata,
                 description: input.description,
                 license: input.license ?? null,
+                source: input.source ?? null,
                 groupId: input.groupId ?? null,
                 aiInsights: null,
                 parentId: input.parentId ?? null,
@@ -157,6 +159,7 @@ export const documentsRouter = router({
                 name: z.string().min(1).optional(),
                 description: z.string().optional(),
                 license: z.string().optional(),
+                source: z.string().optional(),
             }),
         )
         .mutation(async ({ input, ctx }) => {
@@ -176,6 +179,7 @@ export const documentsRouter = router({
                 name: input.name,
                 description: input.description,
                 license: input.license,
+                source: input.source,
             })
         }),
 

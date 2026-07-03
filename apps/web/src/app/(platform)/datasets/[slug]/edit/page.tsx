@@ -50,7 +50,14 @@ export default async function EditDatasetPage({ params }: Props) {
 
             <div className='mx-auto max-w-3xl px-6 py-10'>
                 <EditForm
-                    doc={{ id: doc.id, slug: doc.slug ?? null, name: doc.name, description: doc.description, license: doc.license }}
+                    doc={{
+                        id: doc.id,
+                        slug: doc.slug ?? null,
+                        name: doc.name,
+                        description: doc.description,
+                        license: doc.license,
+                        source: doc.source,
+                    }}
                 />
             </div>
         </main>

@@ -60,6 +60,7 @@ export function UploadForm({ files, parentId, lockedName, onComplete, onCancel }
             grouped: isMultiple,
             description: undefined,
             license: '',
+            source: '',
         },
     })
 
@@ -104,6 +105,7 @@ export function UploadForm({ files, parentId, lockedName, onComplete, onCancel }
                     grouped: values.grouped,
                     description: values.description,
                     license: values.license,
+                    source: values.source,
                     groupId,
                     parentId,
                     metadata,
@@ -209,6 +211,24 @@ export function UploadForm({ files, parentId, lockedName, onComplete, onCancel }
                         <LicenseSelect id='ds-license' value={field.value ?? ''} onChange={field.onChange} />
                     )}
                 />
+            </div>
+
+            <div className='space-y-1.5'>
+                <label htmlFor='ds-source' className='block text-sm font-medium text-foreground'>
+                    Source
+                    <span className='ml-1 font-normal text-muted-foreground'>(optional)</span>
+                </label>
+                <input
+                    id='ds-source'
+                    type='text'
+                    placeholder="e.g. a URL, an original dataset, or 'combined from X and Y'"
+                    {...register('source')}
+                    className='w-full rounded-lg border border-border bg-transparent px-3 py-2.5 text-sm outline-none transition focus:border-ring focus:ring-1 focus:ring-ring/50'
+                />
+                <p className='text-xs text-muted-foreground'>
+                    Where this dataset came from — a URL, the name of an original
+                    dataset, or a note about how it was combined or derived.
+                </p>
             </div>
 
             {uploadError && (

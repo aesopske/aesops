@@ -59,6 +59,9 @@ export const documents = pgTable('documents', {
     metadata: jsonb('metadata').$type<DocumentMetadata>(),
     description: jsonb('description'),
     license: text('license'),
+    // free text: a URL, the name of an original dataset, or a note about how
+    // this dataset was combined/derived
+    source: text('source'),
     groupId: uuid('group_id'),
     aiInsights: text('ai_insights'),
     aiInsightsAt: timestamp('ai_insights_at'),

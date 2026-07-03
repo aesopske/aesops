@@ -50,6 +50,7 @@ export type CreateDocumentInput = {
     metadata?: DocumentMetadata | null
     description?: unknown
     license?: string | null
+    source?: string | null
     groupId?: string | null
     aiInsights?: string | null
     parentId?: string | null

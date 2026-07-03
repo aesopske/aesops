@@ -107,6 +107,7 @@ export class DocumentService {
                 metadata: input.metadata ?? null,
                 description: input.description ?? null,
                 license: input.license ?? null,
+                source: input.source ?? null,
                 groupId: input.groupId ?? null,
                 aiInsights: input.aiInsights ?? null,
                 aiInsightsAt: input.aiInsights ? new Date() : null,
@@ -227,13 +228,17 @@ export class DocumentService {
             .orderBy(asc(documents.createdAt))
     }
 
-    async update(id: string, input: { name?: string; description?: unknown; license?: string | null }) {
+    async update(
+        id: string,
+        input: { name?: string; description?: unknown; license?: string | null; source?: string | null },
+    ) {
         const [doc] = await this.database
             .update(documents)
             .set({
                 ...(input.name !== undefined && { name: input.name }),
                 ...(input.description !== undefined && { description: input.description }),
                 ...(input.license !== undefined && { license: input.license }),
+                ...(input.source !== undefined && { source: input.source }),
                 updatedAt: new Date(),
             })
             .where(eq(documents.id, id))

@@ -7,6 +7,7 @@ export const uploadFormSchema = z.object({
     grouped: z.boolean(),
     description: z.unknown().optional(),
     license: z.string().optional(),
+    source: z.string().optional(),
 })
 
 export type UploadFormValues = z.infer<typeof uploadFormSchema>
@@ -15,6 +16,7 @@ export const editFormSchema = z.object({
     name: z.string().min(1, 'Dataset name is required'),
     description: z.unknown().optional(),
     license: z.string().optional(),
+    source: z.string().optional(),
 })
 
 export type EditFormValues = z.infer<typeof editFormSchema>
