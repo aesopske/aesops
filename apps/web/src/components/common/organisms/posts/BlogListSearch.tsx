@@ -56,22 +56,30 @@ function BlogListSearch({ posts, heading, description }: BlogListSearchProps) {
                     )}
                 </div>
 
-                <div className='relative w-full sm:w-72 shrink-0'>
-                    <Search className='absolute left-3.5 top-1/2 -translate-y-1/2 w-3.5 h-3.5 text-muted-foreground/60 pointer-events-none' />
-                    <input
-                        type='search'
-                        value={query}
-                        onChange={(e) => handleSearch(e.target.value)}
-                        placeholder='Search posts…'
-                        className='w-full pl-9 pr-9 py-2.5 bg-card border border-border rounded-lg text-foreground placeholder:text-muted-foreground/50 text-sm font-sans focus:outline-none focus:ring-1 focus:ring-primary/30 focus:border-primary/50 transition-all duration-200'
-                    />
-                    {query && (
-                        <button
-                            onClick={() => handleSearch('')}
-                            className='absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground/40 hover:text-foreground transition-colors duration-150'>
-                            <X className='w-3.5 h-3.5' />
-                        </button>
-                    )}
+                <div className='w-full space-y-1.5 sm:w-72 shrink-0'>
+                    <label
+                        htmlFor='blog-search'
+                        className='text-[10px] font-mono font-medium tracking-[0.22em] uppercase text-muted-foreground'>
+                        Search posts
+                    </label>
+                    <div className='relative'>
+                        <Search className='absolute left-3.5 top-1/2 -translate-y-1/2 w-3.5 h-3.5 text-muted-foreground/60 pointer-events-none' />
+                        <input
+                            id='blog-search'
+                            type='search'
+                            value={query}
+                            onChange={(e) => handleSearch(e.target.value)}
+                            placeholder='Search posts…'
+                            className='h-11 w-full pl-9 pr-9 bg-card border border-border rounded-lg text-foreground placeholder:text-muted-foreground/50 text-sm font-sans focus:outline-none focus:ring-1 focus:ring-primary/30 focus:border-primary/50 transition-all duration-200'
+                        />
+                        {query && (
+                            <button
+                                onClick={() => handleSearch('')}
+                                className='absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground/40 hover:text-foreground transition-colors duration-150'>
+                                <X className='w-3.5 h-3.5' />
+                            </button>
+                        )}
+                    </div>
                 </div>
             </div>
 

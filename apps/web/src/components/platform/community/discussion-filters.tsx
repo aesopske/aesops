@@ -7,6 +7,7 @@ import {
     SelectTrigger,
     SelectValue,
 } from '@repo/ui/components/select'
+import { cn } from '@repo/ui/lib/utils'
 import { FilterPill } from './filter-pill'
 
 export type Recency = 'all' | 'today' | '7d' | '30d' | 'year'
@@ -27,6 +28,7 @@ type Props = {
     onDatasetChange: (v: string) => void
     onSortChange: (v: Sort) => void
     onReset: () => void
+    bare?: boolean
 }
 
 const RECENCY_OPTIONS: { value: Recency; label: string }[] = [
@@ -67,9 +69,14 @@ export function DiscussionFilters({
     onDatasetChange,
     onSortChange,
     onReset,
+    bare = false,
 }: Props) {
     return (
-        <div className='space-y-5 rounded-xl border border-border bg-card p-4'>
+        <div
+            className={cn(
+                'space-y-5',
+                !bare && 'rounded-xl border border-border bg-card p-4',
+            )}>
             <div className='flex items-center justify-between'>
                 <div className='flex items-center gap-2'>
                     <span className='text-sm font-semibold text-foreground'>Filters</span>
