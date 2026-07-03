@@ -49,7 +49,14 @@ async function getConn() {
                 duckdb.NODE_RUNTIME,
             )
             await db.instantiate()
-            return { db, conn: db.connect() }
+            const conn = db.connect()
+            // Serverless Lambdas only allow writes under /tmp — DuckDB defaults
+            // its extension cache to $HOME (e.g. /home/sbx_user.../.duckdb),
+            // which isn't writable here, so any query that triggers extension
+            // autoload (date/string functions not compiled into core) fails
+            // with ENOENT on mkdir before it ever runs.
+            conn.query(`SET extension_directory='/tmp/duckdb_extensions';`)
+            return { db, conn }
         })()
     }
     return ready
