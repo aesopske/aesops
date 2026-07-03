@@ -20,8 +20,11 @@ export type DatasetQuery = {
 }
 
 export class UnknownColumnError extends Error {
-    constructor(public readonly column: string) {
-        super(`Unknown column: "${column}"`)
+    constructor(
+        public readonly column: string,
+        availableColumns: string[],
+    ) {
+        super(`Unknown column: "${column}". Available columns: ${availableColumns.map((c) => `"${c}"`).join(', ')}`)
         this.name = 'UnknownColumnError'
     }
 }
@@ -31,7 +34,11 @@ function clamp(n: number, lo: number, hi: number): number {
 }
 
 function ident(col: string, dq: DatasetQuery): string {
-    if (!dq.columns.some((c) => c.name === col)) throw new UnknownColumnError(col)
+    if (!dq.columns.some((c) => c.name === col))
+        throw new UnknownColumnError(
+            col,
+            dq.columns.map((c) => c.name),
+        )
     return `"${col.replace(/"/g, '""')}"`
 }
 
