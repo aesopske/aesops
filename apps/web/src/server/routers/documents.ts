@@ -2,8 +2,15 @@ import { z } from 'zod'
 import { TRPCError } from '@trpc/server'
 import { publicProcedure, protectedProcedure, router } from '@/trpc/init'
 import { documentService } from '@repo/storage'
+import { db, chatMessages, and, eq, desc } from '@repo/db'
 import type { DocumentMetadata } from '@repo/db/schema'
 import { computeMetadataDiff } from '@/lib/platform/metadata-diff'
+
+const MIN_DISTINCT_ASKERS = 2
+
+function normalizeQuestion(content: string): string {
+    return content.trim().toLowerCase().replace(/\s+/g, ' ').replace(/[?!.]+$/, '')
+}
 
 const MAX_UPLOAD_BYTES = 32 * 1024 * 1024
 const ALLOWED_MIME = [
@@ -151,6 +158,64 @@ export const documentsRouter = router({
     listRevisions: publicProcedure
         .input(z.object({ parentId: z.string() }))
         .query(({ input }) => documentService.listRevisions(input.parentId)),
+
+    // Questions other users have asked about this dataset, for chat suggestions.
+    // Only surfaces a question once it's been asked by 2+ distinct users, so a
+    // single chatty user (or a one-off odd query) can't dominate the list.
+    topQuestions: publicProcedure
+        .input(
+            z.object({
+                datasetId: z.string(),
+                limit: z.number().int().min(1).max(10).default(4),
+            }),
+        )
+        .query(async ({ input }) => {
+            const rows = await db
+                .select({
+                    content: chatMessages.content,
+                    userId: chatMessages.userId,
+                    createdAt: chatMessages.createdAt,
+                })
+                .from(chatMessages)
+                .where(
+                    and(
+                        eq(chatMessages.datasetId, input.datasetId),
+                        eq(chatMessages.role, 'user'),
+                    ),
+                )
+                .orderBy(desc(chatMessages.createdAt))
+                .limit(500)
+
+            const groups = new Map<
+                string,
+                { question: string; createdAt: Date; userIds: Set<string> }
+            >()
+
+            for (const row of rows) {
+                const key = normalizeQuestion(row.content)
+                if (!key) continue
+                const existing = groups.get(key)
+                if (existing) {
+                    existing.userIds.add(row.userId)
+                } else {
+                    groups.set(key, {
+                        question: row.content.trim(),
+                        createdAt: row.createdAt,
+                        userIds: new Set([row.userId]),
+                    })
+                }
+            }
+
+            return Array.from(groups.values())
+                .filter((g) => g.userIds.size >= MIN_DISTINCT_ASKERS)
+                .sort(
+                    (a, b) =>
+                        b.userIds.size - a.userIds.size ||
+                        b.createdAt.getTime() - a.createdAt.getTime(),
+                )
+                .slice(0, input.limit)
+                .map((g) => ({ question: g.question, count: g.userIds.size }))
+        }),
 
     update: protectedProcedure
         .input(

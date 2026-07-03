@@ -47,10 +47,19 @@ type StoredMessage = {
 type Props = {
     datasetId: string
     initialMessages?: StoredMessage[]
+    suggestedQuestions?: string[]
     className?: string
 }
 
-export function DatasetChat({ datasetId, initialMessages, className }: Props) {
+export function DatasetChat({
+    datasetId,
+    initialMessages,
+    suggestedQuestions,
+    className,
+}: Props) {
+    const starterQuestions = suggestedQuestions?.length
+        ? suggestedQuestions
+        : STARTER_QUESTIONS
     const scrollRef = useRef<HTMLDivElement>(null)
     const textareaRef = useRef<HTMLTextAreaElement>(null)
 
@@ -120,7 +129,7 @@ export function DatasetChat({ datasetId, initialMessages, className }: Props) {
                             </p>
                         </div>
                         <div className='flex flex-wrap justify-center gap-2'>
-                            {STARTER_QUESTIONS.map((q) => (
+                            {starterQuestions.map((q) => (
                                 <button
                                     key={q}
                                     onClick={() => handleStarterClick(q)}

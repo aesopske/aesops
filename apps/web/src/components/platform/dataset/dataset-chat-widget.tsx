@@ -20,9 +20,14 @@ type StoredMessage = {
 type Props = {
     datasetId: string
     initialMessages?: StoredMessage[]
+    suggestedQuestions?: string[]
 }
 
-export function DatasetChatWidget({ datasetId, initialMessages }: Props) {
+export function DatasetChatWidget({
+    datasetId,
+    initialMessages,
+    suggestedQuestions,
+}: Props) {
     const [isOpen, setIsOpen] = useState(false)
     const [drawerOpen, setDrawerOpen] = useState(false)
     const mounted = useSyncExternalStore(
@@ -59,6 +64,7 @@ export function DatasetChatWidget({ datasetId, initialMessages }: Props) {
                         <DatasetChat
                             datasetId={datasetId}
                             initialMessages={initialMessages}
+                            suggestedQuestions={suggestedQuestions}
                             className='flex-1 min-h-0 rounded-none border-0 shadow-none'
                         />
                     </div>
