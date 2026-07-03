@@ -6,6 +6,7 @@ import { Streamdown, type CustomRenderer } from 'streamdown'
 import { SendHorizonal, RotateCcw, Copy, Check } from 'lucide-react'
 import { cn } from '@repo/ui/lib/utils'
 import { DatasetChartBlock } from '@/components/platform/dataset/dataset-chart-block'
+import { DatasetChatLoading } from '@/components/platform/dataset/dataset-chat-loading'
 
 const CHART_RENDERERS: CustomRenderer[] = [
     { component: DatasetChartBlock, language: 'chart' },
@@ -114,9 +115,10 @@ export function DatasetChat({
                 className,
             )}>
             {/* messages */}
-            <div
-                ref={scrollRef}
-                className='flex-1 min-h-0 overflow-y-auto px-6 py-5'>
+            <div className='relative flex min-h-0 flex-1 flex-col'>
+                <div
+                    ref={scrollRef}
+                    className='flex-1 min-h-0 overflow-y-auto px-6 py-5'>
                 {messages.length === 0 ? (
                     <div className='flex h-full flex-col items-center justify-center gap-5 text-center'>
                         <div>
@@ -188,23 +190,7 @@ export function DatasetChat({
                                 </div>
                             ))}
 
-                        {isLoading && (
-                            <div className='flex justify-start'>
-                                <div className='rounded-2xl rounded-tl-sm bg-muted/60 px-4 py-3.5'>
-                                    <div className='flex items-center gap-1'>
-                                        {[0, 1, 2].map((i) => (
-                                            <span
-                                                key={i}
-                                                className='h-1.5 w-1.5 rounded-full bg-muted-foreground/50 animate-bounce'
-                                                style={{
-                                                    animationDelay: `${i * 0.15}s`,
-                                                }}
-                                            />
-                                        ))}
-                                    </div>
-                                </div>
-                            </div>
-                        )}
+                        {isLoading && <DatasetChatLoading />}
 
                         {error && (
                             <div className='rounded-lg border border-destructive/30 bg-destructive/5 px-4 py-3'>
@@ -218,13 +204,13 @@ export function DatasetChat({
                         )}
                     </div>
                 )}
+                </div>
+                <div className='pointer-events-none absolute inset-x-0 bottom-0 h-6 bg-gradient-to-t from-card to-transparent' />
             </div>
 
             {/* input */}
-            <form
-                onSubmit={handleFormSubmit}
-                className='border-t border-border rounded-t-xl'>
-                <div className='relative px-4 pt-3 pb-1'>
+            <form onSubmit={handleFormSubmit} className='p-3 pt-0'>
+                <div className='flex items-end gap-2 rounded-2xl border border-border bg-muted/40 px-4 py-3.5 shadow-sm transition-colors focus-within:border-primary/40 focus-within:bg-card'>
                     <textarea
                         ref={textareaRef}
                         value={input}
@@ -232,9 +218,9 @@ export function DatasetChat({
                         onKeyDown={handleKeyDown}
                         placeholder='Ask a question about this dataset…'
                         rows={1}
-                        className='w-full resize-none bg-transparent pr-11 text-sm leading-relaxed placeholder:text-muted-foreground focus:outline-none'
+                        className='flex-1 resize-none bg-transparent text-sm leading-relaxed placeholder:text-muted-foreground focus:outline-none'
                         style={{
-                            minHeight: '28px',
+                            minHeight: '52px',
                             maxHeight: '192px',
                             overflowY: 'auto',
                         }}
@@ -242,14 +228,10 @@ export function DatasetChat({
                     <button
                         type='submit'
                         disabled={isLoading || !input.trim()}
-                        className='absolute bottom-2 right-4 flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-primary text-primary-foreground transition-colors hover:bg-primary/90 disabled:opacity-40'>
+                        className='flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-primary text-primary-foreground transition-colors hover:bg-primary/90 disabled:opacity-40'>
                         <SendHorizonal size={14} />
                     </button>
                 </div>
-                <p className='px-4 pb-3 text-[10px] text-muted-foreground'>
-                    Counts and charts are computed live from the full dataset ·
-                    Enter to send
-                </p>
             </form>
         </div>
     )

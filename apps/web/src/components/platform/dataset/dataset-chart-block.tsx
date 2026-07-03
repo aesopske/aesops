@@ -15,11 +15,14 @@ import {
     CartesianGrid,
     Tooltip,
     Legend,
+    LabelList,
     ResponsiveContainer,
 } from 'recharts'
 import { Alert, AlertDescription } from '@repo/ui/components/alert'
 import { AlertCircle } from 'lucide-react'
 import { C, TOOLTIP_STYLE, TICK_STYLE } from '@/lib/platform/chart-theme'
+import { ChartDataView } from '@/components/platform/dataset/chart-data-view'
+import { ChartXAxisTick } from '@/components/platform/dataset/chart-x-axis-tick'
 
 const PALETTE = [C.c1, C.c2, C.c3, C.c4, C.c5]
 
@@ -33,13 +36,39 @@ type InlineChartConfig = {
 
 type Props = { code: string; isIncomplete: boolean }
 
-function Shell({ title, children }: { title?: string; children: React.ReactNode }) {
+function Shell({ title, json, children }: { title?: string; json?: string; children: React.ReactNode }) {
     return (
         <div className='not-prose my-4 rounded-xl border border-border bg-card p-4 shadow-sm'>
-            {title && <h4 className='mb-3 text-sm font-medium text-foreground'>{title}</h4>}
-            {children}
+            {json ? (
+                <ChartDataView json={json} title={title}>
+                    {children}
+                </ChartDataView>
+            ) : (
+                <>
+                    {title && <h4 className='mb-3 text-sm font-medium text-foreground'>{title}</h4>}
+                    {children}
+                </>
+            )}
         </div>
     )
+}
+
+// Trend lines read better zoomed to their actual range rather than a forced 0 baseline
+function getLineYDomain(data: Record<string, unknown>[], series: { key: string }[]): [number, number] | undefined {
+    let min = Infinity
+    let max = -Infinity
+    for (const row of data) {
+        for (const s of series) {
+            const value = row[s.key]
+            if (typeof value === 'number') {
+                if (value < min) min = value
+                if (value > max) max = value
+            }
+        }
+    }
+    if (!Number.isFinite(min) || !Number.isFinite(max)) return undefined
+    const padding = (max - min) * 0.1 || Math.abs(max) * 0.05 || 1
+    return [Math.floor(min - padding), Math.ceil(max + padding)]
 }
 
 function isValidConfig(c: unknown): c is InlineChartConfig {
@@ -101,11 +130,14 @@ export function DatasetChartBlock({ code, isIncomplete }: Props) {
 
     const { chartType, title, xKey, series, data } = config
     const showLegend = series.length > 1
+    // Value labels only read cleanly with one series and few enough points to avoid overlap
+    const showValueLabels = series.length === 1 && data.length <= 10
+    const prettyJson = JSON.stringify(config, null, 2)
 
     if (chartType === 'pie' || chartType === 'donut') {
         const valueKey = series[0]!.key
         return (
-            <Shell title={title}>
+            <Shell title={title} json={prettyJson}>
                 <div style={{ width: '100%', height: 256 }}>
                     <ResponsiveContainer
                         width='100%'
@@ -138,27 +170,23 @@ export function DatasetChartBlock({ code, isIncomplete }: Props) {
         )
     }
 
-    const sharedAxes = (
-        <>
-            <XAxis
-                dataKey={xKey}
-                tickLine={false}
-                axisLine={false}
-                tick={TICK_STYLE}
-                interval='preserveStartEnd'
-            />
-            <YAxis
-                tickLine={false}
-                axisLine={false}
-                tick={TICK_STYLE}
-                width={36}
-                domain={['auto', 'auto']}
-            />
-        </>
+    // Show every tick for reasonably-sized datasets; only thin them out (evenly, not
+    // recharts' uneven 'preserveStartEnd') once there are too many to fit legibly
+    const xAxisInterval = data.length > 20 ? Math.ceil(data.length / 12) - 1 : 0
+
+    const xAxis = (
+        <XAxis
+            dataKey={xKey}
+            tickLine={false}
+            axisLine={false}
+            interval={xAxisInterval}
+            height={36}
+            tick={<ChartXAxisTick totalCount={data.length} />}
+        />
     )
 
     return (
-        <Shell title={title}>
+        <Shell title={title} json={prettyJson}>
             {/* Explicit pixel height so ResponsiveContainer always measures > 0 */}
             <div style={{ width: '100%', height: 256 }}>
                 <ResponsiveContainer
@@ -167,33 +195,60 @@ export function DatasetChartBlock({ code, isIncomplete }: Props) {
                     initialDimension={{ width: 320, height: 256 }}
                 >
                     {chartType === 'bar' ? (
-                        <BarChart data={data} margin={{ top: 4, right: 4, bottom: 0, left: 0 }}>
+                        <BarChart data={data} margin={{ top: 20, right: 16, bottom: 0, left: 16 }}>
                             <CartesianGrid strokeDasharray='3 3' stroke='var(--border)' vertical={false} />
-                            {sharedAxes}
+                            {xAxis}
                             <Tooltip contentStyle={TOOLTIP_STYLE} cursor={{ fill: 'var(--muted)', opacity: 0.4 }} />
                             {showLegend && <Legend wrapperStyle={{ fontSize: 11 }} />}
                             {series.map((s, i) => (
-                                <Bar key={s.key} dataKey={s.key} name={s.label ?? s.key} fill={PALETTE[i % PALETTE.length]} radius={[3, 3, 0, 0]} />
+                                <Bar key={s.key} dataKey={s.key} name={s.label ?? s.key} fill={PALETTE[i % PALETTE.length]} radius={[3, 3, 0, 0]}>
+                                    {showValueLabels && <LabelList position='top' offset={12} className='fill-foreground' fontSize={12} />}
+                                </Bar>
                             ))}
                         </BarChart>
                     ) : chartType === 'line' ? (
-                        <LineChart data={data} margin={{ top: 4, right: 4, bottom: 0, left: 0 }}>
-                            <CartesianGrid strokeDasharray='3 3' stroke='var(--border)' />
-                            {sharedAxes}
+                        <LineChart data={data} margin={{ top: 20, right: 16, bottom: 0, left: 0 }}>
+                            <CartesianGrid strokeDasharray='3 3' stroke='var(--border)' vertical={false} />
+                            <XAxis dataKey={xKey} hide height={0} />
+                            <YAxis
+                                tickLine={false}
+                                axisLine={false}
+                                tick={TICK_STYLE}
+                                width={28}
+                                domain={getLineYDomain(data, series) ?? ['auto', 'auto']}
+                            />
                             <Tooltip contentStyle={TOOLTIP_STYLE} />
-                            {showLegend && <Legend wrapperStyle={{ fontSize: 11 }} />}
+                            {showLegend && <Legend wrapperStyle={{ fontSize: 11, paddingTop: 0 }} />}
                             {series.map((s, i) => (
                                 <Line key={s.key} type='monotone' dataKey={s.key} name={s.label ?? s.key} stroke={PALETTE[i % PALETTE.length]} strokeWidth={2} dot={false} />
                             ))}
                         </LineChart>
                     ) : (
-                        <AreaChart data={data} margin={{ top: 4, right: 4, bottom: 0, left: 0 }}>
-                            <CartesianGrid strokeDasharray='3 3' stroke='var(--border)' />
-                            {sharedAxes}
+                        <AreaChart data={data} margin={{ top: 4, right: 16, bottom: 0, left: 16 }}>
+                            <CartesianGrid strokeDasharray='3 3' stroke='var(--border)' vertical={false} />
+                            {xAxis}
                             <Tooltip contentStyle={TOOLTIP_STYLE} />
                             {showLegend && <Legend wrapperStyle={{ fontSize: 11 }} />}
+                            <defs>
+                                {series.map((s, i) => (
+                                    <linearGradient key={s.key} id={`fill-${s.key}`} x1='0' y1='0' x2='0' y2='1'>
+                                        <stop offset='5%' stopColor={PALETTE[i % PALETTE.length]} stopOpacity={0.8} />
+                                        <stop offset='95%' stopColor={PALETTE[i % PALETTE.length]} stopOpacity={0.1} />
+                                    </linearGradient>
+                                ))}
+                            </defs>
                             {series.map((s, i) => (
-                                <Area key={s.key} type='monotone' dataKey={s.key} name={s.label ?? s.key} stroke={PALETTE[i % PALETTE.length]} fill={PALETTE[i % PALETTE.length]} fillOpacity={0.15} strokeWidth={2} />
+                                <Area
+                                    key={s.key}
+                                    type='monotone'
+                                    dataKey={s.key}
+                                    name={s.label ?? s.key}
+                                    stackId='a'
+                                    stroke={PALETTE[i % PALETTE.length]}
+                                    fill={`url(#fill-${s.key})`}
+                                    fillOpacity={0.4}
+                                    strokeWidth={2}
+                                />
                             ))}
                         </AreaChart>
                     )}

@@ -59,6 +59,10 @@ export function DatasetChatWidget({
                                 Ask the data
                             </DrawerTitle>
                         </div>
+                        <p className='mt-1 text-[10px] text-muted-foreground'>
+                            Counts and charts are computed live from the full
+                            dataset · Enter to send
+                        </p>
                     </DrawerHeader>
                     <div className='flex min-h-0 flex-1 flex-col overflow-hidden'>
                         <DatasetChat
@@ -92,6 +96,13 @@ export function DatasetChatWidget({
                         <ChevronUp size={15} />
                     )}
                 </button>
+
+                {isOpen && (
+                    <p className='border-b border-border px-4 py-2 text-[10px] text-muted-foreground'>
+                        Counts and charts are computed live from the full
+                        dataset · Enter to send
+                    </p>
+                )}
 
                 <div
                     className={`flex flex-col overflow-hidden transition-all duration-200 ease-in-out ${
