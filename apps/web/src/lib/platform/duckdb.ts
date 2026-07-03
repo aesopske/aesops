@@ -1,5 +1,6 @@
 import 'server-only'
 import { createRequire } from 'node:module'
+import { existsSync, mkdirSync, copyFileSync } from 'node:fs'
 import path from 'node:path'
 import * as duckdb from '@duckdb/duckdb-wasm/blocking'
 
@@ -40,6 +41,31 @@ function bundles() {
     }
 }
 
+// Must match scripts/fetch-duckdb-extensions.mjs — the version segment is
+// DuckDB's internal C++ engine version bundled inside @duckdb/duckdb-wasm,
+// read off a production "extension not available" error, not the npm version.
+const DUCKDB_ENGINE_VERSION = 'v1.5.4'
+const EXTENSION_PLATFORMS = ['wasm_eh', 'wasm_mvp']
+const TMP_EXTENSION_DIR = '/tmp/duckdb_extensions'
+
+// read_parquet() needs the `parquet` extension, which the Node build doesn't
+// bundle statically — DuckDB tries to fetch it over the network on first use,
+// and that fetch reliably fails inside Vercel's Lambda sandbox. Copying the
+// build-time-downloaded copy into the extension cache makes autoload find it
+// locally instead, so no runtime network call ever happens.
+function seedExtensionCache() {
+    const bundledRoot = path.join(process.cwd(), 'duckdb-extensions', DUCKDB_ENGINE_VERSION)
+    for (const platform of EXTENSION_PLATFORMS) {
+        const src = path.join(bundledRoot, platform, 'parquet.duckdb_extension.wasm')
+        if (!existsSync(src)) continue
+        const destDir = path.join(TMP_EXTENSION_DIR, DUCKDB_ENGINE_VERSION, platform)
+        const dest = path.join(destDir, 'parquet.duckdb_extension.wasm')
+        if (existsSync(dest)) continue
+        mkdirSync(destDir, { recursive: true })
+        copyFileSync(src, dest)
+    }
+}
+
 async function getConn() {
     if (!ready) {
         ready = (async () => {
@@ -55,7 +81,8 @@ async function getConn() {
             // which isn't writable here, so any query that triggers extension
             // autoload (date/string functions not compiled into core) fails
             // with ENOENT on mkdir before it ever runs.
-            conn.query(`SET extension_directory='/tmp/duckdb_extensions';`)
+            seedExtensionCache()
+            conn.query(`SET extension_directory='${TMP_EXTENSION_DIR}';`)
             return { db, conn }
         })()
     }

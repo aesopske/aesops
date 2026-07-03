@@ -9,6 +9,10 @@ const duckdbNodeRuntimeFiles = [
     './node_modules/@duckdb/duckdb-wasm/dist/duckdb-node-eh.worker.cjs',
     './node_modules/@duckdb/duckdb-wasm/dist/duckdb-mvp.wasm',
     './node_modules/@duckdb/duckdb-wasm/dist/duckdb-eh.wasm',
+    // Pre-fetched by scripts/fetch-duckdb-extensions.mjs — not under
+    // node_modules, so the tracer has no other way to discover these; they're
+    // never require()'d, just copied into place by duckdb.ts at runtime.
+    './duckdb-extensions/**',
 ]
 
 const nextConfig: NextConfig = {
