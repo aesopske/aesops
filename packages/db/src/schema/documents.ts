@@ -46,6 +46,8 @@ export const documents = pgTable('documents', {
     name: text('name').notNull(),
     url: text('url').notNull(),
     storageKey: text('storage_key').notNull(),
+    // derived Parquet artifact (query/version substrate); null until generated
+    parquetKey: text('parquet_key'),
     size: integer('size').notNull(),
     mimeType: text('mime_type').notNull(),
     // which provider stored this file — keeps urls/keys portable across providers
@@ -57,6 +59,9 @@ export const documents = pgTable('documents', {
     metadata: jsonb('metadata').$type<DocumentMetadata>(),
     description: jsonb('description'),
     license: text('license'),
+    // free text: a URL, the name of an original dataset, or a note about how
+    // this dataset was combined/derived
+    source: text('source'),
     groupId: uuid('group_id'),
     aiInsights: text('ai_insights'),
     aiInsightsAt: timestamp('ai_insights_at'),

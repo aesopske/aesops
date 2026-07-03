@@ -1,8 +1,46 @@
+import { headers } from 'next/headers'
+import { auth } from '@repo/auth'
 import Animate from '@/components/common/atoms/Animate'
 import DatasetShowcase from '@/components/common/DatasetShowcase'
 import { DatasetBrowser } from '@/components/platform/datasets/dataset-browser'
 
-export default function DatasetsPage() {
+export default async function DatasetsPage() {
+    const session = await auth.api.getSession({ headers: await headers() })
+
+    if (session) {
+        return (
+            <main>
+                <section className='relative bg-primary text-primary-foreground'>
+                    <div
+                        aria-hidden
+                        className='absolute inset-0 opacity-[0.06]'
+                        style={{
+                            backgroundImage:
+                                'radial-gradient(circle, white 1px, transparent 1px)',
+                            backgroundSize: '22px 22px',
+                        }}
+                    />
+                    <div className='relative mx-auto max-w-6xl px-6 py-16 lg:py-20'>
+                        <div className='space-y-2'>
+                            <h1 className='text-3xl font-semibold tracking-tight'>
+                                Explore community datasets
+                            </h1>
+                            <p className='max-w-md text-sm text-primary-foreground/70'>
+                                Browse and search datasets shared by the
+                                community. Click any card to inspect columns,
+                                data types, and statistics.
+                            </p>
+                        </div>
+                    </div>
+                </section>
+
+                <div className='mx-auto max-w-6xl px-6 py-20'>
+                    <DatasetBrowser />
+                </div>
+            </main>
+        )
+    }
+
     return (
         <main>
             <section className='relative overflow-hidden bg-primary'>

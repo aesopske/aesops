@@ -1,5 +1,6 @@
 import { streamText } from 'ai'
 import { google } from '@ai-sdk/google'
+import { captureException } from '@sentry/core'
 import { groq } from 'next-sanity'
 import { z } from 'zod'
 import { auth } from '@repo/auth'
@@ -8,7 +9,12 @@ import { db, threads, comments, asc, and, eq, sql } from '@repo/db'
 import type { DocumentMetadata } from '@repo/db/schema'
 import { sanityFetch } from '~sanity/utils/fetch'
 import { buildDatasetTools } from '@/lib/platform/dataset-tools'
-import type { QueryableDoc } from '@/lib/platform/dataset-query'
+import { openDataset, type OpenableDoc } from '@/lib/platform/dataset-source'
+import { recordAiUsage } from '@/lib/platform/ai-usage'
+import { logger } from '@/lib/platform/logger'
+
+const ROUTE = 'ai/comment-reply'
+const MODEL = 'gemini-2.5-flash'
 
 function stripHtml(html: string) {
     return html.replace(/<[^>]*>/g, '').trim()
@@ -55,7 +61,7 @@ const bodySchema = z.object({
 
 const blogQuery = groq`*[_id == $id][0]{ title, "text": pt::text(body) }`
 
-type EntityContext = { system: string; doc?: QueryableDoc } | null
+type EntityContext = { system: string; doc?: OpenableDoc } | null
 
 async function discussionContext(entityId: string): Promise<EntityContext> {
     const [thread] = await db
@@ -66,7 +72,7 @@ async function discussionContext(entityId: string): Promise<EntityContext> {
     if (!thread) return null
 
     let datasetContext = ''
-    let queryableDoc: QueryableDoc | undefined
+    let queryableDoc: OpenableDoc | undefined
     if (thread.linkedDatasetId) {
         const doc = await documentService
             .getById(thread.linkedDatasetId)
@@ -108,7 +114,7 @@ ${meta.sampleRows?.length ? `\nSample data (first ${Math.min(meta.sampleRows.len
 You have tools that query the full linked dataset on demand:
 - think — call this FIRST for any question involving time periods, multi-step reasoning, or combined filters. Write your plan before calling data tools.
 - aggregate — group by a column and count/sum/avg/min/max/median. Supports datePart ("year", "month", "month_year", "quarter") to extract date parts from a date column. Use rowFilters to pre-filter rows (e.g. year=2025) before grouping.
-- query_rows — fetch real rows with optional filters. Use for row-level lookups and listing specific entries.
+- query_rows — fetch real rows with optional filters and sorting. Use for row-level lookups, listing specific entries, and finding the first/last row (orderBy + limit:1).
 - distinct_values — list the unique values of a column with counts, beyond the few shown above.
 
 IMPORTANT: The tool names above are internal implementation details. NEVER mention them in your responses. When you hit a limitation, describe it in plain user-facing language only.
@@ -193,10 +199,22 @@ export async function POST(req: Request) {
 
     const system = `${ctx.system}${chain.length > 0 ? `\n\nComment thread leading to this mention (oldest first):\n${history}` : ''}`
 
-    const tools = ctx.doc ? buildDatasetTools(ctx.doc) : undefined
+    let dataset: Awaited<ReturnType<typeof openDataset>> = null
+    if (ctx.doc) {
+        try {
+            dataset = await openDataset(ctx.doc)
+        } catch (err) {
+            captureException(err, { tags: { route: ROUTE } })
+            logger.error(ROUTE, 'failed to open dataset', { err: String(err) })
+        }
+    }
+
+    const tools = dataset ? buildDatasetTools(dataset.dq) : undefined
+    const startedAt = Date.now()
+    const userId = session.user.id
 
     const result = streamText({
-        model: google('gemini-2.5-flash'),
+        model: google(MODEL),
         system,
         messages: [
             {
@@ -207,7 +225,16 @@ export async function POST(req: Request) {
         tools,
         maxSteps: tools ? 6 : 1,
         maxTokens: 1200,
-        onFinish: async ({ text }) => {
+        onFinish: async ({ text, usage }) => {
+            dataset?.release()
+            recordAiUsage({
+                route: ROUTE,
+                model: MODEL,
+                userId,
+                latencyMs: Date.now() - startedAt,
+                success: true,
+                usage,
+            })
             await db
                 .insert(comments)
                 .values({
@@ -219,10 +246,9 @@ export async function POST(req: Request) {
                     isAiResponse: true,
                 })
                 .catch((err) => {
-                    console.error(
-                        '[ai/comment-reply] failed to save AI reply:',
-                        err instanceof Error ? err.message : err,
-                    )
+                    logger.error(ROUTE, 'failed to save AI reply', {
+                        err: err instanceof Error ? err.message : String(err),
+                    })
                 })
 
             if (entityType === 'discussion') {
@@ -238,7 +264,16 @@ export async function POST(req: Request) {
     return result.toDataStreamResponse({
         getErrorMessage: (err) => {
             const msg = err instanceof Error ? err.message : String(err)
-            console.error('[ai/comment-reply]', msg)
+            captureException(err, { tags: { route: ROUTE } })
+            logger.error(ROUTE, msg)
+            recordAiUsage({
+                route: ROUTE,
+                model: MODEL,
+                userId,
+                latencyMs: Date.now() - startedAt,
+                success: false,
+                errorMessage: msg,
+            })
             return msg
         },
     })

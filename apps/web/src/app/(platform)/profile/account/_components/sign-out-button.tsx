@@ -1,14 +1,18 @@
 'use client'
 
-import { useRouter } from 'next/navigation'
+import { usePathname, useRouter } from 'next/navigation'
 import { authClient } from '@/lib/auth-client'
 
 export function SignOutButton() {
     const router = useRouter()
+    const pathname = usePathname()
 
     async function handleSignOut() {
         await authClient.signOut()
-        router.push('/')
+        // Redirect back to the page we came from — if it still requires a
+        // session, that page's own auth guard takes over from here.
+        router.push(pathname)
+        router.refresh()
     }
 
     return (

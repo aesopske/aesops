@@ -16,6 +16,9 @@
     "db:reset-comments": "node --env-file=.env scripts/reset-comments.mjs",
         "db:add-thread-slug": "node --env-file=.env scripts/add-thread-slug.mjs",
         "db:add-comment-votes": "node --env-file=.env scripts/add-comment-votes.mjs",
+        "db:add-parquet-key": "node --env-file=.env scripts/add-parquet-key.mjs",
+        "db:add-ai-usage-events": "node --env-file=.env scripts/add-ai-usage-events.mjs",
+        "db:add-source": "node --env-file=.env scripts/add-source.mjs",
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {

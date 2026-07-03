@@ -152,6 +152,7 @@ export function DatasetChat({ datasetId, initialMessages, className }: Props) {
                                             <div className='prose prose-sm max-w-none dark:prose-invert prose-p:leading-relaxed prose-p:my-1 prose-headings:font-medium'>
                                                 <Streamdown
                                                     mode='streaming'
+                                                    isAnimating={isLoading}
                                                     plugins={{
                                                         renderers:
                                                             CHART_RENDERERS,

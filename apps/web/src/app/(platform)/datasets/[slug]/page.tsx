@@ -26,6 +26,7 @@ import { RelatedDiscussions } from '@/components/platform/community/related-disc
 import { formatBytes, timeAgo } from '@/lib/platform/format'
 import type { DocumentMetadata } from '@repo/db/schema'
 import BreadCrumbs from '@/components/common/organisms/bread-crumbs/BreadCrumbs'
+import { DownloadButton } from '@/components/platform/dataset/download-button'
 
 type Props = { params: Promise<{ slug: string }> }
 
@@ -165,12 +166,27 @@ export default async function DatasetPage({ params }: Props) {
                                         Download
                                     </Link>
                                 }>
-                                <a
-                                    href={`/api/download/${doc.id}`}
-                                    className='inline-flex items-center gap-2 rounded-lg bg-primary-foreground px-4 py-2.5 text-sm font-medium text-primary transition-opacity hover:opacity-90'>
-                                    <Download size={15} />
-                                    Download
-                                </a>
+                                <DownloadButton
+                                    rootId={doc.id}
+                                    rootName={doc.name}
+                                    versions={[
+                                        {
+                                            id: doc.id,
+                                            versionNumber: 1,
+                                            size: doc.size,
+                                            metadata: meta,
+                                            createdAt: doc.createdAt,
+                                        },
+                                        ...revisions.map((rev, i) => ({
+                                            id: rev.id,
+                                            versionNumber: i + 2,
+                                            size: rev.size,
+                                            metadata: (rev.metadata as DocumentMetadata | null),
+                                            createdAt: rev.createdAt,
+                                        })),
+                                    ]}
+                                    isLoggedIn={isLoggedIn}
+                                />
                             </AuthGate>
                         </div>
                     </div>

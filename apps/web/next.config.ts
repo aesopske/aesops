@@ -1,15 +1,8 @@
 import { NextConfig } from 'next'
+import { withSentryConfig } from '@sentry/nextjs'
 
 const nextConfig: NextConfig = {
     reactStrictMode: true,
-    env: {
-        BASE_URL: process.env.BASE_API_URL,
-        DASHBOARD_URL: process.env.DASHBOARD_URL,
-        SITE_URL: process.env.SITE_URL,
-        SLACK_WEBHOOK: process.env.SLACK_WEBHOOK,
-        HUGGING_FACE_ACCESS_TOKEN: process.env.HUGGING_FACE_ACCESS_TOKEN,
-        OPENAI_API_KEY: process.env.OPENAI_API_KEY,
-    },
     images: {
         remotePatterns: [
             {
@@ -35,6 +28,15 @@ const nextConfig: NextConfig = {
         ],
     },
     transpilePackages: ['@repo/ui'],
+    // Keep DuckDB-WASM out of the bundle so its .wasm / worker files stay on
+    // disk and require.resolve works at runtime (and they get traced for deploy).
+    serverExternalPackages: ['@duckdb/duckdb-wasm'],
 }
 
-export default nextConfig
+export default withSentryConfig(nextConfig, {
+    org: process.env.SENTRY_ORG,
+    project: process.env.SENTRY_PROJECT,
+    authToken: process.env.SENTRY_AUTH_TOKEN,
+    silent: !process.env.CI,
+    widenClientFileUpload: true,
+})

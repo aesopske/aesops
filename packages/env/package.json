@@ -6,6 +6,7 @@
     "exports": {
         ".": "./src/index.ts",
         "./database": "./src/database.ts",
+        "./observability": "./src/observability.ts",
         "./sanity": "./src/sanity.ts",
         "./storage": "./src/storage.ts"
     },

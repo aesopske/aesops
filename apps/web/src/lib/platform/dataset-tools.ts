@@ -1,12 +1,10 @@
 import { tool } from 'ai'
 import { z } from 'zod'
 import {
-    loadRows,
     queryRows,
     aggregate,
     distinctValues,
-    DatasetTooLargeError,
-    type QueryableDoc,
+    type DatasetQuery,
     type DatePart,
 } from '@/lib/platform/dataset-query'
 
@@ -17,17 +15,13 @@ const filterSchema = z.object({
 })
 
 function friendlyError(err: unknown): { error: string } {
-    if (err instanceof DatasetTooLargeError) {
-        return {
-            error: 'This dataset is too large to query inline. Answer from the column statistics and sample rows instead.',
-        }
-    }
     return { error: err instanceof Error ? err.message : 'Failed to read the dataset.' }
 }
 
-// Tools are bound per-request to the resolved doc so the model never passes a
-// storage key and can only query the dataset in scope.
-export function buildDatasetTools(doc: QueryableDoc) {
+// Tools are bound per-request to a DatasetQuery (DuckDB over the dataset's
+// Parquet) so the model never passes a storage key and each call runs only the
+// slice it needs.
+export function buildDatasetTools(dq: DatasetQuery) {
     return {
         think: tool({
             description:
@@ -40,7 +34,7 @@ export function buildDatasetTools(doc: QueryableDoc) {
 
         query_rows: tool({
             description:
-                'Return real rows from the dataset, optionally filtered by column conditions. Use for row-level lookups and listing specific entries. Returns up to `limit` rows plus the total number of matching rows.',
+                'Return real rows from the dataset, optionally filtered and sorted. Use for row-level lookups, listing specific entries, and finding the first/last (earliest/latest by date, or highest/lowest by a numeric column) — sort with orderBy and pass limit:1. Rows are capped at 100 per call regardless of the limit passed; the response always includes the true total matched count. Never request a large limit to fetch most/all of a dataset — use orderBy + a small limit, or aggregate, instead.',
             parameters: z.object({
                 filters: z
                     .array(filterSchema)
@@ -50,12 +44,21 @@ export function buildDatasetTools(doc: QueryableDoc) {
                     .array(z.string())
                     .optional()
                     .describe('Subset of columns to return. Omit for all columns.'),
-                limit: z.number().int().min(0).max(100).optional().describe('Max rows to return (default 20). Pass 0 to return only the matched count with no rows.'),
+                orderBy: z
+                    .object({
+                        column: z.string().describe('Exact column name to sort by.'),
+                        direction: z
+                            .enum(['asc', 'desc'])
+                            .optional()
+                            .describe('Sort direction (default asc). Use "asc" for earliest/first/lowest, "desc" for latest/last/highest.'),
+                    })
+                    .optional()
+                    .describe('Sort before applying limit. Combine with limit:1 to fetch a single endpoint row — e.g. the earliest and latest rows for a growth-rate or ROI calculation.'),
+                limit: z.number().int().min(0).optional().describe('Max rows to return (default 20, hard-capped at 100). Pass 0 to return only the matched count with no rows.'),
             }),
-            execute: async ({ filters, columns, limit }) => {
+            execute: async ({ filters, columns, orderBy, limit }) => {
                 try {
-                    const rows = await loadRows(doc)
-                    return queryRows(rows, { filters, columns, limit })
+                    return queryRows(dq, { filters, columns, orderBy, limit })
                 } catch (err) {
                     return friendlyError(err)
                 }
@@ -64,13 +67,17 @@ export function buildDatasetTools(doc: QueryableDoc) {
 
         aggregate: tool({
             description:
-                'Group the dataset by a column and compute a metric per group. Use for exact counts ("how many X"), totals, averages, and medians — and to produce data for charts. Default metric is row count. Returns [{ key, value }] sorted descending.',
+                'Group the dataset by one or two columns and compute a metric per group. Use for exact counts ("how many X"), totals, averages, and medians — and to produce data for charts and tables. Pass an array of 2 columns for two-dimensional breakdowns (e.g. "by town AND by month", "per region per year"): the result key joins each column\'s value with " | " (e.g. "Nairobi | Sep"). Default metric is row count. Returns [{ key, value }] sorted descending (or chronologically for single-dimension month grouping).',
             parameters: z.object({
-                groupBy: z.string().describe('Exact column name to group by.'),
+                groupBy: z
+                    .union([z.string(), z.array(z.string()).min(1).max(2)])
+                    .describe(
+                        'Exact column name to group by. Pass an array of exactly 2 column names for a combined two-dimensional grouping (e.g. ["Town", "Date"]) — required whenever the question asks for a breakdown by two things at once, such as "compare X across towns for each month" or "show Y by region and by year". The result key for array form is "<value1> | <value2>", in the same order as the array. Never call aggregate once per combination and repeat a single value across rows/columns instead — always use the array form for genuine two-dimensional data.',
+                    ),
                 datePart: z
                     .enum(['year', 'month', 'month_year', 'quarter'])
                     .optional()
-                    .describe('Extract a date part from the groupBy column before grouping. Use "month" for Jan/Feb/…, "year" for 2024/2025, "month_year" for "Jan 2025", "quarter" for Q1 2025. Requires groupBy to be a date column.'),
+                    .describe('Extract a date part from the groupBy column(s) before grouping. Use "month" for Jan/Feb/…, "year" for 2024/2025, "month_year" for "Jan 2025", "quarter" for Q1 2025. Applies to every column named in groupBy — safe to pass even if only one of the two groupBy columns is a date; non-date columns pass through unchanged.'),
                 metric: z
                     .object({
                         column: z.string().describe('Numeric column to aggregate.'),
@@ -82,12 +89,11 @@ export function buildDatasetTools(doc: QueryableDoc) {
                     .array(filterSchema)
                     .optional()
                     .describe('Filter rows before grouping (AND-combined). Use op "in" with a comma-separated value to match a list, e.g. "Nairobi,Mombasa,Nakuru".'),
-                limit: z.number().int().min(0).max(5000).optional().describe('Max groups to return (default 20). Set higher for date columns with many unique values.'),
+                limit: z.number().int().min(0).optional().describe('Max groups to return (default 20, hard-capped at 5000). Set higher for 2D groupBy or date columns with many unique values.'),
             }),
             execute: async ({ groupBy, datePart, metric, rowFilters, limit }) => {
                 try {
-                    const rows = await loadRows(doc)
-                    return { groups: aggregate(rows, { groupBy, datePart: datePart as DatePart | undefined, metric, rowFilters, limit }) }
+                    return { groups: aggregate(dq, { groupBy, datePart: datePart as DatePart | undefined, metric, rowFilters, limit }) }
                 } catch (err) {
                     return friendlyError(err)
                 }
@@ -99,12 +105,11 @@ export function buildDatasetTools(doc: QueryableDoc) {
                 'List the unique values of a column with their counts (beyond the top few in the schema summary). Use to discover what values exist before filtering.',
             parameters: z.object({
                 column: z.string().describe('Exact column name.'),
-                limit: z.number().int().min(0).max(200).optional().describe('Max values to return (default 50). Pass 0 to return only the total count.'),
+                limit: z.number().int().min(0).optional().describe('Max values to return (default 50, hard-capped at 200). Pass 0 to return only the total count.'),
             }),
             execute: async ({ column, limit }) => {
                 try {
-                    const rows = await loadRows(doc)
-                    return { values: distinctValues(rows, { column, limit }) }
+                    return { values: distinctValues(dq, { column, limit }) }
                 } catch (err) {
                     return friendlyError(err)
                 }
