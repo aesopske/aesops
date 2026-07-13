@@ -1,9 +1,7 @@
-import { draftMode, headers } from 'next/headers'
+import { draftMode } from 'next/headers'
 import { notFound } from 'next/navigation'
 import { Metadata, ResolvingMetadata } from 'next'
 import { groq } from 'next-sanity'
-import { auth } from '@repo/auth'
-import { api } from '@/trpc/server'
 import PageBuilder from '@components/common/PageBuilder'
 import BlogPageDetail from '@components/common/organisms/posts/BlogPageDetail'
 import { sanityFetch } from '~sanity/utils/fetch'
@@ -13,6 +11,8 @@ import { pageMetadataQuery, pageQuery } from '~sanity/utils/requests'
 import { HOME_PAGE, PAGE } from '~sanity/utils/types'
 
 const HOME_SLUG = 'homepage'
+
+export const dynamicParams = true
 
 type Props = {
     params: Promise<{ slug?: string[] }>
@@ -37,6 +37,7 @@ export async function generateMetadata(
     const page = await sanityFetch<PAGE>({
         query: pageMetadataQuery,
         params: { slug },
+        tags: ['sanity:page', `sanity:page:${slug}`],
     })
 
     const previousImages = (await parent).openGraph?.images || []
@@ -70,25 +71,14 @@ async function Page({ params }: Props) {
         query: pageQuery,
         draftMode: isEnabled,
         params: { slug },
+        tags: ['sanity:page', `sanity:page:${slug}`],
     })
 
     if (!page) notFound()
 
     if ((page as unknown as PAGE).pageType === 'blog') {
         const blog = page as unknown as PAGE
-        const session = await auth.api.getSession({ headers: await headers() })
-        const comments = await api.comments
-            .list({ entityType: 'blog', entityId: blog._id, currentUserId: session?.user.id })
-            .catch(() => [])
-        return (
-            <BlogPageDetail
-                page={blog}
-                comments={comments}
-                isLoggedIn={!!session}
-                currentUserId={session?.user.id ?? null}
-                currentPath={`/${slug}`}
-            />
-        )
+        return <BlogPageDetail page={blog} currentPath={`/${slug}`} />
     }
 
     return (

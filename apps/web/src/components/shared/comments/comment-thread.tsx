@@ -1,7 +1,8 @@
 'use client'
 
-import { useMemo, useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import { trpc } from '@/trpc/react'
+import { authClient } from '@/lib/auth-client'
 import { CommentNode } from './comment-node'
 import { CommentForm } from './comment-form'
 
@@ -24,10 +25,12 @@ export type Comment = {
 type Props = {
     entityType: EntityType
     entityId: string
-    initialComments: Comment[]
-    isLoggedIn: boolean
-    currentUserId: string | null
     currentPath: string
+    // Optional server-seeded data. When omitted (e.g. statically-rendered blog
+    // pages), the thread self-fetches comments and derives auth on the client.
+    initialComments?: Comment[]
+    isLoggedIn?: boolean
+    currentUserId?: string | null
     aiMentions?: boolean
 }
 
@@ -51,13 +54,37 @@ export function CommentThread({
     entityType,
     entityId,
     initialComments,
-    isLoggedIn,
-    currentUserId,
+    isLoggedIn: isLoggedInProp,
+    currentUserId: currentUserIdProp,
     currentPath,
     aiMentions = false,
 }: Props) {
-    const [comments, setComments] = useState<Comment[]>(initialComments)
+    const { data: session } = authClient.useSession()
+    const isLoggedIn = isLoggedInProp ?? !!session?.user
+    const currentUserId =
+        currentUserIdProp !== undefined
+            ? currentUserIdProp
+            : (session?.user?.id ?? null)
+
+    const listQuery = trpc.comments.list.useQuery(
+        {
+            entityType,
+            entityId,
+            currentUserId: currentUserId ?? undefined,
+        },
+        { initialData: initialComments },
+    )
+
+    const [comments, setComments] = useState<Comment[]>(initialComments ?? [])
     const [activeReplyId, setActiveReplyId] = useState<string | null>(null)
+
+    // Reconcile local (optimistically-mutated) state with fresh server data.
+    // The list query is only refetched on mount/refocus — vote/create/delete
+    // mutate local state directly without invalidating it — so this won't clobber
+    // in-flight optimistic updates.
+    useEffect(() => {
+        if (listQuery.data) setComments(listQuery.data)
+    }, [listQuery.data])
 
     const childrenMap = useMemo(() => buildChildrenMap(comments), [comments])
     const topLevel = childrenMap.get(null) ?? []

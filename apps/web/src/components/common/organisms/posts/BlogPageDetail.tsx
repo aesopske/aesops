@@ -4,29 +4,17 @@ import { Clock, MessageSquare } from 'lucide-react'
 import ContentReader from '@components/common/ContentReader'
 import ContentHeadingReader from '@components/common/ContentHeadingReader'
 import Share from '@components/common/ShareBtns'
-import {
-    CommentThread,
-    type Comment,
-} from '@components/shared/comments/comment-thread'
+import { CommentThread } from '@components/shared/comments/comment-thread'
 import { urlForImage } from '~sanity/utils/image'
 import { PAGE } from '~sanity/utils/types'
 import BreadCrumbs from '../bread-crumbs/BreadCrumbs'
 
 type Props = {
     page: PAGE
-    comments: Comment[]
-    isLoggedIn: boolean
-    currentUserId: string | null
     currentPath: string
 }
 
-function BlogPageDetail({
-    page,
-    comments,
-    isLoggedIn,
-    currentUserId,
-    currentPath,
-}: Props) {
+function BlogPageDetail({ page, currentPath }: Props) {
     const imageUrl = page.mainImage
         ? (urlForImage(page.mainImage) ?? null)
         : null
@@ -159,9 +147,6 @@ function BlogPageDetail({
                         <CommentThread
                             entityType='blog'
                             entityId={page._id}
-                            initialComments={comments}
-                            isLoggedIn={isLoggedIn}
-                            currentUserId={currentUserId}
                             currentPath={currentPath}
                         />
                     </div>

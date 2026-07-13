@@ -480,7 +480,11 @@ export const navLinksQuery = groq`*[_type == 'siteSettings'][0]{
 }`
 
 export const getNavLinks = async (): Promise<NAV_LINK[]> => {
-    const result = await client.fetch<{ navLinks?: NAV_LINK[] }>(navLinksQuery)
+    const result = await client.fetch<{ navLinks?: NAV_LINK[] }>(
+        navLinksQuery,
+        {},
+        { next: { revalidate: 60, tags: ['sanity:navLinks'] } },
+    )
     return result?.navLinks ?? []
 }
 

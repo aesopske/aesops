@@ -10,12 +10,14 @@ type FetchOptions = {
     query: string
     params?: QueryParams
     draftMode?: boolean
+    tags?: string[]
 }
 
 export async function sanityFetch<QueryResponse>({
     query,
     params = {},
     draftMode = false,
+    tags,
 }: FetchOptions): Promise<QueryResponse> {
     const perspect = draftMode ? 'previewDrafts' : 'published'
     if (perspect === 'previewDrafts') {
@@ -33,6 +35,6 @@ export async function sanityFetch<QueryResponse>({
         perspective: 'published',
         token,
         useCdn: true,
-        next: { revalidate: 60 },
+        next: { revalidate: 60, tags },
     })
 }
