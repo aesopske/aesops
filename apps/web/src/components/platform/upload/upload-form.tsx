@@ -126,7 +126,15 @@ export function UploadForm({ files, parentId, lockedName, onComplete, onCancel }
                 // background; the dataset is usable from the original file meanwhile.
                 fetch(`/api/datasets/${registered.documentId}/parquet`, {
                     method: 'POST',
-                }).catch(() => {})
+                })
+                    .then(() => {
+                        // Re-merge all versions so queries against the root see this
+                        // revision too; best-effort, kept as a separate request so it
+                        // doesn't compound with the parquet conversion's own timeout risk.
+                        const rootId = parentId ?? registered.documentId
+                        fetch(`/api/datasets/${rootId}/merge`, { method: 'POST' }).catch(() => {})
+                    })
+                    .catch(() => {})
             }
 
             utils.documents.list.invalidate()

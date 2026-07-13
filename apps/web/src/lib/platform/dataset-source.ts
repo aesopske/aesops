@@ -13,6 +13,17 @@ export type OpenableDoc = {
     metadata: unknown
 }
 
+// For root datasets (no parentId), prefer the merged-across-versions Parquet
+// over the root's own original upload, so queries reflect the latest data.
+// Falls back to the root's own parquetKey automatically if no merge has run
+// yet (or one failed) — mergedParquetKey is only ever set on success.
+export function resolveQueryDoc<T extends OpenableDoc & { parentId: string | null; mergedParquetKey?: string | null }>(
+    doc: T,
+): T {
+    if (doc.parentId || !doc.mergedParquetKey) return doc
+    return { ...doc, parquetKey: doc.mergedParquetKey }
+}
+
 export type OpenDataset = { dq: DatasetQuery; release: () => void }
 
 // Opens a dataset for querying: resolves a signed URL to its Parquet artifact

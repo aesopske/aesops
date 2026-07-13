@@ -61,6 +61,15 @@ export class DocumentService {
         return doc!
     }
 
+    async setMergedParquetKey(id: string, parquetKey: string) {
+        const [doc] = await this.database
+            .update(documents)
+            .set({ mergedParquetKey: parquetKey, mergedParquetUpdatedAt: new Date(), updatedAt: new Date() })
+            .where(eq(documents.id, id))
+            .returning()
+        return doc!
+    }
+
     /** Signed URL for a derived Parquet object (always on the upload provider). */
     getParquetUrl(parquetKey: string, opts?: SignedDownloadOptions) {
         return this.resolveProvider(this.uploadProviderName).getSignedDownloadUrl(parquetKey, opts)
