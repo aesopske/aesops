@@ -48,6 +48,10 @@ export const documents = pgTable('documents', {
     storageKey: text('storage_key').notNull(),
     // derived Parquet artifact (query/version substrate); null until generated
     parquetKey: text('parquet_key'),
+    // merged Parquet across all versions (root docs only); null until the
+    // merge job has run at least once
+    mergedParquetKey: text('merged_parquet_key'),
+    mergedParquetUpdatedAt: timestamp('merged_parquet_updated_at'),
     size: integer('size').notNull(),
     mimeType: text('mime_type').notNull(),
     // which provider stored this file — keeps urls/keys portable across providers

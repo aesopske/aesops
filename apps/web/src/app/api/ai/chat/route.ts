@@ -7,7 +7,7 @@ import { documentService } from '@repo/storage'
 import { db, chatMessages } from '@repo/db'
 import type { DocumentMetadata } from '@repo/db/schema'
 import { buildDatasetTools } from '@/lib/platform/dataset-tools'
-import { openDataset } from '@/lib/platform/dataset-source'
+import { openDataset, resolveQueryDoc } from '@/lib/platform/dataset-source'
 import { recordAiUsage } from '@/lib/platform/ai-usage'
 import { logger } from '@/lib/platform/logger'
 
@@ -65,7 +65,7 @@ export async function POST(req: Request) {
 
     let dataset: Awaited<ReturnType<typeof openDataset>>
     try {
-        dataset = await openDataset(doc)
+        dataset = await openDataset(resolveQueryDoc(doc))
     } catch (err) {
         captureException(err, { tags: { route: ROUTE } })
         logger.error(ROUTE, 'failed to open dataset', { datasetId, err: String(err) })

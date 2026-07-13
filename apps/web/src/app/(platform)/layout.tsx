@@ -7,6 +7,7 @@ import { UserDropdown } from '@/components/platform/nav/user-dropdown'
 import { AuthNavLinks } from '@/components/platform/nav/auth-nav-links'
 import { getNavLinks } from '~sanity/utils/requests'
 import Footer from '@/components/common/Footer'
+import { isAdminEmail } from '@/lib/platform/admin'
 
 export default async function PlatformLayout({
     children,
@@ -40,6 +41,7 @@ export default async function PlatformLayout({
                 email={user.email}
                 image={user.image}
                 initials={initials}
+                isAdmin={isAdminEmail(user.email)}
             />
         </>
     ) : (

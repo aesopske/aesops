@@ -1,7 +1,15 @@
 'use client'
 
 import { useState } from 'react'
-import { FileSpreadsheet, FileText, Pencil, Trash2, Check, X, Eye } from 'lucide-react'
+import {
+    FileSpreadsheet,
+    FileText,
+    Pencil,
+    Trash2,
+    Check,
+    X,
+    Eye,
+} from 'lucide-react'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
 import { trpc } from '@/trpc/react'
@@ -46,24 +54,31 @@ function DatasetRow({ doc }: { doc: Doc }) {
     const deleteMutation = trpc.documents.delete.useMutation()
 
     const meta = doc.metadata as DocumentMetadata | null
-    const isExcel = doc.mimeType.includes('excel') || doc.mimeType.includes('spreadsheet')
+    const isExcel =
+        doc.mimeType.includes('excel') || doc.mimeType.includes('spreadsheet')
     const description = extractDescription(doc.description)
 
     return (
         <li className='overflow-hidden'>
-            <DatasetPreviewModal doc={doc} open={previewing} onOpenChange={setPreviewing} />
-            <div className='flex items-center gap-3 px-4 py-3.5'>
+            <DatasetPreviewModal
+                doc={doc}
+                open={previewing}
+                onOpenChange={setPreviewing}
+            />
+            <div className='flex items-start gap-3 px-4 py-3.5'>
                 <div
-                    className={`shrink-0 rounded-lg p-2 ${isExcel ? 'bg-success/10 text-success' : 'bg-primary/10 text-primary'}`}
-                >
-                    {isExcel ? <FileSpreadsheet size={16} /> : <FileText size={16} />}
+                    className={`shrink-0 rounded-lg p-2 ${isExcel ? 'bg-success/10 text-success' : 'bg-primary/10 text-primary'}`}>
+                    {isExcel ? (
+                        <FileSpreadsheet size={16} />
+                    ) : (
+                        <FileText size={16} />
+                    )}
                 </div>
 
                 <div className='min-w-0 flex-1'>
                     <Link
                         href={`/datasets/${doc.slug ?? doc.id}`}
-                        className='truncate text-sm font-medium text-foreground hover:text-primary'
-                    >
+                        className='block wrap-break-word text-sm font-medium text-foreground hover:text-primary'>
                         {doc.name}
                     </Link>
                     <p className='mt-0.5 text-xs text-muted-foreground'>
@@ -71,7 +86,8 @@ function DatasetRow({ doc }: { doc: Doc }) {
                         {meta && (
                             <>
                                 {' · '}
-                                {meta.rowCount.toLocaleString()} rows · {meta.columnCount} cols
+                                {meta.rowCount.toLocaleString()} rows ·{' '}
+                                {meta.columnCount} cols
                             </>
                         )}
                         {' · '}
@@ -90,31 +106,38 @@ function DatasetRow({ doc }: { doc: Doc }) {
                         )}
                     </p>
                     {description && (
-                        <p className='mt-1 line-clamp-2 text-xs text-muted-foreground'>{description}</p>
+                        <p className='mt-1 line-clamp-2 text-xs text-muted-foreground'>
+                            {description}
+                        </p>
                     )}
                 </div>
 
                 <div className='flex shrink-0 items-center gap-1'>
                     {confirming ? (
                         <>
-                            <span className='mr-1 text-xs text-destructive'>Delete?</span>
+                            <span className='mr-1 text-xs text-destructive'>
+                                Delete?
+                            </span>
                             <button
-                                onClick={() => deleteMutation.mutate(
-                                    { id: doc.id },
-                                    { onSuccess: () => utils.documents.listMineRoots.invalidate() },
-                                )}
+                                onClick={() =>
+                                    deleteMutation.mutate(
+                                        { id: doc.id },
+                                        {
+                                            onSuccess: () =>
+                                                utils.documents.listMineRoots.invalidate(),
+                                        },
+                                    )
+                                }
                                 disabled={deleteMutation.isPending}
                                 className='rounded p-1.5 text-destructive transition hover:bg-destructive/10 disabled:opacity-50'
-                                aria-label='Confirm delete'
-                            >
+                                aria-label='Confirm delete'>
                                 <Check size={14} />
                             </button>
                             <button
                                 onClick={() => setConfirming(false)}
                                 disabled={deleteMutation.isPending}
                                 className='rounded p-1.5 text-muted-foreground transition hover:bg-muted hover:text-foreground disabled:opacity-50'
-                                aria-label='Cancel delete'
-                            >
+                                aria-label='Cancel delete'>
                                 <X size={14} />
                             </button>
                         </>
@@ -123,22 +146,23 @@ function DatasetRow({ doc }: { doc: Doc }) {
                             <button
                                 onClick={() => setPreviewing(true)}
                                 className='rounded p-1.5 text-muted-foreground transition hover:bg-muted hover:text-foreground'
-                                aria-label='Preview dataset'
-                            >
+                                aria-label='Preview dataset'>
                                 <Eye size={14} />
                             </button>
                             <button
-                                onClick={() => router.push(`/datasets/${doc.slug ?? doc.id}/edit`)}
+                                onClick={() =>
+                                    router.push(
+                                        `/datasets/${doc.slug ?? doc.id}/edit`,
+                                    )
+                                }
                                 className='rounded p-1.5 text-muted-foreground transition hover:bg-muted hover:text-foreground'
-                                aria-label='Edit dataset'
-                            >
+                                aria-label='Edit dataset'>
                                 <Pencil size={14} />
                             </button>
                             <button
                                 onClick={() => setConfirming(true)}
                                 className='rounded p-1.5 text-muted-foreground transition hover:bg-destructive/10 hover:text-destructive'
-                                aria-label='Delete dataset'
-                            >
+                                aria-label='Delete dataset'>
                                 <Trash2 size={14} />
                             </button>
                         </>
@@ -150,18 +174,26 @@ function DatasetRow({ doc }: { doc: Doc }) {
 }
 
 export function MyDatasetsList() {
-    const { data: documents, isLoading } = trpc.documents.listMineRoots.useQuery(undefined)
+    const { data: documents, isLoading } =
+        trpc.documents.listMineRoots.useQuery(undefined)
 
     if (isLoading) {
-        return <p className='py-8 text-center text-sm text-muted-foreground'>Loading…</p>
+        return (
+            <p className='py-8 text-center text-sm text-muted-foreground'>
+                Loading…
+            </p>
+        )
     }
 
     if (!documents?.length) {
         return (
             <div className='py-12 text-center'>
-                <p className='text-sm font-medium text-muted-foreground'>No datasets uploaded yet</p>
+                <p className='text-sm font-medium text-muted-foreground'>
+                    No datasets uploaded yet
+                </p>
                 <p className='mt-1 text-xs text-muted-foreground'>
-                    Your uploads will appear here once you&apos;ve uploaded a dataset.
+                    Your uploads will appear here once you&apos;ve uploaded a
+                    dataset.
                 </p>
             </div>
         )

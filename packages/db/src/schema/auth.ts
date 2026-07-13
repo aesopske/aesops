@@ -1,4 +1,4 @@
-import { boolean, pgTable, text, timestamp } from 'drizzle-orm/pg-core'
+import { boolean, integer, pgTable, text, timestamp } from 'drizzle-orm/pg-core'
 
 export const users = pgTable('users', {
     id: text('id').primaryKey(),
@@ -51,4 +51,33 @@ export const verifications = pgTable('verifications', {
     expiresAt: timestamp('expires_at').notNull(),
     createdAt: timestamp('created_at'),
     updatedAt: timestamp('updated_at'),
+})
+
+// Better Auth `apiKey` plugin (@better-auth/api-key). Config-based model:
+// `configId` groups keys by configuration, `referenceId` is the owner id
+// (a user id in our single-config setup). `key` holds the hashed secret and
+// `permissions`/`metadata` are JSON serialised to text by the plugin.
+export const apikeys = pgTable('apikeys', {
+    id: text('id').primaryKey(),
+    configId: text('config_id').notNull(),
+    name: text('name'),
+    start: text('start'),
+    referenceId: text('reference_id').notNull(),
+    prefix: text('prefix'),
+    key: text('key').notNull(),
+    refillInterval: integer('refill_interval'),
+    refillAmount: integer('refill_amount'),
+    lastRefillAt: timestamp('last_refill_at'),
+    enabled: boolean('enabled').default(true),
+    rateLimitEnabled: boolean('rate_limit_enabled').default(true),
+    rateLimitTimeWindow: integer('rate_limit_time_window'),
+    rateLimitMax: integer('rate_limit_max'),
+    requestCount: integer('request_count').default(0),
+    remaining: integer('remaining'),
+    lastRequest: timestamp('last_request'),
+    expiresAt: timestamp('expires_at'),
+    createdAt: timestamp('created_at').notNull(),
+    updatedAt: timestamp('updated_at').notNull(),
+    permissions: text('permissions'),
+    metadata: text('metadata'),
 })

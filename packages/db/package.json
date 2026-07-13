@@ -19,6 +19,8 @@
         "db:add-parquet-key": "node --env-file=.env scripts/add-parquet-key.mjs",
         "db:add-ai-usage-events": "node --env-file=.env scripts/add-ai-usage-events.mjs",
         "db:add-source": "node --env-file=.env scripts/add-source.mjs",
+        "db:add-merged-parquet-key": "node --env-file=.env scripts/add-merged-parquet-key.mjs",
+        "db:add-api-key-table": "node --env-file=.env scripts/add-api-key-table.mjs",
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {

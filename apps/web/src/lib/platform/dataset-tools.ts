@@ -80,11 +80,11 @@ export function buildDatasetTools(dq: DatasetQuery) {
                     .describe('Extract a date part from the groupBy column(s) before grouping. Use "month" for Jan/Feb/…, "year" for 2024/2025, "month_year" for "Jan 2025", "quarter" for Q1 2025. Applies to every column named in groupBy — safe to pass even if only one of the two groupBy columns is a date; non-date columns pass through unchanged.'),
                 metric: z
                     .object({
-                        column: z.string().describe('Numeric column to aggregate.'),
-                        fn: z.enum(['sum', 'avg', 'min', 'max', 'median']),
+                        column: z.string().optional().describe('Numeric column to aggregate. Not needed when fn is "count".'),
+                        fn: z.enum(['count', 'sum', 'avg', 'min', 'max', 'median']),
                     })
                     .optional()
-                    .describe('Omit to count rows per group.'),
+                    .describe('Omit entirely (or pass fn:"count") to count rows per group.'),
                 rowFilters: z
                     .array(filterSchema)
                     .optional()
@@ -93,7 +93,24 @@ export function buildDatasetTools(dq: DatasetQuery) {
             }),
             execute: async ({ groupBy, datePart, metric, rowFilters, limit }) => {
                 try {
-                    return { groups: await aggregate(dq, { groupBy, datePart: datePart as DatePart | undefined, metric, rowFilters, limit }) }
+                    // `fn: 'count'` and omitting `metric` both mean "count rows per
+                    // group" — `aggregate()` only accepts the latter.
+                    if (metric && metric.fn !== 'count' && !metric.column) {
+                        return { error: `metric.column is required when fn is "${metric.fn}"` }
+                    }
+                    const resolvedMetric =
+                        !metric || metric.fn === 'count'
+                            ? undefined
+                            : { column: metric.column!, fn: metric.fn }
+                    return {
+                        groups: await aggregate(dq, {
+                            groupBy,
+                            datePart: datePart as DatePart | undefined,
+                            metric: resolvedMetric,
+                            rowFilters,
+                            limit,
+                        }),
+                    }
                 } catch (err) {
                     return friendlyError(err)
                 }

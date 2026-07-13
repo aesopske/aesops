@@ -3,6 +3,7 @@ import { publicProcedure, router } from '@/trpc/init'
 import { documentsRouter } from './documents'
 import { communityRouter } from './community'
 import { commentsRouter } from './comments'
+import { adminApiKeysRouter } from './admin-api-keys'
 
 export const appRouter = router({
     health: publicProcedure.query(() => ({
@@ -17,6 +18,9 @@ export const appRouter = router({
     documents: documentsRouter,
     community: communityRouter,
     comments: commentsRouter,
+    admin: router({
+        apiKeys: adminApiKeysRouter,
+    }),
 })
 
 export type AppRouter = typeof appRouter

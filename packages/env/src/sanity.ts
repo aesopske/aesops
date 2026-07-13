@@ -10,6 +10,7 @@ export const sanityEnv = createEnv({
     },
     server: {
         SANITY_API_TOKEN: z.string().optional(),
+        SANITY_REVALIDATE_SECRET: z.string().optional(),
     },
     runtimeEnv: {
         NEXT_PUBLIC_SANITY_PROJECT_ID:
@@ -18,5 +19,6 @@ export const sanityEnv = createEnv({
         NEXT_PUBLIC_SANITY_API_VERSION:
             process.env.NEXT_PUBLIC_SANITY_API_VERSION,
         SANITY_API_TOKEN: process.env.SANITY_API_TOKEN,
+        SANITY_REVALIDATE_SECRET: process.env.SANITY_REVALIDATE_SECRET,
     },
 })

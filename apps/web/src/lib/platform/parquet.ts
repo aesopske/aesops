@@ -50,6 +50,40 @@ export async function fileToParquet(
     const dataRows = rawRows.filter((row) => row.some((c) => c !== null && c !== ''))
 
     const fields = columns.map((col) => ({ name: col.name, type: fieldTypeFor(col.dtype) }))
+    const records = dataRows.map((row) => {
+        const record: Record<string, number | boolean | string | null> = {}
+        fields.forEach((f, i) => {
+            record[f.name] = coerce(row[i], f.type)
+        })
+        return record
+    })
+
+    return writeParquet(records, fields)
+}
+
+// Writes already-shaped rows (e.g. a merged multi-version result set) to a
+// Parquet buffer. Row keys are expected to match `columns` names exactly —
+// callers are responsible for aligning schemas (e.g. picking common columns).
+export async function rowsToParquet(
+    rows: Record<string, unknown>[],
+    columns: ColumnStats[],
+): Promise<Buffer> {
+    const fields = columns.map((col) => ({ name: col.name, type: fieldTypeFor(col.dtype) }))
+    const records = rows.map((row) => {
+        const record: Record<string, number | boolean | string | null> = {}
+        fields.forEach((f) => {
+            record[f.name] = coerce(row[f.name], f.type)
+        })
+        return record
+    })
+
+    return writeParquet(records, fields)
+}
+
+async function writeParquet(
+    records: Record<string, number | boolean | string | null>[],
+    fields: { name: string; type: FieldType }[],
+): Promise<Buffer> {
     const schema = new ParquetSchema(
         Object.fromEntries(
             fields.map((f) => [
@@ -62,11 +96,7 @@ export async function fileToParquet(
     const path = join(tmpdir(), `ds-${crypto.randomUUID()}.parquet`)
     const writer = await ParquetWriter.openFile(schema, path)
     try {
-        for (const row of dataRows) {
-            const record: Record<string, number | boolean | string | null> = {}
-            fields.forEach((f, i) => {
-                record[f.name] = coerce(row[i], f.type)
-            })
+        for (const record of records) {
             await writer.appendRow(record)
         }
     } finally {

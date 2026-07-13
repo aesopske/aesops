@@ -12,6 +12,10 @@ export const env = createEnv({
         SANITY_API_TOKEN: z.string({
             message: 'SANITY_API_TOKEN is required',
         }),
+        // Shared secret used to verify the signature on Sanity's revalidation
+        // webhook (POST /api/revalidate). Optional so builds/dev without a
+        // configured webhook still boot.
+        SANITY_REVALIDATE_SECRET: z.string().optional(),
         // Remote DuckDB query executor (native DuckDB on Python/Vercel) — see
         // apps/duckdb-executor. Replaces the in-process @duckdb/duckdb-wasm
         // instance, which couldn't reliably autoload extensions in this
@@ -22,6 +26,8 @@ export const env = createEnv({
         DUCKDB_EXECUTOR_SECRET: z.string({
             message: 'DUCKDB_EXECUTOR_SECRET is required',
         }),
+        // Comma-separated allowlist of emails granted access to /admin.
+        ADMIN_EMAILS: z.string().optional(),
     },
     client: {
         NEXT_PUBLIC_DEMO_CREDENTIALS: z.string().optional(),
@@ -35,7 +41,9 @@ export const env = createEnv({
         GEMINI_API_KEY: process.env.GEMINI_API_KEY,
         GOOGLE_GENERATIVE_AI_API_KEY: process.env.GOOGLE_GENERATIVE_AI_API_KEY,
         SANITY_API_TOKEN: process.env.SANITY_API_TOKEN,
+        SANITY_REVALIDATE_SECRET: process.env.SANITY_REVALIDATE_SECRET,
         DUCKDB_EXECUTOR_URL: process.env.DUCKDB_EXECUTOR_URL,
         DUCKDB_EXECUTOR_SECRET: process.env.DUCKDB_EXECUTOR_SECRET,
+        ADMIN_EMAILS: process.env.ADMIN_EMAILS,
     },
 })

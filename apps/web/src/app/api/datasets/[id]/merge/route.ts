@@ -2,12 +2,13 @@ import { type NextRequest, NextResponse } from 'next/server'
 import { headers } from 'next/headers'
 import { auth } from '@repo/auth'
 import { documentService } from '@repo/storage'
-import { convertDocumentToParquet } from '@/lib/platform/dataset-pipeline'
+import { mergeDatasetVersions } from '@/lib/platform/dataset-pipeline'
 
 export const maxDuration = 60
 
-// Generates the derived Parquet artifact for a document and records its key.
-// Fired (best-effort) by the client right after an upload is registered.
+// Merges every version of a dataset into a single deduped Parquet artifact
+// and records it on the root as `mergedParquetKey`. Fired (best-effort) by
+// the client after a revision's own Parquet conversion succeeds.
 export async function POST(
     _req: NextRequest,
     { params }: { params: Promise<{ id: string }> },
@@ -22,11 +23,9 @@ export async function POST(
         return NextResponse.json({ error: 'Not found' }, { status: 404 })
     }
 
-    const result = await convertDocumentToParquet(doc)
-    if (!result.ok) {
-        const status = result.reason === 'no_columns' ? 422 : 500
-        return NextResponse.json({ ok: false, reason: result.reason }, { status })
-    }
+    const root = doc.parentId ? await documentService.getById(doc.parentId) : doc
+    if (!root) return NextResponse.json({ error: 'Not found' }, { status: 404 })
 
+    const result = await mergeDatasetVersions(root)
     return NextResponse.json(result)
 }

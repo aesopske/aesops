@@ -33,6 +33,7 @@
     "@sanity/types": "^5.25.1",
     "@sanity/ui": "^3.2.0",
     "@sanity/vision": "^5.25.1",
+    "@sanity/webhook": "^4.0.4",
     "@sentry/core": "^10.63.0",
     "@sentry/nextjs": "^10.63.0",
     "@t3-oss/env-nextjs": "^0.13.4",

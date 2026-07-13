@@ -19,12 +19,17 @@ function rowsToCsv(rows: Record<string, unknown>[], columns: string[]): string {
 	return lines.join('\n')
 }
 
-// Merges multiple versions of a dataset into a deduped CSV. Uses column
-// intersection when schemas diverge (same approach as diffVersions).
-export async function mergeDatasetAsCsv(
-	rootDoc: OpenableDoc,
-	allDocs: OpenableDoc[],
-): Promise<string | null> {
+export type MergedRows = {
+	rows: Record<string, unknown>[]
+	columns: string[]
+	droppedColumns: string[]
+}
+
+// Opens every version of a dataset and unions their rows on the common
+// (intersecting) column set, deduping identical rows. Columns present in
+// some versions but not all are reported via `droppedColumns` rather than
+// silently included/excluded per-row.
+export async function mergeDatasetRows(allDocs: OpenableDoc[]): Promise<MergedRows | null> {
 	if (allDocs.length === 0) return null
 
 	const datasets = await Promise.all(allDocs.map((doc) => openDataset(doc)))
@@ -39,6 +44,9 @@ export async function mergeDatasetAsCsv(
 	try {
 		// Find common columns across all versions (column intersection)
 		const columnSets = opened.map((o) => new Set(o.ds!.dq.columns.map((c) => c.name)))
+		const allColumns = new Set<string>()
+		columnSets.forEach((s) => s.forEach((c) => allColumns.add(c)))
+
 		let common = Array.from(columnSets[0]!)
 		for (let i = 1; i < columnSets.length; i++) {
 			common = common.filter((c) => columnSets[i]!.has(c))
@@ -46,14 +54,27 @@ export async function mergeDatasetAsCsv(
 
 		if (common.length === 0) return null
 
+		const droppedColumns = Array.from(allColumns).filter((c) => !common.includes(c))
+
 		const run = opened[0]!.ds!.dq.run
 		const cols = common.map(quoteIdent).join(', ')
 		const unionClauses = opened.map((o) => `SELECT ${cols} FROM ${o.ds!.dq.ref}`).join(' UNION ALL ')
 
 		const rows = await run(`SELECT DISTINCT * FROM (${unionClauses})`)
 
-		return rowsToCsv(rows, common)
+		return { rows, columns: common, droppedColumns }
 	} finally {
 		opened.forEach(({ ds }) => ds!.release())
 	}
+}
+
+// Merges multiple versions of a dataset into a deduped CSV. Uses column
+// intersection when schemas diverge (same approach as diffVersions).
+export async function mergeDatasetAsCsv(
+	_rootDoc: OpenableDoc,
+	allDocs: OpenableDoc[],
+): Promise<string | null> {
+	const merged = await mergeDatasetRows(allDocs)
+	if (!merged) return null
+	return rowsToCsv(merged.rows, merged.columns)
 }

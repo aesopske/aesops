@@ -20,7 +20,8 @@
         "SENTRY_AUTH_TOKEN",
         "NEXT_PUBLIC_SENTRY_DSN",
         "DUCKDB_EXECUTOR_URL",
-        "DUCKDB_EXECUTOR_SECRET"
+        "DUCKDB_EXECUTOR_SECRET",
+        "ADMIN_EMAILS"
     ],
     "tasks": {
         "build": {

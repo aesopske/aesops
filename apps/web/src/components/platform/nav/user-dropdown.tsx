@@ -3,7 +3,7 @@
 import { useTransition } from 'react'
 import { usePathname, useRouter } from 'next/navigation'
 import Link from 'next/link'
-import { Upload, LayoutGrid, LogOut, Database, MessageSquare } from 'lucide-react'
+import { Upload, LayoutGrid, LogOut, Database, MessageSquare, ShieldCheck } from 'lucide-react'
 import { Avatar, AvatarFallback, AvatarImage } from '@repo/ui/components/avatar'
 import { Button } from '@repo/ui/components/button'
 import {
@@ -21,9 +21,10 @@ type Props = {
     email: string
     image?: string | null
     initials: string
+    isAdmin?: boolean
 }
 
-export function UserDropdown({ name, email, image, initials }: Props) {
+export function UserDropdown({ name, email, image, initials, isAdmin }: Props) {
     const router = useRouter()
     const pathname = usePathname()
     const [isPending, startTransition] = useTransition()
@@ -91,6 +92,14 @@ export function UserDropdown({ name, email, image, initials }: Props) {
                             My datasets
                         </Link>
                     </DropdownMenuItem>
+                    {isAdmin && (
+                        <DropdownMenuItem asChild className='hover:bg-primary/10 focus:bg-primary/10'>
+                            <Link href='/admin/api-keys' className='flex items-center gap-2.5'>
+                                <ShieldCheck size={14} className='text-muted-foreground' />
+                                Admin
+                            </Link>
+                        </DropdownMenuItem>
+                    )}
                 </DropdownMenuGroup>
 
                 <DropdownMenuSeparator />

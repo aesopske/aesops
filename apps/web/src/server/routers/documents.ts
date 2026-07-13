@@ -5,28 +5,17 @@ import { documentService } from '@repo/storage'
 import { db, chatMessages, and, eq, desc } from '@repo/db'
 import type { DocumentMetadata } from '@repo/db/schema'
 import { computeMetadataDiff } from '@/lib/platform/metadata-diff'
+import {
+    ALLOWED_MIME,
+    MAX_UPLOAD_BYTES,
+    safeKeySegment,
+    stripExtension,
+} from '@/lib/platform/document-naming'
 
 const MIN_DISTINCT_ASKERS = 2
 
 function normalizeQuestion(content: string): string {
     return content.trim().toLowerCase().replace(/\s+/g, ' ').replace(/[?!.]+$/, '')
-}
-
-const MAX_UPLOAD_BYTES = 32 * 1024 * 1024
-const ALLOWED_MIME = [
-    'text/csv',
-    'application/vnd.ms-excel',
-    'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
-] as const
-
-function safeKeySegment(name: string): string {
-    return name.replace(/[^a-zA-Z0-9._-]+/g, '-').replace(/^-+|-+$/g, '').slice(0, 120) || 'file'
-}
-
-// Strips a trailing file extension (e.g. ".csv", ".xlsx") from a name derived
-// from an uploaded filename, so it doesn't leak into the stored name or slug.
-function stripExtension(name: string): string {
-    return name.replace(/\.[^./]+$/, '')
 }
 
 export const documentsRouter = router({

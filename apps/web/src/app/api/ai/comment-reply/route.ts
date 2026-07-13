@@ -9,7 +9,7 @@ import { db, threads, comments, asc, and, eq, sql } from '@repo/db'
 import type { DocumentMetadata } from '@repo/db/schema'
 import { sanityFetch } from '~sanity/utils/fetch'
 import { buildDatasetTools } from '@/lib/platform/dataset-tools'
-import { openDataset, type OpenableDoc } from '@/lib/platform/dataset-source'
+import { openDataset, resolveQueryDoc, type OpenableDoc } from '@/lib/platform/dataset-source'
 import { recordAiUsage } from '@/lib/platform/ai-usage'
 import { logger } from '@/lib/platform/logger'
 
@@ -61,7 +61,8 @@ const bodySchema = z.object({
 
 const blogQuery = groq`*[_id == $id][0]{ title, "text": pt::text(body) }`
 
-type EntityContext = { system: string; doc?: OpenableDoc } | null
+type QueryableDoc = OpenableDoc & { parentId: string | null; mergedParquetKey: string | null }
+type EntityContext = { system: string; doc?: QueryableDoc } | null
 
 async function discussionContext(entityId: string): Promise<EntityContext> {
     const [thread] = await db
@@ -72,7 +73,7 @@ async function discussionContext(entityId: string): Promise<EntityContext> {
     if (!thread) return null
 
     let datasetContext = ''
-    let queryableDoc: OpenableDoc | undefined
+    let queryableDoc: QueryableDoc | undefined
     if (thread.linkedDatasetId) {
         const doc = await documentService
             .getById(thread.linkedDatasetId)
@@ -202,7 +203,7 @@ export async function POST(req: Request) {
     let dataset: Awaited<ReturnType<typeof openDataset>> = null
     if (ctx.doc) {
         try {
-            dataset = await openDataset(ctx.doc)
+            dataset = await openDataset(resolveQueryDoc(ctx.doc))
         } catch (err) {
             captureException(err, { tags: { route: ROUTE } })
             logger.error(ROUTE, 'failed to open dataset', { err: String(err) })

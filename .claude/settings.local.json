@@ -1,0 +1,14 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(pnpm --filter @repo/db db:push)",
+      "mcp__Sanity__query_documents",
+      "mcp__Sanity__whoami",
+      "Bash(pnpm --filter @aesops/web typecheck)",
+      "Bash(npx tsc *)"
+    ],
+    "deny": [
+      ".env*"
+    ]
+  }
+}

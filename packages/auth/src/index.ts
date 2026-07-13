@@ -1,6 +1,7 @@
 import 'server-only'
 import { betterAuth } from 'better-auth'
 import { drizzleAdapter } from 'better-auth/adapters/drizzle'
+import { apiKey } from '@better-auth/api-key'
 import { db } from '@repo/db'
 import * as schema from '@repo/db/schema'
 
@@ -10,6 +11,18 @@ export const auth = betterAuth({
         schema,
         usePlural: true,
     }),
+    plugins: [
+        // API keys for programmatic, non-session access (scraper uploads today,
+        // a read-oriented data API later). Keys are scoped by `permissions`
+        // (e.g. { datasets: ['write'] }) and verified per request.
+        apiKey({
+            enableMetadata: true,
+            defaultPrefix: 'Aes_',
+            permissions: {
+                defaultPermissions: { datasets: ['write'] },
+            },
+        }),
+    ],
     emailAndPassword: {
         enabled: true,
     },

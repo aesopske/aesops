@@ -13,7 +13,6 @@ pnpm dev
 
 # Dev (single app)
 pnpm --filter @aesops/web dev          # http://localhost:3000
-pnpm --filter @aesops/datasets dev     # http://localhost:3001
 
 # Build / lint / typecheck (all)
 pnpm build
@@ -35,8 +34,8 @@ pnpm --filter @repo/db db:studio       # Drizzle Studio GUI
 
 | App | Port | Purpose |
 |-----|------|---------|
-| `apps/web` | 3000 | Public marketing/content site — Next.js 15, Sanity CMS, embedded Studio |
-| `apps/datasets` | 3001 | Authenticated dataset platform — Next.js 16, tRPC, Better Auth |
+| `apps/web` | 3000 | Next.js 16 app hosting **both** the public marketing/content site (Sanity CMS, embedded Studio) **and** the authenticated dataset platform (tRPC, Better Auth, uploads, AI routes) |
+| `apps/duckdb-executor` | — | Python (Vercel) service running native DuckDB; queried by `apps/web` over a shared secret. See `apps/web/src/lib/platform/duckdb-executor-client.ts` |
 
 ### Packages
 
@@ -44,7 +43,7 @@ pnpm --filter @repo/db db:studio       # Drizzle Studio GUI
 |---------|--------|---------|
 | `packages/db` | `@repo/db` | Drizzle ORM + Neon serverless Postgres; exports `db` client and all schema tables |
 | `packages/auth` | `@repo/auth` | Better Auth instance (server-only); exports `auth`, `Session`, `User` types |
-| `packages/storage` | `@repo/storage` | UploadThing document storage abstraction; exports `documentService` singleton |
+| `packages/storage` | `@repo/storage` | Cloudflare R2 document storage abstraction; exports `documentService` singleton |
 | `packages/env` | `@repo/env` | `@t3-oss/env-*` validated env modules by domain: `authEnv`, `databaseEnv`, `sanityEnv`, `storageEnv` |
 | `packages/ui` | `@repo/ui` | Shared component library (shadcn/Radix UI); exports via `@repo/ui/components/*`, `@repo/ui/lib/*`, `@repo/ui/hooks/*` |
 | `packages/config` | `@repo/config` | Shared ESLint and TypeScript configs |
@@ -57,24 +56,27 @@ pnpm --filter @repo/db db:studio       # Drizzle Studio GUI
 
 **Content** (Sanity CMS): Schemas live in `apps/web/sanity/schemaTypes/`. Document types: `post`, `page`, `author`, `category`, `datasets`, `service`, `siteSettings`, `value`. The `page` document uses a `sections → pageSections` block array for flexible page building. Object types include `blockContent`, `codeBlock`, `youtubeEmbed`, `iframeEmbed`, `tableBlock`, etc.
 
-**Auth** (`packages/auth`): Better Auth with email/password + GitHub OAuth. Users have additional fields: `username`, `bio`, `website`. The auth schema tables must stay in sync with the Better Auth config — run `db:generate` after changing `additionalFields`.
+**Auth** (`packages/auth`): Better Auth with email/password + GitHub & Google OAuth, plus the `apiKey` plugin (`@better-auth/api-key`) for programmatic access. Users have additional fields: `username`, `bio`, `website`. The auth schema tables must stay in sync with the Better Auth config — run `db:generate` after changing `additionalFields`, and keep the `apikeys` table (see `scripts/add-api-key-table.mjs`) aligned with the plugin.
 
-**Storage** (`packages/storage`): Provider-based abstraction; currently UploadThing. `documentService` is the singleton. To swap providers, instantiate `DocumentService` with a different `StorageProvider`.
+**Storage** (`packages/storage`): Provider-based abstraction; currently Cloudflare R2 (`R2Provider`). `documentService` is the singleton. To swap providers, instantiate `DocumentService` with a different `StorageProvider`.
 
 ### apps/web internals
 
+Everything below lives in the single `apps/web` app (marketing site + dataset platform).
+
+Marketing/content site:
 - Sanity Studio embedded at `/studio` → `src/app/studio/[[...index]]`; config at `sanity.config.ts`, env at `sanity/env.ts`
 - Server actions in `src/app/_actions/` (Resend for email)
 - Providers (React Query, etc.) wrapped in `src/app/_providers/`
 - Sanity preview mode via `src/app/api/preview/`
 - Path aliases: `@/*` → `src/*`, `@components/*` → `src/components/*`, `~sanity/*` → `sanity/*`
 
-### apps/datasets internals
-
+Dataset platform:
 - tRPC app router at `src/server/routers/`; HTTP handler at `src/app/api/trpc/[trpc]/`
 - `publicProcedure` and `protectedProcedure` defined in `src/trpc/init.ts`; `protectedProcedure` validates `session` from Better Auth
 - Server-side caller: `src/trpc/server.ts` exports `api` for RSC use
-- File uploads via UploadThing at `src/app/api/uploadthing/`
+- Dataset REST routes at `src/app/api/datasets/[id]/{parquet,merge,diff}/` (derive/merge Parquet artifacts); shared pipeline logic in `src/lib/platform/dataset-pipeline.ts`
+- Programmatic upload for scraper scripts at `src/app/api/scraper/upload/` (Better Auth API key auth, scope `datasets: ['write']`)
 - AI routes at `src/app/api/ai/` (Google Generative AI via Vercel AI SDK)
 
 ### Design system
@@ -94,8 +96,8 @@ Push back when you have a stronger approach. If a proposed solution has a meanin
 
 - **Styling**: Tailwind utility classes always; inline `style` only when a value cannot be expressed as a utility (e.g. dynamic CSS custom properties).
 - **Components**: One component per file — always. Never define a named component inside another component's file, even as a private helper. Follow atomic design — atoms → molecules → organisms → pages. Place shared components in `packages/ui/src/components/`; app-specific ones inside the app's `src/components/` tree.
-- **shadcn**: Both `apps/web` and `apps/datasets` have `components.json`. Use shadcn components; add new ones via `pnpm dlx shadcn@latest add <component>` (they land in `@repo/ui/components/` per the aliases). Do not hand-roll primitives that shadcn provides.
-- **Icons**: Use Lucide React (`lucide-react`) — it is the configured `iconLibrary` in both `components.json` files. `react-icons` is also available in `apps/web` as a fallback. Only create a custom SVG when the icon is genuinely absent from both libraries.
+- **shadcn**: `apps/web` has a `components.json`. Use shadcn components; add new ones via `pnpm dlx shadcn@latest add <component>` (they land in `@repo/ui/components/` per the aliases). Do not hand-roll primitives that shadcn provides.
+- **Icons**: Use Lucide React (`lucide-react`) — it is the configured `iconLibrary` in `components.json`. `react-icons` is also available in `apps/web` as a fallback. Only create a custom SVG when the icon is genuinely absent from both libraries.
 - **Comments**: Omit unless the logic is non-obvious. No block comments, no JSDoc on self-evident functions.
 
 ### File organisation (`apps/web/src/`)
