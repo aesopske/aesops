@@ -1,0 +1,9 @@
+{
+  "permissions": {
+    "allow": [
+      "Read(//Users/newtou/Developer/aesops/aesrepo/packages/auth/**)",
+      "Read(//Users/newtou/Developer/aesops/aesrepo/packages/storage/**)",
+      "Read(//Users/newtou/Developer/aesops/aesrepo/packages/env/**)"
+    ]
+  }
+}
