@@ -67,21 +67,30 @@ export const documentsRouter = router({
             const typedName = input.name.trim()
             let docName = stripExtension(typedName.length > 0 ? typedName : input.fileName)
 
+            const revisions = input.parentId
+                ? await documentService.listRevisions(input.parentId)
+                : []
+
             if (input.parentId) {
-                const revisions = await documentService.listRevisions(input.parentId)
                 const versionNumber = revisions.length + 2
                 docName = `${docName} v${versionNumber}`
             }
 
+            // Diff against the immediately preceding version (the latest
+            // existing revision, or the root if this is the first revision) —
+            // not always the root — so the shown delta reflects only what
+            // changed in this upload, not the cumulative change since v1.
             const metadataDiff =
                 input.parentId && fileMetadata
                     ? await (async () => {
-                          const parent = await documentService
-                              .getById(input.parentId!)
-                              .catch(() => null)
-                          if (!parent?.metadata) return null
+                          const baseline =
+                              revisions.at(-1) ??
+                              (await documentService
+                                  .getById(input.parentId!)
+                                  .catch(() => null))
+                          if (!baseline?.metadata) return null
                           return computeMetadataDiff(
-                              parent.metadata as DocumentMetadata,
+                              baseline.metadata as DocumentMetadata,
                               fileMetadata,
                           )
                       })()

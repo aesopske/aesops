@@ -55,7 +55,8 @@ export async function POST(req: Request) {
         return new Response('Dataset not found', { status: 404 })
     }
 
-    const meta = doc.metadata as DocumentMetadata | null
+    const queryDoc = await resolveQueryDoc(doc)
+    const meta = queryDoc.metadata as DocumentMetadata | null
     if (!meta) {
         logger.warn(ROUTE, 'no metadata for dataset', { datasetId })
         return new Response('No metadata available for this dataset', {
@@ -65,7 +66,7 @@ export async function POST(req: Request) {
 
     let dataset: Awaited<ReturnType<typeof openDataset>>
     try {
-        dataset = await openDataset(resolveQueryDoc(doc))
+        dataset = await openDataset(queryDoc)
     } catch (err) {
         captureException(err, { tags: { route: ROUTE } })
         logger.error(ROUTE, 'failed to open dataset', { datasetId, err: String(err) })

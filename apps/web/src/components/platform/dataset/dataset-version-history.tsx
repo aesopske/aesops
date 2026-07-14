@@ -1,7 +1,7 @@
 'use client'
 
 import { useState } from 'react'
-import { ChevronDown, ChevronRight, Download, GitCompare } from 'lucide-react'
+import { ChevronDown, ChevronRight, GitCompare } from 'lucide-react'
 import { formatBytes, timeAgo } from '@/lib/platform/format'
 import type { MetadataDiff } from '@/lib/schemas/dataset'
 import { VersionRowDiff } from './version-row-diff'
@@ -14,9 +14,11 @@ type Revision = {
     metadataDiff: unknown
 }
 
-type Props = { documentId: string; revisions: Revision[] }
+type RootDoc = { name: string; size: number; createdAt: Date }
 
-export function DatasetVersionHistory({ documentId, revisions }: Props) {
+type Props = { documentId: string; root: RootDoc; revisions: Revision[] }
+
+export function DatasetVersionHistory({ documentId, root, revisions }: Props) {
     const [open, setOpen] = useState(false)
     const [openDiffs, setOpenDiffs] = useState<Set<string>>(new Set())
 
@@ -30,6 +32,16 @@ export function DatasetVersionHistory({ documentId, revisions }: Props) {
             return next
         })
 
+    // Baseline = the previous version chronologically; the first revision
+    // compares against the root document. Computed in upload order, then
+    // reversed so the newest version renders first and the original last.
+    const orderedRevisions = revisions
+        .map((rev, i) => ({
+            rev,
+            baselineId: i === 0 ? documentId : revisions[i - 1]!.id,
+        }))
+        .reverse()
+
     return (
         <section>
             <button
@@ -37,31 +49,22 @@ export function DatasetVersionHistory({ documentId, revisions }: Props) {
                 className='flex items-center gap-2 font-mono text-[11px] font-medium uppercase tracking-widest text-muted-foreground transition-colors hover:text-foreground'
             >
                 {open ? <ChevronDown size={13} /> : <ChevronRight size={13} />}
-                {revisions.length} {revisions.length === 1 ? 'version' : 'versions'}
+                {revisions.length + 1} versions
             </button>
 
             {open && (
                 <ul className='mt-3 space-y-2'>
-                    {revisions.map((rev, i) => {
+                    {orderedRevisions.map(({ rev, baselineId }, i) => {
                         const diff = rev.metadataDiff as MetadataDiff | null
-                        // Baseline = the previous version chronologically; the
-                        // first revision compares against the root document.
-                        const baselineId = i === 0 ? documentId : revisions[i - 1]!.id
                         const diffOpen = openDiffs.has(rev.id)
+                        const isCurrent = i === 0
                         return (
                             <li
                                 key={rev.id}
                                 className='overflow-hidden rounded-lg border border-border bg-card'
                             >
                                 <div className='flex items-start gap-3 px-4 py-3'>
-                                    <a
-                                        href={`/api/download/${rev.id}`}
-                                        className='flex min-w-0 flex-1 items-start gap-3 transition-colors hover:text-foreground'
-                                    >
-                                        <Download
-                                            size={14}
-                                            className='mt-0.5 shrink-0 text-muted-foreground'
-                                        />
+                                    <div className='flex min-w-0 flex-1 items-start gap-3'>
                                         <div className='min-w-0 flex-1'>
                                             <p className='truncate text-sm font-medium text-foreground'>
                                                 {rev.name}
@@ -69,9 +72,14 @@ export function DatasetVersionHistory({ documentId, revisions }: Props) {
                                             <p className='mt-0.5 text-xs text-muted-foreground'>
                                                 {formatBytes(rev.size)} · {timeAgo(rev.createdAt)}
                                             </p>
-                                            {diff && (
+                                            {(isCurrent || diff) && (
                                                 <div className='mt-1.5 flex flex-wrap gap-1.5'>
-                                                    {diff.rowCountDelta !== 0 && (
+                                                    {isCurrent && (
+                                                        <span className='inline-flex items-center rounded bg-primary/10 px-1.5 py-0.5 font-mono text-[10px] text-primary'>
+                                                            Current
+                                                        </span>
+                                                    )}
+                                                    {diff && diff.rowCountDelta !== 0 && (
                                                         <span
                                                             className={`inline-flex items-center rounded px-1.5 py-0.5 font-mono text-[10px] ${
                                                                 diff.rowCountDelta > 0
@@ -83,7 +91,7 @@ export function DatasetVersionHistory({ documentId, revisions }: Props) {
                                                             {diff.rowCountDelta.toLocaleString()} rows
                                                         </span>
                                                     )}
-                                                    {diff.columnCountDelta !== 0 && (
+                                                    {diff && diff.columnCountDelta !== 0 && (
                                                         <span
                                                             className={`inline-flex items-center rounded px-1.5 py-0.5 font-mono text-[10px] ${
                                                                 diff.columnCountDelta > 0
@@ -95,13 +103,13 @@ export function DatasetVersionHistory({ documentId, revisions }: Props) {
                                                             {diff.columnCountDelta} cols
                                                         </span>
                                                     )}
-                                                    {diff.addedColumns.length > 0 && (
+                                                    {diff && diff.addedColumns.length > 0 && (
                                                         <span className='inline-flex items-center rounded bg-success/10 px-1.5 py-0.5 font-mono text-[10px] text-success'>
                                                             +{diff.addedColumns.length} new col
                                                             {diff.addedColumns.length > 1 ? 's' : ''}
                                                         </span>
                                                     )}
-                                                    {diff.removedColumns.length > 0 && (
+                                                    {diff && diff.removedColumns.length > 0 && (
                                                         <span className='inline-flex items-center rounded bg-destructive/10 px-1.5 py-0.5 font-mono text-[10px] text-destructive'>
                                                             -{diff.removedColumns.length} col
                                                             {diff.removedColumns.length > 1 ? 's' : ''}
@@ -110,7 +118,7 @@ export function DatasetVersionHistory({ documentId, revisions }: Props) {
                                                 </div>
                                             )}
                                         </div>
-                                    </a>
+                                    </div>
                                 </div>
 
                                 <div className='border-t border-border/60'>
@@ -138,6 +146,24 @@ export function DatasetVersionHistory({ documentId, revisions }: Props) {
                             </li>
                         )
                     })}
+
+                    <li className='overflow-hidden rounded-lg border border-border bg-card'>
+                        <div className='flex items-start gap-3 px-4 py-3'>
+                            <div className='min-w-0 flex-1'>
+                                <p className='truncate text-sm font-medium text-foreground'>
+                                    {root.name}
+                                </p>
+                                <p className='mt-0.5 text-xs text-muted-foreground'>
+                                    {formatBytes(root.size)} · {timeAgo(root.createdAt)}
+                                </p>
+                                <div className='mt-1.5 flex flex-wrap gap-1.5'>
+                                    <span className='inline-flex items-center rounded bg-muted px-1.5 py-0.5 font-mono text-[10px] text-muted-foreground'>
+                                        Original
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                    </li>
                 </ul>
             )}
         </section>

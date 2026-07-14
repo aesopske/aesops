@@ -139,8 +139,12 @@ export async function POST(req: NextRequest) {
         const versionNumber = revisions.length + 2
         const baseName = typedName.length > 0 ? stripExtension(typedName) : parent?.name ?? docName
         docName = `${baseName} v${versionNumber}`
-        if (parent?.metadata) {
-            metadataDiff = computeMetadataDiff(parent.metadata as DocumentMetadata, metadata)
+        // Diff against the latest existing revision (or the root if this is
+        // the first revision) — not always the root — so the delta reflects
+        // only what changed in this upload, not the cumulative change since v1.
+        const baseline = revisions.at(-1) ?? parent
+        if (baseline?.metadata) {
+            metadataDiff = computeMetadataDiff(baseline.metadata as DocumentMetadata, metadata)
         }
     }
 

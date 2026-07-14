@@ -10,6 +10,7 @@ import {
     HardDrive,
     Sheet,
     Pencil,
+    Link2,
 } from 'lucide-react'
 import Link from 'next/link'
 import { auth } from '@repo/auth'
@@ -23,7 +24,7 @@ import { DatasetVersionHistory } from '@/components/platform/dataset/dataset-ver
 import { DatasetPageLayout } from '@/components/platform/dataset/dataset-page-layout'
 import { DatasetVisualizations } from '@/components/platform/dataset/dataset-visualizations'
 import { RelatedDiscussions } from '@/components/platform/community/related-discussions'
-import { formatBytes, timeAgo } from '@/lib/platform/format'
+import { formatBytes, formatDate } from '@/lib/platform/format'
 import type { DocumentMetadata } from '@repo/db/schema'
 import BreadCrumbs from '@/components/common/organisms/bread-crumbs/BreadCrumbs'
 import { DownloadButton } from '@/components/platform/dataset/download-button'
@@ -118,7 +119,7 @@ export default async function DatasetPage({ params }: Props) {
                 {/* vignette */}
                 <div className='absolute inset-0 bg-linear-to-b from-black/10 via-transparent to-black/20' />
 
-                <div className='relative z-10 mx-auto max-w-5xl px-6 py-12 lg:py-16'>
+                <div className='relative z-10 mx-auto max-w-6xl px-6 py-12 lg:py-16'>
                     <BreadCrumbs color='light' className='mb-8' />
 
                     {/* file identity */}
@@ -136,18 +137,48 @@ export default async function DatasetPage({ params }: Props) {
                                 <h1 className='break-words font-sans font-light text-2xl sm:text-3xl md:text-4xl lg:text-5xl tracking-tight leading-[1.1] text-primary-foreground'>
                                     {doc.name}
                                 </h1>
-                                <p className='mt-2 text-sm text-primary-foreground/55'>
-                                    {fileType} · {formatBytes(doc.size)} ·
-                                    uploaded {timeAgo(doc.createdAt)}
-                                </p>
-                                {revisionCount > 0 && (
-                                    <p className='mt-1 flex items-center gap-2 text-xs text-primary-foreground/40'>
-                                        <span className='rounded-full bg-primary-foreground/10 px-2 py-0.5 font-mono'>
+                                <div className='mt-2 flex flex-wrap items-center gap-2 text-sm text-primary-foreground/55'>
+                                    {revisionCount > 0 && (
+                                        <span className='rounded-full bg-primary-foreground/10 px-2 py-0.5 font-mono text-xs'>
                                             v{revisionCount + 1}
                                         </span>
-                                        updated {timeAgo(latestRevisionAt!)}
-                                    </p>
-                                )}
+                                    )}
+                                    <span>{fileType}</span>
+                                    {doc.source && (
+                                        <>
+                                            <span className='text-primary-foreground/30'>
+                                                ·
+                                            </span>
+                                            {/^https?:\/\//.test(doc.source) ? (
+                                                <a
+                                                    href={doc.source}
+                                                    target='_blank'
+                                                    rel='noopener noreferrer'
+                                                    className='flex min-w-0 items-center gap-1 truncate underline decoration-primary-foreground/30 underline-offset-2 hover:text-primary-foreground'>
+                                                    <Link2
+                                                        size={12}
+                                                        className='shrink-0'
+                                                    />
+                                                    {doc.source}
+                                                </a>
+                                            ) : (
+                                                <span className='flex min-w-0 items-center gap-1 truncate'>
+                                                    <Link2
+                                                        size={12}
+                                                        className='shrink-0'
+                                                    />
+                                                    {doc.source}
+                                                </span>
+                                            )}
+                                        </>
+                                    )}
+                                </div>
+                                <p className='mt-1.5 text-xs text-primary-foreground/40'>
+                                    uploaded {formatDate(doc.createdAt)}
+                                    {revisionCount > 0 && (
+                                        <> → updated {formatDate(latestRevisionAt!)}</>
+                                    )}
+                                </p>
                             </div>
                         </div>
 
@@ -171,24 +202,11 @@ export default async function DatasetPage({ params }: Props) {
                                     </Link>
                                 }>
                                 <DownloadButton
-                                    rootId={doc.id}
-                                    rootName={doc.name}
-                                    versions={[
-                                        {
-                                            id: doc.id,
-                                            versionNumber: 1,
-                                            size: doc.size,
-                                            metadata: meta,
-                                            createdAt: doc.createdAt,
-                                        },
-                                        ...revisions.map((rev, i) => ({
-                                            id: rev.id,
-                                            versionNumber: i + 2,
-                                            size: rev.size,
-                                            metadata: (rev.metadata as DocumentMetadata | null),
-                                            createdAt: rev.createdAt,
-                                        })),
-                                    ]}
+                                    latestVersionId={
+                                        revisions.length > 0
+                                            ? revisions[revisions.length - 1]!.id
+                                            : doc.id
+                                    }
                                     isLoggedIn={isLoggedIn}
                                 />
                             </AuthGate>
@@ -259,6 +277,11 @@ export default async function DatasetPage({ params }: Props) {
                         {doc.parentId === null && revisions.length > 0 && (
                             <DatasetVersionHistory
                                 documentId={doc.id}
+                                root={{
+                                    name: doc.name,
+                                    size: doc.size,
+                                    createdAt: doc.createdAt,
+                                }}
                                 revisions={revisions}
                             />
                         )}
