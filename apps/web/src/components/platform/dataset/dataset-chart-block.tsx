@@ -20,7 +20,7 @@ import {
 } from 'recharts'
 import { Alert, AlertDescription } from '@repo/ui/components/alert'
 import { AlertCircle } from 'lucide-react'
-import { C, TOOLTIP_STYLE, TICK_STYLE } from '@/lib/platform/chart-theme'
+import { C, TOOLTIP_STYLE, TICK_STYLE, formatCompactNumber, labelFractionDigits } from '@/lib/platform/chart-theme'
 import { ChartDataView } from '@/components/platform/dataset/chart-data-view'
 import { ChartXAxisTick } from '@/components/platform/dataset/chart-x-axis-tick'
 
@@ -38,7 +38,13 @@ type Props = { code: string; isIncomplete: boolean }
 
 function Shell({ title, json, children }: { title?: string; json?: string; children: React.ReactNode }) {
     return (
-        <div className='not-prose my-4 rounded-xl border border-border bg-card p-4 shadow-sm'>
+        <div className='not-prose relative my-4 overflow-hidden rounded-xl border border-border bg-card p-4 shadow-sm'>
+            <img
+                src='/logo-mark.svg'
+                alt=''
+                aria-hidden='true'
+                className='pointer-events-none absolute bottom-3 left-4 h-6 w-6 select-none'
+            />
             {json ? (
                 <ChartDataView json={json} title={title}>
                     {children}
@@ -130,8 +136,9 @@ export function DatasetChartBlock({ code, isIncomplete }: Props) {
 
     const { chartType, title, xKey, series, data } = config
     const showLegend = series.length > 1
-    // Value labels only read cleanly with one series and few enough points to avoid overlap
-    const showValueLabels = series.length === 1 && data.length <= 10
+    // Always show value labels — trim decimals as bars/points pile up (categories ×
+    // series) instead of hiding the labels, so the chart stays readable either way.
+    const valueLabelFormatter = (v: number) => formatCompactNumber(v, labelFractionDigits(data.length * series.length))
     const prettyJson = JSON.stringify(config, null, 2)
 
     if (chartType === 'pie' || chartType === 'donut') {
@@ -202,7 +209,13 @@ export function DatasetChartBlock({ code, isIncomplete }: Props) {
                             {showLegend && <Legend wrapperStyle={{ fontSize: 11 }} />}
                             {series.map((s, i) => (
                                 <Bar key={s.key} dataKey={s.key} name={s.label ?? s.key} fill={PALETTE[i % PALETTE.length]} radius={[3, 3, 0, 0]}>
-                                    {showValueLabels && <LabelList position='top' offset={12} className='fill-foreground' fontSize={12} />}
+                                    <LabelList
+                                        position='top'
+                                        offset={12}
+                                        className='fill-foreground'
+                                        fontSize={12}
+                                        formatter={valueLabelFormatter}
+                                    />
                                 </Bar>
                             ))}
                         </BarChart>
@@ -214,17 +227,26 @@ export function DatasetChartBlock({ code, isIncomplete }: Props) {
                                 tickLine={false}
                                 axisLine={false}
                                 tick={TICK_STYLE}
-                                width={28}
+                                width={40}
                                 domain={getLineYDomain(data, series) ?? ['auto', 'auto']}
+                                tickFormatter={formatCompactNumber}
                             />
                             <Tooltip contentStyle={TOOLTIP_STYLE} />
                             {showLegend && <Legend wrapperStyle={{ fontSize: 11, paddingTop: 0 }} />}
                             {series.map((s, i) => (
-                                <Line key={s.key} type='monotone' dataKey={s.key} name={s.label ?? s.key} stroke={PALETTE[i % PALETTE.length]} strokeWidth={2} dot={false} />
+                                <Line key={s.key} type='monotone' dataKey={s.key} name={s.label ?? s.key} stroke={PALETTE[i % PALETTE.length]} strokeWidth={2} dot={false}>
+                                    <LabelList
+                                        position='top'
+                                        offset={12}
+                                        className='fill-foreground'
+                                        fontSize={12}
+                                        formatter={valueLabelFormatter}
+                                    />
+                                </Line>
                             ))}
                         </LineChart>
                     ) : (
-                        <AreaChart data={data} margin={{ top: 4, right: 16, bottom: 0, left: 16 }}>
+                        <AreaChart data={data} margin={{ top: 20, right: 16, bottom: 0, left: 16 }}>
                             <CartesianGrid strokeDasharray='3 3' stroke='var(--border)' vertical={false} />
                             {xAxis}
                             <Tooltip contentStyle={TOOLTIP_STYLE} />
@@ -248,7 +270,15 @@ export function DatasetChartBlock({ code, isIncomplete }: Props) {
                                     fill={`url(#fill-${s.key})`}
                                     fillOpacity={0.4}
                                     strokeWidth={2}
-                                />
+                                >
+                                    <LabelList
+                                        position='top'
+                                        offset={12}
+                                        className='fill-foreground'
+                                        fontSize={12}
+                                        formatter={valueLabelFormatter}
+                                    />
+                                </Area>
                             ))}
                         </AreaChart>
                     )}

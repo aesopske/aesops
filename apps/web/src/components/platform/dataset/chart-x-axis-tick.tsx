@@ -5,6 +5,14 @@ import { TICK_STYLE } from '@/lib/platform/chart-theme'
 const MAX_CHARS_PER_LINE = 6
 const MAX_LINES = 2
 const LINE_HEIGHT = 12
+// Beyond this many categories, two-line wrapping collides with neighboring
+// labels — fall back to a short single-line truncation instead.
+const TRUNCATE_THRESHOLD = 6
+const TRUNCATE_CHARS = 3
+
+function truncateLabel(value: string, maxChars = TRUNCATE_CHARS): string {
+    return value.length > maxChars ? `${value.slice(0, maxChars)}…` : value
+}
 
 function wrapLabel(value: string, maxCharsPerLine = MAX_CHARS_PER_LINE, maxLines = MAX_LINES): string[] {
     const words = value.split(' ')
@@ -42,7 +50,9 @@ type Props = {
 export function ChartXAxisTick({ x, y, payload, index, totalCount }: Props) {
     if (x === undefined || y === undefined || !payload) return null
 
-    const lines = wrapLabel(String(payload.value))
+    const value = String(payload.value)
+    const tooManyToWrap = totalCount !== undefined && totalCount > TRUNCATE_THRESHOLD
+    const lines = tooManyToWrap ? [truncateLabel(value)] : wrapLabel(value)
 
     // Anchor edge ticks away from the chart bounds so they don't get clipped
     const isFirst = index === 0

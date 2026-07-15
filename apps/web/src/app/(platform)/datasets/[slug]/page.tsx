@@ -10,7 +10,6 @@ import {
     HardDrive,
     Sheet,
     Pencil,
-    Link2,
 } from 'lucide-react'
 import Link from 'next/link'
 import { auth } from '@repo/auth'
@@ -135,7 +134,7 @@ export default async function DatasetPage({ params }: Props) {
                                 )}
                             </div>
                             <div className='min-w-0'>
-                                <h1 className='break-words font-sans font-light text-2xl sm:text-3xl md:text-4xl lg:text-5xl tracking-tight leading-[1.1] text-primary-foreground'>
+                                <h1 className='break-words font-sans font-light text-2xl sm:text-3xl md:text-4xl lg:text-5xl tracking-tight leading-[1.1] text-primary-foreground max-w-2xl'>
                                     {doc.name}
                                 </h1>
                                 <div className='mt-2 flex flex-wrap items-center gap-2 text-sm text-primary-foreground/55'>
@@ -155,31 +154,30 @@ export default async function DatasetPage({ params }: Props) {
                                                     href={doc.source}
                                                     target='_blank'
                                                     rel='noopener noreferrer'
-                                                    className='flex min-w-0 items-center gap-1 truncate underline decoration-primary-foreground/30 underline-offset-2 hover:text-primary-foreground'>
-                                                    <Link2
-                                                        size={12}
-                                                        className='shrink-0'
-                                                    />
-                                                    {doc.source}
+                                                    className='shrink-0 underline decoration-primary-foreground/30 underline-offset-2 hover:text-primary-foreground'>
+                                                    Source
                                                 </a>
                                             ) : (
-                                                <span className='flex min-w-0 items-center gap-1 truncate'>
-                                                    <Link2
-                                                        size={12}
-                                                        className='shrink-0'
-                                                    />
+                                                <span className='min-w-0 truncate'>
                                                     {doc.source}
                                                 </span>
                                             )}
                                         </>
                                     )}
+                                    <span className='text-primary-foreground/30'>
+                                        ·
+                                    </span>
+                                    <span className='text-primary-foreground/40'>
+                                        Uploaded {formatDate(doc.createdAt)}
+                                        {revisionCount > 0 && (
+                                            <>
+                                                {' '}
+                                                &bull; Updated{' '}
+                                                {formatDate(latestRevisionAt!)}
+                                            </>
+                                        )}
+                                    </span>
                                 </div>
-                                <p className='mt-1.5 text-xs text-primary-foreground/40'>
-                                    uploaded {formatDate(doc.createdAt)}
-                                    {revisionCount > 0 && (
-                                        <> → updated {formatDate(latestRevisionAt!)}</>
-                                    )}
-                                </p>
                             </div>
                         </div>
 
@@ -205,7 +203,8 @@ export default async function DatasetPage({ params }: Props) {
                                 <DownloadButton
                                     latestVersionId={
                                         revisions.length > 0
-                                            ? revisions[revisions.length - 1]!.id
+                                            ? revisions[revisions.length - 1]!
+                                                  .id
                                             : doc.id
                                     }
                                     isLoggedIn={isLoggedIn}
@@ -287,21 +286,6 @@ export default async function DatasetPage({ params }: Props) {
                             />
                         )}
 
-                        {isOwner && (
-                            <section>
-                                <SectionHeading label='Downloads' />
-                                <div className='mt-4 overflow-hidden rounded-xl border border-border bg-card p-6 shadow-sm'>
-                                    <DownloadAnalytics
-                                        documentId={
-                                            revisions.length > 0
-                                                ? revisions[revisions.length - 1]!.id
-                                                : doc.id
-                                        }
-                                    />
-                                </div>
-                            </section>
-                        )}
-
                         <section>
                             <SectionHeading label='Community discussions' />
                             <div className='mt-4 overflow-hidden rounded-xl border border-border bg-card shadow-sm'>
@@ -314,6 +298,23 @@ export default async function DatasetPage({ params }: Props) {
                                 </div>
                             </div>
                         </section>
+
+                        {isOwner && (
+                            <section>
+                                <SectionHeading label='Downloads' />
+                                <div className='mt-4 overflow-hidden rounded-xl border border-border bg-card p-6 shadow-sm'>
+                                    <DownloadAnalytics
+                                        documentId={
+                                            revisions.length > 0
+                                                ? revisions[
+                                                      revisions.length - 1
+                                                  ]!.id
+                                                : doc.id
+                                        }
+                                    />
+                                </div>
+                            </section>
+                        )}
                     </>
                 }
                 right={

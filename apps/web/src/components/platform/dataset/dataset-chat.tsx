@@ -1,12 +1,21 @@
 'use client'
 
-import { useRef, useEffect, useState } from 'react'
+import { useMemo, useRef, useEffect, useState } from 'react'
 import { useChat } from '@ai-sdk/react'
 import { Streamdown, type CustomRenderer } from 'streamdown'
-import { SendHorizonal, RotateCcw, Copy, Check } from 'lucide-react'
+import { SendHorizonal, RotateCcw, Copy, Check, Pin, PinOff } from 'lucide-react'
 import { cn } from '@repo/ui/lib/utils'
 import { DatasetChartBlock } from '@/components/platform/dataset/dataset-chart-block'
 import { DatasetChatLoading } from '@/components/platform/dataset/dataset-chat-loading'
+import { DatasetChatTable } from '@/components/platform/dataset/dataset-chat-table'
+import { PinnedMessagesRow } from '@/components/platform/dataset/pinned-messages-row'
+import {
+    PINNED_MESSAGES_LIMIT,
+    pinMessage,
+    unpinMessage,
+    usePinnedMessages,
+} from '@/lib/platform/pinned-messages'
+import { CHAT_ACTION_BUTTON_CLASS } from '@/lib/platform/chat-action-button'
 
 const CHART_RENDERERS: CustomRenderer[] = [
     { component: DatasetChartBlock, language: 'chart' },
@@ -24,10 +33,40 @@ function CopyButton({ text }: { text: string }) {
 
     return (
         <button
+            type='button'
             onClick={handleCopy}
-            className='flex items-center gap-1 text-[10px] text-muted-foreground/60 transition-colors hover:text-muted-foreground'>
-            {copied ? <Check size={10} /> : <Copy size={10} />}
-            {copied ? 'Copied' : 'Copy'}
+            title={copied ? 'Copied' : 'Copy'}
+            aria-label={copied ? 'Copied' : 'Copy'}
+            className={CHAT_ACTION_BUTTON_CLASS}>
+            {copied ? <Check size={12} /> : <Copy size={12} />}
+        </button>
+    )
+}
+
+function PinButton({
+    pinned,
+    disabled,
+    onToggle,
+}: {
+    pinned: boolean
+    disabled: boolean
+    onToggle: () => void
+}) {
+    const label = disabled
+        ? `You can only pin up to ${PINNED_MESSAGES_LIMIT} messages`
+        : pinned
+          ? 'Unpin message'
+          : 'Pin message'
+
+    return (
+        <button
+            type='button'
+            onClick={onToggle}
+            disabled={disabled}
+            title={label}
+            aria-label={label}
+            className={CHAT_ACTION_BUTTON_CLASS}>
+            {pinned ? <PinOff size={12} /> : <Pin size={12} />}
         </button>
     )
 }
@@ -63,6 +102,14 @@ export function DatasetChat({
         : STARTER_QUESTIONS
     const scrollRef = useRef<HTMLDivElement>(null)
     const textareaRef = useRef<HTMLTextAreaElement>(null)
+    const messageRefs = useRef(new Map<string, HTMLDivElement>())
+    const [highlightedId, setHighlightedId] = useState<string | null>(null)
+
+    const pinnedMessages = usePinnedMessages(datasetId)
+    const pinnedIds = useMemo(
+        () => new Set(pinnedMessages.map((m) => m.id)),
+        [pinnedMessages],
+    )
 
     const {
         messages,
@@ -86,6 +133,23 @@ export function DatasetChat({
 
     function handleStarterClick(question: string) {
         append({ role: 'user', content: question })
+    }
+
+    function handleTogglePin(m: { id: string; role: 'user' | 'assistant'; content: string }) {
+        if (pinnedIds.has(m.id)) {
+            unpinMessage(datasetId, m.id)
+        } else {
+            pinMessage(datasetId, { id: m.id, role: m.role, content: m.content })
+        }
+    }
+
+    function handleSelectPinned(messageId: string) {
+        const el = messageRefs.current.get(messageId)
+        el?.scrollIntoView({ behavior: 'smooth', block: 'center' })
+        setHighlightedId(messageId)
+        setTimeout(() => {
+            setHighlightedId((current) => (current === messageId ? null : current))
+        }, 1500)
     }
 
     function handleTextareaChange(e: React.ChangeEvent<HTMLTextAreaElement>) {
@@ -145,50 +209,100 @@ export function DatasetChat({
                     <div className='space-y-4'>
                         {messages
                             .filter((m) => m.content.trim())
-                            .map((m) => (
-                                <div
-                                    key={m.id}
-                                    className={`flex flex-col ${m.role === 'user' ? 'items-end' : 'items-start'}`}>
+                            .map((m) => {
+                                const role: 'user' | 'assistant' =
+                                    m.role === 'user' ? 'user' : 'assistant'
+                                const pinned = pinnedIds.has(m.id)
+                                const pinDisabled =
+                                    !pinned &&
+                                    pinnedMessages.length >=
+                                        PINNED_MESSAGES_LIMIT
+                                return (
                                     <div
-                                        className={`rounded-2xl px-4 py-3 text-sm ${
-                                            m.role === 'user'
-                                                ? 'max-w-[82%] rounded-tr-sm bg-primary/10 text-foreground'
-                                                : 'w-full rounded-tl-sm bg-muted/60 text-foreground'
-                                        }`}>
-                                        {m.role === 'user' ? (
-                                            <p className='whitespace-pre-wrap leading-relaxed'>
-                                                {m.content}
-                                            </p>
-                                        ) : (
-                                            <div className='prose prose-sm max-w-none dark:prose-invert prose-p:leading-relaxed prose-p:my-1 prose-headings:font-medium'>
-                                                <Streamdown
-                                                    mode='streaming'
-                                                    isAnimating={isLoading}
-                                                    plugins={{
-                                                        renderers:
-                                                            CHART_RENDERERS,
-                                                    }}>
+                                        key={m.id}
+                                        ref={(el) => {
+                                            if (el)
+                                                messageRefs.current.set(
+                                                    m.id,
+                                                    el,
+                                                )
+                                            else
+                                                messageRefs.current.delete(
+                                                    m.id,
+                                                )
+                                        }}
+                                        className={`flex flex-col ${role === 'user' ? 'items-end' : 'items-start'}`}>
+                                        <div
+                                            className={`rounded-2xl px-4 py-3 text-sm transition-shadow ${
+                                                role === 'user'
+                                                    ? 'max-w-[82%] rounded-tr-sm bg-primary/10 text-foreground'
+                                                    : 'w-full rounded-tl-sm bg-muted/60 text-foreground'
+                                            } ${
+                                                highlightedId === m.id
+                                                    ? 'ring-2 ring-primary/60'
+                                                    : ''
+                                            }`}>
+                                            {role === 'user' ? (
+                                                <p className='whitespace-pre-wrap leading-relaxed'>
                                                     {m.content}
-                                                </Streamdown>
-                                            </div>
-                                        )}
-                                    </div>
-                                    {m.role === 'user' && (
-                                        <div className='mt-1 flex items-center gap-3'>
-                                            <button
-                                                onClick={() => {
-                                                    setInput(m.content)
-                                                    textareaRef.current?.focus()
-                                                }}
-                                                className='flex items-center gap-1 text-[10px] text-muted-foreground/60 transition-colors hover:text-muted-foreground'>
-                                                <RotateCcw size={10} />
-                                                Retry
-                                            </button>
-                                            <CopyButton text={m.content} />
+                                                </p>
+                                            ) : (
+                                                <div className='prose prose-sm max-w-none dark:prose-invert prose-p:leading-relaxed prose-p:my-1 prose-headings:font-medium'>
+                                                    <Streamdown
+                                                        mode='streaming'
+                                                        isAnimating={
+                                                            isLoading
+                                                        }
+                                                        plugins={{
+                                                            renderers:
+                                                                CHART_RENDERERS,
+                                                        }}
+                                                        components={{
+                                                            table: DatasetChatTable,
+                                                        }}>
+                                                        {m.content}
+                                                    </Streamdown>
+                                                </div>
+                                            )}
                                         </div>
-                                    )}
-                                </div>
-                            ))}
+                                        <div className='mt-1 flex items-center gap-1.5'>
+                                            {role === 'user' && (
+                                                <>
+                                                    <button
+                                                        type='button'
+                                                        onClick={() => {
+                                                            setInput(
+                                                                m.content,
+                                                            )
+                                                            textareaRef.current?.focus()
+                                                        }}
+                                                        title='Retry'
+                                                        aria-label='Retry'
+                                                        className={
+                                                            CHAT_ACTION_BUTTON_CLASS
+                                                        }>
+                                                        <RotateCcw
+                                                            size={12}
+                                                        />
+                                                    </button>
+                                                </>
+                                            )}
+                                            <CopyButton text={m.content} />
+                                            <PinButton
+                                                pinned={pinned}
+                                                disabled={pinDisabled}
+                                                onToggle={() =>
+                                                    handleTogglePin({
+                                                        id: m.id,
+                                                        role,
+                                                        content: m.content,
+                                                    })
+                                                }
+                                            />
+                                        </div>
+                                    </div>
+                                )
+                            })}
 
                         {isLoading && <DatasetChatLoading />}
 
@@ -209,6 +323,10 @@ export function DatasetChat({
             </div>
 
             {/* input */}
+            <PinnedMessagesRow
+                datasetId={datasetId}
+                onSelect={handleSelectPinned}
+            />
             <form onSubmit={handleFormSubmit} className='p-3 pt-0'>
                 <div className='flex items-end gap-2 rounded-2xl border border-border bg-muted/40 px-4 py-3.5 shadow-sm transition-colors focus-within:border-primary/40 focus-within:bg-card'>
                     <textarea

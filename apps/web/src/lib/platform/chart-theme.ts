@@ -16,3 +16,22 @@ export const TOOLTIP_STYLE = {
 } as const
 
 export const TICK_STYLE = { fill: 'var(--muted-foreground)', fontSize: 11 } as const
+
+// Compact axis/tick values: 1, 20, 200, 2.19K, 20K, 200K, 2.19M. `maxFractionDigits`
+// defaults to 2 so nearby values (e.g. 2.19M vs 2.20M) stay distinguishable — pass a
+// lower value (e.g. 0) to shorten labels when a chart has many crowded data points.
+// Trailing zeros are always dropped (minimumFractionDigits defaults to 0).
+export function formatCompactNumber(value: number, maxFractionDigits = 2): string {
+    return new Intl.NumberFormat('en-US', {
+        notation: 'compact',
+        maximumFractionDigits: maxFractionDigits,
+    }).format(value)
+}
+
+// Fewer decimals as data points pile up, so per-bar/point value labels stay short
+// enough not to collide with each other or the axis labels beneath them. Even a
+// single decimal digit was enough to cause collisions once past a handful of bars,
+// so this drops straight to whole numbers rather than stepping through 1 first.
+export function labelFractionDigits(totalPoints: number): number {
+    return totalPoints <= 6 ? 2 : 0
+}

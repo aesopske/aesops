@@ -3,11 +3,9 @@
 import { useState } from 'react'
 import { Code2, Copy, Check } from 'lucide-react'
 import useCopy from '@/hooks/useCopy'
+import { CHAT_ACTION_BUTTON_CLASS } from '@/lib/platform/chat-action-button'
 
 type Props = { json: string; title?: string; children: React.ReactNode }
-
-const BUTTON_CLASS =
-    'flex items-center gap-1 rounded-md px-2 py-1 text-[11px] text-muted-foreground transition-colors hover:bg-muted hover:text-foreground'
 
 export function ChartDataView({ json, title, children }: Props) {
     const [showJson, setShowJson] = useState(false)
@@ -23,14 +21,22 @@ export function ChartDataView({ json, title, children }: Props) {
             ) : (
                 children
             )}
-            <div className='mt-2 flex items-center justify-end gap-1'>
-                <button onClick={() => setShowJson((v) => !v)} className={BUTTON_CLASS}>
+            <div className='mt-2 flex items-center justify-end gap-1.5'>
+                <button
+                    type='button'
+                    onClick={() => setShowJson((v) => !v)}
+                    title={showJson ? 'Hide data' : 'View data'}
+                    aria-label={showJson ? 'Hide data' : 'View data'}
+                    className={CHAT_ACTION_BUTTON_CLASS}>
                     <Code2 className='h-3 w-3' />
-                    {showJson ? 'Hide data' : 'View data'}
                 </button>
-                <button onClick={() => onCopy(json)} className={BUTTON_CLASS}>
+                <button
+                    type='button'
+                    onClick={() => onCopy(json)}
+                    title={copied ? 'Copied' : 'Copy'}
+                    aria-label={copied ? 'Copied' : 'Copy'}
+                    className={CHAT_ACTION_BUTTON_CLASS}>
                     {copied ? <Check className='h-3 w-3' /> : <Copy className='h-3 w-3' />}
-                    {copied ? 'Copied' : 'Copy'}
                 </button>
             </div>
         </div>

@@ -7,8 +7,8 @@ import type { ColumnStats } from '@repo/db/schema'
 
 export type Row = Record<string, unknown>
 
-export type FilterOp = 'eq' | 'neq' | 'contains' | 'gt' | 'gte' | 'lt' | 'lte' | 'in'
-export type Filter = { column: string; op: FilterOp; value: string }
+export type FilterOp = 'eq' | 'neq' | 'contains' | 'gt' | 'gte' | 'lt' | 'lte' | 'in' | 'is_null' | 'is_not_null'
+export type Filter = { column: string; op: FilterOp; value?: string }
 export type AggregateFn = 'count' | 'sum' | 'avg' | 'min' | 'max' | 'median'
 export type DatePart = 'year' | 'month' | 'month_year' | 'quarter'
 
@@ -57,7 +57,13 @@ function num(colSql: string): string {
 
 function buildFilter(f: Filter, dq: DatasetQuery): string {
     const col = ident(f.column, dq)
-    const v = f.value.trim().toLowerCase()
+
+    // No value to compare — these test for blank/missing cells, e.g. isolating a
+    // county-level summary row (sub_county IS NULL) from its detail rows.
+    if (f.op === 'is_null') return `(${col} IS NULL OR CAST(${col} AS VARCHAR) = '')`
+    if (f.op === 'is_not_null') return `(${col} IS NOT NULL AND CAST(${col} AS VARCHAR) <> '')`
+
+    const v = f.value!.trim().toLowerCase()
     switch (f.op) {
         case 'eq':
             return `(${txt(col)} = ${lit(v)} OR ${num(col)} = TRY_CAST(${lit(f.value)} AS DOUBLE))`
