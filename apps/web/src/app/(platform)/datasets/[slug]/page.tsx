@@ -28,6 +28,7 @@ import { formatBytes, formatDate } from '@/lib/platform/format'
 import type { DocumentMetadata } from '@repo/db/schema'
 import BreadCrumbs from '@/components/common/organisms/bread-crumbs/BreadCrumbs'
 import { DownloadButton } from '@/components/platform/dataset/download-button'
+import { DownloadAnalytics } from '@/components/platform/dataset/download-analytics'
 
 type Props = { params: Promise<{ slug: string }> }
 
@@ -284,6 +285,21 @@ export default async function DatasetPage({ params }: Props) {
                                 }}
                                 revisions={revisions}
                             />
+                        )}
+
+                        {isOwner && (
+                            <section>
+                                <SectionHeading label='Downloads' />
+                                <div className='mt-4 overflow-hidden rounded-xl border border-border bg-card p-6 shadow-sm'>
+                                    <DownloadAnalytics
+                                        documentId={
+                                            revisions.length > 0
+                                                ? revisions[revisions.length - 1]!.id
+                                                : doc.id
+                                        }
+                                    />
+                                </div>
+                            </section>
                         )}
 
                         <section>

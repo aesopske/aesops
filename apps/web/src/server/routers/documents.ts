@@ -1,8 +1,9 @@
 import { z } from 'zod'
 import { TRPCError } from '@trpc/server'
+import { subDays, subMonths, subWeeks, subYears } from 'date-fns'
 import { publicProcedure, protectedProcedure, router } from '@/trpc/init'
 import { documentService } from '@repo/storage'
-import { db, chatMessages, and, eq, desc } from '@repo/db'
+import { db, chatMessages, datasetDownloads, documents, and, eq, desc, gte, count, sql } from '@repo/db'
 import type { DocumentMetadata } from '@repo/db/schema'
 import { computeMetadataDiff } from '@/lib/platform/metadata-diff'
 import {
@@ -13,6 +14,17 @@ import {
 } from '@/lib/platform/document-naming'
 
 const MIN_DISTINCT_ASKERS = 2
+
+const DOWNLOAD_PERIODS = ['day', 'week', 'month', 'year'] as const
+type DownloadPeriod = (typeof DOWNLOAD_PERIODS)[number]
+
+// How far back each period's trailing chart window looks.
+const DOWNLOAD_PERIOD_SINCE: Record<DownloadPeriod, () => Date> = {
+    day: () => subDays(new Date(), 30),
+    week: () => subWeeks(new Date(), 12),
+    month: () => subMonths(new Date(), 12),
+    year: () => subYears(new Date(), 5),
+}
 
 function normalizeQuestion(content: string): string {
     return content.trim().toLowerCase().replace(/\s+/g, ' ').replace(/[?!.]+$/, '')
@@ -263,5 +275,71 @@ export const documentsRouter = router({
             }
             await documentService.delete(input.id)
             return { deleted: input.id }
+        }),
+
+    // Download counts for a single dataset, bucketed by period. Owner-only —
+    // this is a private stat about who's using the owner's own upload.
+    downloadStats: protectedProcedure
+        .input(
+            z.object({
+                documentId: z.string(),
+                period: z.enum(DOWNLOAD_PERIODS),
+            }),
+        )
+        .query(async ({ input, ctx }) => {
+            const doc = await documentService.getById(input.documentId)
+            if (!doc)
+                throw new TRPCError({
+                    code: 'NOT_FOUND',
+                    message: 'Document not found',
+                })
+            if (doc.uploadedBy !== ctx.session.user.id) {
+                throw new TRPCError({
+                    code: 'FORBIDDEN',
+                    message: 'You do not own this document',
+                })
+            }
+
+            const bucket = sql<string>`date_trunc(${input.period}, ${datasetDownloads.createdAt})`
+            // Group/order by the projected alias, not by re-embedding `bucket` —
+            // Drizzle renders the same expression unqualified in the select list
+            // but table-qualified elsewhere, and Postgres rejects the mismatch
+            // ("column ... must appear in the GROUP BY clause") even though both
+            // refer to the same column.
+            const rows = await db
+                .select({ bucketStart: bucket.as('bucket_start'), count: count() })
+                .from(datasetDownloads)
+                .where(
+                    and(
+                        eq(datasetDownloads.documentId, input.documentId),
+                        gte(datasetDownloads.createdAt, DOWNLOAD_PERIOD_SINCE[input.period]()),
+                    ),
+                )
+                .groupBy(sql`bucket_start`)
+                .orderBy(sql`bucket_start`)
+
+            return rows.map((row) => ({ bucketStart: new Date(row.bucketStart), count: row.count }))
+        }),
+
+    // Total downloads across every dataset the current user owns, bucketed by
+    // period — a per-user rollup, not a per-downloader breakdown.
+    myDownloadStats: protectedProcedure
+        .input(z.object({ period: z.enum(DOWNLOAD_PERIODS) }))
+        .query(async ({ input, ctx }) => {
+            const bucket = sql<string>`date_trunc(${input.period}, ${datasetDownloads.createdAt})`
+            const rows = await db
+                .select({ bucketStart: bucket.as('bucket_start'), count: count() })
+                .from(datasetDownloads)
+                .innerJoin(documents, eq(documents.id, datasetDownloads.documentId))
+                .where(
+                    and(
+                        eq(documents.uploadedBy, ctx.session.user.id),
+                        gte(datasetDownloads.createdAt, DOWNLOAD_PERIOD_SINCE[input.period]()),
+                    ),
+                )
+                .groupBy(sql`bucket_start`)
+                .orderBy(sql`bucket_start`)
+
+            return rows.map((row) => ({ bucketStart: new Date(row.bucketStart), count: row.count }))
         }),
 })
