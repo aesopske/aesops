@@ -1,5 +1,5 @@
 import 'server-only'
-import { and, asc, desc, eq, ilike, inArray, isNull, or, sql } from 'drizzle-orm'
+import { and, asc, desc, eq, gte, ilike, inArray, isNotNull, isNull, lte, or, sql } from 'drizzle-orm'
 import { db, documents } from '@repo/db'
 import type {
     StorageProvider,
@@ -187,6 +187,71 @@ export class DocumentService {
             )
             .orderBy(desc(documents.createdAt))
         return this.attachRevisionCounts(rows)
+    }
+
+    /** Paginated, filterable dataset browse — powers the public datasets page. */
+    async browse(filters: {
+        query?: string
+        license?: string[]
+        minSize?: number
+        maxSize?: number
+        minRows?: number
+        maxRows?: number
+        page?: number
+        pageSize?: number
+    } = {}) {
+        const { query, license, minSize, maxSize, minRows, maxRows } = filters
+        const page = filters.page ?? 1
+        const pageSize = filters.pageSize ?? 20
+
+        const conditions = [isNull(documents.parentId)]
+        if (query) {
+            const q = `%${query}%`
+            conditions.push(
+                or(
+                    ilike(documents.name, q),
+                    sql`${documents.metadata}::text ilike ${q}`,
+                )!,
+            )
+        }
+        if (license?.length) conditions.push(inArray(documents.license, license))
+        if (minSize !== undefined) conditions.push(gte(documents.size, minSize))
+        if (maxSize !== undefined) conditions.push(lte(documents.size, maxSize))
+        if (minRows !== undefined)
+            conditions.push(sql`(${documents.metadata}->>'rowCount')::int >= ${minRows}`)
+        if (maxRows !== undefined)
+            conditions.push(sql`(${documents.metadata}->>'rowCount')::int <= ${maxRows}`)
+
+        const where = and(...conditions)
+
+        const [rows, countRows] = await Promise.all([
+            this.database
+                .select()
+                .from(documents)
+                .where(where)
+                .orderBy(desc(documents.createdAt))
+                .limit(pageSize)
+                .offset((page - 1) * pageSize),
+            this.database
+                .select({ count: sql<number>`count(*)::int` })
+                .from(documents)
+                .where(where),
+        ])
+
+        const items = await this.attachRevisionCounts(rows)
+        return { items, total: countRows[0]?.count ?? 0 }
+    }
+
+    /** Distinct license values currently in use, for the browse filter panel. */
+    async distinctLicenses(): Promise<string[]> {
+        const rows = await this.database
+            .selectDistinct({ license: documents.license })
+            .from(documents)
+            .where(and(isNull(documents.parentId), isNotNull(documents.license)))
+        return rows
+            .map((r) => r.license)
+            .filter((l): l is string => l !== null)
+            .sort()
     }
 
     async listByUser(userId: string) {

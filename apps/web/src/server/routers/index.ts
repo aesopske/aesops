@@ -4,6 +4,7 @@ import { documentsRouter } from './documents'
 import { communityRouter } from './community'
 import { commentsRouter } from './comments'
 import { adminApiKeysRouter } from './admin-api-keys'
+import { adminAiUsageRouter } from './admin-ai-usage'
 
 export const appRouter = router({
     health: publicProcedure.query(() => ({
@@ -20,6 +21,7 @@ export const appRouter = router({
     comments: commentsRouter,
     admin: router({
         apiKeys: adminApiKeysRouter,
+        aiUsage: adminAiUsageRouter,
     }),
 })
 

@@ -136,6 +136,28 @@ export const documentsRouter = router({
                 : documentService.list(),
         ),
 
+    // Paginated, filterable browse for the public datasets page.
+    browse: publicProcedure
+        .input(
+            z
+                .object({
+                    query: z.string().optional(),
+                    license: z.array(z.string()).optional(),
+                    minSize: z.number().optional(),
+                    maxSize: z.number().optional(),
+                    minRows: z.number().optional(),
+                    maxRows: z.number().optional(),
+                    page: z.number().int().min(1).default(1),
+                    pageSize: z.number().int().min(1).max(100).default(20),
+                })
+                .optional(),
+        )
+        .query(({ input }) => documentService.browse(input ?? {})),
+
+    distinctLicenses: publicProcedure.query(() =>
+        documentService.distinctLicenses(),
+    ),
+
     listMine: protectedProcedure
         .input(z.object({ query: z.string().optional() }).optional())
         .query(({ input, ctx }) => {

@@ -43,7 +43,7 @@ export async function generateInsights(
         providerOptions: {
             google: { thinkingConfig: { thinkingBudget: 0 } },
         },
-        prompt: `You are a data analyst. Analyze the following dataset and respond with bullet points only — no headers, no prose paragraphs.
+        prompt: `You are a data analyst. Analyze the following dataset and respond with a one-line summary followed by bullet points — no headers, no other prose paragraphs.
 
 Dataset: ${name}
 Rows: ${meta.rowCount.toLocaleString()} · Columns: ${meta.columnCount}${meta.analyzedSheet ? ` · Sheet: ${meta.analyzedSheet}` : ''}
@@ -54,7 +54,9 @@ ${columnSummary}
 Sample rows:
 ${sampleRowsText}
 
-Respond with markdown dash bullets (- ) covering:
+First line: a single plain-text line starting with "SUMMARY:" followed by a 1–2 sentence, human-readable description of what this dataset contains — written so it can stand alone as the dataset's public description (no markdown, no mention of "this dataset" being analyzed by AI). Then a blank line.
+
+Then respond with markdown dash bullets (- ) covering:
 - What this dataset is about (1–2 bullets)
 - Notable patterns or characteristics in the data (2–3 bullets)
 - Data quality observations: nulls, outliers, skew, or anomalies (1–2 bullets)
