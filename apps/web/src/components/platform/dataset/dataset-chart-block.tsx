@@ -18,6 +18,7 @@ import {
     LabelList,
     ResponsiveContainer,
 } from 'recharts'
+import type { RenderableText } from 'recharts/types/component/Text'
 import { Alert, AlertDescription } from '@repo/ui/components/alert'
 import { AlertCircle } from 'lucide-react'
 import {
@@ -195,8 +196,8 @@ export function DatasetChartBlock({ code, isIncomplete }: Props) {
             {(height) => {
                 const isExpanded = height === '100%'
                 const showValueLabels = isExpanded || shouldShowValueLabels(totalPoints)
-                const valueLabelFormatter = (v: number) =>
-                    formatCompactNumber(v, labelFractionDigits(totalPoints))
+                const valueLabelFormatter = (v: RenderableText) =>
+                    typeof v === 'number' ? formatCompactNumber(v, labelFractionDigits(totalPoints)) : ''
                 // Show every tick for reasonably-sized datasets; only thin them out
                 // (evenly, not recharts' uneven 'preserveStartEnd') once there are too
                 // many to fit legibly.

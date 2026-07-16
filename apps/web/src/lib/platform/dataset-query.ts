@@ -63,10 +63,11 @@ function buildFilter(f: Filter, dq: DatasetQuery): string {
     if (f.op === 'is_null') return `(${col} IS NULL OR CAST(${col} AS VARCHAR) = '')`
     if (f.op === 'is_not_null') return `(${col} IS NOT NULL AND CAST(${col} AS VARCHAR) <> '')`
 
-    const v = f.value!.trim().toLowerCase()
+    const value = f.value!
+    const v = value.trim().toLowerCase()
     switch (f.op) {
         case 'eq':
-            return `(${txt(col)} = ${lit(v)} OR ${num(col)} = TRY_CAST(${lit(f.value)} AS DOUBLE))`
+            return `(${txt(col)} = ${lit(v)} OR ${num(col)} = TRY_CAST(${lit(value)} AS DOUBLE))`
         case 'neq':
             return `${txt(col)} <> ${lit(v)}`
         case 'contains': {
@@ -74,15 +75,15 @@ function buildFilter(f: Filter, dq: DatasetQuery): string {
             return `${txt(col)} LIKE ${lit(`%${esc}%`)} ESCAPE '\\'`
         }
         case 'gt':
-            return `${num(col)} > TRY_CAST(${lit(f.value)} AS DOUBLE)`
+            return `${num(col)} > TRY_CAST(${lit(value)} AS DOUBLE)`
         case 'gte':
-            return `${num(col)} >= TRY_CAST(${lit(f.value)} AS DOUBLE)`
+            return `${num(col)} >= TRY_CAST(${lit(value)} AS DOUBLE)`
         case 'lt':
-            return `${num(col)} < TRY_CAST(${lit(f.value)} AS DOUBLE)`
+            return `${num(col)} < TRY_CAST(${lit(value)} AS DOUBLE)`
         case 'lte':
-            return `${num(col)} <= TRY_CAST(${lit(f.value)} AS DOUBLE)`
+            return `${num(col)} <= TRY_CAST(${lit(value)} AS DOUBLE)`
         case 'in': {
-            const items = f.value.split(',').map((s) => lit(s.trim().toLowerCase()))
+            const items = value.split(',').map((s) => lit(s.trim().toLowerCase()))
             return `${txt(col)} IN (${items.join(', ')})`
         }
     }
