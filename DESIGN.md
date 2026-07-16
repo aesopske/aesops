@@ -268,6 +268,12 @@ Marketing sections are full-width bands that alternate surface modes for visual 
 
 **`upload-zone`** — Drag-drop file drop target. `{colors.border}` dashed 2px border, rounded `{rounded.lg}`, padding `{spacing.10}` (40px) vertical. Drag-active state: `{colors.primary}` border + `bg-primary/5` tint. Carries UploadCloud icon + instruction text + file type note.
 
+### Tables
+
+**`data-table`** — Standard tabular data container, used for any `<table>` presenting rows of records (admin breakdowns, AI-chat markdown tables, column metadata). Wrapper: background `{colors.card}`, `{colors.border}` hairline border, rounded `{rounded.xl}` (14px), `shadow-sm`, `overflow-hidden` — the same card treatment as `dataset-card`, so a table reads as a card, not a bare HTML grid. Header row: `{colors.muted}/40` background, `{colors.border}` bottom border, `text-xs font-medium text-{colors.muted-foreground}`, left-aligned cells. Body rows: `divide-y divide-{colors.border}`, no per-row background (hover tint optional for interactive tables). Cell padding `16px × 10px` (`px-4 py-2.5`); numeric/metric columns use `tabular-nums` and align left with the rest (no right-alignment) unless the table is dense enough that scanning a column of numbers benefits from it. Empty state: centered muted-foreground message in place of the table, no empty header row.
+
+Examples: `ai-usage-route-breakdown` (admin AI usage dashboard), `dataset-chat-table` (markdown tables rendered in AI chat responses — same wrapper, plus a copy/download/expand action row).
+
 ### Inputs & Forms
 
 **`text-input`** — Standard text input. Background transparent, `{colors.border}` border, type `{typography.body-sm}` (14px), rounded `{rounded.md}` (8px), padding 8px × 12px, height 36px (h-9). Focus: `{colors.ring}` border + `ring-1 ring-{colors.ring}/50`. `dark:bg-input/30`.
