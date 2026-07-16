@@ -3,7 +3,12 @@
 import Link from 'next/link'
 import { FileSpreadsheet, FileText, PanelRightOpen } from 'lucide-react'
 import type { ColumnStats, DocumentMetadata } from '@repo/db/schema'
-import { formatBytes, timeAgo } from '@/lib/platform/format'
+import {
+    extractDescription,
+    formatBytes,
+    parseInsightsSummary,
+    timeAgo,
+} from '@/lib/platform/format'
 
 export { formatBytes, timeAgo }
 
@@ -134,6 +139,8 @@ export type Document = {
     size: number
     createdAt: Date
     metadata: unknown
+    description?: unknown
+    aiInsights?: string | null
     revisionCount?: number
     latestRevisionAt?: Date | null
 }
@@ -152,6 +159,9 @@ export function DatasetCard({ doc, selected, onPreview }: DatasetCardProps) {
         doc.mimeType.includes('excel') || doc.mimeType.includes('spreadsheet')
     const previewCols = meta?.columns.slice(0, COLUMN_PREVIEW_LIMIT) ?? []
     const hiddenCount = (meta?.columns.length ?? 0) - COLUMN_PREVIEW_LIMIT
+    const description =
+        extractDescription(doc.description) ||
+        parseInsightsSummary(doc.aiInsights).summary
 
     return (
         <Link
@@ -181,6 +191,13 @@ export function DatasetCard({ doc, selected, onPreview }: DatasetCardProps) {
                         </p>
                     </div>
                 </div>
+
+                {/* description */}
+                {description && (
+                    <p className='mt-2 line-clamp-3 text-xs text-muted-foreground'>
+                        {description}
+                    </p>
+                )}
 
                 {/* stats */}
                 {meta && (
@@ -226,7 +243,7 @@ export function DatasetCard({ doc, selected, onPreview }: DatasetCardProps) {
                         className={`flex items-center gap-1 rounded px-2 py-1 text-xs transition-colors ${
                             selected
                                 ? 'bg-primary/10 text-primary'
-                                : 'text-muted-foreground hover:bg-secondary hover:text-foreground'
+                                : 'text-muted-foreground hover:bg-muted/60 hover:text-foreground'
                         }`}>
                         <PanelRightOpen size={12} />
                         {selected ? 'Hide preview' : 'Preview details'}

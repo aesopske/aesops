@@ -2,6 +2,7 @@
 
 import { Sparkles } from 'lucide-react'
 import { Streamdown } from 'streamdown'
+import { parseInsightsSummary } from '@/lib/platform/format'
 
 type Props = {
     cachedInsights: string | null
@@ -9,6 +10,7 @@ type Props = {
 
 export function DatasetInsights({ cachedInsights }: Props) {
     const hasResult = !!cachedInsights && cachedInsights.length > 0
+    const { body } = parseInsightsSummary(cachedInsights)
 
     return (
         <div className='overflow-hidden rounded-xl border border-border bg-card shadow-sm'>
@@ -22,7 +24,7 @@ export function DatasetInsights({ cachedInsights }: Props) {
             <div className='px-6 py-5'>
                 {hasResult ? (
                     <div className='prose prose-sm max-w-none dark:prose-invert prose-p:leading-relaxed prose-li:my-0.5 prose-ul:my-1'>
-                        <Streamdown mode='static'>{cachedInsights}</Streamdown>
+                        <Streamdown mode='static'>{body}</Streamdown>
                     </div>
                 ) : (
                     <p className='text-sm text-muted-foreground'>

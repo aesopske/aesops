@@ -1,15 +1,28 @@
 'use client'
 
 import { useState } from 'react'
-import { Code2, Copy, Check } from 'lucide-react'
+import { Code2, Copy, Check, Maximize2 } from 'lucide-react'
 import useCopy from '@/hooks/useCopy'
 import { CHAT_ACTION_BUTTON_CLASS } from '@/lib/platform/chat-action-button'
+import {
+    Dialog,
+    DialogContent,
+    DialogTitle,
+} from '@repo/ui/components/dialog'
 
-type Props = { json: string; title?: string; children: React.ReactNode }
+type Props = {
+    json: string
+    title?: string
+    children: React.ReactNode | ((height: number | string) => React.ReactNode)
+}
 
 export function ChartDataView({ json, title, children }: Props) {
     const [showJson, setShowJson] = useState(false)
+    const [expanded, setExpanded] = useState(false)
     const { onCopy, copied } = useCopy()
+
+    const renderChart = (height: number | string) =>
+        typeof children === 'function' ? children(height) : children
 
     return (
         <div>
@@ -19,7 +32,7 @@ export function ChartDataView({ json, title, children }: Props) {
                     {json}
                 </pre>
             ) : (
-                children
+                renderChart(256)
             )}
             <div className='mt-2 flex items-center justify-end gap-1.5'>
                 <button
@@ -38,7 +51,26 @@ export function ChartDataView({ json, title, children }: Props) {
                     className={CHAT_ACTION_BUTTON_CLASS}>
                     {copied ? <Check className='h-3 w-3' /> : <Copy className='h-3 w-3' />}
                 </button>
+                <button
+                    type='button'
+                    onClick={() => setExpanded(true)}
+                    title='Expand'
+                    aria-label='Expand'
+                    className={CHAT_ACTION_BUTTON_CLASS}>
+                    <Maximize2 className='h-3 w-3' />
+                </button>
             </div>
+
+            <Dialog open={expanded} onOpenChange={setExpanded}>
+                <DialogContent
+                    showCloseButton
+                    className='flex h-[90vh] w-[95vw] max-w-[95vw] flex-col gap-3 p-6 sm:max-w-[95vw]'>
+                    <DialogTitle className='shrink-0 text-base font-medium text-foreground'>
+                        {title ?? 'Chart'}
+                    </DialogTitle>
+                    <div className='min-h-0 flex-1'>{renderChart('100%')}</div>
+                </DialogContent>
+            </Dialog>
         </div>
     )
 }
