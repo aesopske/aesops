@@ -14,6 +14,7 @@ import { Avatar, AvatarFallback, AvatarImage } from '@repo/ui/components/avatar'
 import { Button } from '@repo/ui/components/button'
 import { trpc } from '@/trpc/react'
 import { timeAgo } from '@/lib/platform/format'
+import { MarkdownTable } from '@/components/shared/markdown-table'
 import { highlightMentions } from './mention-pill'
 import type { Comment } from './comment-thread'
 
@@ -85,7 +86,9 @@ export function CommentItem({
 
                 {comment.isAiResponse ? (
                     <div className='prose prose-sm max-w-none dark:prose-invert prose-p:leading-relaxed prose-p:my-1 prose-headings:font-medium'>
-                        <Streamdown mode='streaming'>
+                        <Streamdown
+                            mode='streaming'
+                            components={{ table: MarkdownTable }}>
                             {highlightMentions(comment.body)}
                         </Streamdown>
                     </div>

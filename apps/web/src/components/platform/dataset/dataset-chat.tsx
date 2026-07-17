@@ -7,7 +7,7 @@ import { SendHorizonal, RotateCcw, Copy, Check, Pin, PinOff } from 'lucide-react
 import { cn } from '@repo/ui/lib/utils'
 import { DatasetChartBlock } from '@/components/platform/dataset/dataset-chart-block'
 import { DatasetChatLoading } from '@/components/platform/dataset/dataset-chat-loading'
-import { DatasetChatTable } from '@/components/platform/dataset/dataset-chat-table'
+import { MarkdownTable } from '@/components/shared/markdown-table'
 import { PinnedMessagesRow } from '@/components/platform/dataset/pinned-messages-row'
 import {
     PINNED_MESSAGES_LIMIT,
@@ -258,7 +258,7 @@ export function DatasetChat({
                                                                 CHART_RENDERERS,
                                                         }}
                                                         components={{
-                                                            table: DatasetChatTable,
+                                                            table: MarkdownTable,
                                                         }}>
                                                         {m.content}
                                                     </Streamdown>
