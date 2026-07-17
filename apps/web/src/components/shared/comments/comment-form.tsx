@@ -20,6 +20,7 @@ type Props = {
     onCancel?: () => void
     onCommentAdded: (comment: Comment) => void
     onAiCommentAdded: (comment: Comment) => void
+    onAiPendingChange?: (commentId: string, isPending: boolean) => void
 }
 
 function stripHtml(html: string) {
@@ -44,6 +45,7 @@ export function CommentForm({
     onCancel,
     onCommentAdded,
     onAiCommentAdded,
+    onAiPendingChange,
 }: Props) {
     const [html, setHtml] = useState('')
     const [isEmpty, setIsEmpty] = useState(true)
@@ -103,6 +105,7 @@ export function CommentForm({
 
         if (aiMentions && /@aisops/i.test(savedHtml)) {
             setIsAiPending(true)
+            onAiPendingChange?.(newComment.id, true)
             try {
                 const res = await fetch('/api/ai/comment-reply', {
                     method: 'POST',
@@ -151,6 +154,7 @@ export function CommentForm({
                 console.error('[comment-form] AI reply error:', err)
             } finally {
                 setIsAiPending(false)
+                onAiPendingChange?.(newComment.id, false)
             }
         }
     }
