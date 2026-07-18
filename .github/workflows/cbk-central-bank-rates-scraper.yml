@@ -1,0 +1,40 @@
+name: CBK central bank rates scraper
+
+on:
+  schedule:
+    # 06:00 UTC on the 10th of each month. Note: this table has not been updated since July
+    # 2016 (see NOTES.md) — this schedule is a no-op re-upload of the same historical data
+    # until/unless CBK resumes publishing here, kept for consistency with the other CBK
+    # scrapers rather than because new rows are expected.
+    - cron: "0 6 10 * *"
+  workflow_dispatch:
+    inputs:
+      environment:
+        description: Environment to run against
+        type: choice
+        options:
+          - production
+          - preview
+        default: production
+
+jobs:
+  scrape-and-upload:
+    runs-on: ubuntu-latest
+    environment: ${{ inputs.environment || 'production' }}
+    defaults:
+      run:
+        working-directory: apps/scrapers
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: astral-sh/setup-uv@v3
+        with:
+          version: "latest"
+
+      - run: uv sync
+
+      - run: uv run python -m src.cbk_central_bank_rates.main --upload --dataset-slug cbk-central-bank-rates
+        env:
+          AESOPS_API_URL: ${{ secrets.AESOPS_API_URL }}
+          AESOPS_API_KEY: ${{ secrets.AESOPS_API_KEY }}
+          SENTRY_DSN: ${{ secrets.SENTRY_DSN }}
