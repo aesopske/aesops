@@ -1,0 +1,39 @@
+name: CBK inflation rates scraper
+
+on:
+  schedule:
+    # 06:00 UTC on the 5th of each month — CBK/KNBS typically publish the prior month's
+    # inflation figures within the first few business days of the following month. Adjust if
+    # the actual publication cadence is known to differ.
+    - cron: "0 6 5 * *"
+  workflow_dispatch:
+    inputs:
+      environment:
+        description: Environment to run against
+        type: choice
+        options:
+          - production
+          - preview
+        default: production
+
+jobs:
+  scrape-and-upload:
+    runs-on: ubuntu-latest
+    environment: ${{ inputs.environment || 'production' }}
+    defaults:
+      run:
+        working-directory: apps/scrapers
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: astral-sh/setup-uv@v3
+        with:
+          version: "latest"
+
+      - run: uv sync
+
+      - run: uv run python -m src.cbk_inflation.main --upload --dataset-slug cbk-inflation
+        env:
+          AESOPS_API_URL: ${{ secrets.AESOPS_API_URL }}
+          AESOPS_API_KEY: ${{ secrets.AESOPS_API_KEY }}
+          SENTRY_DSN: ${{ secrets.SENTRY_DSN }}
