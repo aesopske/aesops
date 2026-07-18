@@ -1,6 +1,7 @@
 import 'server-only'
 import { and, asc, desc, eq, gte, ilike, inArray, isNotNull, isNull, lte, or, sql } from 'drizzle-orm'
 import { db, documents } from '@repo/db'
+import type { DocumentMetadata } from '@repo/db/schema'
 import type {
     StorageProvider,
     CreateDocumentInput,
@@ -320,6 +321,15 @@ export class DocumentService {
                 ...(input.source !== undefined && { source: input.source }),
                 updatedAt: new Date(),
             })
+            .where(eq(documents.id, id))
+            .returning()
+        return doc!
+    }
+
+    async saveMetadata(id: string, metadata: DocumentMetadata) {
+        const [doc] = await this.database
+            .update(documents)
+            .set({ metadata, updatedAt: new Date() })
             .where(eq(documents.id, id))
             .returning()
         return doc!

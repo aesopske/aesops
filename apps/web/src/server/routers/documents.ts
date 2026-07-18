@@ -6,6 +6,7 @@ import { documentService } from '@repo/storage'
 import { db, chatMessages, datasetDownloads, documents, and, eq, desc, gte, count, sql } from '@repo/db'
 import type { DocumentMetadata } from '@repo/db/schema'
 import { computeMetadataDiff } from '@/lib/platform/metadata-diff'
+import { refreshDocumentMetadata } from '@/lib/platform/dataset-pipeline'
 import {
     ALLOWED_MIME,
     MAX_UPLOAD_BYTES,
@@ -278,6 +279,37 @@ export const documentsRouter = router({
                 license: input.license,
                 source: input.source,
             })
+        }),
+
+    // Re-reads the document's stored file and recomputes its metadata in place
+    // (no new revision) — lets an existing dataset pick up fixes to metadata
+    // computation without a full re-upload.
+    refreshMetadata: protectedProcedure
+        .input(z.object({ id: z.string() }))
+        .mutation(async ({ input, ctx }) => {
+            const doc = await documentService.getById(input.id)
+            if (!doc)
+                throw new TRPCError({
+                    code: 'NOT_FOUND',
+                    message: 'Document not found',
+                })
+            if (doc.uploadedBy !== ctx.session.user.id) {
+                throw new TRPCError({
+                    code: 'FORBIDDEN',
+                    message: 'You do not own this document',
+                })
+            }
+            try {
+                return await refreshDocumentMetadata(doc)
+            } catch (err) {
+                throw new TRPCError({
+                    code: 'INTERNAL_SERVER_ERROR',
+                    message:
+                        err instanceof Error
+                            ? err.message
+                            : 'Failed to refresh metadata',
+                })
+            }
         }),
 
     delete: protectedProcedure
