@@ -40,6 +40,8 @@ export interface StorageProvider {
 
 export type CreateDocumentInput = {
     name: string
+    /** Preferred slug (e.g. a scraper's --dataset-slug on its first run); falls back to a name-derived slug when omitted. */
+    slug?: string
     url: string
     storageKey: string
     size: number
