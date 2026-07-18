@@ -28,6 +28,17 @@ function friendlyError(err: unknown): { error: string } {
     return { error: err instanceof Error ? err.message : 'Failed to read the dataset.' }
 }
 
+// Prompt copy describing the tools above. Kept next to the definitions so the
+// two can't drift apart; injected into any system prompt that passes these
+// tools to the model.
+export const DATASET_TOOLS_GUIDE = `You have tools that query the full dataset on demand:
+- think — call this FIRST for any question involving time periods, multi-step reasoning, or combined filters. Write your plan before calling data tools.
+- aggregate — group by one or two columns (pass an array for two, e.g. ["Town","Date"]) and count/sum/avg/min/max/median. Supports datePart ("year", "month", "month_year", "quarter") to extract date parts from a date column. Use rowFilters to pre-filter rows (e.g. year=2025) before grouping.
+- query_rows — fetch real rows with optional filters and sorting. Use for row-level lookups, listing specific entries, and finding the first/last row (orderBy + limit:1) — e.g. the earliest and latest values for a growth-rate or ROI calculation.
+- distinct_values — list the unique values of a column with counts, beyond the few shown above.
+
+IMPORTANT: The tool names above (think, aggregate, query_rows, distinct_values) are internal implementation details. NEVER mention them in your responses. When you hit a limitation, describe it in plain user-facing language only. BAD: "the aggregate function doesn't support median". GOOD: "I can't compute the median directly from this dataset".`
+
 // Tools are bound per-request to a DatasetQuery (DuckDB over the dataset's
 // Parquet) so the model never passes a storage key and each call runs only the
 // slice it needs.

@@ -8,8 +8,17 @@ import { documentService } from '@repo/storage'
 import { db, threads, comments, asc, and, eq, sql } from '@repo/db'
 import type { DocumentMetadata } from '@repo/db/schema'
 import { sanityFetch } from '~sanity/utils/fetch'
-import { buildDatasetTools } from '@/lib/platform/dataset-tools'
-import { openDataset, resolveQueryDoc, type OpenableDoc } from '@/lib/platform/dataset-source'
+import {
+    buildDatasetTools,
+    DATASET_TOOLS_GUIDE,
+} from '@/lib/platform/dataset-tools'
+import { formatColumnSummary } from '@/lib/platform/dataset-prompt'
+import { aisopsPersona } from '@/lib/platform/aisops-persona'
+import {
+    openDataset,
+    resolveQueryDoc,
+    type OpenableDoc,
+} from '@/lib/platform/dataset-source'
 import { recordAiUsage } from '@/lib/platform/ai-usage'
 import { logger } from '@/lib/platform/logger'
 
@@ -91,25 +100,7 @@ async function discussionContext(entityId: string): Promise<EntityContext> {
         const meta = (doc?.metadata as DocumentMetadata | null) ?? null
         if (doc && meta) {
             queryableDoc = doc
-            const columnSummary = meta.columns
-                .map((col) => {
-                    const parts = [`  - ${col.name} (${col.dtype})`]
-                    if (col.nullPercent > 0)
-                        parts.push(`${col.nullPercent.toFixed(1)}% null`)
-                    if (col.mean !== undefined)
-                        parts.push(
-                            `mean=${col.mean}, min=${col.min}, max=${col.max}`,
-                        )
-                    if (col.topValues?.length) {
-                        const top = col.topValues
-                            .slice(0, 3)
-                            .map((v) => `"${v.value}" (${v.count})`)
-                            .join(', ')
-                        parts.push(`top: ${top}`)
-                    }
-                    return parts.join(' · ')
-                })
-                .join('\n')
+            const columnSummary = formatColumnSummary(meta.columns)
 
             datasetContext = `
 This thread is linked to the dataset: "${rawDoc!.name}"
@@ -120,23 +111,18 @@ ${meta.sampleRows?.length ? `\nSample data (first ${Math.min(meta.sampleRows.len
         }
     }
 
-    const toolsSection = queryableDoc
-        ? `
-You have tools that query the full linked dataset on demand:
-- think — call this FIRST for any question involving time periods, multi-step reasoning, or combined filters. Write your plan before calling data tools.
-- aggregate — group by a column and count/sum/avg/min/max/median. Supports datePart ("year", "month", "month_year", "quarter") to extract date parts from a date column. Use rowFilters to pre-filter rows (e.g. year=2025) before grouping.
-- query_rows — fetch real rows with optional filters and sorting. Use for row-level lookups, listing specific entries, and finding the first/last row (orderBy + limit:1).
-- distinct_values — list the unique values of a column with counts, beyond the few shown above.
-
-IMPORTANT: The tool names above are internal implementation details. NEVER mention them in your responses. When you hit a limitation, describe it in plain user-facing language only.
-`
-        : ''
+    const toolsSection = queryableDoc ? `\n${DATASET_TOOLS_GUIDE}\n` : ''
 
     const dataRules = queryableDoc
         ? `3. For any exact count, total, average, or row-level lookup, CALL A TOOL — do not estimate from the sample rows. Use the exact column names listed above. For temporal questions ("in 2025", "by month", "per year"), use aggregate with datePart and rowFilters together. Never invent statistics, values, or rows; if a tool reports the dataset is too large, say so and answer from the column statistics above.`
         : `3. Base any answer strictly on the thread content. Never invent statistics.`
 
-    const system = `You are @aisops, a participant in the discussion threads on Aesops — Africa's open data platform. You have been @mentioned and are joining the conversation, not filing a support ticket. Your voice is subtly formal with a light, dry wit — reach for a sarcastic or wry line only when the comment you're replying to actually invites it (a joke, a loaded or ironic question, a clearly sarcastic user, a genuinely funny finding in the data). If the comment is a plain, neutral question, just answer it straight — do not force humor or an emoji in where none fits. A sparing emoji is fine when the tone calls for it, never decorative by default.
+    const system = `${aisopsPersona({
+        mentionClause:
+            'You have been @mentioned and are joining the conversation, not filing a support ticket.',
+        witExamples:
+            'a joke, a loaded or ironic question, a clearly sarcastic user, a genuinely funny finding in the data',
+    })}
 ${datasetContext ? `\n${datasetContext}\n` : ''}${toolsSection}
 Thread title: ${thread.title}
 Thread body: ${thread.body}
@@ -161,7 +147,10 @@ async function blogContext(entityId: string): Promise<EntityContext> {
     if (!post) return null
 
     const bodyText = (post.text ?? '').slice(0, 6000)
-    const system = `You are @aisops, a participant in the discussion threads on Aesops — Africa's open data platform. You have been @mentioned in the comments on a blog post and are joining the conversation, not filing a support ticket. Your voice is subtly formal with a light, dry wit — reach for a sarcastic or wry line only when the comment you're replying to actually invites it. If the comment is a plain, neutral question, just answer it straight — do not force humor or an emoji in where none fits. A sparing emoji is fine when the tone calls for it, never decorative by default.
+    const system = `${aisopsPersona({
+        mentionClause:
+            'You have been @mentioned in the comments on a blog post and are joining the conversation, not filing a support ticket.',
+    })}
 
 Blog post title: ${post.title ?? 'Untitled'}
 Blog post content:
@@ -246,15 +235,25 @@ export async function POST(req: Request) {
                     typeof r.result === 'object' &&
                     'error' in r.result,
             )
-            .map((r) => ({ tool: r.toolName, args: r.args, error: (r.result as { error: unknown }).error }))
+            .map((r) => ({
+                tool: r.toolName,
+                args: r.args,
+                error: (r.result as { error: unknown }).error,
+            }))
 
-        if (step.finishReason !== 'stop' && step.finishReason !== 'tool-calls') {
+        if (
+            step.finishReason !== 'stop' &&
+            step.finishReason !== 'tool-calls'
+        ) {
             logger.warn(ROUTE, 'step finished unexpectedly', {
                 entityType,
                 entityId,
                 finishReason: step.finishReason,
                 warnings: step.warnings,
-                toolCalls: step.toolCalls?.map((c) => ({ tool: c.toolName, args: c.args })),
+                toolCalls: step.toolCalls?.map((c) => ({
+                    tool: c.toolName,
+                    args: c.args,
+                })),
             })
         }
         if (toolErrors?.length) {
@@ -274,7 +273,11 @@ export async function POST(req: Request) {
     // exception — a transient glitch that normally succeeds on retry.
     const MAX_ATTEMPTS = 3
     let finalResult:
-        | { text: string; usage: Awaited<ReturnType<typeof generateText>>['usage']; finishReason: string }
+        | {
+              text: string
+              usage: Awaited<ReturnType<typeof generateText>>['usage']
+              finishReason: string
+          }
         | undefined
     let lastError: unknown
 
@@ -335,7 +338,10 @@ export async function POST(req: Request) {
             userId,
             latencyMs: Date.now() - startedAt,
             success: false,
-            errorMessage: lastError instanceof Error ? lastError.message : String(lastError),
+            errorMessage:
+                lastError instanceof Error
+                    ? lastError.message
+                    : String(lastError),
         })
     } else {
         const { text, usage, finishReason } = finalResult
@@ -370,7 +376,9 @@ export async function POST(req: Request) {
             userId,
             latencyMs: Date.now() - startedAt,
             success: !failed,
-            errorMessage: failed ? `incomplete: finishReason=${finishReason}` : undefined,
+            errorMessage: failed
+                ? `incomplete: finishReason=${finishReason}`
+                : undefined,
             usage,
         })
     }

@@ -77,7 +77,9 @@ export async function POST(req: NextRequest) {
     }
     if (file.size <= 0 || file.size > MAX_UPLOAD_BYTES) {
         return NextResponse.json(
-            { error: `File must be between 1 byte and ${MAX_UPLOAD_BYTES} bytes` },
+            {
+                error: `File must be between 1 byte and ${MAX_UPLOAD_BYTES} bytes`,
+            },
             { status: 413 },
         )
     }
@@ -85,7 +87,9 @@ export async function POST(req: NextRequest) {
     const contentType = resolveContentType(file)
     if (!contentType) {
         return NextResponse.json(
-            { error: `Unsupported file type. Allowed: ${ALLOWED_MIME.join(', ')}` },
+            {
+                error: `Unsupported file type. Allowed: ${ALLOWED_MIME.join(', ')}`,
+            },
             { status: 415 },
         )
     }
@@ -94,8 +98,10 @@ export async function POST(req: NextRequest) {
     const description = (form.get('description') as string | null) ?? undefined
     const license = (form.get('license') as string | null) ?? null
     const source = (form.get('source') as string | null) ?? null
-    const datasetSlug = (form.get('datasetSlug') as string | null)?.trim() || null
-    const explicitParentId = (form.get('parentId') as string | null)?.trim() || null
+    const datasetSlug =
+        (form.get('datasetSlug') as string | null)?.trim() || null
+    const explicitParentId =
+        (form.get('parentId') as string | null)?.trim() || null
 
     // Resolve the dataset this upload belongs to. A `datasetSlug` or `parentId`
     // targets an existing dataset (this becomes a new revision); resolve it to
@@ -137,14 +143,20 @@ export async function POST(req: NextRequest) {
         const parent = await documentService.getById(parentId).catch(() => null)
         const revisions = await documentService.listRevisions(parentId)
         const versionNumber = revisions.length + 2
-        const baseName = typedName.length > 0 ? stripExtension(typedName) : parent?.name ?? docName
+        const baseName =
+            typedName.length > 0
+                ? stripExtension(typedName)
+                : (parent?.name ?? docName)
         docName = `${baseName} v${versionNumber}`
         // Diff against the latest existing revision (or the root if this is
         // the first revision) — not always the root — so the delta reflects
         // only what changed in this upload, not the cumulative change since v1.
         const baseline = revisions.at(-1) ?? parent
         if (baseline?.metadata) {
-            metadataDiff = computeMetadataDiff(baseline.metadata as DocumentMetadata, metadata)
+            metadataDiff = computeMetadataDiff(
+                baseline.metadata as DocumentMetadata,
+                metadata,
+            )
         }
     }
 
@@ -186,7 +198,8 @@ export async function POST(req: NextRequest) {
         const root = await documentService.getById(rootId).catch(() => null)
         if (root) {
             const merged = await mergeDatasetVersions(root)
-            if (merged.ok && 'parquetKey' in merged) mergedParquetKey = merged.parquetKey
+            if (merged.ok && 'parquetKey' in merged)
+                mergedParquetKey = merged.parquetKey
         }
     }
 

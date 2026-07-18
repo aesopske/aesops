@@ -17,6 +17,10 @@ export type OpenableDoc = {
 // instead of the root's original upload — each new version is uploaded as
 // the full cumulative dataset, so the latest revision already is a superset
 // of all older ones. Falls back to the root doc itself if it has no revisions.
+//
+// This intentionally does not use the root's `mergedParquetKey` (see
+// dataset-merge-parquet.ts) — that pipeline still runs on every upload but
+// nothing currently reads its output back for querying.
 export async function resolveQueryDoc<T extends OpenableDoc & { id: string; parentId: string | null }>(
     doc: T,
 ): Promise<T> {
