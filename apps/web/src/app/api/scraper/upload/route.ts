@@ -108,17 +108,27 @@ export async function POST(req: NextRequest) {
     // the ROOT so revisions always chain off the original, never off another
     // revision. Absence of both means a brand-new root dataset.
     let parentId: string | null = null
+    let newRootSlug: string | undefined
     if (explicitParentId || datasetSlug) {
         const target = explicitParentId
             ? await documentService.getById(explicitParentId).catch(() => null)
             : await documentService.getBySlug(datasetSlug!).catch(() => null)
-        if (!target) {
+        if (target) {
+            parentId = target.parentId ?? target.id
+        } else if (explicitParentId) {
+            // A stale/incorrect parentId is a real bug worth surfacing —
+            // unlike datasetSlug (see below), there's no "first run" case
+            // where an explicit id is expected not to exist yet.
             return NextResponse.json(
                 { error: 'Target dataset not found' },
                 { status: 404 },
             )
+        } else {
+            // No dataset with this slug yet — likely the scraper's first run
+            // (it always passes --dataset-slug). Create a new root under the
+            // requested slug instead of erroring, so later runs find it.
+            newRootSlug = datasetSlug!
         }
-        parentId = target.parentId ?? target.id
     }
 
     const buffer = await file.arrayBuffer()
@@ -181,6 +191,7 @@ export async function POST(req: NextRequest) {
         source,
         parentId,
         metadataDiff,
+        slug: newRootSlug,
     })
 
     // Derive the queryable Parquet substrate and the AI insights summary in

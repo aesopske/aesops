@@ -92,8 +92,8 @@ export class DocumentService {
         return this.resolveReadUrl(doc, { downloadName: doc.name, ...opts })
     }
 
-    private async generateUniqueSlug(name: string): Promise<string> {
-        const base = slugify(name) || 'dataset'
+    private async generateUniqueSlug(name: string, preferredSlug?: string): Promise<string> {
+        const base = slugify(preferredSlug ?? name) || 'dataset'
         let candidate = base
         let attempt = 1
         for (;;) {
@@ -108,7 +108,7 @@ export class DocumentService {
     }
 
     async create(input: CreateDocumentInput) {
-        const slug = await this.generateUniqueSlug(input.name)
+        const slug = await this.generateUniqueSlug(input.name, input.slug)
         const [doc] = await this.database
             .insert(documents)
             .values({
