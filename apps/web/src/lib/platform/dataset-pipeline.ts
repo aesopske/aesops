@@ -2,6 +2,7 @@ import 'server-only'
 import { captureException } from '@sentry/core'
 import { documentService } from '@repo/storage'
 import type { DocumentMetadata } from '@repo/db/schema'
+import { extractMetadata } from '@/lib/platform/metadata'
 import { fileToParquet } from '@/lib/platform/parquet'
 import { mergeDatasetToParquet } from '@/lib/platform/dataset-merge-parquet'
 import { generateInsights } from '@/lib/platform/insights'
@@ -50,6 +51,18 @@ export async function convertDocumentToParquet(
         )
         return { ok: false, reason: 'conversion_failed' }
     }
+}
+
+// Re-reads the document's already-stored file from R2 and re-runs extractMetadata
+// against it, persisting the result on the same row (no new revision). Used to
+// pick up metadata-computation fixes for datasets uploaded before the fix shipped.
+export async function refreshDocumentMetadata(doc: DocumentRow) {
+    const readUrl = await documentService.resolveReadUrl(doc)
+    const res = await fetch(readUrl)
+    if (!res.ok) throw new Error(`Failed to fetch source file (${res.status})`)
+    const buffer = await res.arrayBuffer()
+    const metadata = extractMetadata(buffer)
+    return documentService.saveMetadata(doc.id, metadata)
 }
 
 const AI_INSIGHTS_ROUTE = 'ai/insights'

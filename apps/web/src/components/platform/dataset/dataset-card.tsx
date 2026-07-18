@@ -73,7 +73,9 @@ export function MetadataPanel({ meta }: { meta: DocumentMetadata }) {
 }
 
 function ColumnRow({ col }: { col: ColumnStats }) {
-    const isNumeric = col.mean !== undefined
+    const hasFullStats = col.mean !== undefined
+    const hasRangeOnly =
+        !hasFullStats && col.min !== undefined && col.max !== undefined
     return (
         <tr className='align-top'>
             <td className='py-1.5 pr-3 font-medium text-foreground'>
@@ -95,7 +97,7 @@ function ColumnRow({ col }: { col: ColumnStats }) {
                 {col.uniqueCount.toLocaleString()}
             </td>
             <td className='py-1.5 text-muted-foreground'>
-                {isNumeric ? (
+                {hasFullStats ? (
                     <span>
                         mean <span className='text-foreground'>{col.mean}</span>
                         {' · '}min{' '}
@@ -111,6 +113,12 @@ function ColumnRow({ col }: { col: ColumnStats }) {
                                 </span>
                             </>
                         )}
+                    </span>
+                ) : hasRangeOnly ? (
+                    <span>
+                        <span className='text-foreground'>{col.min}</span>
+                        {' – '}
+                        <span className='text-foreground'>{col.max}</span>
                     </span>
                 ) : col.topValues?.length ? (
                     col.topValues.map(({ value, count }) => (

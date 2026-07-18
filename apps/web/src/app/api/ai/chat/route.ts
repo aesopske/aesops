@@ -6,7 +6,8 @@ import { auth } from '@repo/auth'
 import { documentService } from '@repo/storage'
 import { db, chatMessages } from '@repo/db'
 import type { DocumentMetadata } from '@repo/db/schema'
-import { buildDatasetTools } from '@/lib/platform/dataset-tools'
+import { buildDatasetTools, DATASET_TOOLS_GUIDE } from '@/lib/platform/dataset-tools'
+import { buildDatasetContextBlock } from '@/lib/platform/dataset-prompt'
 import { openDataset, resolveQueryDoc } from '@/lib/platform/dataset-source'
 import { recordAiUsage } from '@/lib/platform/ai-usage'
 import { logger } from '@/lib/platform/logger'
@@ -94,46 +95,11 @@ export async function POST(req: Request) {
             })
     }
 
-    const columnSummary = meta.columns
-        .map((col) => {
-            const parts = [`  - ${col.name} (${col.dtype})`]
-            if (col.nullPercent > 0)
-                parts.push(`${col.nullPercent.toFixed(1)}% null`)
-            if (col.mean !== undefined)
-                parts.push(`mean=${col.mean}, min=${col.min}, max=${col.max}`)
-            if (col.topValues?.length) {
-                const top = col.topValues
-                    .slice(0, 3)
-                    .map((v) => `"${v.value}" (${v.count})`)
-                    .join(', ')
-                parts.push(`top values: ${top}`)
-            }
-            return parts.join(' · ')
-        })
-        .join('\n')
-
-    const sampleRowsText = meta.sampleRows?.length
-        ? JSON.stringify(meta.sampleRows.slice(0, 5), null, 2)
-        : 'Not available'
-
     const system = `You are a data analyst assistant embedded in Aesops, Africa's open data platform. You are helping a user explore a specific dataset.
 
-Dataset: ${doc.name}
-Rows: ${meta.rowCount.toLocaleString()} | Columns: ${meta.columnCount}${meta.analyzedSheet ? ` | Sheet: ${meta.analyzedSheet}` : ''}
+${buildDatasetContextBlock({ name: doc.name, meta })}
 
-Columns:
-${columnSummary}
-
-Sample data (first ${meta.sampleRows?.length ?? 0} rows):
-${sampleRowsText}
-
-You have tools that query the full dataset on demand:
-- think — call this FIRST for any question involving time periods, multi-step reasoning, or combined filters. Write your plan before calling data tools.
-- aggregate — group by one or two columns (pass an array for two, e.g. ["Town","Date"]) and count/sum/avg/min/max/median. Supports datePart ("year", "month", "month_year", "quarter") to extract date parts from a date column. Use rowFilters to pre-filter rows (e.g. year=2025) before grouping.
-- query_rows — fetch real rows with optional filters and sorting. Use for row-level lookups, listing specific entries, and finding the first/last row (orderBy + limit:1) — e.g. the earliest and latest values for a growth-rate or ROI calculation.
-- distinct_values — list the unique values of a column with counts, beyond the few shown above.
-
-IMPORTANT: The tool names above (think, aggregate, query_rows, distinct_values) are internal implementation details. NEVER mention them in your responses. When you hit a limitation, describe it in plain user-facing language only. BAD: "the aggregate function doesn't support median". GOOD: "I can't compute the median directly from this dataset".
+${DATASET_TOOLS_GUIDE}
 
 Rules:
 1. Only answer questions about this dataset. If the user asks about anything unrelated, politely redirect them back to the data.

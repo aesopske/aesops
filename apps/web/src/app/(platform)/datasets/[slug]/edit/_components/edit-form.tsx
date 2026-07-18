@@ -1,9 +1,10 @@
 'use client'
 
+import { useState } from 'react'
 import { useRouter } from 'next/navigation'
 import { useForm, Controller } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
-import { Save, UploadCloud } from 'lucide-react'
+import { RefreshCw, Save, UploadCloud } from 'lucide-react'
 import Link from 'next/link'
 import { trpc } from '@/trpc/react'
 import { editFormSchema, type EditFormValues } from '@/lib/schemas/dataset'
@@ -23,6 +24,8 @@ export function EditForm({ doc }: { doc: Doc }) {
     const router = useRouter()
     const utils = trpc.useUtils()
     const updateMutation = trpc.documents.update.useMutation()
+    const refreshMutation = trpc.documents.refreshMetadata.useMutation()
+    const [refreshed, setRefreshed] = useState(false)
 
     const {
         register,
@@ -52,6 +55,19 @@ export function EditForm({ doc }: { doc: Doc }) {
     }
 
     const busy = isSubmitting || updateMutation.isPending
+
+    const onRefreshMetadata = () => {
+        refreshMutation.mutate(
+            { id: doc.id },
+            {
+                onSuccess: () => {
+                    utils.documents.getById.invalidate()
+                    setRefreshed(true)
+                    setTimeout(() => setRefreshed(false), 2000)
+                },
+            },
+        )
+    }
 
     return (
         <form onSubmit={handleSubmit(onSubmit)} className='space-y-8'>
@@ -118,21 +134,39 @@ export function EditForm({ doc }: { doc: Doc }) {
                 </p>
             </div>
 
-            {updateMutation.error && (
+            {(updateMutation.error || refreshMutation.error) && (
                 <p className='rounded-lg bg-destructive/10 px-4 py-2.5 text-sm text-destructive'>
-                    {updateMutation.error.message}
+                    {updateMutation.error?.message ?? refreshMutation.error?.message}
                 </p>
             )}
 
             <div className='border-t border-border pt-6'>
                 <div className='flex items-center justify-between'>
-                    <Link
-                        href={`/upload?revisionOf=${doc.id}`}
-                        className='inline-flex items-center gap-2 rounded-lg border border-border px-4 py-2.5 text-sm font-medium text-foreground transition-colors hover:bg-muted'
-                    >
-                        <UploadCloud size={15} />
-                        Upload new version
-                    </Link>
+                    <div className='flex items-center gap-3'>
+                        <Link
+                            href={`/upload?revisionOf=${doc.id}`}
+                            className='inline-flex items-center gap-2 rounded-lg border border-border px-4 py-2.5 text-sm font-medium text-foreground transition-colors hover:bg-muted'
+                        >
+                            <UploadCloud size={15} />
+                            Upload new version
+                        </Link>
+                        <button
+                            type='button'
+                            disabled={refreshMutation.isPending}
+                            onClick={onRefreshMetadata}
+                            className='inline-flex items-center gap-2 rounded-lg border border-border px-4 py-2.5 text-sm font-medium text-foreground transition-colors hover:bg-muted disabled:opacity-50'
+                        >
+                            <RefreshCw
+                                size={15}
+                                className={refreshMutation.isPending ? 'animate-spin' : ''}
+                            />
+                            {refreshMutation.isPending
+                                ? 'Refreshing…'
+                                : refreshed
+                                  ? 'Refreshed ✓'
+                                  : 'Refresh metadata'}
+                        </button>
+                    </div>
 
                     <div className='flex items-center gap-3'>
                         <button

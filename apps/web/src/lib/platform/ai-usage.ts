@@ -17,15 +17,19 @@ type RecordAiUsageInput = {
     errorMessage?: string
 }
 
+function toFiniteOrNull(value: number | undefined | null) {
+    return typeof value === 'number' && Number.isFinite(value) ? value : null
+}
+
 export function recordAiUsage(input: RecordAiUsageInput) {
     db.insert(aiUsageEvents)
         .values({
             route: input.route,
             model: input.model,
             userId: input.userId ?? null,
-            promptTokens: input.usage?.promptTokens ?? null,
-            completionTokens: input.usage?.completionTokens ?? null,
-            totalTokens: input.usage?.totalTokens ?? null,
+            promptTokens: toFiniteOrNull(input.usage?.promptTokens),
+            completionTokens: toFiniteOrNull(input.usage?.completionTokens),
+            totalTokens: toFiniteOrNull(input.usage?.totalTokens),
             latencyMs: input.latencyMs,
             success: input.success,
             errorMessage: input.errorMessage ?? null,

@@ -77,6 +77,18 @@ export function CommentThread({
 
     const [comments, setComments] = useState<Comment[]>(initialComments ?? [])
     const [activeReplyId, setActiveReplyId] = useState<string | null>(null)
+    const [pendingAiReplyIds, setPendingAiReplyIds] = useState<Set<string>>(
+        new Set(),
+    )
+
+    function handleAiPendingChange(commentId: string, isPending: boolean) {
+        setPendingAiReplyIds((prev) => {
+            const next = new Set(prev)
+            if (isPending) next.add(commentId)
+            else next.delete(commentId)
+            return next
+        })
+    }
 
     // Reconcile local (optimistically-mutated) state with fresh server data.
     // The list query is only refetched on mount/refocus — vote/create/delete
@@ -169,6 +181,7 @@ export function CommentThread({
                     onAiCommentAdded={(c) =>
                         setComments((prev) => [...prev, c])
                     }
+                    onAiPendingChange={handleAiPendingChange}
                 />
             </div>
         )
@@ -200,6 +213,7 @@ export function CommentThread({
                             }
                             onVote={handleVote}
                             renderReplyForm={renderReplyForm}
+                            pendingAiReplyIds={pendingAiReplyIds}
                         />
                     ))}
                 </div>
@@ -213,6 +227,7 @@ export function CommentThread({
                 aiMentions={aiMentions}
                 onCommentAdded={(c) => setComments((prev) => [...prev, c])}
                 onAiCommentAdded={(c) => setComments((prev) => [...prev, c])}
+                onAiPendingChange={handleAiPendingChange}
             />
         </div>
     )

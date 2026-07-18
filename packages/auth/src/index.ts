@@ -21,6 +21,11 @@ export const auth = betterAuth({
             permissions: {
                 defaultPermissions: { datasets: ['write'] },
             },
+            // Default is 10 requests/day, far too low for scraper keys used to
+            // batch-upload dozens of datasets during local development.
+            rateLimit: {
+                maxRequests: 1000,
+            },
         }),
     ],
     emailAndPassword: {

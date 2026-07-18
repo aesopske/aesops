@@ -1,0 +1,37 @@
+name: CBK forex rates scraper
+
+on:
+  schedule:
+    # 12:07 UTC (~15:07 EAT), weekdays — CBK publishes indicative rates on business days only.
+    - cron: "7 12 * * 1-5"
+  workflow_dispatch:
+    inputs:
+      environment:
+        description: Environment to run against
+        type: choice
+        options:
+          - production
+          - preview
+        default: production
+
+jobs:
+  scrape-and-upload:
+    runs-on: ubuntu-latest
+    environment: ${{ inputs.environment || 'production' }}
+    defaults:
+      run:
+        working-directory: apps/scrapers
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: astral-sh/setup-uv@v3
+        with:
+          version: "latest"
+
+      - run: uv sync
+
+      - run: uv run python -m src.cbk_forex.main --upload --dataset-slug cbk-forex-rates
+        env:
+          AESOPS_API_URL: ${{ secrets.AESOPS_API_URL }}
+          AESOPS_API_KEY: ${{ secrets.AESOPS_API_KEY }}
+          SENTRY_DSN: ${{ secrets.SENTRY_DSN }}

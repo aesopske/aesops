@@ -1,0 +1,39 @@
+name: EPRA pump prices scraper
+
+on:
+  schedule:
+    # 06:00 UTC on the 16th of each month — EPRA's price review periods run from the 15th of
+    # one month through the 14th of the next, so a new period is typically published on/around
+    # the 15th. Adjust if EPRA's actual publication cadence is known to differ.
+    - cron: "0 6 16 * *"
+  workflow_dispatch:
+    inputs:
+      environment:
+        description: Environment to run against
+        type: choice
+        options:
+          - production
+          - preview
+        default: production
+
+jobs:
+  scrape-and-upload:
+    runs-on: ubuntu-latest
+    environment: ${{ inputs.environment || 'production' }}
+    defaults:
+      run:
+        working-directory: apps/scrapers
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: astral-sh/setup-uv@v3
+        with:
+          version: "latest"
+
+      - run: uv sync
+
+      - run: uv run python -m src.epra_pump_prices.main --upload --dataset-slug epra-pump-prices
+        env:
+          AESOPS_API_URL: ${{ secrets.AESOPS_API_URL }}
+          AESOPS_API_KEY: ${{ secrets.AESOPS_API_KEY }}
+          SENTRY_DSN: ${{ secrets.SENTRY_DSN }}

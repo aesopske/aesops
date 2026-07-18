@@ -16,7 +16,7 @@ import { CHAT_ACTION_BUTTON_CLASS } from '@/lib/platform/chat-action-button'
 
 type Props = ComponentProps<'table'> & { node?: unknown }
 
-export function DatasetChatTable({
+export function MarkdownTable({
     children,
     className,
     // eslint-disable-next-line @typescript-eslint/no-unused-vars -- excluded from the DOM spread below
@@ -64,11 +64,11 @@ export function DatasetChatTable({
             </div>
 
             <Dialog open={expanded} onOpenChange={setExpanded}>
-                <DialogContent className='max-w-4xl'>
+                <DialogContent className='w-[90vw] max-w-4xl sm:max-w-4xl'>
                     <DialogTitle className='sr-only'>
                         Expanded table
                     </DialogTitle>
-                    <div className='max-h-[75vh] overflow-auto rounded-lg border border-border bg-background'>
+                    <div className='mt-6 max-h-[75vh] overflow-auto rounded-lg border border-border bg-background'>
                         <table className='w-full divide-y divide-border'>
                             {children}
                         </table>

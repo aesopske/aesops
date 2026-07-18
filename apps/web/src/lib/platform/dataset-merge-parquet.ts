@@ -16,8 +16,10 @@ export type MergeDatasetToParquetResult =
 
 // Merges every version of a dataset (root + revisions) into a single deduped
 // Parquet file and records it as the root's `mergedParquetKey`. Best-effort:
-// callers should treat failures as non-fatal (queries fall back to the root's
-// own `parquetKey`).
+// callers should treat failures as non-fatal.
+//
+// NOTE: nothing currently reads `mergedParquetKey` back — see the NOTE in
+// api/datasets/[id]/merge/route.ts for why this is still kept running.
 export async function mergeDatasetToParquet(
 	rootDoc: OpenableDoc & { id: string; metadata: unknown },
 	allDocs: OpenableDoc[],

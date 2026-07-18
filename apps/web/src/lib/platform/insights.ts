@@ -1,6 +1,7 @@
 import { generateText } from 'ai'
 import { google } from '@ai-sdk/google'
 import type { DocumentMetadata } from '@repo/db/schema'
+import { formatColumnSummary, formatSampleRows } from './dataset-prompt'
 
 // Descriptions are stored as Tiptap/ProseMirror JSON; flatten to plain text
 // for the prompt. Marks (bold, italic, …) are dropped, block boundaries become
@@ -21,22 +22,8 @@ export async function generateInsights(
     description?: unknown,
 ): Promise<{ text: string; usage: Awaited<ReturnType<typeof generateText>>['usage'] }> {
     const descriptionText = description ? tiptapToPlainText(description).trim() : ''
-    const columnSummary = meta.columns
-        .map((col) => {
-            const parts = [`  - ${col.name} (${col.dtype})`]
-            if (col.nullPercent > 0) parts.push(`${col.nullPercent.toFixed(1)}% null`)
-            if (col.mean !== undefined) parts.push(`mean=${col.mean}, min=${col.min}, max=${col.max}`)
-            if (col.topValues?.length) {
-                const top = col.topValues.slice(0, 3).map((v) => `"${v.value}" (${v.count})`).join(', ')
-                parts.push(`top values: ${top}`)
-            }
-            return parts.join(' · ')
-        })
-        .join('\n')
-
-    const sampleRowsText = meta.sampleRows?.length
-        ? JSON.stringify(meta.sampleRows.slice(0, 5), null, 2)
-        : 'Not available'
+    const columnSummary = formatColumnSummary(meta.columns)
+    const sampleRowsText = formatSampleRows(meta.sampleRows)
 
     const { text, usage } = await generateText({
         model: google('gemini-2.5-flash'),
