@@ -50,6 +50,13 @@
       "when": 1782670568241,
       "tag": "0006_last_maximus",
       "breakpoints": true
+    },
+    {
+      "idx": 7,
+      "version": "7",
+      "when": 1784054736179,
+      "tag": "0007_clever_xorn",
+      "breakpoints": true
     }
   ]
 }

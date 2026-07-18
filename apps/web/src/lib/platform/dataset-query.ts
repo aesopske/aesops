@@ -7,8 +7,8 @@ import type { ColumnStats } from '@repo/db/schema'
 
 export type Row = Record<string, unknown>
 
-export type FilterOp = 'eq' | 'neq' | 'contains' | 'gt' | 'gte' | 'lt' | 'lte' | 'in'
-export type Filter = { column: string; op: FilterOp; value: string }
+export type FilterOp = 'eq' | 'neq' | 'contains' | 'gt' | 'gte' | 'lt' | 'lte' | 'in' | 'is_null' | 'is_not_null'
+export type Filter = { column: string; op: FilterOp; value?: string }
 export type AggregateFn = 'count' | 'sum' | 'avg' | 'min' | 'max' | 'median'
 export type DatePart = 'year' | 'month' | 'month_year' | 'quarter'
 
@@ -57,10 +57,17 @@ function num(colSql: string): string {
 
 function buildFilter(f: Filter, dq: DatasetQuery): string {
     const col = ident(f.column, dq)
-    const v = f.value.trim().toLowerCase()
+
+    // No value to compare — these test for blank/missing cells, e.g. isolating a
+    // county-level summary row (sub_county IS NULL) from its detail rows.
+    if (f.op === 'is_null') return `(${col} IS NULL OR CAST(${col} AS VARCHAR) = '')`
+    if (f.op === 'is_not_null') return `(${col} IS NOT NULL AND CAST(${col} AS VARCHAR) <> '')`
+
+    const value = f.value!
+    const v = value.trim().toLowerCase()
     switch (f.op) {
         case 'eq':
-            return `(${txt(col)} = ${lit(v)} OR ${num(col)} = TRY_CAST(${lit(f.value)} AS DOUBLE))`
+            return `(${txt(col)} = ${lit(v)} OR ${num(col)} = TRY_CAST(${lit(value)} AS DOUBLE))`
         case 'neq':
             return `${txt(col)} <> ${lit(v)}`
         case 'contains': {
@@ -68,15 +75,15 @@ function buildFilter(f: Filter, dq: DatasetQuery): string {
             return `${txt(col)} LIKE ${lit(`%${esc}%`)} ESCAPE '\\'`
         }
         case 'gt':
-            return `${num(col)} > TRY_CAST(${lit(f.value)} AS DOUBLE)`
+            return `${num(col)} > TRY_CAST(${lit(value)} AS DOUBLE)`
         case 'gte':
-            return `${num(col)} >= TRY_CAST(${lit(f.value)} AS DOUBLE)`
+            return `${num(col)} >= TRY_CAST(${lit(value)} AS DOUBLE)`
         case 'lt':
-            return `${num(col)} < TRY_CAST(${lit(f.value)} AS DOUBLE)`
+            return `${num(col)} < TRY_CAST(${lit(value)} AS DOUBLE)`
         case 'lte':
-            return `${num(col)} <= TRY_CAST(${lit(f.value)} AS DOUBLE)`
+            return `${num(col)} <= TRY_CAST(${lit(value)} AS DOUBLE)`
         case 'in': {
-            const items = f.value.split(',').map((s) => lit(s.trim().toLowerCase()))
+            const items = value.split(',').map((s) => lit(s.trim().toLowerCase()))
             return `${txt(col)} IN (${items.join(', ')})`
         }
     }

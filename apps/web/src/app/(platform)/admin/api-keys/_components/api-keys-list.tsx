@@ -52,6 +52,19 @@ function CreatedKeyBanner({ apiKey, onDismiss }: { apiKey: string; onDismiss: ()
     )
 }
 
+function ApiKeySkeletonRow() {
+    return (
+        <li className='flex animate-pulse items-center gap-3 px-4 py-3.5'>
+            <div className='h-9 w-9 shrink-0 rounded-lg bg-muted' />
+            <div className='min-w-0 flex-1 space-y-1.5'>
+                <div className='h-3.5 w-32 rounded bg-muted' />
+                <div className='h-3 w-48 rounded bg-muted' />
+            </div>
+            <div className='h-7 w-16 shrink-0 rounded-lg bg-muted' />
+        </li>
+    )
+}
+
 function ApiKeyRowItem({ apiKey }: { apiKey: ApiKeyRow }) {
     const utils = trpc.useUtils()
     const [confirming, setConfirming] = useState(false)
@@ -170,7 +183,11 @@ export function ApiKeysList() {
             <CreateKeyForm onCreated={setRevealedKey} />
 
             {isLoading ? (
-                <p className='py-8 text-center text-sm text-muted-foreground'>Loading…</p>
+                <ul className='divide-y divide-border rounded-xl border border-border bg-card'>
+                    {Array.from({ length: 3 }).map((_, i) => (
+                        <ApiKeySkeletonRow key={i} />
+                    ))}
+                </ul>
             ) : !apiKeys?.length ? (
                 <div className='py-12 text-center'>
                     <p className='text-sm font-medium text-muted-foreground'>No API keys yet</p>

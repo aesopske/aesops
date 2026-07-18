@@ -8,11 +8,21 @@ import {
     type DatePart,
 } from '@/lib/platform/dataset-query'
 
-const filterSchema = z.object({
-    column: z.string().describe('Exact column name to filter on'),
-    op: z.enum(['eq', 'neq', 'contains', 'gt', 'gte', 'lt', 'lte', 'in']),
-    value: z.string().describe('Value to compare against. Numbers should be passed as strings, e.g. "180".'),
-})
+const filterSchema = z
+    .object({
+        column: z.string().describe('Exact column name to filter on'),
+        op: z.enum(['eq', 'neq', 'contains', 'gt', 'gte', 'lt', 'lte', 'in', 'is_null', 'is_not_null']),
+        value: z
+            .string()
+            .optional()
+            .describe(
+                'Value to compare against. Numbers should be passed as strings, e.g. "180". Omit entirely for op "is_null" or "is_not_null" — those test for a blank/missing cell and take no value.',
+            ),
+    })
+    .refine((f) => f.op === 'is_null' || f.op === 'is_not_null' || f.value !== undefined, {
+        message: 'value is required unless op is "is_null" or "is_not_null"',
+        path: ['value'],
+    })
 
 function friendlyError(err: unknown): { error: string } {
     return { error: err instanceof Error ? err.message : 'Failed to read the dataset.' }

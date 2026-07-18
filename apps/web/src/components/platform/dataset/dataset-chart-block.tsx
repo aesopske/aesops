@@ -18,9 +18,17 @@ import {
     LabelList,
     ResponsiveContainer,
 } from 'recharts'
+import type { RenderableText } from 'recharts/types/component/Text'
 import { Alert, AlertDescription } from '@repo/ui/components/alert'
 import { AlertCircle } from 'lucide-react'
-import { C, TOOLTIP_STYLE, TICK_STYLE } from '@/lib/platform/chart-theme'
+import {
+    C,
+    TOOLTIP_STYLE,
+    TICK_STYLE,
+    formatCompactNumber,
+    labelFractionDigits,
+    shouldShowValueLabels,
+} from '@/lib/platform/chart-theme'
 import { ChartDataView } from '@/components/platform/dataset/chart-data-view'
 import { ChartXAxisTick } from '@/components/platform/dataset/chart-x-axis-tick'
 
@@ -36,9 +44,17 @@ type InlineChartConfig = {
 
 type Props = { code: string; isIncomplete: boolean }
 
-function Shell({ title, json, children }: { title?: string; json?: string; children: React.ReactNode }) {
+type ChartChildren = React.ReactNode | ((height: number | string) => React.ReactNode)
+
+function Shell({ title, json, children }: { title?: string; json?: string; children: ChartChildren }) {
     return (
-        <div className='not-prose my-4 rounded-xl border border-border bg-card p-4 shadow-sm'>
+        <div className='not-prose relative my-4 overflow-hidden rounded-xl border border-border bg-card p-4 shadow-sm'>
+            <img
+                src='/logo-mark.svg'
+                alt=''
+                aria-hidden='true'
+                className='pointer-events-none absolute bottom-3 left-4 h-6 w-6 select-none'
+            />
             {json ? (
                 <ChartDataView json={json} title={title}>
                     {children}
@@ -46,7 +62,7 @@ function Shell({ title, json, children }: { title?: string; json?: string; child
             ) : (
                 <>
                     {title && <h4 className='mb-3 text-sm font-medium text-foreground'>{title}</h4>}
-                    {children}
+                    {typeof children === 'function' ? children(256) : children}
                 </>
             )}
         </div>
@@ -130,130 +146,171 @@ export function DatasetChartBlock({ code, isIncomplete }: Props) {
 
     const { chartType, title, xKey, series, data } = config
     const showLegend = series.length > 1
-    // Value labels only read cleanly with one series and few enough points to avoid overlap
-    const showValueLabels = series.length === 1 && data.length <= 10
+    // Trim decimals as bars/points pile up (categories × series), and once too
+    // crowded, hide the value labels entirely — the tooltip still has the exact
+    // value on hover. Both relax when expanded to fullscreen, where there's
+    // room to show everything.
+    const totalPoints = data.length * series.length
     const prettyJson = JSON.stringify(config, null, 2)
 
     if (chartType === 'pie' || chartType === 'donut') {
         const valueKey = series[0]!.key
         return (
             <Shell title={title} json={prettyJson}>
-                <div style={{ width: '100%', height: 256 }}>
-                    <ResponsiveContainer
-                        width='100%'
-                        height='100%'
-                        initialDimension={{ width: 320, height: 256 }}
-                    >
-                        <PieChart>
-                            <Pie
-                                data={data}
-                                dataKey={valueKey}
-                                nameKey={xKey}
-                                cx='50%'
-                                cy='50%'
-                                outerRadius={90}
-                                innerRadius={chartType === 'donut' ? 55 : 0}
-                                paddingAngle={chartType === 'donut' ? 2 : 0}
-                                stroke='var(--card)'
-                                strokeWidth={2}
-                            >
-                                {data.map((_, i) => (
-                                    <Cell key={i} fill={PALETTE[i % PALETTE.length]} />
-                                ))}
-                            </Pie>
-                            <Tooltip contentStyle={TOOLTIP_STYLE} />
-                            <Legend wrapperStyle={{ fontSize: 11 }} />
-                        </PieChart>
-                    </ResponsiveContainer>
-                </div>
+                {(height) => (
+                    <div style={{ width: '100%', height }}>
+                        <ResponsiveContainer
+                            width='100%'
+                            height='100%'
+                            initialDimension={{ width: 320, height: typeof height === 'number' ? height : 480 }}
+                        >
+                            <PieChart>
+                                <Pie
+                                    data={data}
+                                    dataKey={valueKey}
+                                    nameKey={xKey}
+                                    cx='50%'
+                                    cy='50%'
+                                    outerRadius={90}
+                                    innerRadius={chartType === 'donut' ? 55 : 0}
+                                    paddingAngle={chartType === 'donut' ? 2 : 0}
+                                    stroke='var(--card)'
+                                    strokeWidth={2}
+                                >
+                                    {data.map((_, i) => (
+                                        <Cell key={i} fill={PALETTE[i % PALETTE.length]} />
+                                    ))}
+                                </Pie>
+                                <Tooltip contentStyle={TOOLTIP_STYLE} />
+                                <Legend wrapperStyle={{ fontSize: 11 }} />
+                            </PieChart>
+                        </ResponsiveContainer>
+                    </div>
+                )}
             </Shell>
         )
     }
 
-    // Show every tick for reasonably-sized datasets; only thin them out (evenly, not
-    // recharts' uneven 'preserveStartEnd') once there are too many to fit legibly
-    const xAxisInterval = data.length > 20 ? Math.ceil(data.length / 12) - 1 : 0
-
-    const xAxis = (
-        <XAxis
-            dataKey={xKey}
-            tickLine={false}
-            axisLine={false}
-            interval={xAxisInterval}
-            height={36}
-            tick={<ChartXAxisTick totalCount={data.length} />}
-        />
-    )
-
     return (
         <Shell title={title} json={prettyJson}>
-            {/* Explicit pixel height so ResponsiveContainer always measures > 0 */}
-            <div style={{ width: '100%', height: 256 }}>
-                <ResponsiveContainer
-                    width='100%'
-                    height='100%'
-                    initialDimension={{ width: 320, height: 256 }}
-                >
-                    {chartType === 'bar' ? (
-                        <BarChart data={data} margin={{ top: 20, right: 16, bottom: 0, left: 16 }}>
-                            <CartesianGrid strokeDasharray='3 3' stroke='var(--border)' vertical={false} />
-                            {xAxis}
-                            <Tooltip contentStyle={TOOLTIP_STYLE} cursor={{ fill: 'var(--muted)', opacity: 0.4 }} />
-                            {showLegend && <Legend wrapperStyle={{ fontSize: 11 }} />}
-                            {series.map((s, i) => (
-                                <Bar key={s.key} dataKey={s.key} name={s.label ?? s.key} fill={PALETTE[i % PALETTE.length]} radius={[3, 3, 0, 0]}>
-                                    {showValueLabels && <LabelList position='top' offset={12} className='fill-foreground' fontSize={12} />}
-                                </Bar>
-                            ))}
-                        </BarChart>
-                    ) : chartType === 'line' ? (
-                        <LineChart data={data} margin={{ top: 20, right: 16, bottom: 0, left: 0 }}>
-                            <CartesianGrid strokeDasharray='3 3' stroke='var(--border)' vertical={false} />
-                            <XAxis dataKey={xKey} hide height={0} />
-                            <YAxis
-                                tickLine={false}
-                                axisLine={false}
-                                tick={TICK_STYLE}
-                                width={28}
-                                domain={getLineYDomain(data, series) ?? ['auto', 'auto']}
-                            />
-                            <Tooltip contentStyle={TOOLTIP_STYLE} />
-                            {showLegend && <Legend wrapperStyle={{ fontSize: 11, paddingTop: 0 }} />}
-                            {series.map((s, i) => (
-                                <Line key={s.key} type='monotone' dataKey={s.key} name={s.label ?? s.key} stroke={PALETTE[i % PALETTE.length]} strokeWidth={2} dot={false} />
-                            ))}
-                        </LineChart>
-                    ) : (
-                        <AreaChart data={data} margin={{ top: 4, right: 16, bottom: 0, left: 16 }}>
-                            <CartesianGrid strokeDasharray='3 3' stroke='var(--border)' vertical={false} />
-                            {xAxis}
-                            <Tooltip contentStyle={TOOLTIP_STYLE} />
-                            {showLegend && <Legend wrapperStyle={{ fontSize: 11 }} />}
-                            <defs>
+            {(height) => {
+                const isExpanded = height === '100%'
+                const showValueLabels = isExpanded || shouldShowValueLabels(totalPoints)
+                const valueLabelFormatter = (v: RenderableText) =>
+                    typeof v === 'number' ? formatCompactNumber(v, labelFractionDigits(totalPoints)) : ''
+                // Show every tick for reasonably-sized datasets; only thin them out
+                // (evenly, not recharts' uneven 'preserveStartEnd') once there are too
+                // many to fit legibly.
+                const xAxisInterval = data.length > 20 ? Math.ceil(data.length / 12) - 1 : 0
+                const xAxis = (
+                    <XAxis
+                        dataKey={xKey}
+                        tickLine={false}
+                        axisLine={false}
+                        interval={xAxisInterval}
+                        height={36}
+                        tick={<ChartXAxisTick totalCount={data.length} />}
+                    />
+                )
+
+                return (
+                <div style={{ width: '100%', height }}>
+                    <ResponsiveContainer
+                        width='100%'
+                        height='100%'
+                        initialDimension={{ width: 320, height: typeof height === 'number' ? height : 480 }}
+                    >
+                        {chartType === 'bar' ? (
+                            <BarChart data={data} margin={{ top: 20, right: 16, bottom: 0, left: 16 }}>
+                                <CartesianGrid strokeDasharray='3 3' stroke='var(--border)' vertical={false} />
+                                {xAxis}
+                                <Tooltip contentStyle={TOOLTIP_STYLE} cursor={{ fill: 'var(--muted)', opacity: 0.4 }} />
+                                {showLegend && <Legend wrapperStyle={{ fontSize: 11 }} />}
                                 {series.map((s, i) => (
-                                    <linearGradient key={s.key} id={`fill-${s.key}`} x1='0' y1='0' x2='0' y2='1'>
-                                        <stop offset='5%' stopColor={PALETTE[i % PALETTE.length]} stopOpacity={0.8} />
-                                        <stop offset='95%' stopColor={PALETTE[i % PALETTE.length]} stopOpacity={0.1} />
-                                    </linearGradient>
+                                    <Bar key={s.key} dataKey={s.key} name={s.label ?? s.key} fill={PALETTE[i % PALETTE.length]} radius={[3, 3, 0, 0]}>
+                                        {showValueLabels && (
+                                            <LabelList
+                                                position='top'
+                                                offset={12}
+                                                className='fill-foreground'
+                                                fontSize={12}
+                                                formatter={valueLabelFormatter}
+                                            />
+                                        )}
+                                    </Bar>
                                 ))}
-                            </defs>
-                            {series.map((s, i) => (
-                                <Area
-                                    key={s.key}
-                                    type='monotone'
-                                    dataKey={s.key}
-                                    name={s.label ?? s.key}
-                                    stackId='a'
-                                    stroke={PALETTE[i % PALETTE.length]}
-                                    fill={`url(#fill-${s.key})`}
-                                    fillOpacity={0.4}
-                                    strokeWidth={2}
+                            </BarChart>
+                        ) : chartType === 'line' ? (
+                            <LineChart data={data} margin={{ top: 20, right: 16, bottom: 0, left: 0 }}>
+                                <CartesianGrid strokeDasharray='3 3' stroke='var(--border)' vertical={false} />
+                                <XAxis dataKey={xKey} hide height={0} />
+                                <YAxis
+                                    tickLine={false}
+                                    axisLine={false}
+                                    tick={TICK_STYLE}
+                                    width={40}
+                                    domain={getLineYDomain(data, series) ?? ['auto', 'auto']}
+                                    tickFormatter={formatCompactNumber}
                                 />
-                            ))}
-                        </AreaChart>
-                    )}
-                </ResponsiveContainer>
-            </div>
+                                <Tooltip contentStyle={TOOLTIP_STYLE} />
+                                {showLegend && <Legend wrapperStyle={{ fontSize: 11, paddingTop: 0 }} />}
+                                {series.map((s, i) => (
+                                    <Line key={s.key} type='monotone' dataKey={s.key} name={s.label ?? s.key} stroke={PALETTE[i % PALETTE.length]} strokeWidth={2} dot={false}>
+                                        {showValueLabels && (
+                                            <LabelList
+                                                position='top'
+                                                offset={12}
+                                                className='fill-foreground'
+                                                fontSize={12}
+                                                formatter={valueLabelFormatter}
+                                            />
+                                        )}
+                                    </Line>
+                                ))}
+                            </LineChart>
+                        ) : (
+                            <AreaChart data={data} margin={{ top: 20, right: 16, bottom: 0, left: 16 }}>
+                                <CartesianGrid strokeDasharray='3 3' stroke='var(--border)' vertical={false} />
+                                {xAxis}
+                                <Tooltip contentStyle={TOOLTIP_STYLE} />
+                                {showLegend && <Legend wrapperStyle={{ fontSize: 11 }} />}
+                                <defs>
+                                    {series.map((s, i) => (
+                                        <linearGradient key={s.key} id={`fill-${s.key}`} x1='0' y1='0' x2='0' y2='1'>
+                                            <stop offset='5%' stopColor={PALETTE[i % PALETTE.length]} stopOpacity={0.8} />
+                                            <stop offset='95%' stopColor={PALETTE[i % PALETTE.length]} stopOpacity={0.1} />
+                                        </linearGradient>
+                                    ))}
+                                </defs>
+                                {series.map((s, i) => (
+                                    <Area
+                                        key={s.key}
+                                        type='monotone'
+                                        dataKey={s.key}
+                                        name={s.label ?? s.key}
+                                        stackId='a'
+                                        stroke={PALETTE[i % PALETTE.length]}
+                                        fill={`url(#fill-${s.key})`}
+                                        fillOpacity={0.4}
+                                        strokeWidth={2}
+                                    >
+                                        {showValueLabels && (
+                                            <LabelList
+                                                position='top'
+                                                offset={12}
+                                                className='fill-foreground'
+                                                fontSize={12}
+                                                formatter={valueLabelFormatter}
+                                            />
+                                        )}
+                                    </Area>
+                                ))}
+                            </AreaChart>
+                        )}
+                    </ResponsiveContainer>
+                </div>
+                )
+            }}
         </Shell>
     )
 }

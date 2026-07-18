@@ -61,7 +61,7 @@ const bodySchema = z.object({
 
 const blogQuery = groq`*[_id == $id][0]{ title, "text": pt::text(body) }`
 
-type QueryableDoc = OpenableDoc & { parentId: string | null; mergedParquetKey: string | null }
+type QueryableDoc = OpenableDoc & { id: string; parentId: string | null }
 type EntityContext = { system: string; doc?: QueryableDoc } | null
 
 async function discussionContext(entityId: string): Promise<EntityContext> {
@@ -75,9 +75,10 @@ async function discussionContext(entityId: string): Promise<EntityContext> {
     let datasetContext = ''
     let queryableDoc: QueryableDoc | undefined
     if (thread.linkedDatasetId) {
-        const doc = await documentService
+        const rawDoc = await documentService
             .getById(thread.linkedDatasetId)
             .catch(() => null)
+        const doc = rawDoc ? await resolveQueryDoc(rawDoc) : null
         const meta = (doc?.metadata as DocumentMetadata | null) ?? null
         if (doc && meta) {
             queryableDoc = doc
@@ -102,7 +103,7 @@ async function discussionContext(entityId: string): Promise<EntityContext> {
                 .join('\n')
 
             datasetContext = `
-This thread is linked to the dataset: "${doc.name}"
+This thread is linked to the dataset: "${rawDoc!.name}"
 Rows: ${meta.rowCount.toLocaleString()} | Columns: ${meta.columnCount}
 Columns:
 ${columnSummary}
@@ -203,7 +204,7 @@ export async function POST(req: Request) {
     let dataset: Awaited<ReturnType<typeof openDataset>> = null
     if (ctx.doc) {
         try {
-            dataset = await openDataset(resolveQueryDoc(ctx.doc))
+            dataset = await openDataset(ctx.doc)
         } catch (err) {
             captureException(err, { tags: { route: ROUTE } })
             logger.error(ROUTE, 'failed to open dataset', { err: String(err) })

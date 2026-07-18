@@ -42,6 +42,8 @@ importers:
 
   apps/duckdb-executor: {}
 
+  apps/scrapers: {}
+
   apps/web:
     dependencies:
       '@ai-sdk/google':

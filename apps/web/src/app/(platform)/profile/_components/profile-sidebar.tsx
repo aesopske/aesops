@@ -2,10 +2,11 @@
 
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
-import { Database, UserRound } from 'lucide-react'
+import { BarChart3, Database, UserRound } from 'lucide-react'
 
 const links = [
     { href: '/profile', label: 'Datasets', icon: Database },
+    { href: '/profile/downloads', label: 'Analytics', icon: BarChart3 },
     { href: '/profile/account', label: 'Account', icon: UserRound },
 ]
 

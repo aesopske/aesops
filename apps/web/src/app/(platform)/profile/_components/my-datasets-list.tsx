@@ -13,7 +13,12 @@ import {
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
 import { trpc } from '@/trpc/react'
-import { formatBytes, timeAgo } from '@/lib/platform/format'
+import {
+    extractDescription,
+    formatBytes,
+    parseInsightsSummary,
+    timeAgo,
+} from '@/lib/platform/format'
 import type { DocumentMetadata } from '@repo/db/schema'
 import { DatasetPreviewModal } from '@/app/(platform)/profile/_components/dataset-preview-modal'
 
@@ -33,18 +38,6 @@ type Doc = {
     latestRevisionAt: Date | null
 }
 
-function extractDescription(raw: unknown): string {
-    if (!raw) return ''
-    if (typeof raw === 'string') return raw
-    const doc = raw as { content?: { content?: { text?: string }[] }[] }
-    return (
-        doc.content
-            ?.flatMap((block) => block.content ?? [])
-            .map((node) => node.text ?? '')
-            .join('') ?? ''
-    )
-}
-
 function DatasetRow({ doc }: { doc: Doc }) {
     const utils = trpc.useUtils()
     const router = useRouter()
@@ -56,7 +49,9 @@ function DatasetRow({ doc }: { doc: Doc }) {
     const meta = doc.metadata as DocumentMetadata | null
     const isExcel =
         doc.mimeType.includes('excel') || doc.mimeType.includes('spreadsheet')
-    const description = extractDescription(doc.description)
+    const description =
+        extractDescription(doc.description) ||
+        parseInsightsSummary(doc.aiInsights).summary
 
     return (
         <li className='overflow-hidden'>

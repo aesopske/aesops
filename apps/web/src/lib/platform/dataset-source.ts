@@ -13,15 +13,17 @@ export type OpenableDoc = {
     metadata: unknown
 }
 
-// For root datasets (no parentId), prefer the merged-across-versions Parquet
-// over the root's own original upload, so queries reflect the latest data.
-// Falls back to the root's own parquetKey automatically if no merge has run
-// yet (or one failed) — mergedParquetKey is only ever set on success.
-export function resolveQueryDoc<T extends OpenableDoc & { parentId: string | null; mergedParquetKey?: string | null }>(
+// For root datasets (no parentId), query the newest revision's own Parquet
+// instead of the root's original upload — each new version is uploaded as
+// the full cumulative dataset, so the latest revision already is a superset
+// of all older ones. Falls back to the root doc itself if it has no revisions.
+export async function resolveQueryDoc<T extends OpenableDoc & { id: string; parentId: string | null }>(
     doc: T,
-): T {
-    if (doc.parentId || !doc.mergedParquetKey) return doc
-    return { ...doc, parquetKey: doc.mergedParquetKey }
+): Promise<T> {
+    if (doc.parentId) return doc
+    const revisions = await documentService.listRevisions(doc.id)
+    const latest = revisions.at(-1)
+    return (latest as T | undefined) ?? doc
 }
 
 export type OpenDataset = { dq: DatasetQuery; release: () => void }
