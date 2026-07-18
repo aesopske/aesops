@@ -36,6 +36,11 @@ function numericStats(values: number[]) {
     }
 }
 
+function isYearLike(name: string, values: number[]): boolean {
+    if (!/\byear\b/i.test(name)) return false
+    return values.every((v) => Number.isInteger(v) && v >= 1000 && v <= 3000)
+}
+
 function topValues(values: unknown[], limit = 5): { value: string; count: number }[] {
     const freq = new Map<string, number>()
     for (const v of values) {
@@ -83,7 +88,13 @@ export function extractMetadata(buffer: ArrayBuffer): DocumentMetadata {
 
         if (dtype === 'number') {
             const nums = values.filter((v): v is number => typeof v === 'number')
-            Object.assign(col, numericStats(nums))
+            if (isYearLike(col.name, nums)) {
+                const sorted = [...nums].sort((a, b) => a - b)
+                col.min = sorted[0]
+                col.max = sorted[sorted.length - 1]
+            } else {
+                Object.assign(col, numericStats(nums))
+            }
         } else {
             col.topValues = topValues(values)
         }

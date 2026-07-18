@@ -10,6 +10,8 @@ export function formatColumnSummary(columns: DocumentMetadata['columns']): strin
                 parts.push(`${col.nullPercent.toFixed(1)}% null`)
             if (col.mean !== undefined)
                 parts.push(`mean=${col.mean}, min=${col.min}, max=${col.max}`)
+            else if (col.min !== undefined && col.max !== undefined)
+                parts.push(`min=${col.min}, max=${col.max}`)
             if (col.topValues?.length) {
                 const top = col.topValues
                     .slice(0, 3)
