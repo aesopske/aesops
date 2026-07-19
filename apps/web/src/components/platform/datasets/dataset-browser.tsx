@@ -19,7 +19,7 @@ import { DatasetPreviewModal } from './dataset-preview-modal'
 import { DatasetFiltersPanel } from './dataset-filters-panel'
 import { DatasetPagination } from './dataset-pagination'
 
-const PAGE_SIZE = 20
+const PAGE_SIZE = 15
 const BYTES_PER_MB = 1024 * 1024
 
 function SkeletonRow() {
