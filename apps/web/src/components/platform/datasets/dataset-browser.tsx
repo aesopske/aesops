@@ -445,6 +445,8 @@ export function DatasetBrowser() {
                         <DatasetPagination
                             page={page}
                             totalPages={totalPages}
+                            shown={documents?.length ?? 0}
+                            total={total}
                             onPageChange={handlePageChange}
                         />
                     </div>
