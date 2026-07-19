@@ -116,14 +116,14 @@ export function DatasetFiltersPanel({
                 !bare && 'rounded-xl border border-border bg-card p-4',
             )}>
             <div className='flex items-center justify-between'>
-                <h3 className='text-[11px] font-medium uppercase tracking-wider text-muted-foreground'>
+                <h3 className='text-xs font-medium uppercase tracking-wider text-muted-foreground'>
                     Filters
                 </h3>
                 {hasActiveFilters && (
                     <button
                         type='button'
                         onClick={onClear}
-                        className='text-[11px] text-muted-foreground underline underline-offset-2 hover:text-foreground'>
+                        className='text-xs text-muted-foreground underline underline-offset-2 hover:text-foreground'>
                         Clear
                     </button>
                 )}
@@ -131,7 +131,7 @@ export function DatasetFiltersPanel({
 
             {(categoryOptionsLoading || categoryOptions.length > 0) && (
                 <div className='space-y-2'>
-                    <p className='text-xs font-medium text-foreground'>
+                    <p className='text-sm font-medium text-foreground'>
                         Category
                     </p>
                     {categoryOptionsLoading ? (
@@ -141,7 +141,7 @@ export function DatasetFiltersPanel({
                             {categoryOptions.map((value) => (
                                 <label
                                     key={value}
-                                    className='flex cursor-pointer items-center gap-2 text-xs text-muted-foreground hover:text-foreground'>
+                                    className='flex cursor-pointer items-center gap-2 text-sm text-muted-foreground hover:text-foreground'>
                                     <input
                                         type='checkbox'
                                         checked={selectedCategories.includes(value)}
@@ -158,7 +158,7 @@ export function DatasetFiltersPanel({
 
             {(tagOptionsLoading || tagOptions.length > 0) && (
                 <div className='space-y-2'>
-                    <p className='text-xs font-medium text-foreground'>Tags</p>
+                    <p className='text-sm font-medium text-foreground'>Tags</p>
                     {tagOptionsLoading ? (
                         <PillListSkeleton />
                     ) : (
@@ -171,7 +171,7 @@ export function DatasetFiltersPanel({
                                         type='button'
                                         onClick={() => onToggleTag(value)}
                                         className={cn(
-                                            'rounded-full border px-2.5 py-1 text-[11px] transition',
+                                            'rounded-full border px-2.5 py-1 text-xs transition',
                                             active
                                                 ? 'border-primary bg-primary/10 text-primary'
                                                 : 'border-border text-muted-foreground hover:text-foreground',
@@ -187,7 +187,7 @@ export function DatasetFiltersPanel({
 
             {(licenseOptionsLoading || licenseOptions.length > 0) && (
                 <div className='space-y-2'>
-                    <p className='text-xs font-medium text-foreground'>
+                    <p className='text-sm font-medium text-foreground'>
                         License
                     </p>
                     {licenseOptionsLoading ? (
@@ -197,7 +197,7 @@ export function DatasetFiltersPanel({
                             {licenseOptions.map((value) => (
                                 <label
                                     key={value}
-                                    className='flex cursor-pointer items-center gap-2 text-xs text-muted-foreground hover:text-foreground'>
+                                    className='flex cursor-pointer items-center gap-2 text-sm text-muted-foreground hover:text-foreground'>
                                     <input
                                         type='checkbox'
                                         checked={selectedLicenses.includes(value)}
@@ -213,14 +213,14 @@ export function DatasetFiltersPanel({
             )}
 
             <div className='space-y-2'>
-                <p className='text-xs font-medium text-foreground'>
+                <p className='text-sm font-medium text-foreground'>
                     Dataset size
                 </p>
                 <div className='space-y-1.5'>
                     {SIZE_PRESETS.map((preset) => (
                         <label
                             key={preset.label}
-                            className='flex cursor-pointer items-center gap-2 text-xs text-muted-foreground hover:text-foreground'>
+                            className='flex cursor-pointer items-center gap-2 text-sm text-muted-foreground hover:text-foreground'>
                             <input
                                 type='radio'
                                 name='size-preset'
@@ -240,14 +240,14 @@ export function DatasetFiltersPanel({
             </div>
 
             <div className='space-y-2'>
-                <p className='text-xs font-medium text-foreground'>
+                <p className='text-sm font-medium text-foreground'>
                     Row count
                 </p>
                 <div className='space-y-1.5'>
                     {ROW_PRESETS.map((preset) => (
                         <label
                             key={preset.label}
-                            className='flex cursor-pointer items-center gap-2 text-xs text-muted-foreground hover:text-foreground'>
+                            className='flex cursor-pointer items-center gap-2 text-sm text-muted-foreground hover:text-foreground'>
                             <input
                                 type='radio'
                                 name='row-preset'

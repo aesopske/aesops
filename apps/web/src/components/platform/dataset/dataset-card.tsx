@@ -198,7 +198,7 @@ export function DatasetCard({ doc, selected, onPreview }: DatasetCardProps) {
                         )}
                     </div>
                     <div className='min-w-0 flex-1'>
-                        <p className='wrap-break-word font-medium text-foreground'>
+                        <p className='wrap-break-word text-lg font-medium text-foreground'>
                             {doc.name}
                         </p>
                         <p className='mt-0.5 text-xs text-muted-foreground'>
@@ -209,7 +209,7 @@ export function DatasetCard({ doc, selected, onPreview }: DatasetCardProps) {
 
                 {/* description */}
                 {description && (
-                    <p className='mt-2 line-clamp-3 text-xs text-muted-foreground'>
+                    <p className='mt-2 line-clamp-3 text-sm text-muted-foreground'>
                         {description}
                     </p>
                 )}
