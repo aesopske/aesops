@@ -9,6 +9,11 @@ import {
     parseInsightsSummary,
     timeAgo,
 } from '@/lib/platform/format'
+import { DATASET_CATEGORIES } from '@/lib/constants/dataset-taxonomy'
+
+const CATEGORY_LABELS: Map<string, string> = new Map(
+    DATASET_CATEGORIES.map((c) => [c.value, c.label]),
+)
 
 export { formatBytes, timeAgo }
 
@@ -149,6 +154,8 @@ export type Document = {
     metadata: unknown
     description?: unknown
     aiInsights?: string | null
+    category?: string | null
+    tags?: string[] | null
     revisionCount?: number
     latestRevisionAt?: Date | null
 }
@@ -205,6 +212,24 @@ export function DatasetCard({ doc, selected, onPreview }: DatasetCardProps) {
                     <p className='mt-2 line-clamp-3 text-xs text-muted-foreground'>
                         {description}
                     </p>
+                )}
+
+                {/* category + tags */}
+                {(doc.category || doc.tags?.length) && (
+                    <div className='mt-2 flex flex-wrap items-center gap-1.5'>
+                        {doc.category && (
+                            <span className='rounded-full bg-primary/10 px-2 py-0.5 text-xs font-medium text-primary'>
+                                {CATEGORY_LABELS.get(doc.category) ?? doc.category}
+                            </span>
+                        )}
+                        {doc.tags?.slice(0, 4).map((tag) => (
+                            <span
+                                key={tag}
+                                className='rounded-full bg-secondary px-2 py-0.5 text-xs text-foreground'>
+                                {tag}
+                            </span>
+                        ))}
+                    </div>
                 )}
 
                 {/* stats */}

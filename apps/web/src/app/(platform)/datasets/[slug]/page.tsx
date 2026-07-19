@@ -28,6 +28,11 @@ import type { DocumentMetadata } from '@repo/db/schema'
 import BreadCrumbs from '@/components/common/organisms/bread-crumbs/BreadCrumbs'
 import { DownloadButton } from '@/components/platform/dataset/download-button'
 import { DownloadAnalytics } from '@/components/platform/dataset/download-analytics'
+import { DATASET_CATEGORIES } from '@/lib/constants/dataset-taxonomy'
+
+const CATEGORY_LABELS: Map<string, string> = new Map(
+    DATASET_CATEGORIES.map((c) => [c.value, c.label]),
+)
 
 type Props = { params: Promise<{ slug: string }> }
 
@@ -178,6 +183,23 @@ export default async function DatasetPage({ params }: Props) {
                                         )}
                                     </span>
                                 </div>
+                                {(doc.category || doc.tags?.length) && (
+                                    <div className='mt-3 flex flex-wrap items-center gap-1.5'>
+                                        {doc.category && (
+                                            <span className='rounded-full bg-primary-foreground/15 px-2.5 py-0.5 text-xs font-medium text-primary-foreground'>
+                                                {CATEGORY_LABELS.get(doc.category) ??
+                                                    doc.category}
+                                            </span>
+                                        )}
+                                        {doc.tags?.map((tag) => (
+                                            <span
+                                                key={tag}
+                                                className='rounded-full bg-primary-foreground/10 px-2.5 py-0.5 text-xs text-primary-foreground/70'>
+                                                {tag}
+                                            </span>
+                                        ))}
+                                    </div>
+                                )}
                             </div>
                         </div>
 

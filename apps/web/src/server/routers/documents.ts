@@ -144,6 +144,8 @@ export const documentsRouter = router({
                 .object({
                     query: z.string().optional(),
                     license: z.array(z.string()).optional(),
+                    category: z.array(z.string()).optional(),
+                    tags: z.array(z.string()).optional(),
                     minSize: z.number().optional(),
                     maxSize: z.number().optional(),
                     minRows: z.number().optional(),
@@ -158,6 +160,12 @@ export const documentsRouter = router({
     distinctLicenses: publicProcedure.query(() =>
         documentService.distinctLicenses(),
     ),
+
+    distinctCategories: publicProcedure.query(() =>
+        documentService.distinctCategories(),
+    ),
+
+    distinctTags: publicProcedure.query(() => documentService.distinctTags()),
 
     listMine: protectedProcedure
         .input(z.object({ query: z.string().optional() }).optional())

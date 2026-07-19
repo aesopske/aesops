@@ -9,7 +9,8 @@
     "lint": "eslint .",
     "typecheck": "tsc --noEmit",
     "knip": "knip",
-    "backfill:parquet": "tsx --env-file=.env.local scripts/backfill-parquet.ts"
+    "backfill:parquet": "tsx --env-file=.env.local scripts/backfill-parquet.ts",
+    "backfill:classification": "tsx --env-file=.env.local scripts/backfill-classification.ts"
   },
   "dependencies": {
     "@ai-sdk/google": "^1.2.22",
