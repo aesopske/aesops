@@ -22,8 +22,10 @@ import { DatasetChatWidget } from '@/components/platform/dataset/dataset-chat-wi
 import { DatasetVersionHistory } from '@/components/platform/dataset/dataset-version-history'
 import { DatasetPageLayout } from '@/components/platform/dataset/dataset-page-layout'
 import { DatasetVisualizations } from '@/components/platform/dataset/dataset-visualizations'
+import { TimeSeriesChart } from '@/components/platform/dataset/time-series-chart'
 import { RelatedDiscussions } from '@/components/platform/community/related-discussions'
 import { formatBytes, formatDate } from '@/lib/platform/format'
+import { classifyTimeSeries } from '@/lib/platform/time-series'
 import type { DocumentMetadata } from '@repo/db/schema'
 import BreadCrumbs from '@/components/common/organisms/bread-crumbs/BreadCrumbs'
 import { DownloadButton } from '@/components/platform/dataset/download-button'
@@ -81,6 +83,7 @@ export default async function DatasetPage({ params }: Props) {
         revisions.length > 0 ? revisions.at(-1)!.createdAt : null
 
     const meta = doc.metadata as DocumentMetadata | null
+    const timeSeries = classifyTimeSeries(meta)
     const isExcel =
         doc.mimeType.includes('excel') || doc.mimeType.includes('spreadsheet')
     const fileType = isExcel ? 'Excel' : 'CSV'
@@ -341,6 +344,19 @@ export default async function DatasetPage({ params }: Props) {
                 }
                 right={
                     <>
+                        {timeSeries.isTimeSeries && (
+                            <section>
+                                <SectionHeading label='Trend' />
+                                <div className='mt-4'>
+                                    <TimeSeriesChart
+                                        doc={doc}
+                                        timeColumn={timeSeries.timeColumn}
+                                        valueColumns={timeSeries.valueColumns}
+                                    />
+                                </div>
+                            </section>
+                        )}
+
                         {meta && (
                             <section>
                                 <SectionHeading label='Data overview' />
