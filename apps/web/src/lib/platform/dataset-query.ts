@@ -174,7 +174,7 @@ function metricExpr(dq: DatasetQuery, metric?: { column: string; fn: AggregateFn
 export async function aggregate(
     dq: DatasetQuery,
     opts: {
-        groupBy: string | string[]
+        groupBy?: string | string[]
         datePart?: DatePart
         metric?: { column: string; fn: Exclude<AggregateFn, 'count'> }
         limit?: number
@@ -184,13 +184,22 @@ export async function aggregate(
     const limit = opts.limit === 0 ? 0 : clamp(opts.limit ?? 20, 1, 5000)
     if (limit === 0) return []
 
-    const groupCols = Array.isArray(opts.groupBy) ? opts.groupBy : [opts.groupBy]
-    const keyExprs = groupCols.map((c) => keyExpr(ident(c, dq), opts.datePart))
-    const keySql =
-        keyExprs.length === 1 ? keyExprs[0]! : `concat_ws(' | ', ${keyExprs.join(', ')})`
+    const groupCols = opts.groupBy === undefined
+        ? []
+        : Array.isArray(opts.groupBy) ? opts.groupBy : [opts.groupBy]
 
     const where = whereClause(opts.rowFilters, dq)
     const valSql = metricExpr(dq, opts.metric)
+
+    if (groupCols.length === 0) {
+        const sql = `SELECT ${valSql} AS v FROM ${dq.ref} ${where}`
+        const rows = await dq.run(sql)
+        return [{ key: 'Total', value: Number(rows[0]?.v ?? 0) }]
+    }
+
+    const keyExprs = groupCols.map((c) => keyExpr(ident(c, dq), opts.datePart))
+    const keySql =
+        keyExprs.length === 1 ? keyExprs[0]! : `concat_ws(' | ', ${keyExprs.join(', ')})`
 
     // Date groupings sort chronologically so time axes read left-to-right; every
     // other grouping sorts by value descending. For multi-column date groupings
