@@ -167,6 +167,8 @@ export const documentsRouter = router({
 
     distinctTags: publicProcedure.query(() => documentService.distinctTags()),
 
+    categoryCounts: publicProcedure.query(() => documentService.categoryCounts()),
+
     listMine: protectedProcedure
         .input(z.object({ query: z.string().optional() }).optional())
         .query(({ input, ctx }) => {

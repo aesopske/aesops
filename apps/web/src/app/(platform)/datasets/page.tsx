@@ -3,6 +3,7 @@ import { auth } from '@repo/auth'
 import Animate from '@/components/common/atoms/Animate'
 import DatasetShowcase from '@/components/common/DatasetShowcase'
 import { DatasetBrowser } from '@/components/platform/datasets/dataset-browser'
+import { CategoryBreakdownChart } from '@/components/platform/datasets/category-breakdown-chart'
 
 export default async function DatasetsPage() {
     const session = await auth.api.getSession({ headers: await headers() })
@@ -21,15 +22,19 @@ export default async function DatasetsPage() {
                         }}
                     />
                     <div className='relative mx-auto max-w-6xl px-6 py-16 lg:py-20'>
-                        <div className='space-y-2'>
-                            <h1 className='text-3xl font-semibold tracking-tight'>
-                                Explore community datasets
-                            </h1>
-                            <p className='max-w-md text-sm text-primary-foreground/70'>
-                                Browse and search datasets shared by the
-                                community. Click any card to inspect columns,
-                                data types, and statistics.
-                            </p>
+                        <div className='grid items-center gap-10 lg:grid-cols-2 lg:gap-8'>
+                            <div className='space-y-2'>
+                                <h1 className='text-3xl font-semibold tracking-tight'>
+                                    Explore community datasets
+                                </h1>
+                                <p className='max-w-md text-sm text-primary-foreground/70'>
+                                    Browse and search datasets shared by the
+                                    community. Click any card to inspect columns,
+                                    data types, and statistics.
+                                </p>
+                            </div>
+
+                            <CategoryBreakdownChart />
                         </div>
                     </div>
                 </section>

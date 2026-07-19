@@ -271,6 +271,19 @@ export class DocumentService {
             .sort()
     }
 
+    /** Dataset counts per category, for the browse page's category breakdown chart. */
+    async categoryCounts(): Promise<{ category: string; count: number }[]> {
+        const rows = await this.database
+            .select({ category: documents.category, count: sql<number>`count(*)::int` })
+            .from(documents)
+            .where(and(isNull(documents.parentId), isNotNull(documents.category)))
+            .groupBy(documents.category)
+            .orderBy(desc(sql`count(*)`))
+        return rows.filter(
+            (r): r is { category: string; count: number } => r.category !== null,
+        )
+    }
+
     async distinctTags(): Promise<string[]> {
         const rows = await this.database
             .select({ tags: documents.tags })
