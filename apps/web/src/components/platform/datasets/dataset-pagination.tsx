@@ -12,7 +12,7 @@ export function DatasetPagination({ page, totalPages, onPageChange }: Props) {
     if (totalPages <= 1) return null
 
     return (
-        <div className='flex items-center justify-center gap-3 pt-2'>
+        <div className='flex items-center justify-start gap-3 rounded-xl border border-border bg-card p-3'>
             <button
                 type='button'
                 onClick={() => onPageChange(page - 1)}
