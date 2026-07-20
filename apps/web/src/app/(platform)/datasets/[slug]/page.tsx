@@ -350,7 +350,7 @@ export default async function DatasetPage({ params }: Props) {
                                 <div className='mt-4'>
                                     <TimeSeriesChart
                                         doc={doc}
-                                        timeColumn={timeSeries.timeColumn}
+                                        time={timeSeries.time}
                                         valueColumns={timeSeries.valueColumns}
                                     />
                                 </div>

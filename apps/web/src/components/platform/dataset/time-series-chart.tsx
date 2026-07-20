@@ -1,6 +1,7 @@
 import { resolveQueryDoc, openDataset, type OpenableDoc } from '@/lib/platform/dataset-source'
-import { aggregate } from '@/lib/platform/dataset-query'
+import { aggregate, aggregateByYearMonth } from '@/lib/platform/dataset-query'
 import { C } from '@/lib/platform/chart-theme'
+import type { TimeAxis } from '@/lib/platform/time-series'
 
 const MAX_POINTS = 48
 const SERIES_COLORS = [C.c1, C.c2, C.c3, C.c4, C.c5]
@@ -45,7 +46,7 @@ type QueryableDoc = OpenableDoc & { id: string; parentId: string | null }
 
 async function loadSeries(
     doc: QueryableDoc,
-    timeColumn: string,
+    time: TimeAxis,
     valueColumns: string[],
 ): Promise<Series[] | null> {
     try {
@@ -55,12 +56,19 @@ async function loadSeries(
         try {
             const results = await Promise.all(
                 valueColumns.map((column) =>
-                    aggregate(opened.dq, {
-                        groupBy: timeColumn,
-                        datePart: 'month_year',
-                        metric: { column, fn: 'avg' },
-                        limit: 5000,
-                    }),
+                    time.kind === 'datetime'
+                        ? aggregate(opened.dq, {
+                              groupBy: time.column,
+                              datePart: 'month_year',
+                              metric: { column, fn: 'avg' },
+                              limit: 5000,
+                          })
+                        : aggregateByYearMonth(opened.dq, {
+                              yearColumn: time.yearColumn,
+                              monthColumn: time.monthColumn,
+                              metric: { column, fn: 'avg' },
+                              limit: 5000,
+                          }),
                 ),
             )
             // All series share the same GROUP BY, so they should already align —
@@ -80,14 +88,14 @@ async function loadSeries(
 
 type Props = {
     doc: QueryableDoc
-    timeColumn: string
+    time: TimeAxis
     valueColumns: string[]
 }
 
 // Server-rendered only — the aggregated series are turned into static SVG
 // markup here, so raw row values never cross to the client.
-export async function TimeSeriesChart({ doc, timeColumn, valueColumns }: Props) {
-    const series = await loadSeries(doc, timeColumn, valueColumns)
+export async function TimeSeriesChart({ doc, time, valueColumns }: Props) {
+    const series = await loadSeries(doc, time, valueColumns)
     if (!series?.length || series.some((s) => s.points.length < 2)) return null
 
     const plot = { l: 4, r: 396, t: 10, b: 104 }
