@@ -118,7 +118,7 @@ export async function TimeSeriesChart({ doc, time, valueColumns }: Props) {
     const isSingleSeries = series.length === 1
 
     return (
-        <div className='rounded-xl border border-border bg-card p-4'>
+        <div className='rounded-xl border border-border bg-card p-4 shadow-sm'>
             <p className='mb-1 text-xs font-medium uppercase tracking-wider text-muted-foreground'>
                 {series.map((s) => s.column).join(', ')} over time
             </p>

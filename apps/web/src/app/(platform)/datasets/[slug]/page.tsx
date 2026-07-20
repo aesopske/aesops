@@ -288,6 +288,19 @@ export default async function DatasetPage({ params }: Props) {
             <DatasetPageLayout
                 left={
                     <>
+                        {timeSeries.isTimeSeries && (
+                            <section>
+                                <SectionHeading label='Trend' />
+                                <div className='mt-4'>
+                                    <TimeSeriesChart
+                                        doc={doc}
+                                        time={timeSeries.time}
+                                        valueColumns={timeSeries.valueColumns}
+                                    />
+                                </div>
+                            </section>
+                        )}
+
                         {meta && (
                             <section>
                                 <SectionHeading label='Insights' />
@@ -344,19 +357,6 @@ export default async function DatasetPage({ params }: Props) {
                 }
                 right={
                     <>
-                        {timeSeries.isTimeSeries && (
-                            <section>
-                                <SectionHeading label='Trend' />
-                                <div className='mt-4'>
-                                    <TimeSeriesChart
-                                        doc={doc}
-                                        time={timeSeries.time}
-                                        valueColumns={timeSeries.valueColumns}
-                                    />
-                                </div>
-                            </section>
-                        )}
-
                         {meta && (
                             <section>
                                 <SectionHeading label='Data overview' />
