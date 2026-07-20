@@ -33,7 +33,7 @@ function friendlyError(err: unknown): { error: string } {
 // tools to the model.
 export const DATASET_TOOLS_GUIDE = `You have tools that query the full dataset on demand:
 - think — call this FIRST for any question involving time periods, multi-step reasoning, or combined filters. Write your plan before calling data tools.
-- aggregate — group by one or two columns (pass an array for two, e.g. ["Town","Date"]) and count/sum/avg/min/max/median. Supports datePart ("year", "month", "month_year", "quarter") to extract date parts from a date column. Use rowFilters to pre-filter rows (e.g. year=2025) before grouping.
+- aggregate — group by one or two columns (pass an array for two, e.g. ["Town","Date"]) and count/sum/avg/min/max/median. Omit groupBy entirely for a single overall total or average with no breakdown (e.g. "total population of Uganda" → rowFilters:[{column:"Country",op:"eq",value:"Uganda"}], metric:{column:"Population",fn:"sum"}, no groupBy). Supports datePart ("year", "month", "month_year", "quarter") to extract date parts from a date column. Use rowFilters to pre-filter rows (e.g. year=2025) before grouping.
 - query_rows — fetch real rows with optional filters and sorting. Use for row-level lookups, listing specific entries, and finding the first/last row (orderBy + limit:1) — e.g. the earliest and latest values for a growth-rate or ROI calculation.
 - distinct_values — list the unique values of a column with counts, beyond the few shown above.
 
@@ -88,12 +88,13 @@ export function buildDatasetTools(dq: DatasetQuery) {
 
         aggregate: tool({
             description:
-                'Group the dataset by one or two columns and compute a metric per group. Use for exact counts ("how many X"), totals, averages, and medians — and to produce data for charts and tables. Pass an array of 2 columns for two-dimensional breakdowns (e.g. "by town AND by month", "per region per year"): the result key joins each column\'s value with " | " (e.g. "Nairobi | Sep"). Default metric is row count. Returns [{ key, value }] sorted descending (or chronologically for single-dimension month grouping).',
+                'Group the dataset by one or two columns and compute a metric per group. Use for exact counts ("how many X"), totals, averages, and medians — and to produce data for charts and tables. Pass an array of 2 columns for two-dimensional breakdowns (e.g. "by town AND by month", "per region per year"): the result key joins each column\'s value with " | " (e.g. "Nairobi | Sep"). Default metric is row count. Omit groupBy for a single grand-total row (use rowFilters to scope it, e.g. by country) — returns [{ key: "Total", value }]. Returns [{ key, value }] sorted descending (or chronologically for single-dimension month grouping).',
             parameters: z.object({
                 groupBy: z
-                    .union([z.string(), z.array(z.string()).min(1).max(2)])
+                    .union([z.string(), z.array(z.string()).max(2)])
+                    .optional()
                     .describe(
-                        'Exact column name to group by. Pass an array of exactly 2 column names for a combined two-dimensional grouping (e.g. ["Town", "Date"]) — required whenever the question asks for a breakdown by two things at once, such as "compare X across towns for each month" or "show Y by region and by year". The result key for array form is "<value1> | <value2>", in the same order as the array. Never call aggregate once per combination and repeat a single value across rows/columns instead — always use the array form for genuine two-dimensional data.',
+                        'Exact column name(s) to group by. Omit entirely for a single grand-total value with no breakdown (e.g. "total population of Uganda", "average X overall") — combine with rowFilters to scope it (e.g. rowFilters:[{column:"Country",op:"eq",value:"Uganda"}]). Pass an array of exactly 2 column names for a combined two-dimensional grouping (e.g. ["Town", "Date"]) — required whenever the question asks for a breakdown by two things at once, such as "compare X across towns for each month" or "show Y by region and by year". The result key for array form is "<value1> | <value2>", in the same order as the array. Never call aggregate once per combination and repeat a single value across rows/columns instead — always use the array form for genuine two-dimensional data.',
                     ),
                 datePart: z
                     .enum(['year', 'month', 'month_year', 'quarter'])

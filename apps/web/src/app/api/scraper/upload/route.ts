@@ -15,6 +15,7 @@ import {
 import {
     convertDocumentToParquet,
     generateAndSaveInsights,
+    generateAndSaveClassification,
     mergeDatasetVersions,
 } from '@/lib/platform/dataset-pipeline'
 
@@ -200,7 +201,9 @@ export async function POST(req: NextRequest) {
     // the caller knows the dataset is fully ready on a 200.
     const [parquet] = await Promise.all([
         convertDocumentToParquet(doc),
-        generateAndSaveInsights(doc, docName, metadata),
+        generateAndSaveInsights(doc, docName, metadata).then(() =>
+            generateAndSaveClassification(doc, docName, metadata),
+        ),
     ])
 
     let mergedParquetKey: string | null = null

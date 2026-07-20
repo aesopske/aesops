@@ -6,6 +6,7 @@ import { extractMetadata } from '@/lib/platform/metadata'
 import { fileToParquet } from '@/lib/platform/parquet'
 import { mergeDatasetToParquet } from '@/lib/platform/dataset-merge-parquet'
 import { generateInsights } from '@/lib/platform/insights'
+import { classifyDataset } from '@/lib/platform/classification'
 import { recordAiUsage } from '@/lib/platform/ai-usage'
 import { logger } from '@/lib/platform/logger'
 
@@ -96,6 +97,47 @@ export async function generateAndSaveInsights(
         recordAiUsage({
             route: AI_INSIGHTS_ROUTE,
             model: AI_INSIGHTS_MODEL,
+            userId: doc.uploadedBy,
+            latencyMs: Date.now() - startedAt,
+            success: false,
+            errorMessage: msg,
+        })
+    }
+}
+
+const AI_CLASSIFY_ROUTE = 'ai/classify'
+const AI_CLASSIFY_MODEL = 'gemini-2.5-flash'
+
+// Generates and persists the category/tags classification for a document.
+// Shared by the browser-triggered `/api/ai/insights` route and the scraper
+// upload endpoint — runs alongside `generateAndSaveInsights` so a dataset
+// never ends up with insights but no category. Best-effort: failures are
+// logged/reported but never thrown, so a slow or failed AI call never fails
+// the upload it was triggered by.
+export async function generateAndSaveClassification(
+    doc: DocumentRow,
+    docName: string,
+    metadata: DocumentMetadata,
+): Promise<void> {
+    const startedAt = Date.now()
+    try {
+        const { category, tags, usage } = await classifyDataset(docName, metadata, doc.aiInsights)
+        await documentService.saveClassification(doc.id, category, tags)
+        recordAiUsage({
+            route: AI_CLASSIFY_ROUTE,
+            model: AI_CLASSIFY_MODEL,
+            userId: doc.uploadedBy,
+            latencyMs: Date.now() - startedAt,
+            success: true,
+            usage,
+        })
+    } catch (err) {
+        const msg = err instanceof Error ? err.message : String(err)
+        captureException(err, { tags: { route: AI_CLASSIFY_ROUTE } })
+        logger.error(AI_CLASSIFY_ROUTE, 'failed to classify dataset', { docName, err: msg })
+        recordAiUsage({
+            route: AI_CLASSIFY_ROUTE,
+            model: AI_CLASSIFY_MODEL,
             userId: doc.uploadedBy,
             latencyMs: Date.now() - startedAt,
             success: false,

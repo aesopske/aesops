@@ -22,6 +22,7 @@
         "db:add-merged-parquet-key": "node --env-file=.env scripts/add-merged-parquet-key.mjs",
         "db:add-api-key-table": "node --env-file=.env scripts/add-api-key-table.mjs",
         "db:fix-metadata-diff-baseline": "node --env-file=.env scripts/fix-metadata-diff-baseline.mjs",
+        "db:add-classification-columns": "node --env-file=.env scripts/add-classification-columns.mjs",
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {

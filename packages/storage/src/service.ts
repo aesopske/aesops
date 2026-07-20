@@ -194,6 +194,8 @@ export class DocumentService {
     async browse(filters: {
         query?: string
         license?: string[]
+        category?: string[]
+        tags?: string[]
         minSize?: number
         maxSize?: number
         minRows?: number
@@ -201,7 +203,7 @@ export class DocumentService {
         page?: number
         pageSize?: number
     } = {}) {
-        const { query, license, minSize, maxSize, minRows, maxRows } = filters
+        const { query, license, category, tags, minSize, maxSize, minRows, maxRows } = filters
         const page = filters.page ?? 1
         const pageSize = filters.pageSize ?? 20
 
@@ -216,6 +218,9 @@ export class DocumentService {
             )
         }
         if (license?.length) conditions.push(inArray(documents.license, license))
+        if (category?.length) conditions.push(inArray(documents.category, category))
+        if (tags?.length)
+            conditions.push(sql`${documents.tags} ?| array[${sql.join(tags, sql`, `)}]`)
         if (minSize !== undefined) conditions.push(gte(documents.size, minSize))
         if (maxSize !== undefined) conditions.push(lte(documents.size, maxSize))
         if (minRows !== undefined)
@@ -253,6 +258,42 @@ export class DocumentService {
             .map((r) => r.license)
             .filter((l): l is string => l !== null)
             .sort()
+    }
+
+    async distinctCategories(): Promise<string[]> {
+        const rows = await this.database
+            .selectDistinct({ category: documents.category })
+            .from(documents)
+            .where(and(isNull(documents.parentId), isNotNull(documents.category)))
+        return rows
+            .map((r) => r.category)
+            .filter((c): c is string => c !== null)
+            .sort()
+    }
+
+    /** Dataset counts per category, for the browse page's category breakdown chart. */
+    async categoryCounts(): Promise<{ category: string; count: number }[]> {
+        const rows = await this.database
+            .select({ category: documents.category, count: sql<number>`count(*)::int` })
+            .from(documents)
+            .where(and(isNull(documents.parentId), isNotNull(documents.category)))
+            .groupBy(documents.category)
+            .orderBy(desc(sql`count(*)`))
+        return rows.filter(
+            (r): r is { category: string; count: number } => r.category !== null,
+        )
+    }
+
+    async distinctTags(): Promise<string[]> {
+        const rows = await this.database
+            .select({ tags: documents.tags })
+            .from(documents)
+            .where(and(isNull(documents.parentId), isNotNull(documents.tags)))
+        const set = new Set<string>()
+        for (const row of rows) {
+            for (const tag of row.tags ?? []) set.add(tag)
+        }
+        return Array.from(set).sort()
     }
 
     async listByUser(userId: string) {
@@ -339,6 +380,15 @@ export class DocumentService {
         const [doc] = await this.database
             .update(documents)
             .set({ aiInsights: insights, aiInsightsAt: new Date(), updatedAt: new Date() })
+            .where(eq(documents.id, id))
+            .returning()
+        return doc!
+    }
+
+    async saveClassification(id: string, category: string, tags: string[]) {
+        const [doc] = await this.database
+            .update(documents)
+            .set({ category, tags, classifiedAt: new Date(), updatedAt: new Date() })
             .where(eq(documents.id, id))
             .returning()
         return doc!

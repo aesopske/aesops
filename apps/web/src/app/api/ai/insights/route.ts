@@ -3,7 +3,7 @@ import { headers } from 'next/headers'
 import { auth } from '@repo/auth'
 import { documentService } from '@repo/storage'
 import type { DocumentMetadata } from '@repo/db/schema'
-import { generateAndSaveInsights } from '@/lib/platform/dataset-pipeline'
+import { generateAndSaveInsights, generateAndSaveClassification } from '@/lib/platform/dataset-pipeline'
 
 export async function POST(req: NextRequest) {
     const session = await auth.api.getSession({ headers: await headers() })
@@ -21,5 +21,6 @@ export async function POST(req: NextRequest) {
     }
 
     await generateAndSaveInsights(doc, docName, metadata)
+    await generateAndSaveClassification(doc, docName, metadata)
     return NextResponse.json({ ok: true })
 }

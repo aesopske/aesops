@@ -174,7 +174,7 @@ function metricExpr(dq: DatasetQuery, metric?: { column: string; fn: AggregateFn
 export async function aggregate(
     dq: DatasetQuery,
     opts: {
-        groupBy: string | string[]
+        groupBy?: string | string[]
         datePart?: DatePart
         metric?: { column: string; fn: Exclude<AggregateFn, 'count'> }
         limit?: number
@@ -184,13 +184,22 @@ export async function aggregate(
     const limit = opts.limit === 0 ? 0 : clamp(opts.limit ?? 20, 1, 5000)
     if (limit === 0) return []
 
-    const groupCols = Array.isArray(opts.groupBy) ? opts.groupBy : [opts.groupBy]
-    const keyExprs = groupCols.map((c) => keyExpr(ident(c, dq), opts.datePart))
-    const keySql =
-        keyExprs.length === 1 ? keyExprs[0]! : `concat_ws(' | ', ${keyExprs.join(', ')})`
+    const groupCols = opts.groupBy === undefined
+        ? []
+        : Array.isArray(opts.groupBy) ? opts.groupBy : [opts.groupBy]
 
     const where = whereClause(opts.rowFilters, dq)
     const valSql = metricExpr(dq, opts.metric)
+
+    if (groupCols.length === 0) {
+        const sql = `SELECT ${valSql} AS v FROM ${dq.ref} ${where}`
+        const rows = await dq.run(sql)
+        return [{ key: 'Total', value: Number(rows[0]?.v ?? 0) }]
+    }
+
+    const keyExprs = groupCols.map((c) => keyExpr(ident(c, dq), opts.datePart))
+    const keySql =
+        keyExprs.length === 1 ? keyExprs[0]! : `concat_ws(' | ', ${keyExprs.join(', ')})`
 
     // Date groupings sort chronologically so time axes read left-to-right; every
     // other grouping sorts by value descending. For multi-column date groupings
@@ -206,6 +215,41 @@ export async function aggregate(
               : `ORDER BY v DESC`
 
     const sql = `SELECT ${keySql} AS k, ${valSql} AS v FROM ${dq.ref} ${where} GROUP BY ${keySql} ${order} LIMIT ${limit}`
+    const rows = await dq.run(sql)
+    return rows.map((r) => ({ key: String(r.k ?? '∅'), value: Number(r.v ?? 0) }))
+}
+
+// Aggregates by a separate year column (plus an optional month column), for
+// datasets that split time into two columns instead of one parseable date —
+// a common shape in this platform's scraped datasets. Handles both a numeric
+// month (1-12) and a month-name string via `coalesce`, so callers don't need
+// to know which form the source data uses.
+export async function aggregateByYearMonth(
+    dq: DatasetQuery,
+    opts: {
+        yearColumn: string
+        monthColumn?: string
+        metric: { column: string; fn: Exclude<AggregateFn, 'count'> }
+        limit?: number
+    },
+): Promise<{ key: string; value: number }[]> {
+    const limit = opts.limit === 0 ? 0 : clamp(opts.limit ?? 20, 1, 5000)
+    if (limit === 0) return []
+
+    const yearCol = ident(opts.yearColumn, dq)
+    const valSql = metricExpr(dq, opts.metric)
+
+    if (!opts.monthColumn) {
+        const yearInt = `TRY_CAST(${yearCol} AS INTEGER)`
+        const sql = `SELECT CAST(${yearInt} AS VARCHAR) AS k, ${valSql} AS v FROM ${dq.ref} WHERE ${yearCol} IS NOT NULL GROUP BY ${yearInt} ORDER BY ${yearInt} LIMIT ${limit}`
+        const rows = await dq.run(sql)
+        return rows.map((r) => ({ key: String(r.k ?? '∅'), value: Number(r.v ?? 0) }))
+    }
+
+    const monthCol = ident(opts.monthColumn, dq)
+    const yearInt = `TRY_CAST(${yearCol} AS INTEGER)`
+    const dateExpr = `coalesce(make_date(${yearInt}, TRY_CAST(${monthCol} AS INTEGER), 1), TRY_STRPTIME(CAST(${monthCol} AS VARCHAR) || ' ' || CAST(${yearInt} AS VARCHAR), ['%B %Y', '%b %Y']))`
+    const sql = `SELECT strftime(${dateExpr}, '%b %Y') AS k, ${valSql} AS v FROM ${dq.ref} WHERE ${dateExpr} IS NOT NULL GROUP BY ${dateExpr} ORDER BY ${dateExpr} LIMIT ${limit}`
     const rows = await dq.run(sql)
     return rows.map((r) => ({ key: String(r.k ?? '∅'), value: Number(r.v ?? 0) }))
 }

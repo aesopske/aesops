@@ -19,19 +19,39 @@ import { DatasetPreviewModal } from './dataset-preview-modal'
 import { DatasetFiltersPanel } from './dataset-filters-panel'
 import { DatasetPagination } from './dataset-pagination'
 
-const PAGE_SIZE = 20
+const PAGE_SIZE = 15
 const BYTES_PER_MB = 1024 * 1024
 
 function SkeletonRow() {
     return (
-        <div className='flex animate-pulse items-center gap-4 rounded-xl border border-border bg-card px-4 py-3.5 shadow-sm'>
-            <div className='h-8 w-8 shrink-0 rounded-lg bg-muted' />
-            <div className='flex-1 space-y-1.5'>
-                <div className='h-3.5 w-2/3 rounded bg-muted' />
-                <div className='h-3 w-1/3 rounded bg-muted' />
+        <div className='animate-pulse rounded-xl border border-border bg-card px-4 py-3.5 shadow-sm'>
+            {/* icon + name + meta */}
+            <div className='flex items-center gap-4'>
+                <div className='h-8 w-8 shrink-0 rounded-lg bg-muted' />
+                <div className='min-w-0 flex-1 space-y-1.5'>
+                    <div className='h-3.5 w-2/3 rounded bg-muted' />
+                    <div className='h-3 w-1/3 rounded bg-muted' />
+                </div>
             </div>
-            <div className='h-4 w-20 rounded bg-muted' />
-            <div className='h-7 w-16 rounded-md bg-muted' />
+
+            {/* description */}
+            <div className='mt-2 space-y-1.5'>
+                <div className='h-3 w-full rounded bg-muted' />
+                <div className='h-3 w-4/5 rounded bg-muted' />
+            </div>
+
+            {/* category + tags */}
+            <div className='mt-2 flex flex-wrap gap-1.5'>
+                <div className='h-5 w-16 rounded-full bg-muted' />
+                <div className='h-5 w-12 rounded-full bg-muted' />
+                <div className='h-5 w-14 rounded-full bg-muted' />
+            </div>
+
+            {/* stats + preview button */}
+            <div className='mt-3 flex items-center gap-4'>
+                <div className='h-4 w-24 rounded bg-muted' />
+                <div className='ml-auto h-7 w-20 rounded-md bg-muted' />
+            </div>
         </div>
     )
 }
@@ -39,18 +59,41 @@ function SkeletonRow() {
 function SkeletonCard() {
     return (
         <div className='animate-pulse rounded-xl border border-border bg-card p-4'>
+            {/* header row */}
             <div className='flex items-start gap-3'>
                 <div className='h-10 w-10 shrink-0 rounded-lg bg-muted' />
-                <div className='flex-1 space-y-2'>
+                <div className='min-w-0 flex-1 space-y-2'>
                     <div className='h-4 w-3/4 rounded bg-muted' />
-                    <div className='h-3 w-1/2 rounded bg-muted' />
+                    <div className='h-3 w-1/3 rounded bg-muted' />
                 </div>
             </div>
+
+            {/* description */}
+            <div className='mt-2 space-y-1.5'>
+                <div className='h-3 w-full rounded bg-muted' />
+                <div className='h-3 w-5/6 rounded bg-muted' />
+            </div>
+
+            {/* category + tags */}
+            <div className='mt-2 flex flex-wrap gap-1.5'>
+                <div className='h-5 w-16 rounded-full bg-muted' />
+                <div className='h-5 w-12 rounded-full bg-muted' />
+                <div className='h-5 w-14 rounded-full bg-muted' />
+            </div>
+
+            {/* stats */}
             <div className='mt-3 h-4 w-1/3 rounded bg-muted' />
+
+            {/* column pills */}
             <div className='mt-3 flex flex-wrap gap-1.5'>
                 {Array.from({ length: 4 }).map((_, i) => (
                     <div key={i} className='h-5 w-16 rounded-full bg-muted' />
                 ))}
+            </div>
+
+            {/* preview link */}
+            <div className='mt-3 flex justify-end'>
+                <div className='h-6 w-24 rounded bg-muted' />
             </div>
         </div>
     )
@@ -65,6 +108,12 @@ export function DatasetBrowser() {
         defaultValue: '',
     })
     const [licenseParam, setLicenseParam] = useQueryState('license', {
+        defaultValue: '',
+    })
+    const [categoryParam, setCategoryParam] = useQueryState('category', {
+        defaultValue: '',
+    })
+    const [tagsParam, setTagsParam] = useQueryState('tags', {
         defaultValue: '',
     })
     const [minSizeInput, setMinSizeInput] = useQueryState('minSize', {
@@ -90,15 +139,21 @@ export function DatasetBrowser() {
     const debouncedMaxRows = useDebounce(maxRowsInput, 400)
 
     const selectedLicenses = licenseParam ? licenseParam.split(',') : []
+    const selectedCategories = categoryParam ? categoryParam.split(',') : []
+    const selectedTags = tagsParam ? tagsParam.split(',') : []
     const page = Math.max(1, Number(pageParam) || 1)
     const hasActiveFilters =
         selectedLicenses.length > 0 ||
+        selectedCategories.length > 0 ||
+        selectedTags.length > 0 ||
         !!minSizeInput ||
         !!maxSizeInput ||
         !!minRowsInput ||
         !!maxRowsInput
     const activeFilterCount =
         selectedLicenses.length +
+        selectedCategories.length +
+        selectedTags.length +
         (minSizeInput ? 1 : 0) +
         (maxSizeInput ? 1 : 0) +
         (minRowsInput ? 1 : 0) +
@@ -121,6 +176,22 @@ export function DatasetBrowser() {
         resetPage()
     }
 
+    function handleToggleCategory(value: string) {
+        const next = selectedCategories.includes(value)
+            ? selectedCategories.filter((c) => c !== value)
+            : [...selectedCategories, value]
+        setCategoryParam(next.length ? next.join(',') : null)
+        resetPage()
+    }
+
+    function handleToggleTag(value: string) {
+        const next = selectedTags.includes(value)
+            ? selectedTags.filter((t) => t !== value)
+            : [...selectedTags, value]
+        setTagsParam(next.length ? next.join(',') : null)
+        resetPage()
+    }
+
     function handleMinSizeChange(value: string) {
         setMinSizeInput(value || null)
         resetPage()
@@ -140,6 +211,8 @@ export function DatasetBrowser() {
 
     function handleClearFilters() {
         setLicenseParam(null)
+        setCategoryParam(null)
+        setTagsParam(null)
         setMinSizeInput(null)
         setMaxSizeInput(null)
         setMinRowsInput(null)
@@ -154,6 +227,8 @@ export function DatasetBrowser() {
     const { data, isLoading } = trpc.documents.browse.useQuery({
         query: debouncedQuery || undefined,
         license: selectedLicenses.length ? selectedLicenses : undefined,
+        category: selectedCategories.length ? selectedCategories : undefined,
+        tags: selectedTags.length ? selectedTags : undefined,
         minSize: debouncedMinSize
             ? Number(debouncedMinSize) * BYTES_PER_MB
             : undefined,
@@ -165,8 +240,12 @@ export function DatasetBrowser() {
         page,
         pageSize: PAGE_SIZE,
     })
-    const { data: licenseOptions } =
+    const { data: licenseOptions, isLoading: licenseOptionsLoading } =
         trpc.documents.distinctLicenses.useQuery(undefined)
+    const { data: categoryOptions, isLoading: categoryOptionsLoading } =
+        trpc.documents.distinctCategories.useQuery(undefined)
+    const { data: tagOptions, isLoading: tagOptionsLoading } =
+        trpc.documents.distinctTags.useQuery(undefined)
 
     const documents = data?.items
     const total = data?.total ?? 0
@@ -191,8 +270,17 @@ export function DatasetBrowser() {
 
     const filtersProps = {
         licenseOptions: licenseOptions ?? [],
+        licenseOptionsLoading,
         selectedLicenses,
         onToggleLicense: handleToggleLicense,
+        categoryOptions: categoryOptions ?? [],
+        categoryOptionsLoading,
+        selectedCategories,
+        onToggleCategory: handleToggleCategory,
+        tagOptions: tagOptions ?? [],
+        tagOptionsLoading,
+        selectedTags,
+        onToggleTag: handleToggleTag,
         minSize: minSizeInput,
         maxSize: maxSizeInput,
         onMinSizeChange: handleMinSizeChange,
@@ -357,6 +445,8 @@ export function DatasetBrowser() {
                         <DatasetPagination
                             page={page}
                             totalPages={totalPages}
+                            shown={documents?.length ?? 0}
+                            total={total}
                             onPageChange={handlePageChange}
                         />
                     </div>
