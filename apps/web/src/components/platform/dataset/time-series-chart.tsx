@@ -147,14 +147,14 @@ export async function TimeSeriesChart({ doc, time, valueColumns }: Props) {
                     y={plot.t + 4}
                     fontSize='9'
                     fill='var(--muted-foreground)'>
-                    {formatCompactNumber(max)}
+                    {formatCompactNumber(max, 0)}
                 </text>
                 <text
                     x={0}
                     y={plot.b}
                     fontSize='9'
                     fill='var(--muted-foreground)'>
-                    {formatCompactNumber(min)}
+                    {formatCompactNumber(min, 0)}
                 </text>
                 {isSingleSeries && (
                     <defs>
