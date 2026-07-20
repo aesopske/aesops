@@ -84,6 +84,16 @@ export default async function DatasetPage({ params }: Props) {
 
     const meta = doc.metadata as DocumentMetadata | null
     const timeSeries = classifyTimeSeries(meta)
+    // Rendered eagerly (rather than left to the child component) so the
+    // "Trend" heading itself can be skipped when the chart has nothing to
+    // show — e.g. the DuckDB query comes back empty or errors.
+    const trendChart = timeSeries.isTimeSeries
+        ? await TimeSeriesChart({
+              doc,
+              time: timeSeries.time,
+              valueColumns: timeSeries.valueColumns,
+          })
+        : null
     const isExcel =
         doc.mimeType.includes('excel') || doc.mimeType.includes('spreadsheet')
     const fileType = isExcel ? 'Excel' : 'CSV'
@@ -288,16 +298,10 @@ export default async function DatasetPage({ params }: Props) {
             <DatasetPageLayout
                 left={
                     <>
-                        {timeSeries.isTimeSeries && (
+                        {trendChart && (
                             <section>
                                 <SectionHeading label='Trend' />
-                                <div className='mt-4'>
-                                    <TimeSeriesChart
-                                        doc={doc}
-                                        time={timeSeries.time}
-                                        valueColumns={timeSeries.valueColumns}
-                                    />
-                                </div>
+                                <div className='mt-4'>{trendChart}</div>
                             </section>
                         )}
 

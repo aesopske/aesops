@@ -1,6 +1,11 @@
-import { resolveQueryDoc, openDataset, type OpenableDoc } from '@/lib/platform/dataset-source'
+import {
+    resolveQueryDoc,
+    openDataset,
+    type OpenableDoc,
+} from '@/lib/platform/dataset-source'
 import { aggregate, aggregateByYearMonth } from '@/lib/platform/dataset-query'
-import { C } from '@/lib/platform/chart-theme'
+import { C, formatCompactNumber } from '@/lib/platform/chart-theme'
+import { titleCase } from '@/lib/titleCase'
 import type { TimeAxis } from '@/lib/platform/time-series'
 
 const MAX_POINTS = 48
@@ -98,7 +103,8 @@ export async function TimeSeriesChart({ doc, time, valueColumns }: Props) {
     const series = await loadSeries(doc, time, valueColumns)
     if (!series?.length || series.some((s) => s.points.length < 2)) return null
 
-    const plot = { l: 4, r: 396, t: 10, b: 104 }
+    const plot = { l: 34, r: 396, t: 16, b: 110 }
+    const gridLines = [plot.t, (plot.t + plot.b) / 2, plot.b]
     const pointCount = series[0]!.points.length
     const allValues = series.flatMap((s) => s.points.map((p) => p.value))
     const min = Math.min(...allValues)
@@ -116,19 +122,58 @@ export async function TimeSeriesChart({ doc, time, valueColumns }: Props) {
     const firstLabel = series[0]!.points[0]!.key
     const lastLabel = series[0]!.points[pointCount - 1]!.key
     const isSingleSeries = series.length === 1
+    const titles = series.map((s) => titleCase(s.column.replace(/_/g, ' ')))
 
     return (
-        <div className='rounded-xl border border-border bg-card p-4 shadow-sm'>
-            <p className='mb-1 text-xs font-medium uppercase tracking-wider text-muted-foreground'>
-                {series.map((s) => s.column).join(', ')} over time
+        <div className='rounded-xl border border-border bg-card p-5 shadow-sm'>
+            <p className='mb-3 text-xs font-semibold text-muted-foreground'>
+                {titles.join(', ')} over time
             </p>
-            <svg viewBox='0 0 400 114' className='w-full'>
-                <title>{`${series.map((s) => s.column).join(', ')} trend from ${firstLabel} to ${lastLabel}`}</title>
+            <svg viewBox='0 0 400 130' className='w-full'>
+                <title>{`${titles.join(', ')} trend from ${firstLabel} to ${lastLabel}`}</title>
+                {gridLines.map((y) => (
+                    <line
+                        key={y}
+                        x1={plot.l}
+                        x2={plot.r}
+                        y1={y}
+                        y2={y}
+                        stroke='var(--border)'
+                        strokeWidth='1'
+                    />
+                ))}
+                <text
+                    x={0}
+                    y={plot.t + 4}
+                    fontSize='9'
+                    fill='var(--muted-foreground)'>
+                    {formatCompactNumber(max)}
+                </text>
+                <text
+                    x={0}
+                    y={plot.b}
+                    fontSize='9'
+                    fill='var(--muted-foreground)'>
+                    {formatCompactNumber(min)}
+                </text>
                 {isSingleSeries && (
                     <defs>
-                        <linearGradient id='tsAreaFill' x1='0' y1='0' x2='0' y2='1'>
-                            <stop offset='0%' stopColor={C.c1} stopOpacity='0.25' />
-                            <stop offset='100%' stopColor={C.c1} stopOpacity='0' />
+                        <linearGradient
+                            id='tsAreaFill'
+                            x1='0'
+                            y1='0'
+                            x2='0'
+                            y2='1'>
+                            <stop
+                                offset='0%'
+                                stopColor={C.c1}
+                                stopOpacity='0.25'
+                            />
+                            <stop
+                                offset='100%'
+                                stopColor={C.c1}
+                                stopOpacity='0'
+                            />
                         </linearGradient>
                     </defs>
                 )}
@@ -153,13 +198,25 @@ export async function TimeSeriesChart({ doc, time, valueColumns }: Props) {
                         </g>
                     )
                 })}
+                <text
+                    x={plot.l}
+                    y={126}
+                    fontSize='9'
+                    textAnchor='start'
+                    fill='var(--muted-foreground)'>
+                    {firstLabel}
+                </text>
+                <text
+                    x={plot.r}
+                    y={126}
+                    fontSize='9'
+                    textAnchor='end'
+                    fill='var(--muted-foreground)'>
+                    {lastLabel}
+                </text>
             </svg>
-            <div className='mt-1 flex justify-between text-[11px] text-muted-foreground'>
-                <span>{firstLabel}</span>
-                <span>{lastLabel}</span>
-            </div>
             {!isSingleSeries && (
-                <div className='mt-3 flex flex-wrap gap-x-4 gap-y-1.5'>
+                <div className='mt-4 flex flex-wrap gap-x-4 gap-y-1.5'>
                     {series.map((s, i) => (
                         <div
                             key={s.column}
