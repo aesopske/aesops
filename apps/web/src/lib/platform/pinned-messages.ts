@@ -41,12 +41,8 @@ function writeStorage(datasetId: string, messages: PinnedMessage[]) {
     window.dispatchEvent(new Event(CHANGE_EVENT))
 }
 
-export function getPinnedMessages(datasetId: string): PinnedMessage[] {
+function getPinnedMessages(datasetId: string): PinnedMessage[] {
     return readStorage(datasetId)
-}
-
-export function isMessagePinned(datasetId: string, messageId: string): boolean {
-    return readStorage(datasetId).some((m) => m.id === messageId)
 }
 
 export function pinMessage(

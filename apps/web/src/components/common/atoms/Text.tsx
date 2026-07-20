@@ -2,7 +2,7 @@ import { cva } from 'class-variance-authority'
 import React, { createElement, forwardRef } from 'react'
 import { cn } from '@/lib/utils'
 
-export const textVariants = cva('text-gray-900 tracking-normal font-sans', {
+const textVariants = cva('text-gray-900 tracking-normal font-sans', {
     variants: {
         variant: {
             default: 'text-gray-800',

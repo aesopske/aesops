@@ -5,20 +5,6 @@ function quoteIdent(name: string): string {
 	return `"${name.replace(/"/g, '""')}"`
 }
 
-function csvCell(value: unknown): string {
-	if (value === null || value === undefined) return ''
-	const s = value instanceof Date ? value.toISOString() : String(value)
-	return /[",\n]/.test(s) ? `"${s.replace(/"/g, '""')}"` : s
-}
-
-function rowsToCsv(rows: Record<string, unknown>[], columns: string[]): string {
-	const lines = [columns.map(csvCell).join(',')]
-	for (const row of rows) {
-		lines.push(columns.map((c) => csvCell(row[c])).join(','))
-	}
-	return lines.join('\n')
-}
-
 export type MergedRows = {
 	rows: Record<string, unknown>[]
 	columns: string[]
@@ -66,15 +52,4 @@ export async function mergeDatasetRows(allDocs: OpenableDoc[]): Promise<MergedRo
 	} finally {
 		opened.forEach(({ ds }) => ds!.release())
 	}
-}
-
-// Merges multiple versions of a dataset into a deduped CSV. Uses column
-// intersection when schemas diverge (same approach as diffVersions).
-export async function mergeDatasetAsCsv(
-	_rootDoc: OpenableDoc,
-	allDocs: OpenableDoc[],
-): Promise<string | null> {
-	const merged = await mergeDatasetRows(allDocs)
-	if (!merged) return null
-	return rowsToCsv(merged.rows, merged.columns)
 }

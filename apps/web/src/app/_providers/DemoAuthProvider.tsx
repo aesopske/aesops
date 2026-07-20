@@ -8,7 +8,7 @@ type AuthContextType = {
     isAuthenticated: boolean
 }
 
-export const DemoAuthContext = createContext<AuthContextType | null>(null)
+const DemoAuthContext = createContext<AuthContextType | null>(null)
 
 function DemoAuthProvider({ children }: { children: React.ReactNode }) {
     // check if current URL is demo URL
