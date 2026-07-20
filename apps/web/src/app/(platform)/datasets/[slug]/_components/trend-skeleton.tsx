@@ -1,6 +1,6 @@
 export function TrendSkeleton() {
     return (
-        <section>
+        <section className='order-1 lg:order-none'>
             <div className='flex items-center gap-3'>
                 <span className='font-mono text-[11px] font-medium uppercase tracking-widest text-muted-foreground'>
                     Trend

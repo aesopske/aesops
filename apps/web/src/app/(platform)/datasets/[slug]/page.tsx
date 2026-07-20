@@ -289,7 +289,7 @@ export default async function DatasetPage({ params }: Props) {
                         )}
 
                         {meta && (
-                            <section>
+                            <section className='order-2 lg:order-none'>
                                 <SectionHeading label='Insights' />
                                 <div className='mt-4'>
                                     <DatasetInsights
@@ -300,18 +300,20 @@ export default async function DatasetPage({ params }: Props) {
                         )}
 
                         {doc.parentId === null && revisions.length > 0 && (
-                            <DatasetVersionHistory
-                                documentId={doc.id}
-                                root={{
-                                    name: doc.name,
-                                    size: doc.size,
-                                    createdAt: doc.createdAt,
-                                }}
-                                revisions={revisions}
-                            />
+                            <div className='order-3 lg:order-none'>
+                                <DatasetVersionHistory
+                                    documentId={doc.id}
+                                    root={{
+                                        name: doc.name,
+                                        size: doc.size,
+                                        createdAt: doc.createdAt,
+                                    }}
+                                    revisions={revisions}
+                                />
+                            </div>
                         )}
 
-                        <section>
+                        <section className='order-6 lg:order-none'>
                             <SectionHeading label='Community discussions' />
                             <div className='mt-4 overflow-hidden rounded-xl border border-border bg-card shadow-sm'>
                                 <div className='p-6'>
@@ -325,7 +327,7 @@ export default async function DatasetPage({ params }: Props) {
                         </section>
 
                         {isOwner && (
-                            <section>
+                            <section className='order-7 lg:order-none'>
                                 <SectionHeading label='Downloads' />
                                 <div className='mt-4 overflow-hidden rounded-xl border border-border bg-card p-6 shadow-sm'>
                                     <DownloadAnalytics
@@ -345,7 +347,7 @@ export default async function DatasetPage({ params }: Props) {
                 right={
                     <>
                         {meta && (
-                            <section>
+                            <section className='order-4 lg:order-none'>
                                 <SectionHeading label='Data overview' />
                                 <div className='mt-4 overflow-hidden rounded-xl border border-border bg-card shadow-sm'>
                                     <div className='p-6'>
@@ -355,7 +357,7 @@ export default async function DatasetPage({ params }: Props) {
                             </section>
                         )}
 
-                        <section>
+                        <section className='order-5 lg:order-none'>
                             <SectionHeading
                                 label='Column schema'
                                 aside={
