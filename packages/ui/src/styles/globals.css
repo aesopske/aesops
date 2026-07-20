@@ -93,15 +93,25 @@
         --brandprimary-800: #033941;
         --brandprimary-900: #001518;
 
-        --aeschart-1: hsl(205, 100%, 7%);
-        --aeschart-2: hsl(188, 68%, 25%);
-        --aeschart-3: hsl(163, 14%, 60%);
-        --aeschart-4: hsl(77, 15%, 76%);
-        --aeschart-5: hsl(35, 100%, 91%);
-        --aeschart-6: hsl(30, 100%, 71%);
-        --aeschart-7: hsl(29, 100%, 50%);
-        --aeschart-8: hsl(25, 92%, 38%);
-        --aeschart-9: hsl(15, 78%, 26%);
+        /* 6-slot categorical chart series, derived from the brand's 9-stop
+           logo-gradient palette (see logo.tsx) — the 3 near-neutral stops
+           (#001524 navy, #C5CAB8 pale sage, #FFECD1 cream) are already covered
+           by --foreground/--card/--background for chart ink and surfaces, so
+           only the 6 chromatic stops become series colors. Each is nudged in
+           OKLCH (hue held fixed) to clear the categorical lightness/chroma
+           checks — see DESIGN.md "Charts". Fixed order, never cycled.
+           Order: teal, peach, rust, sage, orange, brown. Slot 1 is the exact
+           brand primary teal (--primary), kept as-is rather than derived —
+           it sits just under the categorical chroma-floor heuristic but
+           clearly reads as teal (not gray) in practice, with strong contrast
+           (6.6:1 on cream) and no CVD collisions with its neighbors, so brand
+           consistency wins over the heuristic here. */
+        --aeschart-1: #155f6b;
+        --aeschart-2: #e89f53;
+        --aeschart-3: #bc5308;
+        --aeschart-4: #4ab59e;
+        --aeschart-5: #ff7d00;
+        --aeschart-6: #86361d;
     }
 
     .dark {
@@ -142,6 +152,13 @@
         --chart-3: #E8C9A0;
         --chart-4: #9BB3AC;
         --chart-5: #A67852;
+
+        --aeschart-1: #238595;
+        --aeschart-2: #c68031;
+        --aeschart-3: #bc5308;
+        --aeschart-4: #3ba892;
+        --aeschart-5: #e76700;
+        --aeschart-6: #934229;
 
         --sidebar: #0F3040;
         --sidebar-foreground: #F0EBE4;
@@ -230,9 +247,6 @@
     --color-aeschart-4: var(--aeschart-4);
     --color-aeschart-5: var(--aeschart-5);
     --color-aeschart-6: var(--aeschart-6);
-    --color-aeschart-7: var(--aeschart-7);
-    --color-aeschart-8: var(--aeschart-8);
-    --color-aeschart-9: var(--aeschart-9);
 
     /* Radius */
     --radius-sm: calc(var(--radius) - 4px);

@@ -9,7 +9,7 @@ import { titleCase } from '@/lib/titleCase'
 import type { TimeAxis } from '@/lib/platform/time-series'
 
 const MAX_POINTS = 48
-const SERIES_COLORS = [C.c1, C.c2, C.c3, C.c4, C.c5]
+const SERIES_COLORS = [C.c1, C.c2, C.c3, C.c4, C.c5, C.c6]
 
 type SeriesPoint = { key: string; value: number }
 type Series = { column: string; points: SeriesPoint[] }

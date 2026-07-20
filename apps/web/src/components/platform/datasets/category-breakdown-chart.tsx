@@ -8,7 +8,7 @@ import { C, TOOLTIP_STYLE } from '@/lib/platform/chart-theme'
 const CATEGORY_LABELS: Map<string, string> = new Map(
     DATASET_CATEGORIES.map((c) => [c.value, c.label]),
 )
-const CHART_COLORS = [C.c1, C.c2, C.c3, C.c4, C.c5]
+const CHART_COLORS = [C.c1, C.c2, C.c3, C.c4, C.c5, C.c6]
 const TOP_N = 6
 
 export function CategoryBreakdownChart() {
