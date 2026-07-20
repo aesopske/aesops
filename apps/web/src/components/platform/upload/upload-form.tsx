@@ -1,7 +1,7 @@
 'use client'
 
 import { useState } from 'react'
-import { useForm, Controller } from 'react-hook-form'
+import { useForm, useWatch, Controller } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { trpc } from '@/trpc/react'
 import { extractMetadata } from '@/lib/platform/metadata'
@@ -50,7 +50,6 @@ export function UploadForm({ files, parentId, lockedName, onComplete, onCancel }
     const {
         register,
         control,
-        watch,
         handleSubmit,
         formState: { errors, isSubmitting },
     } = useForm<UploadFormValues>({
@@ -64,7 +63,7 @@ export function UploadForm({ files, parentId, lockedName, onComplete, onCancel }
         },
     })
 
-    const grouped = watch('grouped')
+    const grouped = useWatch({ control, name: 'grouped' })
     const showNameField = !isMultiple || grouped
     const isRevision = !!parentId
 
