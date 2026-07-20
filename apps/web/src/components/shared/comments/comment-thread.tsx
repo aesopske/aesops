@@ -1,6 +1,6 @@
 'use client'
 
-import { useEffect, useMemo, useState } from 'react'
+import { useMemo, useState } from 'react'
 import { trpc } from '@/trpc/react'
 import { authClient } from '@/lib/auth-client'
 import { CommentNode } from './comment-node'
@@ -93,10 +93,13 @@ export function CommentThread({
     // Reconcile local (optimistically-mutated) state with fresh server data.
     // The list query is only refetched on mount/refocus — vote/create/delete
     // mutate local state directly without invalidating it — so this won't clobber
-    // in-flight optimistic updates.
-    useEffect(() => {
+    // in-flight optimistic updates. Adjusting state during render (rather than in
+    // an effect) avoids an extra commit each time the query refetches.
+    const [syncedData, setSyncedData] = useState(listQuery.data)
+    if (listQuery.data !== syncedData) {
+        setSyncedData(listQuery.data)
         if (listQuery.data) setComments(listQuery.data)
-    }, [listQuery.data])
+    }
 
     const childrenMap = useMemo(() => buildChildrenMap(comments), [comments])
     const topLevel = childrenMap.get(null) ?? []

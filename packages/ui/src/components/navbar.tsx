@@ -35,7 +35,7 @@ export function Navbar({
     const pathname = usePathname()
 
     useEffect(() => {
-        const onScroll = () => setScrolled(window.scrollY > 8)
+        const onScroll = () => setScrolled(window.scrollY > 20)
         onScroll()
         window.addEventListener('scroll', onScroll, { passive: true })
         return () => window.removeEventListener('scroll', onScroll)
@@ -43,7 +43,9 @@ export function Navbar({
 
     useEffect(() => {
         document.body.style.overflow = isOpen ? 'hidden' : ''
-        return () => { document.body.style.overflow = '' }
+        return () => {
+            document.body.style.overflow = ''
+        }
     }, [isOpen])
 
     const isGreen = !scrolled
@@ -194,9 +196,7 @@ export function Navbar({
                 <div
                     className={cn(
                         'fixed inset-0 z-40 flex flex-col pt-16 px-6 pb-8 font-sans lg:hidden supports-backdrop-filter:backdrop-blur-lg',
-                        isGreen
-                            ? 'bg-primary/80'
-                            : 'bg-brand-background/85',
+                        isGreen ? 'bg-primary/80' : 'bg-brand-background/85',
                     )}>
                     <nav className='flex flex-col gap-1 pt-6'>
                         {navLinks.map((item) => (

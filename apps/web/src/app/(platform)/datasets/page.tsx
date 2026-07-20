@@ -4,9 +4,25 @@ import Animate from '@/components/common/atoms/Animate'
 import DatasetShowcase from '@/components/common/DatasetShowcase'
 import { DatasetBrowser } from '@/components/platform/datasets/dataset-browser'
 import { CategoryBreakdownChart } from '@/components/platform/datasets/category-breakdown-chart'
+import { api } from '@/trpc/server'
+import { DATASET_BROWSER_PAGE_SIZE } from '@/lib/constants/dataset-browser'
 
 export default async function DatasetsPage() {
-    const session = await auth.api.getSession({ headers: await headers() })
+    const [session, initialBrowse, initialLicenseOptions, initialCategoryOptions, initialTagOptions] =
+        await Promise.all([
+            auth.api.getSession({ headers: await headers() }),
+            api.documents.browse({ page: 1, pageSize: DATASET_BROWSER_PAGE_SIZE }),
+            api.documents.distinctLicenses(),
+            api.documents.distinctCategories(),
+            api.documents.distinctTags(),
+        ])
+
+    const browserProps = {
+        initialBrowse,
+        initialLicenseOptions,
+        initialCategoryOptions,
+        initialTagOptions,
+    }
 
     if (session) {
         return (
@@ -40,7 +56,7 @@ export default async function DatasetsPage() {
                 </section>
 
                 <div className='mx-auto max-w-6xl px-6 py-20'>
-                    <DatasetBrowser />
+                    <DatasetBrowser {...browserProps} />
                 </div>
             </main>
         )
@@ -111,7 +127,7 @@ export default async function DatasetsPage() {
             </section>
 
             <div className='mx-auto max-w-6xl px-6 py-20'>
-                <DatasetBrowser />
+                <DatasetBrowser {...browserProps} />
             </div>
         </main>
     )

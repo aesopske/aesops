@@ -34,8 +34,5 @@
       "esbuild",
       "sharp"
     ]
-  },
-  "dependencies": {
-    "uploadthing": "7.7.4"
   }
 }

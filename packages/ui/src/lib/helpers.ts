@@ -23,7 +23,7 @@ export function getNestedValue(obj: any, path: string) {
     if (curr.includes("[")) {
       const indexMatch = curr.match(/\d+/)
       const index = indexMatch ? indexMatch[0] : null
-      const key = curr.split("[")[0]
+      const key = curr.split("[")[0] ?? curr
 
       if (!acc[key]) return null
       return acc[key][index as any]

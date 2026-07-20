@@ -2,6 +2,7 @@
 
 import { Search, SlidersHorizontal } from 'lucide-react'
 import { useQueryState } from 'nuqs'
+import type { inferRouterOutputs } from '@trpc/server'
 import { useDebounce } from '@repo/ui/hooks/use-debounce'
 import { Button } from '@repo/ui/components/button'
 import {
@@ -13,93 +14,33 @@ import {
     DrawerTrigger,
 } from '@repo/ui/components/drawer'
 import { trpc } from '@/trpc/react'
+import type { AppRouter } from '@/server/routers'
+import { DATASET_BROWSER_PAGE_SIZE } from '@/lib/constants/dataset-browser'
 import { DatasetCard, type Document } from '../dataset/dataset-card'
 import { DatasetListRow } from './dataset-list-row'
 import { DatasetPreviewModal } from './dataset-preview-modal'
 import { DatasetFiltersPanel } from './dataset-filters-panel'
 import { DatasetPagination } from './dataset-pagination'
+import { SkeletonCard, SkeletonRow } from './dataset-browser-skeletons'
 
-const PAGE_SIZE = 15
+const PAGE_SIZE = DATASET_BROWSER_PAGE_SIZE
 const BYTES_PER_MB = 1024 * 1024
 
-function SkeletonRow() {
-    return (
-        <div className='animate-pulse rounded-xl border border-border bg-card px-4 py-3.5 shadow-sm'>
-            {/* icon + name + meta */}
-            <div className='flex items-center gap-4'>
-                <div className='h-8 w-8 shrink-0 rounded-lg bg-muted' />
-                <div className='min-w-0 flex-1 space-y-1.5'>
-                    <div className='h-3.5 w-2/3 rounded bg-muted' />
-                    <div className='h-3 w-1/3 rounded bg-muted' />
-                </div>
-            </div>
+type RouterOutputs = inferRouterOutputs<AppRouter>
 
-            {/* description */}
-            <div className='mt-2 space-y-1.5'>
-                <div className='h-3 w-full rounded bg-muted' />
-                <div className='h-3 w-4/5 rounded bg-muted' />
-            </div>
-
-            {/* category + tags */}
-            <div className='mt-2 flex flex-wrap gap-1.5'>
-                <div className='h-5 w-16 rounded-full bg-muted' />
-                <div className='h-5 w-12 rounded-full bg-muted' />
-                <div className='h-5 w-14 rounded-full bg-muted' />
-            </div>
-
-            {/* stats + preview button */}
-            <div className='mt-3 flex items-center gap-4'>
-                <div className='h-4 w-24 rounded bg-muted' />
-                <div className='ml-auto h-7 w-20 rounded-md bg-muted' />
-            </div>
-        </div>
-    )
+type DatasetBrowserProps = {
+    initialBrowse?: RouterOutputs['documents']['browse']
+    initialLicenseOptions?: RouterOutputs['documents']['distinctLicenses']
+    initialCategoryOptions?: RouterOutputs['documents']['distinctCategories']
+    initialTagOptions?: RouterOutputs['documents']['distinctTags']
 }
 
-function SkeletonCard() {
-    return (
-        <div className='animate-pulse rounded-xl border border-border bg-card p-4'>
-            {/* header row */}
-            <div className='flex items-start gap-3'>
-                <div className='h-10 w-10 shrink-0 rounded-lg bg-muted' />
-                <div className='min-w-0 flex-1 space-y-2'>
-                    <div className='h-4 w-3/4 rounded bg-muted' />
-                    <div className='h-3 w-1/3 rounded bg-muted' />
-                </div>
-            </div>
-
-            {/* description */}
-            <div className='mt-2 space-y-1.5'>
-                <div className='h-3 w-full rounded bg-muted' />
-                <div className='h-3 w-5/6 rounded bg-muted' />
-            </div>
-
-            {/* category + tags */}
-            <div className='mt-2 flex flex-wrap gap-1.5'>
-                <div className='h-5 w-16 rounded-full bg-muted' />
-                <div className='h-5 w-12 rounded-full bg-muted' />
-                <div className='h-5 w-14 rounded-full bg-muted' />
-            </div>
-
-            {/* stats */}
-            <div className='mt-3 h-4 w-1/3 rounded bg-muted' />
-
-            {/* column pills */}
-            <div className='mt-3 flex flex-wrap gap-1.5'>
-                {Array.from({ length: 4 }).map((_, i) => (
-                    <div key={i} className='h-5 w-16 rounded-full bg-muted' />
-                ))}
-            </div>
-
-            {/* preview link */}
-            <div className='mt-3 flex justify-end'>
-                <div className='h-6 w-24 rounded bg-muted' />
-            </div>
-        </div>
-    )
-}
-
-export function DatasetBrowser() {
+export function DatasetBrowser({
+    initialBrowse,
+    initialLicenseOptions,
+    initialCategoryOptions,
+    initialTagOptions,
+}: DatasetBrowserProps) {
     const [query, setQuery] = useQueryState('q', {
         defaultValue: '',
         shallow: false,
@@ -224,28 +165,39 @@ export function DatasetBrowser() {
         setPageParam(nextPage <= 1 ? null : String(nextPage))
     }
 
-    const { data, isLoading } = trpc.documents.browse.useQuery({
-        query: debouncedQuery || undefined,
-        license: selectedLicenses.length ? selectedLicenses : undefined,
-        category: selectedCategories.length ? selectedCategories : undefined,
-        tags: selectedTags.length ? selectedTags : undefined,
-        minSize: debouncedMinSize
-            ? Number(debouncedMinSize) * BYTES_PER_MB
-            : undefined,
-        maxSize: debouncedMaxSize
-            ? Number(debouncedMaxSize) * BYTES_PER_MB
-            : undefined,
-        minRows: debouncedMinRows ? Number(debouncedMinRows) : undefined,
-        maxRows: debouncedMaxRows ? Number(debouncedMaxRows) : undefined,
-        page,
-        pageSize: PAGE_SIZE,
-    })
+    const isDefaultView = page === 1 && !debouncedQuery && !hasActiveFilters
+
+    const { data, isLoading } = trpc.documents.browse.useQuery(
+        {
+            query: debouncedQuery || undefined,
+            license: selectedLicenses.length ? selectedLicenses : undefined,
+            category: selectedCategories.length ? selectedCategories : undefined,
+            tags: selectedTags.length ? selectedTags : undefined,
+            minSize: debouncedMinSize
+                ? Number(debouncedMinSize) * BYTES_PER_MB
+                : undefined,
+            maxSize: debouncedMaxSize
+                ? Number(debouncedMaxSize) * BYTES_PER_MB
+                : undefined,
+            minRows: debouncedMinRows ? Number(debouncedMinRows) : undefined,
+            maxRows: debouncedMaxRows ? Number(debouncedMaxRows) : undefined,
+            page,
+            pageSize: PAGE_SIZE,
+        },
+        { initialData: isDefaultView ? initialBrowse : undefined },
+    )
     const { data: licenseOptions, isLoading: licenseOptionsLoading } =
-        trpc.documents.distinctLicenses.useQuery(undefined)
+        trpc.documents.distinctLicenses.useQuery(undefined, {
+            initialData: initialLicenseOptions,
+        })
     const { data: categoryOptions, isLoading: categoryOptionsLoading } =
-        trpc.documents.distinctCategories.useQuery(undefined)
+        trpc.documents.distinctCategories.useQuery(undefined, {
+            initialData: initialCategoryOptions,
+        })
     const { data: tagOptions, isLoading: tagOptionsLoading } =
-        trpc.documents.distinctTags.useQuery(undefined)
+        trpc.documents.distinctTags.useQuery(undefined, {
+            initialData: initialTagOptions,
+        })
 
     const documents = data?.items
     const total = data?.total ?? 0

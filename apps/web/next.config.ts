@@ -28,6 +28,11 @@ const nextConfig: NextConfig = {
         ],
     },
     transpilePackages: ['@repo/ui'],
+    experimental: {
+        staleTimes: {
+            dynamic: 30,
+        },
+    },
 }
 
 export default withSentryConfig(nextConfig, {

@@ -32,7 +32,7 @@ import {
 import { ChartDataView } from '@/components/platform/dataset/chart-data-view'
 import { ChartXAxisTick } from '@/components/platform/dataset/chart-x-axis-tick'
 
-const PALETTE = [C.c1, C.c2, C.c3, C.c4, C.c5]
+const PALETTE = [C.c1, C.c2, C.c3, C.c4, C.c5, C.c6]
 
 type InlineChartConfig = {
     chartType: 'bar' | 'line' | 'area' | 'pie' | 'donut'

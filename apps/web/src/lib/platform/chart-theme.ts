@@ -1,9 +1,10 @@
 export const C = {
-    c1: 'var(--chart-1)',
-    c2: 'var(--chart-2)',
-    c3: 'var(--chart-3)',
-    c4: 'var(--chart-4)',
-    c5: 'var(--chart-5)',
+    c1: 'var(--aeschart-1)',
+    c2: 'var(--aeschart-2)',
+    c3: 'var(--aeschart-3)',
+    c4: 'var(--aeschart-4)',
+    c5: 'var(--aeschart-5)',
+    c6: 'var(--aeschart-6)',
 }
 
 export const TOOLTIP_STYLE = {

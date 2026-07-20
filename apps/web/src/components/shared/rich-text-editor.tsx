@@ -34,7 +34,9 @@ type Props = {
 
 export function RichTextEditor({ initialContent, placeholder, minHeight = 'min-h-[140px]', allowCode = false, onChange, onChangeHtml, onCmdEnter, editorRef }: Props) {
     const onCmdEnterRef = useRef(onCmdEnter)
-    onCmdEnterRef.current = onCmdEnter
+    useEffect(() => {
+        onCmdEnterRef.current = onCmdEnter
+    })
 
     const editor = useEditor({
         immediatelyRender: false,
@@ -69,8 +71,6 @@ export function RichTextEditor({ initialContent, placeholder, minHeight = 'min-h
     })
 
     // keep editorRef in sync
-    const editorRefStable = useRef(editorRef)
-    editorRefStable.current = editorRef
     useEffect(() => {
         if (editorRef) editorRef.current = editor ?? null
     }, [editor, editorRef])

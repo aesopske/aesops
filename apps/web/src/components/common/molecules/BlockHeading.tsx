@@ -2,7 +2,6 @@
 
 import speakingUrl from 'speakingurl'
 import React from 'react'
-// import { useHeadingObserver } from '@/context/HeadingObserverProvider'
 import Heading from '@components/common/atoms/Heading'
 
 function BlockHeading({

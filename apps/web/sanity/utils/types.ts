@@ -178,13 +178,6 @@ export type MissionVisionBlock = {
     visionDescription?: string
 }
 
-export type ValueItem = {
-    _key: string
-    icon?: string
-    value: string
-    description: string
-}
-
 export type OurValuesBlock = {
     _key: string
     _type: 'ourValuesBlock'
@@ -236,11 +229,6 @@ export type PAGE = {
     categories?: CATEGORY[]
     featured?: boolean
 }
-
-export type PAGE_METADATA = Pick<
-    PAGE,
-    'slug' | 'seoTitle' | 'seoDescription' | 'ogimage'
->
 
 export type SECTION = {
     _id: string
@@ -294,9 +282,3 @@ export type SERVICE = {
     icon: string
 }
 
-export type HOME_SETTINGS = {
-    title: string
-    description: string
-    keywords: string
-    ogImage: SanityAsset
-}
