@@ -1,4 +1,5 @@
 import type { Metadata } from 'next'
+import { Suspense } from 'react'
 import { notFound } from 'next/navigation'
 import { headers } from 'next/headers'
 import {
@@ -13,16 +14,14 @@ import {
 } from 'lucide-react'
 import Link from 'next/link'
 import { auth } from '@repo/auth'
-import { db } from '@repo/db'
 import { api } from '@/trpc/server'
 import { AuthGate } from '@/components/shared/auth-gate'
 import { MetadataPanel } from '@/components/platform/dataset/dataset-card'
 import { DatasetInsights } from '@/components/platform/dataset/dataset-insights'
-import { DatasetChatWidget } from '@/components/platform/dataset/dataset-chat-widget'
 import { DatasetVersionHistory } from '@/components/platform/dataset/dataset-version-history'
 import { DatasetPageLayout } from '@/components/platform/dataset/dataset-page-layout'
 import { DatasetVisualizations } from '@/components/platform/dataset/dataset-visualizations'
-import { TimeSeriesChart } from '@/components/platform/dataset/time-series-chart'
+import { TrendSection } from '@/components/platform/dataset/time-series-chart'
 import { RelatedDiscussions } from '@/components/platform/community/related-discussions'
 import { formatBytes, formatDate } from '@/lib/platform/format'
 import { classifyTimeSeries } from '@/lib/platform/time-series'
@@ -31,6 +30,8 @@ import BreadCrumbs from '@/components/common/organisms/bread-crumbs/BreadCrumbs'
 import { DownloadButton } from '@/components/platform/dataset/download-button'
 import { DownloadAnalytics } from '@/components/platform/dataset/download-analytics'
 import { DATASET_CATEGORIES } from '@/lib/constants/dataset-taxonomy'
+import { ChatWidgetSection } from './_components/chat-widget-section'
+import { TrendSkeleton } from './_components/trend-skeleton'
 
 const CATEGORY_LABELS: Map<string, string> = new Map(
     DATASET_CATEGORIES.map((c) => [c.value, c.label]),
@@ -58,42 +59,21 @@ export default async function DatasetPage({ params }: Props) {
         notFound()
     }
 
-    const session = await auth.api.getSession({ headers: await headers() })
+    const [session, revisions] = await Promise.all([
+        auth.api.getSession({ headers: await headers() }),
+        doc.parentId === null
+            ? api.documents.listRevisions({ parentId: doc.id })
+            : Promise.resolve([]),
+    ])
     const isLoggedIn = !!session
     const isOwner = !!session && doc.uploadedBy === session.user.id
 
-    const chatHistory = session
-        ? await db.query.chatMessages.findMany({
-              where: (t, { and, eq }) =>
-                  and(eq(t.datasetId, doc.id), eq(t.userId, session.user.id)),
-              orderBy: (t, { asc }) => [asc(t.createdAt)],
-          })
-        : []
-
-    const topQuestions = isLoggedIn
-        ? await api.documents.topQuestions({ datasetId: doc.id })
-        : []
-
-    const revisions =
-        doc.parentId === null
-            ? await api.documents.listRevisions({ parentId: doc.id })
-            : []
     const revisionCount = revisions.length
     const latestRevisionAt =
         revisions.length > 0 ? revisions.at(-1)!.createdAt : null
 
     const meta = doc.metadata as DocumentMetadata | null
     const timeSeries = classifyTimeSeries(meta)
-    // Rendered eagerly (rather than left to the child component) so the
-    // "Trend" heading itself can be skipped when the chart has nothing to
-    // show — e.g. the DuckDB query comes back empty or errors.
-    const trendChart = timeSeries.isTimeSeries
-        ? await TimeSeriesChart({
-              doc,
-              time: timeSeries.time,
-              valueColumns: timeSeries.valueColumns,
-          })
-        : null
     const isExcel =
         doc.mimeType.includes('excel') || doc.mimeType.includes('spreadsheet')
     const fileType = isExcel ? 'Excel' : 'CSV'
@@ -298,11 +278,14 @@ export default async function DatasetPage({ params }: Props) {
             <DatasetPageLayout
                 left={
                     <>
-                        {trendChart && (
-                            <section>
-                                <SectionHeading label='Trend' />
-                                <div className='mt-4'>{trendChart}</div>
-                            </section>
+                        {timeSeries.isTimeSeries && (
+                            <Suspense fallback={<TrendSkeleton />}>
+                                <TrendSection
+                                    doc={doc}
+                                    time={timeSeries.time}
+                                    valueColumns={timeSeries.valueColumns}
+                                />
+                            </Suspense>
                         )}
 
                         {meta && (
@@ -398,12 +381,10 @@ export default async function DatasetPage({ params }: Props) {
             />
 
             {/* ── Floating chat widget (auth-gated) ── */}
-            {isLoggedIn && meta && (
-                <DatasetChatWidget
-                    datasetId={doc.id}
-                    initialMessages={chatHistory}
-                    suggestedQuestions={topQuestions.map((q) => q.question)}
-                />
+            {session && meta && (
+                <Suspense fallback={null}>
+                    <ChatWidgetSection datasetId={doc.id} session={session} />
+                </Suspense>
             )}
         </main>
     )

@@ -14,7 +14,13 @@ const TOP_N = 6
 export function CategoryBreakdownChart() {
     const { data, isLoading } = trpc.documents.categoryCounts.useQuery(undefined)
 
-    if (isLoading || !data?.length) return null
+    if (isLoading) {
+        return (
+            <div className='mx-auto h-48 w-full max-w-md animate-pulse rounded-2xl bg-primary-foreground/10 lg:mx-0' />
+        )
+    }
+
+    if (!data?.length) return null
 
     const chartData = data.slice(0, TOP_N).map((row: { category: string; count: number }) => ({
         label: CATEGORY_LABELS.get(row.category) ?? row.category,

@@ -52,6 +52,7 @@ export function EditForm({ doc }: { doc: Doc }) {
         })
         utils.documents.listMine.invalidate()
         router.push(`/datasets/${doc.slug ?? doc.id}`)
+        router.refresh()
     }
 
     const busy = isSubmitting || updateMutation.isPending

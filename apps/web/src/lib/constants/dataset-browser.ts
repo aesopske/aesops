@@ -1,0 +1,1 @@
+export const DATASET_BROWSER_PAGE_SIZE = 15

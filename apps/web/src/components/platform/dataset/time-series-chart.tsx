@@ -98,11 +98,30 @@ type Props = {
 }
 
 // Server-rendered only — the aggregated series are turned into static SVG
-// markup here, so raw row values never cross to the client.
-export async function TimeSeriesChart({ doc, time, valueColumns }: Props) {
+// markup here, so raw row values never cross to the client. Renders its own
+// "Trend" heading (rather than leaving that to the caller) so the whole
+// section — heading included — can be wrapped in a single Suspense boundary
+// and simply render nothing when the chart has no data.
+export async function TrendSection({ doc, time, valueColumns }: Props) {
     const series = await loadSeries(doc, time, valueColumns)
     if (!series?.length || series.some((s) => s.points.length < 2)) return null
 
+    return (
+        <section>
+            <div className='flex items-center gap-3'>
+                <span className='font-mono text-[11px] font-medium uppercase tracking-widest text-muted-foreground'>
+                    Trend
+                </span>
+                <div className='h-px flex-1 bg-border' />
+            </div>
+            <div className='mt-4'>
+                <TimeSeriesChart series={series} />
+            </div>
+        </section>
+    )
+}
+
+function TimeSeriesChart({ series }: { series: Series[] }) {
     const plot = { l: 34, r: 396, t: 16, b: 110 }
     const gridLines = [plot.t, (plot.t + plot.b) / 2, plot.b]
     const pointCount = series[0]!.points.length
