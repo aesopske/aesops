@@ -2,9 +2,11 @@
 
 import { FaGithub, FaLinkedin, FaYoutube } from 'react-icons/fa'
 import { FaXTwitter } from 'react-icons/fa6'
+import { Cookie } from 'lucide-react'
 import React from 'react'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
+import { useCookiePreferencesDialog } from '@components/shared/cookie-consent/CookiePreferencesDialogProvider'
 import Logo from './Logo'
 
 const platform = [
@@ -24,6 +26,8 @@ const company = [
     { label: 'About Us', href: '/about-us' },
     { label: 'Contact', href: '/contact' },
     { label: 'Privacy Policy', href: '/privacy-policy' },
+    { label: 'Terms of Service', href: '/terms' },
+    { label: 'Cookie Policy', href: '/cookie-policy' },
 ]
 
 const socials = [
@@ -49,13 +53,9 @@ const socials = [
     },
 ]
 
-const legal = [
-    { label: 'Privacy Policy', href: '/privacy-policy' },
-    { label: 'Terms of Service', href: '/terms' },
-]
-
 function Footer() {
     const pathname = usePathname()
+    const { open: openCookiePreferences } = useCookiePreferencesDialog()
     if (pathname?.includes('/studio')) return null
 
     const year = new Date().getFullYear()
@@ -63,14 +63,14 @@ function Footer() {
     return (
         <footer className='relative overflow-hidden w-full bg-primary px-6 pt-16 pb-8'>
             <div
-                className='absolute inset-0 opacity-[0.06]'
+                className='absolute inset-0 opacity-[0.06] pointer-events-none'
                 style={{
                     backgroundImage:
                         'radial-gradient(circle, white 1px, transparent 1px)',
                     backgroundSize: '22px 22px',
                 }}
             />
-            <div className='mx-auto max-w-(--breakpoint-md) lg:max-w-(--breakpoint-lg) 2xl:max-w-(--breakpoint-xl)'>
+            <div className='relative z-10 mx-auto max-w-(--breakpoint-md) lg:max-w-(--breakpoint-lg) 2xl:max-w-(--breakpoint-xl)'>
                 <div className='grid grid-cols-1 gap-12 lg:grid-cols-[1.8fr_2.2fr] lg:gap-16'>
                     <div className='flex flex-col gap-6'>
                         {/* Mobile: gradient mark */}
@@ -154,16 +154,15 @@ function Footer() {
                     <p className='text-primary-foreground/60 text-sm font-sans'>
                         © {year} Aesops. All rights reserved.
                     </p>
-                    <div className='flex items-center gap-5'>
-                        {legal.map(({ label, href }) => (
-                            <Link
-                                key={label}
-                                href={href}
-                                className='text-primary-foreground/60 hover:text-primary-foreground text-sm font-sans underline underline-offset-4 transition-colors'>
-                                {label}
-                            </Link>
-                        ))}
-                    </div>
+                    <button
+                        type='button'
+                        onClick={openCookiePreferences}
+                        aria-label='Manage Cookie Preferences'
+                        title='Manage Cookie Preferences'
+                        className='inline-flex items-center gap-1.5 text-primary-foreground/60 hover:text-primary-foreground text-sm font-sans transition-colors'>
+                        <Cookie className='w-5 h-5' />
+                        Cookies
+                    </button>
                 </div>
             </div>
         </footer>

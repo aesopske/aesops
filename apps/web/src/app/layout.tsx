@@ -3,15 +3,17 @@ import 'streamdown/styles.css'
 import '@fontsource-variable/bricolage-grotesque'
 import '@fontsource-variable/lora'
 import { GeistMono } from 'geist/font/mono'
-import { Analytics } from '@vercel/analytics/react'
-import { SpeedInsights } from '@vercel/speed-insights/react'
 import { VisualEditing } from 'next-sanity/visual-editing'
-import { draftMode } from 'next/headers'
+import { cookies, draftMode } from 'next/headers'
 import TopLoader from 'nextjs-toploader'
+import ConsentGatedScripts from '@components/shared/cookie-consent/ConsentGatedScripts'
+import { COOKIE_NAME, parseConsentCookie } from '@/lib/shared/cookie-consent-cookie'
 import Providers from './_providers'
 
 async function RootLayout({ children }: { children: React.ReactNode }) {
     const { isEnabled } = await draftMode()
+    const cookieStore = await cookies()
+    const initialCookieConsent = parseConsentCookie(cookieStore.get(COOKIE_NAME)?.value)
     return (
         <html lang='en' suppressHydrationWarning className={GeistMono.variable}>
             <head>
@@ -26,13 +28,12 @@ async function RootLayout({ children }: { children: React.ReactNode }) {
                 <link rel='icon' href='/logo-mark.svg' type='image/svg+xml' sizes='32x32' />
             </head>
             <body className=''>
-                <Providers>
+                <Providers initialCookieConsent={initialCookieConsent}>
                     <TopLoader color='#15616D' showSpinner={false} />
                     {children}
                     {isEnabled && <VisualEditing />}
+                    <ConsentGatedScripts />
                 </Providers>
-                <Analytics />
-                <SpeedInsights />
             </body>
         </html>
     )

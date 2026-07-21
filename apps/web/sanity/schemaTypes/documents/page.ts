@@ -61,7 +61,7 @@ export default defineType({
             title: 'Sections',
             type: 'pageSections',
             group: 'pageContent',
-            hidden: ({ document }) => document?.pageType === 'blog',
+            hidden: ({ document }) => document?.pageType === 'blog' || document?.pageType === 'legal',
         }),
 
         // ── Blog-specific fields ───────────────────────────────────────────
@@ -126,7 +126,7 @@ export default defineType({
             title: 'Body',
             type: 'blockContent',
             group: 'pageContent',
-            hidden: ({ document }) => document?.pageType !== 'blog',
+            hidden: ({ document }) => !['blog', 'legal'].includes(document?.pageType as string),
         }),
 
         // ── Blog post actions ──────────────────────────────────────────────

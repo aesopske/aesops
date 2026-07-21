@@ -5,7 +5,10 @@ import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import { httpBatchLink } from '@trpc/client'
 import superjson from 'superjson'
 import { trpc } from '@/trpc/react'
-import DemoAuthProvider from './DemoAuthProvider'
+import CookieConsentBanner from '@components/shared/cookie-consent/CookieConsentBanner'
+import CookiePreferencesDialog from '@components/shared/cookie-consent/CookiePreferencesDialog'
+import CookiePreferencesDialogProvider from '@components/shared/cookie-consent/CookiePreferencesDialogProvider'
+import { CookieConsentInitProvider, CookieConsent } from '@/lib/shared/cookie-consent'
 
 function makeQueryClient() {
     return new QueryClient({
@@ -27,7 +30,12 @@ function getQueryClient() {
     return browserQueryClient
 }
 
-function Providers({ children }: { children: React.ReactNode }) {
+type ProvidersProps = {
+    children: React.ReactNode
+    initialCookieConsent: CookieConsent | null
+}
+
+function Providers({ children, initialCookieConsent }: ProvidersProps) {
     const queryClient = getQueryClient()
     const [trpcClient] = useState(() =>
         trpc.createClient({
@@ -38,7 +46,13 @@ function Providers({ children }: { children: React.ReactNode }) {
     return (
         <trpc.Provider client={trpcClient} queryClient={queryClient}>
             <QueryClientProvider client={queryClient}>
-                <DemoAuthProvider>{children}</DemoAuthProvider>
+                <CookieConsentInitProvider initialConsent={initialCookieConsent}>
+                    <CookiePreferencesDialogProvider>
+                        {children}
+                        <CookieConsentBanner />
+                        <CookiePreferencesDialog />
+                    </CookiePreferencesDialogProvider>
+                </CookieConsentInitProvider>
             </QueryClientProvider>
         </trpc.Provider>
     )

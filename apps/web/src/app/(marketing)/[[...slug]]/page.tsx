@@ -4,6 +4,7 @@ import { Metadata, ResolvingMetadata } from 'next'
 import { groq } from 'next-sanity'
 import PageBuilder from '@components/common/PageBuilder'
 import BlogPageDetail from '@components/common/organisms/posts/BlogPageDetail'
+import LegalPageDetail from '@components/common/organisms/legal/LegalPageDetail'
 import { sanityFetch } from '~sanity/utils/fetch'
 import { client } from '~sanity/utils/client'
 import { urlForImage } from '~sanity/utils/image'
@@ -79,6 +80,11 @@ async function Page({ params }: Props) {
     if ((page as unknown as PAGE).pageType === 'blog') {
         const blog = page as unknown as PAGE
         return <BlogPageDetail page={blog} currentPath={`/${slug}`} />
+    }
+
+    if ((page as unknown as PAGE).pageType === 'legal') {
+        const legal = page as unknown as PAGE
+        return <LegalPageDetail page={legal} />
     }
 
     return (
