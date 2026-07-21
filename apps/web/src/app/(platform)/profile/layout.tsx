@@ -1,10 +1,9 @@
-import { headers } from 'next/headers'
 import Link from 'next/link'
-import { auth } from '@repo/auth'
+import { getVerifiedSession } from '@/lib/platform/session'
 import { ProfileSidebar } from './_components/profile-sidebar'
 
 export default async function ProfileLayout({ children }: { children: React.ReactNode }) {
-    const session = await auth.api.getSession({ headers: await headers() })
+    const session = await getVerifiedSession()
 
     if (!session) {
         return (

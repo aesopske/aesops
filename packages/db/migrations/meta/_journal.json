@@ -64,6 +64,20 @@
       "when": 1784476364201,
       "tag": "0008_flat_morph",
       "breakpoints": true
+    },
+    {
+      "idx": 9,
+      "version": "7",
+      "when": 1784630095653,
+      "tag": "0009_far_magdalene",
+      "breakpoints": true
+    },
+    {
+      "idx": 10,
+      "version": "7",
+      "when": 1784631582642,
+      "tag": "0010_sloppy_wonder_man",
+      "breakpoints": true
     }
   ]
 }

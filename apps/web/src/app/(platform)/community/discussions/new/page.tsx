@@ -1,7 +1,6 @@
 import { redirect } from 'next/navigation'
-import { headers } from 'next/headers'
 import { Suspense } from 'react'
-import { auth } from '@repo/auth'
+import { getVerifiedSession } from '@/lib/platform/session'
 import { CreateThreadForm } from '@/components/platform/community/create-thread-form'
 import BreadCrumbs from '@/components/common/organisms/bread-crumbs/BreadCrumbs'
 import { Metadata } from 'next'
@@ -9,7 +8,7 @@ import { Metadata } from 'next'
 export const metadata: Metadata = { title: 'New Discussion · Aesops Community' }
 
 export default async function NewThreadPage() {
-    const session = await auth.api.getSession({ headers: await headers() })
+    const session = await getVerifiedSession()
     if (!session) redirect('/sign-in?from=/community/discussions/new')
 
     return (

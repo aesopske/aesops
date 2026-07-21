@@ -36,7 +36,9 @@ export const publicProcedure = t.procedure
 export const createCallerFactory = t.createCallerFactory
 
 export const protectedProcedure = t.procedure.use(({ ctx, next }) => {
-    if (!ctx.session) {
+    // A session with a pending 2FA challenge is not fully authenticated —
+    // see the `twoFactorVerified` comment in packages/db/src/schema/auth.ts.
+    if (!ctx.session || ctx.session.session.twoFactorVerified === false) {
         throw new TRPCError({ code: 'UNAUTHORIZED' })
     }
     return next({ ctx: { ...ctx, session: ctx.session } })

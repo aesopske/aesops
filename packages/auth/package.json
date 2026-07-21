@@ -15,7 +15,9 @@
     "@better-auth/api-key": "1.6.9",
     "@better-auth/drizzle-adapter": "^1.6.9",
     "@repo/db": "workspace:*",
-    "better-auth": "^1.6.9"
+    "@repo/env": "workspace:*",
+    "better-auth": "^1.6.9",
+    "resend": "^6.17.2"
   },
   "devDependencies": {
     "@repo/config": "workspace:*",

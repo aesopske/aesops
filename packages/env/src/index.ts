@@ -1,5 +1,6 @@
 export { authEnv } from './auth'
 export { databaseEnv } from './database'
+export { emailEnv } from './email'
 export { observabilityEnv } from './observability'
 export { sanityEnv } from './sanity'
 export { storageEnv } from './storage'

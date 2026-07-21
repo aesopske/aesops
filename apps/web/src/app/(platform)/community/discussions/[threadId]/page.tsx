@@ -1,6 +1,5 @@
 import { notFound } from 'next/navigation'
-import { headers } from 'next/headers'
-import { auth } from '@repo/auth'
+import { getVerifiedSession } from '@/lib/platform/session'
 import BreadCrumbs from '@/components/common/organisms/bread-crumbs/BreadCrumbs'
 import { api } from '@/trpc/server'
 import { Avatar, AvatarFallback, AvatarImage } from '@repo/ui/components/avatar'
@@ -26,7 +25,7 @@ export default async function ThreadPage({ params }: Props) {
     const { threadId } = await params
 
     const [session, data] = await Promise.all([
-        auth.api.getSession({ headers: await headers() }),
+        getVerifiedSession(),
         api.community.getThread({ threadId }).catch(() => null),
     ])
 

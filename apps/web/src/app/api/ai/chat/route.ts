@@ -2,7 +2,7 @@ import { streamText } from 'ai'
 import { google } from '@ai-sdk/google'
 import { captureException } from '@sentry/core'
 import { z } from 'zod'
-import { auth } from '@repo/auth'
+import { getVerifiedSession } from '@/lib/platform/session'
 import { documentService } from '@repo/storage'
 import { db, chatMessages } from '@repo/db'
 import type { DocumentMetadata } from '@repo/db/schema'
@@ -29,7 +29,7 @@ const bodySchema = z.object({
 })
 
 export async function POST(req: Request) {
-    const session = await auth.api.getSession({ headers: req.headers })
+    const session = await getVerifiedSession(req.headers)
     if (!session) {
         return new Response('Unauthorized', { status: 401 })
     }

@@ -1,6 +1,5 @@
-import { headers } from 'next/headers'
 import { NextRequest, NextResponse } from 'next/server'
-import { auth } from '@repo/auth'
+import { getVerifiedSession } from '@/lib/platform/session'
 import { documentService } from '@repo/storage'
 import { db, datasetDownloads } from '@repo/db'
 
@@ -28,7 +27,7 @@ export async function GET(
 ) {
     const { id } = await params
 
-    const session = await auth.api.getSession({ headers: await headers() })
+    const session = await getVerifiedSession()
     if (!session) {
         const signIn = new URL(`/sign-in`, request.url)
         signIn.searchParams.set('from', `/datasets/${id}`)

@@ -1,7 +1,6 @@
 import type { Metadata } from 'next'
 import { Suspense } from 'react'
 import { notFound } from 'next/navigation'
-import { headers } from 'next/headers'
 import {
     Download,
     FileSpreadsheet,
@@ -13,7 +12,7 @@ import {
     Pencil,
 } from 'lucide-react'
 import Link from 'next/link'
-import { auth } from '@repo/auth'
+import { getVerifiedSession } from '@/lib/platform/session'
 import { api } from '@/trpc/server'
 import { AuthGate } from '@/components/shared/auth-gate'
 import { MetadataPanel } from '@/components/platform/dataset/dataset-card'
@@ -60,7 +59,7 @@ export default async function DatasetPage({ params }: Props) {
     }
 
     const [session, revisions] = await Promise.all([
-        auth.api.getSession({ headers: await headers() }),
+        getVerifiedSession(),
         doc.parentId === null
             ? api.documents.listRevisions({ parentId: doc.id })
             : Promise.resolve([]),

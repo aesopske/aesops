@@ -1,14 +1,13 @@
-import { headers } from 'next/headers'
 import { redirect } from 'next/navigation'
 import { LayoutDashboard } from 'lucide-react'
-import { auth } from '@repo/auth'
+import { getVerifiedSession } from '@/lib/platform/session'
 import { isAdminEmail } from '@/lib/platform/admin'
 import { AdminNav } from '@/components/platform/admin/admin-nav'
 
 export const metadata = { title: 'Admin | Aesops' }
 
 export default async function AdminLayout({ children }: { children: React.ReactNode }) {
-    const session = await auth.api.getSession({ headers: await headers() })
+    const session = await getVerifiedSession()
     if (!session) redirect('/sign-in')
     if (!isAdminEmail(session.user.email)) redirect('/')
 

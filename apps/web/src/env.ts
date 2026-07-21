@@ -2,10 +2,11 @@ import { createEnv } from '@t3-oss/env-nextjs'
 import { sanityEnv } from '@repo/env/sanity'
 import { observabilityEnv } from '@repo/env/observability'
 import { authEnv, storageEnv } from '@repo/env'
+import { emailEnv } from '@repo/env/email'
 import { z } from 'zod'
 
 export const env = createEnv({
-    extends: [sanityEnv, authEnv, storageEnv, observabilityEnv],
+    extends: [sanityEnv, authEnv, storageEnv, observabilityEnv, emailEnv],
     server: {
         GEMINI_API_KEY: z.string().optional(),
         GOOGLE_GENERATIVE_AI_API_KEY: z.string().optional(),

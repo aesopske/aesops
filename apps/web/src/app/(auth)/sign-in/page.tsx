@@ -1,14 +1,13 @@
-import { headers } from 'next/headers'
 import { redirect } from 'next/navigation'
-import { auth } from '@repo/auth'
+import { getVerifiedSession } from '@/lib/platform/session'
 import { AuthBrandPanel } from '@/components/platform/auth/auth-brand-panel'
 import Logo from '@components/common/Logo'
-import { SignInForm } from './_components/sign-in-form'
+import { EmailOtpForm } from '@/components/platform/auth/email-otp-form'
 
 export const metadata = { title: 'Sign in | Aesops' }
 
 export default async function SignInPage() {
-    const session = await auth.api.getSession({ headers: await headers() })
+    const session = await getVerifiedSession()
     if (session) redirect('/datasets')
 
     return (
@@ -19,13 +18,13 @@ export default async function SignInPage() {
                     <Logo className='mb-8 flex-none' />
                     <div className='mb-8'>
                         <h1 className='font-sans font-light text-3xl text-foreground'>
-                            Welcome back
+                            Welcome
                         </h1>
                         <p className='mt-2 text-sm text-muted-foreground'>
-                            Sign in to manage your datasets
+                            Sign in or create an account with a code sent to your email
                         </p>
                     </div>
-                    <SignInForm />
+                    <EmailOtpForm />
                 </div>
             </div>
 
