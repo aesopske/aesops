@@ -7,7 +7,7 @@ import { apiKey } from '@better-auth/api-key'
 import { authEnv } from '@repo/env/auth'
 import { db, eq, desc } from '@repo/db'
 import * as schema from '@repo/db/schema'
-import { sendSignInCode, sendTwoFactorCode } from './email'
+import { sendSignInCode, sendTwoFactorCode } from '@repo/email'
 
 const TWO_FACTOR_VERIFY_PATHS = new Set([
     '/two-factor/verify-totp',

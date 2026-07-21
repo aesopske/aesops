@@ -265,7 +265,7 @@ export const documentsRouter = router({
             z.object({
                 id: z.string(),
                 name: z.string().min(1).optional(),
-                description: z.string().optional(),
+                description: z.unknown().optional(),
                 license: z.string().optional(),
                 source: z.string().optional(),
             }),

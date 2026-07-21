@@ -1,27 +1,24 @@
 {
-  "name": "@repo/auth",
+  "name": "@repo/email",
   "version": "0.0.0",
   "private": true,
   "type": "module",
   "exports": {
-    ".": "./src/index.ts",
-    "./client": "./src/client.ts"
+    ".": "./src/index.tsx"
   },
   "scripts": {
-    "auth:generate": "better-auth generate",
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {
-    "@better-auth/api-key": "1.6.9",
-    "@better-auth/drizzle-adapter": "^1.6.9",
-    "@repo/db": "workspace:*",
-    "@repo/email": "workspace:*",
     "@repo/env": "workspace:*",
-    "better-auth": "^1.6.9"
+    "react": "19.2.6",
+    "react-email": "^6.9.0",
+    "resend": "^6.17.2"
   },
   "devDependencies": {
     "@repo/config": "workspace:*",
     "@types/node": "^22.15.3",
+    "@types/react": "^19.1.2",
     "typescript": "^5.8.3"
   },
   "packageManager": "pnpm@10.10.0"

@@ -74,10 +74,12 @@ export function CreateThreadForm() {
                     sourceType === 'blog' && blogTitle ? blogTitle : undefined,
             },
             {
-                onSuccess: (thread: { id: string; slug: string | null }) =>
+                onSuccess: (thread) => {
+                    if (!thread) return
                     router.push(
                         `/community/discussions/${thread.slug ?? thread.id}`,
-                    ),
+                    )
+                },
             },
         )
     }
