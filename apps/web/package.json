@@ -10,7 +10,8 @@
     "typecheck": "tsc --noEmit",
     "knip": "knip",
     "backfill:parquet": "tsx --env-file=.env.local scripts/backfill-parquet.ts",
-    "backfill:classification": "tsx --env-file=.env.local scripts/backfill-classification.ts"
+    "backfill:classification": "tsx --env-file=.env.local scripts/backfill-classification.ts",
+    "sync-content": "tsx --env-file=.env.local scripts/sync-content.ts"
   },
   "dependencies": {
     "@ai-sdk/google": "^1.2.22",

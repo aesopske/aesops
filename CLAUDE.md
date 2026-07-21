@@ -24,6 +24,9 @@ pnpm --filter @repo/db db:generate     # generate migration from schema changes
 pnpm --filter @repo/db db:migrate      # apply migrations to Neon
 pnpm --filter @repo/db db:push         # push schema directly (dev only)
 pnpm --filter @repo/db db:studio       # Drizzle Studio GUI
+
+# Sanity content sync (development dataset → production dataset)
+pnpm --filter @aesops/web sync-content -- <docId> [docId...]
 ```
 
 ## Architecture
@@ -59,7 +62,9 @@ pnpm --filter @repo/db db:studio       # Drizzle Studio GUI
 - `chat.ts` — AI chat conversation/message tables
 - `community.ts` — discussion threads and related community-feature tables, backs the `community` tRPC router
 
-**Content** (Sanity CMS): Schemas live in `apps/web/sanity/schemaTypes/`. Document types: `post`, `page`, `author`, `category`, `datasets`, `service`, `siteSettings`, `value`. The `page` document uses a `sections → pageSections` block array for flexible page building. Object types include `blockContent`, `codeBlock`, `youtubeEmbed`, `iframeEmbed`, `tableBlock`, etc.
+**Content** (Sanity CMS): Schemas live in `apps/web/sanity/schemaTypes/`. Document types: `post`, `page`, `author`, `category`, `datasets`, `service`, `siteSettings`, `value`. The `page` document uses a `sections → pageSections` block array for flexible page building. Object types include `blockContent`, `codeBlock`, `youtubeEmbed`, `iframeEmbed`, `tableBlock`, etc. The `page` document also has a `pageType: 'legal'` variant (unhides `body`/`blockContent` instead of `sections`) for long-form legal content, rendered via `LegalPageDetail`.
+
+Two datasets: `development` and `production` (same project, same `SANITY_API_TOKEN`/`NEXT_PUBLIC_SANITY_PROJECT_ID` since tokens are project-scoped). There is no paid dataset-sync/environments feature in use, so content created in `development` does **not** automatically appear in `production` — schema changes are fine (they're code, deployed with the app), but documents need `apps/web/scripts/sync-content.ts` (`pnpm --filter @aesops/web sync-content -- <docId>`) to copy them across via `createOrReplace`.
 
 **Auth** (`packages/auth`): Better Auth with email/password + GitHub & Google OAuth, plus the `apiKey` plugin (`@better-auth/api-key`) for programmatic access. Users have additional fields: `username`, `bio`, `website`. The auth schema tables must stay in sync with the Better Auth config — run `db:generate` after changing `additionalFields`, and keep the `apikeys` table (see `scripts/add-api-key-table.mjs`) aligned with the plugin.
 
