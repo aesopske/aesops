@@ -17,7 +17,7 @@ import { useCookiePreferencesDialog } from './CookiePreferencesDialogProvider'
 
 function CookiePreferencesDialog() {
     const { isOpen, close } = useCookiePreferencesDialog()
-    const { analyticsEnabled, setAnalytics } = useCookieConsent()
+    const { analyticsEnabled, setAnalytics, acceptAll, rejectNonEssential } = useCookieConsent()
 
     function handleOpenChange(open: boolean) {
         if (!open) close()
@@ -69,9 +69,29 @@ function CookiePreferencesDialog() {
                     </div>
                 </div>
 
-                <DialogFooter>
-                    <Button variant='default' className='w-full' onClick={close}>
-                        Done
+                <DialogFooter className='flex-col gap-2 sm:flex-col'>
+                    <div className='flex w-full items-center gap-2'>
+                        <Button
+                            variant='default'
+                            className='flex-1'
+                            onClick={() => {
+                                acceptAll()
+                                close()
+                            }}>
+                            Allow all
+                        </Button>
+                        <Button
+                            variant='outline'
+                            className='flex-1'
+                            onClick={() => {
+                                rejectNonEssential()
+                                close()
+                            }}>
+                            Decline all
+                        </Button>
+                    </div>
+                    <Button variant='ghost' className='w-full' onClick={close}>
+                        Save preferences
                     </Button>
                 </DialogFooter>
             </DialogContent>
