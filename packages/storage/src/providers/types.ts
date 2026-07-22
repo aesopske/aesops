@@ -1,5 +1,7 @@
 import type { DocumentMetadata, MetadataDiff } from '@repo/db/schema'
 
+export type ReviewStatus = 'active' | 'pending_review'
+
 export type CreateUploadUrlInput = {
     /** Object key to write to (caller controls the storage layout) */
     key: string
@@ -57,4 +59,6 @@ export type CreateDocumentInput = {
     aiInsights?: string | null
     parentId?: string | null
     metadataDiff?: MetadataDiff | null
+    /** sha256 of the raw uploaded file bytes; used to short-circuit re-uploads of identical data */
+    contentHash?: string | null
 }

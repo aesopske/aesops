@@ -1,10 +1,11 @@
 import 'server-only'
 import { captureException } from '@sentry/core'
 import { documentService } from '@repo/storage'
-import type { DocumentMetadata } from '@repo/db/schema'
+import type { AnomalyDetails, DocumentMetadata } from '@repo/db/schema'
 import { extractMetadata } from '@/lib/platform/metadata'
 import { fileToParquet } from '@/lib/platform/parquet'
 import { mergeDatasetToParquet } from '@/lib/platform/dataset-merge-parquet'
+import { ANOMALY_REMOVED_ROW_THRESHOLD, diffVersions } from '@/lib/platform/dataset-diff'
 import { generateInsights } from '@/lib/platform/insights'
 import { classifyDataset } from '@/lib/platform/classification'
 import { recordAiUsage } from '@/lib/platform/ai-usage'
@@ -146,6 +147,35 @@ export async function generateAndSaveClassification(
     }
 }
 
+// Compares a newly-uploaded revision against the previous version's row count
+// and flags an anomaly if too large a share of the previous rows are missing
+// from the new one — a signal that an automated source may have silently
+// stopped sending a full snapshot. Best-effort: never throws, so a diff
+// failure never blocks the upload it was checking.
+export async function checkForAnomaly(
+    previousDoc: DocumentRow,
+    newDoc: DocumentRow,
+): Promise<AnomalyDetails | null> {
+    const previousRowCount = (previousDoc.metadata as DocumentMetadata | null)?.rowCount ?? 0
+    if (previousRowCount === 0) return null
+
+    const diff = await diffVersions(previousDoc, newDoc)
+    if (!diff) return null
+
+    const removedPercent = diff.removedCount / previousRowCount
+    if (removedPercent <= ANOMALY_REMOVED_ROW_THRESHOLD) return null
+
+    return {
+        previousDocId: previousDoc.id,
+        previousRowCount,
+        removedCount: diff.removedCount,
+        removedPercent,
+        thresholdPercent: ANOMALY_REMOVED_ROW_THRESHOLD,
+        schemaChanged: diff.schemaChanged,
+        detectedAt: new Date().toISOString(),
+    }
+}
+
 export type MergeVersionsResult =
     | { ok: true; parquetKey: string }
     | { ok: true; skipped: true }
@@ -159,7 +189,8 @@ export async function mergeDatasetVersions(
     root: DocumentRow,
 ): Promise<MergeVersionsResult> {
     const revisions = await documentService.listRevisions(root.id)
-    const allDocs = [root, ...revisions]
+    const activeRevisions = revisions.filter((d) => d.reviewStatus === 'active')
+    const allDocs = [root, ...activeRevisions]
 
     if (allDocs.some((d) => !d.parquetKey)) {
         return { ok: true, skipped: true }

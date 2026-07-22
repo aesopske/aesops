@@ -2,6 +2,7 @@ import { type NextRequest, NextResponse } from 'next/server'
 import { auth } from '@repo/auth'
 import { documentService } from '@repo/storage'
 import type { DocumentMetadata, MetadataDiff } from '@repo/db/schema'
+import { captureException, captureMessage } from '@sentry/core'
 import { extractMetadata } from '@/lib/platform/metadata'
 import { computeMetadataDiff } from '@/lib/platform/metadata-diff'
 import {
@@ -13,11 +14,19 @@ import {
     type AllowedMime,
 } from '@/lib/platform/document-naming'
 import {
+    checkForAnomaly,
     convertDocumentToParquet,
     generateAndSaveInsights,
     generateAndSaveClassification,
     mergeDatasetVersions,
 } from '@/lib/platform/dataset-pipeline'
+
+async function sha256Hex(buffer: ArrayBuffer): Promise<string> {
+    const digest = await crypto.subtle.digest('SHA-256', buffer)
+    return Array.from(new Uint8Array(digest))
+        .map((b) => b.toString(16).padStart(2, '0'))
+        .join('')
+}
 
 export const maxDuration = 60
 
@@ -133,6 +142,33 @@ export async function POST(req: NextRequest) {
     }
 
     const buffer = await file.arrayBuffer()
+    const contentHash = await sha256Hex(buffer)
+
+    // Resolve the revision this upload would chain off of (before any parsing
+    // or storage work), so an unchanged re-upload can short-circuit cheaply.
+    let parent: Awaited<ReturnType<typeof documentService.getById>> | undefined
+    let revisions: Awaited<ReturnType<typeof documentService.listRevisions>> = []
+    let baseline: (typeof revisions)[number] | typeof parent
+    if (parentId) {
+        parent = await documentService.getById(parentId).catch(() => undefined)
+        revisions = await documentService.listRevisions(parentId)
+        // Diff against the latest existing revision (or the root if this is
+        // the first revision) — not always the root — so the delta reflects
+        // only what changed in this upload, not the cumulative change since v1.
+        baseline = revisions.at(-1) ?? parent
+    }
+
+    if (baseline && baseline.contentHash === contentHash) {
+        await documentService.recordUnchangedCheck(baseline.id)
+        return NextResponse.json({
+            documentId: baseline.id,
+            slug: baseline.slug,
+            isRevision: true,
+            unchanged: true,
+            reviewStatus: 'active',
+        })
+    }
+
     let metadata: DocumentMetadata
     try {
         metadata = extractMetadata(buffer)
@@ -151,18 +187,12 @@ export async function POST(req: NextRequest) {
     let docName = stripExtension(typedName.length > 0 ? typedName : file.name)
     let metadataDiff: MetadataDiff | null = null
     if (parentId) {
-        const parent = await documentService.getById(parentId).catch(() => null)
-        const revisions = await documentService.listRevisions(parentId)
         const versionNumber = revisions.length + 2
         const baseName =
             typedName.length > 0
                 ? stripExtension(typedName)
                 : (parent?.name ?? docName)
         docName = `${baseName} v${versionNumber}`
-        // Diff against the latest existing revision (or the root if this is
-        // the first revision) — not always the root — so the delta reflects
-        // only what changed in this upload, not the cumulative change since v1.
-        const baseline = revisions.at(-1) ?? parent
         if (baseline?.metadata) {
             metadataDiff = computeMetadataDiff(
                 baseline.metadata as DocumentMetadata,
@@ -193,6 +223,7 @@ export async function POST(req: NextRequest) {
         parentId,
         metadataDiff,
         slug: newRootSlug,
+        contentHash,
     })
 
     // Derive the queryable Parquet substrate and the AI insights summary in
@@ -206,8 +237,30 @@ export async function POST(req: NextRequest) {
         ),
     ])
 
+    // Compare against the previous version's row count to catch a source that
+    // silently stopped sending a full snapshot — flagged revisions are held
+    // out of the query path (see resolveQueryDoc) and out of the merge below,
+    // rather than being served as the new current state.
+    let reviewStatus: 'active' | 'pending_review' = 'active'
+    let anomaly: Awaited<ReturnType<typeof checkForAnomaly>> = null
+    if (parquet.ok && parentId && baseline) {
+        anomaly = await checkForAnomaly(baseline, doc).catch((err) => {
+            captureException(err, { tags: { route: 'scraper/upload' } })
+            return null
+        })
+        if (anomaly) {
+            await documentService.flagForReview(doc.id, anomaly)
+            reviewStatus = 'pending_review'
+            captureMessage('Dataset upload flagged as anomalous', {
+                level: 'warning',
+                tags: { route: 'scraper/upload', datasetId: parentId },
+                extra: anomaly,
+            })
+        }
+    }
+
     let mergedParquetKey: string | null = null
-    if (parquet.ok) {
+    if (parquet.ok && reviewStatus === 'active') {
         const rootId = parentId ?? doc.id
         const root = await documentService.getById(rootId).catch(() => null)
         if (root) {
@@ -222,6 +275,9 @@ export async function POST(req: NextRequest) {
             documentId: doc.id,
             slug: doc.slug,
             isRevision: !!parentId,
+            unchanged: false,
+            reviewStatus,
+            ...(anomaly ? { anomaly } : {}),
             parquetKey: parquet.ok ? parquet.parquetKey : null,
             mergedParquetKey,
         },

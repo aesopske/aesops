@@ -47,7 +47,11 @@ function downsample(points: SeriesPoint[], maxPoints: number): SeriesPoint[] {
     return result
 }
 
-type QueryableDoc = OpenableDoc & { id: string; parentId: string | null }
+type QueryableDoc = OpenableDoc & {
+    id: string
+    parentId: string | null
+    reviewStatus: string
+}
 
 async function loadSeries(
     doc: QueryableDoc,

@@ -15,6 +15,11 @@ export type RowDiff = {
 
 const SAMPLE_LIMIT = 50
 
+// Fraction of the previous version's row count that may be "removed" (per the
+// EXCEPT ALL row diff below) before an upload is held for review instead of
+// going live automatically — see checkForAnomaly in dataset-pipeline.ts.
+export const ANOMALY_REMOVED_ROW_THRESHOLD = 0.15
+
 function quoteIdent(name: string): string {
     return `"${name.replace(/"/g, '""')}"`
 }

@@ -1,7 +1,7 @@
 import 'server-only'
 import { and, asc, desc, eq, gte, ilike, inArray, isNotNull, isNull, lte, or, sql } from 'drizzle-orm'
 import { db, documents } from '@repo/db'
-import type { DocumentMetadata } from '@repo/db/schema'
+import type { AnomalyDetails, DocumentMetadata } from '@repo/db/schema'
 import type {
     StorageProvider,
     CreateDocumentInput,
@@ -129,7 +129,31 @@ export class DocumentService {
                 slug,
                 parentId: input.parentId ?? null,
                 metadataDiff: input.metadataDiff ?? null,
+                contentHash: input.contentHash ?? null,
             })
+            .returning()
+        return doc!
+    }
+
+    /** Bumped when an upload is checked and found byte-identical to the latest
+     * revision — records that the source was polled without touching
+     * updatedAt, which otherwise means "content actually changed". */
+    async recordUnchangedCheck(id: string) {
+        const [doc] = await this.database
+            .update(documents)
+            .set({ lastCheckedAt: new Date() })
+            .where(eq(documents.id, id))
+            .returning()
+        return doc!
+    }
+
+    /** Holds a revision out of the query path pending human review — used when
+     * an automated upload-time diff shows an anomalously large row drop. */
+    async flagForReview(id: string, details: AnomalyDetails) {
+        const [doc] = await this.database
+            .update(documents)
+            .set({ reviewStatus: 'pending_review', anomalyDetails: details, updatedAt: new Date() })
+            .where(eq(documents.id, id))
             .returning()
         return doc!
     }

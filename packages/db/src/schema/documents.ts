@@ -12,6 +12,16 @@ export type MetadataDiff = {
     }[]
 }
 
+export type AnomalyDetails = {
+    previousDocId: string
+    previousRowCount: number
+    removedCount: number
+    removedPercent: number
+    thresholdPercent: number
+    schemaChanged: boolean
+    detectedAt: string
+}
+
 export type ColumnStats = {
     name: string
     dtype: string
@@ -75,6 +85,18 @@ export const documents = pgTable('documents', {
     slug: text('slug').unique(),
     parentId: text('parent_id'),
     metadataDiff: jsonb('metadata_diff').$type<MetadataDiff>(),
+    // sha256 of the raw uploaded file bytes — lets an upload short-circuit
+    // (skip storage/Parquet/insights work entirely) when a source resends
+    // byte-identical data
+    contentHash: text('content_hash'),
+    // bumped when an upload is checked and found unchanged (contentHash
+    // matched), without touching updatedAt — keeps updatedAt meaning "content
+    // actually changed"
+    lastCheckedAt: timestamp('last_checked_at'),
+    // 'active' | 'pending_review' — a revision is held out of the query path
+    // (see resolveQueryDoc) when an automated anomaly check flags it
+    reviewStatus: text('review_status').notNull().default('active'),
+    anomalyDetails: jsonb('anomaly_details').$type<AnomalyDetails>(),
     createdAt: timestamp('created_at').notNull().defaultNow(),
     updatedAt: timestamp('updated_at').notNull().defaultNow(),
 })

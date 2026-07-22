@@ -21,12 +21,17 @@ export type OpenableDoc = {
 // This intentionally does not use the root's `mergedParquetKey` (see
 // dataset-merge-parquet.ts) — that pipeline still runs on every upload but
 // nothing currently reads its output back for querying.
-export async function resolveQueryDoc<T extends OpenableDoc & { id: string; parentId: string | null }>(
-    doc: T,
-): Promise<T> {
+export async function resolveQueryDoc<
+    T extends OpenableDoc & { id: string; parentId: string | null; reviewStatus: string },
+>(doc: T): Promise<T> {
     if (doc.parentId) return doc
     const revisions = await documentService.listRevisions(doc.id)
-    const latest = revisions.at(-1)
+    // A revision flagged 'pending_review' (large row drop vs. the previous
+    // version — see checkForAnomaly in dataset-pipeline.ts) is held out of
+    // query results until a human promotes or discards it, so the platform
+    // keeps serving the last known-good version instead.
+    const active = revisions.filter((r) => r.reviewStatus === 'active')
+    const latest = active.at(-1)
     return (latest as T | undefined) ?? doc
 }
 
