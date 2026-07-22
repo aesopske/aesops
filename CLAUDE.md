@@ -48,9 +48,10 @@ pnpm --filter @aesops/web sync-content -- <docId> [docId...]
 | `packages/db` | `@repo/db` | Drizzle ORM + Neon serverless Postgres; exports `db` client and all schema tables |
 | `packages/auth` | `@repo/auth` | Better Auth instance (server-only); exports `auth`, `Session`, `User` types |
 | `packages/storage` | `@repo/storage` | Cloudflare R2 document storage abstraction; exports `documentService` singleton |
-| `packages/env` | `@repo/env` | `@t3-oss/env-*` validated env modules by domain: `authEnv`, `databaseEnv`, `emailEnv`, `sanityEnv`, `storageEnv` |
+| `packages/env` | `@repo/env` | `@t3-oss/env-*` validated env modules by domain: `authEnv`, `databaseEnv`, `emailEnv`, `sanityEnv`, `storageEnv`, `zohoEnv` |
 | `packages/ui` | `@repo/ui` | Shared component library (shadcn/Radix UI); exports via `@repo/ui/components/*`, `@repo/ui/lib/*`, `@repo/ui/hooks/*` |
 | `packages/config` | `@repo/config` | Shared ESLint and TypeScript configs |
+| `packages/zoho` | `@repo/zoho` | Zoho Bigin CRM sync — `syncLeadToZoho()` upserts a Contact and creates a Deal in the Software Consulting pipeline. See the **CRM sync** note below for the refresh-token setup |
 
 ### Data layer
 
@@ -73,6 +74,28 @@ Better Auth's `twoFactor` plugin only auto-intercepts `/sign-in/email`, `/sign-i
 The auth schema tables must stay in sync with the Better Auth config — run `db:generate` after changing `additionalFields`. **`db:migrate` doesn't apply cleanly against this project's Neon DB** — new auth-table migrations are applied via a matching idempotent `scripts/add-*.mjs` script instead (`db:add-api-key-table`, `db:add-two-factor-table`, `db:add-two-factor-verified-column` are the existing examples; follow that pattern for the next one).
 
 **Storage** (`packages/storage`): Provider-based abstraction; currently Cloudflare R2 (`R2Provider`). `documentService` is the singleton. To swap providers, instantiate `DocumentService` with a different `StorageProvider`.
+
+**CRM sync** (`packages/zoho`): every lead captured via `leadsRouter.submit` (`apps/web/src/server/routers/leads.ts`) is also pushed into Zoho Bigin — `syncLeadToZoho()` upserts a Contact by email, then creates a Deal in the "Software Consulting" pipeline at the "Qualification" stage, linked to that contact. This runs fire-and-forget in its own try/catch after the email notification (same pattern as that block) — a failed sync is logged and recorded on the row (`zoho_sync_error`), never blocking the form submission.
+
+Auth is OAuth 2.0 via a **refresh token**, not the client id/secret alone — `ZOHO_CLIENT_ID`/`ZOHO_CLIENT_SECRET`/`ZOHO_REFRESH_TOKEN`/`ZOHO_DC` (`zohoEnv`, `@repo/env/zoho`). `packages/zoho/src/token.ts` exchanges the refresh token for a short-lived access token (per-instance in-memory cache, 5-min refresh buffer) via `POST https://accounts.zoho.{ZOHO_DC}/oauth/v2/token`. The account is on the **EU** data center (`ZOHO_DC=eu`).
+
+To (re)generate `ZOHO_REFRESH_TOKEN` when it's rotated or needs a wider scope:
+1. Zoho API Console → the app's **Self Client** → **Generate Code** tab.
+2. Scope: `ZohoBigin.modules.contacts.ALL,ZohoBigin.modules.pipelines.ALL,ZohoBigin.settings.layouts.READ` (contacts + pipelines for the sync itself; `settings.layouts.READ` only needed if re-deriving `ZOHO_SOFTWARE_CONSULTING_LAYOUT_ID`, see below). Note Bigin's module is called **`Pipelines`** in the API, not `Deals` — a scope of `...modules.deals.ALL` looks plausible but 401s.
+3. Expiry: 10 minutes (max). Copy the generated code immediately.
+4. Exchange it before it expires:
+   ```bash
+   curl -X POST https://accounts.zoho.eu/oauth/v2/token \
+     -d grant_type=authorization_code \
+     -d client_id=$ZOHO_CLIENT_ID \
+     -d client_secret=$ZOHO_CLIENT_SECRET \
+     -d redirect_uri=https://www.zoho.com \
+     -d code=<the generated code>
+   ```
+   (`redirect_uri` just has to match what's registered on the Self Client — nothing actually redirects here.)
+5. The response's `refresh_token` is long-lived (doesn't expire until revoked) — that's what goes into `ZOHO_REFRESH_TOKEN` in `.env.local`.
+
+Bigin API quirks worth knowing if this ever needs touching again (none of this is documented clearly by Zoho): creating a `Pipelines` record requires an explicit `Layout: { id }` — it will not infer the layout from a pipeline name field. `ZOHO_SOFTWARE_CONSULTING_LAYOUT_ID` (`packages/zoho/src/constants.ts`) was looked up via `GET /settings/layouts?module=Pipelines` (requires the `settings.layouts.READ` scope above) and is unlikely to change unless the pipeline is deleted/recreated in Bigin. `Sub_Pipeline` is a separate required string following a `"<Layout name> <Profile name>"` convention (`"Software Consulting Standard"`). `Closing_Date` is mandatory on create — defaulted to 30 days out since a fresh inbound lead has no real expected close date yet.
 
 ### apps/web internals
 
