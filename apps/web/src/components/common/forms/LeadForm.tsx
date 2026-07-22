@@ -1,5 +1,6 @@
 'use client'
 
+import { useEffect } from 'react'
 import { useForm, Controller } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { Loader2 } from 'lucide-react'
@@ -49,6 +50,12 @@ export function LeadForm({ variant, submitLabel, successMessage }: LeadFormProps
     })
 
     const submit = trpc.leads.submit.useMutation()
+
+    useEffect(() => {
+        if (!submit.isSuccess) return
+        const timer = setTimeout(() => submit.reset(), 5000)
+        return () => clearTimeout(timer)
+    }, [submit.isSuccess, submit.reset])
 
     const onSubmit = (values: LeadFormValues) => {
         submit.mutate(
