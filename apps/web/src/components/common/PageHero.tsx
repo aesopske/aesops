@@ -1,6 +1,13 @@
 import { cn } from '@/lib/utils'
 import Animate from './atoms/Animate'
+import ConsultationShowcase from './ConsultationShowcase'
+import ContactShowcase from './ContactShowcase'
 import { PageHeroBlock } from '~sanity/utils/types'
+
+const VIZ_MIN_HEIGHT = {
+    consulting: 'min-h-[52vh]',
+    contact: 'min-h-[40vh]',
+} as const
 
 const alignMap = {
     left: 'items-start text-left',
@@ -37,10 +44,15 @@ function PageHero({ block }: PageHeroProps) {
     const bg = (block.backgroundColor ?? 'primary') as keyof typeof bgColors
     const align = block.textAlign ?? 'center'
     const isLight = bg === 'light' || bg === 'accent'
+    const viz = block.visualization ?? 'none'
+    const showViz = viz !== 'none'
 
     return (
         <section
-            className='relative overflow-hidden flex items-center min-h-[38vh]'
+            className={cn(
+                'relative overflow-hidden flex items-center',
+                showViz ? VIZ_MIN_HEIGHT[viz as 'consulting' | 'contact'] : 'min-h-[38vh]',
+            )}
             style={{ backgroundColor: bgColors[bg] }}>
             {/* Dot-grid texture */}
             <div
@@ -76,38 +88,54 @@ function PageHero({ block }: PageHeroProps) {
             />
 
             <div className='relative z-10 w-full px-6'>
-                <Animate
-                    dir='up'
+                <div
                     className={cn(
-                        'mx-auto max-w-2xl lg:max-w-4xl flex flex-col gap-5 py-16 lg:py-20',
-                        alignMap[align],
+                        'mx-auto',
+                        showViz
+                            ? cn(
+                                  'max-w-7xl grid items-center lg:grid-cols-2',
+                                  viz === 'contact'
+                                      ? 'gap-10 py-12 lg:gap-8 lg:py-14'
+                                      : 'gap-14 py-16 lg:gap-10 lg:py-20',
+                              )
+                            : 'max-w-2xl lg:max-w-4xl',
                     )}>
-                    {block.label && (
-                        <span
-                            className='w-fit inline-flex items-center px-3 py-1 rounded-full text-[11px] font-mono font-medium tracking-[0.16em] uppercase'
-                            style={{
-                                backgroundColor: isLight ? 'rgba(10,37,51,0.08)' : 'rgba(248,243,237,0.12)',
-                                border: `1px solid ${isLight ? 'rgba(10,37,51,0.15)' : 'rgba(248,243,237,0.20)'}`,
-                                color: isLight ? 'rgba(10,37,51,0.65)' : 'rgba(248,243,237,0.75)',
-                            }}>
-                            {block.label}
-                        </span>
-                    )}
+                    <Animate
+                        dir='up'
+                        className={cn(
+                            'flex flex-col gap-5',
+                            showViz ? 'items-center text-center lg:items-start lg:text-left' : cn('py-16 lg:py-20', alignMap[align]),
+                        )}>
+                        {block.label && (
+                            <span
+                                className='w-fit inline-flex items-center px-3 py-1 rounded-full text-[11px] font-mono font-medium tracking-[0.16em] uppercase'
+                                style={{
+                                    backgroundColor: isLight ? 'rgba(10,37,51,0.08)' : 'rgba(248,243,237,0.12)',
+                                    border: `1px solid ${isLight ? 'rgba(10,37,51,0.15)' : 'rgba(248,243,237,0.20)'}`,
+                                    color: isLight ? 'rgba(10,37,51,0.65)' : 'rgba(248,243,237,0.75)',
+                                }}>
+                                {block.label}
+                            </span>
+                        )}
 
-                    <h1
-                        className='font-sans font-light text-4xl md:text-5xl lg:text-6xl tracking-tight leading-[1.08] max-w-3xl'
-                        style={{ color: textColors[bg] }}>
-                        {block.heading}
-                    </h1>
+                        <h1
+                            className='font-sans font-light text-4xl md:text-5xl lg:text-6xl tracking-tight leading-[1.08] max-w-3xl'
+                            style={{ color: textColors[bg] }}>
+                            {block.heading}
+                        </h1>
 
-                    {block.description && (
-                        <p
-                            className='font-sans text-base md:text-lg leading-relaxed max-w-xl'
-                            style={{ color: textColors[bg], opacity: 0.65 }}>
-                            {block.description}
-                        </p>
-                    )}
-                </Animate>
+                        {block.description && (
+                            <p
+                                className='font-sans text-base md:text-lg leading-relaxed max-w-xl'
+                                style={{ color: textColors[bg], opacity: 0.65 }}>
+                                {block.description}
+                            </p>
+                        )}
+                    </Animate>
+
+                    {viz === 'consulting' && <ConsultationShowcase />}
+                    {viz === 'contact' && <ContactShowcase />}
+                </div>
             </div>
         </section>
     )

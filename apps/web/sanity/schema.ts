@@ -9,6 +9,8 @@ import missionVisionBlock from './schemaTypes/blocks/missionVisionBlock'
 import ourValuesBlock from './schemaTypes/blocks/ourValuesBlock'
 import ourTeamBlock from './schemaTypes/blocks/ourTeamBlock'
 import aiShowcaseBlock from './schemaTypes/blocks/aiShowcaseBlock'
+import leadFormBlock from './schemaTypes/blocks/leadFormBlock'
+import contactDetailsBlock from './schemaTypes/blocks/contactDetailsBlock'
 import author from './schemaTypes/documents/author'
 import team from './schemaTypes/documents/team'
 import category from './schemaTypes/documents/category'
@@ -54,6 +56,8 @@ export const schema = {
         ourValuesBlock,
         ourTeamBlock,
         aiShowcaseBlock,
+        leadFormBlock,
+        contactDetailsBlock,
 
         // objects
         blockContent,

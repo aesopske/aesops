@@ -3,6 +3,7 @@ import { publicProcedure, router } from '@/trpc/init'
 import { documentsRouter } from './documents'
 import { communityRouter } from './community'
 import { commentsRouter } from './comments'
+import { leadsRouter } from './leads'
 import { adminApiKeysRouter } from './admin-api-keys'
 import { adminAiUsageRouter } from './admin-ai-usage'
 
@@ -19,6 +20,7 @@ export const appRouter = router({
     documents: documentsRouter,
     community: communityRouter,
     comments: commentsRouter,
+    leads: leadsRouter,
     admin: router({
         apiKeys: adminApiKeysRouter,
         aiUsage: adminAiUsageRouter,

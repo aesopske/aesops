@@ -6,7 +6,7 @@ import { FeaturesBlock } from '~sanity/utils/types'
 import DataAccessibilityViz from './DataAccessibilityViz'
 import type { LucideIcon } from 'lucide-react'
 
-const ICON_MAP: Record<string, LucideIcon> = {
+export const ICON_MAP: Record<string, LucideIcon> = {
     database: Database,
     search: Search,
     upload: Upload,

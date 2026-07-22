@@ -23,6 +23,7 @@
     "@portabletext/react": "^3.2.1",
     "@repo/auth": "workspace:*",
     "@repo/db": "workspace:*",
+    "@repo/email": "workspace:*",
     "@repo/env": "workspace:*",
     "@repo/storage": "workspace:*",
     "@repo/ui": "workspace:*",

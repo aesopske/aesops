@@ -1,10 +1,11 @@
 import 'server-only'
 import type { ReactElement } from 'react'
 import { resend, emailDeliveryConfigured } from './client'
-import { FROM } from './from'
+import { FROM, TEAM_NOTIFY_EMAIL } from './from'
 import { SignInCodeEmail } from './templates/SignInCodeEmail'
 import { TwoFactorCodeEmail } from './templates/TwoFactorCodeEmail'
 import { WelcomeEmail } from './templates/WelcomeEmail'
+import { LeadNotificationEmail } from './templates/LeadNotificationEmail'
 
 async function send(params: { from: string; to: string; subject: string; react: ReactElement; logFallback: string }) {
     if (!emailDeliveryConfigured) {
@@ -42,5 +43,25 @@ export async function sendWelcomeEmail(email: string, name: string) {
         subject: 'Welcome to Aesops',
         react: <WelcomeEmail name={name} />,
         logFallback: `Welcome email for ${name}`,
+    })
+}
+
+type LeadNotification = {
+    source: 'consultation' | 'contact'
+    name: string
+    email: string
+    company?: string | null
+    phone?: string | null
+    serviceInterest?: string | null
+    message: string
+}
+
+export async function sendLeadNotification(lead: LeadNotification) {
+    await send({
+        from: FROM[lead.source],
+        to: TEAM_NOTIFY_EMAIL[lead.source],
+        subject: `New ${lead.source === 'consultation' ? 'consultation request' : 'contact message'} from ${lead.name}`,
+        react: <LeadNotificationEmail {...lead} />,
+        logFallback: `Lead from ${lead.name} <${lead.email}>: ${lead.message}`,
     })
 }

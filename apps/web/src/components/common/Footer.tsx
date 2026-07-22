@@ -1,16 +1,16 @@
 'use client'
 
-import { FaGithub, FaLinkedin, FaYoutube } from 'react-icons/fa'
-import { FaXTwitter } from 'react-icons/fa6'
 import { Cookie } from 'lucide-react'
 import React from 'react'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import { useCookiePreferencesDialog } from '@components/shared/cookie-consent/CookiePreferencesDialogProvider'
+import { SOCIALS } from '@/lib/constants/socials'
 import Logo from './Logo'
 
 const platform = [
     { label: 'Datasets', href: 'http://localhost:3001' },
+    { label: 'Consultation', href: '/consultation' },
     { label: 'About Us', href: '/about-us' },
     { label: 'Community', href: '/community' },
     { label: 'Blog', href: '/blog' },
@@ -30,28 +30,6 @@ const company = [
     { label: 'Cookie Policy', href: '/cookie-policy' },
 ]
 
-const socials = [
-    {
-        label: 'X / Twitter',
-        href: 'https://twitter.com/Aesopsk',
-        Icon: FaXTwitter,
-    },
-    {
-        label: 'LinkedIn',
-        href: 'https://www.linkedin.com/company/aesops/',
-        Icon: FaLinkedin,
-    },
-    {
-        label: 'GitHub',
-        href: 'https://github.com/aesopske',
-        Icon: FaGithub,
-    },
-    {
-        label: 'YouTube',
-        href: 'https://www.youtube.com/@aesops7379',
-        Icon: FaYoutube,
-    },
-]
 
 function Footer() {
     const pathname = usePathname()
@@ -83,7 +61,7 @@ function Footer() {
                             drive data-driven decision-making and innovation.
                         </p>
                         <div className='flex items-center gap-4'>
-                            {socials.map(({ label, href, Icon }) => (
+                            {SOCIALS.map(({ label, href, Icon }) => (
                                 <a
                                     key={label}
                                     href={href}

@@ -59,6 +59,21 @@ export default defineType({
                 direction: 'horizontal',
             },
         }),
+        defineField({
+            name: 'visualization',
+            title: 'Visualization',
+            type: 'string',
+            initialValue: 'none',
+            options: {
+                list: [
+                    { title: 'None', value: 'none' },
+                    { title: 'Consulting (survey · forecast · data quality)', value: 'consulting' },
+                    { title: 'Contact (inbox · reply · response time)', value: 'contact' },
+                ],
+                layout: 'radio',
+            },
+            description: 'Displays a data-visualization graphic beside the hero text, like the homepage hero.',
+        }),
     ],
     preview: {
         select: { title: 'heading', subtitle: 'label' },

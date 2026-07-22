@@ -79,6 +79,7 @@ export const pageQuery = groq`*[_type == 'page' && slug.current == $slug]{
             description,
             textAlign,
             backgroundColor,
+            visualization,
         },
         _type == 'blogListBlock' => {
             heading,
@@ -135,6 +136,17 @@ export const pageQuery = groq`*[_type == 'page' && slug.current == $slug]{
             description,
         },
         _type == 'ourTeamBlock' => {
+            heading,
+            description,
+        },
+        _type == 'leadFormBlock' => {
+            variant,
+            heading,
+            description,
+            submitLabel,
+            successMessage,
+        },
+        _type == 'contactDetailsBlock' => {
             heading,
             description,
         },

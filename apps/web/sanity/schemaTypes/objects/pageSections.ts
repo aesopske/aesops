@@ -16,5 +16,7 @@ export default defineType({
         defineArrayMember({ type: 'ourValuesBlock' }),
         defineArrayMember({ type: 'ourTeamBlock' }),
         defineArrayMember({ type: 'aiShowcaseBlock' }),
+        defineArrayMember({ type: 'leadFormBlock' }),
+        defineArrayMember({ type: 'contactDetailsBlock' }),
     ],
 })
