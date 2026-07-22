@@ -2,6 +2,7 @@ import { z } from 'zod'
 import { publicProcedure, router } from '@/trpc/init'
 import { db, leads, eq } from '@repo/db'
 import { sendLeadNotification } from '@repo/email'
+import { syncLeadToZoho } from '@repo/zoho'
 import { leadSourceSchema, serviceInterestSchema } from '@/lib/schemas/lead'
 
 export const leadsRouter = router({
@@ -47,6 +48,24 @@ export const leadsRouter = router({
                 }
             } catch (error) {
                 console.error('Failed to send lead notification email', error)
+            }
+
+            try {
+                const { contactId, dealId } = await syncLeadToZoho(values)
+                if (lead) {
+                    await db
+                        .update(leads)
+                        .set({ zohoContactId: contactId, zohoDealId: dealId, zohoSyncedAt: new Date() })
+                        .where(eq(leads.id, lead.id))
+                }
+            } catch (error) {
+                console.error('Failed to sync lead to Zoho Bigin', error)
+                if (lead) {
+                    await db
+                        .update(leads)
+                        .set({ zohoSyncError: error instanceof Error ? error.message : String(error) })
+                        .where(eq(leads.id, lead.id))
+                }
             }
 
             return { ok: true }

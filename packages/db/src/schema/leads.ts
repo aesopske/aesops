@@ -15,6 +15,10 @@ export const leads = pgTable(
         message: text('message').notNull(),
         status: text('status').notNull().default('new'), // 'new' | 'contacted' | 'closed'
         emailNotified: boolean('email_notified').notNull().default(false),
+        zohoContactId: text('zoho_contact_id'),
+        zohoDealId: text('zoho_deal_id'),
+        zohoSyncedAt: timestamp('zoho_synced_at'),
+        zohoSyncError: text('zoho_sync_error'),
         createdAt: timestamp('created_at').notNull().defaultNow(),
     },
     (t) => [

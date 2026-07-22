@@ -26,6 +26,7 @@
         "db:add-two-factor-table": "node --env-file=.env scripts/add-two-factor-table.mjs",
         "db:add-two-factor-verified-column": "node --env-file=.env scripts/add-two-factor-verified-column.mjs",
         "db:add-leads-table": "node --env-file=.env scripts/add-leads-table.mjs",
+        "db:add-zoho-lead-columns": "node --env-file=.env scripts/add-zoho-lead-columns.mjs",
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {

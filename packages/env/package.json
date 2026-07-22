@@ -10,7 +10,8 @@
         "./email": "./src/email.ts",
         "./observability": "./src/observability.ts",
         "./sanity": "./src/sanity.ts",
-        "./storage": "./src/storage.ts"
+        "./storage": "./src/storage.ts",
+        "./zoho": "./src/zoho.ts"
     },
     "dependencies": {
         "@t3-oss/env-core": "^0.13.4",

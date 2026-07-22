@@ -27,6 +27,7 @@
     "@repo/env": "workspace:*",
     "@repo/storage": "workspace:*",
     "@repo/ui": "workspace:*",
+    "@repo/zoho": "workspace:*",
     "@sanity/asset-utils": "^2.2.1",
     "@sanity/client": "^7.22.0",
     "@sanity/code-input": "^7.1.1",

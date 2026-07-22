@@ -69,6 +69,9 @@ importers:
       '@repo/db':
         specifier: workspace:*
         version: link:../../packages/db
+      '@repo/email':
+        specifier: workspace:*
+        version: link:../../packages/email
       '@repo/env':
         specifier: workspace:*
         version: link:../../packages/env
@@ -78,6 +81,9 @@ importers:
       '@repo/ui':
         specifier: workspace:*
         version: link:../../packages/ui
+      '@repo/zoho':
+        specifier: workspace:*
+        version: link:../../packages/zoho
       '@sanity/asset-utils':
         specifier: ^2.2.1
         version: 2.3.0
@@ -576,6 +582,28 @@ importers:
         version: 4.2.2
       typescript:
         specifier: ^5.9.3
+        version: 5.9.3
+
+  packages/zoho:
+    dependencies:
+      '@repo/env':
+        specifier: workspace:*
+        version: link:../env
+      server-only:
+        specifier: ^0.0.1
+        version: 0.0.1
+    devDependencies:
+      '@repo/config':
+        specifier: workspace:*
+        version: link:../config
+      '@types/node':
+        specifier: ^22.15.3
+        version: 22.15.3
+      tsx:
+        specifier: ^4.22.4
+        version: 4.22.4
+      typescript:
+        specifier: ^5.8.3
         version: 5.9.3
 
 packages:
