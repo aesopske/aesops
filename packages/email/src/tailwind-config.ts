@@ -5,11 +5,17 @@ export const emailTailwindConfig: TailwindConfig = {
     theme: {
         extend: {
             colors: {
-                background: '#F8F3ED',
+                background: '#FFFFFF',
                 card: '#FFFFFF',
                 primary: '#155f6b',
-                border: '#E5DDD1',
-                muted: '#6B6156',
+                accent: '#D4956A',
+                border: '#EAEAEA',
+                foreground: '#242424',
+                muted: '#9B9B9B',
+                code: '#F4F4F4',
+            },
+            fontFamily: {
+                sans: ['Bricolage Grotesque', 'Helvetica', 'Arial', 'sans-serif'],
             },
         },
     },
