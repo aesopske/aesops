@@ -589,9 +589,6 @@ importers:
       '@repo/env':
         specifier: workspace:*
         version: link:../env
-      server-only:
-        specifier: ^0.0.1
-        version: 0.0.1
     devDependencies:
       '@repo/config':
         specifier: workspace:*
