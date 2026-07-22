@@ -1,0 +1,23 @@
+{
+  "name": "@repo/zoho",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "exports": {
+    ".": "./src/index.ts"
+  },
+  "scripts": {
+    "typecheck": "tsc --noEmit",
+    "test-sync": "tsx --env-file=.env scripts/test-sync.ts"
+  },
+  "dependencies": {
+    "@repo/env": "workspace:*"
+  },
+  "devDependencies": {
+    "@repo/config": "workspace:*",
+    "@types/node": "^22.15.3",
+    "tsx": "^4.22.4",
+    "typescript": "^5.8.3"
+  },
+  "packageManager": "pnpm@10.10.0"
+}

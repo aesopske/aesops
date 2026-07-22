@@ -2,6 +2,11 @@
     "extends": "@repo/config/nextjs.json",
     "compilerOptions": {
         "baseUrl": ".",
+        // avoids a program-wide CSSProperties corruption from react-email's bundled types
+        "preserveSymlinks": false,
+        // avoids TS2742 naming an unreachable zod v4 type from better-auth's internals
+        "declaration": false,
+        "declarationMap": false,
         "paths": {
             "@/*": ["./src/*"],
             "~sanity/*": ["./sanity/*"],

@@ -1,4 +1,4 @@
-import { Upload, BarChart3, Lock } from 'lucide-react'
+import { Upload, BarChart3, Lock, type LucideIcon } from 'lucide-react'
 
 const features = [
     { icon: Upload, text: 'Upload CSV and Excel datasets in seconds' },
@@ -6,7 +6,23 @@ const features = [
     { icon: Lock, text: 'Control access and licensing per dataset' },
 ]
 
-export function AuthBrandPanel() {
+type Feature = { icon: LucideIcon; text: string }
+
+type Props = {
+    /** Defaults to the marketing pitch shown on sign-in. Onboarding steps pass
+     * their own copy to explain what that step is for. */
+    badge?: string
+    title?: React.ReactNode
+    description?: string
+    features?: Feature[]
+}
+
+export function AuthBrandPanel({
+    badge = 'Launching in Kenya',
+    title = <>Africa&rsquo;s open data platform</>,
+    description = 'Upload, explore, and share datasets with a community building on Kenya’s data ecosystem.',
+    features: items = features,
+}: Props = {}) {
     return (
         <div className='relative hidden lg:flex flex-1 flex-col overflow-hidden bg-primary'>
             {/* dot-grid texture */}
@@ -48,20 +64,19 @@ export function AuthBrandPanel() {
             <div className='relative z-10 flex flex-1 flex-col justify-between px-12 py-14 xl:px-16'>
                 <div className='my-auto py-12'>
                     <span className='inline-flex items-center rounded-full border border-primary-foreground/20 bg-primary-foreground/10 px-3 py-1 font-mono text-[11px] font-medium uppercase tracking-[0.16em] text-primary-foreground/70'>
-                        Launching in Kenya
+                        {badge}
                     </span>
 
                     <h2 className='mt-5 font-sans font-light text-4xl xl:text-5xl leading-[1.1] tracking-tight text-primary-foreground max-w-sm'>
-                        Africa&rsquo;s open data platform
+                        {title}
                     </h2>
 
                     <p className='mt-4 text-base leading-relaxed text-primary-foreground/55 max-w-xs'>
-                        Upload, explore, and share datasets with a community
-                        building on Kenya&rsquo;s data ecosystem.
+                        {description}
                     </p>
 
                     <ul className='mt-10 space-y-4'>
-                        {features.map(({ icon: Icon, text }) => (
+                        {items.map(({ icon: Icon, text }) => (
                             <li
                                 key={text}
                                 className='flex items-center gap-3.5'>

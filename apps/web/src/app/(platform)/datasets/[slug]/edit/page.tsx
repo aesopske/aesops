@@ -1,6 +1,5 @@
 import { redirect, notFound } from 'next/navigation'
-import { headers } from 'next/headers'
-import { auth } from '@repo/auth'
+import { getVerifiedSession } from '@/lib/platform/session'
 import { api } from '@/trpc/server'
 import { EditForm } from './_components/edit-form'
 import BreadCrumbs from '@/components/common/organisms/bread-crumbs/BreadCrumbs'
@@ -17,7 +16,7 @@ export default async function EditDatasetPage({ params }: Props) {
         notFound()
     }
 
-    const session = await auth.api.getSession({ headers: await headers() })
+    const session = await getVerifiedSession()
     if (!session) redirect(`/sign-in?from=/datasets/${slug}/edit`)
     if (doc.uploadedBy !== session.user.id) redirect(`/datasets/${doc.slug ?? doc.id}`)
 

@@ -1,6 +1,5 @@
 import Link from 'next/link'
-import { headers } from 'next/headers'
-import { auth } from '@repo/auth'
+import { getVerifiedSession } from '@/lib/platform/session'
 import { NuqsAdapter } from 'nuqs/adapters/next/app'
 import { Navbar } from '@repo/ui/components/navbar'
 import { UserDropdown } from '@/components/platform/nav/user-dropdown'
@@ -15,7 +14,7 @@ export default async function PlatformLayout({
     children: React.ReactNode
 }) {
     const [session, navLinks] = await Promise.all([
-        auth.api.getSession({ headers: await headers() }),
+        getVerifiedSession(),
         getNavLinks(),
     ])
     const user = session?.user

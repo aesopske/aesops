@@ -3,6 +3,7 @@
 import { useState, useRef, useEffect } from 'react'
 import Link from 'next/link'
 import type { Editor } from '@tiptap/core'
+import { TextSelection } from '@tiptap/pm/state'
 import { Loader2, Sparkles, Send } from 'lucide-react'
 import { Button } from '@repo/ui/components/button'
 import { trpc } from '@/trpc/react'
@@ -76,6 +77,7 @@ export function CommentForm({
             .chain()
             .focus()
             .command(({ tr, state }) => {
+                if (!(state.selection instanceof TextSelection)) return false
                 const cursor = state.selection.$cursor
                 if (!cursor) return false
                 const text = cursor.nodeBefore?.textContent ?? ''

@@ -1,8 +1,8 @@
-import { headers } from 'next/headers'
 import { redirect } from 'next/navigation'
-import { auth } from '@repo/auth'
+import { getVerifiedSession } from '@/lib/platform/session'
 import { db, accounts, eq } from '@repo/db'
 import { SignOutButton } from './_components/sign-out-button'
+import { TwoFactorSettings } from './_components/two-factor-settings'
 
 export const metadata = { title: 'Account | Aesops' }
 
@@ -30,7 +30,7 @@ function providerLabel(providerId: string) {
 }
 
 export default async function AccountPage() {
-    const session = await auth.api.getSession({ headers: await headers() })
+    const session = await getVerifiedSession()
     if (!session) redirect('/sign-in')
 
     const { user } = session
@@ -98,6 +98,14 @@ export default async function AccountPage() {
                         </dd>
                     </div>
                 </dl>
+            </div>
+
+            {/* Security */}
+            <h2 className='mt-8 text-lg font-medium text-foreground'>Security</h2>
+            <p className='mt-0.5 text-sm text-muted-foreground'>Add a second step to signing in.</p>
+
+            <div className='mt-4 rounded-xl border border-border bg-card'>
+                <TwoFactorSettings enabled={Boolean(user.twoFactorEnabled)} />
             </div>
 
             {/* Session */}

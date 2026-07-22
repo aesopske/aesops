@@ -129,6 +129,7 @@ export type PageHeroBlock = {
     description?: string
     textAlign?: 'left' | 'center' | 'right'
     backgroundColor?: 'primary' | 'dark' | 'accent' | 'light'
+    visualization?: 'none' | 'consulting' | 'contact'
 }
 
 export type FeatureItem = {
@@ -202,7 +203,24 @@ export type AiShowcaseBlock = {
     ctaLink?: string
 }
 
-export type PageBlock = HeroBlock | PageHeroBlock | BlogListBlock | FeaturedPostsBlock | RecentPostsBlock | FeaturesBlock | OurStoryBlock | MissionVisionBlock | OurValuesBlock | OurTeamBlock | AiShowcaseBlock
+export type LeadFormBlock = {
+    _key: string
+    _type: 'leadFormBlock'
+    variant: 'consultation' | 'contact'
+    heading: string
+    description?: string
+    submitLabel?: string
+    successMessage?: string
+}
+
+export type ContactDetailsBlock = {
+    _key: string
+    _type: 'contactDetailsBlock'
+    heading?: string
+    description?: string
+}
+
+export type PageBlock = HeroBlock | PageHeroBlock | BlogListBlock | FeaturedPostsBlock | RecentPostsBlock | FeaturesBlock | OurStoryBlock | MissionVisionBlock | OurValuesBlock | OurTeamBlock | AiShowcaseBlock | LeadFormBlock | ContactDetailsBlock
 
 export type HOME_PAGE = Omit<PAGE, 'sections'> & {
     sections: PageBlock[]

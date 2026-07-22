@@ -1,7 +1,6 @@
 import { type NextRequest, NextResponse } from 'next/server'
-import { headers } from 'next/headers'
 import { captureException } from '@sentry/core'
-import { auth } from '@repo/auth'
+import { getVerifiedSession } from '@/lib/platform/session'
 import { documentService } from '@repo/storage'
 import { diffVersions } from '@/lib/platform/dataset-diff'
 import { logger } from '@/lib/platform/logger'
@@ -39,7 +38,7 @@ export async function GET(
         return NextResponse.json({ error: 'Missing `from`' }, { status: 400 })
     }
 
-    const session = await auth.api.getSession({ headers: await headers() })
+    const session = await getVerifiedSession()
     if (!session) {
         return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
     }

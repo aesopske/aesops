@@ -1,0 +1,67 @@
+import 'server-only'
+import type { ReactElement } from 'react'
+import { resend, emailDeliveryConfigured } from './client'
+import { FROM, TEAM_NOTIFY_EMAIL } from './from'
+import { SignInCodeEmail } from './templates/SignInCodeEmail'
+import { TwoFactorCodeEmail } from './templates/TwoFactorCodeEmail'
+import { WelcomeEmail } from './templates/WelcomeEmail'
+import { LeadNotificationEmail } from './templates/LeadNotificationEmail'
+
+async function send(params: { from: string; to: string; subject: string; react: ReactElement; logFallback: string }) {
+    if (!emailDeliveryConfigured) {
+        console.log(`[email:dev] ${params.subject} → ${params.to}\n${params.logFallback}`)
+        return
+    }
+    await resend.emails.send({ from: params.from, to: params.to, subject: params.subject, react: params.react })
+}
+
+export async function sendSignInCode(email: string, otp: string) {
+    await send({
+        from: FROM.auth,
+        to: email,
+        subject: `${otp} is your Aesops sign-in code`,
+        react: <SignInCodeEmail otp={otp} />,
+        logFallback: `Sign-in code: ${otp}`,
+    })
+}
+
+export async function sendTwoFactorCode(email: string, otp: string) {
+    await send({
+        from: FROM.auth,
+        to: email,
+        subject: `${otp} is your Aesops verification code`,
+        react: <TwoFactorCodeEmail otp={otp} />,
+        logFallback: `Two-factor code: ${otp}`,
+    })
+}
+
+// not wired to a trigger yet — call once there's a defined moment to send it from
+export async function sendWelcomeEmail(email: string, name: string) {
+    await send({
+        from: FROM.welcome,
+        to: email,
+        subject: 'Welcome to Aesops',
+        react: <WelcomeEmail name={name} />,
+        logFallback: `Welcome email for ${name}`,
+    })
+}
+
+type LeadNotification = {
+    source: 'consultation' | 'contact'
+    name: string
+    email: string
+    company?: string | null
+    phone?: string | null
+    serviceInterest?: string | null
+    message: string
+}
+
+export async function sendLeadNotification(lead: LeadNotification) {
+    await send({
+        from: FROM[lead.source],
+        to: TEAM_NOTIFY_EMAIL[lead.source],
+        subject: `New ${lead.source === 'consultation' ? 'consultation request' : 'contact message'} from ${lead.name}`,
+        react: <LeadNotificationEmail {...lead} />,
+        logFallback: `Lead from ${lead.name} <${lead.email}>: ${lead.message}`,
+    })
+}

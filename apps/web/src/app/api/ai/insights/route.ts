@@ -1,12 +1,11 @@
 import { type NextRequest, NextResponse } from 'next/server'
-import { headers } from 'next/headers'
-import { auth } from '@repo/auth'
+import { getVerifiedSession } from '@/lib/platform/session'
 import { documentService } from '@repo/storage'
 import type { DocumentMetadata } from '@repo/db/schema'
 import { generateAndSaveInsights, generateAndSaveClassification } from '@/lib/platform/dataset-pipeline'
 
 export async function POST(req: NextRequest) {
-    const session = await auth.api.getSession({ headers: await headers() })
+    const session = await getVerifiedSession()
     if (!session) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
 
     const { documentId, docName, metadata } = (await req.json()) as {

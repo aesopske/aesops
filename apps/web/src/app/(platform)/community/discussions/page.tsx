@@ -1,7 +1,6 @@
 import Link from 'next/link'
 import { Plus } from 'lucide-react'
-import { headers } from 'next/headers'
-import { auth } from '@repo/auth'
+import { getVerifiedSession } from '@/lib/platform/session'
 import { api } from '@/trpc/server'
 import { DiscussionBrowser } from '@/components/platform/community/discussion-browser'
 import { Button } from '@repo/ui/components/button'
@@ -12,7 +11,7 @@ export const metadata: Metadata = { title: 'Discussions · Aesops Community' }
 
 export default async function DiscussionsPage() {
     const [session, { items: initialThreads }] = await Promise.all([
-        auth.api.getSession({ headers: await headers() }),
+        getVerifiedSession(),
         api.community.listThreads({ limit: 20 }),
     ])
 

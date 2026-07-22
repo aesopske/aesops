@@ -1,6 +1,5 @@
 import { type NextRequest, NextResponse } from 'next/server'
-import { headers } from 'next/headers'
-import { auth } from '@repo/auth'
+import { getVerifiedSession } from '@/lib/platform/session'
 import { documentService } from '@repo/storage'
 import { convertDocumentToParquet } from '@/lib/platform/dataset-pipeline'
 
@@ -14,7 +13,7 @@ export async function POST(
 ) {
     const { id } = await params
 
-    const session = await auth.api.getSession({ headers: await headers() })
+    const session = await getVerifiedSession()
     if (!session) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
 
     const doc = await documentService.getById(id).catch(() => null)

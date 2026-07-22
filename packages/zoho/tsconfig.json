@@ -1,0 +1,10 @@
+{
+    "extends": "@repo/config/base.json",
+    "compilerOptions": {
+        "baseUrl": ".",
+        "module": "ESNext",
+        "moduleResolution": "Bundler"
+    },
+    "include": ["**/*.ts"],
+    "exclude": ["node_modules"]
+}

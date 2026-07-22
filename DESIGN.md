@@ -288,6 +288,10 @@ Examples: `ai-usage-route-breakdown` (admin AI usage dashboard), `dataset-chat-t
 
 **`rich-text-editor`** — TipTap-powered description field. Outer: `{colors.border}` border, focus-within ring. Toolbar: `{colors.muted}` background, `{colors.border}` bottom border, ghost toolbar buttons that fill `{colors.muted}` on hover/active.
 
+**`auth-input`** — Email/name/username inputs on the sign-in, onboarding, and account-security forms. Same shape as `text-input` but height 44px (h-9 → h-11) and background `{colors.card}` instead of transparent — these forms sit directly on `{colors.background}` (cream), so `text-input`'s default transparent fill has no contrast against the page; `{colors.card}` matches the social sign-in buttons' surface and reads as a distinct field.
+
+**`otp-input`** — 6-digit code entry (email sign-in code, TOTP challenge, TOTP enrollment), built on `input-otp` (`@repo/ui/components/input-otp`). Slots stretch full-width (`flex-1`, container `w-full`) rather than the library's fixed `size-8` default, since the code is the sole focus of the step. Same height/background as `auth-input` (h-11, `{colors.card}`). Empty slots show a faint `000000` placeholder (`text-muted-foreground/50`) via the slot's `placeholderChar` — added to the shared `InputOTPSlot` in `packages/ui`, since shadcn's default template doesn't render it.
+
 ### Tags / Badges
 
 **`dtype-badge`** — Data type label in column tables. Rounded `{rounded.sm}` (6px), padding 2px × 6px, `text-xs font-medium`. Color by type: float → `text-primary bg-primary/10`; int → `text-info bg-info/10`; string → `text-muted-foreground bg-muted`; boolean → `text-success bg-success/10`; datetime → `text-accent-foreground bg-accent/20`; unknown → `text-warning-foreground bg-warning/40`.

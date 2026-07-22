@@ -1,5 +1,4 @@
-import { headers } from 'next/headers'
-import { auth } from '@repo/auth'
+import { getVerifiedSession } from '@/lib/platform/session'
 import Animate from '@/components/common/atoms/Animate'
 import DatasetShowcase from '@/components/common/DatasetShowcase'
 import { DatasetBrowser } from '@/components/platform/datasets/dataset-browser'
@@ -10,7 +9,7 @@ import { DATASET_BROWSER_PAGE_SIZE } from '@/lib/constants/dataset-browser'
 export default async function DatasetsPage() {
     const [session, initialBrowse, initialLicenseOptions, initialCategoryOptions, initialTagOptions] =
         await Promise.all([
-            auth.api.getSession({ headers: await headers() }),
+            getVerifiedSession(),
             api.documents.browse({ page: 1, pageSize: DATASET_BROWSER_PAGE_SIZE }),
             api.documents.distinctLicenses(),
             api.documents.distinctCategories(),

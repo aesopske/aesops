@@ -9,6 +9,7 @@ export const users = pgTable('users', {
     username: text('username').unique(),
     bio: text('bio'),
     website: text('website'),
+    twoFactorEnabled: boolean('two_factor_enabled').default(false),
     createdAt: timestamp('created_at').notNull(),
     updatedAt: timestamp('updated_at').notNull(),
 })
@@ -24,6 +25,13 @@ export const sessions = pgTable('sessions', {
     userId: text('user_id')
         .notNull()
         .references(() => users.id, { onDelete: 'cascade' }),
+    // Better Auth's `twoFactor` plugin has no built-in gate for our primary
+    // sign-in route (`/sign-in/email-otp` isn't one of the three routes its
+    // hook intercepts), so a session for a 2FA-enabled user would otherwise
+    // be fully valid the instant the email code is verified — before the
+    // second factor is ever checked. We stamp every new session ourselves
+    // (databaseHooks in packages/auth) and gate protected routes on it.
+    twoFactorVerified: boolean('two_factor_verified').notNull().default(true),
 })
 
 export const accounts = pgTable('accounts', {
@@ -51,6 +59,19 @@ export const verifications = pgTable('verifications', {
     expiresAt: timestamp('expires_at').notNull(),
     createdAt: timestamp('created_at'),
     updatedAt: timestamp('updated_at'),
+})
+
+// Better Auth `twoFactor` plugin — one row per user who has enabled 2FA.
+export const twoFactors = pgTable('two_factors', {
+    id: text('id').primaryKey(),
+    secret: text('secret').notNull(),
+    backupCodes: text('backup_codes').notNull(),
+    userId: text('user_id')
+        .notNull()
+        .references(() => users.id, { onDelete: 'cascade' }),
+    verified: boolean('verified').default(true),
+    failedVerificationCount: integer('failed_verification_count').default(0),
+    lockedUntil: timestamp('locked_until'),
 })
 
 // Better Auth `apiKey` plugin (@better-auth/api-key). Config-based model:
