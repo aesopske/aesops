@@ -425,6 +425,17 @@ export class DocumentService {
         if (!doc) throw new Error(`Document not found: ${id}`)
 
         await this.resolveProvider(doc.provider).delete([doc.storageKey])
+
+        // Derived Parquet artifacts always live on the upload provider
+        // (see putObject), regardless of which provider stored the raw file —
+        // clean those up too so a delete doesn't leave them orphaned in R2.
+        const derivedKeys = [doc.parquetKey, doc.parentId ? null : doc.mergedParquetKey].filter(
+            (key): key is string => key !== null,
+        )
+        if (derivedKeys.length) {
+            await this.resolveProvider(this.uploadProviderName).delete(derivedKeys)
+        }
+
         await this.database.delete(documents).where(eq(documents.id, id))
     }
 }
