@@ -173,15 +173,10 @@ async function diffVersionsWithRetry(
     throw lastErr
 }
 
-// Compares a newly-uploaded revision against the previous version's row count
-// and flags an anomaly if too large a share of the previous rows are missing
-// from the new one — a signal that an automated source may have silently
-// stopped sending a full snapshot. Unlike a prior version of this check, it
-// does NOT swallow failures: if the diff itself can't be completed (after a
-// retry), it throws rather than returning null, so the caller holds the
-// upload for review instead of silently treating an unverifiable upload as
-// safe — see the `check_failed` branch of AnomalyDetails and its caller in
-// scraper/upload/route.ts.
+// Flags an anomaly if too large a share of the previous version's rows are
+// missing from the new one. Throws (doesn't return null) if the diff itself
+// can't be completed — caller holds the upload for review rather than
+// treating an unverifiable upload as safe.
 export async function checkForAnomaly(
     previousDoc: DocumentRow,
     newDoc: DocumentRow,

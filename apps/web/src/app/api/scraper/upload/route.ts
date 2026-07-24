@@ -245,7 +245,10 @@ export async function POST(req: NextRequest) {
     let anomaly: Awaited<ReturnType<typeof checkForAnomaly>> = null
     if (parquet.ok && parentId && baseline) {
         try {
-            anomaly = await checkForAnomaly(baseline, doc)
+            // doc.parquetKey is stale (still null from before conversion) —
+            // pass the real one so openDataset doesn't hit its racy
+            // on-the-fly reconversion fallback.
+            anomaly = await checkForAnomaly(baseline, { ...doc, parquetKey: parquet.parquetKey })
         } catch (err) {
             // The check itself couldn't run (e.g. the remote DuckDB executor
             // errored, even after checkForAnomaly's own retry) — hold for

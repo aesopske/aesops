@@ -1,7 +1,7 @@
 'use client'
 
 import { useState } from 'react'
-import { AlertTriangle, Check, X } from 'lucide-react'
+import { AlertTriangle, Check, ChevronDown, ChevronUp, X } from 'lucide-react'
 import { trpc } from '@/trpc/react'
 import { timeAgo } from '@/lib/platform/format'
 import type { AnomalyDetails } from '@repo/db/schema'
@@ -27,74 +27,149 @@ function PendingReviewSkeletonRow() {
     )
 }
 
+function DiffRowsTable({ columns, rows }: { columns: string[]; rows: Record<string, unknown>[] }) {
+    return (
+        <div className='max-h-80 overflow-auto rounded-lg border border-destructive/30 bg-destructive/5'>
+            <table className='w-full text-left text-xs'>
+                <thead>
+                    <tr className='sticky top-0 border-b border-destructive/30'>
+                        {columns.map((col) => (
+                            <th
+                                key={col}
+                                className='whitespace-nowrap bg-destructive/10 px-2.5 py-1.5 font-medium text-destructive backdrop-blur-sm'>
+                                {col}
+                            </th>
+                        ))}
+                    </tr>
+                </thead>
+                <tbody className='divide-y divide-destructive/20'>
+                    {rows.map((row, i) => (
+                        <tr key={i}>
+                            {columns.map((col) => (
+                                <td key={col} className='whitespace-nowrap px-2.5 py-1.5 text-foreground'>
+                                    {String(row[col] ?? '')}
+                                </td>
+                            ))}
+                        </tr>
+                    ))}
+                </tbody>
+            </table>
+        </div>
+    )
+}
+
+function DiffPanel({ revisionId }: { revisionId: string }) {
+    const { data: diff, isLoading, error } = trpc.admin.datasets.diffAgainstPrevious.useQuery({
+        id: revisionId,
+    })
+
+    if (isLoading) {
+        return <p className='mt-3 text-xs text-muted-foreground'>Loading diff…</p>
+    }
+    if (error || !diff) {
+        return (
+            <p className='mt-3 text-xs text-destructive'>
+                {error?.message ?? 'Unable to load diff'}
+            </p>
+        )
+    }
+    if (diff.removedCount === 0) {
+        return <p className='mt-3 text-xs text-muted-foreground'>No removed rows to show.</p>
+    }
+
+    return (
+        <div className='mt-3 space-y-2'>
+            <p className='text-xs font-medium text-foreground'>
+                {diff.removedCount} row{diff.removedCount === 1 ? '' : 's'} missing from the previous
+                version{diff.removedCount > diff.removedRows.length && ` (showing a sample)`}
+            </p>
+            <DiffRowsTable columns={diff.commonColumns} rows={diff.removedRows} />
+        </div>
+    )
+}
+
 function PendingReviewRowItem({ revision }: { revision: PendingRevision }) {
     const utils = trpc.useUtils()
     const [confirming, setConfirming] = useState(false)
+    const [showDiff, setShowDiff] = useState(false)
     const rejectMutation = trpc.admin.datasets.rejectRevision.useMutation()
 
     const anomaly = revision.anomalyDetails
+    const canShowDiff = anomaly?.reason === 'row_drop'
 
     return (
-        <li className='flex items-center gap-3 px-4 py-3.5'>
-            <div className='shrink-0 rounded-lg bg-destructive/10 p-2 text-destructive'>
-                <AlertTriangle size={16} />
-            </div>
-            <div className='min-w-0 flex-1'>
-                <p className='truncate text-sm font-medium text-foreground'>{revision.name}</p>
-                <p className='mt-0.5 text-xs text-muted-foreground'>
-                    {anomaly?.reason === 'row_drop' ? (
-                        <>
-                            {anomaly.removedCount} of {anomaly.previousRowCount} rows missing (
-                            {Math.round(anomaly.removedPercent * 100)}%, threshold{' '}
-                            {Math.round(anomaly.thresholdPercent * 100)}%)
-                            {anomaly.schemaChanged && (
-                                <span className='ml-2 rounded-full bg-destructive/10 px-2 py-0.5 text-destructive'>
-                                    schema changed
-                                </span>
-                            )}
-                        </>
-                    ) : anomaly?.reason === 'check_failed' ? (
-                        <>Anomaly check couldn&apos;t be completed ({anomaly.error})</>
-                    ) : (
-                        'Flagged for review'
+        <li className='px-4 py-3.5'>
+            <div className='flex items-center gap-3'>
+                <div className='shrink-0 rounded-lg bg-destructive/10 p-2 text-destructive'>
+                    <AlertTriangle size={16} />
+                </div>
+                <div className='min-w-0 flex-1'>
+                    <p className='truncate text-sm font-medium text-foreground'>{revision.name}</p>
+                    <p className='mt-0.5 text-xs text-muted-foreground'>
+                        {anomaly?.reason === 'row_drop' ? (
+                            <>
+                                {anomaly.removedCount} of {anomaly.previousRowCount} rows missing (
+                                {Math.round(anomaly.removedPercent * 100)}%, threshold{' '}
+                                {Math.round(anomaly.thresholdPercent * 100)}%)
+                                {anomaly.schemaChanged && (
+                                    <span className='ml-2 rounded-full bg-destructive/10 px-2 py-0.5 text-destructive'>
+                                        schema changed
+                                    </span>
+                                )}
+                            </>
+                        ) : anomaly?.reason === 'check_failed' ? (
+                            <>Anomaly check couldn&apos;t be completed ({anomaly.error})</>
+                        ) : (
+                            'Flagged for review'
+                        )}
+                        {' · '}
+                        {timeAgo(revision.createdAt)}
+                    </p>
+                </div>
+
+                <div className='flex shrink-0 items-center gap-1'>
+                    {canShowDiff && (
+                        <button
+                            onClick={() => setShowDiff((v) => !v)}
+                            className='flex items-center gap-1 rounded-lg border border-border px-3 py-1.5 text-xs font-medium text-muted-foreground transition hover:bg-secondary'>
+                            View diff
+                            {showDiff ? <ChevronUp size={13} /> : <ChevronDown size={13} />}
+                        </button>
                     )}
-                    {' · '}
-                    {timeAgo(revision.createdAt)}
-                </p>
+                    {confirming ? (
+                        <>
+                            <span className='mr-1 text-xs text-destructive'>Reject?</span>
+                            <button
+                                onClick={() =>
+                                    rejectMutation.mutate(
+                                        { id: revision.id },
+                                        { onSuccess: () => utils.admin.datasets.listPendingReview.invalidate() },
+                                    )
+                                }
+                                disabled={rejectMutation.isPending}
+                                className='rounded p-1.5 text-destructive transition hover:bg-destructive/10 disabled:opacity-50'
+                                aria-label='Confirm reject'>
+                                <Check size={14} />
+                            </button>
+                            <button
+                                onClick={() => setConfirming(false)}
+                                disabled={rejectMutation.isPending}
+                                className='rounded p-1.5 text-muted-foreground transition hover:bg-muted hover:text-foreground disabled:opacity-50'
+                                aria-label='Cancel reject'>
+                                <X size={14} />
+                            </button>
+                        </>
+                    ) : (
+                        <button
+                            onClick={() => setConfirming(true)}
+                            className='rounded-lg border border-border px-3 py-1.5 text-xs font-medium text-muted-foreground transition hover:border-destructive/30 hover:text-destructive'>
+                            Reject
+                        </button>
+                    )}
+                </div>
             </div>
 
-            <div className='flex shrink-0 items-center gap-1'>
-                {confirming ? (
-                    <>
-                        <span className='mr-1 text-xs text-destructive'>Reject?</span>
-                        <button
-                            onClick={() =>
-                                rejectMutation.mutate(
-                                    { id: revision.id },
-                                    { onSuccess: () => utils.admin.datasets.listPendingReview.invalidate() },
-                                )
-                            }
-                            disabled={rejectMutation.isPending}
-                            className='rounded p-1.5 text-destructive transition hover:bg-destructive/10 disabled:opacity-50'
-                            aria-label='Confirm reject'>
-                            <Check size={14} />
-                        </button>
-                        <button
-                            onClick={() => setConfirming(false)}
-                            disabled={rejectMutation.isPending}
-                            className='rounded p-1.5 text-muted-foreground transition hover:bg-muted hover:text-foreground disabled:opacity-50'
-                            aria-label='Cancel reject'>
-                            <X size={14} />
-                        </button>
-                    </>
-                ) : (
-                    <button
-                        onClick={() => setConfirming(true)}
-                        className='rounded-lg border border-border px-3 py-1.5 text-xs font-medium text-muted-foreground transition hover:border-destructive/30 hover:text-destructive'>
-                        Reject
-                    </button>
-                )}
-            </div>
+            {showDiff && canShowDiff && <DiffPanel revisionId={revision.id} />}
         </li>
     )
 }

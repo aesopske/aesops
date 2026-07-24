@@ -24,10 +24,7 @@ export type AnomalyDetails =
           detectedAt: string
       }
     | {
-          // The row-drop check itself couldn't be completed (e.g. the remote
-          // DuckDB executor errored) — held for review rather than silently
-          // let through, since an unverifiable upload is exactly the case
-          // this feature exists to catch.
+          // Row-drop check couldn't be completed — held for review instead.
           reason: 'check_failed'
           previousDocId: string
           error: string
