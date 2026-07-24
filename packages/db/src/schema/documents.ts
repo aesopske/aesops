@@ -12,15 +12,27 @@ export type MetadataDiff = {
     }[]
 }
 
-export type AnomalyDetails = {
-    previousDocId: string
-    previousRowCount: number
-    removedCount: number
-    removedPercent: number
-    thresholdPercent: number
-    schemaChanged: boolean
-    detectedAt: string
-}
+export type AnomalyDetails =
+    | {
+          reason: 'row_drop'
+          previousDocId: string
+          previousRowCount: number
+          removedCount: number
+          removedPercent: number
+          thresholdPercent: number
+          schemaChanged: boolean
+          detectedAt: string
+      }
+    | {
+          // The row-drop check itself couldn't be completed (e.g. the remote
+          // DuckDB executor errored) — held for review rather than silently
+          // let through, since an unverifiable upload is exactly the case
+          // this feature exists to catch.
+          reason: 'check_failed'
+          previousDocId: string
+          error: string
+          detectedAt: string
+      }
 
 export type ColumnStats = {
     name: string

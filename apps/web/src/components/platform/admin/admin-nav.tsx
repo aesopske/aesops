@@ -7,6 +7,7 @@ import { cn } from '@repo/ui/lib/utils'
 const TABS = [
     { href: '/admin', label: 'AI usage', exact: true },
     { href: '/admin/api-keys', label: 'API keys', exact: false },
+    { href: '/admin/dataset-review', label: 'Dataset review', exact: false },
 ]
 
 export function AdminNav() {

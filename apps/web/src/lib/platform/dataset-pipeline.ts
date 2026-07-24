@@ -147,11 +147,41 @@ export async function generateAndSaveClassification(
     }
 }
 
+const DIFF_RETRY_ATTEMPTS = 2
+const DIFF_RETRY_DELAY_MS = 750
+
+function sleep(ms: number) {
+    return new Promise((resolve) => setTimeout(resolve, ms))
+}
+
+// Retries diffVersions once on failure (e.g. a transient remote DuckDB
+// executor error) before giving up — smooths over one-off blips without
+// masking a genuinely broken check.
+async function diffVersionsWithRetry(
+    previousDoc: DocumentRow,
+    newDoc: DocumentRow,
+): Promise<Awaited<ReturnType<typeof diffVersions>>> {
+    let lastErr: unknown
+    for (let attempt = 1; attempt <= DIFF_RETRY_ATTEMPTS; attempt++) {
+        try {
+            return await diffVersions(previousDoc, newDoc)
+        } catch (err) {
+            lastErr = err
+            if (attempt < DIFF_RETRY_ATTEMPTS) await sleep(DIFF_RETRY_DELAY_MS)
+        }
+    }
+    throw lastErr
+}
+
 // Compares a newly-uploaded revision against the previous version's row count
 // and flags an anomaly if too large a share of the previous rows are missing
 // from the new one — a signal that an automated source may have silently
-// stopped sending a full snapshot. Best-effort: never throws, so a diff
-// failure never blocks the upload it was checking.
+// stopped sending a full snapshot. Unlike a prior version of this check, it
+// does NOT swallow failures: if the diff itself can't be completed (after a
+// retry), it throws rather than returning null, so the caller holds the
+// upload for review instead of silently treating an unverifiable upload as
+// safe — see the `check_failed` branch of AnomalyDetails and its caller in
+// scraper/upload/route.ts.
 export async function checkForAnomaly(
     previousDoc: DocumentRow,
     newDoc: DocumentRow,
@@ -159,13 +189,18 @@ export async function checkForAnomaly(
     const previousRowCount = (previousDoc.metadata as DocumentMetadata | null)?.rowCount ?? 0
     if (previousRowCount === 0) return null
 
-    const diff = await diffVersions(previousDoc, newDoc)
-    if (!diff) return null
+    const diff = await diffVersionsWithRetry(previousDoc, newDoc)
+    if (!diff) {
+        throw new Error(
+            'Unable to diff versions — could not open one or both documents for comparison',
+        )
+    }
 
     const removedPercent = diff.removedCount / previousRowCount
     if (removedPercent <= ANOMALY_REMOVED_ROW_THRESHOLD) return null
 
     return {
+        reason: 'row_drop',
         previousDocId: previousDoc.id,
         previousRowCount,
         removedCount: diff.removedCount,

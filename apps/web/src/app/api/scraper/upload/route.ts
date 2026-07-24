@@ -244,18 +244,35 @@ export async function POST(req: NextRequest) {
     let reviewStatus: 'active' | 'pending_review' = 'active'
     let anomaly: Awaited<ReturnType<typeof checkForAnomaly>> = null
     if (parquet.ok && parentId && baseline) {
-        anomaly = await checkForAnomaly(baseline, doc).catch((err) => {
+        try {
+            anomaly = await checkForAnomaly(baseline, doc)
+        } catch (err) {
+            // The check itself couldn't run (e.g. the remote DuckDB executor
+            // errored, even after checkForAnomaly's own retry) — hold for
+            // review rather than silently treating an unverifiable upload as
+            // safe. An upload that can't be checked is exactly the case this
+            // feature exists to catch, not a reason to skip it.
             captureException(err, { tags: { route: 'scraper/upload' } })
-            return null
-        })
+            anomaly = {
+                reason: 'check_failed',
+                previousDocId: baseline.id,
+                error: err instanceof Error ? err.message : String(err),
+                detectedAt: new Date().toISOString(),
+            }
+        }
         if (anomaly) {
             await documentService.flagForReview(doc.id, anomaly)
             reviewStatus = 'pending_review'
-            captureMessage('Dataset upload flagged as anomalous', {
-                level: 'warning',
-                tags: { route: 'scraper/upload', datasetId: parentId },
-                extra: anomaly,
-            })
+            captureMessage(
+                anomaly.reason === 'check_failed'
+                    ? 'Dataset upload held for review: anomaly check failed'
+                    : 'Dataset upload flagged as anomalous',
+                {
+                    level: 'warning',
+                    tags: { route: 'scraper/upload', datasetId: parentId },
+                    extra: anomaly,
+                },
+            )
         }
     }
 
